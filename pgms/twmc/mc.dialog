@@ -1,0 +1,75 @@
+numfields;52
+# Here is how you make a dialog box.
+# field;fieldnumber;xpos;ypos;init string;field length;
+# (continued)  field type;color;case toggle
+# Field types are
+#     accept - mandatory
+#     reject - mandatory
+#     label  - write only field.
+#     input  - read write field
+#     case   - a set of case field to follow
+#            the first field in the list is the initial case.
+#     clabel - one of the case fields.
+# field number must start with 0
+field;0;5;1; ACCEPT ;8;accept;red
+field;1;25;1; CANCEL ;8;reject;black
+field;2;15;2;Edit Cell;9;label;red
+field;3;5;3;Name;13;label;blue
+field;4;5;4;Number;12;label;blue
+field;5;5;5;Xcenter:;8;label;blue
+field;6;14;5;10;8;input;blue
+field;7;5;6;Ycenter:;8;label;blue
+field;8;14;6;10;8;input;blue
+field;9;5;7;Orient:;7;case;blue;10,11,12,13,14,15,16,17
+field;10;14;7;0 ;2;clabel;blue
+field;11;16;7;1 ;2;clabel;blue
+field;12;18;7;2 ;2;clabel;blue
+field;13;20;7;3 ;2;clabel;blue
+field;14;22;7;4 ;2;clabel;blue
+field;15;24;7;5 ;2;clabel;blue
+field;16;26;7;6 ;2;clabel;blue
+field;17;28;7;7 ;2;clabel;blue
+field;18;5;9;Valid orientations;19;label;blue
+# orientation 0
+field;19;7;10;0;1;case;blue;20,21
+field;20;14;10;valid;5;clabel;green
+field;21;25;10;invalid;7;clabel;red
+# orientation 1
+field;22;7;11;1;1;case;blue;23,24
+field;23;14;11;valid;5;clabel;green
+field;24;25;11;invalid;7;clabel;red
+# orientation 2
+field;25;7;12;2;1;case;blue;26,27
+field;26;14;12;valid;5;clabel;green
+field;27;25;12;invalid;7;clabel;red
+# orientation 3
+field;28;7;13;3;1;case;blue;29,30
+field;29;14;13;valid;5;clabel;green
+field;30;25;13;invalid;7;clabel;red
+# orientation 4
+field;31;7;14;4;1;case;blue;32,33
+field;32;14;14;valid;5;clabel;green
+field;33;25;14;invalid;7;clabel;red
+# orientation 5
+field;34;7;15;5;1;case;blue;35,36
+field;35;14;15;valid;5;clabel;green
+field;36;25;15;invalid;7;clabel;red
+# orientation 6
+field;37;7;16;6;1;case;blue;38,39
+field;38;14;16;valid;5;clabel;green
+field;39;25;16;invalid;7;clabel;red
+# orientation 7
+field;40;7;17;7;1;case;blue;41,42
+field;41;14;17;valid;5;clabel;green
+field;42;25;17;invalid;7;clabel;red
+# fix field
+field;43;5;19;Fixed;5;case;blue;44,45
+field;44;14;19;on ;3;clabel;green
+field;45;25;19;off;3;clabel;red
+#
+field;46;1;21;To change case fields put pointer;35;label;blue
+field;47;1;22;in window and click.  To change;35;label;blue
+field;48;1;23;input fields put pointer in window;35;label;blue
+field;49;1;24;and back up over current contents;35;label;blue
+field;50;1;25;using the delete key.  After modifying;35;label;blue
+field;51;1;26;the field, hit the return key.;35;label;blue

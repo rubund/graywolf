@@ -1,0 +1,59 @@
+#  TimberWolfMC menu file.
+#  "@(#) mc_menu (Yale) version 3.9 4/27/91"
+#
+#  Comments start with a sharp 
+#  MENU is a keyword must be capitalized.
+#  Everything in this file is case sensitive.
+#  Fields are separated by commas.
+#  Format:
+#    MENU,menuName - followed by list of entries for this menu
+#                  - one on each line.
+#    Normal menu entry - MenuEntry,FunctionNumber
+#    Boolean menu entry - 
+#    TrueMenuEntry,FunctionNumber1,FalseMenuEntry,FunctionNumber2,Init
+#      where Init is the initial state and is 1 for True and 0 for False.
+#
+#  Menu are placed on the screen in a left to right order according
+#     to the order in this file.
+#
+MENU,CONTROL
+Auto Redraw On,1,Auto Redraw Off,2,1
+Close Graphics,3
+Colors,4
+Continue Program,5
+Dump Graphics,6
+FullView,8
+Graphics Update On,9,Graphics Update Off,10,1
+Redraw,11
+Tell Point,12
+Translate,13
+Zoom,14
+Cancel,0
+
+MENU,EDIT
+Cell Neighborhood,15
+Edit Cell,16
+Fix Cell,17
+Fix Cell but Rot,18
+Group Cells,19
+Move Cell,20
+Cancel,0
+
+MENU,DRAW 
+Draw Bins,21,Ignore Bins,22,0
+Draw Border,23,Draw Tiles,24,1
+Draw Globe Areas,37,Ignore Globe Areas,38,1
+Draw Labels,25,Ignore Labels,26,0
+Draw Neighborhd,27,Ignore Neighborhood,28,1
+Draw Nets,29,Ignore Nets,30,0
+Draw Orient,44,Ignore Orient,45,0
+Draw Pins,31,Ignore Pins,32,0
+Draw Single Cell Moves,42,Ignore Single Cell,43,0
+Draw Single Net,33
+Draw Wiring Est,34,Ignore Wiring Est,35,0
+Cancel,0
+
+MENU,PARAMETERS 
+Change Aspect Ratio,36
+Graphics Wait,40,No Graphics Wait,41,0
+Cancel,0

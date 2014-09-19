@@ -1,0 +1,493 @@
+# Ymakefile for program TimberWolfMC
+#  "@(#) Ymakefile (Yale) version 3.13 5/5/91 " 
+#
+#include macros
+
+#destination of output executable
+DEST=../
+PNAME=TimberWolfMC
+
+
+# name of the graphics menu and destination
+MENU=mc_menu mc.dialog menus.h dialog.h
+
+#where object code is located
+O=../obj/
+
+SRC= \
+	acceptt.c \
+	analyze.c \
+	compact.c \
+	config1.c \
+	config2.c \
+	configpads.c \
+	debug.c \
+	finalout.c \
+	finalpin.c \
+	findcheck.c \
+	findcost.c \
+	findloc.c \
+	findside.c \
+	fixcell.c \
+	genorient.c \
+	gmain.c \
+	graphics.c \
+	initialize.c \
+	initnets.c \
+	loadbins.c \
+	main.c \
+	makebins.c \
+	makesite.c \
+	mergecell.c \
+	neworient.c \
+	newtemp.c \
+	outgeo.c \
+	outpin.c \
+	output.c \
+	overlap.c \
+	partition.c \
+	paths.c \
+	penalties.c \
+	perimeter.c \
+	placepads.c \
+	placepin.c \
+	prboard.c \
+#ifdef YALE
+	readcells.l \
+#endif /* YALE */ \
+#ifdef YALE
+	readcells.y \
+#else /* YALE */ \
+	readcells.c \
+#endif /* YALE */ \
+#ifdef YALE
+	readnets.l \
+#endif /* YALE */ \
+#ifdef YALE
+	readnets.y \
+#else /* YALE */ \
+	readnets.c \
+#endif /* YALE */ \
+	readpar.c \
+	reconfig.c \
+	rmain.c \
+	savewolf.c \
+	scrapnet.c \
+	selectpin.c \
+	setpwates.c \
+	sortpad.c \
+	sortpin.c \
+	twstats.c \
+	uaspect.c \
+	uinst.c \
+	uloop.c \
+	unbust.c \
+	unet.c \
+	upin.c \
+	upinswap.c \
+	usite1.c \
+	usite2.c \
+	usoftmove.c \
+	utemp.c \
+	watesides.c \
+	window.c \
+	wirecosts.c \
+	wireest.c \
+	wireratio.c 
+
+OBJ= \
+	${O}acceptt.o \
+	${O}analyze.o \
+	${O}compact.o \
+	${O}config1.o \
+	${O}config2.o \
+	${O}configpads.o \
+	${O}debug.o \
+	${O}finalout.o \
+	${O}finalpin.o \
+	${O}findcheck.o \
+	${O}findcost.o \
+	${O}findloc.o \
+	${O}findside.o \
+	${O}fixcell.o \
+	${O}genorient.o \
+	${O}gmain.o \
+	${O}graphics.o \
+	${O}initialize.o \
+	${O}initnets.o \
+	${O}loadbins.o \
+	${O}main.o \
+	${O}makebins.o \
+	${O}makesite.o \
+	${O}mergecell.o \
+	${O}neworient.o \
+	${O}newtemp.o \
+	${O}outgeo.o \
+	${O}outpin.o \
+	${O}output.o \
+	${O}overlap.o \
+	${O}partition.o \
+	${O}paths.o \
+	${O}penalties.o \
+	${O}perimeter.o \
+	${O}placepads.o \
+	${O}placepin.o \
+	${O}prboard.o \
+	${O}readcells.o \
+	${O}readnets.o \
+	${O}readpar.o \
+	${O}reconfig.o \
+	${O}rmain.o \
+	${O}savewolf.o \
+	${O}scrapnet.o \
+	${O}selectpin.o \
+	${O}setpwates.o \
+	${O}sortpad.o \
+	${O}sortpin.o \
+	${O}twstats.o \
+	${O}uaspect.o \
+	${O}uinst.o \
+	${O}uloop.o \
+	${O}unbust.o \
+	${O}unet.o \
+	${O}upin.o \
+	${O}upinswap.o \
+	${O}usite1.o \
+	${O}usite2.o \
+	${O}usoftmove.o \
+	${O}utemp.o \
+	${O}watesides.o \
+	${O}window.o \
+	${O}wirecosts.o \
+	${O}wireest.o \
+	${O}wireratio.o 
+
+INS= \
+	analog.h \
+	custom.h \
+	dens.h \
+	initialize.h \
+	main.h \
+	pads.h \
+	partition.h \
+	readcells.h \
+	readnets.h \
+	temp.h \
+	tidialog.h 
+
+info:   ;
+	-@echo "make ${PNAME} - usage:"
+	-@echo "Non-Yale users should type "
+	-@echo "    'make install_non_yale' <CR>"
+	-@echo "Yale users should type "
+	-@echo "    'make install' <CR>"
+	-@echo " "
+
+# how to make TimberWolfMC
+${DEST}${PNAME}:${OBJ} ${YALECAD}
+	${GETDATE}
+	${CC} ${CFLAGS} -I. -c ${DATE_C}
+	${MV} date.o ${O}date.o 
+	${CC} ${CFLAGS} ${OPTIONS} -o ${DEST}${PNAME} ${OBJ} ${O}date.o \
+	${YALECAD} ${LINKLIB} 
+
+# we can't do anything about yalecad but want to update if it has changed
+${YALECAD}:
+
+# need this lines for yale installation. Null otherwise.  
+
+install:${DEST}${PNAME} 
+
+install_non_yale:
+	-${S}if( test -d ${XLIB}${NOGRAPHICS} ) then \
+		echo " " ; \
+		echo "Note:found ${XLIB}"; \
+		echo "making version with XWindow graphics..." ;\
+		make ${DEST}${PNAME} GETDATE= CC=${CC} \
+		    CLEANUP=${CLEANUP} NOGRAPHICS=${NOGRAPHICS} \
+		    UNIX=${UNIX} DEBUG=${DEBUG} YALECAD=${YALECAD} \
+		    CFLAGS="${CFLAGS}" LINKLIB="${LINKLIB}" ;\
+		echo " " ; \
+	else \
+		echo " " ; \
+		echo "Note:didn't find ${XLIB} or NOGRAPHICS requested"; \
+		echo "making version without XWindow graphics..." ; \
+		make ${DEST}${PNAME} GETDATE= CC=${CC} \
+		    CLEANUP=${CLEANUP} NOGRAPHICS=-DNOGRAPHICS \
+		    UNIX=${UNIX} DEBUG=${DEBUG} YALECAD=${YALECAD} \
+		    CFLAGS="${CFLAGS}" LINKLIB=-lm ;\
+	fi ; 
+
+clean:
+	${RM} ${O}* ~* core *.bak foo y.output
+
+cleanall:
+	make clean
+	${RM} readcells_l.h readcells.c readnets_l.h readnets.c
+
+# how to build makefile dependencies
+depend : ;
+	${MAKEDEPEND} ${CFLAGS} ${OPTIONS} ${IDIR} ${SRC}
+
+map :   
+	nm -apg ${PNAME}
+
+#used to make documentation
+bnf :  ys.awk 
+	${AWK} -f ys.awk readcells.y > foo
+	sed -e 's/;//' foo > cells_bnf
+	${AWK} -f ys.awk readnets.y > foo
+	sed -e 's/;//' foo > nets_bnf
+	${RM} foo
+
+user_parser :  parsery.awk parserl.awk
+	${AWK} -f parserl.awk readcells.l > uparser.l
+	${AWK} -f parsery.awk readcells.y > uparser.y
+	${LEX}  uparser.l
+	${YACC} uparser.y
+	${CC} -DTEST -o uparser y.tab.c
+
+cleanbnf: ;
+	${RM} *_bnf ys.awk
+
+lint:
+	lint ${LINT_OPT} ${IDIR} ${OPTIONS} ${SRC} >lint.out
+
+# *************************** SCCS *******************************
+sources: ${SRC} ${INS} ${MENU} Ymakefile ys.awk
+	
+${SRC} ${INS} ${MENU} Ymakefile ys.awk:
+	${SCCS} ${SCCS_OP} ${REL} $@
+
+# ************************ END SCCS *****************************
+#BEGIN DEPENDENCIES -- DO NOT DELETE THIS LINE
+
+#END DEPENDENCIES -- DO NOT DELETE THIS LINE
+
+
+# How to compile the sources
+${O}acceptt.o:acceptt.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  acceptt.c
+	${MV} acceptt.o ${O}acceptt.o
+${O}analyze.o:analyze.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  analyze.c
+	${MV} analyze.o ${O}analyze.o
+${O}compact.o:compact.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  compact.c
+	${MV} compact.o ${O}compact.o
+${O}config1.o:config1.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  config1.c
+	${MV} config1.o ${O}config1.o
+${O}config2.o:config2.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  config2.c
+	${MV} config2.o ${O}config2.o
+${O}configpads.o:configpads.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  configpads.c
+	${MV} configpads.o ${O}configpads.o
+${O}debug.o:debug.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  debug.c
+	${MV} debug.o ${O}debug.o
+${O}finalout.o:finalout.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  finalout.c
+	${MV} finalout.o ${O}finalout.o
+${O}finalpin.o:finalpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  finalpin.c
+	${MV} finalpin.o ${O}finalpin.o
+${O}findcheck.o:findcheck.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findcheck.c
+	${MV} findcheck.o ${O}findcheck.o
+${O}findcost.o:findcost.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findcost.c
+	${MV} findcost.o ${O}findcost.o
+${O}findloc.o:findloc.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findloc.c
+	${MV} findloc.o ${O}findloc.o
+${O}findside.o:findside.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findside.c
+	${MV} findside.o ${O}findside.o
+${O}fixcell.o:fixcell.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  fixcell.c
+	${MV} fixcell.o ${O}fixcell.o
+${O}genorient.o:genorient.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  genorient.c
+	${MV} genorient.o ${O}genorient.o
+${O}gmain.o:gmain.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  gmain.c
+	${MV} gmain.o ${O}gmain.o
+${O}graphics.o:graphics.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  graphics.c
+	${MV} graphics.o ${O}graphics.o
+${O}initialize.o:initialize.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  initialize.c
+	${MV} initialize.o ${O}initialize.o
+${O}initnets.o:initnets.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  initnets.c
+	${MV} initnets.o ${O}initnets.o
+${O}loadbins.o:loadbins.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  loadbins.c
+	${MV} loadbins.o ${O}loadbins.o
+${O}main.o:main.c
+	${CC} ${CLEANUP} ${CFLAGS} ${IDIR} ${OPTIONS} -c  main.c
+	${MV} main.o ${O}main.o
+${O}makebins.o:makebins.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  makebins.c
+	${MV} makebins.o ${O}makebins.o
+${O}makesite.o:makesite.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  makesite.c
+	${MV} makesite.o ${O}makesite.o
+${O}mergecell.o:mergecell.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  mergecell.c
+	${MV} mergecell.o ${O}mergecell.o
+${O}neworient.o:neworient.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  neworient.c
+	${MV} neworient.o ${O}neworient.o
+${O}newtemp.o:newtemp.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  newtemp.c
+	${MV} newtemp.o ${O}newtemp.o
+${O}outgeo.o:outgeo.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  outgeo.c
+	${MV} outgeo.o ${O}outgeo.o
+${O}outpin.o:outpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  outpin.c
+	${MV} outpin.o ${O}outpin.o
+${O}output.o:output.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  output.c
+	${MV} output.o ${O}output.o
+${O}overlap.o:overlap.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  overlap.c
+	${MV} overlap.o ${O}overlap.o
+${O}partition.o:partition.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  partition.c
+	${MV} partition.o ${O}partition.o
+${O}paths.o:paths.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  paths.c
+	${MV} paths.o ${O}paths.o
+${O}penalties.o:penalties.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  penalties.c
+	${MV} penalties.o ${O}penalties.o
+${O}perimeter.o:perimeter.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  perimeter.c
+	${MV} perimeter.o ${O}perimeter.o
+${O}placepads.o:placepads.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  placepads.c
+	${MV} placepads.o ${O}placepads.o
+${O}placepin.o:placepin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  placepin.c
+	${MV} placepin.o ${O}placepin.o
+${O}prboard.o:prboard.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  prboard.c
+	${MV} prboard.o ${O}prboard.o
+#ifdef YALE
+${O}readcells.o:readcells.y readcells.l
+	${LEX} readcells.l
+	${LEXMV} lex.yy.c readcells_l.h
+	${YACC} readcells.y
+	${YACCMV} y.tab.c readcells.c
+#	use grep to remove # line so dbx works correctly
+	${GREP} -v "# line" readcells.c > tmp; 	${MV} tmp readcells.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readcells.c
+	${MV} readcells.o ${O}readcells.o
+readcells.y:
+readcells.l:
+#else  /* YALE */ 
+${O}readcells.o:readcells.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readcells.c
+	${MV} readcells.o ${O}readcells.o
+#endif /* YALE */ 
+#ifdef YALE
+${O}readnets.o:readnets.y readnets.l
+	${LEX} readnets.l
+	${LEXMV} lex.yy.c readnets_l.h
+	${YACC} readnets.y
+	${YACCMV} y.tab.c readnets.c
+#	use grep to remove # line so dbx works correctly
+	${GREP} -v "# line" readnets.c > tmp; 	${MV} tmp readnets.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readnets.c
+	${MV} readnets.o ${O}readnets.o
+readnets.y:
+readnets.l:
+#else  /* YALE */ 
+${O}readnets.o:readnets.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readnets.c
+	${MV} readnets.o ${O}readnets.o
+#endif /* YALE */ 
+${O}readpar.o:readpar.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readpar.c
+	${MV} readpar.o ${O}readpar.o
+${O}reconfig.o:reconfig.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  reconfig.c
+	${MV} reconfig.o ${O}reconfig.o
+${O}rmain.o:rmain.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  rmain.c
+	${MV} rmain.o ${O}rmain.o
+${O}savewolf.o:savewolf.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  savewolf.c
+	${MV} savewolf.o ${O}savewolf.o
+${O}scrapnet.o:scrapnet.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  scrapnet.c
+	${MV} scrapnet.o ${O}scrapnet.o
+${O}selectpin.o:selectpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  selectpin.c
+	${MV} selectpin.o ${O}selectpin.o
+${O}setpwates.o:setpwates.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  setpwates.c
+	${MV} setpwates.o ${O}setpwates.o
+${O}sortpad.o:sortpad.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  sortpad.c
+	${MV} sortpad.o ${O}sortpad.o
+${O}sortpin.o:sortpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  sortpin.c
+	${MV} sortpin.o ${O}sortpin.o
+${O}twstats.o:twstats.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  twstats.c
+	${MV} twstats.o ${O}twstats.o
+${O}uaspect.o:uaspect.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  uaspect.c
+	${MV} uaspect.o ${O}uaspect.o
+${O}uinst.o:uinst.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  uinst.c
+	${MV} uinst.o ${O}uinst.o
+${O}uloop.o:uloop.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  uloop.c
+	${MV} uloop.o ${O}uloop.o
+${O}unbust.o:unbust.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  unbust.c
+	${MV} unbust.o ${O}unbust.o
+${O}unet.o:unet.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  unet.c
+	${MV} unet.o ${O}unet.o
+${O}upin.o:upin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  upin.c
+	${MV} upin.o ${O}upin.o
+${O}upinswap.o:upinswap.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  upinswap.c
+	${MV} upinswap.o ${O}upinswap.o
+${O}usite1.o:usite1.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  usite1.c
+	${MV} usite1.o ${O}usite1.o
+${O}usite2.o:usite2.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  usite2.c
+	${MV} usite2.o ${O}usite2.o
+${O}usoftmove.o:usoftmove.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  usoftmove.c
+	${MV} usoftmove.o ${O}usoftmove.o
+${O}utemp.o:utemp.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  utemp.c
+	${MV} utemp.o ${O}utemp.o
+${O}watesides.o:watesides.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  watesides.c
+	${MV} watesides.o ${O}watesides.o
+${O}window.o:window.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  window.c
+	${MV} window.o ${O}window.o
+${O}wirecosts.o:wirecosts.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  wirecosts.c
+	${MV} wirecosts.o ${O}wirecosts.o
+${O}wireest.o:wireest.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  wireest.c
+	${MV} wireest.o ${O}wireest.o
+${O}wireratio.o:wireratio.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  wireratio.c
+	${MV} wireratio.o ${O}wireratio.o
+
+# end makefile

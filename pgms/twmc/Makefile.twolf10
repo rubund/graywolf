@@ -1,0 +1,779 @@
+# Imakefile for program TimberWolfMC
+#  "@(#) Imakefile (Yale) version 3.3 9/5/90 " 
+#
+# ******************************************************************
+# IMAKE MACRO SUBSTITUTION FILE.
+# ****************** switches for compilation *******************
+CFLAGS=-g
+#
+# The target foreign machine is assumed to be running UNIX, if not
+# comment out following line.
+UNIX=-DUNIX
+#
+# If users system does not support UNIX signals, comment out the
+# signal handler defined on the next line.
+CLEANUP=-DCLEANUP_C 
+#
+# The makefile should automatically define this variable if an X11
+# server is not present, that is, /usr/include/X11 is not present.
+# uncomment line if you which to override.
+#NOGRAPHICS=-DNOGRAPHICS
+#
+# Normally the program is compiled with assertion checking.  If a 
+# on a sys5 machine uncomment out next line systype
+# use this only if problems arise with include files.
+# also check below for problems with ranlib.
+#SYS5=-DSYS5
+
+# smaller faster version is desired comment out next line.
+DEBUG=-DDEBUG
+#
+# available for adding future options.
+OPTIONS=${UNIX} ${DEBUG} ${NOGRAPHICS} ${SYS5}
+#
+# where the libraries are
+# where the <yalecad/base.h> etc. are located.
+# how set set the search directories for compilation
+INCLUDE=../../../include/
+YALELIB=${INCLUDE}yalecad/
+IDIR=-I. -I${INCLUDE}
+#
+# place where Xwindow include files reside
+XLIB=/usr/include/X11
+# ****************** switches for linking *******************
+# Yale library - the first library uses the Yale memory manager
+# the second library uses the system's memory manager.
+NYCADSYS=libycad.sys.a 
+NYCADMEM=libycad.mem.a
+# residence at Yale
+YCADMEM=/twolf10/bills/TimberWolf/lib/${NYCADMEM}
+YCADSYS=/usr/local/lib/${NYCADSYS}
+# residence on foreign host
+#YCADMEM=../../../bin/${NYCADMEM}
+#YCADSYS=../../../bin/${NYCADSYS}
+# on this line pick which library you want 
+YALECAD=${YCADMEM}
+
+#
+# place where link libraries exist
+# user must supply math library and X11 library.
+# use -L option if libraries exist elsewhere ie. -L/usr/bills/X -lX11
+LINKLIB=-lm -lX11 
+#
+# need these lines for yale installation. Null otherwise.
+GETDATE=getdate
+DATE_C=/twolf6/bills/TimberWolf/pgms/date/src/date.c
+#
+# ******************* RENAME PROGRAMS *************************
+#
+AR=ar # archiving program.
+AWK=awk # awk language interpreter.
+CAT=cat # concatenate program.
+CC=mcc # C compiler switch
+CHMOD=chmod # C compiler switch
+ECHO=echo # echo to the screen
+GREP=grep
+IMAKE=ymake # path of imake program
+# if problems arise with makedepend uncomment out following line
+#IMAKEARGS=nodepend  # path of imake program
+IMAKEFILE=Imakefile # name of imakefile.
+LEX=lex
+LD=ld # linker
+LINT=/twolf6/bills/bin/mylint
+LINT_OPT=-v
+LINT_SCRIPT=/twolf6/bills/bin/lint.awk
+MAKE=/bin/make
+MAKEDEPEND=makedepend # path of makedepend
+MV=mv # move program name
+PAS=/com/pas
+# on sys5 machines ranlib not supported uncomment second line
+RANLIB=ranlib
+#RANLIB=${ECHO}
+RM=/bin/rm -f
+STRIP=strip # strip symbol table from code.
+SCCS=sccs # software control program
+SCCS_OP=get #normal sccs operation
+# always use Bourne shell in makefile.
+SHELL=/bin/sh
+# TWDIR only needs to be set at Yale
+TWDIR=/twolf6/bills/temp/TimberWolf
+YACC=yacc
+# if you dont have yacc and lex set to nop operation like echo
+LEXMV=${MV}
+YACCMV=${MV}
+# ******************************************************************
+
+#destination of output executable
+DEST=../
+PNAME=TimberWolfMC
+
+
+# name of the graphics menu and destination
+MENU=mc_menu
+
+#where object code is located
+O=../obj/
+
+OBJ= ${O}acceptt.o ${O}analyze.o ${O}buster.o \
+	${O}compact.o ${O}config1.o ${O}config2.o \
+	${O}config3.o ${O}configpads.o ${O}debug.o \
+	${O}finalout.o ${O}finalpin.o ${O}gmain.o \
+	${O}findcheck.o ${O}findcost.o ${O}findloc.o \
+	${O}findside.o ${O}fixcell.o ${O}genorient.o \
+	${O}graphics.o ${O}initialize.o ${O}loadbins.o \
+	${O}main.o ${O}makebins.o ${O}makesite.o \
+	${O}mergecell.o ${O}neworient.o ${O}newtemp.o \
+	${O}outgeo.o ${O}outpin.o ${O}output.o \
+	${O}overlap.o ${O}paths.o \
+	${O}partition.o ${O}penalties.o ${O}perimeter.o \
+	${O}placepads.o ${O}placepin.o ${O}prboard.o \
+	${O}readcells.o ${O}readnets.o ${O}rmain.o\
+	${O}readpar.o ${O}reconfig.o ${O}savewolf.o \
+	${O}scrapnet.o ${O}sortpin.o ${O}selectpin.o \
+	${O}setpwates.o ${O}sortpad.o \
+	${O}twstats.o ${O}uaspect.o ${O}uloop.o \
+	${O}unbust.o ${O}uinst.o ${O}unet.o \
+	${O}upin.o ${O}upinswap.o ${O}usite1.o \
+	${O}usite2.o ${O}usoftmove.o ${O}utemp.o \
+	${O}watesides.o ${O}window.o ${O}wirecosts.o \
+	${O}wireest.o ${O}wireratio.o
+
+SRC= acceptt.c analyze.c buster.c \
+	compact.c config1.c config2.c \
+	config3.c configpads.c debug.c \
+	finalout.c finalpin.c gmain.c \
+	findcheck.c findcost.c findloc.c \
+	findside.c fixcell.c genorient.c \
+	graphics.c initialize.c loadbins.c \
+	main.c makebins.c makesite.c \
+	mergecell.c neworient.c \
+	newtemp.c outgeo.c outpin.c \
+	output.c overlap.c paths.c \
+	partition.c penalties.c perimeter.c \
+	placepads.c placepin.c prboard.c \
+	readcells.l readcells.y rmain.c \
+	readnets.l readnets.y readpar.c \
+	reconfig.c savewolf.c scrapnet.c \
+	sortpin.c selectpin.c setpwates.c \
+	sortpad.c twstats.c \
+	uaspect.c uloop.c unbust.c \
+	uinst.c unet.c upin.c \
+	upinswap.c usite1.c usite2.c \
+	usoftmove.c utemp.c watesides.c \
+	window.c wirecosts.c wireest.c \
+	wireratio.c 
+
+INS= \
+	buster.h \
+	custom.h \
+	dens.h \
+	initialize.h \
+	main.h \
+	pads.h \
+	partition.h \
+	readcells.h \
+	readnets.h \
+	relpos.h \
+	temp.h 
+
+info:   ;
+	-@echo "make ${PNAME} - usage:"
+	-@echo "Non-Yale users should type "
+	-@echo "    'make install_non_yale' <CR>"
+	-@echo "Yale users should type "
+	-@echo "    'make install' <CR>"
+	-@echo " "
+
+# how to make TimberWolfMC
+${DEST}${PNAME}:${OBJ} ${YALECAD}
+	${GETDATE}
+	${CC} ${CFLAGS} -I. -c ${DATE_C}
+	${MV} date.o ${O}date.o 
+	${CC} ${CFLAGS} -o ${DEST}${PNAME} ${OBJ} ${O}date.o \
+	${YALECAD} ${LINKLIB} 
+
+# we can't do anything about yalecad but want to update if it has changed
+${YALECAD}:
+
+# need this lines for yale installation. Null otherwise.  
+
+install:${DEST}${PNAME} 
+
+install_non_yale:
+	-${S}if( test -d ${XLIB}${NOGRAPHICS} ) then \
+		echo " " ; \
+		echo "Note:found ${XLIB}"; \
+		echo "making version with XWindow graphics..." ;\
+		make ${DEST}${PNAME} GETDATE= CC=${CC} \
+		    CLEANUP=${CLEANUP} NOGRAPHICS=${NOGRAPHICS} \
+		    UNIX=${UNIX} DEBUG=${DEBUG} YALECAD=${YALECAD} \
+		    CFLAGS="${CFLAGS}" LINKLIB="${LINKLIB}" ;\
+		echo " " ; \
+	else \
+		echo " " ; \
+		echo "Note:didn't find ${XLIB} or NOGRAPHICS requested"; \
+		echo "making version without XWindow graphics..." ; \
+		make ${DEST}${PNAME} GETDATE= CC=${CC} \
+		    CLEANUP=${CLEANUP} NOGRAPHICS=-DNOGRAPHICS \
+		    UNIX=${UNIX} DEBUG=${DEBUG} YALECAD=${YALECAD} \
+		    CFLAGS="${CFLAGS}" LINKLIB=-lm ;\
+	fi ; 
+
+clean:
+	${RM} ${O}* *.bak
+
+# how to build makefile dependencies
+depend : ;
+	${MAKEDEPEND} ${CFLAGS} ${OPTIONS} ${IDIR} ${SRC}
+
+map :   
+	nm -apg ${PNAME}
+
+#used to make documentation
+bnf :  ys.awk 
+	${AWK} -f ys.awk ${placer}readcells.y > foo
+	sed -e 's/;//' foo > cells_bnf
+	${AWK} -f ys.awk ${placer}readnets.y > foo
+	sed -e 's/;//' foo > nets_bnf
+	${RM} foo
+
+cleanbnf: ;
+	${RM} *_bnf ys.awk
+
+lint:
+	lint ${LINT_OPT} ${IDIR} ${OPTIONS} ${SRC} >lint.out
+
+# *************************** SCCS *******************************
+sources: ${SRC} ${INS} ${MENU} Imakefile ys.awk
+	
+${SRC} ${INS} ${MENU} Imakefile ys.awk:
+	${SCCS} ${SCCS_OP} ${REL} $@
+
+# ************************ END SCCS *****************************
+#BEGIN DEPENDENCIES -- DO NOT DELETE THIS LINE
+
+${O}acceptt.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}acceptt.o: ../../../include/yalecad/base.h
+${O}acceptt.o: ../../../include/yalecad/message.h
+${O}acceptt.o: ../../../include/yalecad/debug.h
+${O}analyze.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}analyze.o: ../../../include/yalecad/base.h
+${O}analyze.o: ../../../include/yalecad/message.h
+${O}analyze.o: ../../../include/yalecad/debug.h
+${O}analyze.o: ../../../include/yalecad/string.h
+${O}analyze.o: ../../../include/yalecad/file.h
+${O}buster.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}buster.o: ../../../include/yalecad/base.h
+${O}buster.o: ../../../include/yalecad/message.h buster.h
+${O}buster.o: ../../../include/yalecad/debug.h
+${O}compact.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}compact.o: ../../../include/yalecad/base.h
+${O}compact.o: ../../../include/yalecad/message.h dens.h
+${O}compact.o: ../../../include/yalecad/debug.h
+${O}compact.o: ../../../include/yalecad/file.h
+${O}compact.o: ../../../include/yalecad/string.h
+${O}config1.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}config1.o: ../../../include/yalecad/base.h
+${O}config1.o: ../../../include/yalecad/message.h
+${O}config1.o: ../../../include/yalecad/debug.h
+${O}config1.o: ../../../include/yalecad/file.h
+${O}config2.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}config2.o: ../../../include/yalecad/base.h
+${O}config2.o: ../../../include/yalecad/message.h
+${O}config2.o: ../../../include/yalecad/debug.h
+${O}config3.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}config3.o: ../../../include/yalecad/base.h
+${O}config3.o: ../../../include/yalecad/message.h
+${O}config3.o: ../../../include/yalecad/debug.h
+${O}configpads.o: custom.h main.h /usr/include/stdio.h
+${O}configpads.o: ../../../include/math.h ../../../include/yalecad/base.h
+${O}configpads.o: ../../../include/yalecad/message.h pads.h
+${O}debug.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}debug.o: ../../../include/yalecad/base.h
+${O}debug.o: ../../../include/yalecad/message.h /usr/include/varargs.h
+${O}debug.o: ../../../include/yalecad/debug.h ../../../include/yalecad/file.h
+${O}debug.o: ../../../include/yalecad/string.h
+${O}finalout.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}finalout.o: ../../../include/yalecad/base.h
+${O}finalout.o: ../../../include/yalecad/message.h
+${O}finalout.o: ../../../include/yalecad/debug.h
+${O}finalpin.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}finalpin.o: ../../../include/yalecad/base.h
+${O}finalpin.o: ../../../include/yalecad/message.h buster.h
+${O}finalpin.o: ../../../include/yalecad/debug.h
+${O}gmain.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}gmain.o: ../../../include/yalecad/base.h
+${O}gmain.o: ../../../include/yalecad/message.h dens.h
+${O}gmain.o: ../../../include/yalecad/debug.h ../../../include/yalecad/file.h
+${O}gmain.o: ../../../include/yalecad/string.h
+${O}findcheck.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}findcheck.o: ../../../include/yalecad/base.h
+${O}findcheck.o: ../../../include/yalecad/message.h
+${O}findcheck.o: ../../../include/yalecad/relpos.h
+${O}findcheck.o: ../../../include/yalecad/debug.h
+${O}findcost.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}findcost.o: ../../../include/yalecad/base.h
+${O}findcost.o: ../../../include/yalecad/message.h
+${O}findcost.o: ../../../include/yalecad/relpos.h
+${O}findcost.o: ../../../include/yalecad/debug.h
+${O}findloc.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}findloc.o: ../../../include/yalecad/base.h
+${O}findloc.o: ../../../include/yalecad/message.h
+${O}findloc.o: ../../../include/yalecad/debug.h
+${O}findside.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}findside.o: ../../../include/yalecad/base.h
+${O}findside.o: ../../../include/yalecad/message.h initialize.h
+${O}findside.o: ../../../include/yalecad/debug.h
+${O}findside.o: ../../../include/yalecad/set.h
+${O}fixcell.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}fixcell.o: ../../../include/yalecad/base.h
+${O}fixcell.o: ../../../include/yalecad/message.h
+${O}fixcell.o: ../../../include/yalecad/debug.h
+${O}genorient.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}genorient.o: ../../../include/yalecad/base.h
+${O}genorient.o: ../../../include/yalecad/message.h pads.h
+${O}genorient.o: ../../../include/yalecad/debug.h
+${O}genorient.o: ../../../include/yalecad/relpos.h
+${O}graphics.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}graphics.o: ../../../include/yalecad/base.h
+${O}graphics.o: ../../../include/yalecad/message.h dens.h
+${O}graphics.o: ../../../include/yalecad/debug.h
+${O}graphics.o: ../../../include/yalecad/relpos.h
+${O}graphics.o: ../../../include/yalecad/colors.h
+${O}graphics.o: ../../../include/yalecad/draw.h
+${O}graphics.o: ../../../include/yalecad/dialog.h menus.h dialog.h
+${O}initialize.o: custom.h main.h /usr/include/stdio.h
+${O}initialize.o: ../../../include/math.h ../../../include/yalecad/base.h
+${O}initialize.o: ../../../include/yalecad/message.h pads.h buster.h
+${O}initialize.o: initialize.h ../../../include/yalecad/hash.h
+${O}initialize.o: ../../../include/yalecad/debug.h
+${O}initialize.o: ../../../include/yalecad/string.h
+${O}loadbins.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}loadbins.o: ../../../include/yalecad/base.h
+${O}loadbins.o: ../../../include/yalecad/message.h
+${O}loadbins.o: ../../../include/yalecad/debug.h
+${O}main.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}main.o: ../../../include/yalecad/base.h
+${O}main.o: ../../../include/yalecad/message.h
+${O}main.o: ../../../include/yalecad/debug.h
+${O}main.o: ../../../include/yalecad/cleanup.h
+${O}main.o: ../../../include/yalecad/file.h
+${O}makebins.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}makebins.o: ../../../include/yalecad/base.h
+${O}makebins.o: ../../../include/yalecad/message.h
+${O}makebins.o: ../../../include/yalecad/debug.h
+${O}makesite.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}makesite.o: ../../../include/yalecad/base.h
+${O}makesite.o: ../../../include/yalecad/message.h
+${O}makesite.o: ../../../include/yalecad/debug.h
+${O}mergecell.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}mergecell.o: ../../../include/yalecad/base.h
+${O}mergecell.o: ../../../include/yalecad/message.h
+${O}mergecell.o: ../../../include/yalecad/debug.h
+${O}neworient.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}neworient.o: ../../../include/yalecad/base.h
+${O}neworient.o: ../../../include/yalecad/message.h
+${O}neworient.o: ../../../include/yalecad/debug.h
+${O}newtemp.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}newtemp.o: ../../../include/yalecad/base.h
+${O}newtemp.o: ../../../include/yalecad/message.h temp.h
+${O}newtemp.o: ../../../include/yalecad/debug.h
+${O}outgeo.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}outgeo.o: ../../../include/yalecad/base.h
+${O}outgeo.o: ../../../include/yalecad/message.h buster.h
+${O}outgeo.o: ../../../include/yalecad/debug.h
+${O}outgeo.o: ../../../include/yalecad/file.h
+${O}outpin.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}outpin.o: ../../../include/yalecad/base.h
+${O}outpin.o: ../../../include/yalecad/message.h initialize.h
+${O}outpin.o: ../../../include/yalecad/debug.h
+${O}outpin.o: ../../../include/yalecad/file.h
+${O}outpin.o: ../../../include/yalecad/relpos.h
+${O}output.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}output.o: ../../../include/yalecad/base.h
+${O}output.o: ../../../include/yalecad/message.h pads.h buster.h initialize.h
+${O}output.o: ../../../include/yalecad/debug.h
+${O}output.o: ../../../include/yalecad/relpos.h
+${O}output.o: ../../../include/yalecad/file.h
+${O}overlap.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}overlap.o: ../../../include/yalecad/base.h
+${O}overlap.o: ../../../include/yalecad/message.h
+${O}overlap.o: ../../../include/yalecad/debug.h
+${O}paths.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}paths.o: ../../../include/yalecad/base.h
+${O}paths.o: ../../../include/yalecad/message.h
+${O}paths.o: ../../../include/yalecad/debug.h ../../../include/yalecad/file.h
+${O}partition.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}partition.o: ../../../include/yalecad/base.h
+${O}partition.o: ../../../include/yalecad/message.h partition.h buster.h
+${O}partition.o: pads.h ../../../include/yalecad/file.h
+${O}partition.o: ../../../include/yalecad/relpos.h
+${O}partition.o: ../../../include/yalecad/string.h
+${O}partition.o: ../../../include/yalecad/debug.h
+${O}penalties.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}penalties.o: ../../../include/yalecad/base.h
+${O}penalties.o: ../../../include/yalecad/message.h temp.h
+${O}penalties.o: ../../../include/yalecad/debug.h
+${O}perimeter.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}perimeter.o: ../../../include/yalecad/base.h
+${O}perimeter.o: ../../../include/yalecad/message.h buster.h
+${O}perimeter.o: ../../../include/yalecad/debug.h
+${O}placepads.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}placepads.o: ../../../include/yalecad/base.h
+${O}placepads.o: ../../../include/yalecad/message.h pads.h dens.h
+${O}placepads.o: ../../../include/yalecad/debug.h
+${O}placepin.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}placepin.o: ../../../include/yalecad/base.h
+${O}placepin.o: ../../../include/yalecad/message.h
+${O}placepin.o: ../../../include/yalecad/debug.h initialize.h
+${O}placepin.o: ../../../include/yalecad/relpos.h
+${O}prboard.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}prboard.o: ../../../include/yalecad/base.h
+${O}prboard.o: ../../../include/yalecad/message.h
+${O}prboard.o: ../../../include/yalecad/debug.h
+${O}readcells.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}readcells.o: ../../../include/yalecad/base.h
+${O}readcells.o: ../../../include/yalecad/message.h initialize.h readcells.h
+${O}readcells.o: readcells_l.h
+${O}rmain.o: ../../../include/yalecad/base.h /usr/include/stdio.h
+${O}rmain.o: ../../../include/yalecad/debug.h
+${O}rmain.o: ../../../include/yalecad/message.h
+${O}rmain.o: ../../../include/yalecad/file.h
+${O}rmain.o: ../../../include/yalecad/string.h custom.h main.h
+${O}rmain.o: ../../../include/math.h
+${O}readnets.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}readnets.o: ../../../include/yalecad/base.h
+${O}readnets.o: ../../../include/yalecad/message.h
+${O}readnets.o: ../../../include/yalecad/hash.h
+${O}readnets.o: ../../../include/yalecad/debug.h readnets.h readnets_l.h
+${O}readpar.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}readpar.o: ../../../include/yalecad/base.h
+${O}readpar.o: ../../../include/yalecad/message.h
+${O}readpar.o: ../../../include/yalecad/debug.h
+${O}readpar.o: ../../../include/yalecad/file.h
+${O}readpar.o: ../../../include/yalecad/string.h
+${O}reconfig.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}reconfig.o: ../../../include/yalecad/base.h
+${O}reconfig.o: ../../../include/yalecad/message.h
+${O}reconfig.o: ../../../include/yalecad/debug.h
+${O}savewolf.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}savewolf.o: ../../../include/yalecad/base.h
+${O}savewolf.o: ../../../include/yalecad/message.h
+${O}savewolf.o: ../../../include/yalecad/debug.h
+${O}savewolf.o: ../../../include/yalecad/file.h
+${O}scrapnet.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}scrapnet.o: ../../../include/yalecad/base.h
+${O}scrapnet.o: ../../../include/yalecad/message.h
+${O}scrapnet.o: ../../../include/yalecad/debug.h
+${O}sortpin.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}sortpin.o: ../../../include/yalecad/base.h
+${O}sortpin.o: ../../../include/yalecad/message.h
+${O}sortpin.o: ../../../include/yalecad/debug.h
+${O}selectpin.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}selectpin.o: ../../../include/yalecad/base.h
+${O}selectpin.o: ../../../include/yalecad/message.h
+${O}selectpin.o: ../../../include/yalecad/debug.h
+${O}setpwates.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}setpwates.o: ../../../include/yalecad/base.h
+${O}setpwates.o: ../../../include/yalecad/message.h
+${O}setpwates.o: ../../../include/yalecad/debug.h
+${O}sortpad.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}sortpad.o: ../../../include/yalecad/base.h
+${O}sortpad.o: ../../../include/yalecad/message.h pads.h
+${O}sortpad.o: ../../../include/yalecad/debug.h
+${O}twstats.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}twstats.o: ../../../include/yalecad/base.h
+${O}twstats.o: ../../../include/yalecad/message.h
+${O}twstats.o: ../../../include/yalecad/debug.h
+${O}uaspect.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}uaspect.o: ../../../include/yalecad/base.h
+${O}uaspect.o: ../../../include/yalecad/message.h initialize.h
+${O}uaspect.o: ../../../include/yalecad/debug.h
+${O}uaspect.o: ../../../include/yalecad/relpos.h
+${O}uloop.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}uloop.o: ../../../include/yalecad/base.h
+${O}uloop.o: ../../../include/yalecad/message.h temp.h
+${O}uloop.o: ../../../include/yalecad/debug.h
+${O}unbust.o: ../../../include/yalecad/base.h /usr/include/stdio.h
+${O}unbust.o: ../../../include/yalecad/debug.h
+${O}unbust.o: ../../../include/yalecad/message.h buster.h
+${O}uinst.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}uinst.o: ../../../include/yalecad/base.h
+${O}uinst.o: ../../../include/yalecad/message.h initialize.h
+${O}uinst.o: ../../../include/yalecad/debug.h
+${O}uinst.o: ../../../include/yalecad/relpos.h
+${O}unet.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}unet.o: ../../../include/yalecad/base.h
+${O}unet.o: ../../../include/yalecad/message.h
+${O}unet.o: ../../../include/yalecad/debug.h
+${O}upin.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}upin.o: ../../../include/yalecad/base.h
+${O}upin.o: ../../../include/yalecad/message.h
+${O}upin.o: ../../../include/yalecad/debug.h
+${O}upin.o: ../../../include/yalecad/relpos.h
+${O}upinswap.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}upinswap.o: ../../../include/yalecad/base.h
+${O}upinswap.o: ../../../include/yalecad/message.h initialize.h
+${O}upinswap.o: ../../../include/yalecad/debug.h
+${O}upinswap.o: ../../../include/yalecad/relpos.h
+${O}usite1.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}usite1.o: ../../../include/yalecad/base.h
+${O}usite1.o: ../../../include/yalecad/message.h
+${O}usite1.o: ../../../include/yalecad/debug.h
+${O}usite2.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}usite2.o: ../../../include/yalecad/base.h
+${O}usite2.o: ../../../include/yalecad/message.h
+${O}usite2.o: ../../../include/yalecad/debug.h
+${O}usoftmove.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}usoftmove.o: ../../../include/yalecad/base.h
+${O}usoftmove.o: ../../../include/yalecad/message.h
+${O}usoftmove.o: ../../../include/yalecad/relpos.h
+${O}usoftmove.o: ../../../include/yalecad/debug.h
+${O}utemp.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}utemp.o: ../../../include/yalecad/base.h
+${O}utemp.o: ../../../include/yalecad/message.h temp.h
+${O}utemp.o: ../../../include/yalecad/debug.h
+${O}watesides.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}watesides.o: ../../../include/yalecad/base.h
+${O}watesides.o: ../../../include/yalecad/message.h
+${O}watesides.o: ../../../include/yalecad/debug.h
+${O}window.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}window.o: ../../../include/yalecad/base.h
+${O}window.o: ../../../include/yalecad/message.h temp.h
+${O}window.o: ../../../include/yalecad/debug.h
+${O}wirecosts.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}wirecosts.o: ../../../include/yalecad/base.h
+${O}wirecosts.o: ../../../include/yalecad/message.h
+${O}wirecosts.o: ../../../include/yalecad/debug.h
+${O}wireest.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}wireest.o: ../../../include/yalecad/base.h
+${O}wireest.o: ../../../include/yalecad/message.h
+${O}wireest.o: ../../../include/yalecad/debug.h
+${O}wireratio.o: custom.h main.h /usr/include/stdio.h ../../../include/math.h
+${O}wireratio.o: ../../../include/yalecad/base.h
+${O}wireratio.o: ../../../include/yalecad/message.h
+${O}wireratio.o: ../../../include/yalecad/debug.h
+
+#END DEPENDENCIES -- DO NOT DELETE THIS LINE
+
+
+# How to compile the sources
+${O}acceptt.o:acceptt.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  acceptt.c
+	${MV} acceptt.o ${O}acceptt.o
+${O}analyze.o:analyze.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  analyze.c
+	${MV} analyze.o ${O}analyze.o
+${O}buster.o:buster.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  buster.c
+	${MV} buster.o ${O}buster.o
+${O}compact.o:compact.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  compact.c
+	${MV} compact.o ${O}compact.o
+${O}config1.o:config1.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  config1.c
+	${MV} config1.o ${O}config1.o
+${O}config2.o:config2.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  config2.c
+	${MV} config2.o ${O}config2.o
+${O}config3.o:config3.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  config3.c
+	${MV} config3.o ${O}config3.o
+${O}configpads.o:configpads.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  configpads.c
+	${MV} configpads.o ${O}configpads.o
+${O}debug.o:debug.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  debug.c
+	${MV} debug.o ${O}debug.o
+${O}finalout.o:finalout.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  finalout.c
+	${MV} finalout.o ${O}finalout.o
+${O}finalpin.o:finalpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  finalpin.c
+	${MV} finalpin.o ${O}finalpin.o
+${O}findcheck.o:findcheck.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findcheck.c
+	${MV} findcheck.o ${O}findcheck.o
+${O}findcost.o:findcost.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findcost.c
+	${MV} findcost.o ${O}findcost.o
+${O}findloc.o:findloc.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findloc.c
+	${MV} findloc.o ${O}findloc.o
+${O}findside.o:findside.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  findside.c
+	${MV} findside.o ${O}findside.o
+${O}fixcell.o:fixcell.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  fixcell.c
+	${MV} fixcell.o ${O}fixcell.o
+${O}genorient.o:genorient.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  genorient.c
+	${MV} genorient.o ${O}genorient.o
+${O}gmain.o:gmain.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  gmain.c
+	${MV} gmain.o ${O}gmain.o
+${O}graphics.o:graphics.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  graphics.c
+	${MV} graphics.o ${O}graphics.o
+${O}initialize.o:initialize.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  initialize.c
+	${MV} initialize.o ${O}initialize.o
+${O}loadbins.o:loadbins.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  loadbins.c
+	${MV} loadbins.o ${O}loadbins.o
+${O}main.o:main.c
+	${CC} ${CLEANUP} ${CFLAGS} ${IDIR} ${OPTIONS} -c  main.c
+	${MV} main.o ${O}main.o
+${O}makebins.o:makebins.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  makebins.c
+	${MV} makebins.o ${O}makebins.o
+${O}makesite.o:makesite.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  makesite.c
+	${MV} makesite.o ${O}makesite.o
+${O}mergecell.o:mergecell.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  mergecell.c
+	${MV} mergecell.o ${O}mergecell.o
+${O}neworient.o:neworient.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  neworient.c
+	${MV} neworient.o ${O}neworient.o
+${O}newtemp.o:newtemp.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  newtemp.c
+	${MV} newtemp.o ${O}newtemp.o
+${O}outgeo.o:outgeo.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  outgeo.c
+	${MV} outgeo.o ${O}outgeo.o
+${O}outpin.o:outpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  outpin.c
+	${MV} outpin.o ${O}outpin.o
+${O}output.o:output.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  output.c
+	${MV} output.o ${O}output.o
+${O}overlap.o:overlap.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  overlap.c
+	${MV} overlap.o ${O}overlap.o
+${O}partition.o:partition.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  partition.c
+	${MV} partition.o ${O}partition.o
+${O}paths.o:paths.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  paths.c
+	${MV} paths.o ${O}paths.o
+${O}penalties.o:penalties.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  penalties.c
+	${MV} penalties.o ${O}penalties.o
+${O}perimeter.o:perimeter.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  perimeter.c
+	${MV} perimeter.o ${O}perimeter.o
+${O}placepads.o:placepads.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  placepads.c
+	${MV} placepads.o ${O}placepads.o
+${O}placepin.o:placepin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  placepin.c
+	${MV} placepin.o ${O}placepin.o
+${O}prboard.o:prboard.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  prboard.c
+	${MV} prboard.o ${O}prboard.o
+${O}readcells.o:readcells.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readcells.c
+	${MV} readcells.o ${O}readcells.o
+${O}readcells.o:readcells.y readcells.l
+	${LEX} readcells.l
+	${LEXMV} lex.yy.c readcells_l.h
+	${YACC} readcells.y
+	${YACCMV} y.tab.c readcells.c
+#	use grep to remove # line so dbx works correctly
+	${GREP} -v "# line" readcells.c > tmp; 	${MV} tmp readcells.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readcells.c
+	${MV} readcells.o ${O}readcells.o
+readcells.y:
+readcells.l:
+${O}readnets.o:readnets.y readnets.l
+	${LEX} readnets.l
+	${LEXMV} lex.yy.c readnets_l.h
+	${YACC} readnets.y
+	${YACCMV} y.tab.c readnets.c
+#	use grep to remove # line so dbx works correctly
+	${GREP} -v "# line" readnets.c > tmp; 	${MV} tmp readnets.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readnets.c
+	${MV} readnets.o ${O}readnets.o
+readnets.y:
+readnets.l:
+${O}readpar.o:readpar.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  readpar.c
+	${MV} readpar.o ${O}readpar.o
+${O}reconfig.o:reconfig.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  reconfig.c
+	${MV} reconfig.o ${O}reconfig.o
+${O}rmain.o:rmain.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  rmain.c
+	${MV} rmain.o ${O}rmain.o
+${O}savewolf.o:savewolf.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  savewolf.c
+	${MV} savewolf.o ${O}savewolf.o
+${O}scrapnet.o:scrapnet.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  scrapnet.c
+	${MV} scrapnet.o ${O}scrapnet.o
+${O}selectpin.o:selectpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  selectpin.c
+	${MV} selectpin.o ${O}selectpin.o
+${O}setpwates.o:setpwates.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  setpwates.c
+	${MV} setpwates.o ${O}setpwates.o
+${O}sortpad.o:sortpad.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  sortpad.c
+	${MV} sortpad.o ${O}sortpad.o
+${O}sortpin.o:sortpin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  sortpin.c
+	${MV} sortpin.o ${O}sortpin.o
+${O}twstats.o:twstats.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  twstats.c
+	${MV} twstats.o ${O}twstats.o
+${O}uaspect.o:uaspect.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  uaspect.c
+	${MV} uaspect.o ${O}uaspect.o
+${O}uinst.o:uinst.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  uinst.c
+	${MV} uinst.o ${O}uinst.o
+${O}uloop.o:uloop.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  uloop.c
+	${MV} uloop.o ${O}uloop.o
+${O}unbust.o:unbust.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  unbust.c
+	${MV} unbust.o ${O}unbust.o
+${O}unet.o:unet.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  unet.c
+	${MV} unet.o ${O}unet.o
+${O}upin.o:upin.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  upin.c
+	${MV} upin.o ${O}upin.o
+${O}upinswap.o:upinswap.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  upinswap.c
+	${MV} upinswap.o ${O}upinswap.o
+${O}usite1.o:usite1.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  usite1.c
+	${MV} usite1.o ${O}usite1.o
+${O}usite2.o:usite2.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  usite2.c
+	${MV} usite2.o ${O}usite2.o
+${O}usoftmove.o:usoftmove.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  usoftmove.c
+	${MV} usoftmove.o ${O}usoftmove.o
+${O}utemp.o:utemp.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  utemp.c
+	${MV} utemp.o ${O}utemp.o
+${O}watesides.o:watesides.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  watesides.c
+	${MV} watesides.o ${O}watesides.o
+${O}window.o:window.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  window.c
+	${MV} window.o ${O}window.o
+${O}wirecosts.o:wirecosts.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  wirecosts.c
+	${MV} wirecosts.o ${O}wirecosts.o
+${O}wireest.o:wireest.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  wireest.c
+	${MV} wireest.o ${O}wireest.o
+${O}wireratio.o:wireratio.c
+	${CC} ${CFLAGS} ${IDIR} ${OPTIONS} -c  wireratio.c
+	${MV} wireratio.o ${O}wireratio.o
+
+# end makefile
