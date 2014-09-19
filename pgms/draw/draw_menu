@@ -1,0 +1,42 @@
+#  Draw program menu file
+#
+#  Comments start with a sharp 
+#  MENU is a keyword must be capitalized.
+#  Everything in this file is case sensitive.
+#  Fields are separated by commas.
+#  Format:
+#    MENU,MenuName
+#    Normal menu entry - MenuEntry,FunctionNumber
+#    Boolean menu entry - 
+#    TrueMenuEntry,FunctionNumber1,FalseMenuEntry,FunctionNumber2,Init
+#      where Init is the initial state and is 1 for True and 0 for False.
+#
+#  Menu are placed on the screen in a left to right order according
+#     to the order in this file.
+#
+MENU,SCREEN
+Auto Redraw On,6,Auto Redraw Off,7,1
+Colors,5
+FullScreen,4
+Quit,8
+Redraw,1
+Tell Point,9
+Translate,3
+Zoom,2
+Cancel,0
+
+MENU,FRAME
+Backward Frame,21
+Delete Frame,23
+Forward Frame,20
+Jump to Frame,22
+Renumber Frames,26
+Reread input,24
+Write CIF File,25
+Cancel,0
+
+MENU,DATA
+Draw Labels,45,Ignore Labels,46,0
+Draw MST,47,Ignore MST,48,0
+Draw Nets,43,Ignore Nets,44,1
+Cancel,0

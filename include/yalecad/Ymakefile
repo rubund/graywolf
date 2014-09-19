@@ -1,0 +1,80 @@
+# makefile for yalecad library
+# static char SccsId[] = "@(#) Ymakefile version 1.17 3/6/92" ;
+
+#include macros
+
+# create link to include files 
+
+DEST=/usr/include
+
+LIB=/usr/local/src/yalecad/include
+
+LIBNAME=yalecad
+
+INCLUDE=include
+
+MAKEFILE=makefile
+
+INS = base.h \
+	assign.h \
+	bitset.h \
+	buster.h \
+	cleanup.h \
+	colors.h \
+	dbinary.h \
+	debug.h \
+	deck.h \
+	dset.h \
+	dialog.h \
+	draw.h \
+	file.h \
+	graph.h \
+	hash.h \
+	heap.h \
+	linalg.h \
+	list.h \
+	mac.h \
+	message.h \
+	okmalloc.h \
+	program.h \
+	project.h \
+	queue.h \
+	quicksort.h \
+	radixsort.h \
+	relpos.h \
+	rbtree.h \
+	set.h \
+	stack.h \
+	stat.h \
+	string.h \
+	system.h \
+	tech.h \
+	tree.h \
+	wgraphics.h \
+	yreadpar.h
+
+install: ;
+	( cd ${DEST};\
+	   ln -s ${LIB};\
+	   mv ${INCLUDE} ${LIBNAME};\
+	)
+
+clean: ;
+	( cd ${DEST};\
+	   rm ${LIBNAME};\
+	)
+
+depend: ;
+
+
+# ********************* begin sccs *********************************
+#default sccs operation is get
+SCCS_OP=get
+#current release
+REL=
+
+# how to get sources from sccs
+sources : ${INS} ${IMAKEFILE}
+${INS} ${IMAKEFILE}: 
+	${SCCS} ${SCCS_OP} ${REL} $@
+# **********************  end sccs *********************************
