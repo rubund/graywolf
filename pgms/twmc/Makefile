@@ -24,10 +24,15 @@ OBJ= ${O}acceptt.o ${O}analyze.o  \
 	${O}upin.o ${O}upinswap.o ${O}usite1.o \
 	${O}usite2.o ${O}usoftmove.o ${O}utemp.o \
 	${O}watesides.o ${O}window.o ${O}wirecosts.o \
-	${O}wireest.o ${O}wireratio.o ../date/date.c ../date/getdate.c
+	${O}wireest.o ${O}wireratio.o
 
-default: ${OBJ}
-	gcc -o twmc ${OBJ} ../Ylib/libycad.mem.a ../Ylib/libycad.sys.a -L/usr/X11R6/lib64 -lc -lX11 -lm
+default: ${OBJ} date.o
+	gcc -o twmc ${OBJ} date.o $(CFLAGS) ../Ylib/libycad.mem.a ../Ylib/libycad.sys.a -L/usr/X11R6/lib64 -lc -lX11 -lm
+
+date.o: ../date/date.c
+	gcc -c ../date/date.c -o date.o $(CFLAGS)
 
 clean:
 	rm -rf *.o twmc
+
+.PHONY: default clean
