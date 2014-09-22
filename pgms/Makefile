@@ -13,6 +13,7 @@ default:
 	$(MAKE) -C gengraph
 	$(MAKE) -C genrows
 	$(MAKE) -C twflow
+	$(MAKE) -C mincut
 
 clean:
 	$(MAKE) -C Ylib clean
@@ -25,6 +26,7 @@ clean:
 	$(MAKE) -C gengraph clean
 	$(MAKE) -C genrows clean
 	$(MAKE) -C twflow clean
+	$(MAKE) -C mincut clean
 
 
 .PHONY: default clean
