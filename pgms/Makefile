@@ -15,6 +15,7 @@ default:
 	$(MAKE) -C twflow
 	$(MAKE) -C mincut
 	$(MAKE) -C twsc
+	$(MAKE) -C syntax
 
 clean:
 	$(MAKE) -C Ylib clean
@@ -29,6 +30,7 @@ clean:
 	$(MAKE) -C twflow clean
 	$(MAKE) -C mincut clean
 	$(MAKE) -C twsc clean
+	$(MAKE) -C syntax clean
 
 
 .PHONY: default clean
