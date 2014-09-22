@@ -4,13 +4,8 @@
 
 default:
 	$(MAKE) -C Ylib
-	$(MAKE) -C condraw
-	#$(MAKE) -C convert
 	$(MAKE) -C date
-	$(MAKE) -C draw
 	$(MAKE) -C twmc
-	$(MAKE) -C drawnets
-	$(MAKE) -C gengraph
 	$(MAKE) -C genrows
 	$(MAKE) -C twflow
 	$(MAKE) -C mincut
@@ -19,13 +14,8 @@ default:
 
 clean:
 	$(MAKE) -C Ylib clean
-	$(MAKE) -C condraw clean
-	#$(MAKE) -C convert clean
 	$(MAKE) -C date clean
-	$(MAKE) -C draw clean
 	$(MAKE) -C twmc clean
-	$(MAKE) -C drawnets clean
-	$(MAKE) -C gengraph clean
 	$(MAKE) -C genrows clean
 	$(MAKE) -C twflow clean
 	$(MAKE) -C mincut clean
