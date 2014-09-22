@@ -9,6 +9,7 @@ default:
 	$(MAKE) -C date
 	$(MAKE) -C draw
 	$(MAKE) -C twmc
+	$(MAKE) -C drawnets
 
 clean:
 	$(MAKE) -C Ylib clean
@@ -17,6 +18,7 @@ clean:
 	$(MAKE) -C date clean
 	$(MAKE) -C draw clean
 	$(MAKE) -C twmc clean
+	$(MAKE) -C drawnets clean
 
 
 .PHONY: default clean
