@@ -7,4 +7,6 @@ default: getdate.o
 clean:
 	rm -rf *.o getdate
 
-.PHONY: default clean
+install:
+
+.PHONY: default clean install

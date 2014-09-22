@@ -35,4 +35,7 @@ date.o: ../date/date.c
 clean:
 	rm -rf *.o TimberWolfMC
 
-.PHONY: default clean
+install: default
+	install TimberWolfMC $(DESTDIR)$(libdir)/timberwolf/bin/
+
+.PHONY: default clean install

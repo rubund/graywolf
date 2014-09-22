@@ -10,6 +10,9 @@ default: $(OBJ) date.o
 clean:
 	rm -rf *.o twflow
 
+install: default
+	install twflow $(DESTDIR)$(libdir)/timberwolf/bin/
+
 binary.o: binary.c
 	gcc  -Wno-traditional $(CFLAGS) -g -c -o binary.o binary.c
 
@@ -17,5 +20,5 @@ date.o: ../date/date.c
 	gcc -c ../date/date.c -o date.o $(CFLAGS)
 
 
-.PHONY: default clean
+.PHONY: default clean install
 

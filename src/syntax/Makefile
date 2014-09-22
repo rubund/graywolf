@@ -10,9 +10,12 @@ default: $(OBJ) date.o
 clean:
 	rm -rf *.o syntax
 
+install: default
+	install syntax $(DESTDIR)$(libdir)/timberwolf/bin/
+
 date.o: ../date/date.c
 	gcc -c ../date/date.c -o date.o $(CFLAGS)
 
 
-.PHONY: default clean
+.PHONY: default clean install
 

@@ -22,5 +22,14 @@ clean:
 	$(MAKE) -C twsc clean
 	$(MAKE) -C syntax clean
 
+install:
+	$(MAKE) -C Ylib install
+	$(MAKE) -C date install
+	$(MAKE) -C twmc install
+	$(MAKE) -C genrows install
+	$(MAKE) -C twflow install
+	$(MAKE) -C mincut install
+	$(MAKE) -C twsc install
+	$(MAKE) -C syntax install
 
-.PHONY: default clean
+.PHONY: default clean install

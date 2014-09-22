@@ -1,6 +1,7 @@
 
 
-
+DESTDIR := /
+libdir := usr/local/lib
 
 default:
 	$(MAKE) -C src
@@ -8,5 +9,9 @@ default:
 clean:
 	$(MAKE) -C src clean
 
+install:
+	mkdir -p $(DESTDIR)$(libdir)/timberwolf/bin
+	$(MAKE) -C src install
 
-.PHONY: default clean
+
+.PHONY: default clean install
