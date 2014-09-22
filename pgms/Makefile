@@ -10,6 +10,7 @@ default:
 	$(MAKE) -C draw
 	$(MAKE) -C twmc
 	$(MAKE) -C drawnets
+	$(MAKE) -C gengraph
 
 clean:
 	$(MAKE) -C Ylib clean
@@ -19,6 +20,7 @@ clean:
 	$(MAKE) -C draw clean
 	$(MAKE) -C twmc clean
 	$(MAKE) -C drawnets clean
+	$(MAKE) -C gengraph clean
 
 
 .PHONY: default clean
