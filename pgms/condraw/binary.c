@@ -21,6 +21,8 @@ static char SccsId[] = "@(#) binary.c version 1.3 10/14/90" ;
 static int numcolorS ;
 static char **colorS ;
 
+static int getcolor(char * color);
+
 convert_to_binary( cellF, netF )
 FILE *cellF, *netF ;
 {
