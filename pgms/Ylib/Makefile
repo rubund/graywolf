@@ -10,3 +10,5 @@ default: assign.o buster.o cleanup.o colors.o deck.o dialog.o draw.o dset.o edco
 
 clean:
 	rm -rf *.o *.a
+
+.PHONY: default clean
