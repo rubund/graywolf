@@ -1,0 +1,110 @@
+/* ----------------------------------------------------------------- 
+FILE:	    outcm.c                                       
+DESCRIPTION:input/output to connection machine.
+CONTENTS:   outcm()
+	    incm(fp)
+		FILE *fp ;
+DATE:	    Mar 27, 1989 
+REVISIONS:  
+----------------------------------------------------------------- */
+#ifndef VMS
+#ifndef lint
+static char SccsId[] = "@(#) outcm.c (Yale) version 4.3 9/7/90" ;
+#endif
+#endif
+
+#include "standard.h"
+#include "groute.h"
+#include "main.h"
+
+#if SIZEOF_VOID_P == 64
+#define INTSCANSTR "%ld"
+#else
+#define INTSCANSTR "%d"
+#endif
+
+outcm()
+{
+
+char filename[64] ;
+FILE *fp ;
+PINBOXPTR netptr ;
+INT net , x , local_pin_count , pin_count ;
+INT cell , row , length , xstart ;
+
+
+sprintf( filename , "%s.cm" , cktNameG ) ;
+fp = TWOPEN ( filename , "w", ABORT ) ;
+
+pin_count = 0 ;
+for( net = 1 ; net <= numnetsG ; net++ ) {
+    local_pin_count = 0 ;
+    for( netptr = netarrayG[net]->pins; netptr; netptr = netptr->next){
+	if( netptr->cell <= numcellsG ) {
+	    local_pin_count++ ;
+	}
+    }
+    if( local_pin_count > 1 ) {
+	pin_count += local_pin_count ;
+    }
+}
+fprintf(fp,"%d\n", pin_count ) ;
+
+for( net = 1 ; net <= numnetsG ; net++ ) {
+    local_pin_count = 0 ;
+    for( netptr = netarrayG[net]->pins; netptr; netptr = netptr->next){
+	if( netptr->cell <= numcellsG ) {
+	    local_pin_count++ ;
+	}
+    }
+    if( local_pin_count <= 1 ) {
+	continue ;
+    }
+    for( netptr = netarrayG[net]->pins; netptr; netptr = netptr->next){
+	if( netptr->cell > numcellsG ) {
+	    continue ;
+	}
+	cell = netptr->cell ;
+	row  = carrayG[cell]->cblock ;
+	x    = netptr->xpos ;
+	length = carrayG[cell]->tileptr->right - 
+					carrayG[cell]->tileptr->left ;
+	xstart = carrayG[cell]->cxcenter + carrayG[cell]->tileptr->left ;
+
+	fprintf(fp,"%8d %8d %8d %8d %8d %8d\n", row, cell, net,
+						 x, length, xstart );
+    }
+}
+TWCLOSE(fp);
+
+return ;
+}
+
+
+
+
+
+incm(fp)
+FILE *fp ;
+{
+
+CBOXPTR ptr ;
+INT net , x , pin_count , pin ;
+INT cell , row , length , xstart ;
+
+
+fscanf(fp, INTSCANSTR, &pin_count ) ;
+
+for( pin = 1 ; pin <= pin_count ; pin++ ) {
+    fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " "
+		INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
+		&row, &cell, &net, &x, &length, &xstart );
+    ptr = carrayG[cell] ;
+    ptr->cblock = row ;
+    ptr->cxcenter = xstart + length / 2 ;
+    ptr->cycenter = barrayG[row]->bycenter ;
+}
+TWCLOSE(fp);
+
+return ;
+}

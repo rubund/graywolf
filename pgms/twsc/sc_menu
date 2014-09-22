@@ -1,0 +1,42 @@
+#  TimberWolfMC menu file.
+#  "@(#) sc_menu (Yale) version 4.8 5/7/91"
+#
+#  Comments start with a sharp 
+#  MENU is a keyword must be capitalized.
+#  Everything in this file is case sensitive.
+#  Fields are separated by commas.
+#  Format:
+#    MENU,menuName - followed by list of entries for this menu
+#                  - one on each line.
+#    Normal menu entry - MenuEntry,FunctionNumber
+#    Boolean menu entry - 
+#    TrueMenuEntry,FunctionNumber1,FalseMenuEntry,FunctionNumber2,Init
+#      where Init is the initial state and is 1 for True and 0 for False.
+#
+#  Menu are placed on the screen in a left to right order according
+#     to the order in this file.
+#
+MENU,CONTROL
+Auto Redraw On,1,Auto Redraw Off,2,1
+Close Graphics,3
+Colors,4
+Continue Pgm,5
+Dump Graphics,6
+FullView,7
+Graphics Update On,8,Graphics Update Off,9,1
+Redraw,10
+Tell Point,11
+Translate,12
+Zoom,13
+Cancel,0
+
+MENU,DRAW 
+Draw Blocks,20,Ignore Blocks,21,1
+Draw Stdcells,22,Ignore Stdcells,23,1
+Draw Labels,24,Ignore Labels,25,0
+Draw Nets,26,Ignore Nets,27,0
+Draw Orient,33,Ignore Orient,34,0
+Draw Pins,28,Ignore Pins,29,0
+Draw Single Net,30
+Draw Single Cell Moves,31,Ignore Single Moves,32,0
+Cancel,0
