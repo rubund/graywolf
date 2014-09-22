@@ -1,0 +1,44 @@
+numfields;36
+#  "@(#) macro.dialog (Yale) version 1.2 4/17/91"
+# Here is how you make a dialog box.
+# Semicolons are delimiters 
+# field;fieldnumber;xpos;ypos;init string;field length;
+# (continued)  field type;color;case toggle
+# Field types are
+#     accept - mandatory
+#     reject - mandatory
+#     label  - write only field.
+#     input  - read write field
+#     case   - a set of case field to follow
+#            the first field in the list is the initial case.
+#     clabel - one of the case fields.
+# field number must start with 0
+field;0;  5;1       ; ACCEPT ;        8;accept;green
+field;1;  25;1      ; CANCEL ;        8;reject;red
+field;2;  15;2      ;Macro Edit;       9;label;red
+field;3;  5;4       ;Coordinates;    11;label;blue
+field;4;  5;5       ;-----------;    11;label;black
+field;5;  5;6       ;X       :;       9;label;blue
+field;6; 25;6       ; ;               8;input;blue
+field;7;  5;7       ;Y       :;       9;label;blue
+field;8; 25;7       ; ;               8;input;blue
+field;9;  5;8       ;Delta X :;       9;label;blue
+field;10; 25;8      ; ;               8;input;blue
+field;11;  5;9      ;Delta Y :;       9;label;blue
+field;12; 25;9      ; ;               8;input;blue
+field;13;5;10;Orient:;7;case;blue;14,15,16,17,18,19,20,21
+field;14;25;10;0;1;clabel;blue
+field;15;26;10;1;1;clabel;blue
+field;16;27;10;2;1;clabel;blue
+field;17;28;10;3;1;clabel;blue
+field;18;29;10;4;1;clabel;blue
+field;19;30;10;5;1;clabel;blue
+field;20;31;10;6;1;clabel;blue
+field;21;32;10;7;1;clabel;blue
+# directions
+field;23;1;13;To change case fields put pointer;35;label;blue
+field;24;1;14;in window and click.  To change;35;label;blue
+field;25;1;15;input fields put pointer in window;35;label;blue
+field;26;1;16;and back up over current contents;35;label;blue
+field;27;1;17;using the delete key.  After modifying;35;label;blue
+field;28;1;18;the field, hit the return key.;35;label;blue

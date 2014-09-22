@@ -1,0 +1,34 @@
+numfields;18
+#  "@(#) row.dialog (Yale) version 1.3 1/25/91"
+# Here is how you make a dialog box.
+# Semicolons are delimiters 
+# field;fieldnumber;xpos;ypos;init string;field length;
+# (continued)  field type;color;case toggle
+# Field types are
+#     accept - mandatory
+#     reject - mandatory
+#     label  - write only field.
+#     input  - read write field
+#     case   - a set of case field to follow
+#            the first field in the list is the initial case.
+#     clabel - one of the case fields.
+# field number must start with 0
+field;0;  5;1       ; ACCEPT ;        8;accept;green
+field;1;  25;1      ; CANCEL ;        8;reject;red
+field;2;  15;2      ;Row Edit;        8;label;red
+field;3;  5;4       ;Left          :; 6;label;blue
+field;4;  5;5       ;Bottom        :; 6;label;blue
+field;5;  5;6       ;Right         :; 6;label;blue
+field;6;  5;7       ;Top           :; 6;label;blue
+field;7;  5;8       ;Class         :;21;label;blue
+field;8; 25;8       ; ;               8;input;blue
+field;9;  5;9       ;Mirror rows   :;19;case;blue;11,10
+field;10;25;9      ;YES;             3;clabel;green
+field;11;31;9      ;NO;              2;clabel;red
+# directions
+field;12;1;11;To change case fields put pointer;35;label;blue
+field;13;1;12;in window and click.  To change;35;label;blue
+field;14;1;13;input fields put pointer in window;35;label;blue
+field;15;1;14;and back up over current contents;35;label;blue
+field;16;1;15;using the delete key.  After modifying;35;label;blue
+field;17;1;16;the field, hit the return key.;35;label;blue

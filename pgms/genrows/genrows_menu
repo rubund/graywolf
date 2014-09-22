@@ -1,0 +1,74 @@
+#  genrows menu file.
+#  "@(#) genrows_menu (Yale) version 3.15 9/21/91"
+#
+#  Comments start with a sharp 
+#  MENU is a keyword must be capitalized.
+#  Everything in this file is case sensitive.
+#  Fields are separated by commas.
+#  Format:
+#    MENU,menuName - followed by list of entries for this menu
+#                  - one on each line.
+#    Normal menu entry - MenuEntry,FunctionNumber
+#    Boolean menu entry - 
+#    TrueMenuEntry,FunctionNumber1,FalseMenuEntry,FunctionNumber2,Init
+#      where Init is the initial state and is 1 for True and 0 for False.
+#
+#  Menu are placed on the screen in a left to right order according
+#     to the order in this file.
+#
+MENU,CONTROL
+Auto Redraw On,1,Auto Redraw Off,2,1
+Close Graphics,3
+Colors,4
+Continue Pgm,5
+Dump Graphics,6
+FullView,7
+Redraw,8
+Tell Point,9
+Translate,10
+Zoom,11
+Cancel,0
+
+MENU,EDIT
+Align Macro in X,12
+Align Macro in Y,13
+Align Rows,14
+Edit Macro,16
+Edit Row,15
+Edit Tile,17
+Keep Short Row,18,Discard Short Row,19,0
+Memory On,51,Memory Off,52,1
+Modify Core Area,20
+Move Macro,21
+Numrows,22
+Redo,23
+Restore State,24
+Save State,25
+Undo,27
+Cancel,0
+
+MENU,MERGE
+Divide Tile Left_Right,28
+Divide Tile Up_Down,29
+Limit Merges,30,Unlimit Merges,31,0
+Merge Downward,32
+Merge Left,33
+Merge Right,34
+Merge Upward,35
+Reset Tiles,36
+Cancel,0
+
+MENU,DRAW 
+Draw Labels,37,Ignore Labels,38,0
+Draw Macros,39,Ignore Macros,40,1
+Draw Orient,49,Ignore Orient,50,0
+Draw Rows,41,Ignore Rows,42,1
+Draw Tiles,43,Ignore Tiles,44,1
+Cancel,0
+
+MENU,PARAMETERS 
+Feed Percentage,45
+Min. Row Length,46
+Row Separation,47
+Set Spacing,48
+Cancel,0

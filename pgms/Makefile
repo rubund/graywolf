@@ -11,6 +11,7 @@ default:
 	$(MAKE) -C twmc
 	$(MAKE) -C drawnets
 	$(MAKE) -C gengraph
+	$(MAKE) -C genrows
 
 clean:
 	$(MAKE) -C Ylib clean
@@ -21,6 +22,7 @@ clean:
 	$(MAKE) -C twmc clean
 	$(MAKE) -C drawnets clean
 	$(MAKE) -C gengraph clean
+	$(MAKE) -C genrows clean
 
 
 .PHONY: default clean

@@ -1,0 +1,55 @@
+numfields;39
+#  "@(#) genrows.dialog (Yale) version 3.4 1/25/91"
+# Here is how you make a dialog box.
+# Semicolons are delimiters 
+# field;fieldnumber;xpos;ypos;init string;field length;
+# (continued)  field type;color;case toggle
+# Field types are
+#     accept - mandatory
+#     reject - mandatory
+#     label  - write only field.
+#     input  - read write field
+#     case   - a set of case field to follow
+#            the first field in the list is the initial case.
+#     clabel - one of the case fields.
+# field number must start with 0
+field;0;  5;1       ; ACCEPT ;        8;accept;green
+field;1;  25;1      ; CANCEL ;        8;reject;red
+field;2;  15;2      ;Tile Edit;       9;label;red
+field;3;  5;3       ;Tile  :;         6;label;blue
+field;4;  5;4       ;Left  :;         6;label;blue
+field;5;  5;5       ;Bottom:;         6;label;blue
+field;6;  5;6       ;Right :;         6;label;blue
+field;7;  5;7       ;Top   :;         6;label;blue
+field;8;  5;9       ;Legal Tile;      10;case;blue;9,10
+field;9;  25;9      ;YES;             3;clabel;green
+field;10; 31;9      ;NO;              2;clabel;red
+field;11; 5;10      ;Row Height        :;21;label;blue
+field;12; 25;10     ; ;               8;input;blue
+field;13; 5;11      ;Max. No. of Rows  :;21;label;blue
+field;14; 25;11     ; ;               8;input;blue
+field;15; 5;12      ;Number of Rows    :;21;label;blue
+field;16; 25;12     ; ;               8;input;blue
+field;17;  5;13     ;Force No. of Rows :;19;case;blue;17,16
+field;18; 25;13     ;YES;             3;clabel;green
+field;19; 31;13     ;NO;              2;clabel;red
+field;20; 5;14      ;Min. length of row:;21;label;blue
+field;21; 25;14     ; ;               8;input;blue
+field;22; 5;15      ;Start of row      :;21;label;blue
+field;23; 25;15     ; ;               8;input;blue
+field;24; 5;16      ;End of row        :;21;label;blue
+field;25; 25;16     ; ;               8;input;blue
+field;26; 5;17      ;Channel separation:;21;label;blue
+field;27; 25;17     ; ;               8;input;blue
+field;28; 5;18      ;Default Class     :;21;label;blue
+field;29; 25;18     ; ;               8;input;blue
+field;30;  5;19     ;Mirror rows       :;19;case;blue;32,31
+field;31; 25;19     ;YES;             3;clabel;green
+field;32; 31;19     ;NO;              2;clabel;red
+# directions
+field;33;1;21;To change case fields put pointer;35;label;blue
+field;34;1;22;in window and click.  To change;35;label;blue
+field;35;1;23;input fields put pointer in window;35;label;blue
+field;36;1;24;and back up over current contents;35;label;blue
+field;37;1;25;using the delete key.  After modifying;35;label;blue
+field;38;1;26;the field, hit the return key.;35;label;blue
