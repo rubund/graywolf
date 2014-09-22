@@ -27,12 +27,12 @@ OBJ= ${O}acceptt.o ${O}analyze.o  \
 	${O}wireest.o ${O}wireratio.o
 
 default: ${OBJ} date.o
-	gcc -o twmc ${OBJ} date.o $(CFLAGS) ../Ylib/libycad.mem.a ../Ylib/libycad.sys.a -L/usr/X11R6/lib64 -lc -lX11 -lm
+	gcc -o TimberWolfMC ${OBJ} date.o $(CFLAGS) ../Ylib/libycad.mem.a ../Ylib/libycad.sys.a -L/usr/X11R6/lib64 -lc -lX11 -lm
 
 date.o: ../date/date.c
 	gcc -c ../date/date.c -o date.o $(CFLAGS)
 
 clean:
-	rm -rf *.o twmc
+	rm -rf *.o TimberWolfMC
 
 .PHONY: default clean
