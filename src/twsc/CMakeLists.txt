@@ -10,3 +10,5 @@ target_link_libraries(TimberWolfSC X11)
 target_link_libraries(TimberWolfSC m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
+
+install(TARGETS TimberWolfSC DESTINATION lib/mountainwolf/bin)

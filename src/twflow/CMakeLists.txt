@@ -7,3 +7,5 @@ target_link_libraries(twflow X11)
 target_link_libraries(twflow m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
+
+install(TARGETS twflow DESTINATION lib/mountainwolf/bin)

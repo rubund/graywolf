@@ -1,0 +1,33 @@
+##########################################################################
+#
+#	FILENAME :	splt_file.a
+#
+#	FUNCTION :	Split circuitName.cel into two files, called
+#	    circuitName.mcel and circuitName.scel respectively. The
+#	    file circuitName.mcel contains the part of various macro
+#	    cells and pads in file circuitName.cel; while file
+#	    circuitName.scel contains the standard cell part.
+#
+#	RESTRICTION :	All cells must be separated by a blank line.
+#
+#	USAGE :		awk -f [/path/]splt_file.a circuitName.cel
+#
+#	CHANGES :	GNU awk does not set FILENAME in the BEGIN block.
+#			FILENAME picked up from arguments list. (8/27/03)
+#       
+#       "@(#) splt_file.a (Yale) version 1.2 12/18/89"
+##########################################################################
+
+BEGIN	{
+	    mfile = ARGV[ARGC - 1] ;
+	    sfile = ARGV[ARGC - 1] ;
+	    sub( /\..+/ , ".mcel" , mfile ) ;
+	    sub( /\..+/ , ".scel" , sfile ) ;
+	    printf( "\n" ) > sfile
+	}
+$1 == "cell"       {  sc = 1; print $0 >> sfile; next }
+$1 == "hardcell"   {  sc = 0; print $0 >> mfile; next }
+$1 == "softcell"   {  sc = 0; print $0 >> mfile; next }
+$1 == "pad"        {  sc = 0; print $0 >> mfile; next }
+sc == 1            {  print $0 >> sfile }
+sc == 0            {  print $0 >> mfile }

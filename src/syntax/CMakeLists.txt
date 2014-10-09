@@ -7,3 +7,5 @@ target_link_libraries(syntax X11)
 target_link_libraries(syntax m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
+
+install(TARGETS syntax DESTINATION lib/mountainwolf/bin)

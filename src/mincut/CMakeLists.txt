@@ -7,3 +7,5 @@ target_link_libraries(mincut X11)
 target_link_libraries(mincut m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
+
+install(TARGETS mincut DESTINATION lib/mountainwolf/bin)

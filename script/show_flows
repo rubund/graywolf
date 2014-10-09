@@ -1,0 +1,30 @@
+#!/bin/csh -f
+
+# This shell script shows the flow directory options
+# "@(#) show_flows version 1.1 4/27/91"
+
+#set test = ${?TWDIR}
+#if $test != 1 then
+#    echo ""
+#    echo "ERROR[show_flows]:TWDIR environment variable not set"
+#    echo "TWDIR is pathname of TimberWolf root directory"
+#    echo ""
+#    exit(1) ;
+#endif
+
+echo " "
+echo " "
+echo "Available installed flow directories are:"
+
+
+# get environment variable TWDIR
+set twdir = /usr/lib/timberwolf
+
+/bin/ls -1l /usr/lib/timberwolf/bin/flow | awk '{ print $8  $9  $10 }'
+
+echo " "
+echo "The current default flow directory is denoted by the arrow."
+echo " "
+echo " "
+
+exit(0) ;

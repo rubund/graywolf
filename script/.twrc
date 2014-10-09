@@ -1,0 +1,30 @@
+# The initialization of the TimberWolf variables
+# "@(#) .twrc (Yale ) version 1.2 4/9/91"
+
+echo " "
+echo "Initializing the TimberWolf environment variables..."
+
+# set TimberWolf environment variable.  This is a must.
+# it must be the pathname of the root directory.
+setenv TWDIR `pwd`
+
+# delete out any reference to ./TimberWolf/bin in path.
+set newpath = `echo $path | sed -e 's/[^ ]*TimberWolf\/bin//g' `
+
+# add TimberWolf binary to search path
+# allows user to type in TimberWolf without full pathname.
+# this is really an optional convenience.
+set path = ( $newpath $TWDIR/bin )
+
+# Don't declare a DATADIR unless you feel like having screen dumps.
+# setenv DATADIR $TWDIR/DATA
+
+# this is the default for the Xserver on local node.
+# user should change as appropriate.
+# setenv DISPLAY :0
+
+echo "TWDIR has been set to $TWDIR"
+# echo "DATADIR has been set to $DATADIR"
+echo "DISPLAY has been set to $DISPLAY"
+echo "The search path now includes $TWDIR/bin"
+echo " "
