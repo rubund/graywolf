@@ -8,4 +8,4 @@ target_link_libraries(genrows m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
 
-install(TARGETS genrows DESTINATION lib/mountainwolf/bin)
+install(TARGETS genrows DESTINATION lib/graywolf/bin)

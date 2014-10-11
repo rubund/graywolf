@@ -8,4 +8,4 @@ target_link_libraries(Mincut m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
 
-install(TARGETS Mincut DESTINATION lib/mountainwolf/bin)
+install(TARGETS Mincut DESTINATION lib/graywolf/bin)
