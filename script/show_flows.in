@@ -18,9 +18,9 @@ echo "Available installed flow directories are:"
 
 
 # get environment variable TWDIR
-set twdir = /usr/lib/timberwolf
+#set twdir = /usr/lib/timberwolf
 
-/bin/ls -1l /usr/lib/timberwolf/bin/flow | awk '{ print $8  $9  $10 }'
+/bin/ls -1l TWFLOWDIR/bin/flow | awk '{ print $8  $9  $10 }'
 
 echo " "
 echo "The current default flow directory is denoted by the arrow."

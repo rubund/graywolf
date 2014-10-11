@@ -49,6 +49,8 @@ static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
 #include <yalecad/debug.h>
 #include <yalecad/yreadpar.h>
 
+#include "config-build.h"
+
 #define ROWSEP    "rowSep"
 #define GENROWPROG      "genrows"
 #define GENROWPATH      "../genrows"
@@ -98,7 +100,7 @@ config_rows()
     /* find the path of genrows relative to main program */
     pathname = Yrelpath( argv0G, GENROWPATH ) ;
     if( !(YfileExists(pathname))){
-	if( twdir = getenv( "TWDIR" ) ){
+	if( twdir = TWFLOWDIR ){
 	    sprintf( filename, "%s/bin/%s", twdir, GENROWPROG ) ;
 	    pathname = Ystrclone( filename ) ;
 	}

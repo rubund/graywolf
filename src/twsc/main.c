@@ -60,6 +60,8 @@ static char SccsId[] = "@(#) main.c (Yale) version 4.38 5/15/92" ;
 #include <yalecad/cleanup.h>
 #include <yalecad/message.h>
 
+#include "config-build.h"
+
 #define EXPECTEDMEMORY         (512 * 1024) 
 
 /* global variables definitions */
@@ -218,7 +220,7 @@ readParFile();
 
 /* check to see if twdir is set so we can run SGGR */
 if( SGGRG ){
-    if( !(twdirS = Ygetenv( "TWDIR" ))){
+    if( !(twdirS = TWFLOWDIR)){
        M( ERRMSG,main,"TWDIR environment variable not set.\n");
        M( ERRMSG,NULL,"Please set it to TimberWolf root directory\n");
        M( ERRMSG,NULL,"SGGR cannot automatically be run after annealing\n");

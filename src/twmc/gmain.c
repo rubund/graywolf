@@ -22,6 +22,8 @@ static char SccsId[] = "@(#) gmain.c version 3.8 5/1/91" ;
 #include <yalecad/file.h>
 #include <yalecad/string.h>
 
+#include "config-build.h"
+
 #define GENGRAPHPROG      "gengraph"
 #define GENGRAPHPATH      "../gengraph"
 
@@ -70,7 +72,7 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
     /* find the path of compactor relative to main program */
     pathname = Yrelpath( argv0G, GENGRAPHPATH ) ;
     if( !(YfileExists(pathname))){
-	if( twdir = getenv( "TWDIR" ) ){
+	if( twdir = TWFLOWDIR ){
 	    sprintf( filename, "%s/bin/%s", twdir, GENGRAPHPROG ) ;
 	    pathname = Ystrclone( filename ) ;
 	}

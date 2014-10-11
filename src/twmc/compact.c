@@ -38,6 +38,8 @@ static char SccsId[] = "@(#) compact.c version 3.12 5/5/91" ;
 #include <yalecad/file.h>
 #include <yalecad/string.h>
 
+#include "config-build.h"
+
 #define VIOLATIONSONLY   FALSE
 #define COMPACT          TRUE
 #define COMPACTPROG      "mc_compact"
@@ -182,7 +184,7 @@ BOOL compactFlag ; /* signals use of compaction */
     /* find the path of compactor relative to main program */
     pathname = Yrelpath( argv0G, COMPACTPATH ) ;
     if( !(YfileExists(pathname))){
-	if( twdir = getenv( "TWDIR" ) ){
+	if( twdir = TWFLOWDIR ){
 	    sprintf( filename, "%s/bin/%s", twdir, COMPACTPROG ) ;
 	    pathname = Ystrclone( filename ) ;
 	}

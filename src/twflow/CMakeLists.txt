@@ -1,11 +1,11 @@
 
 
-add_executable(twflow autoflow.c findflow.c graphics.c io.c main.c program.c readobjects.c ${CMAKE_SOURCE_DIR}/src/date/date.c)
+add_executable(graywolf autoflow.c findflow.c graphics.c io.c main.c program.c readobjects.c ${CMAKE_SOURCE_DIR}/src/date/date.c)
 
-target_link_libraries(twflow ${CMAKE_BINARY_DIR}/src/Ylib/libycad.sys.a)
-target_link_libraries(twflow X11)
-target_link_libraries(twflow m)
+target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/Ylib/libycad.sys.a)
+target_link_libraries(graywolf X11)
+target_link_libraries(graywolf m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
 
-install(TARGETS twflow DESTINATION lib/graywolf/bin)
+install(TARGETS graywolf DESTINATION bin)

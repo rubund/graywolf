@@ -16,6 +16,8 @@ static char SccsId[] = "@(#) rmain.c version 3.6 2/23/91" ;
 #include <yalecad/string.h>
 #include <custom.h>
 
+#include "config-build.h"
+
 #define GROUTEPROG      "Mickey"
 #define GROUTEPATH      "../Mickey"
 
@@ -58,7 +60,7 @@ BOOL constraint_flag ;
     /* find the path of compactor relative to main program */
     pathname = Yrelpath( argv0G, GROUTEPATH ) ;
     if( !(YfileExists(pathname))){
-	if( twdir = getenv( "TWDIR" ) ){
+	if( twdir = TWFLOWDIR ){
 	    sprintf( filename, "%s/bin/%s", twdir, GROUTEPROG ) ;
 	    pathname = Ystrclone( filename ) ;
 	}

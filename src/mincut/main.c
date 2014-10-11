@@ -24,6 +24,8 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 #include <yalecad/debug.h>
 #include "globals.h"
 
+#include "config-build.h"
+
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
@@ -87,7 +89,7 @@ char *argv[] ;
     /* we can change this value in the debugger */
     YinitProgram(NOCUT, VERSION, yaleIntro) ;
 
-    if( twdir = Ygetenv( "TWDIR" ) ){
+    if( twdir = TWFLOWDIR ){
         sprintf(command, "awk -f %s/bin/splt_file.a %s.cel", twdir , 
 	cktNameG ) ;
     } else {

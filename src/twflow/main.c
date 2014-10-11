@@ -39,6 +39,8 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #define GLOBAL_DEFS
 #include <globals.h>
 
+#include "config-build.h"
+
 #define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
 #define NULLWINDOW      0
 #define VERSION         "2.1" 
@@ -70,7 +72,7 @@ char *argv[] ;
     flow_dirG = NIL(char *) ;
 
     /* make sure we have environment variable */
-    if(!(twdirG = Ygetenv("TWDIR"))) {
+    if(!(twdirG = TWFLOWDIR)) {
 	M(ERRMSG,"twflow","Can't get environment variable 'TWDIR'\n") ;
 	M(MSG,NULL, 
 	"Please use setenv to set 'TWDIR' to TimberWolf directory\n" ) ;

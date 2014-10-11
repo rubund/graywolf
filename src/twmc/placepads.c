@@ -48,6 +48,8 @@ static char SccsId[] = "@(#) placepads.c version 3.14 11/23/91" ;
 #include <yalecad/string.h>
 #include <yalecad/set.h>
 
+#include "config-build.h"
+
 #define PLACEPADPROG      "placepads"
 #define PLACEPADPATH      "../placepads"
 #define PADKEYWORD        "pad"
@@ -803,7 +805,7 @@ call_place_pads()
     /* find the path of placepads relative to main program */
     pathname = Yrelpath( argv0G, PLACEPADPATH ) ;
     if( !(YfileExists(pathname))){
-	if( twdir = Ygetenv( "TWDIR" ) ){
+	if( twdir = TWFLOWDIR ){
 	    sprintf( filename, "%s/bin/%s", twdir, PLACEPADPROG ) ;
 	    pathname = Ystrclone( filename ) ;
 	}
