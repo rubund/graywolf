@@ -9,6 +9,6 @@ target_link_libraries(TimberWolfSC c)
 target_link_libraries(TimberWolfSC X11)
 target_link_libraries(TimberWolfSC m)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
 install(TARGETS TimberWolfSC DESTINATION lib/graywolf/bin)

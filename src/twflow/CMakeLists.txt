@@ -6,6 +6,6 @@ target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/Ylib/libycad.sys.a)
 target_link_libraries(graywolf X11)
 target_link_libraries(graywolf m)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include .)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
 install(TARGETS graywolf DESTINATION bin)
