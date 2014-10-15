@@ -10,12 +10,14 @@ The main improvement in graywolf is that the build process is more streamlined
 and that it behaves as a normal linux tool - you can call it from anywhere and
 no environment variables must be set first.
 
-## What it does
+What it does
+------------
 
 graywolf is used for placement in VLSI design. It's mainly used together with
 qflow.
 
-## Install procedure
+Install procedure
+-----------------
 
 cmake .
 make
