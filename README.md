@@ -19,6 +19,6 @@ qflow.
 Install procedure
 -----------------
 
-cmake .
-make
-sudo make install
+cmake .   
+make  
+sudo make install  
