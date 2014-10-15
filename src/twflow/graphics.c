@@ -39,7 +39,7 @@ static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
 #define SLEEPTIME     (unsigned) 2
 #define DATADIR       "./DATA"
 #define MENUP         "twflow_menu"
-#define WAITMSG       "TimberWolf is waiting for your response..."
+#define WAITMSG       "graywolf is waiting for your response..."
 
 static BOOL auto_drawS  = TRUE ;
 static BOOL promptS     = FALSE ;        /* whether to prompt for path */

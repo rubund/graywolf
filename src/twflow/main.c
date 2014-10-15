@@ -245,7 +245,7 @@ syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-   sprintf( YmsgG, "\nTimberWolf [-gpndw] designName [windowId] [flowdirectory]\n" );
+   sprintf( YmsgG, "\ngraywolf [-gpndw] designName [windowId] [flowdirectory]\n" );
    M(MSG,NULL,YmsgG ) ; 
    M(MSG,NULL,"\twhose options are one or more of the following:\n");
    M(MSG,NULL,"\t\tg - general mode - does not use TimberWolf system\n");

@@ -18,7 +18,7 @@ REVISIONS:  Sep 23, 1989 - added color fields for TWtoggleColor()
 
 #include <yalecad/base.h>
 
-#define GRAPHICS        "timberwolf"  /* the name of prog in Xdefaults */
+#define GRAPHICS        "graywolf"  /* the name of prog in Xdefaults */
 #define MENUHEIGHT      20            /* give menu extra pixels in width */
 
 #ifdef YDRAW_VARS
