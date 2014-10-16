@@ -2,7 +2,7 @@
 
 add_executable(Mincut main.c output.c readcells.c ${CMAKE_SOURCE_DIR}/src/date/date.c)
 
-target_link_libraries(Mincut ${CMAKE_BINARY_DIR}/src/Ylib/libycad.sys.a)
+target_link_libraries(Mincut ${CMAKE_BINARY_DIR}/src/Ylib/libycad.sys.so)
 target_link_libraries(Mincut X11)
 target_link_libraries(Mincut m)
 
