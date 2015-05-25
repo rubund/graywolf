@@ -20,8 +20,9 @@ static char SccsId[] = "@(#) gateswap.c (Yale) version 4.6 2/23/92" ;
 #include <yalecad/debug.h>
 #include "readnets.h"
 
-gate_swap( between_two_cells )
+gate_swap( between_two_cells, sgidxa, sgidxb )
 INT between_two_cells ;
+INT sgidxa, sgidxb ; 
 {
 
 CBOXPTR cell1ptr , cell2ptr ;
@@ -30,64 +31,72 @@ PINBOXPTR pin1 , pin2 , pina, pinb ;
 char *tmp_char_ptr ;
 struct equiv_box *tmp_eqptr ;
 INT cost , cell1 , cell2 , length ;
-INT tmp , swap_group ;
-INT truth , i , count ;
+INT tmp , i, swap_group ;
+INT truth , count ;
 INT pg1 , pg2 ;  /* pg stands for 'pin group' */
 INT newtimepenal ;
+SGLISTPTR cell1sgl, cell2sgl;
+
+term_list1 = NULL;
+term_list2 = NULL;
 
 if( between_two_cells ) {
     cell1 = aG ;
     cell2 = bG ;
     cell1ptr = carrayG[cell1] ;
     cell2ptr = carrayG[cell2] ;
-    swap_group = cell1ptr->swap_group ;
-    pg1 = XPICK_INT( 1 , cell1ptr->num_pin_group , 0 ) ;
-    pg2 = XPICK_INT( 1 , cell2ptr->num_pin_group , 0 ) ;
-    count = 0 ;
-    for( i = 1 ; ; i++ ) {
-	term_list1 = swap_group_listG[swap_group].pin_grp_array[i] ;
-	if( term_list1->swap_pin->cell == cell1 ) {
-	    if( ++count == pg1 ) {
-		break ;
-	    }
-	}
+    cell1sgl = cell1ptr->swapgroups + sgidxa;
+    cell2sgl = cell2ptr->swapgroups + sgidxb;
+    pg1 = XPICK_INT( 1 , cell1sgl->num_pin_group , 0 ) ;
+    pg2 = XPICK_INT( 1 , cell2sgl->num_pin_group , 0 ) ;
+    swap_group = cell1sgl->swap_group;
+    
+    term_list1 = (PINLISTPTR) Yhash_search(
+		swap_group_listG[swap_group].pin_grp_hash,
+		cell1ptr->cname, NULL, FIND );
+
+    while (pg1 > 1) {
+	if (term_list1->next_grp == NULL) break;
+	term_list1 = term_list1->next_grp;
     }
-    count = 0 ;
-    for( i = 1 ; ; i++ ) {
-	term_list2 = swap_group_listG[swap_group].pin_grp_array[i] ;
-	if( term_list2->swap_pin->cell == cell2 ) {
-	    if( ++count == pg2 ) {
-		break ;
-	    }
-	}
+
+    term_list2 = (PINLISTPTR) Yhash_search(
+		swap_group_listG[swap_group].pin_grp_hash,
+		cell2ptr->cname, NULL, FIND );
+
+    while (pg2 > 1) {
+	if (term_list2->next_grp == NULL) break;
+	term_list2 = term_list2->next_grp;
     }
 
 } else {
     cell1 = aG ;
     cell2 = aG ;
     cell1ptr = carrayG[cell1] ;
-    swap_group = cell1ptr->swap_group ;
-    pg1 = XPICK_INT( 1 , cell1ptr->num_pin_group , 0 ) ;
-    pg2 = XPICK_INT( 1 , cell1ptr->num_pin_group , pg1 ) ;
-    count = 0 ;
+    cell1sgl = cell1ptr->swapgroups + sgidxa;
+    swap_group = cell1sgl->swap_group ;
+    pg1 = XPICK_INT( 1 , cell1sgl->num_pin_group , 0 ) ;
+    pg2 = XPICK_INT( 1 , cell1sgl->num_pin_group , pg1 ) ;
+
     if( pg1 > pg2 ) {
 	/*  we want to ensure that pg1 < pg2  */
 	i = pg1 ;
 	pg1 = pg2 ;
 	pg2 = i ;
     }
-    for( i = 1 ; ; i++ ) {
-	term = swap_group_listG[swap_group].pin_grp_array[i] ;
-	if( term->swap_pin->cell == cell1 ) {
-	    if( ++count == pg1 ) {
-		term_list1 = term ;
-		continue ;
-	    }
-	    if( count == pg2 ) {
-		term_list2 = term ;
-		break ;
-	    }
-	}
+
+    term = (PINLISTPTR) Yhash_search(
+		swap_group_listG[swap_group].pin_grp_hash,
+		cell1ptr->cname, NULL, FIND );
+
+    term_list1 = term;
+    while (pg1 > 1) {
+	term_list1 = term_list1->next_grp;
+    }
+
+    term_list2 = term;
+    while (pg2 > 1) {
+	term_list2 = term_list2->next_grp;
     }
 }
 

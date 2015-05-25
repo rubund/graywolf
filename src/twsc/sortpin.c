@@ -43,6 +43,7 @@ sortpin()
     INT maxpins ;                   /* maximum numpins over all pins */
     CBOXPTR ptr ;                   /* current cell */
     BOOL pin_groups ;               /* true if swappable gates occur */
+    INT i;
 
     /* find the maximum number of pins on a cell for allocation */
     /* also see if pin groups exist on any of the cells */
@@ -51,8 +52,15 @@ sortpin()
     for( cell = 1; cell <= numcellsG; cell++ ){
 	ptr = carrayG[cell] ;
 	maxpins = MAX( ptr->numterms, maxpins ) ;
-	if( ptr->num_pin_group > 0 ){
-	    pin_groups = TRUE ;
+	if( ptr->num_swap_group > 0 ) {
+	    for (i = 0; i < ptr->num_swap_group; i++) {
+	        SGLIST *sglistptr;
+		sglistptr = ptr->swapgroups + i;
+		if( sglistptr->num_pin_group > 0 ){
+		    pin_groups = TRUE ;
+		    break;
+		}
+	    }
 	}
     }
 

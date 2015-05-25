@@ -259,7 +259,14 @@ while( attemptsG < attmaxG ) {
     If two cells have the same swap_group then parts of the cells are
     interchangable. Below we check if the cell#aG belongs to a swap_group
    ------------------------------------------------------------------------ */
-    if( acellptr->swap_group > 0 ) {
+    if( acellptr->num_swap_group > 0 ) {
+	INT sgroup;
+	SGLISTPTR sglistptr;
+	i = PICK_INT( 0 , acellptr->num_swap_group ) ;
+	sglistptr = acellptr->swapgroups + i;
+	sgroup = sglistptr->swap_group;
+	
+
 	trials = 0 ;   /*--- number of max trials (heuristically)=50 ---*/
 	do {
 	 /* -----------------------------------------------------------------
@@ -288,7 +295,12 @@ while( attemptsG < attmaxG ) {
 		bG = 0 ;
 	    }
 	    if( bG != 0 && aG != bG ) {
-		if( acellptr->swap_group == bcellptr->swap_group ) {
+		for (j = 0; j < bcellptr->num_swap_group; j++) {
+		    sglistptr = bcellptr->swapgroups + j;
+		    if (sglistptr->swap_group == sgroup)
+			break;
+		}
+		if (j < bcellptr->num_swap_group) {
 		    break ;
 		} else {
 		    trials++ ;
@@ -301,18 +313,20 @@ while( attemptsG < attmaxG ) {
 	if( trials <= 50 ) {
 	    for( swaps = 1 ; swaps <= 4 ; swaps++ ) {
 	      /* -- gate_swap evaluates the proposed gate swaps --*/
-		gate_switches += gate_swap( 1 ) ;
+		gate_switches += gate_swap( 1, i, j ) ;
 		gate_attempts++ ;
 	    }
 	}
 
-	if( acellptr->num_pin_group > 1 ) {
+	sglistptr = acellptr->swapgroups + i;
+
+	// If a cell has more than one pin group in the same
+	// swap group, then it can permute pin groups within
+	// itself.
+
+	if( sglistptr->num_pin_group > 1 ) {
 	    for( swaps = 1 ; swaps <= 4 ; swaps++ ) {
-		gate_swap( 0 ) ;
-		/*
-		gate_switches += gate_swap( 0 ) ;
-		gate_attempts++ ;
-		*/
+		gate_swap( 0, i, j ) ;
 	    }
 	}
     }

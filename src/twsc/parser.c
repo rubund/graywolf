@@ -113,6 +113,7 @@ static INT  ptAllocS ;            /* current space in point arrays            */
 static INT  swapAllocS ;          /* current space in swap_group_listG        */
 static INT  totalCellS ;          /* current cell number and running total    */
 static INT  swap_groupS ;         /* current swap group number from hashtable */
+static INT  swap_nextS ;          /* next swap group number to assign	      */
 static INT  pin_typeS ;           /* current pin type                         */
 static INT  numchildrenS ;        /* # of children in current padgroup        */
 static INT  childAllocS ;         /* current space in current pptr->children  */
@@ -120,7 +121,8 @@ static INT  minxS, maxxS ;        /* X bounding box for cell or pad           */
 static INT  minyS, maxyS ;        /* Y bounding box for cell or pad           */
 static char *curCellNameS ;       /* current cell name                        */
 static BOOL abortS = FALSE ;      /* switch allow us to find multiple errors  */
-static BOOL pin_group_light_is_onS;/* currently in a pin group                */
+static INT pin_group_light_is_onS;/* currently in a pin group at position cnt */
+static BOOL need_swap_groupS;     /* pin_group called without swap_group      */
 static BOOL old_pad_formatS = FALSE;/* we need to do more work if old format  */
 static CBOXPTR ptrS ;             /* pointer to current cell box              */
 static PINBOXPTR pinptrS ;        /* the current pin                          */
@@ -223,6 +225,9 @@ initialize_parser()
     implicit_feed_countG = 0 ;
     totalCellS = 0 ;
     swap_groupS = 0 ;
+    swap_nextS = 0 ;
+    pin_group_light_is_onS = 0 ;
+    need_swap_groupS = FALSE ;
 
     fixLRBTG  = (INT *) Ysafe_malloc( 4 * sizeof( INT ) ) ;
     fixLRBTG[0] = 0 ;
@@ -272,6 +277,10 @@ INT celltype ;
     curCellNameS = cellname ;
     curCellTypeS = celltype ;
 
+    /* Undefine pin and swap groups, if used in the last cell */
+    pin_group_light_is_onS = 0 ;
+    need_swap_groupS = FALSE ;
+
     totalCellS++ ;
 
     ERRORABORT() ;
@@ -304,8 +313,8 @@ INT celltype ;
     ptrS->cbclass[7]  = 0 ;
     ptrS->corient  = 0 ;
     ptrS->numterms = 0 ;
-    ptrS->swap_group = 0 ;
-    ptrS->num_pin_group = 0 ;
+    ptrS->num_swap_group = 0 ;
+    ptrS->swapgroups = NULL ;
     ptrS->fence    = NULL ;
     ptrS->paths    = NULL ;
     ptrS->tileptr  = TILENULL ;
@@ -441,7 +450,7 @@ static char *add_swap_func()
     /* create space for data */
     data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
     /* if data is not found in hash table update swap_groupS */
-    *data = ++swap_groupS ;
+    *data = ++swap_nextS ;
     return( (char *) data ) ;
 } /* end add_swap_func */
 
@@ -453,16 +462,51 @@ char *swap_name ;
     INT oldalloc ;     /* allocation before expanding the array */
     BOOL newflag ;     /* TRUE if this item has been added to hash table */
     SWAPBOX *swapptr ; /* pointer to the current swap group list */
+    SGLIST *sglistptr ;
 
     ERRORABORT() ;
     swappable_gates_existG = TRUE ;
     groupptr = (INT *)Yhash_add( swap_hash_tableS, swap_name, add_swap_func, &newflag ) ;
     /* check to make sure all is well. newflag is set if swap_name wasn't in hashtable */
-    if( !(groupptr) || *groupptr != swap_groupS ){
-	M( ERRMSG, "add_swap_group", "Problem with swap hash table\n" ) ;
+    if(!(groupptr) || (*groupptr <= 0)) {
+	sprintf(YmsgG, "Problem with swap hash table for group <%s>\n", swap_name );
+	M( ERRMSG, "add_swap_group", YmsgG ) ;
 	abortS = TRUE ;
     }
-    ptrS->swap_group = swap_groupS ;
+    swap_groupS = *groupptr;
+
+    /* Check if swapgroups exists.  Create it if not. */
+
+    if (ptrS->swapgroups == NULL) {
+	ptrS->swapgroups = (SGLIST *) Ysafe_malloc( sizeof( SGLIST ) ) ;
+	ptrS->num_swap_group = 1;
+	sglistptr = ptrS->swapgroups;
+	sglistptr->num_pin_group = 0;
+	sglistptr->swap_group = swap_groupS;
+    }
+    else {
+
+	/* Does this swap group already exist in the list?  If	*/
+	/* so, then ignore it, otherwise add it to the list.	*/
+
+	for (i = 0; i < ptrS->num_swap_group; i++) {
+	    sglistptr = ptrS->swapgroups + i;
+	    if (sglistptr->swap_group == swap_groupS) break;
+	}
+	if (i == ptrS->num_swap_group) {
+	    ptrS->num_swap_group++;
+	    ptrS->swapgroups = (SGLIST *) Ysafe_realloc( ptrS->swapgroups,
+		ptrS->num_swap_group * sizeof( SGLIST ) ) ;
+	    sglistptr = ptrS->swapgroups + i;
+	    sglistptr->swap_group = swap_groupS;	   
+	    sglistptr->num_pin_group = 0;
+	}
+    }
+
+    if (newflag && need_swap_groupS) {
+	sprintf(YmsgG, "Implicit swap group <%s> created\n", swap_name );
+	M( MSG, "add_swap_group", YmsgG ) ;
+    }
 
     if( newflag && swap_groupS >= swapAllocS ){
 	oldalloc = swapAllocS ;
@@ -472,8 +516,7 @@ char *swap_name ;
 	for( i = oldalloc; i < swapAllocS; i++ ){
 	    swapptr = &(swap_group_listG[i]) ;
 	    swapptr->num_pin_grps = 0 ;
-	    swapptr->pin_grp_array = (PINLISTPTR *) 
-			Ysafe_calloc( 10, sizeof(PINLISTPTR)) ;
+	    swapptr->pin_grp_hash = Yhash_table_create( TW_PRIME2 );
 	}
     }
 
@@ -483,26 +526,38 @@ add_pingroup()
 {
     INT i ;    /* counter */
     INT j ;    /* counter */
+    SGLIST *sglistptr = NULL;
 
     ERRORABORT() ;
-    ptrS->num_pin_group++ ;
-    pin_group_light_is_onS = TRUE ;
-    if( ++( swap_group_listG[swap_groupS].num_pin_grps ) % 10 == 0 ) {
-	swap_group_listG[swap_groupS].pin_grp_array = 
-	    (PINLISTPTR *) Ysafe_realloc( 
-	    swap_group_listG[swap_groupS].pin_grp_array ,
-	    (swap_group_listG[swap_groupS].num_pin_grps + 10) * 
-	    sizeof(PINLISTPTR) ) ;
-	i = swap_group_listG[swap_groupS].num_pin_grps ;
-	for( j = i + 10 ; i < j ; i++ ) {
-	    swap_group_listG[swap_groupS].pin_grp_array[i] = NULL ;
-	}
+
+    /* Find the swap group in the cell record */
+    for (i = 0; i < ptrS->num_swap_group; i++) {
+       sglistptr = ptrS->swapgroups + i;
+       if (sglistptr->swap_group == swap_groupS)
+	  break;
     }
+    if (i == ptrS->num_swap_group) {
+	// If no swap group was defined for the cell, then
+	// each pin_group will implicitly define a swap
+	// group with the name of the first pin before the
+	// slash character.
+	need_swap_groupS = TRUE;
+	return;
+    }
+
+    sglistptr->num_pin_group++ ;
+    pin_group_light_is_onS = 1 ;
+
 } /* end add_pingroup */
 
 end_pingroup()
 {
-    pin_group_light_is_onS = FALSE ;
+    pin_group_light_is_onS = 0 ;
+
+    // Reset the swap_group if each pin group defines its own
+    // swap group (enabled by not having a "swap_group" line in
+    // the cell options).
+    if (need_swap_groupS == TRUE) swap_groupS = 0;
 } /* end end_pingroup */
 
 static add_implicit_feed( pin_name, signal, layer, xpos, ypos )
@@ -552,19 +607,49 @@ static char *add_net_func()
     return( (char *) data ) ;
 } /* end add_swap_func */
 
+static char *add_pin_func()
+{
+    INT *data ;   /* pointer to allocated space for pin_grp_hash record */
+
+    ERRORABORT() ;
+
+    /* how to add the data to the hash table */
+    /* create space for data */
+    data = (PINLIST *) Ysafe_malloc( sizeof(PINLIST) ) ;
+    return( (char *) data ) ;
+} /* end add_swap_func */
+
 add_pin( pin_name, signal, layer, xpos, ypos )
 char *pin_name, *signal ;
 INT layer, xpos, ypos ;
 {
     INT *netreturn ;          /* net number found in hash table */
-    INT cur_group ;           /* current pin group number */
+    INT newflag ;
     BOOL notInTable ;         /* net added to table if true */
     DBOXPTR nptr ;            /* the current net record */
     PINLISTPTR pin_ptr ;      /* pointer to current pinlistgroup */
-    PINLISTPTR save_ptr ;     /* pointer to old pinlistgroup */
+    PINLISTPTR new_pin_ptr ;  /* pointer to new pinlistgroup */
     static PINBOXPTR botpinL = NULL ; /* save the last pinptr */
 
     ERRORABORT() ;
+
+    // If a swap group was not defined for this cell in the
+    // traditional way (with "swap_group" in cell options list),
+    // but pin_group was called, then we generate an implicit
+    // swap_group with the name of the pin before the slash.
+
+    if (need_swap_groupS) {
+	char *slashptr = strrchr(pin_name, '/');
+	if (slashptr != NULL) {
+	   *slashptr = '\0';
+	   add_swap_group(pin_name);
+	   *slashptr = '/';
+	   add_pingroup();
+	}
+	/* In case of error this is just a normal pin, not	*/
+	/* swappable, which may result in non-optimal		*/
+	/* placement but does not invalidate the netlist.	*/
+    }
 
     if( curCellTypeS == PADTYPE || curCellTypeS == HARDCELLTYPE ){
 	/* these types may have global pin positions */
@@ -665,24 +750,44 @@ INT layer, xpos, ypos ;
 	pinptrS->pinname = pin_name ;
     }
 
-
     pinptrS->txpos[0] = xpos ;
     pinptrS->typos[0] = ypos ;
 
-    if( pin_group_light_is_onS ) {
+    if( pin_group_light_is_onS > 0 ) {
 
-	/* form a list of pins in each swap group */
-	cur_group = swap_group_listG[swap_groupS].num_pin_grps ;
-	save_ptr = swap_group_listG[swap_groupS].pin_grp_array[cur_group] ;
-	pin_ptr = swap_group_listG[swap_groupS].pin_grp_array[cur_group] =
-	    (PINLISTPTR) Ysafe_malloc( sizeof(PINLIST) ) ;
-	pin_ptr->next = save_ptr ;
-	pin_ptr->swap_pin = pinptrS ;
+	pin_ptr = (PINLISTPTR) Yhash_add( swap_group_listG[swap_groupS].pin_grp_hash,
+		ptrS->cname, add_pin_func, &newflag ) ;
+
+	if (newflag) {
+	   /* This is the first pin group for this swap group in this cell */
+	   pin_ptr->swap_pin = pinptrS;
+	   pin_ptr->next = NULL;
+	   pin_ptr->next_grp = NULL;
+	}
+	else {
+	   if (pin_group_light_is_onS == 1) {
+	      /* Additional pin group for this swap group in this cell */
+	      while (pin_ptr->next_grp) pin_ptr = pin_ptr->next_grp;
+	      new_pin_ptr = (PINLISTPTR) Ysafe_malloc( sizeof(PINLIST) ) ;
+	      pin_ptr->next_grp = new_pin_ptr;
+	   }
+	   else {
+	      /* Additional pins in this pin group */
+	      while (pin_ptr->next) pin_ptr = pin_ptr->next;
+	      new_pin_ptr = (PINLISTPTR) Ysafe_malloc( sizeof(PINLIST) ) ;
+	      pin_ptr->next = new_pin_ptr;
+	   }
+	   new_pin_ptr->swap_pin = pinptrS;
+	   new_pin_ptr->next = NULL;
+	   new_pin_ptr->next_grp = NULL;
+	}
 
 	if( pin_typeS == SWAP_PASS ){
 	    swap_netG = curNetS ;
 	    netarrayG[curNetS]->ignore = 1 ;
 	}
+
+	pin_group_light_is_onS++;
     }
 
     /* pin location determination */

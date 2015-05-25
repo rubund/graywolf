@@ -36,6 +36,9 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 /* I/O macros */
 #include <yalecad/file.h>
 
+/* Pin list includes an embedded hash table */
+#include <yalecad/hash.h>
+
 #ifdef MAIN_VARS
 #define EXTERN 
 #else
@@ -170,6 +173,24 @@ typedef struct tilebox {
     SHORT_LONG top      ;
 } *TIBOXPTR, TIBOX ;
 
+// Each cell defines any number of swap groups.
+// Each swap group has a record containing the
+// swap group number and the number of pin groups
+// in the cell belonging to that swap group.
+//
+// The most common uses are clock/buffer tree
+// optimization and scan chain optimization.
+// For these, num_pin_group is normally 1.
+//
+// Note that this record does not specify
+// where in the swap group to find the pin
+// group(s).
+
+typedef struct swapgrouplist {
+    SHORT swap_group ;
+    SHORT num_pin_group ;
+} *SGLISTPTR, SGLIST ;
+
 typedef struct cellbox { 
     char *cname           ;
     char corient          ;
@@ -184,8 +205,8 @@ typedef struct cellbox {
     SHORT_LONG clength    ;
     SHORT cblock      ;
     SHORT numterms    ;
-    SHORT swap_group  ;
-    SHORT num_pin_group  ;
+    SHORT num_swap_group  ;
+    SGLISTPTR swapgroups ;
     GLISTPTR paths        ;  /* timing paths of a cell */
     struct pad_rec *padptr;
     struct fencebox *fence;
@@ -249,12 +270,13 @@ typedef struct binbox {
 
 typedef struct pin_list {              /* list of pins */
     PINBOXPTR swap_pin ;
-    struct pin_list *next ;
+    struct pin_list *next ;		/* Next pin in pin group */
+    struct pin_list *next_grp ;		/* Next pin group in same cell */
 } PINLIST, *PINLISTPTR ;
 
 typedef struct swapbox {        /* list of list of pins to be swapped */
     INT num_pin_grps ;
-    PINLISTPTR *pin_grp_array ;
+    YHASHPTR pin_grp_hash ;	
 } SWAPBOX ;
 
 /* ****************** GLOBALS ************************** */
