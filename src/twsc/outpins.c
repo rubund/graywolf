@@ -112,7 +112,8 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 	ptr->newy = vtxS ;
     }
     numpinS = vtxS ;
-    if( numpinS <= 1 ) {
+    // if( numpinS <= 1 ) {
+    if( numpinS == 0 ) {
 	continue ;
     }
     for( ptr = netarrayG[net]->pins ; ptr ; ptr = ptr->next ) {
@@ -221,6 +222,9 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 		if( downFlag ) {
 		    do_outpins( ptr , 0 ) ;
 		}
+		if( !upFlag && !downFlag ) {
+		    do_outpins( ptr, -1 ) ;	// Handle singletons
+		}
 		break ;
 	} /* end switch */
     }
@@ -268,15 +272,21 @@ char instance_name[128] , p_name[128] , *tmp_string ;
 tmp_char[1] = EOS ; /* terminate string */
 
 cellptr = carrayG[ ptr->cell ] ;
-if( flag ) {
+if( flag == 1 ) {
     channel = ptr->row + 1 ;
     groupS_number = groupS[ ptr->newy + numpinS ] ;
     pinloc = -1 ;
     y = cellptr->cycenter + cellptr->tileptr->top ;
-} else {
+} else if ( flag == 0 ) {
     channel = ptr->row ;
     groupS_number = groupS[ ptr->newy ] ;
     pinloc = 1 ;
+    y = cellptr->cycenter + cellptr->tileptr->bottom ;
+} else {
+    // Singleton
+    channel = ptr->row ;
+    groupS_number = groupS[ ptr->newy ] ;
+    pinloc = 0 ;
     y = cellptr->cycenter + cellptr->tileptr->bottom ;
 }
 if( (pptr = cellptr->padptr) && pptr->padside ) {
