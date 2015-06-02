@@ -68,14 +68,14 @@ BOOL connectFlagG ;
 extern BOOL rigidly_fixed_cellsG ;
 extern BOOL placement_improveG ;
 
-static INT swap_cost( P1(BOOL perim_flag ) ) ;
+static LONG swap_cost( P1(BOOL perim_flag ) ) ;
 
 /* static variables */
 static INT *wk_headS , max_feed_in_a_rowS ;
 static INT *L_jogS ;
 static FEED_SEG_PTR *workerS ;
 static INT wkS ;
-static INT global_wire_lengthS ;
+static LONG global_wire_lengthS ;
 static INT swap_limitS ;
 
 globe() 
@@ -84,7 +84,8 @@ globe()
 INT row , net , cost , last_cost , swaps , found , total_final_cost ;
 INT total_cost , total_final_global_wire , total_global_wire ;
 INT last_global_wire , total_reduction , index , i , j , k , check ;
-INT iterations, initial_wire, initial_time, last_index ;
+INT iterations, initial_time, last_index ;
+LONG initial_wire ;
 PINBOXPTR netptr , cnetptr ;
 
 implicit_pins_usedG = 0 ;
@@ -1238,7 +1239,7 @@ return( correctness ) ;
 #define	VISITED_SEG	1
 #define	REVISITED_SEG	1
 
-static INT swap_cost( perim_flag )
+static LONG swap_cost( perim_flag )
 BOOL perim_flag ;
 {
 
@@ -1247,7 +1248,7 @@ BOOL perim_flag ;
     DBOXPTR net_p ;
     INT xwire, ywire ;
     INT net ;
-    INT global_wire_length ;
+    LONG global_wire_length ;
     INT newtimepenal ;
     FILE *fp ;
     static BOOL outputL = TRUE ;
@@ -1284,7 +1285,7 @@ BOOL perim_flag ;
 	    ywire += ABS(pin1ptr->ypos - pin2ptr->ypos) ;
 	} /* end for( segptr = netsegHeadG[net]... */
 
-	global_wire_length += xwire ;
+	global_wire_length += (LONG)xwire ;
 
 	/* now save result in netarray */
 	net_p = netarrayG[net] ;
@@ -1357,8 +1358,9 @@ INT row , index ;
 {
 
 INT cell1 , cell2 , shift1 , shift2 , swap ;
-INT global_wire , new_global_wire ;
-INT cell , pin , xpos , other_cell , ic , fc ;
+LONG global_wire , new_global_wire ;
+INT cell , pin , xpos , other_cell ;
+LONG ic , fc ;
 INT net, xwire ;
 INT newtimepenal ;
 DBOXPTR net_p ;
@@ -1409,7 +1411,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 	}
     }
     net_p->newhalfPx -= xwire ;
-    global_wire += xwire ;
+    global_wire += (LONG)xwire ;
 }
 cell = pairArrayG[row][index+1] ;
 ptr = carrayG[cell] ;
@@ -1433,7 +1435,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 	}
     }
     net_p->newhalfPx -= xwire ;
-    global_wire += xwire ;
+    global_wire += (LONG)xwire ;
 }
 
 /* swap cells */
@@ -1474,7 +1476,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 	}
     }
     net_p->newhalfPx += xwire ;
-    new_global_wire += xwire ;
+    new_global_wire += (LONG)xwire ;
 }
 cell = pairArrayG[row][index+1] ;
 ptr = carrayG[cell] ;
@@ -1492,7 +1494,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 	}
     }
     net_p->newhalfPx += xwire ;
-    new_global_wire += xwire ;
+    new_global_wire += (LONG)xwire ;
 }
 
 /* -----------------------------------------------------------------
@@ -1514,10 +1516,13 @@ D( "twsc/cell_swap_opt",
 ) ;
 
 
-if( accept_greedy( global_wire-new_global_wire, timingcostG-newtimepenal, 0 )){
+// (global_wire - new_global_wire) is assumed to not exceed size INT
+// although each termin is size LONG
 
-    swap = new_global_wire - global_wire ;
-    global_wire_lengthS += swap ;
+if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
+
+    swap = (INT)(new_global_wire - global_wire) ;
+    global_wire_lengthS += (LONG)swap ;
     swap += newtimepenal - timingcostG ;
     if( numpathsG ){
 	update_time2() ;
@@ -1567,8 +1572,9 @@ INT row , index ;
 {
 
 INT cell, swap ;
-INT global_wire , new_global_wire ;
-INT pin , xpos , ic , fc ;
+LONG global_wire , new_global_wire ;
+INT pin , xpos ;
+LONG ic, fc ;
 INT net, xwire, xc, left, right, dist_l, dist_r ;
 INT newtimepenal ;
 DBOXPTR net_p ;
@@ -1613,7 +1619,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 	}
     }
     net_p->newhalfPx -= xwire ;
-    global_wire += xwire ;
+    global_wire += (LONG)xwire ;
 }
 
 /* rotate the cell */
@@ -1650,7 +1656,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 	}
     }
     net_p->newhalfPx += xwire ;
-    new_global_wire += xwire ;
+    new_global_wire += (LONG)xwire ;
 }
 
 /* -----------------------------------------------------------------
@@ -1669,9 +1675,9 @@ D( "twsc/cell_swap_opt",
     }
 ) ;
 
-if( accept_greedy( global_wire-new_global_wire, timingcostG-newtimepenal, 0 )){
-    swap = new_global_wire - global_wire ;
-    global_wire_lengthS += swap ;
+if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
+    swap = (INT)(new_global_wire - global_wire );
+    global_wire_lengthS += (LONG)swap ;
     swap += newtimepenal - timingcostG ;
     if( numpathsG ){
 	update_time(cell) ;

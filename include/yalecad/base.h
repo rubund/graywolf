@@ -92,6 +92,7 @@ typedef int  TBOOL ;
 typedef int  BOOL ;
 typedef unsigned long UNSIGNED_INT ;
 typedef short SHORT ;
+typedef long LONG ;
 typedef float FLOAT ;
 /* typedef double to have ability to change to float */
 /* some machines float will be natural size.            */
