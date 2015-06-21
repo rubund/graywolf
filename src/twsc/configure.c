@@ -1,5 +1,6 @@
 /*
  *   Copyright (C) 1989-1991 Yale University
+ *   Copyright (C) 2013 Tim Edwards <tim@opencircuitdesign.com>
  *
  *   This work is distributed in the hope that it will be useful; you can
  *   redistribute it and/or modify it under the terms of the
