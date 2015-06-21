@@ -1,5 +1,6 @@
 /*
  *   Copyright (C) 1990-1991 Yale University
+ *   Copyright (C) 2014 Ruben Undheim <ruben.undheim@gmail.com>
  *
  *   This work is distributed in the hope that it will be useful; you can
  *   redistribute it and/or modify it under the terms of the
