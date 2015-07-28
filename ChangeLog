@@ -1,3 +1,6 @@
+0.1.2:
+  Changed the license of src/Ylib/radixsort.c to the 3-clause BSD license
+  since the 4-clause license was officially rescinded 22 July 1999.
 0.1.1:
   More copyright and license info
   Renamed shared library
