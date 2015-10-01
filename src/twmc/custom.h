@@ -125,7 +125,7 @@ typedef struct movebox {
 
 typedef struct eq_pinbox {   /*  for hard equiv pins and addequiv pins */
     char *pinname          ; /*         equivalent pin name            */
-    INT *restrict          ;  /* softpin is restricted to these sides  */
+    INT *restrict1          ;  /* softpin is restricted to these sides  */
     INT *txpos             ; /* array of cell instance xpos. cell rel. */
     INT *typos             ; /* array of cell instance ypos. cell rel. */
     INT layer              ; /* layer of the equivalent pin            */
@@ -135,7 +135,7 @@ typedef struct eq_pinbox {   /*  for hard equiv pins and addequiv pins */
 typedef struct sbox { 
     struct pinbox **children;  /* array of the pin's children           */
     struct pinbox *parent;     /* pointer back to softpin pinbox        */
-    INT    *restrict        ;  /* softpin is restricted to these sides  */
+    INT    *restrict1        ;  /* softpin is restricted to these sides  */
     INT    hierarchy        ;  /* type of pin root leaf, subroot etc    */
     INT    side             ;  /* current side of the softpin           */
     BOOL   permute          ;  /* true if rank ordered                  */

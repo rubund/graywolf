@@ -143,7 +143,7 @@ PSIDEBOX *pSideArray ;
     INT i ;                        /* counter */
     INT j ;                        /* counter */
     INT howmany ;                  /* number of softpins for cell */
-    INT restrict ;                 /* counter */
+    INT restrict1 ;                 /* counter */
     INT match ;                    /* count number of matching restricts*/
     INT numsides ;                 /* number of side restrictions */
     INT numrestricts ;             /* current # restricts for child */
@@ -172,7 +172,7 @@ PSIDEBOX *pSideArray ;
 	}
 
 	/* now remove restrictions if present */
-	numrestricts = spin->restrict[HOWMANY] ;
+	numrestricts = spin->restrict1[HOWMANY] ;
 
 	/* initialize set to the empty set */
 	Yset_empty( side_set ) ;
@@ -184,8 +184,8 @@ PSIDEBOX *pSideArray ;
 	    }
 	} else {
 	    /* just validate the given list of sides */
-	    for( restrict = 1; restrict <= numrestricts; restrict++ ){
-		Yset_add( side_set, spin->restrict[restrict] ) ;
+	    for( restrict1 = 1; restrict1 <= numrestricts; restrict1++ ){
+		Yset_add( side_set, spin->restrict1[restrict1] ) ;
 	    }
 	}
 	/* at this point we have checked the leaf, check parents for */
@@ -194,7 +194,7 @@ PSIDEBOX *pSideArray ;
 	abortPin = FALSE ;
 	while( parent && pin->type != SOFTEQUIVTYPE ){
 	    spin = parent->softinfo ;
-	    parent_restricts = spin->restrict[HOWMANY] ;
+	    parent_restricts = spin->restrict1[HOWMANY] ;
 
 	    /* check the various cases of number of restrictions */
 	    if( numrestricts != 0 && parent_restricts == 0 ){
@@ -207,11 +207,11 @@ PSIDEBOX *pSideArray ;
 		/* need to make sure that parent is more restrictive */
 		/* than child */
 		match = 0 ; /* initially no matching restrictions */
-		for( restrict = 1;restrict<=parent_restricts;restrict++ ){
-		    if( Yset_member( side_set, spin->restrict[restrict] ) ){
+		for( restrict1 = 1;restrict1<=parent_restricts;restrict1++ ){
+		    if( Yset_member( side_set, spin->restrict1[restrict1] ) ){
 			match++ ;
 		    } else {
-		        Yset_add( side_set, spin->restrict[restrict] ) ;
+		        Yset_add( side_set, spin->restrict1[restrict1] ) ;
 		    }
 		}
 		if( match != numrestricts ){
@@ -223,8 +223,8 @@ PSIDEBOX *pSideArray ;
 		}
 	    } else if( numrestricts == 0 && parent_restricts != 0 ){
 		Yset_comp( side_set ) ;
-		for( restrict = 1;restrict<=parent_restricts;restrict++ ){
-		    Yset_add( side_set, spin->restrict[restrict] ) ;
+		for( restrict1 = 1;restrict1<=parent_restricts;restrict1++ ){
+		    Yset_add( side_set, spin->restrict1[restrict1] ) ;
 		}
 	    } /* else if numrestricts == 0 && parent_restricts == 0 ) */
 	    /* don't have to do anything for this case */

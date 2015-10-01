@@ -257,13 +257,13 @@ BOOL newVertFlag ;
 	    /* the case of a pingroup root */
 	    bestcost = INT_MAX ;
 	    /* calculate number of restricted sides */
-	    num_restrict = spin->restrict[HOWMANY] ;
+	    num_restrict = spin->restrict1[HOWMANY] ;
 	    for( side = 1; side <= ptrS->numsides; side++ ) {
 		if( num_restrict != 0 ){
 		    invalid = TRUE ;
 		    /* make sure this side is a valid side */
 		    for( j = 1; j <= num_restrict; j++ ){
-			if( spin->restrict[j] == side ){
+			if( spin->restrict1[j] == side ){
 			    invalid = FALSE ;
 			    break ;
 			}
@@ -289,13 +289,13 @@ BOOL newVertFlag ;
 	    /* the case of a pin that is not in a pingroup */
 	    bestcost = INT_MAX ;
 	    /* calculate number of restricted sides */
-	    num_restrict = spin->restrict[HOWMANY] ;
+	    num_restrict = spin->restrict1[HOWMANY] ;
 	    for( side = 1; side <= ptrS->numsides; side++ ) {
 		if( num_restrict != 0 ){
 		    invalid = TRUE ;
 		    /* make sure this side is a valid side */
 		    for( j = 1; j <= num_restrict; j++ ){
-			if( spin->restrict[j] == side ){
+			if( spin->restrict1[j] == side ){
 			    invalid = FALSE ;
 			    break ;
 			}
@@ -370,12 +370,12 @@ BOOL spacing_restricted ;
 
     if( spin->hierarchy == LEAF || spin->hierarchy == SUBROOT ){
 	/* check to make sure we have a valid side */
-	num_restrict = spin->restrict[HOWMANY] ;
+	num_restrict = spin->restrict1[HOWMANY] ;
 	if( num_restrict != 0 ){
 	    invalid = TRUE ;
 	    /* make sure this side is a valid side */
 	    for( i = 1; i <= num_restrict; i++ ){
-		if( spin->restrict[i] == side ){
+		if( spin->restrict1[i] == side ){
 		    invalid = FALSE ;
 		    break ;
 		}
@@ -1184,7 +1184,7 @@ static place_soft_equivs()
 	}
 	pos = parent->txpos_new ;
 	/* find the closest side that is valid */
-	num_restrict = spin->restrict[HOWMANY] ;
+	num_restrict = spin->restrict1[HOWMANY] ;
 	for( j = 1; j <= ptrS->numsides; j++ ){
 	    sptr = sideArrayS[j] ;
 	    if( j == sparent->side || sptr->direction == orthog1 || 
@@ -1196,7 +1196,7 @@ static place_soft_equivs()
 		/* make sure this side is a valid side */
 		invalid = TRUE ;
 		for( k = 1; k <= num_restrict; k++ ){
-		    if( spin->restrict[k] == j ){
+		    if( spin->restrict1[k] == j ){
 			invalid = FALSE ;
 			break ;
 		    }

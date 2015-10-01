@@ -1050,7 +1050,7 @@ INT pinType ;
 	spinptrS->hierarchy = NONE ;
 	spinptrS->parent = NULL ;
 	/* build the restrict field and initialize HOWMANY [0] to 0 */
-	spinptrS->restrict = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
+	spinptrS->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
 	spinptrS->permute = FALSE ;
 	spinptrS->fixed = FALSE ;
 	spinptrS->ordered = FALSE ;
@@ -1208,9 +1208,9 @@ INT pinType ;
     eqptr->layer = layer ;
     if( pinType == ADDEQUIVTYPE ){
 	/* build the restrict field and initialize HOWMANY [0] to 0 */
-	eqptr->restrict = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
+	eqptr->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
     } else {
-	eqptr->restrict = NULL ;
+	eqptr->restrict1 = NULL ;
     }
 
 } /* end addEquivPin */
@@ -1245,25 +1245,25 @@ if( side < 0 || side > cornerCountS ) {
 switch( cur_restrict_objS ){ 
     case PINGROUPTYPE:
 	spin = pingroupS->softinfo ;
-	howmany = ++(spin->restrict[HOWMANY]) ;
-	spin->restrict = (INT *) Ysafe_realloc( spin->restrict,
+	howmany = ++(spin->restrict1[HOWMANY]) ;
+	spin->restrict1 = (INT *) Ysafe_realloc( spin->restrict1,
 	    (howmany+1)*sizeof(INT) ) ;
-	spin->restrict[howmany] = side ;
+	spin->restrict1[howmany] = side ;
 	break ;
     case SOFTPINTYPE:
     case SOFTEQUIVTYPE:
 	spin = pinS->softinfo ;
-	howmany = ++(spin->restrict[HOWMANY]) ;
-	spin->restrict = (INT *) Ysafe_realloc( spin->restrict,
+	howmany = ++(spin->restrict1[HOWMANY]) ;
+	spin->restrict1 = (INT *) Ysafe_realloc( spin->restrict1,
 	    (howmany+1)*sizeof(INT) ) ;
-	spin->restrict[howmany] = side ;
+	spin->restrict1[howmany] = side ;
 	break ;
     case ADDEQUIVTYPE:
 	eqptr = softpinS->eqptr ;
-	howmany = ++(eqptr->restrict[HOWMANY]) ;
-	eqptr->restrict = (INT *) Ysafe_realloc( eqptr->restrict,
+	howmany = ++(eqptr->restrict1[HOWMANY]) ;
+	eqptr->restrict1 = (INT *) Ysafe_realloc( eqptr->restrict1,
 	    (howmany+1)*sizeof(INT) ) ;
-	eqptr->restrict[howmany] = side ;
+	eqptr->restrict1[howmany] = side ;
 	break ;
 } /* end switch on current object */
 
@@ -1409,7 +1409,7 @@ spin->hierarchy = ROOT ;
 spin->lowerbound = 0.0 ;
 spin->upperbound = 1.0 ;
 spin->children = (PINBOXPTR *) Ysafe_malloc( sizeof(PINBOXPTR) ) ;
-spin->restrict = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
+spin->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
 spin->parent = NULL ;
 
 } /* end start_pin_group */
