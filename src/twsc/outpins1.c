@@ -260,15 +260,10 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     }
     /* the group index for vertex_G[i] = groupS[ find_group_name(i) ] */
 }
-Ysafe_free( count_G ) ;
-Ysafe_free( father_G ) ;
-Ysafe_free( root_G ) ;
-Ysafe_free( stack_G ) ;
-Ysafe_free( vertex_G ) ;
-Ysafe_free( groupS ) ;
-Ysafe_free( hashS ) ;
-Ysafe_free( left_edgeS ) ;
-Ysafe_free( rite_edgeS ) ;
+Ysafe_free( groupS ) ; groupS = NULL ;
+Ysafe_free( hashS ) ; hashS = NULL ;
+Ysafe_free( left_edgeS ) ; left_edgeS = NULL ;
+Ysafe_free( rite_edgeS ) ; rite_edgeS = NULL ;
 TWCLOSE( fpS ) ;
 }
 

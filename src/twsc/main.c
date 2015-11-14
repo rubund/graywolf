@@ -792,6 +792,7 @@ for( j = 1 ; j <= routing_loopS ; j++ ) {
 	ave_row_sepS = (DOUBLE) (tracksG * track_pitchG) /
 			(DOUBLE) total_row_height ;
     }
+    globe_free_up() ;
     final_free_up() ;
     USER_INCR_METER() ;
 }

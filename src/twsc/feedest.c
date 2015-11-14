@@ -266,7 +266,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 estimate_pass_thru_penalty( 1 , numRowsG ) ;
 
 if( !enough_built_in_feedG ) {
-    return ;
+    goto out ;
 }
 for( row = 1 ; row <= numRowsG ; row++ ) {
     rowfeed_penaltyG[row] = 
@@ -311,6 +311,8 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 TWCLOSE(fp) ;
 */
+out:
+Ysafe_free( old_penalty );
 }
 
 #ifdef Carl
