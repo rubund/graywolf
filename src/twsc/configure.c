@@ -1044,6 +1044,8 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
     }
     filledTo[block] += widthS ;
 }
+Ysafe_free( filledTo );
+Ysafe_free( endRow );
 /* now finish by placing the pads */
 placepads() ;
 return ;

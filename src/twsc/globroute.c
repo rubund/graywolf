@@ -148,6 +148,8 @@ while( ++attempts < attlimit ) {
 	process_cross( segptr , 0 ) ;
     }
 }
+
+Ysafe_free( segment );
 fprintf(fpoG,"no. of accepted flips: %d\n", flips ) ;
 fprintf(fpoG,"no. of attempted flips: %d\n", attempts ) ;
 fprintf(fpoG,"THIS IS THE NUMBER OF TRACKS: %d\n\n\n" , tracksG ) ;

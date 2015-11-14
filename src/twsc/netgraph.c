@@ -76,22 +76,31 @@ typedef struct graph_edge_cost {
 EDGE_COST_BOX ;
 
 /* global variable definitions */
-INT *count_G ;
-INT *father_G ;
-INT *root_G ;
-INT *stack_G ;
-PINBOXPTR *vertex_G ;
+INT *count_G = NULL;
+INT *father_G = NULL;
+INT *root_G = NULL;
+INT *stack_G = NULL;
+PINBOXPTR *vertex_G = NULL;
 
 /* global variable references */
 extern INT Max_numPinsG ;
 
 /* static definitions */
 static INT maxpin_numberS ;
-static INT *pins_at_rowS ;
-static INT *first_indexS ;
+static INT *pins_at_rowS = NULL;
+static INT *first_indexS = NULL;
 static PINBOXPTR **z_S ;
 static EDGE_COST *edge_dataS ;
 
+netgraph_free_up()
+{
+
+Ysafe_free( count_G ) ; count_G = NULL ;
+Ysafe_free( father_G ) ; father_G = NULL ;
+Ysafe_free( root_G ) ; root_G = NULL;
+Ysafe_free( stack_G ) ; stack_G = NULL ;
+Ysafe_free( vertex_G ) ; vertex_G = NULL ;
+}
 
 postFeedAssgn()
 {
@@ -832,18 +841,22 @@ free_z_memory()
 
 INT i , j , last_i ;
 
-j = numRowsG + 1 ;
-for( i = 0 ; i <= j ; i++ ) {
-    Ysafe_free( z_S[i] ) ;
+if ( z_S != NULL ) {
+     j = numRowsG + 1 ;
+     for( i = 0 ; i <= j ; i++ ) {
+         Ysafe_free( z_S[i] ) ;
+     }
+     Ysafe_free( z_S ) ; z_S = NULL ;
 }
-Ysafe_free( z_S ) ;
-Ysafe_free( pins_at_rowS ) ;
-Ysafe_free( first_indexS ) ;
-last_i = maxpin_numberS * maxpin_numberS * numRowsG - 1 ;
-for( i = 1 ; i <= last_i ; i++ ) {
-    Ysafe_free( edge_dataS[i] ) ;
+Ysafe_free( pins_at_rowS ) ; pins_at_rowS = NULL ;
+Ysafe_free( first_indexS ) ; first_indexS = NULL ;
+if ( edge_dataS != NULL ) {
+    last_i = maxpin_numberS * maxpin_numberS * numRowsG - 1 ;
+    for( i = 1 ; i <= last_i ; i++ ) {
+        Ysafe_free( edge_dataS[i] ) ;
+    }
+    Ysafe_free( edge_dataS ) ; edge_dataS = NULL ;
 }
-Ysafe_free( edge_dataS ) ;
 }
 
 
@@ -874,6 +887,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 maxpin_numberS = 0 ;
+Ysafe_free( pins_at_rowS );
 pins_at_rowS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     if( netarrayG[net]->numpins <= 2 ) {
@@ -900,13 +914,30 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 maxpin_numberS += 3 ;
+last_i = maxpin_numberS * maxpin_numberS * numRowsG - 1 ;
+
+/* Free data before regenerating, better is likely to just clear the data */
+Ysafe_free( count_G );
+Ysafe_free( father_G );
+Ysafe_free( root_G );
+Ysafe_free( stack_G );
+Ysafe_free( first_indexS );
+Ysafe_free( vertex_G );
+for( i = 1 ; i <= last_i ; i++ ) {
+    Ysafe_free( edge_dataS[i] );
+}
+Ysafe_free( edge_dataS );
+for( i = 0 ; i <= numChansG ; i++ ) {
+    Ysafe_free( z_S[i] );
+}
+Ysafe_free( z_S );
+
 count_G    = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
 father_G   = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
 root_G     = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
 stack_G    = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
 first_indexS = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( INT ) ) ;
 vertex_G   = (PINBOXPTR *)Ysafe_malloc( 2 * Max_numPinsG * sizeof(PINBOXPTR) );
-last_i = maxpin_numberS * maxpin_numberS * numRowsG - 1 ;
 edge_dataS = (EDGE_COST *)Ysafe_malloc( ( last_i + 1 )
 				       * sizeof(EDGE_COST) ) ;
 for( i = 1 ; i <= last_i ; i++ ) {

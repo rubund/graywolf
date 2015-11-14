@@ -127,6 +127,7 @@ INT last_global_wire , total_reduction , index , i , j , k , check ;
 INT iterations, initial_time, last_index ;
 LONG initial_wire ;
 PINBOXPTR netptr , cnetptr ;
+int ok = 1;
 
 implicit_pins_usedG = 0 ;
 decide_boundary() ;
@@ -151,7 +152,8 @@ elim_unused_feedsSC() ;
 
 /* if( rigidly_fixed_cellsG ) { */
 if( refine_fixed_placement() == 0 ) {
-    return(0);
+    ok = 0;
+    goto out;
 }
 /* } */
 
@@ -295,10 +297,17 @@ if( case_unequiv_pinG ) {
     }
 }
 
+out:
 free_chan_seg() ;
 free_z_memory() ;
 
-return(1) ;
+return(ok) ;
+}
+
+
+globe_free_up()
+{
+    netgraph_free_up();
 }
 
 
@@ -653,6 +662,8 @@ for( assign_iter = 1 ; assign_iter <= num_parts ; assign_iter++ ) {
     /* end of this fly-by-night attempt	*/
 }
 
+Ysafe_free( assigned_to_track ) ;
+
 
 
 #else
@@ -937,6 +948,7 @@ if( fsptr->segptr ) {
 
     segptr = fsptr->segptr ;
     netptr->xpos = imptr->xpos ;
+    /* FIXME: the following line leaks memory but just freeing it gives freed memory access */
     segptr->pin1ptr = netptr ;
     ptr1 = segptr->pin1ptr ;
     ptr2 = segptr->pin2ptr ;
@@ -1855,6 +1867,7 @@ fprintf( fpoG, "\nLONGEST Row is:%d   Its length is:%d\n",
 			    longest_row , max_length ) ;
 
 
+Ysafe_free( row_len );
 return ;
 }
  

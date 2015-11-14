@@ -189,6 +189,8 @@ if( n == 0 ) {
 		recheck_steiner_flag( stptr ) ;
 	    }
         } else {
+            /* FIXME: Next line causes memory leaks according to valgrind;
+               not fixed as ownerships seems not to be clear. */
             stptr = makeSTpt( netptr->net, xmedian, ymedian ) ;
             rplacseg( astptr, netptr, stptr ) ;
             rplacseg( dirptr[i], netptr, stptr ) ;
