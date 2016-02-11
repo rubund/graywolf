@@ -302,7 +302,7 @@ while( attemptsG < attmaxG ) {
     if( acellptr->num_swap_group > 0 ) {
 	INT sgroup;
 	SGLISTPTR sglistptr;
-	i = PICK_INT( 0 , acellptr->num_swap_group ) ;
+	i = PICK_INT( 0 , acellptr->num_swap_group - 1 ) ;
 	sglistptr = acellptr->swapgroups + i;
 	sgroup = sglistptr->swap_group;
 	
