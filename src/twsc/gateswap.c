@@ -95,7 +95,7 @@ if( between_two_cells ) {
 		swap_group_listG[swap_group].pin_grp_hash,
 		cell1ptr->cname, NULL, FIND );
 
-    while (pg1 > 1) {
+    while (pg1-- > 1) {
 	if (term_list1->next_grp == NULL) break;
 	term_list1 = term_list1->next_grp;
     }
@@ -104,7 +104,7 @@ if( between_two_cells ) {
 		swap_group_listG[swap_group].pin_grp_hash,
 		cell2ptr->cname, NULL, FIND );
 
-    while (pg2 > 1) {
+    while (pg2-- > 1) {
 	if (term_list2->next_grp == NULL) break;
 	term_list2 = term_list2->next_grp;
     }
@@ -130,12 +130,12 @@ if( between_two_cells ) {
 		cell1ptr->cname, NULL, FIND );
 
     term_list1 = term;
-    while (pg1 > 1) {
+    while (pg1-- > 1) {
 	term_list1 = term_list1->next_grp;
     }
 
     term_list2 = term;
-    while (pg2 > 1) {
+    while (pg2-- > 1) {
 	term_list2 = term_list2->next_grp;
     }
 }
