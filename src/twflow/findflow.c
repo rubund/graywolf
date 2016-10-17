@@ -191,10 +191,10 @@ INT find_design_type()
     outfile.next = NULL ;
     syntax_info.ifiles = &infile ;
     syntax_info.ofiles = &outfile ;
-    G( TWmessage( "Determining design type" ) ) ;
+    /*G( TWmessage( "Determining design type" ) ) ;
     if( !graphicsG ){
 	M( MSG, "find_flow", "Determining design type\n" ) ;
-    }
+    }*/
     if( check_dependencies( &syntax_info ) ){
 	/* we need to execute the syntax program */
 	sprintf( buffer, "%s/bin/syntax %s", twdirG, cktNameG ) ;
