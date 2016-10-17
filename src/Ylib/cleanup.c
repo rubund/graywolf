@@ -143,30 +143,6 @@ struct sigcontext *scp ;
 	    }
 	}
 #endif
-#ifdef UNIX
-#ifndef SYS5
-#ifndef mips
-#ifdef linux
-	fprintf(stderr, "Stack pointer unknown\n");
-#else
-	fprintf(stderr,"Stack pointer :%0x\n", scp->sc_sp ) ;
-#endif
-#endif
-#ifndef AIX
-#ifdef linux
-	fprintf(stderr, "Program counter unknown\n");
-#else
-	fprintf(stderr,"Program counter:%0x\n", scp->sc_pc ) ;
-#endif
-#else /* AIX */
-#ifdef R6000
-	fprintf(stderr,"Instruction Address Register :%0x\n", scp->sc_jmpbuf.jmp_context.iar ) ; 
-#else /* R6000 */
-	fprintf(stderr,"Stack pointer :%0x\n", scp->sc_psw ) ;
-#endif /* R6000 */
-#endif /* AIX */
-#endif /* SYS5 */
-#endif /* UNIX */
     }
     YcleanupHandler(sigNum) ;
 

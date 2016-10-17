@@ -156,11 +156,6 @@ static DOUBLE last_time = 0.0;
     }
     TWCLOSE( fp ) ;
 
-#ifdef UNIX
-    sprintf(file1, "%s.mtmp", cktNameG);
-    sprintf(file2, "%s.msav", cktNameG);
-    rename(file1, file2);
-#endif
     return ;
 
 } /* end savewolf */

@@ -44,15 +44,6 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 #include <math.h>
 #endif   /* MATH_H */
 
-#ifdef ultrix
-#undef UNIX
-#include <limits.h>
-#define UNIX ultrix
-
-#else
-
-#endif /* ultrix */
-
 /* program exit status is different in VMS */
 #ifdef VMS
 #define OK 1
