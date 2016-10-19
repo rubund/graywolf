@@ -1667,7 +1667,7 @@ BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
     SOFTBOXPTR spin ;    /* current soft pin information */
 
     if( numsoftG > 0 || numstdcellG > 0 ){
-	howmany = (INT) softPinArrayG[HOWMANY] ;
+	howmany = (numsoftG > 0) ? (INT) softPinArrayG[HOWMANY] : 0 ;
 	for( i = 1; i <= howmany; i++ ){
 	    cellptr = softPinArrayG[i] ;
 	    placepin( cellptr->cellnum, FALSE ) ;
