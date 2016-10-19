@@ -191,7 +191,8 @@ ADJPTR adjptr ;
     sprintf( YmsgG, "Trouble executing %s", 
 	proGraphG[adjptr->node]->name)  ;
     G( TWmessage( YmsgG ) ) ;
-    problemsG = TRUE ;
+    printf("%s\n",YmsgG);
+    //problemsG = TRUE ;
 } /* end report_problem */
 
 /* returns true if files are out of date - false otherwise */
