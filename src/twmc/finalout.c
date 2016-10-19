@@ -124,14 +124,14 @@ grid_cells() ;      /* force cells to grid locations */
 compact(VIOLATIONSONLY); /* remove cell overlap */
 
 /* if this is a partitioning run determine row placement */
-if( doPartitionG && !(quickrouteG) ){
+//if( doPartitionG && !(quickrouteG) ){
     set_determine_side( FALSE ) ;  /* allow SC to pick side */
     G( set_graphic_context( PARTITION_PLACEMENT ) ) ;
     config_rows() ;
     print_paths() ; /* print path information */
     Output( 0 ) ;
-    return ;
-}
+//    return ;
+//}
 /* do final placement of pads using virtual core to insure pads */
 /* are outside of core */
 setVirtualCore( TRUE ) ;
