@@ -189,7 +189,6 @@ OUT1("**********************************************\n\n\n");
 wireRatio = EXPECTEDWIRERATIO ;
 
 OUT2("Expected Wire Reduction Relative to Random:%6.2f\n\n",wireRatio);
-FLUSHOUT();
 
 wireRatio = weight_past_runs( wireRatio ) ;
 sprintf( YmsgG,"\n\nWire ratio updated to:%4.2f\n\n", wireRatio ) ;

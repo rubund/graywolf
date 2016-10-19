@@ -287,7 +287,6 @@ char *argv[] ;
 	}
 	OUT2("\nThe rand generator seed was: %u\n\n\n", (unsigned) randVarG );
 	rememberRand = randVarG ;
-	FLUSHOUT();
 
 
 	/* assume first that this is a mixed mode case - .mcel otherwise */
@@ -380,7 +379,6 @@ char *argv[] ;
 
 	OUT2("\n\n\nTHE ROUTE COST OF THE CURRENT PLACEMENT: %d",funccostG );
 	OUT2("\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n", penaltyG ) ;
-	FLUSHOUT();
 
 
 	if( wire_red_ratioS < -1000.0 ){
@@ -468,7 +466,6 @@ char *argv[] ;
 	    OUT1("\n\n\n");
 	    OUT3("parameter adjust: route:%d  penalty:%d\n",
 		funccostG, penaltyG ) ;
-	    FLUSHOUT();
 
 	    /* call controllers a second time to update factors */
 	    /* set negative feedback controllers */
@@ -490,7 +487,6 @@ char *argv[] ;
 	    funccostG  = findcost() ;
 	    OUT1("\n\n\nThe New Cost Values after readjustment:\n\n");
 	    OUT3("route:%d  penalty:%d\n\n\n", funccostG, penaltyG ) ;
-	    FLUSHOUT();
 
 
 	    OUT1("Statistic collection...\n") ;
@@ -516,7 +512,6 @@ char *argv[] ;
 						      , funccostG ) ;
 	    OUT2("\n\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n" ,
 							 penaltyG ) ;
-	    FLUSHOUT() ;
 
 	    /* startup graphics */
 	    G( set_graphic_context( PLACEMENT ) ) ;

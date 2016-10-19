@@ -156,7 +156,6 @@ final_pin_place()
     OUT2("%4.2le ",(DOUBLE) pinFactorG ); 
     OUT2("%4.2le ",(DOUBLE) overfillG ); 
     OUT3("%3d/%3d\n\n",flippG,attpG ); 
-    FLUSHOUT() ;
 
     return ;
 } /* end final_pin_place */

@@ -671,7 +671,6 @@ static process_readpar()
 	YexitPgm( FAIL ) ;
     }
 
-    FLUSHOUT() ;
     return ;
 } /* end process_readpar */
 

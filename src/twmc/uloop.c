@@ -906,7 +906,6 @@ timingcostG = (INT) (timeFactorG * (DOUBLE) timingpenalG ) ;
 
 total_costS = (DOUBLE) (funccostG + penaltyG + timingcostG ) ;
 ratioG = ( (DOUBLE) flipsG / (DOUBLE) attempts ) ;
-FLUSHOUT() ;
 
 if( quickrouteG ){
     output_move_table( flip, att, move_size ) ;
@@ -943,7 +942,6 @@ OUT3("%3d/%3d ",flip[PAIRWISE_CELL_SWAP_AND_ROTATION],
 OUT3("%3d/%3d ",flip[CELL_INSTANCE_CHANGE],att[CELL_INSTANCE_CHANGE] ); 
 OUT3(" %3d/%3d ",flipsG,attempts ); 
 OUT2(" %4.2f\n\n",ratioG ); 
-FLUSHOUT() ;
 
 
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 
