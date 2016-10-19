@@ -221,8 +221,6 @@ char *argv[] ;
 	    } else {
 		fpoG = TWOPEN( filename, "w", ABORT ) ;
 	    }
-	    Ymessage_init(fpoG) ;
-	    Ymessage_mode( verboseG  ) ;
 
 	    YinitProgram( "TimberWolfMC", VERSION, yaleIntro );
 
@@ -260,8 +258,6 @@ char *argv[] ;
 
 	    sprintf( filename, "%s.mout" , cktNameG ) ;
 	    fpoG = TWOPEN( filename, "w", ABORT ) ;
-	    Ymessage_init(fpoG) ;
-	    Ymessage_mode( verboseG  ) ;
 
 	    YinitProgram( "TimberWolfMC", VERSION, yaleIntro );
 
@@ -285,7 +281,7 @@ char *argv[] ;
 	    randVarG = Yrandom_seed() ;
 	    Yset_random_seed( randVarG ) ;
 	}
-	OUT2("\nThe rand generator seed was: %u\n\n\n", (unsigned) randVarG );
+	printf("\nThe rand generator seed was: %u\n\n\n", (unsigned) randVarG );
 	rememberRand = randVarG ;
 
 
@@ -377,8 +373,8 @@ char *argv[] ;
 	    }
 	}
 
-	OUT2("\n\n\nTHE ROUTE COST OF THE CURRENT PLACEMENT: %d",funccostG );
-	OUT2("\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n", penaltyG ) ;
+	printf("\n\n\nTHE ROUTE COST OF THE CURRENT PLACEMENT: %d",funccostG );
+	printf("\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n", penaltyG ) ;
 
 
 	if( wire_red_ratioS < -1000.0 ){
@@ -437,8 +433,8 @@ char *argv[] ;
 	    init_control(TRUE);     /*** set move generation controller. ***/
 	    initStatCollection() ;  /* init funccost penalty recorder */
 
-	    OUT1("High temperature randomization and " ) ;
-	    OUT1("controller initialization...\n") ;
+	    printf("High temperature randomization and " ) ;
+	    printf("controller initialization...\n") ;
 	    iterationG = -2 ;
 	    TG = 1.0e30;	/*** set to VERY HIGH temperature. ***/
 	    attempts = (attmaxG > 3 * numcellsG) ? attmaxG : 3 * numcellsG ; 
@@ -463,7 +459,7 @@ char *argv[] ;
 	    scrapnet() ;
 
 	    funccostG = findcost() ;
-	    OUT1("\n\n\n");
+	    printf("\n\n\n");
 	    OUT3("parameter adjust: route:%d  penalty:%d\n",
 		funccostG, penaltyG ) ;
 
@@ -479,17 +475,17 @@ char *argv[] ;
 	    uloop( attempts ) ;
 
 	    /* Tell the user the expected outcome */
-	    OUT2("\n\nThe average  random  wirelength is: %10.0f\n",
+	    printf("\n\nThe average  random  wirelength is: %10.0f\n",
 		avg_funcG ) ;
-	    OUT2("The expected optimum wirelength is: %10.0f\n\n",
+	    printf("The expected optimum wirelength is: %10.0f\n\n",
 		avg_funcG/wire_red_ratioS ) ;
 
 	    funccostG  = findcost() ;
-	    OUT1("\n\n\nThe New Cost Values after readjustment:\n\n");
+	    printf("\n\n\nThe New Cost Values after readjustment:\n\n");
 	    OUT3("route:%d  penalty:%d\n\n\n", funccostG, penaltyG ) ;
 
 
-	    OUT1("Statistic collection...\n") ;
+	    printf("Statistic collection...\n") ;
 	    attempts = attmaxG ;
 	    iterationG = 0 ;
 	    uloop( attempts ) ;
@@ -499,7 +495,7 @@ char *argv[] ;
 	} else {
 
 	    /* ****** RESTART CASE ******* */
-	    OUT2("reading data from %s\n", filename ) ;
+	    printf("reading data from %s\n", filename ) ;
 	    restartG = TW_oldinput( fp ) ;
 	    if( !(restartG) ){
 		M(ERRMSG,"main","Restart aborted because of error\n");
@@ -508,9 +504,9 @@ char *argv[] ;
 		YexitPgm( PGMFAIL ) ;
 	    }
 	    funccostG = findcost() ;
-	    OUT2("\n\n\nTHE ROUTE COST OF THE CURRENT PLACEMENT: %d\n"
+	    printf("\n\n\nTHE ROUTE COST OF THE CURRENT PLACEMENT: %d\n"
 						      , funccostG ) ;
-	    OUT2("\n\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n" ,
+	    printf("\n\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n" ,
 							 penaltyG ) ;
 
 	    /* startup graphics */
@@ -521,7 +517,7 @@ char *argv[] ;
 #endif
 
 	if( !cost_onlyG ) {
-	    OUT1("\n\nTimberWolf Cell Placement Ready for Action\n\n");
+	    printf("\n\nTimberWolf Cell Placement Ready for Action\n\n");
 	    /* allow multi cell moves */
 	    G( set_graphic_context( PLACEMENT ) ) ;
 	    utemp( attmaxG, TRUE ) ;
@@ -553,21 +549,19 @@ char *argv[] ;
 	}
 	closegraphics() ;
     }
-    OUT1("\n\n************************************ \n\n");
-    OUT1("TimberWolf has completed its mission\n");
-    OUT1("\n\n************************************ \n\n");
+    printf("\n\n************************************ \n\n");
+    printf("TimberWolf has completed its mission\n");
+    printf("\n\n************************************ \n\n");
 
-    if( verboseG ){
+    /*if( verboseG ){
 	Yprint_stats( stdout ) ;
-    }
+    }*/
     Yprint_stats( fpoG ) ;
     Yplot_close() ;
     writeResults( rememberWire, rememberPenal, rememberRand );
     if( sc_output() ){
 	create_sc_output() ;
     }
-    Ymessage_close() ;
-    YexitPgm(OK) ;
 
 } /* end main routine */
 
