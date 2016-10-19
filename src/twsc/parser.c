@@ -990,12 +990,11 @@ INT xpos, ypos ;
 static layer_test( layer )
 INT layer ;
 {
-    if( layer != 0 && layer != 1 && layer != 2 && layer != 3 ) {
+    if( (layer < 0) || (layer > 4) ) {
 	M( ERRMSG, "layer_test", "Currently, a layer number ");
 	M( ERRMSG, NULL,"in the .cel file must be either 0, 1, 2,\n");
 	M( ERRMSG, NULL, "or 3.   \n") ;
-	sprintf( YmsgG, "Current cell number:%d  Name:<%s>\n", 
-	    totalCellS - num_exceptsG, curCellNameS ) ;
+	sprintf( YmsgG, "Current cell number:%d  Name:<%s>\n", totalCellS - num_exceptsG, curCellNameS ) ;
 	M( ERRMSG, NULL, YmsgG ) ;
 	abortS = TRUE ;
     }
