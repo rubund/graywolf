@@ -411,7 +411,7 @@ char *argv[] ;
 
 	attmaxG = compute_attprcel() ;
 
-
+#if 0
 	/* try a restart if requested */
 	sprintf(filename, "%s.mres", cktNameG ) ;
 	fp = TWOPEN( filename , "r", NOABORT ) ;
@@ -523,6 +523,7 @@ char *argv[] ;
 	    G( draw_the_data() ) ;
 
 	}   /* end RESTART CASE */
+#endif
 
 	if( !cost_onlyG ) {
 	    OUT1("\n\nTimberWolf Cell Placement Ready for Action\n\n");
