@@ -836,7 +836,7 @@ timingcostG = (INT) (timeFactorG * (DOUBLE) timingpenalG ) ;
 
 total_costS = (DOUBLE) (funccostG + penaltyG + timingcostG ) ;
 ratioG = ( (DOUBLE) flipsG / (DOUBLE) attempts ) ;
-/* OUT3( "ratio : %4.2lf  a_ratio : %4.2lf\n" , ratioG, a_ratioS) ;*/
+/* printf( "ratio : %4.2lf  a_ratio : %4.2lf\n" , ratioG, a_ratioS) ;*/
 FLUSHOUT() ;
 
 if( quickrouteG ){
@@ -875,16 +875,16 @@ OUT2("%4.2le ",(DOUBLE) timingcostG );
 OUT2("%4.2le\n ",percentDone ); 
 #ifdef LATER
 OUT1(" flip1   flipo   flip0   flipp   flipa   flip2   flipo2  flipi   flips ratio\n");
-OUT3("%3d/%3d ",flip1,att1 ); 
-OUT3("%3d/%3d ",flipo,atto ); 
-OUT3("%3d/%3d ",flip0,att0 ); 
-OUT3("%3d/%3d ",flipp,attp ); 
-OUT3("%3d/%3d ",flipa,atta ); 
-OUT3("%3d/%3d ",flip2,att2 ); 
-OUT3("%3d/%3d ",flipo2,atto2 ); 
-OUT3("%3d/%3d ",flipi,atti ); 
+printf("%3d/%3d ",flip1,att1 ); 
+printf("%3d/%3d ",flipo,atto ); 
+printf("%3d/%3d ",flip0,att0 ); 
+printf("%3d/%3d ",flipp,attp ); 
+printf("%3d/%3d ",flipa,atta ); 
+printf("%3d/%3d ",flip2,att2 ); 
+printf("%3d/%3d ",flipo2,atto2 ); 
+printf("%3d/%3d ",flipi,atti ); 
 #endif
-OUT3(" %3d/%3d ",flipsG,attempts ); 
+printf(" %3d/%3d ",flipsG,attempts ); 
 OUT2(" %4.2f\n\n",ratioG ); 
 FLUSHOUT() ;
 
