@@ -121,7 +121,7 @@ char *routine ;
 		}
 	    }
 	} else {
-	    fprintf( stderr, "No debug routine name specified here\n" ) ;
+	    printf( "No debug routine name specified here\n" ) ;
 	}
     } else {
 	return_code = FALSE ;

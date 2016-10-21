@@ -871,7 +871,7 @@ YEDGEPTR Ygraph_edgeFind( graph, edgeData, node1Data, node2Data )
 
   edgeDummy.node1 = &node1Dummy;
   edgeDummy.node2 = &node2Dummy;
-  fprintf( stderr, "Obsolete routine. Use edgeFindByNode() or edgeFindByNodeData().\n" ) ;
+  printf( "Obsolete routine. Use edgeFindByNode() or edgeFindByNodeData().\n" ) ;
 
   edge = (YEDGEPTR) Yrbtree_search(graph->edgeTree,&edgeDummy);
 
@@ -1426,7 +1426,7 @@ YDECKPTR Ygraph_path(graph,targetNode)
   Ydeck_push(pathDeck,nextNode);
  
   D("Ygraph_path",
-    fprintf(stderr,"path found with %d nodes\n",Ydeck_size(pathDeck));
+    printf("path found with %d nodes\n",Ydeck_size(pathDeck));
     ASSERTNFAULT(Ydeck_verify(pathDeck),"Ygraph_path","bad deck");
   );
 
@@ -1458,7 +1458,7 @@ static VOID graph_dfs_visit(node)
   node->start = dfs_timeS;
   
  D("Ygraph_dfs",
-   fprintf(stderr,"dfs visit start\n");
+   printf("dfs visit start\n");
    Ygraph_draw(graphS);
    );
   
@@ -1494,13 +1494,13 @@ static VOID graph_dfs_visit(node)
     
     D("Ygraph_dfs",
       if ( adjEdge->color == GRAY ) {
-        fprintf(stderr,"edge classified as back edge (GRAY)\n");
+        printf("edge classified as back edge (GRAY)\n");
       } else if ( adjEdge->color == WHITE ) {
-        fprintf(stderr,"edge classified as tree edge (WHITE)\n");
+        printf("edge classified as tree edge (WHITE)\n");
       } else if ( adjEdge->color == BLACK ) {
-        fprintf(stderr,"edge classified as forward/cross edge (BLACK)\n");
+        printf("edge classified as forward/cross edge (BLACK)\n");
       } else {
-        fprintf(stderr,"edge classified as unknow edge (UNKNOWN)\n");
+        printf("edge classified as unknow edge (UNKNOWN)\n");
       }
       Ygraph_draw(graphS);
       );
@@ -1566,7 +1566,7 @@ static VOID graph_dfs_visit(node)
         adjEdge->color = GRAY;
         
 	D("Ygraph_dfs",
-	  fprintf(stderr,"mixed graph edge re-classified\n");
+	  printf("mixed graph edge re-classified\n");
 	  Ygraph_draw(graphS);
 	  );
 	
@@ -1574,7 +1574,7 @@ static VOID graph_dfs_visit(node)
         while (adjEdge = (YEDGEPTR) Ydeck_pop(swapDeck)) {
           adjEdge->node1->predecessor = adjEdge->node2;
 	  D("Ygraph_dfs",
-	    fprintf(stderr,"%d predecessor = %d\n",
+	    printf("%d predecessor = %d\n",
 		    adjEdge->node1->start,adjEdge->node2->start);
 	    );
 	  
@@ -1597,7 +1597,7 @@ static VOID graph_dfs_visit(node)
  node->finish = dfs_timeS;
  
  D("Ygraph_dfs",
-   fprintf(stderr,"dfs visit complete\n");
+   printf("dfs visit complete\n");
    Ygraph_draw(graphS);
    );
 }
@@ -1625,7 +1625,7 @@ YDECKPTR Ygraph_dfs(graph)
   }
   
  D("Ygraph_dfs",
-   fprintf(stderr,"Ygraph_dfsstart\n");
+   printf("Ygraph_dfsstart\n");
    Ygraph_draw(graph);
    );
 
@@ -1776,7 +1776,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
   YHEAPPTR heap;
   
     D("Ygraph_dijkstra",
-      fprintf(stderr,"start dijkstra \n");
+      printf("start dijkstra \n");
       ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dijkstra","bogus graph");
       Ygraph_draw(graph);
       );
@@ -1804,7 +1804,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
   Yheap_insert(heap,sourceNode);
   
   D("Ygraph_dijkstra",
-    fprintf(stderr,"dijkstra initialized\n");
+    printf("dijkstra initialized\n");
     Ygraph_draw(graph);
     );
   
@@ -1844,7 +1844,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
         Yheap_insert(heap,adjNode);
 	
 	D("Ygraph_dijkstra",
-	  fprintf(stderr,"dijkstra adj node relaxed\n");
+	  printf("dijkstra adj node relaxed\n");
 	  ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dijkstra","bogus graph");
 	  /* Ygraph_draw(graph);   /* debug */
 	  );
@@ -1855,7 +1855,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
   }
   
   D("Ygraph_dijkstra",
-    fprintf(stderr,"dijkstra complete\n");
+    printf("dijkstra complete\n");
     ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dijkstra","bogus graph");
     Ygraph_draw(graph);
     );
@@ -1970,7 +1970,7 @@ YDECKPTR Ygraph_cycles(graph)
       
       D("Ygraph_cycles",
 	ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_cycles","bad graph");
-	fprintf(stderr,"back edge found\n");
+	printf("back edge found\n");
 	);
       
       node1 = Ygraph_edgeNode1(edge);
@@ -2014,7 +2014,7 @@ YDECKPTR Ygraph_cycles(graph)
   
   D("Ygraph_cycles",
     ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_cycles","bad graph");
-    fprintf(stderr,"%d cycles found\n",Ydeck_size(graph->cycleDecks));
+    printf("%d cycles found\n",Ydeck_size(graph->cycleDecks));
     );
   
   return(graph->cycleDecks);
@@ -2293,7 +2293,7 @@ YDECKPTR Ygraph_requiredPath(graph)
  }
 
   D(routineNameS,
-    fprintf(stderr,"%s: initialize\n",routineNameS);
+    printf("%s: initialize\n",routineNameS);
     Ygraph_draw(graph); /* DEBUG */
     );
   
@@ -2361,7 +2361,7 @@ YDECKPTR Ygraph_requiredPath(graph)
     }    /* END enumerate all of the adjacent nodes */
     
     D(routineNameS,
-      fprintf(stderr,"%s: ready to pop heap\n",routineNameS);
+      printf("%s: ready to pop heap\n",routineNameS);
       Ygraph_draw(graph); /* DEBUG */
       );
     
@@ -2373,7 +2373,7 @@ YDECKPTR Ygraph_requiredPath(graph)
   }
 
   D(routineNameS,
-    fprintf(stderr,"%s single path finished:\n",routineNameS);
+    printf("%s single path finished:\n",routineNameS);
     Ygraph_draw(graph); /* DEBUG */
     );
 
@@ -2462,7 +2462,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
   }
 
    D(routineNameS,
-     fprintf(stderr,"%s edge initialized\n",routineNameS);
+     printf("%s edge initialized\n",routineNameS);
      Ygraph_draw(graph); /* DEBUG */
      );
 
@@ -2480,7 +2480,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
    }
 
   D(routineNameS,
-    fprintf(stderr,"%s steiner tree primed\n",routineNameS);
+    printf("%s steiner tree primed\n",routineNameS);
     Ygraph_draw(graph); /* DEBUG */
     );
   
@@ -2516,7 +2516,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
   Ydset_free(dset,NULL);
 
   D(routineNameS,
-    fprintf(stderr,"spanning tree found with %d edges and %d nodes \n",
+    printf("spanning tree found with %d edges and %d nodes \n",
             Ygraph_edgeCount(steinerGraph), Ygraph_nodeCount(steinerGraph));
     Ygraph_draw(graph); /* DEBUG */
     );
@@ -2677,7 +2677,7 @@ VOID Ygraph_steinerImprove(graph,steinerGraph,maxIterations)
     if ( newWeight < oldWeight ) {
       
       D("Ygraph_steinerImprove",
-        fprintf(stderr,"steiner graph improved %d -> %d\n",
+        printf("steiner graph improved %d -> %d\n",
 		oldWeight,newWeight);
 	);
 
@@ -3025,7 +3025,7 @@ VOID Ygraph_dump(graph,printNode,printEdge)
     ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dump","bogus graph");
     );
   
-  fprintf(stderr,"graph has %d edges \n",Ygraph_edgeCount(graph));
+  printf("graph has %d edges \n",Ygraph_edgeCount(graph));
 
   if ( printEdge ) {
 
@@ -3040,7 +3040,7 @@ VOID Ygraph_dump(graph,printNode,printEdge)
   }
   
 
-  fprintf(stderr,"graph has %d nodes \n",Ygraph_nodeCount(graph));
+  printf("graph has %d nodes \n",Ygraph_nodeCount(graph));
 
   if ( printNode ) {    
 
@@ -3301,7 +3301,7 @@ static VOID print_node_data( node )
 {
   DATAPTR data ;
   data = (DATAPTR) Ygraph_nodeData(node);
-  fprintf( stderr, "%s:%d ", data->name, data->len ) ;
+  printf( "%s:%d ", data->name, data->len ) ;
 } /* end print_data() */
 
 static VOID print_node_info( node )
@@ -3309,7 +3309,7 @@ static VOID print_node_info( node )
 {
   DATAPTR data ;
   data = (DATAPTR) Ygraph_nodeData(node);
-  fprintf( stderr, "node %s has %d neighbors\n",
+  printf( "node %s has %d neighbors\n",
                     data->name, Ygraph_nodeDegree(node) ) ;
 } /* end print_data() */
 
@@ -3322,12 +3322,12 @@ static VOID print_edge_info( edge )
   n1 = Ygraph_edgeNode1Data(edge);
   n2 = Ygraph_edgeNode2Data(edge);
 
-  fprintf( stderr, "edge from ");
-  fprintf( stderr, "%s\t ", n1->name ) ;
-  fprintf( stderr, "to ");
-  fprintf( stderr, "%s\t ", n2->name ) ;
-  fprintf( stderr, "has weight = %d ", Ygraph_edgeWeight(edge) ) ;
-  fprintf( stderr, "\n") ;
+  printf( "edge from ");
+  printf( "%s\t ", n1->name ) ;
+  printf( "to ");
+  printf( "%s\t ", n2->name ) ;
+  printf( "has weight = %d ", Ygraph_edgeWeight(edge) ) ;
+  printf( "\n") ;
 } /* end print_data() */
 
 static VOID free_data( data )
@@ -3368,7 +3368,7 @@ main()
 
   YdebugMemory( TRUE ) ;
     
-  fprintf(stderr,"start\n");
+  printf("start\n");
 
   /* initialize a graph with no compare edge function AND no graph flags */
   graph = Ygraph_init(compare_node,NULL,NULL,NULL);
@@ -3403,12 +3403,12 @@ main()
   pathDeck = Ygraph_path(graph,jumpedNode);
 
   /* print out the shortest path */
-  fprintf(stderr,"\nshortest path from `the` to `jumped`\n");
-  fprintf(stderr,"edge weights = 1\n");
+  printf("\nshortest path from `the` to `jumped`\n");
+  printf("edge weights = 1\n");
   while ( node = (YNODEPTR) Ydeck_pop(pathDeck) ) {
     print_node_data(node);    
   }
-  fprintf(stderr,"\n");
+  printf("\n");
 
   /* free the path deck */
   Ydeck_free(pathDeck,NULL);
@@ -3426,18 +3426,18 @@ main()
   pathDeck = Ygraph_path(graph,jumpedNode);
 
   /* print out the shortest path */
-  fprintf(stderr,"\nshortest path from `the` to `jumped`\n");
-  fprintf(stderr,"edge weights = number of chars word\n");
+  printf("\nshortest path from `the` to `jumped`\n");
+  printf("edge weights = number of chars word\n");
   while ( node = (YNODEPTR) Ydeck_pop(pathDeck) ) {
     print_node_data(node);    
   }
-  fprintf(stderr,"\n");
+  printf("\n");
 
   /* print whole tree */
-  fprintf(stderr,"FINAL GRAPH\n");
-  fprintf(stderr,"===========\n");
+  printf("FINAL GRAPH\n");
+  printf("===========\n");
   Ygraph_dump(graph,print_node_info,print_edge_info);
-  fprintf(stderr,"\n");
+  printf("\n");
 
   /* free the path deck */
   Ydeck_free(pathDeck,NULL);
@@ -3445,7 +3445,7 @@ main()
 
   /* free the graph */
   Ygraph_free(graph, free_data, NULL);  
-  fprintf( stderr, "Final memory:%d\n", YgetCurMemUse() ) ;
+  printf( "Final memory:%d\n", YgetCurMemUse() ) ;
   Yprint_stats( stderr ) ;
   Ydump_mem() ;
 

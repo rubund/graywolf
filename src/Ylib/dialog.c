@@ -216,7 +216,7 @@ INT (*user_function)() ;
     screenheight = XDisplayHeight(dpyS,screenS);
 
     sprintf( resource, "geometry_%s", dialogname ) ;
-    D( "dialog", fprintf( stderr, "resource:%s\n", resource ) ) ;
+    D( "dialog", printf( "resource:%s\n", resource ) ) ;
     if( winstr = XGetDefault( dpyS, GRAPHICS, resource )){
 	m = XParseGeometry( winstr,&xdS,&ydS,&widthd,&heightd) ;
 	if( m & XNegative ){
@@ -238,7 +238,7 @@ INT (*user_function)() ;
 	hints.flags = PPosition | PSize ;
     }
     sprintf( resource, "font_%s", dialogname ) ;
-    D( "dialog", fprintf( stderr, "font resource:%s\n", resource ) ) ;
+    D( "dialog", printf( "font resource:%s\n", resource ) ) ;
     /* set font and get font info */
     font_loaded = FALSE ;
     if(font = XGetDefault( dpyS, GRAPHICS, resource )){
@@ -370,7 +370,7 @@ INT (*user_function)() ;
     while( TRUE ){
 	if( XCheckMaskEvent( dpyS, event_mask, &event ) ){
 	    D( "TWdialog/event",
-		fprintf( stderr, "Event:%d window:%d\n",
+		printf( "Event:%d window:%d\n",
 		    event.type, event.xany.window ) ;
 	    ) ;
 	    switch( event.type ){
@@ -498,14 +498,14 @@ INT (*user_function)() ;
 			(void) YcurTime( &time ) ;
 			if( time - lasttimeL < TWsafe_wait_timeG ){
 			    D( "TWdialog/exposure", 
-				fprintf( stderr,
+				printf(
 				    "Dialog Exposure:0 @time = %d\n",
 				    time);
 			    ) ;
 			    break ;
 			}
 			D( "TWdialog/exposure", 
-			    fprintf( stderr,
+			    printf(
 				"Dialog Exposure:1 @time = %d\n",
 				time);
 			) ;
@@ -727,7 +727,7 @@ INT (*user_function)() ;
 	    /* find what the user entered */
 	    XLookupString( &(event.xkey), buffer,LRECL,&keysym, &status );
 	    buffer[1] = EOS ; /* only get one character at a time */
-	    D( "Yedit_field",fprintf( stderr, "char:%c\n", buffer[0] ) ) ;
+	    D( "Yedit_field",printf( "char:%c\n", buffer[0] ) ) ;
 
 	    /* look to see if we got a return */
 	    if( buffer[0] == RETURN ){
@@ -759,8 +759,8 @@ INT (*user_function)() ;
 		XDrawString( dpyS, win, reverseGCS, 
 		    0L, world2fonty( 0L ),
 		    data, dataCount) ;
-		D( "Yedit_field",fprintf( stderr, "data:%s\n", data ) ) ;
-		D( "Yedit_field",fprintf( stderr,"datacount:%d\n",
+		D( "Yedit_field",printf( "data:%s\n", data ) ) ;
+		D( "Yedit_field",printf("datacount:%d\n",
 		    dataCount ) ) ;
 		/* now move pointer to end of current data */
 		strwidth = XTextWidth( fontinfoS, data,dataCount) ;

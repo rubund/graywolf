@@ -104,7 +104,7 @@ Ymst_addpt( x, y )
 INT x, y ;
 {
     if( countS >= numpinS ){
-	fprintf( stderr, "Out of space - update number of pins for MST\n"); 
+	printf( "Out of space - update number of pins for MST\n"); 
 	return ;
     }
     nodeXS[countS] = x ;

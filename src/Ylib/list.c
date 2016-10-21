@@ -332,7 +332,7 @@ VOIDPTR Ylist_dequeue(list)
   VOIDPTR data;
 
   if (Ylist_empty(list)) {
-    fprintf(stderr, "LIST: Dequeue of empty list.");
+    printf( "LIST: Dequeue of empty list.");
     abort();
   }
 
@@ -800,7 +800,7 @@ INT main(argc, argv)
   INT data;
   YLIST list;
   
-  fprintf( stderr, "List testing program.  Enter ? to start\n" ) ;
+  printf( "List testing program.  Enter ? to start\n" ) ;
   list = Ylist_create();
   while ((c = getchar()) != EOF) {
     switch (c) {

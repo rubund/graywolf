@@ -851,15 +851,15 @@ INT printTab ;
 	tree_dump( tree, ptr->right, print_key, printTab ) ;
 
 	/* print level */
-	fprintf( stderr, " " ) ;
+	printf( " " ) ;
 	for( i = 1; i < printTab; i++ ){
-	    fprintf( stderr, " " ) ;
+	    printf( " " ) ;
 	}
 	(*print_key)( ptr->data ) ;
 	if( ptr->color == BLACK ){
-	    fprintf( stderr, ":black\n" ) ;
+	    printf( ":black\n" ) ;
 	} else {
-	    fprintf( stderr, ":red\n" ) ;
+	    printf( ":red\n" ) ;
 	}
 
 	tree_dump( tree, ptr->left, print_key, printTab ) ;
@@ -1234,7 +1234,7 @@ DATAPTR key1, key2 ;
 static VOID print_data( data )
 DATAPTR data ;
 {
-    fprintf( stderr, "%s:%d ", data->name, data->str_len ) ;
+    printf( "%s:%d ", data->name, data->str_len ) ;
 } /* end print_data() */
 
 static VOID free_data( data )
@@ -1269,7 +1269,7 @@ main()
     key1.name = buffer1 ;
     key2.name = buffer2 ;
 
-    fprintf( stderr, "Initial memory:%d\n", YgetCurMemUse() ) ;
+    printf( "Initial memory:%d\n", YgetCurMemUse() ) ;
 
     tree1 = Yrbtree_init( compare_string ) ;
     Yrbtree_insert( tree1, make_data("the" ) ) ;
@@ -1280,20 +1280,20 @@ main()
     Yrbtree_insert( tree1, make_data("the" ) ) ;
     Yrbtree_insert( tree1, make_data("moon" ) ) ;
     Yrbtree_verify(tree1) ;
-    fprintf( stderr, "Output the initial tree\n" ) ;
+    printf( "Output the initial tree\n" ) ;
     for( data=(DATAPTR)Yrbtree_enumerate(tree1,TRUE); data; 
 	data=(DATAPTR)Yrbtree_enumerate(tree1,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
-    fprintf( stderr, "\nLook for jumped...\n" ) ;
+    printf( "\nLook for jumped...\n" ) ;
     strcpy( key1.name, "jumped" ) ;
     data = (DATAPTR) Yrbtree_search( tree1, &key1 ) ;
     Yrbtree_verify(tree1) ;
     if( data ){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
     Yrbtree_dump( tree1, print_data ) ;
-    fprintf( stderr, "\nDelete jumped...\n" ) ;
+    printf( "\nDelete jumped...\n" ) ;
     strcpy( key2.name, "jumped" ) ;
     Yrbtree_delete( tree1, &key2, free_data ) ;
     Yrbtree_verify(tree1) ;
@@ -1302,51 +1302,51 @@ main()
     for( data=(DATAPTR)Yrbtree_enumerate(tree1,TRUE); 
 	data;
 	data=(DATAPTR)Yrbtree_enumerate(tree1,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
-    fprintf( stderr, "\nInsert takeover and try to delete history...\n" );
+    printf( "\nInsert takeover and try to delete history...\n" );
     Yrbtree_insert( tree1, make_data("takeover" ) ) ;
     strcpy( key1.name, "history" ) ;
     if( Yrbtree_delete( tree1, &key1, free_data ) ){
-	fprintf( stderr, "found history\n" ) ;
+	printf( "found history\n" ) ;
     } else {
-	fprintf( stderr, "didn't find history\n" ) ;
+	printf( "didn't find history\n" ) ;
     }
     strcpy( key1.name, "fox" ) ;
     Yrbtree_delete( tree1, &key1, free_data ) ;
-    fprintf( stderr, "\nNow show result...\n" );
+    printf( "\nNow show result...\n" );
     for( data=Yrbtree_enumerate(tree1,TRUE); data; 
 	data=Yrbtree_enumerate(tree1,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
 
-    fprintf( stderr, "\nNow find interval 'over' to 'the'\n" );
+    printf( "\nNow find interval 'over' to 'the'\n" );
     strcpy( key1.name, "over" ) ;
     strcpy( key2.name, "the" ) ;
     for( data=Yrbtree_interval(tree1,&key1,&key2,TRUE); data; 
 	data=Yrbtree_interval(tree1,&key1,&key2,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
-    fprintf( stderr, "The interval size is:%d\n",
+    printf( "The interval size is:%d\n",
 	Yrbtree_interval_size( tree1, &key1, &key2 ) ) ;
 
-    fprintf( stderr, "\nInsert zoo and delete the two the's...\n" );
+    printf( "\nInsert zoo and delete the two the's...\n" );
     Yrbtree_insert( tree1, make_data("zoo" ) ) ;
     strcpy( key1.name, "the" ) ;
     strcpy( key2.name, "the" ) ;
     for( data=Yrbtree_interval(tree1,&key1,&key2,TRUE); data; 
 	data=Yrbtree_interval(tree1,&key1,&key2,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
 	Yrbtree_deleteCurrentInterval( tree1, free_data ) ;
     }
 
-    fprintf( stderr, "\nNow dump the tree\n" );
+    printf( "\nNow dump the tree\n" );
     Yrbtree_dump( tree1, print_data ) ;
 
-    fprintf( stderr, "\nInsert two airplanes and then delete...\n" );
+    printf( "\nInsert two airplanes and then delete...\n" );
     Yrbtree_insert( tree1, make_data("airplane" ) ) ;
     Yrbtree_insert( tree1, make_data("airplane" ) ) ;
-    fprintf( stderr, "\nLook for airplanes\n" );
+    printf( "\nLook for airplanes\n" );
     Yrbtree_dump( tree1, print_data ) ;
 
     /* now delete them */
@@ -1354,14 +1354,14 @@ main()
     strcpy( key2.name, "airplane" ) ;
     for( data=Yrbtree_interval(tree1,&key1,&key2,TRUE); data; 
 	data=Yrbtree_interval(tree1,&key1,&key2,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
 	Yrbtree_deleteCurrentInterval( tree1, free_data ) ;
     }
     Yrbtree_dump( tree1, print_data ) ;
-    fprintf( stderr, "The interval size is:%d\n",
+    printf( "The interval size is:%d\n",
 	Yrbtree_interval_size( tree1, &key1, &key2 ) ) ;
 
-    fprintf( stderr, "\nDelete third sorted element in the tree\n" );
+    printf( "\nDelete third sorted element in the tree\n" );
     for( count = 0, data=Yrbtree_enumerate(tree1,TRUE); data; 
 	data=Yrbtree_enumerate(tree1,FALSE)){
 	if( ++count == 3 ){
@@ -1370,15 +1370,15 @@ main()
     }
     Yrbtree_dump( tree1, print_data ) ;
 
-    fprintf( stderr, "\nUse a new comparison function sort by length\n" );
+    printf( "\nUse a new comparison function sort by length\n" );
     Yrbtree_resort( tree1, compare_len ) ;
 
-    fprintf( stderr, "\nAgain dump the tree\n" );
+    printf( "\nAgain dump the tree\n" );
     Yrbtree_dump( tree1, print_data ) ;
 
-    fprintf( stderr, "\nNow free tree\n" );
+    printf( "\nNow free tree\n" );
     Yrbtree_free( tree1, free_data ) ;
-    fprintf( stderr, "Final memory:%d\n", YgetCurMemUse() ) ;
+    printf( "Final memory:%d\n", YgetCurMemUse() ) ;
 
     exit(0) ;
 }

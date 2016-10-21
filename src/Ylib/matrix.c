@@ -202,11 +202,11 @@ YMPTR mptr ;
 
     for( i=1; i <= mptr->rows; i++ ){
 	for( j=1; j <= mptr->columns; j++ ){
-	    fprintf( stderr, "% 4.4le ", m[i][j] ) ;
+	    printf( "% 4.4le ", m[i][j] ) ;
 	}
-	fprintf( stderr, "\n" ) ;
+	printf( "\n" ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 } /* end Ymatrix_disp */
 
 YMPTR Ymatrix_eye( size )

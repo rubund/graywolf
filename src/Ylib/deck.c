@@ -249,25 +249,25 @@ VOID Ydeck_dump( deckPtr, userPrint )
      VOID (*userPrint)();
 {
   
-  fprintf( stderr,"%d cards\n",deckPtr->size);
-  fprintf( stderr,"Deck top to bottom:" ) ;
+  printf("%d cards\n",deckPtr->size);
+  printf("Deck top to bottom:" ) ;
   for ( Ydeck_top(deckPtr); Ydeck_notEnd(deckPtr); Ydeck_down(deckPtr) ) {
     if (userPrint) {
       (*userPrint)(Ydeck_getData(deckPtr));
     } else {
-      fprintf( stderr,"%d ", (INT)Ydeck_getData(deckPtr) ) ;
+      printf("%d ", (INT)Ydeck_getData(deckPtr) ) ;
     }
   }
-  fprintf( stderr,"\n" ) ;  
-  fprintf( stderr,"Deck bottom to top:" ) ;
+  printf("\n" ) ;  
+  printf("Deck bottom to top:" ) ;
   for ( Ydeck_bottom(deckPtr); Ydeck_notEnd(deckPtr); Ydeck_up(deckPtr)) {
     if (userPrint) {
       (*userPrint)(Ydeck_getData(deckPtr));
     } else {
-      fprintf( stderr,"%d ", (INT) Ydeck_getData(deckPtr) ) ;
+      printf("%d ", (INT) Ydeck_getData(deckPtr) ) ;
     }
   }
-  fprintf( stderr,"\n" ) ;  
+  printf("\n" ) ;  
   
 } /* end Ydeck_dump */
 

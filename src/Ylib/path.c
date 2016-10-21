@@ -191,11 +191,11 @@ char *argv[] ;
 {
     char *Yfixpath() ; /* fix a path to get rid of .. */
     if( argc == 2 ){
-	fprintf( stderr, "given file:%s\n", argv[1] ) ;
-	fprintf( stderr, "resolved pathname:%s\n", 
+	printf( "given file:%s\n", argv[1] ) ;
+	printf( "resolved pathname:%s\n", 
 	    Yfixpath(argv[1],TRUE) ) ;
     } else {
-	fprintf( stderr, "Error[syntax]: a.out pathName\n" ) ;
+	printf( "Error[syntax]: a.out pathName\n" ) ;
 	exit(1) ;
     }
     exit(0) ;

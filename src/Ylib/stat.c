@@ -108,7 +108,7 @@ INT  size_element ;
 	    }
 	}
 	break ;
-    default: fprintf( stderr, "Unsupported element size:%d\n",
+    default: printf( "Unsupported element size:%d\n",
 	size_element ) ;
     }
 
@@ -160,7 +160,7 @@ INT  size_element ;
 	    }
 	}
 	break ;
-    default: fprintf( stderr, "Unsupported element size:%d\n",
+    default: printf( "Unsupported element size:%d\n",
 	size_element ) ;
 	
     }
@@ -204,14 +204,14 @@ INT  size_element ;
 	    sum += (DOUBLE) darray[i] ;
 	}
 	break ;
-    default: fprintf( stderr, "ERROR:Unsupported element size:%d\n",
+    default: printf( "ERROR:Unsupported element size:%d\n",
 	size_element ) ;
     }
 
     if( number_elements ){
 	return( sum / number_elements ) ;
     } else {
-	fprintf( stderr, "ERROR:number of elements zero\n" ) ;
+	printf( "ERROR:number of elements zero\n" ) ;
 	return( 0.0 ) ;
     }
 
@@ -264,7 +264,7 @@ DOUBLE mean ;
 	    sum2 += sum * sum ;
 	}
 	break ;
-    default: fprintf( stderr, "ERROR:Unsupported element size:%d\n",
+    default: printf( "ERROR:Unsupported element size:%d\n",
 	size_element ) ;
 
     }
@@ -274,7 +274,7 @@ DOUBLE mean ;
     } else if( number_elements == 1 ){
 	return( 0.0 ) ;
     } else {
-	fprintf( stderr, "ERROR:number of elements zero\n" ) ;
+	printf( "ERROR:number of elements zero\n" ) ;
 	return( 0.0 ) ;
     }
 

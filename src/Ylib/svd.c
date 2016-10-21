@@ -106,19 +106,19 @@ YMPTR A, B, *Xret ;
 	YMPTR WVt ;
 	YMPTR UWVt ;
 
-	fprintf( stderr, "U:\n" ) ;
+	printf( "U:\n" ) ;
 	Ymatrix_disp( U ) ;
-	fprintf( stderr, "W:\n" ) ;
+	printf( "W:\n" ) ;
 	Ymatrix_disp( W ) ;
-	fprintf( stderr, "V:\n" ) ;
+	printf( "V:\n" ) ;
 	Ymatrix_disp( V ) ;
 
 	Vt = Ymatrix_transpose( V ) ;
-	fprintf( stderr, "Vt:\n" ) ;
+	printf( "Vt:\n" ) ;
 	Ymatrix_disp( Vt ) ;
 	WVt = Ymatrix_mult( W, Vt ) ;
 	UWVt = Ymatrix_mult( U, WVt ) ;
-	fprintf( stderr, "U * W * Vt:\n" ) ;
+	printf( "U * W * Vt:\n" ) ;
 	Ymatrix_disp( UWVt ) ;
     ) ;
 
@@ -137,14 +137,14 @@ YMPTR A, B, *Xret ;
     for (j=1;j<=n;j++){
 	if( w[j][j] < threshold ){
 	    D( "Ysvd_solve/singular",
-		fprintf( stderr, "Singular value for w[%d]:%4.6le\n",
+		printf( "Singular value for w[%d]:%4.6le\n",
 		    j, w[j][j] ) ;
 	    ) ;
 	    w[j][j] = 0.0;
 	}
     }
     D( "Ysvd_solve/a_weight",
-	fprintf( stderr, "W:\n" ) ;
+	printf( "W:\n" ) ;
 	Ymatrix_disp( W ) ;
     ) ;
 
@@ -167,7 +167,7 @@ YMPTR A, B, *Xret ;
 	}
 	WUtb = Ymatrix_mult( Wprime, Utb ) ;
 	Xver = Ymatrix_mult( V, WUtb ) ;
-	fprintf( stderr, "V * 1 / w * Ut * B:\n" ) ;
+	printf( "V * 1 / w * Ut * B:\n" ) ;
 	Ymatrix_disp( Xver ) ;
     ) ;
 
