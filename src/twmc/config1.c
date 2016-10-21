@@ -142,55 +142,55 @@ mean_shortSide = total_shortSide / numcellsG ;
  */
 max_shortSide = (DOUBLE) INT_MIN ;
 for( cell = 1 ; cell <= numcellsG ; cell++ ) {
-    cellptr = cellarrayG[cell] ;
-    /* get total area for one cell */
-    cellArea = 0.0 ;
-    for( tileptr = cellptr->tiles;tileptr; tileptr = tileptr->next ){
-	l = tileptr->left   ;
-	r = tileptr->right  ;
-	b = tileptr->bottom ;
-	t = tileptr->top    ;
-	length = ABS( r - l ) ;
-	height = ABS( t - b ) ;
-	cellArea += (DOUBLE) length * (DOUBLE) height ;
-	/* calculate variance of smallest size of tile */
-	shortSide = MIN( length , height ) ;
-	if( cellptr->celltype != STDCELLTYPE ){
-	    /* find the maximum shortside */
-	    max_shortSide = MAX( max_shortSide, shortSide ) ;
+	cellptr = cellarrayG[cell] ;
+	/* get total area for one cell */
+	cellArea = 0.0 ;
+	for( tileptr = cellptr->tiles;tileptr; tileptr = tileptr->next ){
+		l = tileptr->left   ;
+		r = tileptr->right  ;
+		b = tileptr->bottom ;
+		t = tileptr->top    ;
+		length = ABS( r - l ) ;
+		height = ABS( t - b ) ;
+		cellArea += (DOUBLE) length * (DOUBLE) height ;
+		/* calculate variance of smallest size of tile */
+		shortSide = MIN( length , height ) ;
+
+		if( cellptr->celltype != STDCELLTYPE ){
+			/* find the maximum shortside */
+			max_shortSide = MAX( max_shortSide, shortSide ) ;
+		}
+
+		deltaShort = shortSide - mean_shortSide ;
+		var_short += deltaShort * deltaShort ;
 	}
-	deltaShort = shortSide - mean_shortSide ;
-	var_short += deltaShort * deltaShort ;
-    }
-    /* note variance of area is over a cell not tile */
-    deltaArea = cellArea - mean_cellAreaG  ;
-    var += deltaArea * deltaArea ;
+	/* note variance of area is over a cell not tile */
+	deltaArea = cellArea - mean_cellAreaG  ;
+	var += deltaArea * deltaArea ;
 }
 varpercell = var / (DOUBLE) numcellsG ;
 dev_cellAreaG = sqrt( varpercell ) ;
 shortvarpercell = var_short / (DOUBLE) numcellsG ;
 dev_shortSide = sqrt( shortvarpercell ) ;
 
-OUT2("\nTotal cell area : %4.2le\n", totalArea ) ;
-OUT3("mean cell area : %4.2le      std deviation cell area : %4.2le\n",
-    mean_cellAreaG, dev_cellAreaG ) ;
-OUT3("mean short side : %4.2le      std deviation short side : %4.2le\n",
-    mean_shortSide, dev_shortSide ) ;
+printf("\nTotal cell area : %4.2le\n", totalArea ) ;
+printf("mean cell area : %4.2le      std deviation cell area : %4.2le\n", mean_cellAreaG, dev_cellAreaG ) ;
+printf("mean short side : %4.2le      std deviation short side : %4.2le\n", mean_shortSide, dev_shortSide ) ;
 
 if( coreGivenG == 0 ) {
-    blockrG = blocktG = (INT) sqrt( (DOUBLE) totalArea ) + 1 ;
-    /* 
-     *    Take into account the aspect ratio requested by the user
-     */
-    blocktG = (INT)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
-    blockrG = (INT)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
-    blocklG = blockbG = 0 ;
-    totChanLenG = perimG / 2 - (blockrG + blocktG) ;
-    aveChanWidG = 0.0 ;
+	blockrG = blocktG = (INT) sqrt( (DOUBLE) totalArea ) + 1 ;
+	/* 
+	*    Take into account the aspect ratio requested by the user
+	*/
+	blocktG = (INT)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
+	blockrG = (INT)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
+	blocklG = blockbG = 0 ;
+	totChanLenG = perimG / 2 - (blockrG + blocktG) ;
+	aveChanWidG = 0.0 ;
 } else {
-    r = t = (INT) sqrt( totalArea ) + 1 ;
-    totChanLenG = perimG / 2 - (r + t) ;
-    aveChanWidG = 0.0 ;
+	r = t = (INT) sqrt( totalArea ) + 1 ;
+	totChanLenG = perimG / 2 - (r + t) ;
+	aveChanWidG = 0.0 ;
 }
 
 slopeXG = (DOUBLE)(maxWeightG - baseWeightG) / ((DOUBLE) blockrG * 0.5 ) ;
@@ -278,7 +278,7 @@ placepads() ;
 
 bdxlengthG = blockrG - blocklG ;
 bdylengthG = blocktG - blockbG ;
-OUT3("bdxlength:%d    bdylength:%d\n",bdxlengthG,bdylengthG);
+printf("bdxlength:%d    bdylength:%d\n",bdxlengthG,bdylengthG);
 
 /* update for wire estimation algorithm */
 resize_wire_params() ;

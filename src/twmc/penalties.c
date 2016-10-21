@@ -268,8 +268,8 @@ DOUBLE totPen ;
 #else
     start_overlapS = STARTOVERLAP ; end_overlapS = ENDOVERLAP ;
 #endif
-    OUT2("\n\nOVERLAP FACTOR (COMPUTED) : %f\n", lapFactorG ) ;
-    OUT3("start_overlap: %4.2le end_overlap: %4.2le\n\n", 
+    printf("\n\nOVERLAP FACTOR (COMPUTED) : %f\n", lapFactorG ) ;
+    printf("start_overlap: %4.2le end_overlap: %4.2le\n\n", 
 	start_overlapS, end_overlapS ) ;
 
     return( factor ) ;
@@ -312,7 +312,7 @@ DOUBLE calc_init_coreFactor( )
 
     start_core_errorS = STARTCORE ; end_core_errorS = ENDCORE ;
 
-    OUT3("start_core: %4.2le end_overcore: %4.2le\n\n", 
+    printf("start_core: %4.2le end_overcore: %4.2le\n\n", 
 	start_core_errorS, end_core_errorS ) ;
     return( coreFactorG ) ;
 } /* end calc_init_coreFactor */

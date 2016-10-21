@@ -107,9 +107,9 @@ char *netname ;
     int  net ;
 
     if(!(data = Yhash_search( netTableS, netname, NULL, FIND))){
-	OUT2( "The net named: %s  in the .net file ", netname );
-	OUT1( "was not encountered while reading\n");
-	OUT1( "the .cel file --- FATAL error\n");
+	printf( "The net named: %s  in the .net file ", netname );
+	printf( "was not encountered while reading\n");
+	printf( "the .cel file --- FATAL error\n");
 	Ymessage_error_count() ;
 	abortFlagS = TRUE ;
 	return( 0 ) ;

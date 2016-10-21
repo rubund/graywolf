@@ -128,8 +128,8 @@ BOOL first ;
 
     min_xalphaS = MIN( min_xalphaS, FRACTION * (DOUBLE) bdxlengthG ) ;
     min_yalphaS = MIN( min_yalphaS, FRACTION * (DOUBLE) bdylengthG ) ;
-    OUT2( "min_xalpha:%4.2lf\n", min_xalphaS ) ;
-    OUT2( "min_yalpha:%4.2lf\n", min_yalphaS ) ;
+    printf( "min_xalpha:%4.2lf\n", min_xalphaS ) ;
+    printf( "min_yalpha:%4.2lf\n", min_yalphaS ) ;
 
     if (init_accG >= 0.44) {
 	max_xalphaS = bdxlengthG;	/*** average max. window size ***/

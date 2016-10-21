@@ -133,7 +133,7 @@ DOUBLE newCoreArea ;
     bdxlengthG = blockrG - blocklG ;
     bdylengthG = blocktG - blockbG ;
 
-    OUT3("bdxlength:%d    bdylength:%d\n",bdxlengthG,bdylengthG);
+    printf("bdxlength:%d    bdylength:%d\n",bdxlengthG,bdylengthG);
 
     /* update for wire estimation algorithm */
     resize_wire_params() ;

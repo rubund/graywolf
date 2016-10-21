@@ -113,10 +113,10 @@ for( net1 = 1 ; net1 <= numnetsG ; net1++ ) {
 }
 
 
-OUT1("\n\n*************************************\n");
-OUT2("AVERAGE NUMBER OF CELLS PER NET: %f\n",
+printf("\n\n*************************************\n");
+printf("AVERAGE NUMBER OF CELLS PER NET: %f\n",
 		( (DOUBLE) tot_cels / (DOUBLE) num_nets	)  ) ;
-OUT1("*************************************\n\n\n");
+printf("*************************************\n\n\n");
 /* ********************************************************** */
 for( net1 = 1 ; net1 <= numnetsG ; net1++ ) {
     if( number[net1][0] == 0 ) {
@@ -174,21 +174,21 @@ C = (DOUBLE) num / (DOUBLE) numcellsG ;
 C1 = (DOUBLE) cnum / (DOUBLE) num ;
 C2 = (DOUBLE) c2num / (DOUBLE) num ;
 C3 = (DOUBLE) cnum / (DOUBLE)(numcellsG - 1) ;
-OUT1("\n\n\n**********************************************\n\n");
-OUT1("The average number of distinct nets per cell is\n");
-OUT2("given by: %6.2f\n\n", C );
-OUT1("The average number of cells per net is\n");
-OUT2("given by: %6.2f\n\n", C2 );
-OUT1("The average number of other cells per net is\n");
-OUT2("given by: %6.2f\n\n", C1 );
-OUT1("The ratio of total cells specified per net to\n");
-OUT2("numcells is given by: %6.2f\n\n", C3 );
-OUT1("The average number of cells connected to a cell is\n");
-OUT2("given by: %6.2f\n\n", C * C1 );
-OUT1("**********************************************\n\n\n");
+printf("\n\n\n**********************************************\n\n");
+printf("The average number of distinct nets per cell is\n");
+printf("given by: %6.2f\n\n", C );
+printf("The average number of cells per net is\n");
+printf("given by: %6.2f\n\n", C2 );
+printf("The average number of other cells per net is\n");
+printf("given by: %6.2f\n\n", C1 );
+printf("The ratio of total cells specified per net to\n");
+printf("numcells is given by: %6.2f\n\n", C3 );
+printf("The average number of cells connected to a cell is\n");
+printf("given by: %6.2f\n\n", C * C1 );
+printf("**********************************************\n\n\n");
 wireRatio = EXPECTEDWIRERATIO ;
 
-OUT2("Expected Wire Reduction Relative to Random:%6.2f\n\n",wireRatio);
+printf("Expected Wire Reduction Relative to Random:%6.2f\n\n",wireRatio);
 
 wireRatio = weight_past_runs( wireRatio ) ;
 sprintf( YmsgG,"\n\nWire ratio updated to:%4.2f\n\n", wireRatio ) ;

@@ -104,7 +104,7 @@ BOOL multi_cell_moves ;
      *  * WE ARE FINISHED *
      */
     prnt_cost("\nPLACEMENT RESULTS AFTER ANNEALING ARE:\n" ) ;
-    OUT2("MAX NUMBER OF ATTEMPTED FLIPS PER T:%8d\n", attmaxG ) ;
+    printf("MAX NUMBER OF ATTEMPTED FLIPS PER T:%8d\n", attmaxG ) ;
     /* verify incremental and current costs */
     D( "twmc/utemp", checkcost() ) ;
     return ;
