@@ -753,7 +753,7 @@ BOOL find_path ;
 	) ;
     } /* end loop on longest path for forward loop including fixed cells. */
     D( "mc_compact/iterate", 
-	fprintf( stderr, "It took %d time[s] to converge in x forward graph\n\n",
+	printf( "It took %d time[s] to converge in x forward graph\n\n",
 	    count ) ;
     ) ;
     /***********************************************************
@@ -820,7 +820,7 @@ BOOL find_path ;
 	) ;
     } /* end loop on longest path for reverse loop including fixed cells. */
     D( "mc_compact/iterate", 
-	fprintf( stderr, "It took %d time[s] to converge in x backward graph\n\n",
+	printf( "It took %d time[s] to converge in x backward graph\n\n",
 	    count ) ;
     ) ;
     /***********************************************************

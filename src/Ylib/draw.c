@@ -338,7 +338,7 @@ INT mode ;
 {
     if( dumpOnlyS && mode != TWWRITEONLY ){
 	D( "TWsetMode",
-	    fprintf( stderr, 
+	    printf( 
 	    "Drawing mode should not be changed in dumpOnly operation\n");
 	) ;
 	return ;
@@ -761,8 +761,8 @@ TWcloseGraphics()
 {
 
     if(!(initS )){
-	fprintf(stderr,"ERROR[closeGraphics]:initialization was not" ) ;
-	fprintf(stderr,"performed\n  before calling closeGraphics\n" ) ;
+	printf("ERROR[closeGraphics]:initialization was not" ) ;
+	printf("performed\n  before calling closeGraphics\n" ) ;
 	YexitPgm( NOINIT ) ;
     }
 
@@ -963,7 +963,7 @@ TWtranslate()
     bS -= (yoffsetS - last_yoff) ;
     tS -= (yoffsetS - last_yoff) ;
     D( "TWtranslate",
-	fprintf( stderr, "l:%d r:%d b:%d t:%d\n", lS, rS, bS, tS ) ;
+	printf( "l:%d r:%d b:%d t:%d\n", lS, rS, bS, tS ) ;
     ) ;
 
 } /* end TWtranslate */
@@ -1072,19 +1072,19 @@ INT  numC ;
 
 	/* take user given colors and look them up in color table */
 	if( !(color = desiredColorArray[i] ) ){
-	    fprintf( stderr, "ERROR:Color is NULL\n" ) ;
+	    printf( "ERROR:Color is NULL\n" ) ;
 	    break ;
 	    /* avoid nulls */
 	} 
 	/* check to make sure first two entries are */
 	if( i == 1 ){  /* user must give white */
 	    if( strcmp( desiredColorArray[i], "white" ) != STRINGEQ ){
-		fprintf( stderr, 
+		printf( 
 		    "ERROR:Element 1 must be white in color array.\n") ;
 	    }
 	} else if( i == 2 ){  /* user must give black */
 	    if( strcmp( desiredColorArray[i], "black" ) != STRINGEQ ){
-		fprintf( stderr, 
+		printf( 
 		    "ERROR:Element 2 must be black in color array.\n") ;
 	    }
 	}
@@ -1095,8 +1095,8 @@ INT  numC ;
 		&ecolor) <= 0){ 
 
 		/* default to white if call is unsucessful <= 0 */
-		fprintf( stderr,"Can't find color:%s ", color ) ;
-		fprintf( stderr,"in color table. Defaulting to white.\n");
+		printf("Can't find color:%s ", color ) ;
+		printf("in color table. Defaulting to white.\n");
 		colorArrayS[i].pixel = whitepix ;
 	    }
 	} 
@@ -1199,7 +1199,7 @@ BOOL exorFlag ;
 	    sprintf( YmsgG, "Color number:%d is out of range", color ) ;
 	    TWmessage( YmsgG ) ;
 	} else {
-	    fprintf( stderr,"Color number:%d is out of range", color ) ;
+	    printf("Color number:%d is out of range", color ) ;
 	}
 	return ;
     }
@@ -1239,7 +1239,7 @@ char	*label ;
 	    sprintf( YmsgG, "Color number:%d is out of range", color ) ;
 	    TWmessage( YmsgG ) ;
 	} else {
-	    fprintf( stderr,"Color number:%d is out of range", color ) ;
+	    printf("Color number:%d is out of range", color ) ;
 	}
 	return ;
     } else if(!(colorOnS[color])){
@@ -1296,7 +1296,7 @@ char	*label ;
 	    sprintf( YmsgG, "Color number:%d is out of range", color ) ;
 	    TWmessage( YmsgG ) ;
 	} else {
-	    fprintf( stderr,"Color number:%d is out of range", color ) ;
+	    printf("Color number:%d is out of range", color ) ;
 	}
 	return ;
     } else if(!(colorOnS[color])){
@@ -1433,7 +1433,7 @@ char	*label ;
 	    sprintf( YmsgG, "Color number:%d is out of range", color ) ;
 	    TWmessage( YmsgG ) ;
 	} else {
-	    fprintf( stderr,"Color number:%d is out of range", color ) ;
+	    printf("Color number:%d is out of range", color ) ;
 	}
 	return ;
     } else if(!(colorOnS[color])){
@@ -1861,7 +1861,7 @@ DOUBLE    *pX, *pY;
   }
 
   D("perspective",
-    fprintf(stderr,
+    printf(
 	"IN x:%-9.1f y:%-9.1f z:%-9.1f  OUT x:%-9.1f y:%-9.1f\n",
 	x,y,z,*pX,*pY ) ;
     );
@@ -1984,7 +1984,7 @@ char *label ;
 	    sprintf( YmsgG, "Color number:%d is out of range", color ) ;
 	    TWmessage( YmsgG ) ;
 	} else {
-	    fprintf( stderr,"Color number:%d is out of range", color ) ;
+	    printf("Color number:%d is out of range", color ) ;
 	}
 	return ;
     } else if(!(colorOnS[color])){
@@ -2034,8 +2034,8 @@ TWstartFrame()
 
 
     if(!(initS )){
-	fprintf(stderr,"ERROR[startNewFrame]:initialization was not" ) ;
-	fprintf(stderr,"performed\n  before calling startNewFrame\n" ) ;
+	printf("ERROR[startNewFrame]:initialization was not" ) ;
+	printf("performed\n  before calling startNewFrame\n" ) ;
 	YexitPgm( NOINIT ) ;
     }
 
@@ -2174,7 +2174,7 @@ char	*label;
     switch( modeS ){
 	case TWDRAWONLY:
 	    /* this is an error should never call this */
-	    fprintf( stderr,"ERROR[drawWPin]:problem with mode\n" ) ;
+	    printf("ERROR[drawWPin]:problem with mode\n" ) ;
 	    return ;
 	case TWWRITEONLY:
 	    break ;
@@ -2231,7 +2231,7 @@ char	*label;
     switch( modeS ){
 	case TWDRAWONLY:
 	    /* this is an error should never call this */
-	    fprintf( stderr,"ERROR[drawWRect]:problem with mode\n" ) ;
+	    printf("ERROR[drawWRect]:problem with mode\n" ) ;
 	    return ;
 	case TWWRITEONLY:
 	    break ;
@@ -2282,7 +2282,7 @@ char	*label ;
     switch( modeS ){
 	case TWDRAWONLY:
 	    /* this is an error should never call this */
-	    fprintf( stderr,"ERROR[drawWArb]:problem with mode\n" ) ;
+	    printf("ERROR[drawWArb]:problem with mode\n" ) ;
 	    return ;
 	case TWWRITEONLY:
 	    break ;

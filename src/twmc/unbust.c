@@ -188,7 +188,7 @@ YBUSTBOXPTR unbust()
      points_removed += remove_redundant_points( VptS ) ;
      numptS -= points_removed ;
 
-     D( "unbust", fprintf( stderr,"\n" ) ) ;
+     D( "unbust", printf("\n" ) ) ;
      given_num_pts = numptS ;
      if( addptS ){
 	 /* only add points if necessary */
@@ -244,13 +244,13 @@ YBUSTBOXPTR unbust()
      cur_pt->order = order = 1 ;
      cur_state = R ;
      limit = numptS + 1 ; 
-     D( "unbust", fprintf( stderr,"start_state:%d pt:(%d,%d)\n", 
+     D( "unbust", printf("start_state:%d pt:(%d,%d)\n", 
 		cur_state, cur_pt->x, cur_pt->y ) ) ;
      for( i = 0; i <= limit; i++ ){  /* infinite loop protector */
 	/* determine next state */
 	if( next_state = find_next_state( cur_state,cur_pt,&next_pt )){
 	    D( "unbust", 
-		fprintf( stderr,"next_state:%d next_pt:(%d,%d)\n", 
+		printf("next_state:%d next_pt:(%d,%d)\n", 
 		next_state, next_pt->x, next_pt->y ) ) ;
 	    if( next_pt->order == 1 ){
 		/* we know we have made a full circle */
@@ -441,7 +441,7 @@ INT tile, x, y ;
     ptr->Vnum = 0 ;
     ptr->Hnum = 0 ;
     ptr->marked = FALSE ;
-    D( "addPt", fprintf( stderr,"adding point (%d,%d)...\n", x, y ) ) ;
+    D( "addPt", printf("adding point (%d,%d)...\n", x, y ) ) ;
     return ;
 } /* end addPt */
 
@@ -452,7 +452,7 @@ INT cell, l, r, b, t ;
     addPt( cell, l, t ) ;
     addPt( cell, r, t ) ;
     addPt( cell, r, b ) ;
-    D( "addPts", fprintf( stderr, "%d %d %d %d %d %d %d %d\n",
+    D( "addPts", printf( "%d %d %d %d %d %d %d %d\n",
 	    l, b, l, t, r, t, r, b ) ) ;
 } /* end addPts */
 
@@ -562,7 +562,7 @@ POINTPTR *pt_array ;
     }
 
     D( "remove_redundant_points",
-	fprintf( stderr,"found %d redundant points\n", redundant ) ) ;
+	printf("found %d redundant points\n", redundant ) ) ;
     /* we need to do work to remove point */
     tempArray = (POINTPTR *) Ysafe_malloc( (numptS+1)*sizeof(POINTPTR) ) ;
     for( i=0; i <= numptS; i++ ) {
@@ -580,7 +580,7 @@ POINTPTR *pt_array ;
 	}
     }
     D( "remove_redundant_points",
-        fprintf( stderr,"bottom:%d top:%d redundant:%d\n", 
+        printf("bottom:%d top:%d redundant:%d\n", 
 	bottom, top, redundant ) ) ;
     dump_pts( pt_array ) ;
     Ysafe_free( tempArray ) ;
@@ -605,7 +605,7 @@ INT numpts ;
     BOOL newTiles ;             /* when true load 4 points otherwise load two */
 
     newTiles = TRUE ;
-    D( "add_vpts",fprintf( stderr, "add_vpts:numpoints:%d\n", numpts ) ) ;
+    D( "add_vpts",printf( "add_vpts:numpoints:%d\n", numpts ) ) ;
     /* process four points at a time */
     for( i = 1; i+3 <= numpts; ){
 	if( newTiles ){
@@ -670,7 +670,7 @@ INT numpts ;
 
     if( i <= numpts ){
 	D( "add_vpts",
-	    fprintf( stderr, "ERROR[add_vpts] in algorithm\n" ) ) ;
+	    printf( "ERROR[add_vpts] in algorithm\n" ) ) ;
     }
 
 } /* end add_vpts */
@@ -768,7 +768,7 @@ INT numpts ;
 
     newTiles = TRUE ;
     D( "add_hpts",
-	fprintf( stderr, "add_vpts:numpoints:%d\n", numpts ) ) ;
+	printf( "add_vpts:numpoints:%d\n", numpts ) ) ;
     /* process four points at a time */
     for( i = 1; i+3 <= numpts; ){
 	if( newTiles ){
@@ -833,7 +833,7 @@ INT numpts ;
     } /* end for loop */
     if( i <= numpts ){
 	D( "add_hpts",
-	    fprintf( stderr, "ERROR[add_hpts] in algorithm\n" ) ) ;
+	    printf( "ERROR[add_hpts] in algorithm\n" ) ) ;
     }
 } /* end add_hpts */
 
@@ -918,10 +918,10 @@ POINTPTR tile1, tile2, tile3, tile4 ;
     POINTPTR ptr ;
 
     D( "dump_pts",
-	fprintf( stderr, "Point dump:\n" ) ) ;
+	printf( "Point dump:\n" ) ) ;
     for( i=0; i <= numptS; i++ ){
 	DS( ptr = pt[i] ; ) ;
-	D( "dump_pts", fprintf( stderr,
+	D( "dump_pts", printf(
 	    "(%d,%d) order=%d marked=%d Vnum=%d Hnum=%d tile:%d\n", 
 	    ptr->x, ptr->y, ptr->order, ptr->marked, 
 	    ptr->Vnum, ptr->Hnum, ptr->tile ) ) ;

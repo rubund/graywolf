@@ -119,17 +119,17 @@ YQUEUE *queue ;
 {
     YQUEUEPTR temp ; 
 
-    fprintf( stderr,"Queue:" ) ;
+    printf("Queue:" ) ;
     if( temp = queue->top_of_queue ){
 	for( ;temp; temp=temp->next ){
 #if SIZEOF_VOID_P == 64
-	    fprintf( stderr,"%ld ", (INT)temp->data ) ;
+	    printf("%ld ", (INT)temp->data ) ;
 #else
-	    fprintf( stderr,"%d ", (INT)temp->data ) ;
+	    printf("%d ", (INT)temp->data ) ;
 #endif
 	}
-	fprintf( stderr,"\n" ) ;
+	printf("\n" ) ;
     } else { /* queue is empty */
-	fprintf( stderr,"empty.\n" ) ;
+	printf("empty.\n" ) ;
     }
 } /* end YdumpQueue */

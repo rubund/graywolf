@@ -235,9 +235,9 @@ adapt_wire_estimator()
     }
 
     D( "TWMC/awe/init",
-	fprintf( stderr,"\nA:\n" ) ;
+	printf("\nA:\n" ) ;
 	Ymatrix_disp( A ) ;
-	fprintf( stderr,"\nB:\n" ) ;
+	printf("\nB:\n" ) ;
 	Ymatrix_disp( B ) ;
     ) ;
 
@@ -274,7 +274,7 @@ adapt_wire_estimator()
 	    YMATRIX( Q, c, 7 ) =   /* error */
 		YMATRIX( Q, c, 6 ) / YMATRIX( Q, c, 4 ) ;
 	}
-	fprintf( stderr, "\n    x,          y,        B,       pins,         AB,           B - AX,      error:\n");
+	printf( "\n    x,          y,        B,       pins,         AB,           B - AX,      error:\n");
 	Ymatrix_disp( Q ) ;
     ) ;
 

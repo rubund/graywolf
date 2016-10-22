@@ -243,7 +243,7 @@ INFOPTR edge1, edge2 ;
 VOID print_edge( edge )
 INFOPTR edge ;
 {
-    fprintf( stderr, "edge %2d-%2d loc:%3d start:%3d end:%3d HnotV:%d\n",
+    printf( "edge %2d-%2d loc:%3d start:%3d end:%3d HnotV:%d\n",
 	edge->node1, edge->node2, *(edge->loc), *(edge->start), 
 	*(edge->end), edge->HnotV ) ;
 } /* end print_edge */
@@ -267,11 +267,11 @@ build_trees()
     } /* end for loop */
 
     D( "mc_compact/xtree",
-	fprintf( stderr, "The horizontal edges:\n" ) ;
+	printf( "The horizontal edges:\n" ) ;
 	Yrbtree_dump( horz_treeS, print_edge ) ;
     ) ;
     D( "mc_compact/ytree",
-	fprintf( stderr, "The vertical edges:\n" ) ;
+	printf( "The vertical edges:\n" ) ;
 	Yrbtree_dump( vert_treeS, print_edge ) ;
     ) ;
 

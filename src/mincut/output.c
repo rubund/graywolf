@@ -175,13 +175,13 @@ FILE *fp ;
     }
     core_areaS *= (row_sepS + 1.0) ;
 
-    fprintf( stderr, "\n----------------------------\n" ) ;
-    fprintf( stderr, "Total stdcells     :%d\n", total_std_cellS ) ;
-    fprintf( stderr, "Total cell width   :%4.2le\n", total_cell_lenS ) ;
-    fprintf( stderr, "Total cell height  :%4.2le\n", total_cell_heightS ) ;
-    fprintf( stderr, "Total cell area    :%4.2le\n", total_areaS ) ;
-    fprintf( stderr, "Total core area    :%4.2le\n", core_areaS ) ;
-    fprintf( stderr, "Average cell height:%4.2le\n\n",
+    printf( "\n----------------------------\n" ) ;
+    printf( "Total stdcells     :%d\n", total_std_cellS ) ;
+    printf( "Total cell width   :%4.2le\n", total_cell_lenS ) ;
+    printf( "Total cell height  :%4.2le\n", total_cell_heightS ) ;
+    printf( "Total cell area    :%4.2le\n", total_areaS ) ;
+    printf( "Total core area    :%4.2le\n", core_areaS ) ;
+    printf( "Average cell height:%4.2le\n\n",
 	average_cell_heightS ) ;
 
 

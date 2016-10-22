@@ -322,7 +322,7 @@ output_partition()
 	}
     }
     D( "output_partition",
-	fprintf( stderr, "broke on line:%d\n", line ) ;
+	printf( "broke on line:%d\n", line ) ;
     ) ;
     /* send the rest of the macro output of .mdat to fout */
     output( fout ) ;

@@ -282,9 +282,9 @@ char *argv[] ;
 yaleIntro() 
 {
 
-    fprintf(stdout,"\n%s\n",YmsgG) ;
-    fprintf(stdout,"Row configuration program\n");
-    fprintf(stdout,"    Yale University\n");
+    printf("\n%s\n",YmsgG) ;
+    printf("Row configuration program\n");
+    printf("    Yale University\n");
 
 } /* end yaleIntro */
 

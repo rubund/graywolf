@@ -132,7 +132,7 @@ INT xx , yy, zzz, r_term, last_term, pin_diff ;
 char layer;
 
 system("clear");
-fprintf(stderr, "\n\n ");
+printf( "\n\n ");
 
 /*------ Memory allocation ------*/
 dummy_box   = (CBOXPTR) Ysafe_malloc( sizeof(CBOX) );
@@ -152,7 +152,7 @@ for(cell = 1; cell <= numcellsG - extra_cellsG ; cell++){
    ASSERTNFAULT(Yrbtree_verify(CellTree),"calc_cells_name","bad tree");
   }  
 
-  /* fprintf(stderr,"\n\n The RB-Tree of All The Cells Follows: \n\n  ");
+  /* printf("\n\n The RB-Tree of All The Cells Follows: \n\n  ");
 
    Yrbtree_dump(CellTree,print_cell_name);     printout the whole tree--*/
 
@@ -168,11 +168,11 @@ for(cell = 1; cell <= numcellsG - extra_cellsG ; cell++){
 /*--------------------------------------------------------------------*/
 
 
-fprintf(stderr, "\n------------------------------------\n");
-fprintf(stderr, "The total number of cells = %d \n", --cell );
-fprintf(stderr, "The avarage cell length = %f \n", avg_cell_length );
-fprintf(stderr, "The cell deviation = %f", deviation );
-fprintf(stderr,"\n------------------------------------");
+printf( "\n------------------------------------\n");
+printf( "The total number of cells = %d \n", --cell );
+printf( "The avarage cell length = %f \n", avg_cell_length );
+printf( "The cell deviation = %f", deviation );
+printf("\n------------------------------------");
 
 
 
@@ -182,7 +182,7 @@ Low_Key->clength = 0;
 Hi_Key->clength = avg_cell_length;
 upper = Hi_Key->clength ;
 
-fprintf(stderr, "\n");
+printf( "\n");
 counter = 0;
 
 for(TestTree = (CBOXPTR) Yrbtree_interval(CellTree,Low_Key,Hi_Key,TRUE);
@@ -200,10 +200,10 @@ percent =  (counter / (float) (numcellsG - extra_cellsG)) ;
 
 if (percent >= 0.6){
 
-fprintf(stderr,"\n\nThe Total Number of Cells b/w the Lower Limit = %d",lower);
-fprintf(stderr,"\nand the Upper Limit = %d is ----->> %d \n", upper, counter);
-fprintf(stderr,"\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
-fprintf(stderr,"\nPlease wait, conversion is being done ... \n");
+printf("\n\nThe Total Number of Cells b/w the Lower Limit = %d",lower);
+printf("\nand the Upper Limit = %d is ----->> %d \n", upper, counter);
+printf("\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
+printf("\nPlease wait, conversion is being done ... \n");
 
 Hi_Key->clength = avg_cell_length ;
 
@@ -236,10 +236,10 @@ Hi_Key->clength = avg_cell_length ;
 
   }
 
-fprintf(stderr,"\n\nThe Total Number of Cell b/w the Lower Limit = %d",lower);
-fprintf(stderr,"\nand the  Upper Limit = %d is ----->> %d \n", upper, counter);
-fprintf(stderr,"\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
-fprintf(stderr,"\nPlease wait, conversion is being done ... \n");
+printf("\n\nThe Total Number of Cell b/w the Lower Limit = %d",lower);
+printf("\nand the  Upper Limit = %d is ----->> %d \n", upper, counter);
+printf("\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
+printf("\nPlease wait, conversion is being done ... \n");
 
 }/*---- end else ----*/
 

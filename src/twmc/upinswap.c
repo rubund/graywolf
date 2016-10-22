@@ -138,18 +138,18 @@ INT a ;
 	    pin->txpos, pin->typos,     
 	    acellptr->xcenter, acellptr->ycenter );
 	if( x != pin->xpos ){
-	    fprintf( stderr,"xpin != xpos \n" ) ;
+	    printf("xpin != xpos \n" ) ;
 	    pin->xpos = x ;
 	}
 	if( y != pin->ypos ){
-	    fprintf( stderr,"ypin != ypos \n" ) ;
+	    printf("ypin != ypos \n" ) ;
 	    pin->ypos = y ;
 	}
 	if( x < l || x > r ){
-	    fprintf( stderr,"pin outside bounding box\n" ) ;
+	    printf("pin outside bounding box\n" ) ;
 	}
 	if( y < b || b > t ){
-	    fprintf( stderr,"pin outside bounding box\n" ) ;
+	    printf("pin outside bounding box\n" ) ;
 	}
     }
 } /* end check_pin */

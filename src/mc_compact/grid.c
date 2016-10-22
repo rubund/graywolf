@@ -90,10 +90,10 @@ grid_data()
 	/* now modify center of cell coordinates */
 	delta_x = left - old_left ;
 	if( delta_x ){
-	    fprintf( stderr, "Gridding cell %d in x direction...\n", cell ) ;
+	    printf( "Gridding cell %d in x direction...\n", cell ) ;
 	}
 	if( delta_y ){
-	    fprintf( stderr, "Gridding cell %d in y direction...\n", cell ) ;
+	    printf( "Gridding cell %d in y direction...\n", cell ) ;
 	}
 	delta_y = bottom - old_bottom ;
 	xcenter = cellptr->xcenter += delta_x ;

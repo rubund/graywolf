@@ -474,11 +474,11 @@ INT cell ;
 
     sarray = cellarrayG[cell]->softpins ;
     for( pin = 1; pin <= cellarrayG[cell]->numsoftpins;pin++ ) {
-	fprintf( stderr, " %d ", sarray[pin]->softinfo->site );
+	printf( " %d ", sarray[pin]->softinfo->site );
 	if( pin % 15 == 0 ){
-	    fprintf( stderr, "\n" ) ;
+	    printf( "\n" ) ;
 	}
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 }
 #endif

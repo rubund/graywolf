@@ -737,7 +737,7 @@ INT TWcheckMouse()
 	press = XCheckMaskEvent( dpyS, ButtonPressMask,&event ) ;
 	D( "TWcheckMouse",
 	    if( press ){
-		fprintf( stderr, "window = %d\n", event.xbutton.window ) ;
+		printf( "window = %d\n", event.xbutton.window ) ;
 	    }
 	) ;
 	if(!(press)){
@@ -768,7 +768,7 @@ INT TWcheckMouse()
 
     /* ****** otherwise process the mouse button press ******** */
     D( "TWcheckMouse",
-	fprintf( stderr,"Button event-button:%d\n",event.xbutton.button);
+	printf("Button event-button:%d\n",event.xbutton.button);
     ) ;
 
     /* now disable top menu so we cant get false clicks */
@@ -963,21 +963,21 @@ INT TWcheckMouse()
 		menuptr->state[menu_requested] = FALSE ;
 		last_commandL = menuptr->function2[menu_requested] ;
 
-		D( "TWcheckMouse",fprintf( stderr,"return %d\n", 
+		D( "TWcheckMouse",printf("return %d\n", 
 		    last_commandL ) ) ;
 		return( last_commandL ) ;
 	    } else {
 		/* was false change to true */
 		menuptr->state[menu_requested] = TRUE ;
 		last_commandL = menuptr->function[menu_requested] ;
-		D( "TWcheckMouse",fprintf( stderr, "return %d\n",
+		D( "TWcheckMouse",printf( "return %d\n",
 		    last_commandL ) ) ;
 		return( last_commandL ) ;
 	    }
 	}
 	last_commandL = menuptr->function[menu_requested] ;
 	D( "TWcheckMouse",
-	    fprintf( stderr, "return %d\n", last_commandL ) ) ;
+	    printf( "return %d\n", last_commandL ) ) ;
 	return( last_commandL ) ;
     }
 
@@ -1066,7 +1066,7 @@ INT *x, *y ;
 	    /* now apply data offset */
 	    *x = xtemp - infoS->xoffset ;
 	    *y = ytemp - infoS->yoffset ;
-	    D( "TWgetPt", fprintf( stderr, "pt = (%d,%d)\n", *x, *y ) ) ;
+	    D( "TWgetPt", printf( "pt = (%d,%d)\n", *x, *y ) ) ;
 	}
     }
     /* now again enable top menu so we can get clicks */
@@ -1170,7 +1170,7 @@ char *directions ;
 	    /* find what the user entered */
 	    XLookupString( &(event.xkey), buffer,LRECL,&keysym, &status );
 	    buffer[1] = EOS ; /* only get one character at a time */
-	    D( "TWgetString",fprintf( stderr, "string:%s\n", buffer ) ) ;
+	    D( "TWgetString",printf( "string:%s\n", buffer ) ) ;
 
 	    /* look to see if we got a return */
 	    if( buffer[0] == RETURN ){
@@ -1353,7 +1353,7 @@ INT *x, *y ;
     /* now apply data offset */
     *x = xtemp - infoS->xoffset ;
     *y = ytemp - infoS->yoffset ;
-    D( "TWmouse_tracking_pt", fprintf( stderr,"pt = (%d,%d)\n", *x, *y ));
+    D( "TWmouse_tracking_pt", printf("pt = (%d,%d)\n", *x, *y ));
     XFlush( dpyS ) ;
 
     return( changed ) ;
@@ -1407,7 +1407,7 @@ BOOL TWcheckExposure()
 	    /* if we got a TWforceRedraw always redraw screen */
 	    lasttimeL = time ;
 	    D( "TWcheckExposure", 
-		fprintf( stderr,"Exposure:f @time = %d\n",time);
+		printf("Exposure:f @time = %d\n",time);
 	    ) ;
 	    if( exposed ){
 		draw_persistent_message( NULL ) ;
@@ -1420,7 +1420,7 @@ BOOL TWcheckExposure()
 	    lasttimeL = time ;
 	}
 	D( "TWcheckExposure", 
-	    fprintf( stderr,"Exposure:%d @time = %d\n",exposed,time);
+	    printf("Exposure:%d @time = %d\n",exposed,time);
 	) ;
     }
     if( exposed ){
@@ -1494,7 +1494,7 @@ TWcheckReconfig()
 	D( "TWcheckReconfig",
 	    {   INT time ;
 		(void) YcurTime( &time ) ;
-		fprintf( stderr,"TWcheckReconfig redraw:@time = %d\n",
+		printf("TWcheckReconfig redraw:@time = %d\n",
 		time);
 	    }
 	) ;

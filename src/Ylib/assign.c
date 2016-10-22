@@ -179,7 +179,7 @@ INT m, n;
     }
     if( neff < m ) {
 	M( ERRMSG, "initassign", "total capacity too small\n");
-	fprintf(stderr, "failed\n");
+	printf( "failed\n");
 	YexitPgm( 03 );
     }
 
@@ -500,21 +500,21 @@ INT **cost_matrix ;
 
     /* if too high, exit */
     if( max >= ASSIGN_PREASSIGN ){
-        fprintf(stderr,"ERROR in assignment\n");
+        printf("ERROR in assignment\n");
     }
-    fprintf(stderr,"sum = %d, max = %d\n", sum, max );
+    printf("sum = %d, max = %d\n", sum, max );
     for( j = 1; j <= n; j++ ){
-	fprintf(stderr,"%d  %d\n", j, capS[j]);
+	printf("%d  %d\n", j, capS[j]);
     }
     for( i = 1; i<= m; i++ ) {
 	for( j = 1; j <=n; j++ ) {
 	    if( colS[i] == j ){
-		fprintf( stderr, "[%d]", cost_matrix[i][j]);
+		printf( "[%d]", cost_matrix[i][j]);
 	    } else {
-		fprintf( stderr, " %d ", cost_matrix[i][j]);
+		printf( " %d ", cost_matrix[i][j]);
 	    }
 	}
-	fprintf( stderr, "\n");
+	printf( "\n");
     }
 } /* end Yassign_print */
 
@@ -596,7 +596,7 @@ char *argv[] ;
     YdebugMemory( FALSE ) ;
 
     intro = YinitProgram( "Test assignment", "v0.0", NULL );
-    fprintf( stderr, "\n%s\n\n", intro ) ;
+    printf( "\n%s\n\n", intro ) ;
 
     /* Yassign_init initializes a cost matrix of size x by y */
     c = Yassign_init( 5, 5 ) ;
@@ -609,11 +609,11 @@ char *argv[] ;
     answer = Yassign( c, 5, 5 ) ;
 
     /* returns a vector with the answers */
-    fprintf( stderr, "The answer is:" ) ;
+    printf( "The answer is:" ) ;
     for( i = 1; i <= 5; i++ ){
-	fprintf( stderr, "%d ", answer[i] ) ;
+	printf( "%d ", answer[i] ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 	
     Yassign_print( c, 5, 5 ) ;
 
@@ -628,11 +628,11 @@ char *argv[] ;
     answer = Yassign( c, 5, 5 ) ;
 
     /* returns a vector with the answers */
-    fprintf( stderr, "The answer is:" ) ;
+    printf( "The answer is:" ) ;
     for( i = 1; i <= 5; i++ ){
-	fprintf( stderr, "%d ", answer[i] ) ;
+	printf( "%d ", answer[i] ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 	
     Yassign_print( c, 5, 5 ) ;
 

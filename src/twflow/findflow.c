@@ -248,7 +248,7 @@ INT find_design_type()
 	mode = UNKNOWN ;
     }
     D( "find_design_type", 
-	fprintf( stderr, "Found design type %d\n", mode ) ;
+	printf( "Found design type %d\n", mode ) ;
     ) ;
 
     return( mode ) ;

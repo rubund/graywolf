@@ -575,7 +575,7 @@ density()
 	    rowtop = rowcenter + barrayG[row]->bheight - 
 		        barrayG[row]->bheight / 2;
 	    D( "twsc/buildDensityArray",
-		fprintf( stderr, "row:%d oldy:%d newy:%d tracks:%d\n",
+		printf( "row:%d oldy:%d newy:%d tracks:%d\n",
 		    row, barrayG[row]->bycenter, rowcenter, 
 		    maxTrackG[row] ) ;
 	    ) ;

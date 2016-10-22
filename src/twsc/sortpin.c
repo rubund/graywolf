@@ -173,7 +173,7 @@ INT cella, cellb ;
 	} else if( pin->cell == cellb ){
 	    sortArraySwapS[ ++numpins_b ] = pin ;
 	} else {
-	    fprintf( stderr, "Trouble with sortpin2\n" ) ;
+	    printf( "Trouble with sortpin2\n" ) ;
 	}
     }
     for( pin = bptr->pins ; pin; pin = pin->nextpin ) {
@@ -182,7 +182,7 @@ INT cella, cellb ;
 	} else if( pin->cell == cellb ){
 	    sortArraySwapS[ ++numpins_b ] = pin ;
 	} else {
-	    fprintf( stderr, "Trouble with sortpin2\n" ) ;
+	    printf( "Trouble with sortpin2\n" ) ;
 	}
     }
     /* now sort cell a's pins */

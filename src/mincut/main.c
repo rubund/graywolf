@@ -133,8 +133,8 @@ char *argv[] ;
         sprintf(command, "awk -f %s/bin/splt_file.a %s.cel", twdir , 
 	cktNameG ) ;
     } else {
-	fprintf(stderr,"ERROR:TWDIR environment variable not set.\n");
-	fprintf(stderr,"Please set it to TimberWolf root directory\n");
+	printf("ERROR:TWDIR environment variable not set.\n");
+	printf("Please set it to TimberWolf root directory\n");
 	YexitPgm( PGMFAIL ) ;
     }
 
@@ -155,11 +155,11 @@ char *argv[] ;
     update_stats( fp ) ;
     TWCLOSE( fp ) ;
     
-    fprintf(stdout, "Splitting %s.cel into " , cktNameG ) ;
-    fprintf(stdout, "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;
+    printf( "Splitting %s.cel into " , cktNameG ) ;
+    printf( "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;
     fflush( stdout ) ;
     Ysystem( "Mincut", ABORT, command, NULL ) ;
-    fprintf(stdout, "\tdone!\n\n" ) ;
+    printf( "\tdone!\n\n" ) ;
     fflush( stdout ) ;
 
 

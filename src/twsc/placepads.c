@@ -548,18 +548,18 @@ INT howmany ;
     PADBOXPTR ptr ;
     CBOXPTR   cptr ;
     
-    fprintf( stderr, "\n%s\n", message ) ;
+    printf( "\n%s\n", message ) ;
 
     /* now print them out */
     for( i = 1 ; i <= howmany; i++ ){
 	ptr = array[i] ;
 	cptr = carrayG[ ptr->cellnum ] ;
-	fprintf( stderr, 
+	printf( 
 	    "pad:%s x:%d y:%d type:%d side:%d pos:%d tie:%d orient:%d\n",
 	    cptr->cname, cptr->cxcenter, cptr->cycenter, ptr->hierarchy,
 	    ptr->padside, ptr->position, ptr->tiebreak, cptr->corient ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 
     dimension_pads() ;
     G( process_graphics() ) ;

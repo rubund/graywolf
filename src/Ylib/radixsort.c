@@ -628,26 +628,26 @@ main()
 	/* Yradix_prefix returns back the new start of the string */
 	sort_field = Yradix_prefix( aptr->sort_weight, i ) ;
 	sprintf( sort_field, "%10d", aptr->weight ) ;
-	fprintf( stderr, "array[%d] = %d\n", i, aptr->weight ) ;
+	printf( "array[%d] = %d\n", i, aptr->weight ) ;
     }
 
     Yradixsort_pref( array, NUM_ALLOC ) ;
 
-    fprintf( stderr, "\nAfter the sort:\n" ) ;
+    printf( "\nAfter the sort:\n" ) ;
     for( i = 0 ; i < NUM_ALLOC ; i++ ){
 	aptr = array[i] ;
 	num = Yradix_number( aptr->sort_weight ) ;
-	fprintf( stderr, "array[%d] = %10d (originally array[%d])\n", 
+	printf( "array[%d] = %10d (originally array[%d])\n", 
 	    i, aptr->weight, num ) ;
     }
 
     num = array[0]->weight ;
 
-    fprintf( stderr, "number = %d\n", num ) ;
+    printf( "number = %d\n", num ) ;
     bufferptr = Yradix_prefix( buffer, num ) ;
-    fprintf( stderr, "prefix = %s\n", bufferptr ) ;
+    printf( "prefix = %s\n", bufferptr ) ;
     num = Yradix_number( buffer ) ;
-    fprintf( stderr, "number = %d\n", num ) ;
+    printf( "number = %d\n", num ) ;
 
 
 } /* end main() */

@@ -191,7 +191,7 @@ if( check <= 0 ) {
 	    if( track == -1 ){
 		track = 0 ;
 		D( "twsc/urcost",
-		    fprintf( stderr, " track less than 1 reset to 0\n" ) ;
+		    printf( " track less than 1 reset to 0\n" ) ;
 		) ;
 	    }
 

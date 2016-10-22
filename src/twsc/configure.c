@@ -935,7 +935,7 @@ for( block = 1 ; block <= numRowsG ; block++ ) {
     D( "configure", 
 	xc = barrayG[block]->bxcenter ;
 	yc = barrayG[block]->bycenter ;
-	fprintf( stderr, "\tblock:%d l:%d r:%d b:%d t:%d\n",
+	printf( "\tblock:%d l:%d r:%d b:%d t:%d\n",
 	    block, barrayG[block]->bleft+xc, barrayG[block]->bright+xc,
 	    barrayG[block]->bbottom+yc, barrayG[block]->btop+yc ) ;
     ) ;

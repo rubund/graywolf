@@ -367,27 +367,27 @@ typedef  INT   *tag_p;
    sprintf( YmsgG, "Alternate MEMORY MANagement system invoked - allocation:%d bytes\n", allocation ) ;
    M( MSG, NULL, YmsgG ) ;
    if( debugFlagS ){ 
-       fprintf( stderr, "Memory debug switch on\n") ;
-       fprintf( stderr, "old starting memory address:%0x Page size = %d\n",
+       printf( "Memory debug switch on\n") ;
+       printf( "old starting memory address:%0x Page size = %d\n",
 	    head,pageSize) ;
    } 
    head = (block_p) sbrk(allocation) ; 
    if( debugFlagS ){ 
-       fprintf( stderr,
+       printf(
            "new starting memory address:%0x with allocation:%d bytes\n",
             head, allocation) ;
        if( !( heapNotStartedS) ){
-	   fprintf( stderr,
+	   printf(
 	   "current memory request = %d bytes approx. %d pages\n",
 	       min_size,min_size/pageSize) ;
-	   fprintf( stderr,
+	   printf(
 	   "total user memory allocated = %d bytes approx. %d pages\n",
 	        inUseS,inUseS/pageSize) ;
        }
-       fprintf( stderr,
+       printf(
        "new memory space = %d pages of %d bytes\n",
 	    totalAllocationS / pageSize, pageSize) ;
-       fprintf( stderr,"total current allocation = %d\n\n",totalAllocationS ) ;
+       printf("total current allocation = %d\n\n",totalAllocationS ) ;
    }
    /* head = (block_p) malloc(allocation) */ ;
    if ( !(head) || head == (block_p) -1) {
@@ -537,7 +537,7 @@ MEM_DEBUG2
 		    name_listS->next = name_data ;
 		    name_data->prev = name_listS ;
 		} else {
-		    fprintf( stderr,
+		    printf(
 			"Alloc name:%s too long to store\n",alloc_name ) ;
 		}
 	    }
@@ -582,7 +582,7 @@ VOID Ydump_mem()
 
     TWCLOSE( fp ) ;
 #else /* MEM_DEBUG */
-    fprintf( stderr, "Ydump_mem() is not available. Use libycad.mem-d.a\n" ) ;
+    printf( "Ydump_mem() is not available. Use libycad.mem-d.a\n" ) ;
 #endif /* MEM_DEBUG */
 } /* end Ydump_mem() */
 
@@ -596,7 +596,7 @@ VOIDPTR ptr;
 MEM_DEBUG2
 {
     if( !( ptr ) ){
-	fprintf( stderr, 
+	printf( 
 	    "WARNING[safe_free]:pointer = nil.  Ignoring safe_free.\n") ;
 	return ;
     } 
@@ -613,7 +613,7 @@ VOIDPTR ptr;
 MEM_DEBUG2
 {
     if( !( ptr ) ){
-	fprintf(stderr,
+	printf(
 	"WARNING[safe_cfree]:pointer = nil.  Ignoring safe_cfree.\n") ;
 	return ;
     } 
@@ -750,7 +750,7 @@ VOIDPTR where ; /* must be integer to work in dbx */
     INT size ;
 
     if( (size = YcheckMemObj( (char *) where )) == -1 ){
-	fprintf( stderr, "Memory has been damaged\n" ) ;
+	printf( "Memory has been damaged\n" ) ;
 	return( 0 ) ;
     } else {
 	return( size ) ;
@@ -798,14 +798,14 @@ char *offsetPtr ;  /* pointer to "next" field within structure */
              - sizeof(trailer_t));
        if ((headPtr->head.size > 0) || (headPtr->head.size != tail->size)) {
 	    if( debugFlagS ){
-	       fprintf( stderr, "ERROR[getListSize]:record has corrupted data\n") ;
+	       printf( "ERROR[getListSize]:record has corrupted data\n") ;
             }
             return(-1) ;
        }
        memInUse += - headPtr->head.size ;
        /* check for circular linked list */
        if( recordCount > limit) {
-	  fprintf( stderr, "Detected a circular linked list\n") ;
+	  printf( "Detected a circular linked list\n") ;
           return(-1) ;
        }	
 
@@ -964,23 +964,23 @@ char *s ;
 {
     /* first print user message if available */
     if( s ){
-	fprintf( stderr, "%s:", s ) ;
+	printf( "%s:", s ) ;
     }
     switch(errno){
 	case heap_ok:
-	   fprintf(stderr,
+	   printf(
 	   "Memory ok - Problem in memory management logic.\n" ) ;
 	   break; 
 	case heap_bad_block:
-	   fprintf(stderr,
+	   printf(
 	   "Memory block was found to be corrupted.\n" ) ;
 	   break; 
 	case heap_no_mem:
-	   fprintf(stderr,
+	   printf(
 	   "No memory available to allocate.\n" ) ;
 	   break; 
 	default:
-	   fprintf(stderr,
+	   printf(
 	   "Error = %0x Unrecognized error code.\n",errno ) ;
     }
 } /* end Ypmemerror */
@@ -1063,21 +1063,21 @@ main()
 
     /* allocate an array 0..9 */
     array = YMALLOC( 10, MEMDATA ) ;
-    fprintf( stderr, "Memory size :%d\n", YgetCurMemUse() ) ;
+    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
     /* allocate an array 1..10 */
     vector = YVECTOR_MALLOC( 1, 10, MEMDATA ) ;
-    fprintf( stderr, "Memory size :%d\n", YgetCurMemUse() ) ;
+    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
     /* clone this string */
     string = Ystrclone( "Droog" ) ;
-    fprintf( stderr, "Memory size :%d\n", YgetCurMemUse() ) ;
+    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
     /* look at mem.data at this point */
     Ydump_mem() ;
     /* free all the memory */
     YFREE( array ) ;
     YFREE( string ) ;
     YVECTOR_FREE( vector, 1 ) ;
-    fprintf( stderr, "Memory size :%d\n", YgetCurMemUse() ) ;
-    fprintf( stderr, "Memory max size :%d\n", YgetMaxMemUse() ) ;
+    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
+    printf( "Memory max size :%d\n", YgetMaxMemUse() ) ;
     Ydump_mem() ;
 
     exit(0) ;

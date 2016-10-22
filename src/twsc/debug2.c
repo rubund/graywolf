@@ -590,7 +590,7 @@ check_cost()
     }
 
     if( cost != funccostG ){
-	fprintf( stderr, "funcost:%d cost:%d\n", funccostG, cost ) ;
+	printf( "funcost:%d cost:%d\n", funccostG, cost ) ;
 	funccostG = cost ;
     }
 

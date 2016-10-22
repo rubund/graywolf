@@ -736,14 +736,14 @@ dtiles()
 {
     TILE_BOX *tptr ;      /* current tile */
 
-    fprintf( stderr, "The forward tiles\n" ) ;
+    printf( "The forward tiles\n" ) ;
     for( tptr=tile_listG;tptr;tptr=tptr->next ){
-	fprintf( stderr, "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
+	printf( "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
 	    tptr->name, tptr->llx, tptr->lly, tptr->urx, tptr->ury ) ;
     }
-    fprintf( stderr, "The backward tiles\n" ) ;
+    printf( "The backward tiles\n" ) ;
     for( tptr=last_tileG;tptr;tptr=tptr->prev ){
-	fprintf( stderr, "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
+	printf( "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
 	    tptr->name, tptr->llx, tptr->lly, tptr->urx, tptr->ury ) ;
     }
     

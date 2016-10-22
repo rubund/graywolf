@@ -1158,11 +1158,11 @@ makerows()
     }
     D( "genrows/placed_amount",
 	if( total_row_lengthS - row_length_so_far ){
-	    fprintf( stderr, 
+	    printf( 
 	    "Warning:Total row length requested exceeds placed row length by:%d\n",
 	    total_row_lengthS - row_length_so_far ) ;
 	} else {
-	    fprintf( stderr, 
+	    printf( 
 	    "Total row length requested equals placed row length\n") ;
 	}
     ) ;
@@ -1619,7 +1619,7 @@ remakerows()
     makerows() ;
 
     D( "genrows/numrows",
-	fprintf( stderr, "Number of rows = %d\n", number_of_rows_addedS ) ;
+	printf( "Number of rows = %d\n", number_of_rows_addedS ) ;
     ) ;
 
 } /* end remakerows */

@@ -100,9 +100,9 @@ for( cell = 1 ; cell <= totalcellsG ; cell++ ) {
 		pinptr->txpos, pinptr->typos,        /* relative */
 		ptr->xcenter, ptr->ycenter ) ;      /* cell center */
 	    if( x != pinptr->xpos ){
-		D( "findcost/print",fprintf( stderr,"xpos incorrect\n")) ;
+		D( "findcost/print",printf("xpos incorrect\n")) ;
 	    } else if( y != pinptr->ypos ){
-		D( "findcost/print",fprintf( stderr,"ypos incorrect\n")) ;
+		D( "findcost/print",printf("ypos incorrect\n")) ;
 	    }
 	) ; /* end debug macro */
 	    
@@ -198,16 +198,16 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     /* check to make sure calculation jives */
     D( "findcost/netcalc",
 	if( netptr->newxmin != netptr->xmin ){
-	    D( "findcost/print",fprintf( stderr,"netptr->xmin wrong\n"));
+	    D( "findcost/print",printf("netptr->xmin wrong\n"));
 	}
 	if( netptr->newxmax != netptr->xmax ){
-	    D( "findcost/print",fprintf( stderr,"netptr->xmax wrong\n"));
+	    D( "findcost/print",printf("netptr->xmax wrong\n"));
 	}
 	if( netptr->newymin != netptr->ymin ){
-	    D( "findcost/print",fprintf( stderr,"netptr->ymin wrong\n"));
+	    D( "findcost/print",printf("netptr->ymin wrong\n"));
 	}
 	if( netptr->newymax != netptr->ymax ){
-	    D( "findcost/print",fprintf( stderr,"netptr->ymax wrong\n"));
+	    D( "findcost/print",printf("netptr->ymax wrong\n"));
 	}
     ) ;
 

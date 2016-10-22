@@ -152,16 +152,16 @@ BOOL initFlag ;
 
     if( fptr ){
 	D( "update_fixed_record", 
-	    fprintf( stderr, "cell:%s\n", ptr->cname ) ;
-	    fprintf( stderr, "\tinitialS:%d\n", initialS ) ;
-	    fprintf( stderr, "\toldxspanS:%d ", oldxspanS ) ;
-	    fprintf( stderr, "\toldyspanS:%d\n", oldyspanS ) ;
-	    fprintf( stderr, "\tnewxspanS:%d ",  newxspanS ) ;
-	    fprintf( stderr, "\tnewyspanS:%d\n", newyspanS ) ;
-	    fprintf( stderr, "\txc:%d yc:%d x1:%d y1:%d x2:%d y2:%d\n", 
+	    printf( "cell:%s\n", ptr->cname ) ;
+	    printf( "\tinitialS:%d\n", initialS ) ;
+	    printf( "\toldxspanS:%d ", oldxspanS ) ;
+	    printf( "\toldyspanS:%d\n", oldyspanS ) ;
+	    printf( "\tnewxspanS:%d ",  newxspanS ) ;
+	    printf( "\tnewyspanS:%d\n", newyspanS ) ;
+	    printf( "\txc:%d yc:%d x1:%d y1:%d x2:%d y2:%d\n", 
 		fptr->xcenter, fptr->ycenter,
 		fptr->xloc1,fptr->yloc1,fptr->xloc2,fptr->yloc2 ) ;
-	    fprintf( stderr, "\tx1:%d y1:%d x2:%d y2:%d\n", 
+	    printf( "\tx1:%d y1:%d x2:%d y2:%d\n", 
 		fptr->leftNotRight,fptr->bottomNotTop,
 		fptr->leftNotRight2,fptr->bottomNotTop2 ) ;
 	) ; /* end debug macro */

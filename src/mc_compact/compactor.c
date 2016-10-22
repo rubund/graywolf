@@ -127,7 +127,7 @@ compact()
     count = 0 ;
     compactNotSat = TRUE ;
     xNotY_toggle  = TRUE ;
-    if(!(debugG)) fprintf( stderr,"\nCompaction Begins...\n" ) ;
+    if(!(debugG)) printf("\nCompaction Begins...\n" ) ;
     while( compactNotSat ){
 	/* first build x and y graphs */
 	buildXGraph() ;
@@ -136,23 +136,23 @@ compact()
 	    /* move strategy is to resolve overlap violations */
 	    G( set_draw_critical( FALSE ) ) ; 
 	    moveStrategy( violations ) ;
-	    fprintf( stderr,"V " ) ;
+	    printf("V " ) ;
 	    D( "mc_compact/viofail",
 		YexitPgm( PGMFAIL ) ;
 	    ) ;
 	    if( debugG ) {
-		fprintf( stderr, "\n" ) ;
+		printf( "\n" ) ;
 	    }
 	} else {
 	    G( set_draw_critical( TRUE ) ) ; 
 	    if( xNotY_toggle ){
-		fprintf( stderr,"X " ) ;
+		printf("X " ) ;
 		length = longestxPath( TRUE ) ;
 		/* move strategy is to compact in x direction */
 		move_compactx( length );
 		xNotY_toggle = FALSE ; /* flip toggle */
 	    } else {
-		fprintf( stderr,"Y " ) ;
+		printf("Y " ) ;
 		length = longestyPath( TRUE ) ;
 		/* move strategy is to compact in y direction */
 		move_compacty( length );
@@ -160,13 +160,13 @@ compact()
 	    }
 	    compactNotSat = test_area() ;
 	    if( debugG) {
-		fprintf( stderr, "\n" ) ;
+		printf( "\n" ) ;
 	    }
 
 	}
 
 	if( (!(debugG)) && (++count % 15) == 0 ){ 
-	    fprintf( stderr, "\n" ) ;
+	    printf( "\n" ) ;
 	}
 
 	D( "mc_compact/compact", MEMUSAGE ) ;
@@ -187,7 +187,7 @@ compact()
     } /* ----- END COMPACTION CYCLE ------ */
 
     if(!(debugG)){ 
-	fprintf( stderr, "\n\n" ) ;
+	printf( "\n\n" ) ;
     }
 
     /* grid the cells */

@@ -1137,13 +1137,13 @@ static space_pins()
 	for( i = 1 ; i <= numpinS; i++ ){
 	    pin = placearrayS[i] ;
 	    spin = pin->softinfo ;
-	    fprintf( stderr, 
+	    printf( 
 	    "pin:%s signal:%s side:%d oldpos:%d pos:%d pintype:%d\n",
 		pin->pinname, netarrayG[pin->net]->nname, 
 		spin->side, pin->typos_new, pin->txpos_new, pin->type ) ;
 		
 	}
-	fprintf( stderr, "\n\n" ) ;
+	printf( "\n\n" ) ;
     ) ; /* end of debug */
 
 } /* end space_pins */
@@ -1355,7 +1355,7 @@ static side_to_global()
 	    if( pin->type == SOFTEQUIVTYPE ){
 		pin->skip = TRUE ;
 	    } else {
-		fprintf( stderr, "side = 0\n" ) ;
+		printf( "side = 0\n" ) ;
 	    }
 	}
 	switch( sptr->direction ){
@@ -1394,13 +1394,13 @@ static side_to_global()
 	pin->flag = TRUE ;
 
 	D( "twmc/side_to_global",
-	    fprintf( stderr, 
+	    printf( 
 	    "pin:%s signal:%s side:%d txpos:%d typos:%d xpos:%d ypos:%d\n",
 		pin->pinname, netarrayG[pin->net]->nname, 
 		spin->side, pin->txpos_new, pin->typos_new,
 		pin->newx,  pin->newy, pin->type ) ;
 		
-	    fprintf( stderr, "\n\n" ) ;
+	    printf( "\n\n" ) ;
 	) ; /* end of debug */
 
     } /* end for loop */
@@ -1583,7 +1583,7 @@ BOOL newVertFlag ; /* use _new fields if true use x, y otherwise */
 	this_side->length = this_side->end - this_side->start ;
 
 	D( "twmc/sidearray",
-	fprintf( stderr, "x:%d y:%d start:%d end:%d loc:%d len:%d D:%d\n",
+	printf( "x:%d y:%d start:%d end:%d loc:%d len:%d D:%d\n",
 	    this_side->x, this_side->y, this_side->start, this_side->end,
 	    this_side->loc, this_side->length, this_side->direction ) ;
 	) ;
@@ -1697,14 +1697,14 @@ BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
 
 		for( pin = cellptr->pinptr; pin ; pin = pin->nextpin ){
 		    spin = pin->softinfo ;
-		    fprintf( stderr, 
+		    printf( 
 			"pin:%10s signal:%8s side:%d tx:%d x:%d ",
 			pin->pinname, netarrayG[pin->net]->nname, 
 			spin->side, pin->txpos, pin->xpos ) ;
-		    fprintf( stderr, "ty:%d y:%d pintype:%d\n",
+		    printf( "ty:%d y:%d pintype:%d\n",
 			pin->typos, pin->ypos, pin->type ) ;
 		} /* end for loop on pins */
-		fprintf( stderr, "\n\n" ) ;
+		printf( "\n\n" ) ;
 
 	    ) ; /* end of debug */
 	} /* loop on cells with softpins */
@@ -1875,18 +1875,18 @@ INT howmany ;
     PINBOXPTR ptr ;
     SOFTBOXPTR sptr ;
     
-    fprintf( stderr, "\n%s\n", message ) ;
+    printf( "\n%s\n", message ) ;
 
     /* now print them out */
     for( i = 1 ; i <= howmany; i++ ){
 	ptr = array[i] ;
 	sptr = ptr->softinfo ;
-	fprintf( stderr, 
+	printf( 
 	    "pin:%s pos:%d tie:%d type:%d side:%d order:%d fixed:%d\n",
 	    ptr->pinname, ptr->txpos_new, ptr->typos_new, sptr->hierarchy,
 	    sptr->side, sptr->ordered, sptr->fixed ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 
     /*
     G( process_graphics() ) ;

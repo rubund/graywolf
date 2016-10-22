@@ -304,7 +304,7 @@ extern YHEAPPTR Yheap_meld(h1,h2)
      YHEAPPTR h2;
 {
   if ((h1->heap_cmp) != (h2->heap_cmp)) {
-    fprintf(stderr,
+    printf(
 	    "HEAP: melding heaps with different compare functions.\n");
     abort();
   } else {
@@ -529,8 +529,8 @@ static VOID free_heap_el(el)
 
 extern VOID Yheap_check_mem()
 {
-  fprintf(stderr,"\theaps_allocated = %d\n", heaps_allocated);
-  fprintf(stderr,"\theap_els_allocated = %d\n", heap_els_allocated);
+  printf("\theaps_allocated = %d\n", heaps_allocated);
+  printf("\theap_els_allocated = %d\n", heap_els_allocated);
 }   /*  heap_check_mem  */
 
 /*--------------------------------
@@ -543,7 +543,7 @@ extern INT Yheap_verify(heap)
   INT rc = TRUE;
 
   if ( YcheckDebug(heap) < sizeof(YHEAP) ) {
-    fprintf(stderr,"tile memory corrupt\n");
+    printf("tile memory corrupt\n");
     rc = FALSE;
   }
   

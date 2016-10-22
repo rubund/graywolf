@@ -545,18 +545,18 @@ INT howmany ;
     PADBOXPTR ptr ;
     CELLBOXPTR cptr ;
     
-    fprintf( stderr, "\n%s\n", message ) ;
+    printf( "\n%s\n", message ) ;
 
     /* now print them out */
     for( i = 1 ; i <= howmany; i++ ){
 	ptr = array[i] ;
 	cptr = cellarrayG[ptr->cellnum] ;
-	fprintf( stderr, 
+	printf( 
 	    "pad:%s x:%d y:%d type:%d side:%d pos:%d tie:%d orient:%d\n",
 	    cptr->cname, cptr->xcenter, cptr->ycenter, ptr->hierarchy,
 	    ptr->padside, ptr->position, ptr->tiebreak, cptr->orient ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 
     dimension_pads() ;
     G( process_graphics() ) ;

@@ -272,7 +272,7 @@ COMPACTPTR tileb ;    /* info on tile b */
     }
 
     D( "mc_compact/fix_tiles",
-	fprintf( stderr, "\tWe found %d tiles for this multi-tile\n", 
+	printf( "\tWe found %d tiles for this multi-tile\n", 
 	count ) ;
     ) ;
     return( TRUE ) ;
@@ -291,7 +291,7 @@ COMPACTPTR tileb ;    /* info on tile b */
     ERRORPTR multi_tile ;  /* temp pointer */
 
     D( "mc_compact/add_to_multi_list",
-    fprintf( stderr,"multi touch:%d -> %d\n",tilea->node,tileb->node));
+    printf("multi touch:%d -> %d\n",tilea->node,tileb->node));
 
     /* save multi tile adjacencies - add to multi list */
     if( multi_tile = multiS ){

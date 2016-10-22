@@ -320,10 +320,10 @@ if( fp ) {
 if ( Equal_Width_CellsG && file_conversionG ) {
      closegraphics() ;
      calc_cells_width();
-     fprintf(stderr,"\n***************************************************");
-     fprintf(stderr,"\nThe file stdcell.comp has the converted equal cells");
-     fprintf(stderr,"\n***************************************************");
-     fprintf(stderr,"\n\n");
+     printf("\n***************************************************");
+     printf("\nThe file stdcell.comp has the converted equal cells");
+     printf("\n***************************************************");
+     printf("\n\n");
      YexitPgm(PGMOK);     
 
 }
@@ -802,10 +802,10 @@ fprintf(fpoG,"*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n",
 						    best_tracks);
 fprintf(fpoG,"***********************************************\n\n");
 fflush(fpoG);
-fprintf(stdout,"\n\n***********************************************\n");
-fprintf(stdout,"*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n", 
+printf("\n\n***********************************************\n");
+printf("*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n", 
 						    best_tracks);
-fprintf(stdout,"***********************************************\n\n");
+printf("***********************************************\n\n");
 fflush(stdout);
 
 
@@ -965,7 +965,7 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 	    xspot /= count ;
 	    yspot /= count ;
 	} else {
-	    fprintf( stderr, "Incorrectly specified ECO cell:%s", 
+	    printf( "Incorrectly specified ECO cell:%s", 
 		carrayG[cell]->cname ) ;
 	}
 

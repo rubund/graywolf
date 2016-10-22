@@ -129,7 +129,7 @@ struct sigcontext *scp ;
 
 {
     if( sigNum != SIGINT && sigNum != SIGQUIT && sigNum != SIGKILL ){
-	fprintf(stderr,
+	printf(
 	    "\nSystem has detected an error!\n") ;
 #ifdef apollo
 	{
@@ -139,7 +139,7 @@ struct sigcontext *scp ;
 	    pid = getpid() ;
 	    sprintf( command, "/com/tb %d", pid ) ;
 	    if(Ysystem("traceback", FALSE, command, NULL )){
-	       fprintf(stderr,"ERROR[cleanup]:could not perform traceback.\n");
+	       printf("ERROR[cleanup]:could not perform traceback.\n");
 	    }
 	}
 #endif
@@ -158,7 +158,7 @@ INT status ;
     char responseBuf[LRECL], *response = responseBuf ;
 
     if( status == SIGINT || status == SIGQUIT || status == SIGKILL ){
-	fprintf(stderr,"\nProgram terminated by user\n\n") ;
+	printf("\nProgram terminated by user\n\n") ;
     } else if( status == SIGUSR1 ){ 
 	Ypmemerror( "ERROR[memory manager]" ) ;
 
@@ -172,7 +172,7 @@ INT status ;
 	(*userFunction)() ;
     }
     if( dumpFlag == MAYBEDUMP ){
-	fprintf(stderr,"Enter y for core dump.  Default no dump\n") ;
+	printf("Enter y for core dump.  Default no dump\n") ;
 	scanf( "%s", response ) ;
 	if( *response == 'y' || *response == 'Y' ){
 	    dumpFlag = YESDUMP ;
@@ -180,8 +180,8 @@ INT status ;
     }
 
     if( dumpFlag == YESDUMP ){
-	fprintf(stderr,"Generating core dump for user traceback...\n") ;
-	fprintf(stderr,
+	printf("Generating core dump for user traceback...\n") ;
+	printf(
 	    "Use dbx to find where program core dumped...\n\n") ;
 	fflush(stdout) ;
 	signal(SIGILL,SIG_DFL);

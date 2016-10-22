@@ -572,10 +572,10 @@ INT yaleIntro()
     fprintf(fpoG,"         Dahe Chen, and Jimmy Lam\n"); 
     fprintf(fpoG,"         Yale University\n");
 
-    fprintf(stdout,"\n%s\n",YmsgG) ;
-    fprintf(stdout,"Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
-    fprintf(stdout,"         Dahe Chen, and Jimmy Lam\n"); 
-    fprintf(stdout,"         Yale University\n");
+    printf("\n%s\n",YmsgG) ;
+    printf("Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
+    printf("         Dahe Chen, and Jimmy Lam\n"); 
+    printf("         Yale University\n");
 
 } /* end yaleIntro */
 

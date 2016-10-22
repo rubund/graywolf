@@ -111,7 +111,7 @@ INT windowId ;
     } 
     if( windowId ){
 	/* init windows as a parasite */
-	fprintf( stderr,"windowId:%d\n", windowId ) ;
+	printf("windowId:%d\n", windowId ) ;
 	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
 	    FALSE, MENU, draw_the_data, windowId ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");

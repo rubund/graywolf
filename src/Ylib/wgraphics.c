@@ -133,8 +133,8 @@ TWcloseWGraphics()
 {
 
     if(!(initS )){
-	fprintf(stderr,"ERROR[closeGraphics]:initialization was not" ) ;
-	fprintf(stderr,"performed\n  before calling closeGraphics\n" ) ;
+	printf("ERROR[closeGraphics]:initialization was not" ) ;
+	printf("performed\n  before calling closeGraphics\n" ) ;
 	YexitPgm( NOINIT ) ;
     }
 
@@ -152,8 +152,8 @@ TWstartWFrame()
     UNSIGNED_INT nitems ;
 
     if(!(initS )){
-	fprintf(stderr,"ERROR[startNewFrame]:initialization was not" ) ;
-	fprintf(stderr,"performed\n  before calling startNewFrame\n" ) ;
+	printf("ERROR[startNewFrame]:initialization was not" ) ;
+	printf("performed\n  before calling startNewFrame\n" ) ;
 	YexitPgm( NOINIT ) ;
     }
 

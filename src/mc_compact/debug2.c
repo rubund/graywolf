@@ -282,32 +282,32 @@ BOOL XNotY ;
     int i ;
     COMPACTPTR *ptr ;
 
-    fprintf(stderr,"Dumping tileNodeG - node:cell...\n") ;
+    printf("Dumping tileNodeG - node:cell...\n") ;
 
     ptr = tileNodeG ;
     for( i=1;i<=numtiles;i++ ){
-	fprintf(stderr, "%d:%d  ", ptr[i]->node,ptr[i]->cell ) ; 
+	printf( "%d:%d  ", ptr[i]->node,ptr[i]->cell ) ; 
 	if( ( i % 10 ) == 0 ){
-	    fprintf( stderr, "\n") ;
+	    printf( "\n") ;
 	}
     }
-    fprintf(stderr,"\n") ;
+    printf("\n") ;
 
     if( XNotY ){
-	fprintf(stderr,"\nDumping xGraph...\n") ;
+	printf("\nDumping xGraph...\n") ;
 	ptr = xGraphG ;
     } else {
-	fprintf(stderr,"\nDumping yGraph...\n") ;
+	printf("\nDumping yGraph...\n") ;
 	ptr = yGraphG ;
     }
 
     for( i=0;i<=last_tileG;i++ ){
-	fprintf(stderr, "%d:%d  ", ptr[i]->node,ptr[i]->cell ) ; 
+	printf( "%d:%d  ", ptr[i]->node,ptr[i]->cell ) ; 
 	if( i != 0 && ( i % 10 ) == 0 ){
-	    fprintf( stderr, "\n") ;
+	    printf( "\n") ;
 	}
     }
-    fprintf(stderr,"\n") ;
+    printf("\n") ;
 
 }  /* end numtiles */
 
@@ -317,13 +317,13 @@ dxancerr()
 
     for( i=0;i<=last_tileG; i++ ){
 	if( xGraphG[i]->xancestrF != 0 ){
-	    fprintf( stderr, "Tile:%d has %d forward ancestors\n",
+	    printf( "Tile:%d has %d forward ancestors\n",
 		xGraphG[i]->node, xGraphG[i]->xancestrF ) ;
 	}
     }
     for( i=0;i<=last_tileG; i++ ){
 	if( xGraphG[i]->xancestrB != 0 ){
-	    fprintf( stderr, "Tile:%d has %d backward ancestors\n",
+	    printf( "Tile:%d has %d backward ancestors\n",
 		xGraphG[i]->node, xGraphG[i]->xancestrB ) ;
 	}
     }
@@ -335,9 +335,9 @@ dump_anc()
     INT last ;
 
     last = YSINK ;
-    fprintf( stderr, "The ancestors for the tiles:\n" ) ;
+    printf( "The ancestors for the tiles:\n" ) ;
     for( i = 0; i <= last; i++ ){
-	fprintf( stderr, "\ttile:%3d ancestors:%d\n", i, ancestorG[i] ) ;
+	printf( "\ttile:%3d ancestors:%d\n", i, ancestorG[i] ) ;
     }
 } /* dump_anc */
 
@@ -354,11 +354,11 @@ INT length ;
     COMPACTPTR tptr ;
 
     if( XNotY ){
-	fprintf(stderr,"\nDumping xGraph slacks node:minslack-maxslack...\n") ;
+	printf("\nDumping xGraph slacks node:minslack-maxslack...\n") ;
 	for( i=1;i<=numcellsG;i++ ){
 	    cptr = slackG[i] ;
-	    fprintf(stderr, "%d:", tileNodeG[cptr->tiles->node]->cell ) ;
-	    fprintf(stderr, "%d-%d\n", cptr->xmin, cptr->xmax ) ;
+	    printf( "%d:", tileNodeG[cptr->tiles->node]->cell ) ;
+	    printf( "%d-%d\n", cptr->xmin, cptr->xmax ) ;
 	    count = 0 ;
 	    for( nptr = cptr->tiles; nptr; nptr = nptr->next ){
 		tptr = tileNodeG[nptr->node] ;
@@ -366,7 +366,7 @@ INT length ;
 		if( center ){
 		    value -= tptr->l_rel ;
 		}
-		fprintf(stderr, "\t%d:%d-", tptr->node, value ) ;
+		printf( "\t%d:%d-", tptr->node, value ) ;
 
 		value = tptr->xvalueMax ;
 		if( center ){
@@ -375,21 +375,21 @@ INT length ;
 		if( length ){
 		    value = length - value ;
 		}
-		fprintf(stderr, "%d  ", value ) ;
+		printf( "%d  ", value ) ;
 
 		if( (++count % 4) == 0 ){
-		    fprintf( stderr, "\n") ;
+		    printf( "\n") ;
 		}
 	    }
-	    fprintf( stderr, "\n") ;
+	    printf( "\n") ;
 	}
-	fprintf(stderr,"\n\n") ;
+	printf("\n\n") ;
     } else {
-	fprintf(stderr,"\nDumping yGraph slacks node:minslack-maxslack...\n") ;
+	printf("\nDumping yGraph slacks node:minslack-maxslack...\n") ;
 	for( i=1;i<=numcellsG;i++ ){
 	    cptr = slackG[i] ;
-	    fprintf(stderr, "%d:", tileNodeG[cptr->tiles->node]->cell ) ;
-	    fprintf(stderr, "%d-%d\n", cptr->ymin, cptr->ymax ) ;
+	    printf( "%d:", tileNodeG[cptr->tiles->node]->cell ) ;
+	    printf( "%d-%d\n", cptr->ymin, cptr->ymax ) ;
 	    count = 0 ;
 	    for( nptr = cptr->tiles; nptr; nptr = nptr->next ){
 		tptr = tileNodeG[nptr->node] ;
@@ -397,7 +397,7 @@ INT length ;
 		if( center ){
 		    value -= tptr->b_rel ;
 		}
-		fprintf(stderr, "\t%d:%d-", tptr->node, value ) ;
+		printf( "\t%d:%d-", tptr->node, value ) ;
 
 		value = tptr->yvalueMax ;
 		if( center ){
@@ -406,14 +406,14 @@ INT length ;
 		if( length ){
 		    value = length - value ;
 		}
-		fprintf(stderr, "%d  ", value ) ;
+		printf( "%d  ", value ) ;
 		if( (++count % 4) == 0 ){
-		    fprintf( stderr, "\n") ;
+		    printf( "\n") ;
 		}
 	    }
-	    fprintf( stderr, "\n") ;
+	    printf( "\n") ;
 	}
-	fprintf(stderr,"\n\n") ;
+	printf("\n\n") ;
     }
 } /* end dslack */
 
@@ -429,18 +429,18 @@ BOOL forwardNotBack ;
 
     if( XnotY ){
 	if( forwardNotBack ){
-	    fprintf( stderr, "X forward " ) ;
+	    printf( "X forward " ) ;
 	} else {
-	    fprintf( stderr, "X backward " ) ;
+	    printf( "X backward " ) ;
 	}
     } else {
 	if( forwardNotBack ){
-	    fprintf( stderr, "Y forward " ) ;
+	    printf( "Y forward " ) ;
 	} else {
-	    fprintf( stderr, "Y backward " ) ;
+	    printf( "Y backward " ) ;
 	}
     }
-    fprintf( stderr, "edges for cell:%d :\n", cell ) ;
+    printf( "edges for cell:%d :\n", cell ) ;
     for( nptr = cellarrayG[cell]->tiles; nptr ; nptr = nptr->next ){
 	tptr = tileNodeG[nptr->node] ;
 	if( XnotY ){
@@ -457,10 +457,10 @@ BOOL forwardNotBack ;
 	    }
 	}
 	for( ; eptr; eptr = eptr->next ){
-	    fprintf( stderr, "\t %d --> %d \n", nptr->node, eptr->node ) ;
+	    printf( "\t %d --> %d \n", nptr->node, eptr->node ) ;
 	}
     }
-    fprintf( stderr, "\n\n" ) ;
+    printf( "\n\n" ) ;
 }
 
 dyancerr()
@@ -469,13 +469,13 @@ dyancerr()
 
     for( i=0;i<=last_tileG; i++ ){
 	if( yGraphG[i]->yancestrF != 0 ){
-	    fprintf( stderr, "Tile:%d has %d forward ancestors\n",
+	    printf( "Tile:%d has %d forward ancestors\n",
 		yGraphG[i]->node, yGraphG[i]->yancestrF ) ;
 	}
     }
     for( i=0;i<=last_tileG; i++ ){
 	if( yGraphG[i]->yancestrB != 0 ){
-	    fprintf( stderr, "Tile:%d has %d backward ancestors\n",
+	    printf( "Tile:%d has %d backward ancestors\n",
 		yGraphG[i]->node, yGraphG[i]->yancestrB ) ;
 	}
     }
@@ -497,10 +497,10 @@ check_xancestors()
 	    count++ ;
 	}
 	if( tptr->xancestrF != count ){
-	    fprintf( stderr, 
+	    printf( 
 	    "ERROR:Mismatch in forward x ancestor count for node:%d\n",
 	    tptr->node ) ;
-	    fprintf( stderr, "\tdata:%d found:%d\n\n", tptr->xancestrF,
+	    printf( "\tdata:%d found:%d\n\n", tptr->xancestrF,
 		count ) ;
 	}
 	/* next check backward ancestors */
@@ -509,10 +509,10 @@ check_xancestors()
 	    count++ ;
 	}
 	if( tptr->xancestrB != count ){
-	    fprintf( stderr, 
+	    printf( 
 	    "ERROR:Mismatch in backward x ancestor count for node:%d\n",
 	    tptr->node ) ;
-	    fprintf( stderr, "\tdata:%d found:%d\n\n", tptr->xancestrB,
+	    printf( "\tdata:%d found:%d\n\n", tptr->xancestrB,
 		count ) ;
 	}
 
@@ -534,10 +534,10 @@ check_yancestors()
 	    count++ ;
 	}
 	if( tptr->yancestrF != count ){
-	    fprintf( stderr, 
+	    printf( 
 	    "ERROR:Mismatch in forward y ancestor count for node:%d\n",
 	    tptr->node ) ;
-	    fprintf( stderr, "\tdata:%d found:%d\n\n", tptr->yancestrF,
+	    printf( "\tdata:%d found:%d\n\n", tptr->yancestrF,
 		count ) ;
 	}
 	/* next check backward ancestors */
@@ -546,10 +546,10 @@ check_yancestors()
 	    count++ ;
 	}
 	if( tptr->yancestrB != count ){
-	    fprintf( stderr, 
+	    printf( 
 	    "ERROR:Mismatch in backward y ancestor count for node:%d\n",
 	    tptr->node ) ;
-	    fprintf( stderr, "\tdata:%d found:%d\n\n", tptr->yancestrB,
+	    printf( "\tdata:%d found:%d\n\n", tptr->yancestrB,
 		count ) ;
 	}
 

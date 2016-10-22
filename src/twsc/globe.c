@@ -1344,12 +1344,12 @@ BOOL perim_flag ;
 	net_p = netarrayG[net] ;
 	if( perim_flag ){
 	    if( net_p->newhalfPx != xwire ){
-		fprintf( stderr, "new x half perim:%d doesn't match calc.:%d\n",
+		printf( "new x half perim:%d doesn't match calc.:%d\n",
 		    net_p->newhalfPx, xwire ) ;
 		net_p->newhalfPx = xwire ;
 	    }
 	    if( net_p->newhalfPy != ywire ){
-		fprintf( stderr, "new y half perim:%d doesn't match calc.:%d\n",
+		printf( "new y half perim:%d doesn't match calc.:%d\n",
 		    net_p->newhalfPy, ywire ) ;
 		net_p->newhalfPy = ywire ;
 	    }
@@ -1393,7 +1393,7 @@ BOOL perim_flag ;
 
     D( "twsc/swap_cost",
 	if( timingcostG != newtimepenal ){
-	    fprintf( stderr, "Timing penalty mismatch %d vs %d\n",
+	    printf( "Timing penalty mismatch %d vs %d\n",
 		timingcostG, newtimepenal ) ;
 	}
     ) ;
@@ -1556,7 +1556,7 @@ for( termptr = ptr->pins; termptr; termptr = termptr->nextpin ) {
 newtimepenal += calc_incr_time2( cell1, cell2 ) ;
 D( "twsc/check_timing/globe",
     if( dcalc_full_penalty(newtimepenal) == FALSE ){
-	fprintf( stderr, "Problem with timing penalty\n" ) ;
+	printf( "Problem with timing penalty\n" ) ;
     }
 ) ;
 
@@ -1564,7 +1564,7 @@ D( "twsc/cell_swap_opt",
     fc = swap_cost( TRUE ) ;
 
     if( fc - ic != new_global_wire - global_wire ) {
-	fprintf(stderr,"error in improve_place_sequential()\n");
+	printf("error in improve_place_sequential()\n");
     }
 ) ;
 
@@ -1724,7 +1724,7 @@ D( "twsc/cell_swap_opt",
     fc = swap_cost( TRUE ) ;
 
     if( fc - ic != new_global_wire - global_wire ) {
-	fprintf(stderr,"error in cell_rotate()\n");
+	printf("error in cell_rotate()\n");
     }
 ) ;
 
@@ -1894,7 +1894,7 @@ rebuild_nextpin()
 	for( netptr = netarrayG[net]->pins ; netptr ; netptr = netptr->next ) {
 
 	    if( netptr->net <= 0 ){
-		fprintf( stderr, "We have an zero net\n" ) ;
+		printf( "We have an zero net\n" ) ;
 		continue ;
 	    }
 	    /* add it into this cell's pin list */

@@ -819,22 +819,22 @@ dprint_paths( cell )
 
 	path_num = pptr->p.path ;
 	path = patharrayG[path_num] ;
-	fprintf( stderr, "path:%d, cur_len:%d new_len:%d\n",
+	printf( "path:%d, cur_len:%d new_len:%d\n",
 	    path_num, path->path_len, path->new_path_len ) ;
 	/* for all nets k of a path i */
 	for( net_of_path=path->nets;net_of_path;net_of_path=net_of_path->next ){
 	    net = net_of_path->p.net ;
 
 	    dimptr = netarrayG[net] ;
-	    fprintf( stderr, "  net:%4d Px:%6d nPx:%6d Py:%6d nPy:%6d ",
+	    printf( "  net:%4d Px:%6d nPx:%6d Py:%6d nPy:%6d ",
 		net, dimptr->halfPx, dimptr->newhalfPx, dimptr->halfPy,
 		dimptr->newhalfPy ) ;
 
 	    /* accumulate length of path */
 	    if( member_net_set( net ) ){
-		fprintf( stderr, "*" ) ;
+		printf( "*" ) ;
 	    }
-	    fprintf( stderr, "\n" ) ;
+	    printf( "\n" ) ;
 	} /* end for( net_of_path... */
     } /* end for( pptr... */
 } /* end dprint_paths() */
@@ -843,13 +843,13 @@ dprint_net_set()
 {
     INT net ;
 
-    fprintf( stderr, "Current net set:\n" ) ;
+    printf( "Current net set:\n" ) ;
     for( net = 1; net <= numnetsG; net++ ){
 	if( member_net_set( net ) ){
-	    fprintf( stderr, "%d ", net ) ;
+	    printf( "%d ", net ) ;
 	}
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 } /* end dprint_net_set() */
 
 #endif /* DEBUG */
