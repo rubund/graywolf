@@ -61,38 +61,38 @@ twstats()
     INT temp ;
     DOUBLE reduction ;
 
-OUT3("\nInitial Wiring Cost: %d   Final Wiring Cost: %d\n",
+printf("\nInitial Wiring Cost: %d   Final Wiring Cost: %d\n",
 						icostG , fcostG ) ;
 if( icostG != 0 ) {
     temp = 100 - (INT)( (DOUBLE)fcostG / (DOUBLE)icostG * 100.0 ) ;
-    OUT2("############ Percent Wire Cost Reduction: %d\n\n", temp ) ;
+    printf("############ Percent Wire Cost Reduction: %d\n\n", temp ) ;
 }
 
-OUT3("\nInitial Wire Length: %d   Final Wire Length: %d\n",
+printf("\nInitial Wire Length: %d   Final Wire Length: %d\n",
 					    iwireG, fwireG ) ;
 if( icostG != 0 ) {
     temp = 100 - (INT)( (DOUBLE) fwireG / (DOUBLE) iwireG * 100.0 ) ;
-    OUT2("*********** Percent Wire Length Reduction: %d\n\n", temp ) ;
+    printf("*********** Percent Wire Length Reduction: %d\n\n", temp ) ;
 }
 
-OUT3("\nInitial Horiz. Wire: %d   Final Horiz. Wire: %d\n",
+printf("\nInitial Horiz. Wire: %d   Final Horiz. Wire: %d\n",
 					    iwirexG , fwirexG ) ;
 if( iwirexG != 0 ) {
     temp = 100 - (INT)( (DOUBLE)fwirexG / (DOUBLE)iwirexG * 100.0 ) ;
-    OUT2("$$$$$$$$$ Percent H-Wire Length Reduction: %d\n\n", temp ) ;
+    printf("$$$$$$$$$ Percent H-Wire Length Reduction: %d\n\n", temp ) ;
 }
-OUT3("\nInitial Vert. Wire: %d   Final Vert. Wire: %d\n",
+printf("\nInitial Vert. Wire: %d   Final Vert. Wire: %d\n",
 					    iwireyG , fwireyG ) ;
 if( iwireyG != 0 ) {
     temp = 100 - (INT)( (DOUBLE)fwireyG / (DOUBLE)iwireyG * 100.0 ) ;
-    OUT2("@@@@@@@@@ Percent V-Wire Length Reduction: %d\n\n", temp ) ;
+    printf("@@@@@@@@@ Percent V-Wire Length Reduction: %d\n\n", temp ) ;
 }
 
-OUT1("\nStatistics:\n");
-OUT2("Number of Cells: %d\n", numcellsG );
-OUT2("Number of Pads: %d\n", numpadsG );
-OUT2("Number of Nets: %d \n", numnetsG ) ;
-OUT2("Number of Pins: %d \n", numpinsG ) ;
+printf("\nStatistics:\n");
+printf("Number of Cells: %d\n", numcellsG );
+printf("Number of Pads: %d\n", numpadsG );
+printf("Number of Nets: %d \n", numnetsG ) ;
+printf("Number of Pins: %d \n", numpinsG ) ;
 
 /* write wire reduction to log file */
 if( avg_funcG > 0 ){
@@ -123,8 +123,8 @@ NETBOXPTR dimptr ;
 PINBOXPTR termptr ;
 
 if( printPinS ){
-    OUT2("\n\nPIN LISTING MODE ON FOR NETS WITH %d PINS\n", printPinS ) ; 
-    OUT1(    "-----------------------------------------\n" ) ; 
+    printf("\n\nPIN LISTING MODE ON FOR NETS WITH %d PINS\n", printPinS ) ; 
+    printf(    "-----------------------------------------\n" ) ; 
 }
 
 for( n = 1 ; n <= MAXPININFO ; n++ ) {
@@ -163,14 +163,14 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 for( n = 1 ; n < MAXPININFO ; n++ ) {
     if( net_pin_num[ n ] ){
-	OUT3( "The number of nets with %2d pins is %d\n",
+	printf( "The number of nets with %2d pins is %d\n",
 		 n , net_pin_num[ n ] ) ;
     }
 }
-OUT3( "The number of nets with %d pins or more is %d\n",
+printf( "The number of nets with %d pins or more is %d\n",
 	      MAXPININFO,net_pin_num[ MAXPININFO ] ) ;
-OUT2( "The total number of nets is: %d\n", numnetsG ) ;
-OUT2( "The maximum number of pins on a single net is: %d\n", maxpinS ) ;
+printf( "The total number of nets is: %d\n", numnetsG ) ;
+printf( "The maximum number of pins on a single net is: %d\n", maxpinS ) ;
 
 } /* end prnt_netinfo */
 

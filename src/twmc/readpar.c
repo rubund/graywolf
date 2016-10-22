@@ -194,7 +194,7 @@ INT parfile ;
     }
 
 
-    OUT1( "\n\n" ) ;
+    printf( "\n\n" ) ;
 
     while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, 
 	&onNotOff, &wildcard )){
@@ -434,7 +434,7 @@ INT parfile ;
 		} else if( strcmp( tokens[1] , "exact" ) == STRINGEQ ) {
 		    padspacingG = EXACT_PADS ;
 		} else {
-		    OUT1("Unexpected padspacing keyword in the .mpar file\n");
+		    printf("Unexpected padspacing keyword in the .mpar file\n");
 		    abortS = TRUE ;
 		}
 	    } else {
@@ -553,8 +553,8 @@ static process_readpar()
 	gridGivenG = TRUE ;
 	if( !(gridXS >= 0 && gridYS >= 0 && 
 				gOffsetXS >= 0 && gOffsetYS >= 0 ) ) {
-	    OUT1("Error: It appears as though the grid is\n");
-	    OUT1("not fully specified\n");
+	    printf("Error: It appears as though the grid is\n");
+	    printf("not fully specified\n");
 	    abortS = TRUE ;
 	}
     } else {
@@ -601,68 +601,68 @@ static process_readpar()
 	abortS = TRUE ;
     }
     if( chipaspectG < 0.0 ) {
-	OUT1("chip.aspect.ratio was not entered ");
-	OUT1("in the .mpar file\n");
+	printf("chip.aspect.ratio was not entered ");
+	printf("in the .mpar file\n");
 	abortS = TRUE ;
     }
     if( !cost_onlyG ) {
 	if( init_accG < 0.0 ) {
-	    OUT1("init_acc must be a positive floating point number\n");
+	    printf("init_acc must be a positive floating point number\n");
 	    abortS = TRUE ;
 	} 
     }
     if( restartG ) {
-	OUT1("TimberWolf instructed to attempt ");
-	OUT2("restart of circuit:<%s>\n", cktNameG ) ;
+	printf("TimberWolf instructed to attempt ");
+	printf("restart of circuit:<%s>\n", cktNameG ) ;
     }
     if( !cost_onlyG ) {
-	OUT1("TimberWolf instructed to do ");
-	OUT2("placement of circuit:<%s>\n", cktNameG ) ;
+	printf("TimberWolf instructed to do ");
+	printf("placement of circuit:<%s>\n", cktNameG ) ;
     }
     if( doChannelGraphG ) {
-	OUT1("TimberWolf instructed to generate ");
-	OUT2("channel graph for circuit:<%s>\n", cktNameG ) ;
+	printf("TimberWolf instructed to generate ");
+	printf("channel graph for circuit:<%s>\n", cktNameG ) ;
 	if( cost_onlyG  ) {
-	    OUT1("TimberWolf assumes input files: ");
-	    OUT3("<%s.geo> and <%s.pin> are present in\n",cktNameG, cktNameG );
+	    printf("TimberWolf assumes input files: ");
+	    printf("<%s.geo> and <%s.pin> are present in\n",cktNameG, cktNameG );
 	}
     }
     if( doGlobalRouteG ) {
 
 	if( doChannelGraphG ) {
 	    if( defaultTracksG < 0 ) {
-		OUT1("default.tracks.per.channel \n");
-		OUT1("was not entered in .mpar file\n");
+		printf("default.tracks.per.channel \n");
+		printf("was not entered in .mpar file\n");
 		abortS = TRUE ;
 	    } else {
-		OUT2("default.tracks.per.channel: %d\n",defaultTracksG);
+		printf("default.tracks.per.channel: %d\n",defaultTracksG);
 	    }
 	}
-	OUT1("TimberWolf instructed to do ");
-	OUT2("global route for circuit:<%s>\n", cktNameG ) ;
+	printf("TimberWolf instructed to do ");
+	printf("global route for circuit:<%s>\n", cktNameG ) ;
 	if( ! doChannelGraphG ) {
-	    OUT1("TimberWolf assumes input files: ");
-	    OUT3("<%s.gph> and <%s.twf> are present in ",
+	    printf("TimberWolf assumes input files: ");
+	    printf("<%s.gph> and <%s.twf> are present in ",
 						    cktNameG, cktNameG );
-	    OUT1("the working directory\n") ;
+	    printf("the working directory\n") ;
 	}
     }
     if( doCompactionG ) {
-	OUT1("TimberWolf instructed to do ");
-	OUT2("post-placement compaction for circuit:<%s>\n",cktNameG);
+	printf("TimberWolf instructed to do ");
+	printf("post-placement compaction for circuit:<%s>\n",cktNameG);
 	if( !(doChannelGraphG && doGlobalRouteG) ) {
-	    OUT1("Error: TimberWolf cannot do compaction ");
-	    OUT1("without request to also do:\n");
-	    OUT1("\tdoChannelGraph and doGlobalRoute - ");
-	    OUT1("Hence, request is cancelled\n");
+	    printf("Error: TimberWolf cannot do compaction ");
+	    printf("without request to also do:\n");
+	    printf("\tdoChannelGraph and doGlobalRoute - ");
+	    printf("Hence, request is cancelled\n");
 	    doCompactionG = FALSE ;
 	}
     }
 
-    OUT2("track.pitch.x: %d\n" , track_spacingXG ) ;
-    OUT2("track.pitch.y: %d\n" , track_spacingYG ) ;
-    OUT2("chip.aspect.ratio: %g\n" , chipaspectG ) ;
-    OUT2("init_acc: %4.2f\n", init_accG ) ;
+    printf("track.pitch.x: %d\n" , track_spacingXG ) ;
+    printf("track.pitch.y: %d\n" , track_spacingYG ) ;
+    printf("chip.aspect.ratio: %g\n" , chipaspectG ) ;
+    printf("init_acc: %4.2f\n", init_accG ) ;
 
     if( abortS ){
 	M( ERRMSG, "read_par", "Trouble with parameter file\n" ) ;
@@ -677,8 +677,8 @@ static process_readpar()
 static err_msg( keyword ) 
 char *keyword ;
 {
-    OUT2("The value for %s was", keyword );
-    OUT1(" not properly entered in the .mpar file\n");
+    printf("The value for %s was", keyword );
+    printf(" not properly entered in the .mpar file\n");
     abortS = TRUE ;
 }/* end err_msg */
 

@@ -142,10 +142,10 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 	limitNets += bbox ;
     }
 }
-OUT1("Wirelength:\n") ;
-OUT2("\tAll nets             :%d\n", withPads ) ;
-OUT2("\tLimited nets         :%d\n", limitNets ) ;
-OUT2("\tAll nets without pads:%d\n", withOutPads ) ;
+printf("Wirelength:\n") ;
+printf("\tAll nets             :%d\n", withPads ) ;
+printf("\tLimited nets         :%d\n", limitNets ) ;
+printf("\tAll nets without pads:%d\n", withOutPads ) ;
 return ;
 
 }

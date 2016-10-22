@@ -915,33 +915,33 @@ if( quickrouteG ){
    now output statistics for this temperature.
 */
 
-OUT1("\nI     T     funccost  binpen x lapFact = penalty  cost coreFactor\n");
-OUT2("%3d ",iterationG ); 
-OUT2("%4.2le ",TG ); 
-OUT2("%4.2le ",(DOUBLE) funccostG ); 
-OUT2("%4.2le ",(DOUBLE) binpenalG ); 
-OUT2("%4.2le ",lapFactorG ); 
-OUT2("%4.2le ",(DOUBLE) penaltyG ); 
-OUT2("%4.2le ",total_costS ); 
-OUT2("%4.2le\n",coreFactorG ); 
-OUT1("timeFactor timepenal timecost  var perDone\n");
-OUT2("%4.2le ",(DOUBLE) timeFactorG ); 
-OUT2("%4.2le ",(DOUBLE) timingpenalG ); 
-OUT2("%4.2le ",(DOUBLE) timingcostG ); 
-OUT2("%4.2le\n ",percentDone ); 
-OUT1(" flip1   flipo   flip0   flipp   flipa   flip2   flipo2  flipi   flips ratio\n");
-OUT3("%3d/%3d ",flip[SINGLE_CELL_MOVE],att[SINGLE_CELL_MOVE] ); 
-OUT3("%3d/%3d ",flip[SINGLE_CELL_MOVE_AND_ROTATE],
+printf("\nI     T     funccost  binpen x lapFact = penalty  cost coreFactor\n");
+printf("%3d ",iterationG ); 
+printf("%4.2le ",TG ); 
+printf("%4.2le ",(DOUBLE) funccostG ); 
+printf("%4.2le ",(DOUBLE) binpenalG ); 
+printf("%4.2le ",lapFactorG ); 
+printf("%4.2le ",(DOUBLE) penaltyG ); 
+printf("%4.2le ",total_costS ); 
+printf("%4.2le\n",coreFactorG ); 
+printf("timeFactor timepenal timecost  var perDone\n");
+printf("%4.2le ",(DOUBLE) timeFactorG ); 
+printf("%4.2le ",(DOUBLE) timingpenalG ); 
+printf("%4.2le ",(DOUBLE) timingcostG ); 
+printf("%4.2le\n ",percentDone ); 
+printf(" flip1   flipo   flip0   flipp   flipa   flip2   flipo2  flipi   flips ratio\n");
+printf("%3d/%3d ",flip[SINGLE_CELL_MOVE],att[SINGLE_CELL_MOVE] ); 
+printf("%3d/%3d ",flip[SINGLE_CELL_MOVE_AND_ROTATE],
                 att[SINGLE_CELL_MOVE_AND_ROTATE] ); 
-OUT3("%3d/%3d ",flip[ROTATION],att[ROTATION] ); 
-OUT3("%3d/%3d ",flip[SOFT_PIN_MOVE],att[SOFT_PIN_MOVE] ); 
-OUT3("%3d/%3d ",flip[ASPECT_RATIO_CHANGE],att[ASPECT_RATIO_CHANGE] ); 
-OUT3("%3d/%3d ",flip[PAIRWISE_CELL_SWAP],att[PAIRWISE_CELL_SWAP] ); 
-OUT3("%3d/%3d ",flip[PAIRWISE_CELL_SWAP_AND_ROTATION],
+printf("%3d/%3d ",flip[ROTATION],att[ROTATION] ); 
+printf("%3d/%3d ",flip[SOFT_PIN_MOVE],att[SOFT_PIN_MOVE] ); 
+printf("%3d/%3d ",flip[ASPECT_RATIO_CHANGE],att[ASPECT_RATIO_CHANGE] ); 
+printf("%3d/%3d ",flip[PAIRWISE_CELL_SWAP],att[PAIRWISE_CELL_SWAP] ); 
+printf("%3d/%3d ",flip[PAIRWISE_CELL_SWAP_AND_ROTATION],
 		att[PAIRWISE_CELL_SWAP_AND_ROTATION] ); 
-OUT3("%3d/%3d ",flip[CELL_INSTANCE_CHANGE],att[CELL_INSTANCE_CHANGE] ); 
-OUT3(" %3d/%3d ",flipsG,attempts ); 
-OUT2(" %4.2f\n\n",ratioG ); 
+printf("%3d/%3d ",flip[CELL_INSTANCE_CHANGE],att[CELL_INSTANCE_CHANGE] ); 
+printf(" %3d/%3d ",flipsG,attempts ); 
+printf(" %4.2f\n\n",ratioG ); 
 
 
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 

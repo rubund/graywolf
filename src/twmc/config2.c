@@ -133,7 +133,7 @@ DOUBLE wire_red_ratio ;
     }
 
     side = (INT)(sqrt(((DOUBLE) totalArea) / (DOUBLE) numcellsG))  ;
-    OUT2("\n\nAVERAGE CELL SIDE WITHOUT ROUTING AREA: %d\n\n",side );
+    printf("\n\nAVERAGE CELL SIDE WITHOUT ROUTING AREA: %d\n\n",side );
 
     tempint = (INT)( temp ) + 3 ; /* d+1 tracks + roundoff */
     tempint += defaultTracksG ;
@@ -141,10 +141,10 @@ DOUBLE wire_red_ratio ;
 
     aveChanWidG = ( (DOUBLE) tempint / 1.8) + 2.0 ;
 
-    OUT2("\n\nConfiguration Data\nInternal Channel Length:%d\n",
+    printf("\n\nConfiguration Data\nInternal Channel Length:%d\n",
 							    totChanLenG ) ;
-    OUT2("Average Channel Width (un-normalized):%f\n\n", temp ) ;
-    OUT2("Average Channel Width:%f\n\n", aveChanWidG ) ;
+    printf("Average Channel Width (un-normalized):%f\n\n", temp ) ;
+    printf("Average Channel Width:%f\n\n", aveChanWidG ) ;
 
     reconfigure( numbinX, numbinY, (DOUBLE) totalArea ) ;
 

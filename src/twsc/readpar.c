@@ -195,7 +195,7 @@ INT parfile ;
 
     Yreadpar_init( cktNameG, parfile, TWSC, FALSE ) ;
 
-    OUT1( "\n\n" ) ;
+    printf( "\n\n" ) ;
 
     while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, 
 	&onNotOff, &wildcard )){
@@ -663,7 +663,7 @@ INT parfile ;
 		} else if( strcmp( tokens[1] , "exact" ) == STRINGEQ ) {
 		    padspacingG = EXACT_PADS ;
 		} else {
-		    OUT1("Unexpected padspacing keyword in the .par file\n");
+		    printf("Unexpected padspacing keyword in the .par file\n");
 		    abortS = TRUE ;
 		}
 	    } else {
@@ -673,10 +673,10 @@ INT parfile ;
 	/*** catch all ***/
 	} else if(!(wildcard)){
 	    if( parfile == USER ){
-		OUT4("ERROR[readpar]:unexpected keyword in the %s.par file at line:%d\n\t%s\n", 
+		printf("ERROR[readpar]:unexpected keyword in the %s.par file at line:%d\n\t%s\n", 
 		cktNameG, line, lineptr );
 	    } else {
-		OUT4("ERROR[readpar]:Unexpected keyword in the %s.spar file at line:%d\n\t%s\n", 
+		printf("ERROR[readpar]:Unexpected keyword in the %s.spar file at line:%d\n\t%s\n", 
 		cktNameG, line, lineptr );
 	    }
 	    Ymessage_error_count() ;
@@ -697,7 +697,7 @@ INT numh_layers ;         /* number of horizontal layers */
 INT num_layers ;          /* total number of layers */
 
 if( abortS ){
-    OUT1( "Errors found in the .par file.  Must exit\n\n" ) ;
+    printf( "Errors found in the .par file.  Must exit\n\n" ) ;
     YexitPgm(PGMFAIL);
 }
 if( !(readparamS)){
@@ -870,7 +870,7 @@ yaleIntro()
 static err_msg( keyword ) 
 char *keyword ;
 {
-    OUT2("The value for %s was", keyword );
-    OUT1(" not properly entered in the .par file\n");
+    printf("The value for %s was", keyword );
+    printf(" not properly entered in the .par file\n");
     abortS = TRUE ;
 }/* end err_msg */

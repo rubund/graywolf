@@ -235,14 +235,14 @@ char *out_string ;
     INT yspan ;
 
     funccostG = findcost() ;
-    OUT2("%s", out_string ) ;
-    OUT2("   routing cost        :%d\n", funccostG ) ;
-    OUT2("   overlap penalty     :%d\n", binpenalG);
-    OUT2("   lapFactor * overlap :%d\n", penaltyG);
-    OUT2("   timing penalty      :%d\n", timingpenalG );
-    OUT2("+  timeFactor * timepen:%d\n", timingcostG );
-    OUT1("-------------------------------------\n" ) ; 
-    OUT2("   total cost          :%d\n",
+    printf("%s", out_string ) ;
+    printf("   routing cost        :%d\n", funccostG ) ;
+    printf("   overlap penalty     :%d\n", binpenalG);
+    printf("   lapFactor * overlap :%d\n", penaltyG);
+    printf("   timing penalty      :%d\n", timingpenalG );
+    printf("+  timeFactor * timepen:%d\n", timingcostG );
+    printf("-------------------------------------\n" ) ; 
+    printf("   total cost          :%d\n",
 	(funccostG + penaltyG + timingcostG) ) ;
     wirecosts() ;
 
@@ -251,10 +251,10 @@ char *out_string ;
 	    blocklG , blockrG , blockbG , blocktG ) ;
     xspan = blockrG - blocklG ;
     yspan = blocktG - blockbG ;
-    OUT2( "   xspan     = %d\n", xspan ) ;
-    OUT2( "   yspan     = %d\n", yspan ) ;
-    OUT2( "   core area = %4.2le\n\n",  (DOUBLE) xspan * (DOUBLE) yspan );
-    OUT1("-------------------------------------\n" ) ; 
+    printf( "   xspan     = %d\n", xspan ) ;
+    printf( "   yspan     = %d\n", yspan ) ;
+    printf( "   core area = %4.2le\n\n",  (DOUBLE) xspan * (DOUBLE) yspan );
+    printf("-------------------------------------\n" ) ; 
     Ymessage_flush() ;
 
 }/* end print_current_cost */

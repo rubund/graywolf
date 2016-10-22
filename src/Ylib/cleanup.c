@@ -129,8 +129,7 @@ struct sigcontext *scp ;
 
 {
     if( sigNum != SIGINT && sigNum != SIGQUIT && sigNum != SIGKILL ){
-	printf(
-	    "\nSystem has detected an error!\n") ;
+	printf("\nSystem has detected an error!\n") ;
 #ifdef apollo
 	{
 	    INT pid ;

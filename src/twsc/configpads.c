@@ -719,7 +719,7 @@ orient_pads()
 	    cptr->corient = (SHORT) 0 ;
 	    break;
 	 default:
-	    OUT1("\nNON-PADS or PAD w/o side not rotated ");
+	    printf("\nNON-PADS or PAD w/o side not rotated ");
 	    break;
 	 }
      }

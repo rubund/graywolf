@@ -176,7 +176,7 @@ INT lowerBound, upperBound ;
 			}
 		    case B:
 		    default:
-			OUT1("\nNON-PADS or PAD w/o valid side rotatation\n");
+			printf("\nNON-PADS or PAD w/o valid side rotatation\n");
 			break;
 		}
 	    } else {

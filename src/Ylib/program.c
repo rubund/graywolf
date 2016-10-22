@@ -113,47 +113,41 @@ char *YinitProgram(name,version,introTextFunction)
 YexitPgm(status)
 INT status ;
 {
+	INT	errorCount, 
+		warningCount,
+		mode ;
+	char	message[LRECL] ,
+		*name ;
 
-    INT     errorCount, 
-	    warningCount,
-	    mode ;
-    char    message[LRECL] ,
-	    *name ;
-
-    warningCount = Ymessage_get_warncount() ;
-    errorCount = Ymessage_get_errorcount() ;
-    if( status != 0 && errorCount == 0 ){
-	/* if we have an error status but no recorded error record error*/
-	errorCount++ ;
-    }
-    mode = Ymessage_get_mode() ;
-    if( errorCount != 0 || mode != M_SILENT ){
-	/* make sure we see errors */
-	Ymessage_mode( M_VERBOSE ) ;
-    }
-
-    if( name = YgetProgName() ){
-	if( errorCount ){
-	    sprintf(message,"\n%s terminated abnormally with %d error[s] and %d warning[s]\n\n",
-		name,errorCount,warningCount) ;
-	} else {
-	    sprintf(message,"\n%s terminated normally with no errors and %d warning[s]\n\n",
-		name,warningCount) ;
+	warningCount = Ymessage_get_warncount() ;
+	errorCount = Ymessage_get_errorcount() ;
+	if( status != 0 && errorCount == 0 ){
+		/* if we have an error status but no recorded error record error*/
+		errorCount++ ;
 	}
-    } else {
-	M(WARNMSG,"exitPgm","Unable to get program name.  Probably initProgram not used.\n") ;
-	sprintf(message,"Program terminated abnormally with %d error[s] and %d warning[s]\n\n",
-		errorCount,++warningCount) ;
-    }
-    M(MSG,NULL,message) ;
-    /* now write debug file if desired */
-    YdebugWrite() ;
-    Ymessage_close();	/* Added by Tim, 5/4/11 */
-    exit(status) ;
+	//mode = Ymessage_get_mode() ;
+	//if( errorCount != 0 || mode != M_SILENT ){
+	//	/* make sure we see errors */
+	//	Ymessage_mode( M_VERBOSE ) ;
+	//}
 
+	if( name = YgetProgName() ){
+		if( errorCount ){
+			sprintf(message,"\n%s terminated abnormally with %d error[s] and %d warning[s]\n\n", name, errorCount, warningCount) ;
+		} else {
+			sprintf(message,"\n%s terminated normally with no errors and %d warning[s]\n\n", name, warningCount) ;
+		}
+	} else {
+		printf("Unable to get program name.  Probably initProgram not used.\n") ;
+		sprintf(message,"Program terminated abnormally with %d error[s] and %d warning[s]\n\n", errorCount, ++warningCount) ;
+	}
+	printf(message) ;
+	/* now write debug file if desired */
+	//YdebugWrite() ;
+	//Ymessage_close();
+	exit(status);
 } /* end exitPgm */
- 
-    
+
 char *YgetProgName()
 {
  
