@@ -102,66 +102,44 @@ char *routine ;
 char *messageString ;
 {
 
-    FILE *out ; /* where to output result if verbose */
+	FILE *out ; /* where to output result if verbose */
 
-    /* determine message type */
-    switch (messageType){
-	case MSG:typeS[0] = EOS;  /* no need for an explanation */
-		out = stdout ;
+	/* determine message type */
+	switch (messageType){
+		case MSG:typeS[0] = EOS;  /* no need for an explanation */
 		break ;
-	case ERRMSG:sprintf(typeS,"ERROR");
-		out = stderr ;
-		if( routine ){
-		    /* error message should always have routine */
-		    /* continuation of a message doesn't count */
-		    errorCountS++;
-		}
+		case ERRMSG:sprintf(typeS,"ERROR");
+			if( routine ){
+				/* error message should always have routine */
+				/* continuation of a message doesn't count */
+				errorCountS++;
+			}
 		break ;
-	case WARNMSG:sprintf(typeS,"WARNING");
-		out = stderr ;
-		if( routine ){
-		    /* warning message should always have routine */
-		    /* continuation of a message doesn't count as new */
-		    /* warning message */
-		    warningCountS++;
-		}
+		case WARNMSG:sprintf(typeS,"WARNING");
+			if( routine ){
+				/* warning message should always have routine */
+				/* continuation of a message doesn't count as new */
+				/* warning message */
+				warningCountS++;
+			}
 		break ;
-	case DBGMSG:sprintf(typeS,"DEBUG");
-		out = stdout ;
+		case DBGMSG:sprintf(typeS,"DEBUG");
 		break ;
-    }
-
-    if( foutS ){
-
-	if( messageString && routine ){
-	    fprintf( foutS,"%s[%s]:%s",typeS,routine,messageString);
-	    if( verboseS || messageType == ERRMSG || 
-		messageType == WARNMSG ){
-		fprintf( out,"%s[%s]:%s",typeS,routine,messageString);
-	    }
-
-	} else if( messageString ){
-	    fprintf( foutS, "%s",messageString );
-	    if( verboseS || messageType == ERRMSG || 
-		messageType == WARNMSG ){
-		fprintf( out, "%s",messageString );
-	    }
 	}
 
-    } else {
 	if( modeS == M_SILENT ){
-	    if( messageType != ERRMSG && messageType != WARNMSG ){
+		if( messageType != ERRMSG && messageType != WARNMSG ){
 		/* eat the message in this case */
 		return ;
-	    }
+		}
 	}
+
 	/* no file installed send to screen */
 	if( messageString && routine ){
-	    fprintf( out,"%s[%s]:%s",typeS,routine,messageString);
+		printf( "%s[%s]:%s",typeS,routine,messageString);
 	} else if( messageString ){
-	    fprintf( out, "%s",messageString );
+		printf( "%s",messageString );
 	}
-    }
 
 } /* end message_print */
 
