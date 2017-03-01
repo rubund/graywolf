@@ -8,4 +8,9 @@ target_link_libraries(Mincut m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
-install(TARGETS Mincut DESTINATION lib/graywolf/bin)
+install(
+	TARGETS Mincut
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
+	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	)
+
