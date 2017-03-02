@@ -72,73 +72,74 @@ static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
 BOOL executePgm( adjptr )
 ADJPTR adjptr ;
 {
-    char *Yfixpath() ;               /* get full pathname */
-    char command[LRECL] ;
-    char window_name[LRECL] ;        /* the window name */
-    OBJECTPTR obj ;                  /* current object */
-    INT i ;                          /* arg counter */
-    INT status ;                     /* program return status */
-    char **argv ;                    /* argument vector */
-    BOOL stateSaved ;                /* whether graphics state was saved*/
+	char *Yfixpath() ;               /* get full pathname */
+	char command[LRECL] ;
+	char window_name[LRECL] ;        /* the window name */
+	OBJECTPTR obj ;                  /* current object */
+	INT i ;                          /* arg counter */
+	INT status ;                     /* program return status */
+	char **argv ;                    /* argument vector */
+	BOOL stateSaved ;                /* whether graphics state was saved*/
 
-    obj = proGraphG[adjptr->node] ;
+	obj = proGraphG[adjptr->node] ;
 
-    sprintf( YmsgG, "Executing %s", obj->name)  ;
-    G( TWmessage( YmsgG ) ) ;
+	sprintf( YmsgG, "Executing %s", obj->name)  ;
+	G( TWmessage( YmsgG ) ) ;
 
-    /* build command to be executed */
-    command[0] = EOS ; /* clear character string */
+	/* build command to be executed */
+	command[0] = EOS ; /* clear character string */
 
-    stateSaved = FALSE ;  /* for remember whether we save graphics */
+	stateSaved = FALSE ;  /* for remember whether we save graphics */
 
-    /* first the program name */
-    if( obj->path ){
-	/* take users pathname */
-	sprintf( command, "%s", Yfixpath( obj->path,TRUE ) ) ;
-    } else {
-	/* otherwise take default TimberWolf directory */
-	sprintf( command, "%s/bin/%s", twdirG, obj->name ) ;
-    }
-    argv = adjptr->argv ;
-    for( i = 0 ; i < adjptr->argc; i++ ){
-	strcat( command, " " ) ;
-	if( strncmp( argv[i], DESIGNNAME, DSNLEN ) == STRINGEQ ){
-	    /* +1 skips over $ to see if other is present */
-	    strcat( command, cktNameG ) ;
-	    strcat( command, argv[i]+1 ) ;
-	} else if( strcmp( argv[i], WINDOWID ) == STRINGEQ ){
-	    /* save state of graphics before call if necessary */
-	    if( graphicsG ){
-		G( sprintf( window_name, "%d", TWsaveState() ) ) ;
-		stateSaved = TRUE ;
-	    }
-	    strcat( command, window_name ) ;
-
-	} else if( strcmp( argv[i], FLOWDIR ) == STRINGEQ ){
-	    /* add flow directory */
-	    strcat( command, flow_dirG ) ;
+	/* first the program name */
+	if( obj->path ){
+		/* take users pathname */
+		sprintf( command, "%s", Yfixpath( obj->path,TRUE ) ) ;
 	} else {
-	    strcat( command, argv[i] ) ;
+		/* otherwise take default TimberWolf directory */
+		sprintf( command, "%s/%s", twdirG, obj->name ) ;
 	}
-    }
-    D( "twflow/executePgm", sprintf( YmsgG, "%s\n", command ) ) ;
-    D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
-    /* now log the beginning time */
-    sprintf( YmsgG, "%s started...", obj->name ) ;
-    Ylog_msg( YmsgG ) ;
+	argv = adjptr->argv ;
+	for( i = 0 ; i < adjptr->argc; i++ ){
+		strcat( command, " " ) ;
+		if( strncmp( argv[i], DESIGNNAME, DSNLEN ) == STRINGEQ ){
+			/* +1 skips over $ to see if other is present */
+			strcat( command, cktNameG ) ;
+			strcat( command, argv[i]+1 ) ;
+		} else if( strcmp( argv[i], WINDOWID ) == STRINGEQ ){
+			/* save state of graphics before call if necessary */
+			if( graphicsG ){
+				G( sprintf( window_name, "%d", TWsaveState() ) ) ;
+				stateSaved = TRUE ;
+			}
+			strcat( command, window_name ) ;
 
-    /* now execute the command */
-    status = system( command ) ;
+		} else if( strcmp( argv[i], FLOWDIR ) == STRINGEQ ){
+			/* add flow directory */
+			strcat( command, flow_dirG ) ;
+		} else {
+			strcat( command, argv[i] ) ;
+		}
+	}
+	D( "twflow/executePgm", sprintf( YmsgG, "%s\n", command ) ) ;
+	D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
-    sprintf( YmsgG, "%s completed...", obj->name ) ;
-    Ylog_msg( YmsgG ) ;
+	/* now log the beginning time */
+	sprintf( YmsgG, "%s started...", obj->name ) ;
+	Ylog_msg( YmsgG ) ;
 
-    if( stateSaved ){
-	/* if we save the graphics state we need to restore it */
-	G( TWrestoreState() ) ;
-    }
+	/* now execute the command */
+	status = system( command ) ;
 
-    return( status ) ;
+	sprintf( YmsgG, "%s completed...", obj->name ) ;
+	Ylog_msg( YmsgG ) ;
+
+	if( stateSaved ){
+		/* if we save the graphics state we need to restore it */
+		G( TWrestoreState() ) ;
+	}
+
+	return( status ) ;
 
 } /* end execute Pgm */
