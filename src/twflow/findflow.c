@@ -132,7 +132,7 @@ char *filename ;
 	    return( fp ) ;
 	}
 	/* next try relative to TimberWolf root directory. */
-	sprintf( filename, "%s/bin/flow/%s/%s.%s", twdirG, flow_dirG, prefix, suffix ) ;
+	sprintf( filename, "%s/flow/%s/%s.%s", twdirG, flow_dirG, prefix, suffix ) ;
 	if( fp = TWOPEN( filename, "r", NOABORT ) ){
 	    return( fp ) ;
 	}
@@ -153,7 +153,7 @@ char *filename ;
     sprintf( filename, "%s.%s", prefix, suffix ) ;
     fp = TWOPEN( filename, "r", NOABORT ) ;
     if( !(fp) ){
-	sprintf( filename, "%s/bin/flow/flow/%s.%s",twdirG,prefix,suffix ) ;
+	sprintf( filename, "%s/%s.%s",twdirG,prefix,suffix ) ;
 	fp = TWOPEN( filename, "r", ABORT ) ;
     }
     return( fp ) ;
@@ -197,7 +197,7 @@ INT find_design_type()
     }*/
     if( check_dependencies( &syntax_info ) ){
 	/* we need to execute the syntax program */
-	sprintf( buffer, "%s/bin/syntax %s", twdirG, cktNameG ) ;
+	sprintf( buffer, "syntax %s", cktNameG ) ;
 
 	/* now log the beginning time */
 	Ylog_msg( "Syntax started..." ) ;
