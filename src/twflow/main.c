@@ -245,7 +245,7 @@ char *argv[] ;
     /* If we haven't been given a flow directory override, find */
     /* the flow directory.  */
     if(!(flow_dirG)){
-	sprintf( filename, "%s/bin/flow/flow", twdirG ) ;
+	sprintf( filename, "%s/flow.noroute", twdirG ) ;
 	if( flow_dirG = Yfile_slink( filename )){
 	    flow_dirG = Ystrclone( flow_dirG ) ;
 	} else {
@@ -307,7 +307,6 @@ syntax()
 VOID yaleIntro() 
 {
     char message[LRECL] ;
-
     sprintf( message,"\n%s\n",YmsgG) ;
     M(MSG,NULL,message) ;
     M(MSG,NULL,"Authors: Bill Swartz, Carl Sechen\n");
@@ -320,6 +319,6 @@ show_flows()
 {
    char command[LRECL] ; 
    /* now show user the flow directories */ 
-   sprintf( command, "%s/show_flows", twdirG ) ;
+   sprintf( command, "/bin/ls -1l %s | awk '{ print $8  $9  $10 }'", twdirG ) ;
    Ysystem( "show_flows", ABORT, command, NULL ) ;
 } /* end show_flows */

@@ -16,5 +16,5 @@ install(
 #install(CODE "EXECUTE_PROCESS(COMMAND ln -sf flow.noroute flow WORKING_DIRECTORY ${SHARE_INSTALL_PREFIX}/graywolf/flow)")
 
 add_subdirectory(src)
-add_subdirectory(script)
+#add_subdirectory(script)
 
