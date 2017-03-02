@@ -69,7 +69,7 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
-main( argc , argv )
+Mincut( argc , argv )
 int argc ;
 char *argv[] ;
 {
