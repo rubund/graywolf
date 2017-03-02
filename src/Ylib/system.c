@@ -49,6 +49,7 @@ static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
 
 #include <yalecad/file.h>
 #include <yalecad/message.h>
+#include <dirent.h>
 
 INT Ysystem( program, abortFlag, exec_statement, abort_func )
 char *program ;
