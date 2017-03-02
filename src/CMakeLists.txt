@@ -8,3 +8,4 @@ add_subdirectory(mincut)
 add_subdirectory(twsc)
 add_subdirectory(syntax)
 add_subdirectory(mc_compact)
+
