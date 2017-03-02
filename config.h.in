@@ -1,2 +1,3 @@
 
-#define TWFLOWDIR "${CMAKE_INSTALL_PREFIX}/lib/graywolf"
+#define TWFLOWDIR "${CMAKE_INSTALL_FULL_DATADIR}/graywolf"
+

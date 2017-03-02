@@ -320,6 +320,6 @@ show_flows()
 {
    char command[LRECL] ; 
    /* now show user the flow directories */ 
-   sprintf( command, "%s/bin/show_flows", twdirG ) ;
+   sprintf( command, "%s/show_flows", twdirG ) ;
    Ysystem( "show_flows", ABORT, command, NULL ) ;
 } /* end show_flows */
