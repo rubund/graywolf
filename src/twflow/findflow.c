@@ -132,7 +132,7 @@ char *filename ;
 	    return( fp ) ;
 	}
 	/* next try relative to TimberWolf root directory. */
-	sprintf( filename, "%s/flow/%s/%s.%s", twdirG, flow_dirG, prefix, suffix ) ;
+	sprintf( filename, "%s/%s/%s.%s", twdirG, flow_dirG, prefix, suffix ) ;
 	if( fp = TWOPEN( filename, "r", NOABORT ) ){
 	    return( fp ) ;
 	}
