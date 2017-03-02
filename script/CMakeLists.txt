@@ -1,7 +1,7 @@
 
 add_custom_command(
 	OUTPUT show_flows
-	COMMAND sed 's;TWFLOWDIR;${CMAKE_INSTALL_FULL_DATADIR}/graywolf;' ${CMAKE_SOURCE_DIR}/script/show_flows.in > ${CMAKE_BINARY_DIR}/script/show_flows
+	COMMAND sed 's;TWFLOWDIR;${CMAKE_INSTALL_FULL_DATADIR}/graywolf/flow;' ${CMAKE_SOURCE_DIR}/script/show_flows.in > ${CMAKE_BINARY_DIR}/script/show_flows
 	)
 
 add_custom_target(run ALL DEPENDS ${CMAKE_BINARY_DIR}/script/show_flows)
