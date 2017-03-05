@@ -1,22 +1,21 @@
 
 #add_executable(Mincut main.c output.c readcells.c ${CMAKE_SOURCE_DIR}/src/date/date.c)
 
-add_library(Mincut SHARED
+add_library(GraywolfMincut SHARED
 	main.c
 	output.c
 	readcells.c
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
-#target_link_libraries(Mincut ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
+#target_link_libraries(GraywolfMincut ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
 #target_link_libraries(Mincut X11)
 #target_link_libraries(Mincut m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
 install(
-	TARGETS Mincut
+	TARGETS GraywolfMincut
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	)
 
