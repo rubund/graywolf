@@ -153,7 +153,7 @@ FILE *find_flow_file( general_mode, debug, filename )
 	sprintf( filename, "%s.%s", prefix, suffix ) ;
 	fp = TWOPEN( filename, "r", NOABORT ) ;
 	if( !(fp) ){
-		sprintf( filename, "%s/%s.%s",twdirG,prefix,suffix ) ;
+		sprintf( filename, "%s/flow.noroute/%s.%s",twdirG,prefix,suffix ) ;
 		fp = TWOPEN( filename, "r", ABORT ) ;
 	}
 	return( fp ) ;

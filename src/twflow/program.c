@@ -91,15 +91,6 @@ ADJPTR adjptr ;
 
 	stateSaved = FALSE ;  /* for remember whether we save graphics */
 
-	/* first the program name */
-	if( obj->path ){
-		/* take users pathname */
-		sprintf( command, "%s", Yfixpath( obj->path,TRUE ) ) ;
-	} else {
-		/* otherwise take default TimberWolf directory */
-		sprintf( command, "%s/%s", twdirG, obj->name ) ;
-	}
-
 	argv = adjptr->argv ;
 	for( i = 0 ; i < adjptr->argc; i++ ){
 		strcat( command, " " ) ;
@@ -130,7 +121,35 @@ ADJPTR adjptr ;
 	Ylog_msg( YmsgG ) ;
 
 	/* now execute the command */
-	status = system( command ) ;
+	//status = system( command ) ;
+
+	int Mincut( int argc, char *argv[]);
+
+	if(!strcmp("Mincut",obj->name)) {
+		printf("It's Mincut!\n");
+		//status = Mincut(adjptr->argc, adjptr->argv);
+		status = 0;
+	}
+
+	int TimberWolfMC( int argc, char *argv[]);
+
+	if(!strcmp("TimberWolfMC",obj->name)) {
+		//printf("It's TimberWolfMC!\n");
+		char* localArgv[2];
+		localArgv[0] = "TimberWolfMC";
+		localArgv[1] = Ystrclone(cktNameG);
+		//strcpy(localArgv[1], cktNameG);
+		printf("Command: TimberWolfMC %s\n", cktNameG);
+
+		//status = 0;
+		status = TimberWolfMC(2,localArgv);
+	}
+
+	if(!strcmp("TimberWolfSC",obj->name)) {
+		printf("It's TimberWolfSC!\n");
+		//status = TimberWolfSC(1,cktNameG);
+		status = 0;
+	}
 
 	sprintf( YmsgG, "%s completed...", obj->name ) ;
 	Ylog_msg( YmsgG ) ;

@@ -248,12 +248,12 @@ main( argc , argv )
 	/* the flow directory.  */
 	if(!(flow_dirG)){
 		sprintf( filename, "%s/flow.noroute", twdirG ) ;
-		if( flow_dirG = Yfile_slink( filename )){
+		/*if( flow_dirG = Yfile_slink( filename )){
 			flow_dirG = Ystrclone( flow_dirG ) ;
 		} else {
 			G( TWcloseGraphics() ) ;
 			YexitPgm(PGMFAIL);
-		}
+		}*/
 	}
 
 	/* let user user see data */
