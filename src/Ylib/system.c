@@ -57,25 +57,23 @@ BOOL abortFlag ;
 char *exec_statement ;
 INT  (*abort_func)() ;
 {
-    INT status ;        /* return status from program */
-
-    if( status = system( exec_statement ) ){
-	/* get status from exit routine */
-	status = (status & 0x0000FF00) >> 8 ;/* return code in 2nd byte */
-	/* now determine the program */
-
-	sprintf( YmsgG, "Program %s returned with exit code:%d\n",program,
-	    status );
-	M( ERRMSG, NULL, YmsgG ) ;
-	if( abort_func ){
-	    (*abort_func)() ;
+	INT status ;        /* return status from program */
+	printf("Not executing %s \n", exec_statement);
+	/*
+	if( status = system( exec_statement ) ){
+		status = (status & 0x0000FF00) >> 8 ;
+		sprintf(YmsgG, "Program %s returned with exit code:%d\n", program, status);
+		M( ERRMSG, NULL, YmsgG ) ;
+		if( abort_func ){
+			(*abort_func)() ;
+		}
+		if( abortFlag ){
+			YexitPgm( PGMFAIL ) ;
+		}
+		return( status ) ;
 	}
-	if( abortFlag ){
-	    YexitPgm( PGMFAIL ) ; /* exit the program */
-	}
-	return( status ) ;
-    } 
-    return( 0 ) ;
+	*/ 
+	return( 0 ) ;
 } /* end Ysystem */
 
 YcopyFile( sourcefile, destfile )
