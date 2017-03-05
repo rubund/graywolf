@@ -158,7 +158,7 @@ config_rows()
     M( MSG, NULL, YmsgG ) ;
     M( MSG, NULL, "\n" ) ;
     /* Ysystem will kill program if catastrophe occurred */
-    Ysystem( GENROWPROG, ABORT, YmsgG, closegraphics ) ;
+    //Ysystem( GENROWPROG, ABORT, YmsgG, closegraphics ) ;
     Ysafe_free( pathname ) ; /* free name created in Yrelpath */
     /* ############# end of genrows execution ############# */
 

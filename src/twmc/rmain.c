@@ -109,7 +109,7 @@ BOOL constraint_flag ;
     M( MSG, NULL, YmsgG ) ;
     M( MSG, NULL, "\n" ) ;
     /* Ysystem will kill program if catastrophe occurred */
-    Ysystem( GROUTEPROG, ABORT, YmsgG, closegraphics ) ;
+    //Ysystem( GROUTEPROG, ABORT, YmsgG, closegraphics ) ;
     Ysafe_free( pathname ) ; /* free name created in Yrelpath */
     /* ############# end of gengraph execution ############# */
 

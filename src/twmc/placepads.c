@@ -865,7 +865,7 @@ call_place_pads()
     M( MSG, NULL, "\n" ) ;
 
     /* Ysystem will kill program if catastrophe occurred */
-    Ysystem( PLACEPADPROG, ABORT, YmsgG, closegraphics ) ; 
+    //Ysystem( PLACEPADPROG, ABORT, YmsgG, closegraphics ) ; 
     Ysafe_free( pathname ) ; /* free name created in Yrelpath */
     /* ############# end of placepads execution ############# */
 

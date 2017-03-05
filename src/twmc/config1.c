@@ -215,7 +215,7 @@ if( 5.0 * coreArea > (DOUBLE) INT_MAX && !(cost_onlyG) ){
     parasite = get_arg_string( arguments ) ;
     M( MSG, NULL, arguments ) ;
     M( MSG, NULL, "\n" ) ;
-    Ysystem( "TimberWolfMC", ABORT, arguments, closegraphics ) ;
+    //Ysystem( "TimberWolfMC", ABORT, arguments, closegraphics ) ;
     /* go to cost only mode */
     cost_onlyG = TRUE ;
 

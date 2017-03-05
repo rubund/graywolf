@@ -132,7 +132,7 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
     M( MSG, NULL, YmsgG ) ;
     M( MSG, NULL, "\n" ) ;
     /* Ysystem will kill program if catastrophe occurred */
-    Ysystem( GENGRAPHPROG, ABORT, YmsgG, closegraphics ) ;
+    //Ysystem( GENGRAPHPROG, ABORT, YmsgG, closegraphics ) ;
 
     if( stateSaved ){
 	sleep(1) ;

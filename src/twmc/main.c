@@ -123,7 +123,8 @@ static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 VOID syntax();
 INT closegraphics();
 
-main( argc , argv )
+TimberWolfMC( argc , argv )
+//main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -298,6 +299,7 @@ char *argv[] ;
 				parasiteS = get_arg_string( arguments ) ;
 				M( MSG, NULL, arguments ) ;
 				M( MSG, NULL, "\n" ) ;
+				printf("TimberWolfMC %s \n",arguments ) ;
 				Ysystem( "TimberWolfMC",ABORT,arguments,closegraphics ) ;
 				if( parasiteS ){
 					/* if we save the graphics state we need to restore it */
@@ -441,15 +443,15 @@ char *argv[] ;
 
 INT yaleIntro() 
 {
-    fprintf(fpoG,"\n%s\n",YmsgG) ;
-    fprintf(fpoG,"Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
-    fprintf(fpoG,"         Dahe Chen, and Jimmy Lam\n"); 
-    fprintf(fpoG,"         Yale University\n");
+	fprintf(fpoG,"\n%s\n",YmsgG) ;
+	fprintf(fpoG,"Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
+	fprintf(fpoG,"         Dahe Chen, and Jimmy Lam\n"); 
+	fprintf(fpoG,"         Yale University\n");
 
-    printf("\n%s\n",YmsgG) ;
-    printf("Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
-    printf("         Dahe Chen, and Jimmy Lam\n"); 
-    printf("         Yale University\n");
+	printf("\n%s\n",YmsgG) ;
+	printf("Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
+	printf("         Dahe Chen, and Jimmy Lam\n"); 
+	printf("         Yale University\n");
 
 } /* end yaleIntro */
 
@@ -458,52 +460,52 @@ INT yaleIntro()
 writeResults( wire, penal, rand )
 INT wire, penal, rand ;
 {
-    FILE *fpdebug ;
-    INT left_side, right_side, bottom_side, top_side ;
-    char filename[LRECL] ;
+	FILE *fpdebug ;
+	INT left_side, right_side, bottom_side, top_side ;
+	char filename[LRECL] ;
 
-    funccostG = findcost() ;
-    sprintf( filename,"%s.history", cktNameG ) ;
-    fpdebug = TWOPEN( filename, "a", ABORT ) ;
-    /* find core region */
-    find_core_boundary( &left_side, &right_side, &bottom_side, &top_side);
-    bdxlengthG = right_side - left_side ;
-    bdylengthG = top_side - bottom_side ;
-    fprintf( fpdebug, 
-	"%4.2le\t%4.2le\t%4.2le\t%4.2le\t%d\t%d\t%d\t%4.2le\t%34.32le\n", 
-	(DOUBLE) wire, (DOUBLE) penal,
-	(DOUBLE) funccostG, (DOUBLE) penaltyG, bdxlengthG, bdylengthG, 
-	rand, (DOUBLE) bdxlengthG * bdylengthG, wire_red_ratioS ) ;
-    TWCLOSE( fpdebug ) ;
+	funccostG = findcost() ;
+	sprintf( filename,"%s.history", cktNameG ) ;
+	fpdebug = TWOPEN( filename, "a", ABORT ) ;
+	/* find core region */
+	find_core_boundary( &left_side, &right_side, &bottom_side, &top_side);
+	bdxlengthG = right_side - left_side ;
+	bdylengthG = top_side - bottom_side ;
+	fprintf( fpdebug, 
+			"%4.2le\t%4.2le\t%4.2le\t%4.2le\t%d\t%d\t%d\t%4.2le\t%34.32le\n", 
+			(DOUBLE) wire, (DOUBLE) penal,
+			(DOUBLE) funccostG, (DOUBLE) penaltyG, bdxlengthG, bdylengthG, 
+			rand, (DOUBLE) bdxlengthG * bdylengthG, wire_red_ratioS ) ;
+	TWCLOSE( fpdebug ) ;
 } /* end writeResults */
 
 /* close graphics window on fault */
 
 INT closegraphics( )
 {
-    if( doGraphicsG ){
-	G( TWcloseGraphics() ) ;
-    }
+	if( doGraphicsG ){
+		G( TWcloseGraphics() ) ;
+	}
 } /* end closegraphics */
 
 /* give user correct syntax */
 
 VOID syntax()
 {
-   M(ERRMSG,NULL,"\n" ) ; 
-   M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-   sprintf( YmsgG, 
-       "\nTimberWolfMC [-dnpvw] designName [windowId] \n" ) ;
-   M(MSG,NULL,YmsgG ) ; 
-   M(MSG,NULL,"\twhose options are zero or more of the following:\n");
-   M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
-   M(MSG,NULL,"\t\t    error checking\n");
-   M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
-   M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
-   M(MSG,NULL,"\t\tp - place pads only - read core placement.\n");
-   M(MSG,NULL,"\t\tv - verbose mode - writes to screen\n");
-   M(MSG,NULL,"\t\tw - parasite mode - user must specify windowId\n");
-   YexitPgm(PGMFAIL);
+	M(ERRMSG,NULL,"\n" ) ; 
+	M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
+	sprintf( YmsgG, 
+			"\nTimberWolfMC [-dnpvw] designName [windowId] \n" ) ;
+	M(MSG,NULL,YmsgG ) ; 
+	M(MSG,NULL,"\twhose options are zero or more of the following:\n");
+	M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
+	M(MSG,NULL,"\t\t    error checking\n");
+	M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
+	M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
+	M(MSG,NULL,"\t\tp - place pads only - read core placement.\n");
+	M(MSG,NULL,"\t\tv - verbose mode - writes to screen\n");
+	M(MSG,NULL,"\t\tw - parasite mode - user must specify windowId\n");
+	YexitPgm(PGMFAIL);
 } /* end syntax */
 
 /* used to TimberWolfMC recursively for the overflow case */
@@ -511,59 +513,60 @@ VOID syntax()
 BOOL get_arg_string( arguments )
 char *arguments ;
 {
-    char temp[LRECL] ; /* used to build strings */
-    INT  window ;      /* current window ID */
+	char temp[LRECL] ; /* used to build strings */
+	INT  window ;      /* current window ID */
 
-    sprintf( arguments, "%s -", argv0G ) ;
-    if( scale_dataG ){
-	strcat( arguments, "o" ) ;
-    }
-    if( debugS ){
-	strcat( arguments, "d" ) ;
-    }
-    if( verboseG ){
-	strcat( arguments, "v" ) ;
-    }
-    if( quickrouteG ){
-	strcat( arguments, "q" ) ;
-    }
-    window = 0 ;
-    if( doGraphicsG ){
-	/* save state of graphics and get window id */
-	G( window = TWsaveState() ) ;
-	if( window ){
-	    strcat( arguments, "w" ) ;
+	sprintf( arguments, "%s -", argv0G ) ;
+	if( scale_dataG ){
+		strcat( arguments, "o" ) ;
 	}
-    } else if( batchS ){
-	strcat( arguments, "b" ) ;
-    } else {
-	strcat( arguments, "n" ) ;
-    }
-    strcat( arguments, " " ) ;
-    /* now build the values */
-    if( scale_dataG ){
-	sprintf( temp, "%d ", scale_dataG ) ;
-	strcat( arguments, temp ) ;
-    }
-    /* now the design name */
-    strcat( arguments, cktNameG ) ;
-    /* now pass graphics window if necessary */
-    if( window ){
-	sprintf( temp, " %d", window ) ;
-	strcat( arguments, temp ) ;
-	return(TRUE) ;
-    } else {
-	return(FALSE) ;
-    }
+	if( debugS ){
+		strcat( arguments, "d" ) ;
+	}
+	if( verboseG ){
+		strcat( arguments, "v" ) ;
+	}
+	if( quickrouteG ){
+		strcat( arguments, "q" ) ;
+	}
+	window = 0 ;
+	if( doGraphicsG ){
+		/* save state of graphics and get window id */
+		G( window = TWsaveState() ) ;
+		if( window ){
+			strcat( arguments, "w" ) ;
+		}
+	} else if( batchS ){
+		strcat( arguments, "b" ) ;
+	} else {
+		strcat( arguments, "n" ) ;
+	}
+	strcat( arguments, " " ) ;
+	/* now build the values */
+	if( scale_dataG ){
+		sprintf( temp, "%d ", scale_dataG ) ;
+		strcat( arguments, temp ) ;
+	}
+	/* now the design name */
+	strcat( arguments, cktNameG ) ;
+	/* now pass graphics window if necessary */
+	if( window ){
+		sprintf( temp, " %d", window ) ;
+		strcat( arguments, temp ) ;
+		return(TRUE) ;
+	} else {
+		return(FALSE) ;
+	}
 } /* end function get_arg_string() */
 
 BOOL get_batch_mode()
 {
-    return( batchS ) ;
+	return( batchS ) ;
 } /* end get_batch_mode */
 
 set_wiring_reduction( reduction )
 DOUBLE reduction ;
 {
-    wire_red_ratioS = reduction ;
+	wire_red_ratioS = reduction ;
 } /* set_wiring_reduction */
+
