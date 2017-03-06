@@ -5,6 +5,8 @@ add_executable(TimberWolfMC acceptt.c analyze.c compact.c config1.c config2.c co
 target_link_libraries(TimberWolfMC ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
 target_link_libraries(TimberWolfMC X11)
 target_link_libraries(TimberWolfMC m)
+target_link_libraries(TimberWolfMC gsl)
+target_link_libraries(TimberWolfMC gslcblas)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
