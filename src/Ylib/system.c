@@ -79,8 +79,13 @@ INT  (*abort_func)() ;
 YcopyFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
-    sprintf( YmsgG, "/bin/cp %s %s", sourcefile, destfile ) ;
-    Ysystem( "Ylib/YcopyFile", ABORT, YmsgG, NULL ) ;
+	FILE* source = fopen(sourcefile, "rb");
+	FILE* dest = fopen(destfile, "wb");
+	for (int i = getc(source); i != EOF; i = getc(source)) {
+		putc(i, dest);
+	}
+	fclose(dest);
+	fclose(source);
 } /* end Ycopyfile */
 
 YmoveFile( sourcefile, destfile )
