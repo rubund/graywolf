@@ -91,8 +91,7 @@ char *sourcefile, *destfile ;
 YmoveFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
-    sprintf( YmsgG, "/bin/mv %s %s", sourcefile, destfile ) ;
-    Ysystem( "Ylib/YmoveFile", ABORT, YmsgG, NULL ) ;
+	return rename(sourcefile, destfile);
 } /* end Ycopyfile */
 
 Yrm_files( files )
