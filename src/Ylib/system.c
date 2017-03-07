@@ -116,7 +116,6 @@ char *Ygetenv( env_var )
 char *env_var ;
 {
     char *getenv() ;
-
     return( (char *) getenv( env_var ) ) ;
 
 } /* end Ygetenv */
