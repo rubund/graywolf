@@ -98,8 +98,19 @@ char *sourcefile, *destfile ;
 Yrm_files( files )
 char *files ;
 {
-    sprintf( YmsgG, "/bin/rm -rf %s", files ) ;
-    Ysystem( "Ylib/Yrm_files", NOABORT, YmsgG, NULL ) ;
+	if(remove(files)) {
+		printf("Could not remove %s \n", files);
+		if(rmdir(files)) {
+			printf("Could not remove %s \n", files);
+			return 1;
+		} else {
+			printf("Removed %s \n", files);
+			return 0;
+		}
+	} else {
+		printf("Removed %s \n", files);
+		return 0;
+	}
 } /* end Ycopyfile */
 
 char *Ygetenv( env_var )
