@@ -13,6 +13,7 @@ add_executable(graywolf
 target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
 target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/mincut/libGraywolfMincut.so)
 target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/twmc/libTimberWolfMC.so)
+target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/syntax/libGrayWolfSyntax.so)
 target_link_libraries(graywolf X11)
 target_link_libraries(graywolf m)
 

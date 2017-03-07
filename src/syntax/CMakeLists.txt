@@ -1,20 +1,17 @@
 
-add_executable(syntax
+#add_executable(syntax
+add_library(GrayWolfSyntax SHARED
 	main.c
 	output.c
 	readcells.c
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
-target_link_libraries(syntax ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
-target_link_libraries(syntax X11)
-target_link_libraries(syntax m)
-
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
 install(
-	TARGETS syntax
-	DESTINATION ${CMAKE_INSTALL_BINDIR}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	TARGETS GrayWolfSyntax
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	)
 
