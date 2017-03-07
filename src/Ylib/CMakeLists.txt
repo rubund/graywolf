@@ -8,7 +8,7 @@ add_library(ycadgraywolf SHARED assign.c buster.c cleanup.c colors.c deck.c dial
 target_link_libraries(ycadgraywolf X11)
 target_link_libraries(ycadgraywolf m)
 
-set_target_properties(ycadgraywolf PROPERTIES VERSION 0.0.0 SOVERSION 0)
+set_target_properties(ycadgraywolf PROPERTIES VERSION 1.0.0 SOVERSION 1)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
 
