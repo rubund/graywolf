@@ -299,12 +299,37 @@ char *argv[] ;
 				parasiteS = get_arg_string( arguments ) ;
 				M( MSG, NULL, arguments ) ;
 				M( MSG, NULL, "\n" ) ;
-				printf("TimberWolfMC %s \n",arguments ) ;
-				Ysystem( "TimberWolfMC",ABORT,arguments,closegraphics ) ;
+				//printf("TimberWolfMC %s \n",arguments ) ;
+				//Ysystem( "TimberWolfMC",ABORT,arguments,closegraphics ) ;
+				char tmpBuf[23];
+				int localArgc = 3;
+				char* localArgv[5];
+				localArgv[0] = "TimberWolfMC";
+				localArgv[2] = Ystrclone(cktNameG);
+ 
+				if(parasiteS && doGraphicsG){
+					localArgc = 4;
+					localArgv[1] = "-qw";
+					char *buf;
+					int localWindowID = 0 ;
+					localWindowID = TWsaveState();
+					sprintf(tmpBuf,"%d",localWindowID);
+					localArgv[3] = Ystrclone(tmpBuf);
+				} else {
+					localArgc = 3;
+					if(doGraphicsG) {
+						localArgv[1] = "-q";
+					} else {
+						localArgv[1] = "-nq";
+					}
+				}
+				TimberWolfMC(localArgc,localArgv);
+
 				if( parasiteS ){
 					/* if we save the graphics state we need to restore it */
 					G( TWrestoreState() ) ;
 				}
+
 				quickrouteG = FALSE ;
 			}
 		}
@@ -404,7 +429,6 @@ char *argv[] ;
 	rememberWire = funccostG ;
 	rememberPenal = binpenalG ;
 
-
 	finalout() ;
 	finalcheck() ;
 	twstats() ;
@@ -431,8 +455,8 @@ char *argv[] ;
 	printf("TimberWolf has completed its mission\n");
 	printf("\n\n************************************ \n\n");
 
-	//Yprint_stats( fpoG ) ;
-	//Yplot_close() ;
+	Yprint_stats( fpoG ) ;
+	Yplot_close() ;
 	writeResults( rememberWire, rememberPenal, rememberRand );
 	if( sc_output() ){
 		create_sc_output() ;

@@ -237,7 +237,7 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
 
 init_routing_tiles()
 {
-    routingTilesG = NULL ;
+	routingTilesG = NULL ;
 } /* end init_routing_tiles */
 
 static free_routing_tiles()
