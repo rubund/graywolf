@@ -246,15 +246,15 @@ main( argc , argv )
 
 	/* If we haven't been given a flow directory override, find */
 	/* the flow directory.  */
-	if(!(flow_dirG)){
-		sprintf( filename, "%s/flow.noroute", twdirG ) ;
-		/*if( flow_dirG = Yfile_slink( filename )){
-			flow_dirG = Ystrclone( flow_dirG ) ;
-		} else {
-			G( TWcloseGraphics() ) ;
-			YexitPgm(PGMFAIL);
-		}*/
-	}
+	//if(!(flow_dirG)){
+	//	sprintf( filename, "%s/flow.noroute", twdirG ) ;
+	//	if( flow_dirG = Yfile_slink( filename )){
+	//		flow_dirG = Ystrclone( flow_dirG ) ;
+	//	} else {
+	//		G( TWcloseGraphics() ) ;
+	//		YexitPgm(PGMFAIL);
+	//	}
+	//}
 
 	/* let user user see data */
 	G( draw_the_data() ) ;

@@ -420,6 +420,7 @@ yynewerror:
         if( yyname[yychar] ){
             sprintf( err_msg, "Found %s.\nExpected ",
                 yyname[yychar] ) ;
+	    printf( err_msg );
             two_or_more = 0 ;
             if( test_state = yysindex[yystate] ){
                 for( i = 1; i <= YYMAXTOKEN; i++ ){
@@ -459,6 +460,7 @@ yynewerror:
              }
         } else {
             sprintf( err_msg, "Found unknown token.\nExpected ");
+	    printf( err_msg );
             two_or_more = 0 ;
             if( test_state = yysindex[yystate] ){
                 for( i = 1; i <= YYMAXTOKEN; i++ ){

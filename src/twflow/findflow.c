@@ -207,8 +207,13 @@ INT find_design_type()
 		G( TWdrawCell( 0, -150, -50, 150, 50, TWRED, "syntax" ) ) ;
 		G( TWflushFrame() ) ;
 
+		int Syntax( int argc , char *argv[] );
+		char *localArgv[2];
+		localArgv[0]="syntax";
+		localArgv[1]=Ystrclone(cktNameG);
 		/* now execute the command */
-		status = system( buffer ) ;
+		status=Syntax( 2, localArgv );
+		//status = system( buffer ) ;
 		if( status ){
 			M( ERRMSG, "find_design_type", "Trouble executing syntax\n" ) ;
 			M( MSG, NULL, "FATAL - must exit\n\n" ) ;

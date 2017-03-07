@@ -117,17 +117,26 @@ ADJPTR adjptr ;
 	D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
 	/* now log the beginning time */
-	sprintf( YmsgG, "%s started...", obj->name ) ;
-	Ylog_msg( YmsgG ) ;
+	//sprintf( YmsgG, "%s started...", obj->name ) ;
+	//Ylog_msg( YmsgG ) ;
+	printf( "%s started...", obj->name ) ;
 
 	/* now execute the command */
 	//status = system( command ) ;
+	if(!strcmp("edit_twfiles",obj->name)) {
+		printf("It's edit_twfiles!\n");
+		status = 0;
+	}
+
+	if(!strcmp("edit_mcfiles",obj->name)) {
+		printf("It's edit_mcfiles!\n");
+		status = 0;
+	}
 
 	int Mincut( int argc, char *argv[]);
 
 	if(!strcmp("Mincut",obj->name)) {
 		printf("It's Mincut!\n");
-		//status = Mincut(adjptr->argc, adjptr->argv);
 		status = 0;
 	}
 
@@ -135,14 +144,16 @@ ADJPTR adjptr ;
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
 		//printf("It's TimberWolfMC!\n");
-		char* localArgv[2];
+		char* localArgv[5];
 		localArgv[0] = "TimberWolfMC";
-		localArgv[1] = Ystrclone(cktNameG);
-		//strcpy(localArgv[1], cktNameG);
-		printf("Command: TimberWolfMC %s\n", cktNameG);
-
-		//status = 0;
-		status = TimberWolfMC(2,localArgv);
+		if(graphicsG) {
+			localArgv[1] = Ystrclone(cktNameG);
+			status = TimberWolfMC(2,localArgv);
+		} else {
+			localArgv[1] = "-n";
+			localArgv[2] = Ystrclone(cktNameG);
+			status = TimberWolfMC(3,localArgv);
+		}
 	}
 
 	if(!strcmp("TimberWolfSC",obj->name)) {
@@ -162,3 +173,4 @@ ADJPTR adjptr ;
 	return( status ) ;
 
 } /* end execute Pgm */
+
