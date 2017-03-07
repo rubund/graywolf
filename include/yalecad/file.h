@@ -58,7 +58,7 @@ Function:
 */
 
 #define TWOPEN( a_z, b_z, c_z )  YopenFile( a_z, b_z, c_z )
-#define TWCLOSE( a_z )           fclose( a_z )
+#define TWCLOSE( a_z ) if(a_z){fclose(a_z);a_z=0;}
 
 /* I/O MACRO DEFINITIONS */
 #define ABORT   1
