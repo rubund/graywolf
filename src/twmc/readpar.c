@@ -107,9 +107,7 @@ static err_msg();
 readpar()
 {
 	init_read_par() ;
-	printf("Test TWMC \n");
 	readparam( TWMC ) ;
-	printf("Test USER \n");
 	readparam( USER ) ;
 	process_readpar() ;
 }
@@ -191,9 +189,14 @@ INT parfile ;
 
 	printf( "\n\n" ) ;
 
+	char *tmpStr;
 	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )){
 		readparamS = TRUE ;
-		printf( "Token: %s \n", tokens[0]);
+		if( numtokens ) {
+			tmpStr = strstr(tokens[0], "*");
+			tmpStr++;
+			tokens[0] = Ystrclone(tmpStr);
+		}
 
 		if( numtokens == 0 ){
 			/* skip over empty lines */
@@ -463,14 +466,17 @@ INT parfile ;
 			/*** catch all ***/
 		} else if(!(wildcard)) {
 			if( parfile == USER ){
-				sprintf( YmsgG, "unexpected keyword in the %s.par file at line:%d\n\t%s\n", cktNameG, line, lineptr);
-				M( ERRMSG, "readpar", YmsgG );
+				printf( "Unexpected keyword in the %s.par file at line:%d\n\t%s\n", cktNameG, line, lineptr);
+				//sprintf( YmsgG, "unexpected keyword in the %s.par file at line:%d\n\t%s\n", cktNameG, line, lineptr);
+				//M( ERRMSG, "readpar", YmsgG );
 			} else {
-				sprintf( YmsgG, "Unexpected keyword in the %s.mpar file at line:%d\n\t%s\n", cktNameG, line, lineptr);
-				M( ERRMSG, "readpar", YmsgG ) ;
+				printf( "Unexpected keyword in the %s.mpar file at line:%d\n\t%s\n", cktNameG, line, lineptr);
+				//sprintf( YmsgG, "Unexpected keyword in the %s.mpar file at line:%d\n\t%s\n", cktNameG, line, lineptr);
+				//M( ERRMSG, "readpar", YmsgG ) ;
 			}
-			Ymessage_error_count() ;
-			abortS = TRUE ;
+			//Ymessage_error_count() ;
+			//abortS = TRUE ;
+			continue;
 		}
 	}
 } /* end readpar */
@@ -656,11 +662,15 @@ static process_readpar()
 	printf("init_acc: %4.2f\n", init_accG ) ;
 
 	if( abortS ){
+		printf( "Please read %s.mout for details\n\n",cktNameG ) ;
+	}
+
+	/*if( abortS ){
 		M( ERRMSG, "read_par", "Trouble with parameter file\n" ) ;
 		sprintf( YmsgG, "Please read %s.mout for details\n\n",cktNameG ) ;
 		M( ERRMSG, NULL, YmsgG ) ;
 		YexitPgm( FAIL ) ;
-	}
+	}*/
 
 	return ;
 } /* end process_readpar */
