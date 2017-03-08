@@ -283,11 +283,20 @@ char *argv[] ;
 		/* it is a macro cell only case so look for .cel */
 		sprintf(filename, "%s.mcel" , cktNameG ) ;
 		if(!(fp = TWOPEN( filename , "r", NOABORT ))){
+			printf("Couldn't open %s \n", filename);
 			sprintf(filename, "%s.cel" , cktNameG ) ;
-			fp = TWOPEN( filename , "r", ABORT ) ;
+			if(!(fp = TWOPEN( filename , "r", NOABORT ))){
+				printf("Couldn't open %s \n", filename);
+			} else {
+				printf("Opened %s \n", filename);
+				readcells( fp ) ;
+				TWCLOSE(fp);
+			}
+		} else {
+			printf("Opened %s \n", filename);
+			readcells( fp ) ;
+			TWCLOSE(fp);
 		}
-		readcells( fp ) ;
-		TWCLOSE(fp);
 
 		/* now see if we need to perform a quickroute to get */
 		/* wiring estimate */
