@@ -124,7 +124,8 @@ static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 VOID syntax();
 INT closegraphics();
 
-__attribute__((visibility("default"))) TimberWolfMC( argc , argv )
+__attribute__((visibility("default")))
+TimberWolfMC( argc , argv )
 //main( argc , argv )
 INT argc ;
 char *argv[] ;
