@@ -205,132 +205,131 @@ static check_pos();
 /* set processing switch to avoid work when an error is found */
 setErrorFlag()
 {
-errorFlagS = TRUE ;
+	errorFlagS = TRUE ;
 } /* end setErrorFlag */
 /* ***************************************************************** */
 
 /* return the net hash table */
 YHASHPTR getNetTable()
 {
-return( netTableS ) ;
+	return( netTableS ) ;
 } /* end getNetTable */
 /* ***************************************************************** */
 
 /* initialize global and static information */
 initCellInfo()
 {
-numcellsG = 0 ;
-numnetsG = 0 ;
-numsoftG = 0 ;
-numstdcellG = 0 ;
-numpadsG = 0 ;
-numpadgroupsG = 0 ;
-numsupercellsG = 0 ;
-numinstancesG = 0 ;
-numpinsG = 0 ;
-totalcellsG = 0 ;
-totalpadsG = 0 ;
-errorFlagS = FALSE ;
-analog_errorS = FALSE ;
-totPinS = 0 ;
-unique_classG = 0 ;
-net_cap_matchG = NIL(INT **) ;
-net_res_matchG = NIL(INT **) ;
-scaleS = (DOUBLE) scale_dataG ;
-cornerCountS = 0 ;
-tileptAllocS = EXPECTEDCORNERS ;
-cornerArrayS = ( YBUSTBOXPTR ) 
-    Ysafe_malloc( tileptAllocS * sizeof( YBUSTBOX ) );
-pSideArrayS  = (PSIDEBOX *) Ysafe_malloc( tileptAllocS * sizeof( PSIDEBOX ) ) ;
-kArrayS      = (KBOXPTR) Ysafe_calloc( (MAXSITES + 1), sizeof( KBOX ));
-/* make hash table for nets */
-netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
-/* make hash table for cells */
-cellTableS = Yhash_table_create( EXPECTEDNUMCELLS ) ;
-netAllocS = EXPECTEDNUMNETS ;
-netarrayG = (NETBOXPTR *) Ysafe_malloc( netAllocS * sizeof(NETBOXPTR));
-cellAllocS = EXPECTEDNUMCELLS ;
-cellarrayG = (CELLBOXPTR *)Ysafe_malloc(cellAllocS*sizeof(CELLBOXPTR));
+	numcellsG = 0 ;
+	numnetsG = 0 ;
+	numsoftG = 0 ;
+	numstdcellG = 0 ;
+	numpadsG = 0 ;
+	numpadgroupsG = 0 ;
+	numsupercellsG = 0 ;
+	numinstancesG = 0 ;
+	numpinsG = 0 ;
+	totalcellsG = 0 ;
+	totalpadsG = 0 ;
+	errorFlagS = FALSE ;
+	analog_errorS = FALSE ;
+	totPinS = 0 ;
+	unique_classG = 0 ;
+	net_cap_matchG = NIL(INT **) ;
+	net_res_matchG = NIL(INT **) ;
+	scaleS = (DOUBLE) scale_dataG ;
+	cornerCountS = 0 ;
+	tileptAllocS = EXPECTEDCORNERS ;
+	cornerArrayS = ( YBUSTBOXPTR ) Ysafe_malloc( tileptAllocS * sizeof( YBUSTBOX ) );
+	pSideArrayS  = (PSIDEBOX *) Ysafe_malloc( tileptAllocS * sizeof( PSIDEBOX ) ) ;
+	kArrayS      = (KBOXPTR) Ysafe_calloc( (MAXSITES + 1), sizeof( KBOX ));
+	/* make hash table for nets */
+	netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
+	/* make hash table for cells */
+	cellTableS = Yhash_table_create( EXPECTEDNUMCELLS ) ;
+	netAllocS = EXPECTEDNUMNETS ;
+	netarrayG = (NETBOXPTR *) Ysafe_malloc( netAllocS * sizeof(NETBOXPTR));
+	cellAllocS = EXPECTEDNUMCELLS ;
+	cellarrayG = (CELLBOXPTR *)Ysafe_malloc(cellAllocS*sizeof(CELLBOXPTR));
 } /* end initCellInfo */
 /* ***************************************************************** */
 
 /* cleanup operations at the end of readcells */
 cleanupReadCells()
 {
-    INT cell ;           /* cell counter */
-    PADBOXPTR padptr ;   /* current pad */
-    CELLBOXPTR ptr ;     /* current pad cell */
+	INT cell ;           /* cell counter */
+	PADBOXPTR padptr ;   /* current pad */
+	CELLBOXPTR ptr ;     /* current pad cell */
 
-if( errorFlagS || analog_errorS ){
-    /* we found all our syntax errors so abort */
-    closegraphics() ;
-    YexitPgm( FAIL ) ;
-}
+	if( errorFlagS || analog_errorS ){
+		/* we found all our syntax errors so abort */
+		closegraphics() ;
+		YexitPgm( FAIL ) ;
+	}
 
-/* the last cells - create pad macros for channel graph generator */
-addCell("pad.macro.l",PADMACROTYPE ) ;
-/* add a tile for processing borders */
-ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
-endCell() ;
-addCell("pad.macro.t",PADMACROTYPE ) ;
-/* add a tile for processing borders */
-ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
-endCell() ;
-addCell("pad.macro.r",PADMACROTYPE ) ;
-/* add a tile for processing borders */
-ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
-endCell() ;
-addCell("pad.macro.b",PADMACROTYPE ) ;
-/* add a tile for processing borders */
-ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
-endCell() ;
+	/* the last cells - create pad macros for channel graph generator */
+	addCell("pad.macro.l",PADMACROTYPE ) ;
+	/* add a tile for processing borders */
+	ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
+	endCell() ;
+	addCell("pad.macro.t",PADMACROTYPE ) ;
+	/* add a tile for processing borders */
+	ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
+	endCell() ;
+	addCell("pad.macro.r",PADMACROTYPE ) ;
+	/* add a tile for processing borders */
+	ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
+	endCell() ;
+	addCell("pad.macro.b",PADMACROTYPE ) ;
+	/* add a tile for processing borders */
+	ptrS->tiles = (TILEBOXPTR) Ysafe_calloc( 1, sizeof(TILEBOX) ) ;
+	endCell() ;
 
-/* reallocate arrays to correct size */
-netarrayG = (NETBOXPTR *) 
-    Ysafe_realloc( netarrayG, (numnetsG+1) * sizeof(NETBOXPTR) ) ;
-/* allocate and initialize terminal array */
-termarrayG = (PINBOXPTR *) 
-    Ysafe_calloc( (numpinsG + 1), sizeof( PINBOXPTR ) );
-/* now trim cellarray to proper size */
-endsuperG = numcellsG + numsupercellsG ;
-endpadsG = endsuperG + numpadsG ;
-endpadgrpsG = endpadsG + numpadgroupsG ;
-ASSERT( totalcellsG == endpadgrpsG+NUMPADMACROS,"cleanupReadCells",
-    "cells don't add up" ) ;
-cellarrayG = (CELLBOXPTR *) 
-    Ysafe_realloc( cellarrayG,(totalcellsG+1)* sizeof(CELLBOXPTR) ) ;
+	/* reallocate arrays to correct size */
+	netarrayG = (NETBOXPTR *) 
+		Ysafe_realloc( netarrayG, (numnetsG+1) * sizeof(NETBOXPTR) ) ;
+	/* allocate and initialize terminal array */
+	termarrayG = (PINBOXPTR *) 
+		Ysafe_calloc( (numpinsG + 1), sizeof( PINBOXPTR ) );
+	/* now trim cellarray to proper size */
+	endsuperG = numcellsG + numsupercellsG ;
+	endpadsG = endsuperG + numpadsG ;
+	endpadgrpsG = endpadsG + numpadgroupsG ;
+	ASSERT( totalcellsG == endpadgrpsG+NUMPADMACROS,"cleanupReadCells",
+			"cells don't add up" ) ;
+	cellarrayG = (CELLBOXPTR *) 
+		Ysafe_realloc( cellarrayG,(totalcellsG+1)* sizeof(CELLBOXPTR) ) ;
 
-/* build the pad arrays */
-padarrayG = (PADBOXPTR *) Yvector_alloc(1,totalpadsG,sizeof(PADBOXPTR)) ;
-sortarrayG = (PADBOXPTR *) Yvector_alloc(1,totalpadsG,sizeof(PADBOXPTR));
-placearrayG = (PADBOXPTR *) Yvector_alloc( 1,numpadsG,sizeof(PADBOXPTR)) ;
-for( cell = 1; cell <= totalpadsG; cell++ ){
-    ptr = cellarrayG[endsuperG + cell] ;
-    padptr = ptr->padptr ;
-    sortarrayG[cell] = padarrayG[cell] = padptr ;
-    if( padptr->padtype == PADCELLTYPE ){
-	placearrayG[cell] = padptr ;
-    }
-}
+	/* build the pad arrays */
+	padarrayG = (PADBOXPTR *) Yvector_alloc(1,totalpadsG,sizeof(PADBOXPTR)) ;
+	sortarrayG = (PADBOXPTR *) Yvector_alloc(1,totalpadsG,sizeof(PADBOXPTR));
+	placearrayG = (PADBOXPTR *) Yvector_alloc( 1,numpadsG,sizeof(PADBOXPTR)) ;
+	for( cell = 1; cell <= totalpadsG; cell++ ){
+		ptr = cellarrayG[endsuperG + cell] ;
+		padptr = ptr->padptr ;
+		sortarrayG[cell] = padarrayG[cell] = padptr ;
+		if( padptr->padtype == PADCELLTYPE ){
+			placearrayG[cell] = padptr ;
+		}
+	}
 
-/* set loop index range variables for cellarray */
-pinsPerLenG = (DOUBLE) totPinS / (DOUBLE) perimG ;
-setpwates() ;
-sortpins() ;
-prnt_netinfo() ;   /* tell user net information */
-genorient(1,endpadsG ) ;
-updateFixedCells( INITIALIZE ) ;
-loadTermArray() ;
-build_active_array() ;
-build_soft_array() ;
-set_up_pinplace() ;   /* for soft cell pin placement */
-update_pins(TRUE) ;  /* initial pin placement */
+	/* set loop index range variables for cellarray */
+	pinsPerLenG = (DOUBLE) totPinS / (DOUBLE) perimG ;
+	setpwates() ;
+	sortpins() ;
+	prnt_netinfo() ;   /* tell user net information */
+	genorient(1,endpadsG ) ;
+	updateFixedCells( INITIALIZE ) ;
+	loadTermArray() ;
+	build_active_array() ;
+	build_soft_array() ;
+	set_up_pinplace() ;   /* for soft cell pin placement */
+	update_pins(TRUE) ;  /* initial pin placement */
 
-/* free memory */
-Ysafe_free(cornerArrayS) ;
-Ysafe_free(pSideArrayS) ;
-Ysafe_cfree(kArrayS) ;
-Ybuster_free() ;
+	/* free memory */
+	Ysafe_free(cornerArrayS) ;
+	Ysafe_free(pSideArrayS) ;
+	Ysafe_cfree(kArrayS) ;
+	Ybuster_free() ;
 
 } /* end cleanupReadCells */
 /* ***************************************************************** */
@@ -340,136 +339,136 @@ addCell( cellName, cellType )
 char *cellName ;
 CELLTYPE  cellType ;
 {
-INT i ;
-INT *data ;
+	INT i ;
+	INT *data ;
 
-curCellNameS = cellName ; /* for error messages */
-curCellTypeS = cellType ;
-ERRORABORT() ;
+	curCellNameS = cellName ; /* for error messages */
+	curCellTypeS = cellType ;
+	ERRORABORT() ;
 
-/* check memory of cell array */
-if( ++totalcellsG >= cellAllocS ){
-    cellAllocS += EXPECTEDNUMCELLS ;
-    cellarrayG = (CELLBOXPTR *) 
-	Ysafe_realloc( cellarrayG, cellAllocS*sizeof(CELLBOXPTR) );
-}
-ptrS = cellarrayG[totalcellsG] = (CELLBOXPTR) 
-    Ysafe_malloc( sizeof(CELLBOX) ) ;
+	/* check memory of cell array */
+	if( ++totalcellsG >= cellAllocS ){
+		cellAllocS += EXPECTEDNUMCELLS ;
+		cellarrayG = (CELLBOXPTR *) 
+			Ysafe_realloc( cellarrayG, cellAllocS*sizeof(CELLBOXPTR) );
+	}
+	ptrS = cellarrayG[totalcellsG] = (CELLBOXPTR) 
+		Ysafe_malloc( sizeof(CELLBOX) ) ;
 
-/* add cell to hash table */
-data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-*data = totalcellsG ;
-if( Yhash_search( cellTableS, curCellNameS, (char *) data, ENTER ) ){
-    sprintf( YmsgG, "Cellnames not unique:%s\n", curCellNameS ) ;
-    M(ERRMSG,"addCell",YmsgG ) ;
-    Ysafe_free( data ) ;
-    errorFlagS = TRUE ;
-} 
-ptrS->cname = cellName ; /* memory allocation in yylex */
-ptrS->celltype = cellType ;
-ptrS->xcenter    = 0 ;
-ptrS->ycenter    = 0 ;
-ptrS->orient     = 0 ;
-ptrS->numtiles   = 0 ;
-ptrS->numpins    = 0 ;
-ptrS->cur_inst   = 0 ;
-ptrS->fixed = NULL ;
-ptrS->group_nested = FALSE ;
-ptrS->paths = NULL ;
-ptrS->aspect = 1.0 ;
-ptrS->aspUB = 1.0 ;
-ptrS->aspLB = 1.0 ;
-ptrS->pinptr = NULL ;
-ptrS->softpins = NULL ;
-ptrS->instptr = NULL ;
-ptrS->padptr = NULL ;
-ptrS->group = NULL ;
-ptrS->tiles = NULL ;
-ptrS->bounBox = NULL ;
-ptrS->nets = NULL ;
-ptrS->orientList[HOWMANYORIENT] = 0 ;
-if( cellType == SOFTCELLTYPE || cellType == CUSTOMCELLTYPE ||
-    cellType == STDCELLTYPE ){
-    for( i = 0 ; i < 8 ; i++ ) {
-	ptrS->orientList[i] = FALSE ;
-    }
-} else {
-    /* for pads all orientations are valid */
-    for( i = 0 ; i < 8 ; i++ ) {
-	ptrS->orientList[i] = TRUE ;
-    }
-}
-if( cellType == SOFTCELLTYPE ){
-    ptrS->padptr = NULL ;
-    ptrS->softflag = TRUE ;
-    /* allocate space for uncommitted pins array */
-    numcellsG++ ;
-    numsoftG++ ;
-    numpingroupS = 0 ;
-} else if( cellType == STDCELLTYPE ){
-    ptrS->padptr = NULL ;
-    ptrS->softflag = TRUE ;
-    /* allocate space for uncommitted pins array */
-    numcellsG++ ;
-    numstdcellG++ ;
-    doPartitionG = TRUE ;
-} else if( cellType == CUSTOMCELLTYPE){
-    ptrS->softflag = FALSE ;
-    ptrS->padptr = NULL ;
-    numcellsG++ ;
-} else if( cellType == PADCELLTYPE || cellType == PADGROUPTYPE){
-    ptrS->softflag = FALSE ;
-    pptrS =ptrS->padptr = 
-	(PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
-    pptrS->fixed = FALSE ;
-    pptrS->padside = ALL ;
-    pptrS->permute = FALSE ;
-    pptrS->ordered = FALSE ;
-    pptrS->lowerbound  = 0.0 ;
-    pptrS->upperbound  = 1.0 ;
-    pptrS->padtype = cellType ;
-    pptrS->cellnum = totalcellsG ;
-    pptrS->valid_side[0] = TRUE ;
-    pptrS->valid_side[1] = FALSE ;
-    pptrS->valid_side[2] = FALSE ;
-    pptrS->valid_side[3] = FALSE ;
-    pptrS->valid_side[4] = FALSE ;
-    totalpadsG++ ;
-    if( cellType == PADGROUPTYPE ){
-	numchildrenS = 0 ;
-	childAllocS = EXPECTEDNUMPADS ;
-	pptrS->children = (INT *)
-	    Ysafe_malloc((childAllocS)*sizeof(INT));
-	pptrS->hierarchy  = ROOT;
-	numpadgroupsG++ ;
-    } else { /* PADCELLTYPE */
-	pptrS->children = NULL;
-	pptrS->hierarchy = NONE;
-	numpadsG++ ;
-    }
-} else if( cellType == SUPERCELLTYPE || cellType == GROUPCELLTYPE ){
-    numsupercellsG++ ;
-    unique_classG-- ;/* start new exchange class for group cells */
-    /* allocate group record and set static */
-    curGroupS =ptrS->group = 
-	(GROUPBOXPTR) Ysafe_malloc( sizeof(GROUPBOX) ) ;
-    curGroupS->fixed = (FIXEDBOXPTR) Ysafe_calloc( 1,sizeof(FIXEDBOX) ) ;
-    curGroupS->cells = NULL ;
-} else if( cellType == PADMACROTYPE ){
-    /* do nothing right now */
-}
-cellinstanceS = 0 ; /* beginning of possible instancelist */
+	/* add cell to hash table */
+	data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	*data = totalcellsG ;
+	if( Yhash_search( cellTableS, curCellNameS, (char *) data, ENTER ) ){
+		sprintf( YmsgG, "Cellnames not unique:%s\n", curCellNameS ) ;
+		M(ERRMSG,"addCell",YmsgG ) ;
+		Ysafe_free( data ) ;
+		errorFlagS = TRUE ;
+	} 
+	ptrS->cname = cellName ; /* memory allocation in yylex */
+	ptrS->celltype = cellType ;
+	ptrS->xcenter    = 0 ;
+	ptrS->ycenter    = 0 ;
+	ptrS->orient     = 0 ;
+	ptrS->numtiles   = 0 ;
+	ptrS->numpins    = 0 ;
+	ptrS->cur_inst   = 0 ;
+	ptrS->fixed = NULL ;
+	ptrS->group_nested = FALSE ;
+	ptrS->paths = NULL ;
+	ptrS->aspect = 1.0 ;
+	ptrS->aspUB = 1.0 ;
+	ptrS->aspLB = 1.0 ;
+	ptrS->pinptr = NULL ;
+	ptrS->softpins = NULL ;
+	ptrS->instptr = NULL ;
+	ptrS->padptr = NULL ;
+	ptrS->group = NULL ;
+	ptrS->tiles = NULL ;
+	ptrS->bounBox = NULL ;
+	ptrS->nets = NULL ;
+	ptrS->orientList[HOWMANYORIENT] = 0 ;
+	if( cellType == SOFTCELLTYPE || cellType == CUSTOMCELLTYPE ||
+			cellType == STDCELLTYPE ){
+		for( i = 0 ; i < 8 ; i++ ) {
+			ptrS->orientList[i] = FALSE ;
+		}
+	} else {
+		/* for pads all orientations are valid */
+		for( i = 0 ; i < 8 ; i++ ) {
+			ptrS->orientList[i] = TRUE ;
+		}
+	}
+	if( cellType == SOFTCELLTYPE ){
+		ptrS->padptr = NULL ;
+		ptrS->softflag = TRUE ;
+		/* allocate space for uncommitted pins array */
+		numcellsG++ ;
+		numsoftG++ ;
+		numpingroupS = 0 ;
+	} else if( cellType == STDCELLTYPE ){
+		ptrS->padptr = NULL ;
+		ptrS->softflag = TRUE ;
+		/* allocate space for uncommitted pins array */
+		numcellsG++ ;
+		numstdcellG++ ;
+		doPartitionG = TRUE ;
+	} else if( cellType == CUSTOMCELLTYPE){
+		ptrS->softflag = FALSE ;
+		ptrS->padptr = NULL ;
+		numcellsG++ ;
+	} else if( cellType == PADCELLTYPE || cellType == PADGROUPTYPE){
+		ptrS->softflag = FALSE ;
+		pptrS =ptrS->padptr = 
+			(PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
+		pptrS->fixed = FALSE ;
+		pptrS->padside = ALL ;
+		pptrS->permute = FALSE ;
+		pptrS->ordered = FALSE ;
+		pptrS->lowerbound  = 0.0 ;
+		pptrS->upperbound  = 1.0 ;
+		pptrS->padtype = cellType ;
+		pptrS->cellnum = totalcellsG ;
+		pptrS->valid_side[0] = TRUE ;
+		pptrS->valid_side[1] = FALSE ;
+		pptrS->valid_side[2] = FALSE ;
+		pptrS->valid_side[3] = FALSE ;
+		pptrS->valid_side[4] = FALSE ;
+		totalpadsG++ ;
+		if( cellType == PADGROUPTYPE ){
+			numchildrenS = 0 ;
+			childAllocS = EXPECTEDNUMPADS ;
+			pptrS->children = (INT *)
+				Ysafe_malloc((childAllocS)*sizeof(INT));
+			pptrS->hierarchy  = ROOT;
+			numpadgroupsG++ ;
+		} else { /* PADCELLTYPE */
+			pptrS->children = NULL;
+			pptrS->hierarchy = NONE;
+			numpadsG++ ;
+		}
+	} else if( cellType == SUPERCELLTYPE || cellType == GROUPCELLTYPE ){
+		numsupercellsG++ ;
+		unique_classG-- ;/* start new exchange class for group cells */
+		/* allocate group record and set static */
+		curGroupS =ptrS->group = 
+			(GROUPBOXPTR) Ysafe_malloc( sizeof(GROUPBOX) ) ;
+		curGroupS->fixed = (FIXEDBOXPTR) Ysafe_calloc( 1,sizeof(FIXEDBOX) ) ;
+		curGroupS->cells = NULL ;
+	} else if( cellType == PADMACROTYPE ){
+		/* do nothing right now */
+	}
+	cellinstanceS = 0 ; /* beginning of possible instancelist */
 
-/* save cellnumber */
-ptrS->cellnum = totalcellsG ;
+	/* save cellnumber */
+	ptrS->cellnum = totalcellsG ;
 
-/* reset xmin, ymax, etc. counters */
-minxS = INT_MAX ;
-minyS = INT_MAX ;
-maxxS = INT_MIN ;
-maxyS = INT_MIN ;
-cornerCountS = 0 ;
-portFlagS = FALSE ;
+	/* reset xmin, ymax, etc. counters */
+	minxS = INT_MAX ;
+	minyS = INT_MAX ;
+	maxxS = INT_MIN ;
+	maxyS = INT_MIN ;
+	cornerCountS = 0 ;
+	portFlagS = FALSE ;
 
 } /* end addCell */
 /* ***************************************************************** */
@@ -477,32 +476,32 @@ portFlagS = FALSE ;
 /* perform cleanup operations on a cell */
 endCell()
 {
-ERRORABORT() ;
+	ERRORABORT() ;
 
-/* set the pSideArray for the softpins */
-load_soft_pins( ptrS, pSideArrayS ) ;
+	/* set the pSideArray for the softpins */
+	load_soft_pins( ptrS, pSideArrayS ) ;
 
-if( curCellTypeS == CUSTOMCELLTYPE || curCellTypeS == SOFTCELLTYPE ||
-    curCellTypeS == STDCELLTYPE ){
-    watesides( ptrS, pSideArrayS ) ;
-}
-if( curCellTypeS == SOFTCELLTYPE || curCellTypeS == STDCELLTYPE ){
-} else if( curCellTypeS == PADGROUPTYPE){
-    /* realloc size of children array to final size */
-    pptrS->children = (INT *)
-	Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(INT));
-    pptrS->children[HOWMANY] = numchildrenS ;
-}
-if( cellinstanceS ){
-    /* first save values to instance arrays */
-    instS->tile_inst[cellinstanceS] = ptrS->tiles ;
-    instS->vert_inst[cellinstanceS] = ptrS->vertices ;
-    instS->numtile_inst[cellinstanceS] = ptrS->numtiles ;
-    instS->name_inst[cellinstanceS] = ptrS->cname ;
-    instS->bounBox[cellinstanceS] = ptrS->bounBox ;
-    instS->numsides[cellinstanceS] = ptrS->numsides ;
-    ptrS->cur_inst = cellinstanceS ;
-}
+	if( curCellTypeS == CUSTOMCELLTYPE || curCellTypeS == SOFTCELLTYPE ||
+			curCellTypeS == STDCELLTYPE ){
+		watesides( ptrS, pSideArrayS ) ;
+	}
+	if( curCellTypeS == SOFTCELLTYPE || curCellTypeS == STDCELLTYPE ){
+	} else if( curCellTypeS == PADGROUPTYPE){
+		/* realloc size of children array to final size */
+		pptrS->children = (INT *)
+			Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(INT));
+		pptrS->children[HOWMANY] = numchildrenS ;
+	}
+	if( cellinstanceS ){
+		/* first save values to instance arrays */
+		instS->tile_inst[cellinstanceS] = ptrS->tiles ;
+		instS->vert_inst[cellinstanceS] = ptrS->vertices ;
+		instS->numtile_inst[cellinstanceS] = ptrS->numtiles ;
+		instS->name_inst[cellinstanceS] = ptrS->cname ;
+		instS->bounBox[cellinstanceS] = ptrS->bounBox ;
+		instS->numsides[cellinstanceS] = ptrS->numsides ;
+		ptrS->cur_inst = cellinstanceS ;
+	}
 
 } /* end function endCell */
 
@@ -511,25 +510,25 @@ static INT findsidestr( side, direction )
 char *side ;
 BOOL direction ;
 {
-    if( direction == TRUE ){
-	/* BT case */
-	if( strcmp( side, "B" ) == STRINGEQ ){
-	    return( TRUE ) ;
-	} else if( strcmp( side, "T" ) == STRINGEQ ){
-	    return( FALSE ) ;
+	if( direction == TRUE ){
+		/* BT case */
+		if( strcmp( side, "B" ) == STRINGEQ ){
+			return( TRUE ) ;
+		} else if( strcmp( side, "T" ) == STRINGEQ ){
+			return( FALSE ) ;
+		}
+	} else {
+		/* LR case */
+		if( strcmp( side, "L" ) == STRINGEQ ){
+			return( TRUE ) ;
+		} else if( strcmp( side, "R" ) == STRINGEQ ){
+			return( FALSE ) ;
+		}
 	}
-    } else {
-	/* LR case */
-	if( strcmp( side, "L" ) == STRINGEQ ){
-	    return( TRUE ) ;
-	} else if( strcmp( side, "R" ) == STRINGEQ ){
-	    return( FALSE ) ;
-	}
-    }
-    sprintf( YmsgG, "Unknown side:%s\n", side ) ;
-    M(ERRMSG,"findside", YmsgG ) ;
-    setErrorFlag() ;
-    return( FALSE ) ;
+	sprintf( YmsgG, "Unknown side:%s\n", side ) ;
+	M(ERRMSG,"findside", YmsgG ) ;
+	setErrorFlag() ;
+	return( FALSE ) ;
 } /* end findsidestr */
 
 /* ***************************************************************** */
