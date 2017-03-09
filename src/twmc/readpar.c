@@ -186,16 +186,27 @@ INT parfile ;
 		Yreadpar_init( cktNameG, parfile, TWMC, FALSE ) ;
 	}
 
-
-	printf( "\n\n" ) ;
-
 	char *tmpStr;
 	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )){
 		readparamS = TRUE ;
 		if( numtokens ) {
 			tmpStr = strstr(tokens[0], "*");
-			tmpStr++;
-			tokens[0] = Ystrclone(tmpStr);
+			if(tmpStr) {
+				tmpStr++;
+				tokens[0] = Ystrclone(tmpStr);
+			}
+
+			tmpStr = strstr(tokens[0], "TWSC*");
+			if(tmpStr) {
+				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			}
+
+			tmpStr = strstr(tokens[0], "TWMC*");
+			if(tmpStr) {
+				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			}
 		}
 
 		if( numtokens == 0 ){
