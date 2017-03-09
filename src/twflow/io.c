@@ -125,30 +125,30 @@ setErrorFlag()
 init( numobj )
 INT numobj ;
 {
-    INT i ;
-    OBJECTPTR o ;
+	INT i ;
+	OBJECTPTR o ;
 
-    /* save number of objects in global for future use */
-    numobjectsG = numobj ;
-    numobj++ ; /* add 1 to cover 0 node */
+	/* save number of objects in global for future use */
+	numobjectsG = numobj ;
+	numobj++ ; /* add 1 to cover 0 node */
 
-    /* initialize bounding box of objects to find area for draw */
-    boxLS = INT_MAX ;
-    boxBS = INT_MAX ;
-    boxRS = INT_MIN ;
-    boxTS = INT_MIN ;
+	/* initialize bounding box of objects to find area for draw */
+	boxLS = INT_MAX ;
+	boxBS = INT_MAX ;
+	boxRS = INT_MIN ;
+	boxTS = INT_MIN ;
 
-    /* allocate space for graph */
-    proGraphG = (OBJECTPTR *) Ysafe_malloc( (numobj + 1) * sizeof(OBJECTPTR) );
-    for( i = 0 ; i <= numobj ; i++ ){
-	o = proGraphG[i] = (OBJECTPTR) Ysafe_malloc( sizeof(OBJECTBOX) );
-	o->node = i ;
-	o->adjF  = NULL ;
-	o->adjB  = NULL ;
-	o->numedges  = 0 ;
-    }
-    curObjS = -1 ; /* initialize object counter */
-    add_object( START, 0 ) ;
+	/* allocate space for graph */
+	proGraphG = (OBJECTPTR *) Ysafe_malloc( (numobj + 1) * sizeof(OBJECTPTR) );
+	for( i = 0 ; i <= numobj ; i++ ){
+		o = proGraphG[i] = (OBJECTPTR) Ysafe_malloc( sizeof(OBJECTBOX) );
+		o->node = i ;
+		o->adjF  = NULL ;
+		o->adjB  = NULL ;
+		o->numedges  = 0 ;
+	}
+	curObjS = -1 ; /* initialize object counter */
+	add_object( START, 0 ) ;
 
 } /* end init */
 
@@ -157,15 +157,16 @@ add_object( pname, node )
 char *pname ;
 INT node ;
 {
-    ERRORABORT() ;
-    if( ++curObjS != node || node > numobjectsG ){
-	setErrorFlag() ;
-	M(ERRMSG, "add_object", "Problem with cell number\n" ) ;
-	return ;
-    }
-    objS = proGraphG[curObjS] ;
-    objS->node  = node ;
-    objS->name  = pname ;
+	ERRORABORT() ;
+	if( ++curObjS != node || node > numobjectsG ){
+		printf("curObjS: %d, numobjectsG: %d, node: %d \n", curObjS, numobjectsG, node );
+		setErrorFlag() ;
+		M(ERRMSG, "add_object", "Problem with cell number\n" ) ;
+		return ;
+	}
+	objS = proGraphG[curObjS] ;
+	objS->node  = node ;
+	objS->name  = pname ;
 } /* end add_object */
 
 
