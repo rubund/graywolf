@@ -92,9 +92,10 @@ static char SccsId[] = "@(#) readcells.y version 3.15 3/6/92" ;
 #include <custom.h>
 #include <initialize.h>
 #include <readcells.h>  /* redefine yacc and lex globals */
+#include <readcells_l.h>
 
 #undef REJECT          /* undefine TWMC macro for lex's version */ 
-#define YYDEBUG  1     /* condition compile for yacc debug */
+//#define YYDEBUG  1     /* condition compile for yacc debug */
 /* #define LEXDEBUG 1  */   /* conditional compile for lex debug */
 #ifdef LEXDEBUG
 /* two bugs in yale version of lex */
@@ -102,56 +103,15 @@ static char SccsId[] = "@(#) readcells.y version 3.15 3/6/92" ;
 #define sprint(x)      fprintf( stdout, "%s\n", x )
 #endif
 
-static INT line_countS ;
-static char bufferS[LRECL] ;
+int line_countS = 0;
+char bufferS[LRECL] ;
 
 typedef union {
     INT ival ;
     char *string ;
     DOUBLE fval ;
 } YYSTYPE;
-#define INTEGER 257
-#define STRING 258
-#define FLOAT 259
-#define ADDEQUIV 260
-#define ASPLB 261
-#define ASPUB 262
-#define AT 263
-#define CELLGROUP 264
-#define CLASS 265
-#define CONNECT 266
-#define CORNERS 267
-#define EQUIV 268
-#define FIXED 269
-#define FROM 270
-#define HARDCELL 271
-#define INSTANCE 272
-#define LAYER 273
-#define NAME 274
-#define NEIGHBORHOOD 275
-#define NONFIXED 276
-#define NOPERMUTE 277
-#define ORIENT 278
-#define ORIENTATIONS 279
-#define PAD 280
-#define PADGROUP 281
-#define PERMUTE 282
-#define PIN 283
-#define PINGROUP 284
-#define RESTRICT 285
-#define SIDE 286
-#define SIDESPACE 287
-#define SIGNAL 288
-#define SOFTCELL 289
-#define SOFTPIN 290
-#define CLUSTER 291
-#define SUPERGROUP 292
-#define TIMING 293
-#define CURRENT 294
-#define KEEPOUT 295
-#define NO_LAYER_CHANGE 296
-#define POWER 297
-#define YYERRCODE 256
+
 short yylhs[] = {                                        -1,
     0,    0,    7,    7,    9,    9,   11,   11,    8,    8,
    14,   14,   15,   15,   10,   10,   12,   12,   20,   20,
@@ -170,6 +130,7 @@ short yylhs[] = {                                        -1,
    25,   25,   80,   80,   81,   82,   82,   58,   58,    1,
     1,    1,
 };
+
 short yylen[] = {                                         2,
     2,    1,    1,    2,    1,    2,    1,    1,    1,    2,
     1,    2,    1,    2,    1,    2,    2,    3,    1,    3,
@@ -221,6 +182,7 @@ short yydefred[] = {                                      0,
   105,  102,    0,    0,    0,   94,  103,    0,    0,    0,
    41,    0,   44,   42,
 };
+
 short yydgoto[] = {                                       4,
   230,  148,  215,  240,  292,   34,    5,   21,    6,   27,
     7,    8,    9,   22,   49,   23,   51,   29,   10,   35,
@@ -232,6 +194,7 @@ short yydgoto[] = {                                       4,
   263,  264,  210,  231,  232,  176,  255,  162,   88,   71,
    72,  171,
 };
+
 short yysindex[] = {                                   -207,
  -145, -141, -233,    0, -203, -231,    0,    0,    0, -138,
  -138,    0,    0,    0,    0, -194,    0, -144, -134, -150,
@@ -265,6 +228,7 @@ short yysindex[] = {                                   -207,
     0,    0,  -30,  -16,  -27,    0,    0,  -58,  -25,  -58,
     0,  -58,    0,    0,
 };
+
 short yyrindex[] = {                                      0,
     0,    0,    0,    0,  216,    6,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -298,6 +262,7 @@ short yyrindex[] = {                                      0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,
 };
+
 short yygindex[] = {                                      0,
   903, -132, -196, -235,    0,    0,    0,    0,    0,    0,
   245,    0,    0,    0,    0,  230,  204,  228,    0,  218,
@@ -309,6 +274,7 @@ short yygindex[] = {                                      0,
  -195,    0,   59,   45, -166,  101,    0,    0,  190,    0,
   208,    0,
 };
+
 #define YYTABLESIZE 1182
 short yytable[] = {                                      41,
    82,  126,  267,  156,  157,    3,   35,    4,  225,  226,
@@ -431,6 +397,7 @@ short yytable[] = {                                      41,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,  290,
 };
+
 short yycheck[] = {                                      11,
     0,    0,  238,  136,  137,    0,    0,    0,  205,  206,
    70,  105,   24,   42,  265,  257,  149,  257,  152,  216,
@@ -558,6 +525,7 @@ short yycheck[] = {                                      11,
 #endif
 #define YYMAXTOKEN 297
 #if YYDEBUG
+
 char *yyname[] = {
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -572,6 +540,7 @@ char *yyname[] = {
 "RESTRICT","SIDE","SIDESPACE","SIGNAL","SOFTCELL","SOFTPIN","CLUSTER",
 "SUPERGROUP","TIMING","CURRENT","KEEPOUT","NO_LAYER_CHANGE","POWER",
 };
+
 char *yyrule[] = {
 "$accept : start_file",
 "start_file : core pads",
@@ -755,26 +724,23 @@ short yyss[YYSTACKSIZE];
 YYSTYPE yyvs[YYSTACKSIZE];
 #define yystacksize YYSTACKSIZE
 
-#include "readcells_l.h"
 /* add readcells_l.h for debug purposes */
 /* ********************* #include "readcells_l.h" *******************/
 /* ********************* #include "readcells_l.h" *******************/
 
-readcells( fp )
-FILE *fp ;
+readcells( char *filename )
 { 
 #ifdef YYDEBUG
-    extern int yydebug ;
-    yydebug = FALSE ;
+	extern int yydebug ;
+	yydebug = FALSE ;
 #endif
-
-    yyin = fp ;
-    line_countS = 0 ;
-    initCellInfo() ;
-    /* parse input file using yacc */
-    yyparse();  
-    cleanupReadCells() ;
-
+	yyin = fopen(filename,"r");
+	line_countS = 0 ;
+	initCellInfo() ;
+	/* parse input file using yacc */
+	yyparse();  
+	cleanupReadCells() ;
+	fclose(yyin);
 } /* end readcells */
 
 yyerror(s)
@@ -788,6 +754,107 @@ char    *s;
     setErrorFlag() ;
 }
 
+int check_line_count( s ) 
+char *s ;
+{
+	if( s ){
+		if( strlen(s) >= YYLMAX ){
+			sprintf(YmsgG, "comment beginning at line %d ",line_countS+1 );
+			M( ERRMSG, "lex", YmsgG ) ;
+			sprintf(YmsgG,"exceeds maximum allowed length:%d chars.\n", 
+					YYLMAX );
+			M( MSG, NULL, YmsgG ) ;
+			setErrorFlag() ;
+		}
+		for( ;*s;s++ ){
+			if( *s == '\n'){
+				line_countS++;
+			}
+		}
+	}
+} /* end check_line_count */
+
+int screen() 
+{
+	INT c ;
+	struct rw_table  *low = rwtable,        /* ptr to beginning */
+			 *mid ,  
+			 *high = END(rwtable) ;   /* ptr to end */
+
+	/* binary search to look thru table to find pattern match */
+	while( low <= high){
+		mid = low + (high-low) / 2 ;
+		if( (c = strcmp(mid->rw_name, yytext) ) == STRINGEQ){
+			return( mid->rw_yylex ) ; /* return token number */
+		} else if( c < 0 ){
+			low = mid + 1 ;
+		} else {
+			high = mid - 1 ;
+		}
+	}
+	/* at this point we haven't found a match so we have a string */
+	/* save the string by making copy */
+	yylval.string = (char *) Ystrclone( yytext ) ;
+	return (STRING); 
+} /* end screen function */
+
+yylex(){
+	int nstr;
+	int yyprevious;
+	while((nstr = yylook()) >= 0) {
+		yyfussy: switch(nstr){
+			case 0:
+				if(yywrap()) return(0); break;
+			case 1:
+
+				{
+					/* C-style comments over multiple lines */
+					check_line_count(yytext) ;
+				}
+				break;
+			case 2:
+				{ 
+					/* convert to an integer */
+					yylval.ival = atoi( yytext ) ;
+					return (INTEGER); 
+				}
+				break;
+			case 3:
+				{
+					/* convert to an integer */
+					yylval.fval = atof( yytext ) ;
+					return (FLOAT); 
+				}
+				break;
+			case 4:
+				{
+					/* convert to an integer */
+					yylval.fval = atof( yytext ) ;
+					return (FLOAT); 
+				}
+				break;
+			case 5:
+				{  return( screen() ) ; }
+				break;
+			case 6:
+				{  line_countS++;}
+				break;
+			case 7:
+				;
+				break;
+			case 8:
+				{  return( token(yytext[0]) ) ;}
+				break;
+			case -1:
+				break;
+			default:
+				fprintf(yyout,"bad switch yylook %d",nstr);
+			 }
+		}
+	return 0;
+}
+/* end of yylex */
+
 yywrap()
 {
     return(1);
@@ -799,680 +866,866 @@ yywrap()
 int
 yyparse()
 {
-    register int yym, yyn, yystate;
+	register int yym, yyn, yystate;
 #if YYDEBUG
-    register char *yys;
-    extern char *getenv();
+	char *yys;
+	char *getenv();
 
-    if (yys = getenv("YYDEBUG"))
-    {
-        yyn = *yys;
-        if (yyn >= '0' && yyn <= '9')
-            yydebug = yyn - '0';
-    }
+	if (yys = getenv("YYDEBUG"))
+	{
+		yyn = *yys;
+		if (yyn >= '0' && yyn <= '9')
+			yydebug = yyn - '0';
+	}
 #endif
 
-    yynerrs = 0;
-    yyerrflag = 0;
-    yychar = (-1);
+	yynerrs = 0;
+	yyerrflag = 0;
+	yychar = (-1);
 
-    yyssp = yyss;
-    yyvsp = yyvs;
-    *yyssp = yystate = 0;
+	yyssp = yyss;
+	yyvsp = yyvs;
+	*yyssp = yystate = 0;
 
 yyloop:
-    if (yyn = yydefred[yystate]) goto yyreduce;
-    if (yychar < 0)
-    {
-        if ((yychar = yylex()) < 0) yychar = 0;
+	if (yyn = yydefred[yystate]) goto yyreduce;
+	if (yychar < 0)
+	{
+		if ((yychar = yylex()) < 0) yychar = 0;
 #if YYDEBUG
-        if (yydebug)
-        {
-            yys = 0;
-            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-            if (!yys) yys = "illegal-symbol";
-            printf("yydebug: state %d, reading %d (%s)\n", yystate,
-                    yychar, yys);
-        }
+		if (yydebug)
+		{
+			yys = 0;
+			if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+			if (!yys) yys = "illegal-symbol";
+			printf("yydebug: state %d, reading %d (%s)\n", yystate,
+					yychar, yys);
+		}
 #endif
-    }
-    if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
-    {
+	}
+	if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	{
 #if YYDEBUG
-        if (yydebug)
-            printf("yydebug: state %d, shifting to state %d\n",
-                    yystate, yytable[yyn]);
+		if (yydebug)
+			printf("yydebug: state %d, shifting to state %d\n",
+					yystate, yytable[yyn]);
 #endif
-        if (yyssp >= yyss + yystacksize - 1)
-        {
-            goto yyoverflow;
-        }
-        *++yyssp = yystate = yytable[yyn];
-        *++yyvsp = yylval;
-        yychar = (-1);
-        if (yyerrflag > 0)  --yyerrflag;
-        goto yyloop;
-    }
-    if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
-    {
-        yyn = yytable[yyn];
-        goto yyreduce;
-    }
-    if (yyerrflag) goto yyinrecovery;
+		if (yyssp >= yyss + yystacksize - 1)
+		{
+			goto yyoverflow;
+		}
+		*++yyssp = yystate = yytable[yyn];
+		*++yyvsp = yylval;
+		yychar = (-1);
+		if (yyerrflag > 0)  --yyerrflag;
+		goto yyloop;
+	}
+	if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	{
+		yyn = yytable[yyn];
+		goto yyreduce;
+	}
+	if (yyerrflag) goto yyinrecovery;
 #ifdef lint
-    goto yynewerror;
+	goto yynewerror;
 #endif
 yynewerror:
 #if YYDEBUG
-    {
-        int test_state, i, expect, two_or_more ;
-        char err_msg[BUFSIZ] ;
-        if( yyname[yychar] ){
-            sprintf( err_msg, "Found %s.\nExpected ",
-                yyname[yychar] ) ;
-            two_or_more = 0 ;
-            if( test_state = yysindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-            if( test_state = yyrindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-             yyerror( err_msg ) ;
-             if (yycnprs) {
-                 yychar = (-1);
-                 if (yyerrflag > 0)  --yyerrflag;
-                 goto yyloop;
-             }
-        } else {
-            sprintf( err_msg, "Found unknown token.\nExpected ");
-            two_or_more = 0 ;
-            if( test_state = yysindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-            if( test_state = yyrindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-             yyerror( err_msg ) ;
-             if (yycnprs) {
-                 yychar = (-1);
-                 if (yyerrflag > 0)  --yyerrflag;
-                 goto yyloop;
-             }
-        }
-     }
+	{
+		int test_state, i, expect, two_or_more ;
+		char err_msg[BUFSIZ] ;
+		if( yyname[yychar] ){
+			sprintf( err_msg, "Found %s.\nExpected ",
+					yyname[yychar] ) ;
+			two_or_more = 0 ;
+			if( test_state = yysindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			if( test_state = yyrindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			yyerror( err_msg ) ;
+			if (yycnprs) {
+				yychar = (-1);
+				if (yyerrflag > 0)  --yyerrflag;
+				goto yyloop;
+			}
+		} else {
+			sprintf( err_msg, "Found unknown token.\nExpected ");
+			two_or_more = 0 ;
+			if( test_state = yysindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			if( test_state = yyrindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			yyerror( err_msg ) ;
+			if (yycnprs) {
+				yychar = (-1);
+				if (yyerrflag > 0)  --yyerrflag;
+				goto yyloop;
+			}
+		}
+	}
 #else
-     yyerror("syntax error");
-     if (yycnprs) {
-        yychar = (-1);
-        if (yyerrflag > 0)  --yyerrflag;
-        goto yyloop;
-     }
+	yyerror("syntax error");
+	if (yycnprs) {
+		yychar = (-1);
+		if (yyerrflag > 0)  --yyerrflag;
+		goto yyloop;
+	}
 #endif
 #ifdef lint
-    goto yyerrlab;
+	goto yyerrlab;
 #endif
 yyerrlab:
-    ++yynerrs;
+	++yynerrs;
 yyinrecovery:
-    if (yyerrflag < 3)
-    {
-        yyerrflag = 3;
-        for (;;)
-        {
-            if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
-                    yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
-            {
+	if (yyerrflag < 3)
+	{
+		yyerrflag = 3;
+		for (;;)
+		{
+			if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
+					yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
+			{
 #if YYDEBUG
-                if (yydebug)
-                    printf("yydebug: state %d, error recovery shifting\
- to state %d\n", *yyssp, yytable[yyn]);
+				if (yydebug)
+					printf("yydebug: state %d, error recovery shifting\
+							to state %d\n", *yyssp, yytable[yyn]);
 #endif
-                if (yyssp >= yyss + yystacksize - 1)
-                {
-                    goto yyoverflow;
-                }
-                *++yyssp = yystate = yytable[yyn];
-                *++yyvsp = yylval;
-                goto yyloop;
-            }
-            else
-            {
+				if (yyssp >= yyss + yystacksize - 1)
+				{
+					goto yyoverflow;
+				}
+				*++yyssp = yystate = yytable[yyn];
+				*++yyvsp = yylval;
+				goto yyloop;
+			}
+			else
+			{
 #if YYDEBUG
-                if (yydebug)
-                    printf("yydebug: error recovery discarding state %d\n",
-                            *yyssp);
+				if (yydebug)
+					printf("yydebug: error recovery discarding state %d\n",
+							*yyssp);
 #endif
-                if (yyssp <= yyss) goto yyabort;
-                --yyssp;
-                --yyvsp;
-            }
-        }
-    }
-    else
-    {
-        if (yychar == 0) goto yyabort;
+				if (yyssp <= yyss) goto yyabort;
+				--yyssp;
+				--yyvsp;
+			}
+		}
+	}
+	else
+	{
+		if (yychar == 0) goto yyabort;
 #if YYDEBUG
-        if (yydebug)
-        {
-            yys = 0;
-            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-            if (!yys) yys = "illegal-symbol";
-            printf("yydebug: state %d, error recovery discards token %d (%s)\n",
-                    yystate, yychar, yys);
-        }
+		if (yydebug)
+		{
+			yys = 0;
+			if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+			if (!yys) yys = "illegal-symbol";
+			printf("yydebug: state %d, error recovery discards token %d (%s)\n",
+					yystate, yychar, yys);
+		}
 #endif
-        yychar = (-1);
-        goto yyloop;
-    }
+		yychar = (-1);
+		goto yyloop;
+	}
 yyreduce:
 #if YYDEBUG
-    if (yydebug)
-        printf("yydebug: state %d, reducing by rule %d (%s)\n",
-                yystate, yyn, yyrule[yyn]);
+	if (yydebug)
+		printf("yydebug: state %d, reducing by rule %d (%s)\n",
+				yystate, yyn, yyrule[yyn]);
 #endif
-    yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
-    switch (yyn)
-    {
-case 7:
-{
-			endCell() ;
-		    }
-break;
-case 8:
-{
-			endCell() ;
-		    }
-break;
-case 11:
-{ 
-			endCell() ; 
-		    }
-break;
-case 12:
-{ 
-			endCell() ;
-		    }
-break;
-case 13:
-{ 
-			endCell() ; 
-		    }
-break;
-case 14:
-{ 
-			endCell() ;
-		    }
-break;
-case 15:
-{ 
-			endCell() ; 
-		    }
-break;
-case 16:
-{ 
-			endCell() ; 
-		    }
-break;
-case 22:
-{
-			sprintf(YmsgG,
-			    "cell at line %d does not have any pins\n",
-			    line_countS+1);
-			M( WARNMSG,"readcells", YmsgG ) ;
-		    }
-break;
-case 29:
-{
-			sprintf(YmsgG,
-			    "cell at line %d does not have any pins\n",
-			    line_countS+1);
-			M( WARNMSG,"readcells", YmsgG ) ;
-		    }
-break;
-case 30:
-{    
-			endCell() ;
-			add_instance( yyvsp[0].string ) ;
-		    }
-break;
-case 32:
-{
-			sprintf(YmsgG,
-			    "pad at line %d does not have any pins\n",
-			    line_countS+1);
-			M( WARNMSG,"readcells", YmsgG ) ;
-		    }
-break;
-case 36:
-{
-			addCell( yyvsp[0].string, CUSTOMCELLTYPE ) ;
-		    }
-break;
-case 38:
-{
-			addCell( yyvsp[0].string, SOFTCELLTYPE ) ;
-		    }
-break;
-case 39:
-{
-			addCell( yyvsp[0].string, STDCELLTYPE ) ;
-		    }
-break;
-case 41:
-{
-			/* group neighborhood is free to move */
-			/* we use fixCell to build group box */
-			fixCell( GROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
-			    yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
-			addClass( --unique_classG ) ;
-		    }
-break;
-case 42:
-{
-			/* group neighborhood is fixed */
-			/* we use fixCell to build group box */
-			fixCell( FIXEDGROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
-			    yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
-			addClass( --unique_classG ) ;
-			
-		    }
-break;
-case 43:
-{
-			/* cell is fixed at a point */
-			fixCell( POINTFLAG, yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string,
-			    0, "L", 0, "B" ) ;
-			addClass( --unique_classG ) ;
-		    }
-break;
-case 44:
-{
-			/* cell is fixed within a fixed neighborhood */
-			fixCell( NEIGHBORHOODFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
-			    yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
-			addClass( --unique_classG ) ;
-		    }
-break;
-case 46:
-{
-			yyval.string = yyvsp[0].string ;
-		    }
-break;
-case 47:
-{
-			yyval.string = yyvsp[0].string ;
-		    }
-break;
-case 48:
-{ 
-			addCell( yyvsp[0].string, PADCELLTYPE ) ;
-		    }
-break;
-case 49:
-{
-			addCell( yyvsp[-1].string, PADGROUPTYPE ) ;
-			setPermutation( TRUE ) ;
-		    }
-break;
-case 50:
-{
-			addCell( yyvsp[-1].string, PADGROUPTYPE ) ;
-			setPermutation( FALSE ) ;
-		    }
-break;
-case 52:
-{
-			addCell( yyvsp[0].string, SUPERCELLTYPE ) ;
-			/* initSuperGroup() ; */
-		    }
-break;
-case 54:
-{
-			addCell( yyvsp[0].string, GROUPCELLTYPE ) ;
-		    }
-break;
-case 56:
-{
-			processCorners( yyvsp[-1].ival ) ;
-		    }
-break;
-case 57:
-{
-			yyval.ival = yyvsp[0].ival ;
-		    }
-break;
-case 58:
-{
-			addCorner( yyvsp[-1].ival, yyvsp[0].ival ) ;
-		    }
-break;
-case 59:
-{
-			addCorner( yyvsp[-1].ival, yyvsp[0].ival ) ;
-		    }
-break;
-case 60:
-{
-			addClass( yyvsp[0].ival ) ;
-		    }
-break;
-case 65:
-{
-			/* first in the list is the initial orientation */
-			initOrient( yyvsp[0].ival ) ;
-		    }
-break;
-case 66:
-{
-			addOrient( yyvsp[0].ival ) ;
-		    }
-break;
-case 68:
-{
-			set_cur_orient( yyvsp[0].ival ) ;
-		    }
-break;
-case 69:
-{
-			addAspectBounds( yyvsp[-2].fval, yyvsp[0].fval ) ;
-		    }
-break;
-case 70:
-{
-			add_soft_array() ;
-		    }
-break;
-case 79:
-{
-			process_pin() ;
-		    }
-break;
-case 80:
-{
-			addPin( yyvsp[-3].string, yyvsp[-1].string, yyvsp[0].ival, HARDPINTYPE ) ;
-		    }
-break;
-case 81:
-{
-			set_pin_pos( yyvsp[-1].ival, yyvsp[0].ival ) ;
-		    }
-break;
-case 83:
-{
-			add_analog( yyvsp[0].ival ) ;
-		    }
-break;
-case 84:
-{
-			add_pin_contour( yyvsp[-1].ival, yyvsp[0].ival ) ;
-		    }
-break;
-case 85:
-{
-			add_pin_contour( yyvsp[-1].ival, yyvsp[0].ival ) ;
-		    }
-break;
-case 87:
-{
-			add_current( yyvsp[0].fval ) ;
-		    }
-break;
-case 89:
-{
-			add_power( yyvsp[0].fval ) ;
-		    }
-break;
-case 91:
-{
-			no_layer_change() ;
-		    }
-break;
-case 94:
-{
-			addPin( yyvsp[-4].string, yyvsp[-2].string, yyvsp[-1].ival, SOFTPINTYPE ) ;
-			set_restrict_type( SOFTPINTYPE ) ;
-		    }
-break;
-case 98:
-{
-			/* we are now done with addequiv types */
-			set_restrict_type( SOFTEQUIVTYPE ) ;
-		    }
-break;
-case 99:
-{
-			set_restrict_type( ADDEQUIVTYPE ) ;
-			addEquivPin( NULL, 0, 0, 0, ADDEQUIVTYPE ) ;
-		    }
-break;
-case 103:
-{
-			addPin( yyvsp[-1].string, NULL, yyvsp[0].ival, SOFTEQUIVTYPE ) ;
-		    }
-break;
-case 104:
-{ yyval.ival = FALSE ; }
-break;
-case 105:
-{ yyval.ival = TRUE ; }
-break;
-case 108:
-{
-			set_restrict_type( PINGROUPTYPE ) ;
-			start_pin_group( yyvsp[-1].string, TRUE ) ;
-		    }
-break;
-case 109:
-{
-			set_restrict_type( PINGROUPTYPE ) ;
-			start_pin_group( yyvsp[-1].string, FALSE ) ;
-		    }
-break;
-case 112:
-{
-			add2pingroup( yyvsp[-1].string, TRUE ) ; /* fixed */
-		    }
-break;
-case 113:
-{
-			add2pingroup( yyvsp[-1].string, FALSE ) ; /* nonfixed */
-		    }
-break;
-case 116:
-{
-			addEquivPin( yyvsp[-3].string, yyvsp[-2].ival, yyvsp[-1].ival, yyvsp[0].ival, HARDPINTYPE ) ;
-		    }
-break;
-case 117:
-{ /* default any layer */ yyval.ival = 0 ; }
-break;
-case 118:
-{ yyval.ival = yyvsp[0].ival ; }
-break;
-case 121:
-{
-			addSideRestriction( yyvsp[0].ival ) ;
-		    }
-break;
-case 122:
-{
-			addSideRestriction( yyvsp[0].ival ) ;
-		    }
-break;
-case 124:
-{
-			add_pinspace( yyvsp[0].fval, yyvsp[0].fval ) ;
-		    }
-break;
-case 125:
-{
-			add_pinspace( yyvsp[-1].fval, yyvsp[0].fval ) ;
-		    }
-break;
-case 127:
-{
-			addSideSpace( yyvsp[0].fval, yyvsp[0].fval ) ;
-		    }
-break;
-case 128:
-{
-			addSideSpace( yyvsp[-1].fval, yyvsp[0].fval ) ;
-		    }
-break;
-case 129:
-{ 
-			addPadSide( yyvsp[0].string  ) ; 
-		    }
-break;
-case 135:
-{
-			add2padgroup( yyvsp[-1].string, TRUE ) ; /* fixed */
-		    }
-break;
-case 136:
-{
-			add2padgroup( yyvsp[-1].string, FALSE ) ; /* nonfixed */
-		    }
-break;
-case 139:
-{
-			add_cell_to_group( yyvsp[0].string ) ;
-		    }
-break;
-case 140:
-{
-			add_cell_to_group( yyvsp[0].string ) ;
-		    }
-break;
-case 150:
-{ 
-			yyval.string = yyvsp[0].string ;	
-		    }
-break;
-case 151:
-{
-			/* convert integer to string */
-			/* this allows integers to be used as strings */
-			/* a kluge but timberwolf's old parser supported it */
-			sprintf( bufferS,"%d", yyvsp[0].ival ) ;
-			/* now clone string */
-			yyval.string = (char *) Ystrclone( bufferS ) ;
-		    }
-break;
-case 152:
-{
-			/* convert float to string */
-			/* this allows floats to be used as strings */
-			/* a kluge but timberwolf's old parser supported it */
-			sprintf( bufferS,"%f", yyvsp[0].fval ) ;
-			/* now clone string */
-			yyval.string = (char *) Ystrclone( bufferS ) ;
-		    }
-break;
-    }
-    yyssp -= yym;
-    yystate = *yyssp;
-    yyvsp -= yym;
-    yym = yylhs[yyn];
-    if (yystate == 0 && yym == 0)
-    {
+	yym = yylen[yyn];
+	yyval = yyvsp[1-yym];
+	switch (yyn)
+	{
+		case 7:
+			{
+				endCell() ;
+			}
+			break;
+		case 8:
+			{
+				endCell() ;
+			}
+			break;
+		case 11:
+			{ 
+				endCell() ; 
+			}
+			break;
+		case 12:
+			{ 
+				endCell() ;
+			}
+			break;
+		case 13:
+			{ 
+				endCell() ; 
+			}
+			break;
+		case 14:
+			{ 
+				endCell() ;
+			}
+			break;
+		case 15:
+			{ 
+				endCell() ; 
+			}
+			break;
+		case 16:
+			{ 
+				endCell() ; 
+			}
+			break;
+		case 22:
+			{
+				sprintf(YmsgG,
+						"cell at line %d does not have any pins\n",
+						line_countS+1);
+				M( WARNMSG,"readcells", YmsgG ) ;
+			}
+			break;
+		case 29:
+			{
+				sprintf(YmsgG,
+						"cell at line %d does not have any pins\n",
+						line_countS+1);
+				M( WARNMSG,"readcells", YmsgG ) ;
+			}
+			break;
+		case 30:
+			{    
+				endCell() ;
+				add_instance( yyvsp[0].string ) ;
+			}
+			break;
+		case 32:
+			{
+				sprintf(YmsgG,
+						"pad at line %d does not have any pins\n",
+						line_countS+1);
+				M( WARNMSG,"readcells", YmsgG ) ;
+			}
+			break;
+		case 36:
+			{
+				addCell( yyvsp[0].string, CUSTOMCELLTYPE ) ;
+			}
+			break;
+		case 38:
+			{
+				addCell( yyvsp[0].string, SOFTCELLTYPE ) ;
+			}
+			break;
+		case 39:
+			{
+				addCell( yyvsp[0].string, STDCELLTYPE ) ;
+			}
+			break;
+		case 41:
+			{
+				/* group neighborhood is free to move */
+				/* we use fixCell to build group box */
+				fixCell( GROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
+						yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
+				addClass( --unique_classG ) ;
+			}
+			break;
+		case 42:
+			{
+				/* group neighborhood is fixed */
+				/* we use fixCell to build group box */
+				fixCell( FIXEDGROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
+						yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
+				addClass( --unique_classG ) ;
+
+			}
+			break;
+		case 43:
+			{
+				/* cell is fixed at a point */
+				fixCell( POINTFLAG, yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string,
+						0, "L", 0, "B" ) ;
+				addClass( --unique_classG ) ;
+			}
+			break;
+		case 44:
+			{
+				/* cell is fixed within a fixed neighborhood */
+				fixCell( NEIGHBORHOODFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
+						yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
+				addClass( --unique_classG ) ;
+			}
+			break;
+		case 46:
+			{
+				yyval.string = yyvsp[0].string ;
+			}
+			break;
+		case 47:
+			{
+				yyval.string = yyvsp[0].string ;
+			}
+			break;
+		case 48:
+			{ 
+				addCell( yyvsp[0].string, PADCELLTYPE ) ;
+			}
+			break;
+		case 49:
+			{
+				addCell( yyvsp[-1].string, PADGROUPTYPE ) ;
+				setPermutation( TRUE ) ;
+			}
+			break;
+		case 50:
+			{
+				addCell( yyvsp[-1].string, PADGROUPTYPE ) ;
+				setPermutation( FALSE ) ;
+			}
+			break;
+		case 52:
+			{
+				addCell( yyvsp[0].string, SUPERCELLTYPE ) ;
+				/* initSuperGroup() ; */
+			}
+			break;
+		case 54:
+			{
+				addCell( yyvsp[0].string, GROUPCELLTYPE ) ;
+			}
+			break;
+		case 56:
+			{
+				processCorners( yyvsp[-1].ival ) ;
+			}
+			break;
+		case 57:
+			{
+				yyval.ival = yyvsp[0].ival ;
+			}
+			break;
+		case 58:
+			{
+				addCorner( yyvsp[-1].ival, yyvsp[0].ival ) ;
+			}
+			break;
+		case 59:
+			{
+				addCorner( yyvsp[-1].ival, yyvsp[0].ival ) ;
+			}
+			break;
+		case 60:
+			{
+				addClass( yyvsp[0].ival ) ;
+			}
+			break;
+		case 65:
+			{
+				/* first in the list is the initial orientation */
+				initOrient( yyvsp[0].ival ) ;
+			}
+			break;
+		case 66:
+			{
+				addOrient( yyvsp[0].ival ) ;
+			}
+			break;
+		case 68:
+			{
+				set_cur_orient( yyvsp[0].ival ) ;
+			}
+			break;
+		case 69:
+			{
+				addAspectBounds( yyvsp[-2].fval, yyvsp[0].fval ) ;
+			}
+			break;
+		case 70:
+			{
+				add_soft_array() ;
+			}
+			break;
+		case 79:
+			{
+				process_pin() ;
+			}
+			break;
+		case 80:
+			{
+				addPin( yyvsp[-3].string, yyvsp[-1].string, yyvsp[0].ival, HARDPINTYPE ) ;
+			}
+			break;
+		case 81:
+			{
+				set_pin_pos( yyvsp[-1].ival, yyvsp[0].ival ) ;
+			}
+			break;
+		case 83:
+			{
+				add_analog( yyvsp[0].ival ) ;
+			}
+			break;
+		case 84:
+			{
+				add_pin_contour( yyvsp[-1].ival, yyvsp[0].ival ) ;
+			}
+			break;
+		case 85:
+			{
+				add_pin_contour( yyvsp[-1].ival, yyvsp[0].ival ) ;
+			}
+			break;
+		case 87:
+			{
+				add_current( yyvsp[0].fval ) ;
+			}
+			break;
+		case 89:
+			{
+				add_power( yyvsp[0].fval ) ;
+			}
+			break;
+		case 91:
+			{
+				no_layer_change() ;
+			}
+			break;
+		case 94:
+			{
+				addPin( yyvsp[-4].string, yyvsp[-2].string, yyvsp[-1].ival, SOFTPINTYPE ) ;
+				set_restrict_type( SOFTPINTYPE ) ;
+			}
+			break;
+		case 98:
+			{
+				/* we are now done with addequiv types */
+				set_restrict_type( SOFTEQUIVTYPE ) ;
+			}
+			break;
+		case 99:
+			{
+				set_restrict_type( ADDEQUIVTYPE ) ;
+				addEquivPin( NULL, 0, 0, 0, ADDEQUIVTYPE ) ;
+			}
+			break;
+		case 103:
+			{
+				addPin( yyvsp[-1].string, NULL, yyvsp[0].ival, SOFTEQUIVTYPE ) ;
+			}
+			break;
+		case 104:
+			{ yyval.ival = FALSE ; }
+			break;
+		case 105:
+			{ yyval.ival = TRUE ; }
+			break;
+		case 108:
+			{
+				set_restrict_type( PINGROUPTYPE ) ;
+				start_pin_group( yyvsp[-1].string, TRUE ) ;
+			}
+			break;
+		case 109:
+			{
+				set_restrict_type( PINGROUPTYPE ) ;
+				start_pin_group( yyvsp[-1].string, FALSE ) ;
+			}
+			break;
+		case 112:
+			{
+				add2pingroup( yyvsp[-1].string, TRUE ) ; /* fixed */
+			}
+			break;
+		case 113:
+			{
+				add2pingroup( yyvsp[-1].string, FALSE ) ; /* nonfixed */
+			}
+			break;
+		case 116:
+			{
+				addEquivPin( yyvsp[-3].string, yyvsp[-2].ival, yyvsp[-1].ival, yyvsp[0].ival, HARDPINTYPE ) ;
+			}
+			break;
+		case 117:
+			{ /* default any layer */ yyval.ival = 0 ; }
+			break;
+		case 118:
+			{ yyval.ival = yyvsp[0].ival ; }
+			break;
+		case 121:
+			{
+				addSideRestriction( yyvsp[0].ival ) ;
+			}
+			break;
+		case 122:
+			{
+				addSideRestriction( yyvsp[0].ival ) ;
+			}
+			break;
+		case 124:
+			{
+				add_pinspace( yyvsp[0].fval, yyvsp[0].fval ) ;
+			}
+			break;
+		case 125:
+			{
+				add_pinspace( yyvsp[-1].fval, yyvsp[0].fval ) ;
+			}
+			break;
+		case 127:
+			{
+				addSideSpace( yyvsp[0].fval, yyvsp[0].fval ) ;
+			}
+			break;
+		case 128:
+			{
+				addSideSpace( yyvsp[-1].fval, yyvsp[0].fval ) ;
+			}
+			break;
+		case 129:
+			{ 
+				addPadSide( yyvsp[0].string  ) ; 
+			}
+			break;
+		case 135:
+			{
+				add2padgroup( yyvsp[-1].string, TRUE ) ; /* fixed */
+			}
+			break;
+		case 136:
+			{
+				add2padgroup( yyvsp[-1].string, FALSE ) ; /* nonfixed */
+			}
+			break;
+		case 139:
+			{
+				add_cell_to_group( yyvsp[0].string ) ;
+			}
+			break;
+		case 140:
+			{
+				add_cell_to_group( yyvsp[0].string ) ;
+			}
+			break;
+		case 150:
+			{ 
+				yyval.string = yyvsp[0].string ;	
+			}
+			break;
+		case 151:
+			{
+				/* convert integer to string */
+				/* this allows integers to be used as strings */
+				/* a kluge but timberwolf's old parser supported it */
+				sprintf( bufferS,"%d", yyvsp[0].ival ) ;
+				/* now clone string */
+				yyval.string = (char *) Ystrclone( bufferS ) ;
+			}
+			break;
+		case 152:
+			{
+				/* convert float to string */
+				/* this allows floats to be used as strings */
+				/* a kluge but timberwolf's old parser supported it */
+				sprintf( bufferS,"%f", yyvsp[0].fval ) ;
+				/* now clone string */
+				yyval.string = (char *) Ystrclone( bufferS ) ;
+			}
+			break;
+	}
+	yyssp -= yym;
+	yystate = *yyssp;
+	yyvsp -= yym;
+	yym = yylhs[yyn];
+	if (yystate == 0 && yym == 0)
+	{
 #if YYDEBUG
-        if (yydebug)
-            printf("yydebug: after reduction, shifting from state 0 to\
- state %d\n", YYFINAL);
+		if (yydebug)
+			printf("yydebug: after reduction, shifting from state 0 to\
+					state %d\n", YYFINAL);
 #endif
-        yystate = YYFINAL;
-        *++yyssp = YYFINAL;
-        *++yyvsp = yyval;
-        if (yychar < 0)
-        {
-            if ((yychar = yylex()) < 0) yychar = 0;
+		yystate = YYFINAL;
+		*++yyssp = YYFINAL;
+		*++yyvsp = yyval;
+		if (yychar < 0)
+		{
+			if ((yychar = yylex()) < 0) yychar = 0;
 #if YYDEBUG
-            if (yydebug)
-            {
-                yys = 0;
-                if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-                if (!yys) yys = "illegal-symbol";
-                printf("yydebug: state %d, reading %d (%s)\n",
-                        YYFINAL, yychar, yys);
-            }
+			if (yydebug)
+			{
+				yys = 0;
+				if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+				if (!yys) yys = "illegal-symbol";
+				printf("yydebug: state %d, reading %d (%s)\n",
+						YYFINAL, yychar, yys);
+			}
 #endif
-        }
-        if (yychar == 0) goto yyaccept;
-        goto yyloop;
-    }
-    if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
-        yystate = yytable[yyn];
-    else
-        yystate = yydgoto[yym];
+		}
+		if (yychar == 0) goto yyaccept;
+		goto yyloop;
+	}
+	if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
+		yystate = yytable[yyn];
+	else
+		yystate = yydgoto[yym];
 #if YYDEBUG
-    if (yydebug)
-        printf("yydebug: after reduction, shifting from state %d \
-to state %d\n", *yyssp, yystate);
+	if (yydebug)
+		printf("yydebug: after reduction, shifting from state %d \
+				to state %d\n", *yyssp, yystate);
 #endif
-    if (yyssp >= yyss + yystacksize - 1)
-    {
-        goto yyoverflow;
-    }
-    *++yyssp = yystate;
-    *++yyvsp = yyval;
-    goto yyloop;
+	if (yyssp >= yyss + yystacksize - 1)
+	{
+		goto yyoverflow;
+	}
+	*++yyssp = yystate;
+	*++yyvsp = yyval;
+	goto yyloop;
 yyoverflow:
-    yyerror("yacc stack overflow");
+	yyerror("yacc stack overflow");
 yyabort:
-    return (1);
+	return (1);
 yyaccept:
-    return (0);
+	return (0);
 }
+
+yyback(p, m)
+int *p;
+{
+	if (p==0) return(0);
+	while (*p)
+	{
+		if (*p++ == m)
+			return(1);
+	}
+	return(0);
+}
+
+yyinput() {
+#ifdef linux
+	if (yyin == NULL) yyin = stdin;
+#endif
+	return(input());
+}
+
+yyoutput(c)
+int c; {
+#ifdef linux
+	if (yyout == NULL) yyout = stdout;
+#endif
+	output(c);
+}
+
+yyunput(c)
+int c; {
+	unput(c);
+}
+
+
+
+yylook(){
+	register struct yysvf *yystate, **lsp;
+	register struct yywork *yyt;
+	struct yysvf *yyz;
+	int yych;
+	struct yywork *yyr;
+# ifdef LEXDEBUG
+	int debug;
+# endif
+	char *yylastch;
+	/* start off machines */
+#ifdef linux
+	if (yyin == NULL) yyin = stdin;
+	if (yyout == NULL) yyout = stdout;
+#endif
+# ifdef LEXDEBUG
+	debug = 0;
+# endif
+	if (!yymorfg)
+		yylastch = yytext;
+	else {
+		yymorfg=0;
+		yylastch = yytext+yyleng;
+	}
+	for(;;){
+		lsp = yylstate;
+		yyestate = yystate = yybgin;
+		if (yyprevious==YYNEWLINE) yystate++;
+		for (;;){
+# ifdef LEXDEBUG
+			if(debug)fprintf(yyout,"state %d\n",yystate-yysvec-1);
+# endif
+			yyt = yystate->yystoff;
+			if(yyt == yycrank){		/* may not be any transitions */
+				yyz = yystate->yyother;
+				if(yyz == 0)break;
+				if(yyz->yystoff == yycrank)break;
+			}
+			*yylastch++ = yych = input();
+tryagain:
+# ifdef LEXDEBUG
+			if(debug){
+				fprintf(yyout,"unsigned char ");
+				allprint(yych);
+				putchar('\n');
+			}
+# endif
+			yyr = yyt;
+			if ( (long)yyt > (long)yycrank){
+				yyt = yyr + yych;
+				if (yyt <= yytop && yyt->verify+yysvec == yystate){
+					if(yyt->advance+yysvec == YYLERR)	/* error transitions */
+					{unput(*--yylastch);break;}
+					*lsp++ = yystate = yyt->advance+yysvec;
+					goto contin;
+				}
+			}
+# ifdef YYOPTIM
+			else if((long)yyt < (long)yycrank) {		/* r < yycrank */
+				yyt = yyr = yycrank+(yycrank-yyt);
+# ifdef LEXDEBUG
+				if(debug)fprintf(yyout,"compressed state\n");
+# endif
+				yyt = yyt + yych;
+				if(yyt <= yytop && yyt->verify+yysvec == yystate){
+					if(yyt->advance+yysvec == YYLERR)	/* error transitions */
+					{unput(*--yylastch);break;}
+					*lsp++ = yystate = yyt->advance+yysvec;
+					goto contin;
+				}
+				yyt = yyr + YYU(yymatch[yych]);
+# ifdef LEXDEBUG
+				if(debug){
+					fprintf(yyout,"try fall back character ");
+					allprint(YYU(yymatch[yych]));
+					putchar('\n');
+				}
+# endif
+				if(yyt <= yytop && yyt->verify+yysvec == yystate){
+					if(yyt->advance+yysvec == YYLERR)	/* error transition */
+					{unput(*--yylastch);break;}
+					*lsp++ = yystate = yyt->advance+yysvec;
+					goto contin;
+				}
+			}
+			if ((yystate = yystate->yyother) && (yyt= yystate->yystoff) != yycrank){
+# ifdef LEXDEBUG
+				if(debug)fprintf(yyout,"fall back to state %d\n",yystate-yysvec-1);
+# endif
+				goto tryagain;
+			}
+# endif
+			else
+			{unput(*--yylastch);break;}
+contin:
+# ifdef LEXDEBUG
+			if(debug){
+				fprintf(yyout,"state %d char ",yystate-yysvec-1);
+				allprint(yych);
+				putchar('\n');
+			}
+# endif
+			;
+		}
+# ifdef LEXDEBUG
+		if(debug){
+			fprintf(yyout,"stopped at %d with ",*(lsp-1)-yysvec-1);
+			allprint(yych);
+			putchar('\n');
+		}
+# endif
+		while (lsp-- > yylstate){
+			*yylastch-- = 0;
+			if (*lsp != 0 && (yyfnd= (*lsp)->yystops) && *yyfnd > 0){
+				yyolsp = lsp;
+				if(yyextra[*yyfnd]){		/* must backup */
+					while(yyback((*lsp)->yystops,-*yyfnd) != 1 && lsp > yylstate){
+						lsp--;
+						unput(*yylastch--);
+					}
+				}
+				yyprevious = YYU(*yylastch);
+				yylsp = lsp;
+				yyleng = yylastch-yytext+1;
+				yytext[yyleng] = 0;
+# ifdef LEXDEBUG
+				if(debug){
+					fprintf(yyout,"\nmatch ");
+					sprint(yytext);
+					fprintf(yyout," action %d\n",*yyfnd);
+				}
+# endif
+				return(*yyfnd++);
+			}
+			unput(*yylastch);
+		}
+		if (yytext[0] == 0  /* && feof(yyin) */)
+		{
+			yysptr=yysbuf;
+			return(0);
+		}
+		yyprevious = yytext[0] = input();
+		if (yyprevious>0)
+			output(yyprevious);
+		yylastch=yytext;
+# ifdef LEXDEBUG
+		if(debug)putchar('\n');
+# endif
+	}
+}
+
