@@ -121,6 +121,9 @@ ADJPTR adjptr ;
 	//Ylog_msg( YmsgG ) ;
 	printf( "%s started...", obj->name ) ;
 
+	int localWindowID;
+	char tmpBuf[23];
+
 	/* now execute the command */
 	//status = system( command ) ;
 	if(!strcmp("edit_twfiles",obj->name)) {
@@ -137,12 +140,13 @@ ADJPTR adjptr ;
 
 	if(!strcmp("Mincut",obj->name)) {
 		printf("It's Mincut!\n");
-		status = 0;
+		char* localArgv[5];
+		localArgv[0] = "Mincut";
+		localArgv[1] = Ystrclone(cktNameG);
+		status = Mincut(2,localArgv);
 	}
 
 	int TimberWolfMC( int argc, char *argv[]);
-	int localWindowID;
-	char tmpBuf[23];
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
 		printf("It's TimberWolfMC!\n");
