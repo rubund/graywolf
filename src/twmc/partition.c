@@ -118,69 +118,73 @@ extern INT closegraphics();
 
 config_rows()
 {
-    DOUBLE read_par_file() ;     /* get default from user */
-    INT left, right, bottom, top;/* core area */
-    char *Yrelpath() ;
-    char *pathname ;
-    char *twdir ;       /* path of TimberWolf directory */
-    char *getenv() ;    /* used to get TWDIR environment variable */
-    char filename[LRECL] ;
-    BOOL stateSaved = FALSE ; /* whether need to restore state */
-    BOOL get_batch_mode() ;   /* find out whether we are in batch mode */
+	DOUBLE read_par_file() ;     /* get default from user */
+	INT left, right, bottom, top;/* core area */
+	char *Yrelpath() ;
+	char *pathname ;
+	char *twdir ;       /* path of TimberWolf directory */
+	char *getenv() ;    /* used to get TWDIR environment variable */
+	char filename[LRECL] ;
+	BOOL stateSaved = FALSE ; /* whether need to restore state */
+	BOOL get_batch_mode() ;   /* find out whether we are in batch mode */
 
-    read_stat_file() ;
-    (void) read_par_file() ;
-    grid_cells() ;
+	read_stat_file() ;
+	(void) read_par_file() ;
+	grid_cells() ;
 
-    /* place the pads to get standard cell core area */
-    find_core_boundary( &left, &right, &bottom, &top ) ;
+	/* place the pads to get standard cell core area */
+	find_core_boundary( &left, &right, &bottom, &top ) ;
 
-    build_mver_file( left, right, bottom, top ) ;
+	build_mver_file( left, right, bottom, top ) ;
 
-    /* now call genrows program */
-    /* find the path of genrows relative to main program */
-    pathname = Yrelpath( argv0G, GENROWPATH ) ;
-    if( !(YfileExists(pathname))){
-	if( twdir = TWFLOWDIR ){
-	    sprintf( filename, "%s/bin/%s", twdir, GENROWPROG ) ;
-	    pathname = Ystrclone( filename ) ;
+	/* now call genrows program */
+	/* find the path of genrows relative to main program */
+	/* Ysystem will kill program if catastrophe occurred */
+	//Ysystem( GENROWPROG, ABORT, YmsgG, closegraphics ) ;
+	int status;
+	int localWindowID;
+	char tmpBuf[23];
+	char* localArgv[5];
+	localArgv[0] = "genrows";
+	if( doGraphicsG ){
+		// setup the variables
+		localWindowID = TWsaveState();
+		sprintf(tmpBuf,"%d",localWindowID);
+		// run the things
+		localArgv[1] = "-w";
+		localArgv[2] = Ystrclone(cktNameG);
+		localArgv[3] = Ystrclone(tmpBuf);
+		status = Genrows(4,localArgv);
+	} else if( get_batch_mode() ){
+		localArgv[1] = Ystrclone(cktNameG);
+		status = Genrows(2,localArgv);
+	} else {
+		localArgv[1] = "-n";
+		localArgv[2] = Ystrclone(cktNameG);
+		status = Genrows(3,localArgv);
 	}
-    }
-    if( doGraphicsG ){
-	G( sprintf( YmsgG, "%s -w %s %lu", 
-	    pathname, cktNameG, (unsigned long)TWsaveState() ) ) ;
-	stateSaved = TRUE ;
-    } else if( get_batch_mode() ){
-	sprintf( YmsgG, "%s %s", pathname, cktNameG ) ;
-    } else {  /* no graphics case */
-	sprintf( YmsgG, "%s -n %s", pathname, cktNameG ) ;
-    }
-    M( MSG, NULL, YmsgG ) ;
-    M( MSG, NULL, "\n" ) ;
-    /* Ysystem will kill program if catastrophe occurred */
-    //Ysystem( GENROWPROG, ABORT, YmsgG, closegraphics ) ;
-    Ysafe_free( pathname ) ; /* free name created in Yrelpath */
-    /* ############# end of genrows execution ############# */
 
-    if( stateSaved ){
-	/* if we save the graphics state we need to restore it */
-	G( TWrestoreState() ) ;
-    }
+	/* ############# end of genrows execution ############# */
 
-    /* read result to update new core */
-    read_gen_file() ;
+	if( stateSaved ){
+		/* if we save the graphics state we need to restore it */
+		G( TWrestoreState() ) ;
+	}
 
-    /* add spacing between pads and core area. */
+	/* read result to update new core */
+	read_gen_file() ;
+
+	/* add spacing between pads and core area. */
 #ifdef LATER
-    cellarrayG[endpadgrpsG+L]->tiles->rborder = numpadsG*track_spacingXG ;
-    cellarrayG[endpadgrpsG+R]->tiles->lborder = numpadsG*track_spacingXG ;
-    cellarrayG[endpadgrpsG+B]->tiles->tborder = numpadsG*track_spacingYG ;
-    cellarrayG[endpadgrpsG+T]->tiles->bborder = numpadsG*track_spacingYG ;
+	cellarrayG[endpadgrpsG+L]->tiles->rborder = numpadsG*track_spacingXG ;
+	cellarrayG[endpadgrpsG+R]->tiles->lborder = numpadsG*track_spacingXG ;
+	cellarrayG[endpadgrpsG+B]->tiles->tborder = numpadsG*track_spacingYG ;
+	cellarrayG[endpadgrpsG+T]->tiles->bborder = numpadsG*track_spacingYG ;
 #endif
 
-    /* read back result */
-    setVirtualCore( TRUE ) ;
-    placepads() ;
+	/* read back result */
+	setVirtualCore( TRUE ) ;
+	placepads() ;
 } /* end config_rows */
 
 read_stat_file()
