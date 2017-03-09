@@ -141,14 +141,21 @@ ADJPTR adjptr ;
 	}
 
 	int TimberWolfMC( int argc, char *argv[]);
+	int localWindowID;
+	char tmpBuf[23];
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
-		//printf("It's TimberWolfMC!\n");
 		char* localArgv[5];
 		localArgv[0] = "TimberWolfMC";
 		if(graphicsG) {
-			localArgv[1] = Ystrclone(cktNameG);
-			status = TimberWolfMC(2,localArgv);
+			// setup the variables
+			localWindowID = TWsaveState();
+			sprintf(tmpBuf,"%d",localWindowID);
+			// run the things
+			localArgv[1] = "-w";
+			localArgv[2] = Ystrclone(cktNameG);
+			localArgv[3] = Ystrclone(tmpBuf);
+			status = TimberWolfMC(4,localArgv);
 		} else {
 			localArgv[1] = "-n";
 			localArgv[2] = Ystrclone(cktNameG);
