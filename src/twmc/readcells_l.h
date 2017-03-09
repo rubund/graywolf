@@ -17,22 +17,23 @@
 # define yymore() (yymorfg=1)
 # define ECHO fprintf(yyout, "%s",yytext)
 # define REJECT { nstr = yyreject(); goto yyfussy;}
-int yyleng; extern char yytext[];
+int yyleng;
+char yytext[];
 int yymorfg;
-extern char *yysptr, yysbuf[];
+char *yysptr, yysbuf[];
 int yytchar;
 #ifdef linux
 FILE *yyin =NULL, *yyout =NULL;
 #else
 FILE *yyin ={stdin}, *yyout ={stdout};
 #endif
-extern int yylineno;
+int yylineno;
 struct yysvf { 
 	struct yywork *yystoff;
 	struct yysvf *yyother;
 	int *yystops;};
 struct yysvf *yyestate;
-extern struct yysvf yysvec[], *yybgin;
+struct yysvf yysvec[], *yybgin;
 /* ----------------------------------------------------------------- 
 FILE:	    readcells_lex                               
 DESCRIPTION:rules for lexical analyzer in readcell.  This lexical
@@ -70,58 +71,6 @@ static INT screen() ;
 static INT check_line_count() ;
 
 # define YYNEWLINE 10
-yylex(){
-int nstr; extern int yyprevious;
-while((nstr = yylook()) >= 0)
-yyfussy: switch(nstr){
-case 0:
-if(yywrap()) return(0); break;
-case 1:
-
-		      {
-			/* C-style comments over multiple lines */
-          		check_line_count(yytext) ;
-	              }
-break;
-case 2:
-      { 
-		         /* convert to an integer */
-		         yylval.ival = atoi( yytext ) ;
-	  	         return (INTEGER); 
-	              }
-break;
-case 3:
- {
-		         /* convert to an integer */
-		         yylval.fval = atof( yytext ) ;
-	  	         return (FLOAT); 
-		      }
-break;
-case 4:
- {
-		         /* convert to an integer */
-		         yylval.fval = atof( yytext ) ;
-	  	         return (FLOAT); 
-		      }
-break;
-case 5:
-  {  return( screen() ) ; }
-break;
-case 6:
-           {  line_countS++;}
-break;
-case 7:
-             ;
-break;
-case 8:
-              {  return( token(yytext[0]) ) ;}
-break;
-case -1:
-break;
-default:
-fprintf(yyout,"bad switch yylook %d",nstr);
-} return(0); }
-/* end of yylex */
 
 /* reserved word screener */
 /* ----------------------------------------------------------------- 
@@ -172,50 +121,6 @@ static struct rw_table {  /* reserved word table */
     "timing",              token(TIMING)
 } ;
 
-static INT screen() 
-{
-    INT c ;
-    struct rw_table  *low = rwtable,        /* ptr to beginning */
-		     *mid ,  
-		     *high = END(rwtable) ;   /* ptr to end */
-
-    /* binary search to look thru table to find pattern match */
-    while( low <= high){
-	mid = low + (high-low) / 2 ;
-	if( (c = strcmp(mid->rw_name, yytext) ) == STRINGEQ){
-	    return( mid->rw_yylex ) ; /* return token number */
-	} else if( c < 0 ){
-	    low = mid + 1 ;
-	} else {
-	    high = mid - 1 ;
-	}
-    }
-    /* at this point we haven't found a match so we have a string */
-    /* save the string by making copy */
-    yylval.string = (char *) Ystrclone( yytext ) ;
-    return (STRING); 
-		
-} /* end screen function */
-
-static INT check_line_count( s ) 
-char *s ;
-{
-    if( s ){
-	if( strlen(s) >= YYLMAX ){
-	    sprintf(YmsgG, "comment beginning at line %d ",line_countS+1 );
-	    M( ERRMSG, "lex", YmsgG ) ;
-	    sprintf(YmsgG,"exceeds maximum allowed length:%d chars.\n", 
-		YYLMAX );
-	    M( MSG, NULL, YmsgG ) ;
-	    setErrorFlag() ;
-	}
-	for( ;*s;s++ ){
-	    if( *s == '\n'){
-		line_countS++;
-	    }
-	}
-    }
-} /* end check_line_count */
 int yyvstop[] ={
 0,
 
@@ -516,182 +421,4 @@ char *yysptr = yysbuf;
 int *yyfnd;
 extern struct yysvf *yyestate;
 int yyprevious = YYNEWLINE;
-yylook(){
-	register struct yysvf *yystate, **lsp;
-	register struct yywork *yyt;
-	struct yysvf *yyz;
-	int yych;
-	struct yywork *yyr;
-# ifdef LEXDEBUG
-	int debug;
-# endif
-	char *yylastch;
-	/* start off machines */
-#ifdef linux
-	if (yyin == NULL) yyin = stdin;
-	if (yyout == NULL) yyout = stdout;
-#endif
-# ifdef LEXDEBUG
-	debug = 0;
-# endif
-	if (!yymorfg)
-		yylastch = yytext;
-	else {
-		yymorfg=0;
-		yylastch = yytext+yyleng;
-		}
-	for(;;){
-		lsp = yylstate;
-		yyestate = yystate = yybgin;
-		if (yyprevious==YYNEWLINE) yystate++;
-		for (;;){
-# ifdef LEXDEBUG
-			if(debug)fprintf(yyout,"state %d\n",yystate-yysvec-1);
-# endif
-			yyt = yystate->yystoff;
-			if(yyt == yycrank){		/* may not be any transitions */
-				yyz = yystate->yyother;
-				if(yyz == 0)break;
-				if(yyz->yystoff == yycrank)break;
-				}
-			*yylastch++ = yych = input();
-		tryagain:
-# ifdef LEXDEBUG
-			if(debug){
-				fprintf(yyout,"unsigned char ");
-				allprint(yych);
-				putchar('\n');
-				}
-# endif
-			yyr = yyt;
-			if ( (long)yyt > (long)yycrank){
-				yyt = yyr + yych;
-				if (yyt <= yytop && yyt->verify+yysvec == yystate){
-					if(yyt->advance+yysvec == YYLERR)	/* error transitions */
-						{unput(*--yylastch);break;}
-					*lsp++ = yystate = yyt->advance+yysvec;
-					goto contin;
-					}
-				}
-# ifdef YYOPTIM
-			else if((long)yyt < (long)yycrank) {		/* r < yycrank */
-				yyt = yyr = yycrank+(yycrank-yyt);
-# ifdef LEXDEBUG
-				if(debug)fprintf(yyout,"compressed state\n");
-# endif
-				yyt = yyt + yych;
-				if(yyt <= yytop && yyt->verify+yysvec == yystate){
-					if(yyt->advance+yysvec == YYLERR)	/* error transitions */
-						{unput(*--yylastch);break;}
-					*lsp++ = yystate = yyt->advance+yysvec;
-					goto contin;
-					}
-				yyt = yyr + YYU(yymatch[yych]);
-# ifdef LEXDEBUG
-				if(debug){
-					fprintf(yyout,"try fall back character ");
-					allprint(YYU(yymatch[yych]));
-					putchar('\n');
-					}
-# endif
-				if(yyt <= yytop && yyt->verify+yysvec == yystate){
-					if(yyt->advance+yysvec == YYLERR)	/* error transition */
-						{unput(*--yylastch);break;}
-					*lsp++ = yystate = yyt->advance+yysvec;
-					goto contin;
-					}
-				}
-			if ((yystate = yystate->yyother) && (yyt= yystate->yystoff) != yycrank){
-# ifdef LEXDEBUG
-				if(debug)fprintf(yyout,"fall back to state %d\n",yystate-yysvec-1);
-# endif
-				goto tryagain;
-				}
-# endif
-			else
-				{unput(*--yylastch);break;}
-		contin:
-# ifdef LEXDEBUG
-			if(debug){
-				fprintf(yyout,"state %d char ",yystate-yysvec-1);
-				allprint(yych);
-				putchar('\n');
-				}
-# endif
-			;
-			}
-# ifdef LEXDEBUG
-		if(debug){
-			fprintf(yyout,"stopped at %d with ",*(lsp-1)-yysvec-1);
-			allprint(yych);
-			putchar('\n');
-			}
-# endif
-		while (lsp-- > yylstate){
-			*yylastch-- = 0;
-			if (*lsp != 0 && (yyfnd= (*lsp)->yystops) && *yyfnd > 0){
-				yyolsp = lsp;
-				if(yyextra[*yyfnd]){		/* must backup */
-					while(yyback((*lsp)->yystops,-*yyfnd) != 1 && lsp > yylstate){
-						lsp--;
-						unput(*yylastch--);
-						}
-					}
-				yyprevious = YYU(*yylastch);
-				yylsp = lsp;
-				yyleng = yylastch-yytext+1;
-				yytext[yyleng] = 0;
-# ifdef LEXDEBUG
-				if(debug){
-					fprintf(yyout,"\nmatch ");
-					sprint(yytext);
-					fprintf(yyout," action %d\n",*yyfnd);
-					}
-# endif
-				return(*yyfnd++);
-				}
-			unput(*yylastch);
-			}
-		if (yytext[0] == 0  /* && feof(yyin) */)
-			{
-			yysptr=yysbuf;
-			return(0);
-			}
-		yyprevious = yytext[0] = input();
-		if (yyprevious>0)
-			output(yyprevious);
-		yylastch=yytext;
-# ifdef LEXDEBUG
-		if(debug)putchar('\n');
-# endif
-		}
-	}
-yyback(p, m)
-	int *p;
-{
-if (p==0) return(0);
-while (*p)
-	{
-	if (*p++ == m)
-		return(1);
-	}
-return(0);
-}
-	/* the following are only used in the lex library */
-yyinput(){
-#ifdef linux
-	if (yyin == NULL) yyin = stdin;
-#endif
-	return(input());
-	}
-yyoutput(c)
-  int c; {
-#ifdef linux
-	if (yyout == NULL) yyout = stdout;
-#endif
-	output(c);
-	}
-yyunput(c)
-   int c; {
-	unput(c);
-	}
+

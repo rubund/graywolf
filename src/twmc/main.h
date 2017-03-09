@@ -101,7 +101,6 @@ typedef INT CELLTYPE ;
 /* compile switch for globals */
 #ifndef MAIN_DEFS
 #define EXTERN extern
-
 #else
 #define EXTERN
 #endif
