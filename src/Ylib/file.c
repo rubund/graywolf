@@ -76,27 +76,6 @@ static char SccsId[] = "@(#) file.c version 3.11 10/20/91" ;
 
 /* ----------------------------------------------------------------- 
                       File routines                                 */ 
-	  
-FILE *YopenFile(filename,readwrite,abort)
-char *filename ;
-char *readwrite ;
-BOOL  abort ;
-{
-
-    FILE *fileptr ;
-
-    fileptr = fopen( filename, readwrite );
-
-    if( !(fileptr) && abort ){
-	sprintf( YmsgG,"could not open file %s\n",filename ) ;
-	M(ERRMSG,"openFile",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    return( fileptr ) ;
-
-} /* end openFile */
-
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -161,12 +140,6 @@ BOOL readNotWrite ;
     INT fd ;             /* file descriptor */
     INT status ;         /* return status */
     FILE *fp ;           /* file stream descriptor */
-
-    if(!(YfileExists(filename))){ 
-	/* short cut to avoid having to chmod file */
-	fp = YopenFile( filename, "w", ABORT ) ;
-	fclose( fp ) ;
-    }
 
     if( readNotWrite ){
 	fd = creat( filename, O_RDONLY ) ;
@@ -237,12 +210,6 @@ BOOL readNotWrite ;
     INT fd ;             /* file descriptor */
     INT status ;         /* return status */
     FILE *fp ;           /* file stream descriptor */
-
-    if(!(YfileExists(filename))){ 
-	/* short cut to avoid having to chmod file */
-	fp = YopenFile( filename, "w", ABORT ) ;
-	fclose( fp ) ;
-    }
 
     if( readNotWrite ){
 	fd = creat( filename, O_RDONLY ) ;
