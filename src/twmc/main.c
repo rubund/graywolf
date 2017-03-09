@@ -96,6 +96,7 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #endif
 
 #include <string.h>
+#include <unistd.h>
 
 /* turn on condition compile for globals */
 #define  MAIN_DEFS
@@ -123,7 +124,7 @@ static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 VOID syntax();
 INT closegraphics();
 
-TimberWolfMC( argc , argv )
+__attribute__((visibility("default"))) TimberWolfMC( argc , argv )
 //main( argc , argv )
 INT argc ;
 char *argv[] ;
@@ -278,24 +279,26 @@ char *argv[] ;
 		printf("\nThe rand generator seed was: %u\n\n\n", (unsigned) randVarG );
 		rememberRand = randVarG ;
 
-
 		/* assume first that this is a mixed mode case - .mcel otherwise */
 		/* it is a macro cell only case so look for .cel */
+
+		//sprintf(filename, "%s.cel" , cktNameG ) ;
 		sprintf(filename, "%s.mcel" , cktNameG ) ;
-		if(!(fp = TWOPEN( filename , "r", NOABORT ))){
-			printf("Couldn't open %s \n", filename);
-			sprintf(filename, "%s.cel" , cktNameG ) ;
-			if(!(fp = TWOPEN( filename , "r", NOABORT ))){
-				printf("Couldn't open %s \n", filename);
+		printf("Does %s exist?\n", filename);
+
+		if( access( filename, F_OK ) == -1 ) { 
+			printf("File %s doesn't exist \n", filename);
+			sprintf(filename, "%s.cel" , cktNameG );
+			if( access( filename, F_OK ) == -1 ) {
+				printf("File %s doesn't exist \n", filename);
+				sprintf(filename, "%s.cel" , cktNameG );
 			} else {
-				printf("Opened %s \n", filename);
-				readcells( fp ) ;
-				TWCLOSE(fp);
+				printf("Now pass filename %s to readcells \n", filename);
+				readcells(filename);
 			}
 		} else {
-			printf("Opened %s \n", filename);
-			readcells( fp ) ;
-			TWCLOSE(fp);
+			printf("Now pass filename %s to readcells \n", filename);
+			readcells(filename);
 		}
 
 		/* now see if we need to perform a quickroute to get */
@@ -308,8 +311,6 @@ char *argv[] ;
 				parasiteS = get_arg_string( arguments ) ;
 				M( MSG, NULL, arguments ) ;
 				M( MSG, NULL, "\n" ) ;
-				//printf("TimberWolfMC %s \n",arguments ) ;
-				//Ysystem( "TimberWolfMC",ABORT,arguments,closegraphics ) ;
 				char tmpBuf[23];
 				int localArgc = 3;
 				char* localArgv[5];
@@ -319,7 +320,6 @@ char *argv[] ;
 				if(parasiteS && doGraphicsG){
 					localArgc = 4;
 					localArgv[1] = "-qw";
-					char *buf;
 					int localWindowID = 0 ;
 					localWindowID = TWsaveState();
 					sprintf(tmpBuf,"%d",localWindowID);
