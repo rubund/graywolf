@@ -12,7 +12,7 @@
 # define YYOPTIM 1
 # define YYLMAX 200
 # define output(c) putc(c,yyout)
-# define input() (((yytchar=yysptr>yysbuf?U(*--yysptr):getc(yyin))==10?(yylineno++,yytchar):yytchar)==EOF?0:yytchar)
+# define input() (((yytchar=yysptr>yysbuf?U(*--yysptr):getc(yyinS))==10?(yylineno++,yytchar):yytchar)==EOF?0:yytchar)
 # define unput(c) {yytchar= (c);if(yytchar=='\n')yylineno--;*yysptr++=yytchar;}
 # define yymore() (yymorfg=1)
 # define ECHO fprintf(yyout, "%s",yytext)
@@ -22,9 +22,9 @@ int yymorfg;
 extern char *yysptr, yysbuf[];
 int yytchar;
 #ifdef linux
-FILE *yyin =NULL, *yyout =NULL;
+FILE *yyinS =NULL, *yyout =NULL;
 #else
-FILE *yyin ={stdin}, *yyout ={stdout};
+FILE *yyinS ={stdin}, *yyout ={stdout};
 #endif
 extern int yylineno;
 struct yysvf { 
@@ -512,7 +512,7 @@ yylook(){
 # endif
 	char *yylastch;
 #ifdef linux
-	if (yyin == NULL) yyin = stdin;
+	if (yyinS == NULL) yyinS = stdin;
 	if (yyout == NULL) yyout = stdout;
 #endif
 	/* start off machines */
@@ -637,7 +637,7 @@ yylook(){
 				}
 			unput(*yylastch);
 			}
-		if (yytext[0] == 0  /* && feof(yyin) */)
+		if (yytext[0] == 0  /* && feof(yyinS) */)
 			{
 			yysptr=yysbuf;
 			return(0);
@@ -663,9 +663,9 @@ while (*p)
 return(0);
 }
 	/* the following are only used in the lex library */
-yyinput(){
+yyinSput(){
 #ifdef linux
-	if (yyin == NULL) yyin = stdin;
+	if (yyinS == NULL) yyinS = stdin;
 #endif
 	return(input());
 	}
