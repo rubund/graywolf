@@ -689,7 +689,6 @@ if( SGGRG ) {
 
 	TWCLOSE(fpoG) ;
 	sprintf( command, "%s/bin/SGGR %s", twdirS, cktNameG  ) ;
-	Ysystem( "SGGR", ABORT, command, NULL ) ;
     }
     else TWCLOSE(fpoG) ;
 
