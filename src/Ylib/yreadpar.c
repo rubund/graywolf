@@ -66,6 +66,8 @@ static char SccsId[] = "@(#) yreadpar.c (Yale) version 1.6 10/1/91" ;
 #endif
 
 #include <string.h>
+#include <unistd.h>
+
 #include <yalecad/file.h>
 #include <yalecad/rbtree.h>
 #include <yalecad/message.h>
@@ -383,12 +385,13 @@ BOOL abortFlag ;
 				"Only one par file may be read at the same time\n" ) ;
 		return ;
 	}
-	printf("Opening parameter file %s \n", filename);
-	fpS = TWOPEN( filename, "r", abortFlag ) ;
-	if(!(fpS) ){
-		printf("Couldn't open parameter file %s \n", filename);
+
+	if( access( filename, F_OK ) == -1 ) {
+		printf("Parameter file %s doesn't exist \n", filename);
 		return ;
 	} else {
+		printf("Opening parameter file %s \n", filename);
+		fpS = TWOPEN( filename, "r", abortFlag ) ;
 		rewind(fpS);
 		lineS = 0 ;
 		numlayS = 0;
