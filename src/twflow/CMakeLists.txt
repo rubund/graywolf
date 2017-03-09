@@ -15,6 +15,7 @@ add_executable(graywolf
 target_link_libraries(graywolf ycadgraywolf)
 target_link_libraries(graywolf GraywolfMincut)
 target_link_libraries(graywolf TimberWolfMC)
+target_link_libraries(graywolf TimberWolfSC)
 target_link_libraries(graywolf GrayWolfSyntax)
 target_link_libraries(graywolf GrayWolfGetDate)
 target_link_libraries(graywolf X11)
