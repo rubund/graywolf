@@ -145,7 +145,7 @@ ADJPTR adjptr ;
 	char tmpBuf[23];
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
-		printf("It's TimberWolfSC!\n");
+		printf("It's TimberWolfMC!\n");
 		char* localArgv[5];
 		localArgv[0] = "TimberWolfMC";
 		if(graphicsG) {
@@ -166,8 +166,22 @@ ADJPTR adjptr ;
 
 	if(!strcmp("TimberWolfSC",obj->name)) {
 		printf("It's TimberWolfSC!\n");
-		//status = TimberWolfSC(1,cktNameG);
-		status = 0;
+		char* localArgv[5];
+		localArgv[0] = "TimberWolfSC";
+		if(graphicsG) {
+			// setup the variables
+			localWindowID = TWsaveState();
+			sprintf(tmpBuf,"%d",localWindowID);
+			// run the things
+			localArgv[1] = "-w";
+			localArgv[2] = Ystrclone(cktNameG);
+			localArgv[3] = Ystrclone(tmpBuf);
+			status = TimberWolfSC(4,localArgv);
+		} else {
+			localArgv[1] = "-n";
+			localArgv[2] = Ystrclone(cktNameG);
+			status = TimberWolfSC(3,localArgv);
+		}
 	}
 
 	sprintf( YmsgG, "%s completed...", obj->name ) ;

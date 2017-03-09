@@ -145,8 +145,9 @@ static char *twdirS ;
 static INT num_feeds_addedS ;/* number of feeds added on best iteration */
 static DOUBLE ave_row_sepS ; /* the row separation for a run */
 
-
-main( argc , argv )
+//main( argc , argv )
+__attribute__((visibility("default")))
+TimberWolfSC ( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -262,7 +263,7 @@ readParFile();
 /* check to see if twdir is set so we can run SGGR */
 if( SGGRG ){
     if( !(twdirS = TWFLOWDIR)){
-       M( ERRMSG,main,"TWDIR environment variable not set.\n");
+       //M( ERRMSG,main,"TWDIR environment variable not set.\n");
        M( ERRMSG,NULL,"Please set it to TimberWolf root directory\n");
        M( ERRMSG,NULL,"SGGR cannot automatically be run after annealing\n");
     }
