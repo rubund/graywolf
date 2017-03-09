@@ -69,6 +69,7 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
+__attribute__((visibility("default")))
 Mincut( argc , argv )
 int argc ;
 char *argv[] ;
@@ -154,10 +155,8 @@ char *argv[] ;
 	printf( "Splitting %s.cel into " , cktNameG ) ;
 	printf( "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;
 	fflush( stdout ) ;
-	Ysystem( "Mincut", ABORT, command, NULL ) ;
 	printf( "\tdone!\n\n" ) ;
-	fflush( stdout ) ;
-
+	//fflush( stdout ) ;
 
 	YexitPgm( PGMOK ) ;
 
