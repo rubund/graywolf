@@ -803,23 +803,14 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcells_l.h" *******************/
 /* ********************* #include "readcells_l.h" *******************/
 
-readcells( fp )
-FILE *fp ;
+int readcells(char *filename)
 { 
-#ifdef YYDEBUG
-    extern int yydebug ;
-    yydebug = FALSE ;
-    D( "syntax/readcells",
-	yydebug = TRUE ;
-    ) ;
-#endif
-
-    yyin = fp ;
-    line_countS = 0 ;
-    init() ;
-    /* parse input file using yacc */
-    yyparse();  
-
+	printf("readcells: Opening %s \n",filename);
+	yyin = fopen(filename,"r");
+	line_countS = 0 ;
+	init();
+	/* parse input file using yacc */
+	yyparse();
 } /* end readcells */
 
 yyerror(s)
