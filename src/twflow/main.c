@@ -239,10 +239,14 @@ main( argc , argv )
 
 	/* determine the correct flow file */
 	/* return file and filename */
-	fp = find_flow_file( general_mode, debug, filename ) ;
-
-	/* now we can read this file */
-	readobjects( fp, filename ) ;
+	if(!find_flow_file( general_mode, debug, filename)) {
+		printf("Filename from find_flow_file: %s \n", filename);
+		/* now we can read this file */
+		readobjects( filename ) ;
+	} else {
+		printf("Unable to find a flow file \n");
+		return 1;
+	}
 
 	/* If we haven't been given a flow directory override, find */
 	/* the flow directory.  */
