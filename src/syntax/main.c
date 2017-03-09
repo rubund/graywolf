@@ -133,18 +133,15 @@ char *argv[] ;
     YinitProgram(SYNTAX, VERSION, yaleIntro) ;
 
     sprintf( filename, "%s.cel", cktNameG ) ;
-    fp = TWOPEN( filename, "r", ABORT ) ;
-    readcells( fp ) ;
+    readcells(filename) ;
 
     if(!(Ymessage_get_errorcount() ) ){
 	M( MSG, NULL, "No syntax errors were found\n" ) ;
 	output() ;
     } else {
-	TWCLOSE( fp ) ;
 	TWCLOSE( fpoG ) ;
         YexitPgm( PGMFAIL ) ;
     }
-    TWCLOSE( fp ) ;
     TWCLOSE( fpoG ) ;
 
     /* now move .temp file to .stat */

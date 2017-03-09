@@ -282,7 +282,6 @@ char *argv[] ;
 		/* assume first that this is a mixed mode case - .mcel otherwise */
 		/* it is a macro cell only case so look for .cel */
 
-		//sprintf(filename, "%s.cel" , cktNameG ) ;
 		sprintf(filename, "%s.mcel" , cktNameG ) ;
 		printf("Does %s exist?\n", filename);
 

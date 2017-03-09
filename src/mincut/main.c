@@ -139,9 +139,7 @@ char *argv[] ;
 	read_par() ;
 
 	sprintf( filename, "%s.cel", cktNameG ) ;
-	fp = TWOPEN( filename, "r", ABORT ) ;
-	readcells( fp ) ;
-	TWCLOSE( fp ) ;
+	readcells(filename) ;
 
 	sprintf( filename, "%s.mcel", cktNameG ) ;
 	fp = TWOPEN( filename, "w", ABORT ) ;
