@@ -76,113 +76,112 @@ static INT objectS ;            /* the last program that was run */
 auto_flow()
 {
 
-    ADJPTR     adjptr ;         /* current edge in graph */
-    ADJPTR     make_decision(); /* decides which way to travel */
-    OBJECTPTR  o ;              /* current object */
+	ADJPTR     adjptr ;         /* current edge in graph */
+	ADJPTR     make_decision(); /* decides which way to travel */
+	OBJECTPTR  o ;              /* current object */
 
-    objectS = STARTOBJECT ;
-    problemsG = FALSE ;
+	objectS = STARTOBJECT ;
+	problemsG = FALSE ;
 
-    unmark_edges() ; /* set all program edges to be unmarked */
+	unmark_edges() ; /* set all program edges to be unmarked */
 
-    while( autoflowG ){ /* loop until done */
+	while( autoflowG ){ /* loop until done */
 
+		o = proGraphG[objectS] ;
+		if( o->numedges > 1 ){
+			adjptr = make_decision( o, FORWARD ) ;
+		} else if( o->numedges == 1 ){
+			ASSERT( o->adjF, "auto_flow", "Null edge pointer\n" ) ;
+			adjptr = o->adjF ;
+		} else {
+			/* now edges we are done */
+			break ;
+		}
+		/* new object to be executed */
+		objectS = adjptr->node ;
 
-	o = proGraphG[objectS] ;
-	if( o->numedges > 1 ){
-	    adjptr = make_decision( o, FORWARD ) ;
-	} else if( o->numedges == 1 ){
-	    ASSERT( o->adjF, "auto_flow", "Null edge pointer\n" ) ;
-	    adjptr = o->adjF ;
-	} else {
-	    /* now edges we are done */
-	    break ;
-	}
-	/* new object to be executed */
-	objectS = adjptr->node ;
+		/* tell graphics selected object and draw it */
+		G( graphics_set_object( objectS ) ) ;
+		G( draw_the_data() ) ;
 
-	/* tell graphics selected object and draw it */
-	G( graphics_set_object( objectS ) ) ;
+		if( check_dependencies( adjptr ) ){
+			/* program files are out of date execute program */
+			if( executePgm( adjptr ) ){
+				/* we received a non zero return code break loop */
+				/* report problem */
+				report_problem( adjptr ) ;
+				break ;
+			}
+		}
+
+		/* allow user to change things */
+		/* G( ) is NOGRAPHICS conditional compile */
+		G( if( graphicsG && TWinterupt() ) ){
+			G( process_graphics() ) ;
+		}
+
+	} /* end autoflow loop */
 	G( draw_the_data() ) ;
-
-	if( check_dependencies( adjptr ) ){
-	    /* program files are out of date execute program */
-	    if( executePgm( adjptr ) ){
-		/* we received a non zero return code break loop */
-		/* report problem */
-		report_problem( adjptr ) ;
-		break ;
-	    }
-	}
-
-        /* allow user to change things */
-	/* G( ) is NOGRAPHICS conditional compile */
-	G( if( graphicsG && TWinterupt() ) ){
-	    G( process_graphics() ) ;
-	}
-	
-    } /* end autoflow loop */
-    G( draw_the_data() ) ;
 
 } /* end autoflow */
 
 exec_single_prog()
 {
-    ADJPTR     adjptr ;         /* current edge in graph */
-    ADJPTR     get_edge_from_user(); /* decides which way to travel */
-    ADJPTR     findEdge() ;     /* find the edge for the given nodes */
-    OBJECTPTR  o ;              /* current object */
-    char       filename[LRECL] ;/* buffer for filename */
-    FPTR       fdepend ;        /* current file in question */
-    INT        numedges ;       /* count backward edges */
+	ADJPTR     adjptr ;         /* current edge in graph */
+	ADJPTR     get_edge_from_user(); /* decides which way to travel */
+	ADJPTR     findEdge() ;     /* find the edge for the given nodes */
+	OBJECTPTR  o ;              /* current object */
+	char       filename[LRECL] ;/* buffer for filename */
+	FPTR       fdepend ;        /* current file in question */
+	INT        numedges ;       /* count backward edges */
 
-    o = proGraphG[objectS] ;
-    /* get backwards edge count */
-    numedges = 0 ;
-    for( adjptr = o->adjB; adjptr; adjptr = adjptr->next ){
-	numedges++ ;
-    }
-    if( numedges > 1 ){
-	adjptr = get_edge_from_user( o, BACKWARD ) ;
-    } else if( numedges == 1 ){
-	ASSERT( o->adjB, "auto_flow", "Null edge pointer\n" ) ;
-	adjptr = o->adjB ;
-    } else {
-	/* now edges we are done */
-	return ;
-    }
-
-    /* tell graphics selected object and draw it */
-    G( graphics_set_object( objectS ) ) ;
-    G( draw_the_data() ) ;
-
-    /* now find forward edge */
-    adjptr = findEdge( adjptr->node, objectS, FORWARD ) ;
-
-    /* check to see all input files exist */
-    for( fdepend = adjptr->ifiles;fdepend; fdepend = fdepend->next ){
-	ASSERTNCONT( fdepend->fname, "auto_flow","Null file name\n");
-	if( *fdepend->fname == '$' ){
-	    /* suffix keyword */
-	    sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+	o = proGraphG[objectS] ;
+	/* get backwards edge count */
+	numedges = 0 ;
+	for( adjptr = o->adjB; adjptr; adjptr = adjptr->next ){
+		numedges++ ;
+	}
+	if( numedges > 1 ){
+		adjptr = get_edge_from_user( o, BACKWARD ) ;
+	} else if( numedges == 1 ){
+		ASSERT( o->adjB, "auto_flow", "Null edge pointer\n" ) ;
+		adjptr = o->adjB ;
 	} else {
-	    strcpy( filename, fdepend->fname ) ;
+		/* now edges we are done */
+		return ;
 	}
-	if(!(YfileExists( filename,TRUE )) && !(fdepend->optional) ){
-	    sprintf( YmsgG, "ERROR:input file %s does not exist",
-		filename ) ;
-	    G( TWmessage( YmsgG ) ) ;
-	    M( ERRMSG, NULL, YmsgG ) ;
-	    M( MSG, NULL, "\n" ) ;
-	    return ;
-	}
-    } /* end check of all input files */
 
-    if( executePgm( adjptr ) ){
-	/* we received a non zero return code break loop */
-	report_problem( adjptr ) ;
-    }
-    G( draw_the_data() ) ;
+	/* tell graphics selected object and draw it */
+	G( graphics_set_object( objectS ) ) ;
+	G( draw_the_data() ) ;
+
+	/* now find forward edge */
+	adjptr = findEdge( adjptr->node, objectS, FORWARD ) ;
+
+	/* check to see all input files exist */
+	for( fdepend = adjptr->ifiles;fdepend; fdepend = fdepend->next ){
+		ASSERTNCONT( fdepend->fname, "auto_flow","Null file name\n");
+		if( *fdepend->fname == '$' ){
+			/* suffix keyword */
+			sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+		} else {
+			strcpy( filename, fdepend->fname ) ;
+		}
+		if(!(YfileExists( filename,TRUE )) && !(fdepend->optional) ){
+			sprintf( YmsgG, "ERROR:input file %s does not exist",
+					filename ) ;
+			G( TWmessage( YmsgG ) ) ;
+			M( ERRMSG, NULL, YmsgG ) ;
+			M( MSG, NULL, "\n" ) ;
+			return ;
+		}
+	} /* end check of all input files */
+
+	if( executePgm( adjptr ) ){
+		/* we received a non zero return code break loop */
+		report_problem( adjptr ) ;
+	}
+	G( draw_the_data() ) ;
 } /* end exec_single_prog */
 
 report_problem( adjptr )
