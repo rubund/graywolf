@@ -82,8 +82,8 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 
 
 
-
-main( argc, argv )
+//main( argc, argv )
+__attribute__((visibility("default"))) Genrows( argc , argv )
 int  argc ;
 char *argv[] ;
 {
