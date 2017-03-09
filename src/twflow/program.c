@@ -145,6 +145,7 @@ ADJPTR adjptr ;
 	char tmpBuf[23];
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
+		printf("It's TimberWolfSC!\n");
 		char* localArgv[5];
 		localArgv[0] = "TimberWolfMC";
 		if(graphicsG) {
