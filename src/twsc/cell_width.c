@@ -131,7 +131,7 @@ char *add_ptr = "-XTRA", *add_fptr = "-1";
 INT xx , yy, zzz, r_term, last_term, pin_diff ;
 char layer;
 
-system("clear");
+//system("clear");
 printf( "\n\n ");
 
 /*------ Memory allocation ------*/
