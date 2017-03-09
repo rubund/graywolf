@@ -87,7 +87,7 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #define NULLWINDOW      0
 #define VERSION         "2.1" 
 
-main( argc , argv )
+__attribute__((visibility("default"))) main( argc , argv )
 	INT argc ;
 	char *argv[] ;
 {
@@ -267,11 +267,13 @@ main( argc , argv )
 	   verify_pathnames() ;
 	   */
 
-	if( !graphicsG || autoflowG ){
+	if( !graphicsG ){
 		/* if no graphics must go auto_flow */
 		autoflowG  = TRUE ;
 		auto_flow() ;
-	} else {
+	}
+
+	if( graphicsG ) {
 		G( process_graphics() ) ;
 	}
 
