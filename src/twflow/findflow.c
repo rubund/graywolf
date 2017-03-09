@@ -51,6 +51,7 @@ static char SccsId[] = "@(#) findflow.c version 1.4 4/18/91" ;
 #endif
 
 #include <stdio.h>
+#include <unistd.h>
 
 #include <globals.h>
 #include <yalecad/debug.h>
@@ -62,16 +63,14 @@ static char SccsId[] = "@(#) findflow.c version 1.4 4/18/91" ;
 #include <yalecad/colors.h>
 #endif
 
-FILE *find_flow_file( general_mode, debug, filename )
+int find_flow_file( general_mode, debug, filename )
 	BOOL general_mode, debug ;
 	char *filename ;
 {
-
 	INT type ;                     /* design type */
 	INT find_design_type() ;
 	char prefix[LRECL] ;
 	char suffix[LRECL] ;
-	FILE *fp ;
 
 	/* **************************************************************
 	 *  Now look for twflow file.  First determine prefix based on
@@ -128,14 +127,16 @@ FILE *find_flow_file( general_mode, debug, filename )
 	if( flow_dirG ){
 		/* first try absolute path */
 		sprintf( filename, "%s/%s.%s", flow_dirG, prefix, suffix ) ;
-		if( fp = TWOPEN( filename, "r", NOABORT ) ){
-			return( fp ) ;
+		if( access( filename, F_OK ) != -1 ) {
+			return 0;
 		}
+
 		/* next try relative to TimberWolf root directory. */
 		sprintf( filename, "%s/%s/%s.%s", twdirG, flow_dirG, prefix, suffix ) ;
-		if( fp = TWOPEN( filename, "r", NOABORT ) ){
-			return( fp ) ;
+		if( access( filename, F_OK ) != -1 ) {
+			return 0;
 		}
+
 		/* if we get here we have trouble we must abort.  Write msg */
 		M( ERRMSG, "find_flow_file", "Could not open either\n" ) ;
 		sprintf( YmsgG, "\n\t%s\n", filename ) ;
@@ -150,13 +151,32 @@ FILE *find_flow_file( general_mode, debug, filename )
 		YexitPgm(PGMFAIL) ;
 
 	}
+
 	sprintf( filename, "%s.%s", prefix, suffix ) ;
-	fp = TWOPEN( filename, "r", NOABORT ) ;
-	if( !(fp) ){
+	printf("Does file %s exist? \n", filename );
+	if(access( filename, F_OK ) == -1) {
+		printf("File %s doesn't exist \n", filename );
+
 		sprintf( filename, "%s/flow.noroute/%s.%s",twdirG,prefix,suffix ) ;
-		fp = TWOPEN( filename, "r", ABORT ) ;
+		printf("Does file %s exist? \n", filename );
+		if(access( filename, F_OK ) == -1) {
+			printf("File %s doesn't exist \n", filename );
+			return 1;
+		}
+
+		printf("File %s exists \n", filename );
+		return 0;
+		/*fp = fopen( filename, "r" );
+		if(!fp) {
+			printf("Couldn't open %s \n", filename );
+			return 1;
+		}
+		TWCLOSE(fp);
+		return 0;*/
 	}
-	return( fp ) ;
+
+	printf("File %s exists \n", filename );
+	return 0;
 } /* end find_flow_file */
 
 /* call syntax if necessary and then read result */
@@ -227,7 +247,7 @@ INT find_design_type()
 	 * Read from circuitName.stat file to determine design style.
 	 ***********************************************************/
 	sprintf( buffer, "%s.stat", cktNameG ) ;
-	fin = TWOPEN( buffer,"r", ABORT ) ;
+	fin = fopen( buffer,"r" ) ;
 
 	while( bufferptr = fgets( buffer, LRECL, fin ) ){
 		tokens = Ystrparser( bufferptr, ":\t\n", &numtokens ) ;
