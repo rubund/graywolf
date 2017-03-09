@@ -53,7 +53,8 @@ static char SccsId[] = "@(#) date.c version 1.2 5/12/90" ;
 #include <date.h>
 
 static char compileDate[] = DATE ;
-char *getCompileDate()
+
+char __attribute__((visibility("default"))) *getCompileDate()
 {
-    return( &(compileDate[27]) ) ;
+	return( &(compileDate[27]) ) ;
 } /* end getCompileDate */
