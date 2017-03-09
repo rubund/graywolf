@@ -1,5 +1,6 @@
 
-#add_executable(
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
 add_library(TimberWolfMC SHARED
 	acceptt.c
 	analyze.c
@@ -69,21 +70,10 @@ add_library(TimberWolfMC SHARED
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
-#target_link_libraries(TimberWolfMC ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
-#target_link_libraries(TimberWolfMC X11)
-#target_link_libraries(TimberWolfMC m)
-
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
-
-#install(
-#	TARGETS TimberWolfMC
-#	DESTINATION ${CMAKE_INSTALL_BINDIR}
-#	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#	)
 
 install(
 	TARGETS TimberWolfMC
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	)
 

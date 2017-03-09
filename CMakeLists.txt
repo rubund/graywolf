@@ -17,3 +17,5 @@ install(
 
 add_subdirectory(src)
 
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
