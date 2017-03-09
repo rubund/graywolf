@@ -359,7 +359,6 @@ INT cell ;
     char filename[LRECL] ;
     char label[LRECL] ;
 
-    system("rm -f DATA/*" ) ;
     for( i= 0; i<=7; i++ ){
 	cptr = cellarrayG[cell] ;
 	cptr->orient = i ;
