@@ -464,19 +464,6 @@ INT parfile ;
 				err_msg("wiring_reduction") ;
 			}
 			/*** catch all ***/
-		} else if(!(wildcard)) {
-			if( parfile == USER ){
-				printf( "Unexpected keyword in the %s.par file at line:%d\n\t%s\n", cktNameG, line, lineptr);
-				//sprintf( YmsgG, "unexpected keyword in the %s.par file at line:%d\n\t%s\n", cktNameG, line, lineptr);
-				//M( ERRMSG, "readpar", YmsgG );
-			} else {
-				printf( "Unexpected keyword in the %s.mpar file at line:%d\n\t%s\n", cktNameG, line, lineptr);
-				//sprintf( YmsgG, "Unexpected keyword in the %s.mpar file at line:%d\n\t%s\n", cktNameG, line, lineptr);
-				//M( ERRMSG, "readpar", YmsgG ) ;
-			}
-			//Ymessage_error_count() ;
-			//abortS = TRUE ;
-			continue;
 		}
 	}
 } /* end readpar */
