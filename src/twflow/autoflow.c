@@ -109,6 +109,7 @@ auto_flow()
 			if( executePgm( adjptr ) ){
 				/* we received a non zero return code break loop */
 				/* report problem */
+				printf("There was a problem \n");
 				report_problem( adjptr ) ;
 				break ;
 			}
