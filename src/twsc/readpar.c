@@ -148,36 +148,34 @@ readParFile()
 {
 	init_read_par() ;
 	readparam( TWSC ) ;
-	printf( "Test TWSC \n" ) ;
 	readparam( USER ) ;
-	printf( "Test USER \n" ) ;
 	process_readpar() ;
 }
 
 static init_read_par()
 {
-    /* initialization of variables */
-    SGGRG = FALSE ;
-    gate_arrayG = FALSE ;
-    try_not_to_add_explicit_feedsG = FALSE ;
-    vertical_track_on_cell_edgeG = FALSE ;
-    no_feed_at_endG = TRUE ;
-    spacer_feedsG = (INT *) Ysafe_malloc( 101 * sizeof(INT) ) ;
-    spacer_feedsG[0] = 0 ;
-    metal2_pitchG = 0.0 ;
-    core_widthG  = 0 ;
-    core_heightG = 0 ;
-    core_xstartG = 0 ;
-    core_ystartG = 0 ;
-    vertical_wire_weightG = -1.0 ;
-    vertical_path_weightG = -1.0 ;
-    horizontal_path_weightG = 1.0 ;
-    swap_netG = FALSE ;
-    case_unequiv_pinG = FALSE ;
-    swappable_gates_existG = FALSE ;
-    min_pad_spacingG = 0 ;
-    Equal_Width_CellsG = FALSE ;
-    file_conversionG = FALSE ;
+	/* initialization of variables */
+	SGGRG = FALSE ;
+	gate_arrayG = FALSE ;
+	try_not_to_add_explicit_feedsG = FALSE ;
+	vertical_track_on_cell_edgeG = FALSE ;
+	no_feed_at_endG = TRUE ;
+	spacer_feedsG = (INT *) Ysafe_malloc( 101 * sizeof(INT) ) ;
+	spacer_feedsG[0] = 0 ;
+	metal2_pitchG = 0.0 ;
+	core_widthG  = 0 ;
+	core_heightG = 0 ;
+	core_xstartG = 0 ;
+	core_ystartG = 0 ;
+	vertical_wire_weightG = -1.0 ;
+	vertical_path_weightG = -1.0 ;
+	horizontal_path_weightG = 1.0 ;
+	swap_netG = FALSE ;
+	case_unequiv_pinG = FALSE ;
+	swappable_gates_existG = FALSE ;
+	min_pad_spacingG = 0 ;
+	Equal_Width_CellsG = FALSE ;
+	file_conversionG = FALSE ;
 } /* end init_read_par */
 
 static readparam( parfile )
@@ -197,14 +195,27 @@ INT parfile ;
 
 	Yreadpar_init( cktNameG, parfile, TWSC, FALSE ) ;
 
-	printf( "Test\n" ) ;
-
+	char *tmpStr;
 	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )){
 		readparamS = TRUE ;
+
+		if( numtokens ) {
+			tmpStr = strstr(tokens[0], "*");
+			if(tmpStr) {
+				tmpStr++;
+				tokens[0] = Ystrclone(tmpStr);
+			}
+
+			tmpStr = strstr(tokens[0], "TWSC*");
+			if(tmpStr) {
+				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			}
+		}
+
 		if( numtokens == 0 ){
 			/* skip over empty lines */
 			continue ;
-
 		} else if( strcmp( tokens[0],"fast") == STRINGEQ ){
 			if( numtokens == 2 ) {
 				tw_fastG = atoi( tokens[1] ) ;

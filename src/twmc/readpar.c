@@ -196,12 +196,6 @@ INT parfile ;
 				tokens[0] = Ystrclone(tmpStr);
 			}
 
-			tmpStr = strstr(tokens[0], "TWSC*");
-			if(tmpStr) {
-				tmpStr+=5;
-				tokens[0] = Ystrclone(tmpStr);
-			}
-
 			tmpStr = strstr(tokens[0], "TWMC*");
 			if(tmpStr) {
 				tmpStr+=5;
