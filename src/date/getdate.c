@@ -60,9 +60,13 @@ char        *date ,
 	    buffer[LRECL] ;
 int 	    len ;
 
-system("date > date.h") ;
+if( !(fp = fopen("date.h","w" ))){
+    printf("Could not open date.h");
+    exit(0) ;
+}
+fclose(fp) ;
 
-if( !(fp = fopen("date.h","r" ))){ 
+if( !(fp = fopen("date.h","r" ))){
     printf("Could not reopen date.h");
     exit(0) ;
 }
@@ -73,10 +77,6 @@ rewind(fp) ;
 date = fgets(buffer,LRECL,fp) ;
 fclose(fp) ;
 
-if( !(fp = fopen("date.h","w" ))){ 
-    printf("Could not open date.h");
-    exit(0) ;
-}
 
 if( date ){
     /* get rid of newline character */
