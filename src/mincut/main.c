@@ -129,13 +129,10 @@ char *argv[] ;
 	/* we can change this value in the debugger */
 	YinitProgram(NOCUT, VERSION, yaleIntro) ;
 
-	/*if( twdir = TWFLOWDIR ){
-		sprintf(command, "awk -f %s/bin/splt_file.a %s.cel", twdir, cktNameG ) ;
-	} else {
-		printf("ERROR:TWDIR environment variable not set.\n");
-		printf("Please set it to TimberWolf root directory\n");
-		YexitPgm( PGMFAIL ) ;
-	}*/
+	int separate_cel_file(char *cktName);
+	if( twdir = TWFLOWDIR ){
+		separate_cel_file(cktNameG);
+	}
 
 	read_par() ;
 
@@ -143,23 +140,20 @@ char *argv[] ;
 	readcells(filename) ;
 
 	sprintf( filename, "%s.mcel", cktNameG ) ;
-	fp = TWOPEN( filename, "w", ABORT ) ;
+	fp = fopen( filename, "w") ;
 	output( fp ) ;
-	TWCLOSE( fp ) ;
+	fclose( fp ) ;
 
 	sprintf( filename, "%s.stat", cktNameG ) ;
-	fp = TWOPEN( filename, "a", ABORT ) ;
+	fp = fopen( filename, "a") ;
 	update_stats( fp ) ;
-	TWCLOSE( fp ) ;
+	fclose( fp ) ;
 
 	printf( "Splitting %s.cel into " , cktNameG ) ;
 	printf( "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;
-	fflush( stdout ) ;
 	printf( "\tdone!\n\n" ) ;
-	//fflush( stdout ) ;
 
 	YexitPgm( PGMOK ) ;
-
 } /* end main */
 
 

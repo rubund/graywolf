@@ -5,6 +5,7 @@ add_library(GraywolfMincut SHARED
 	main.c
 	output.c
 	readcells.c
+	separate.c
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
