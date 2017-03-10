@@ -810,16 +810,16 @@ int readcells(char *filename)
 yyerror(s)
 char    *s;
 {
-    sprintf(YmsgG,"problem reading %s.cel:", cktNameG );
-    M( ERRMSG, "yacc", YmsgG ) ;
-    sprintf(YmsgG, "  line %d near '%s' : %s\n" ,
-	line_countS+1, yytext, s );
-    M( MSG,"yacc", YmsgG ) ;
+	sprintf(YmsgG,"problem reading %s.cel:", cktNameG );
+	M( ERRMSG, "yacc", YmsgG ) ;
+	sprintf(YmsgG, "  line %d near '%s' : %s\n" ,
+			line_countS+1, yytext, s );
+	M( MSG,"yacc", YmsgG ) ;
 } /* end yyerror */
 
 yywrap()
 {
-    return(1);
+	return(1);
 }                      
 #define YYABORT goto yyabort
 #define YYACCEPT goto yyaccept
@@ -827,431 +827,432 @@ yywrap()
 int
 yyparse()
 {
-    register int yym, yyn, yystate;
+	register int yym, yyn, yystate;
 #if YYDEBUG
-    register char *yys;
-    extern char *getenv();
+	register char *yys;
+	extern char *getenv();
 
-    if (yys = getenv("YYDEBUG"))
-    {
-        yyn = *yys;
-        if (yyn >= '0' && yyn <= '9')
-            yydebug = yyn - '0';
-    }
+	if (yys = getenv("YYDEBUG"))
+	{
+		yyn = *yys;
+		if (yyn >= '0' && yyn <= '9')
+			yydebug = yyn - '0';
+	}
 #endif
 
-    yynerrs = 0;
-    yyerrflag = 0;
-    yychar = (-1);
+	yynerrs = 0;
+	yyerrflag = 0;
+	yychar = (-1);
 
-    yyssp = yyss;
-    yyvsp = yyvs;
-    *yyssp = yystate = 0;
+	yyssp = yyss;
+	yyvsp = yyvs;
+	*yyssp = yystate = 0;
 
 yyloop:
-    if (yyn = yydefred[yystate]) goto yyreduce;
-    if (yychar < 0)
-    {
-        if ((yychar = yylex()) < 0) yychar = 0;
+	if (yyn = yydefred[yystate]) goto yyreduce;
+	if (yychar < 0)
+	{
+		if ((yychar = yylex()) < 0) yychar = 0;
 #if YYDEBUG
-        if (yydebug)
-        {
-            yys = 0;
-            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-            if (!yys) yys = "illegal-symbol";
-            printf("yydebug: state %d, reading %d (%s)\n", yystate,
-                    yychar, yys);
-        }
+		if (yydebug)
+		{
+			yys = 0;
+			if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+			if (!yys) yys = "illegal-symbol";
+			printf("yydebug: state %d, reading %d (%s)\n", yystate,
+					yychar, yys);
+		}
 #endif
-    }
-    if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
-    {
+	}
+	if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	{
 #if YYDEBUG
-        if (yydebug)
-            printf("yydebug: state %d, shifting to state %d\n",
-                    yystate, yytable[yyn]);
+		if (yydebug)
+			printf("yydebug: state %d, shifting to state %d\n",
+					yystate, yytable[yyn]);
 #endif
-        if (yyssp >= yyss + yystacksize - 1)
-        {
-            goto yyoverflow;
-        }
-        *++yyssp = yystate = yytable[yyn];
-        *++yyvsp = yylval;
-        yychar = (-1);
-        if (yyerrflag > 0)  --yyerrflag;
-        goto yyloop;
-    }
-    if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
-    {
-        yyn = yytable[yyn];
-        goto yyreduce;
-    }
-    if (yyerrflag) goto yyinrecovery;
+		if (yyssp >= yyss + yystacksize - 1)
+		{
+			goto yyoverflow;
+		}
+		*++yyssp = yystate = yytable[yyn];
+		*++yyvsp = yylval;
+		yychar = (-1);
+		if (yyerrflag > 0)  --yyerrflag;
+		goto yyloop;
+	}
+	if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	{
+		yyn = yytable[yyn];
+		goto yyreduce;
+	}
+	if (yyerrflag) goto yyinrecovery;
 #ifdef lint
-    goto yynewerror;
+	goto yynewerror;
 #endif
 yynewerror:
 #if YYDEBUG
-    {
-        int test_state, i, expect, two_or_more ;
-        char err_msg[BUFSIZ] ;
-        if( yyname[yychar] ){
-            sprintf( err_msg, "Found %s.\nExpected ",
-                yyname[yychar] ) ;
-            two_or_more = 0 ;
-            if( test_state = yysindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-            if( test_state = yyrindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-             yyerror( err_msg ) ;
-             if (yycnprs) {
-                 yychar = (-1);
-                 if (yyerrflag > 0)  --yyerrflag;
-                 goto yyloop;
-             }
-        } else {
-            sprintf( err_msg, "Found unknown token.\nExpected ");
-            two_or_more = 0 ;
-            if( test_state = yysindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-            if( test_state = yyrindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-             yyerror( err_msg ) ;
-             if (yycnprs) {
-                 yychar = (-1);
-                 if (yyerrflag > 0)  --yyerrflag;
-                 goto yyloop;
-             }
-        }
-     }
+	{
+		int test_state, i, expect, two_or_more ;
+		char err_msg[BUFSIZ] ;
+		if( yyname[yychar] ){
+			sprintf( err_msg, "Found %s.\nExpected ",
+					yyname[yychar] ) ;
+			two_or_more = 0 ;
+			if( test_state = yysindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			if( test_state = yyrindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			yyerror( err_msg ) ;
+			if (yycnprs) {
+				yychar = (-1);
+				if (yyerrflag > 0)  --yyerrflag;
+				goto yyloop;
+			}
+		} else {
+			sprintf( err_msg, "Found unknown token.\nExpected ");
+			two_or_more = 0 ;
+			if( test_state = yysindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			if( test_state = yyrindex[yystate] ){
+				for( i = 1; i <= YYMAXTOKEN; i++ ){
+					expect = test_state + i ;
+					if((expect <= YYTABLESIZE) &&
+							(yycheck[expect] == i) &&
+							yyname[i]){
+						if( two_or_more ){
+							strcat( err_msg, " | " ) ;
+						} else {
+							two_or_more = 1 ;
+						}
+						strcat( err_msg, yyname[i] ) ;
+					}
+				}
+			}
+			yyerror( err_msg ) ;
+			if (yycnprs) {
+				yychar = (-1);
+				if (yyerrflag > 0)  --yyerrflag;
+				goto yyloop;
+			}
+		}
+	}
 #else
-     yyerror("syntax error");
-     if (yycnprs) {
-        yychar = (-1);
-        if (yyerrflag > 0)  --yyerrflag;
-        goto yyloop;
-     }
+	yyerror("syntax error");
+	if (yycnprs) {
+		yychar = (-1);
+		if (yyerrflag > 0)  --yyerrflag;
+		goto yyloop;
+	}
 #endif
 #ifdef lint
-    goto yyerrlab;
+	goto yyerrlab;
 #endif
 yyerrlab:
-    ++yynerrs;
+	++yynerrs;
 yyinrecovery:
-    if (yyerrflag < 3)
-    {
-        yyerrflag = 3;
-        for (;;)
-        {
-            if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
-                    yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
-            {
+	if (yyerrflag < 3)
+	{
+		yyerrflag = 3;
+		for (;;)
+		{
+			if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
+					yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
+			{
 #if YYDEBUG
-                if (yydebug)
-                    printf("yydebug: state %d, error recovery shifting\
- to state %d\n", *yyssp, yytable[yyn]);
+				if (yydebug)
+					printf("yydebug: state %d, error recovery shifting\
+							to state %d\n", *yyssp, yytable[yyn]);
 #endif
-                if (yyssp >= yyss + yystacksize - 1)
-                {
-                    goto yyoverflow;
-                }
-                *++yyssp = yystate = yytable[yyn];
-                *++yyvsp = yylval;
-                goto yyloop;
-            }
-            else
-            {
+				if (yyssp >= yyss + yystacksize - 1)
+				{
+					goto yyoverflow;
+				}
+				*++yyssp = yystate = yytable[yyn];
+				*++yyvsp = yylval;
+				goto yyloop;
+			}
+			else
+			{
 #if YYDEBUG
-                if (yydebug)
-                    printf("yydebug: error recovery discarding state %d\n",
-                            *yyssp);
+				if (yydebug)
+					printf("yydebug: error recovery discarding state %d\n",
+							*yyssp);
 #endif
-                if (yyssp <= yyss) goto yyabort;
-                --yyssp;
-                --yyvsp;
-            }
-        }
-    }
-    else
-    {
-        if (yychar == 0) goto yyabort;
+				if (yyssp <= yyss) goto yyabort;
+				--yyssp;
+				--yyvsp;
+			}
+		}
+	}
+	else
+	{
+		if (yychar == 0) goto yyabort;
 #if YYDEBUG
-        if (yydebug)
-        {
-            yys = 0;
-            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-            if (!yys) yys = "illegal-symbol";
-            printf("yydebug: state %d, error recovery discards token %d (%s)\n",
-                    yystate, yychar, yys);
-        }
+		if (yydebug)
+		{
+			yys = 0;
+			if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+			if (!yys) yys = "illegal-symbol";
+			printf("yydebug: state %d, error recovery discards token %d (%s)\n",
+					yystate, yychar, yys);
+		}
 #endif
-        yychar = (-1);
-        goto yyloop;
-    }
+		yychar = (-1);
+		goto yyloop;
+	}
 yyreduce:
 #if YYDEBUG
-    if (yydebug)
-        printf("yydebug: state %d, reducing by rule %d (%s)\n",
-                yystate, yyn, yyrule[yyn]);
+	if (yydebug)
+		printf("yydebug: state %d, reducing by rule %d (%s)\n",
+				yystate, yyn, yyrule[yyn]);
 #endif
-    yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
-    switch (yyn)
-    {
-case 33:
-{
-			sprintf( YmsgG,
-			"hardcell at line %d does not have any pins\n",
-			line_countS+1 ) ;
-			M(WARNMSG,"readcells",YmsgG ) ;
-		    }
-break;
-case 40:
-{
-			sprintf( YmsgG,
-			"softcell at line %d does not have any pins\n",
-			line_countS+1 ) ;
-			M(WARNMSG,"readcells",YmsgG ) ;
-		    }
-break;
-case 41:
-{
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 43:
-{
-			sprintf( YmsgG,
-			"pad cell at line %d does not have any pins\n",
-			line_countS+1 ) ;
-			M(WARNMSG,"readcells",YmsgG ) ;
-		    }
-break;
-case 47:
-{
-			addCell(HARDCELLTYPE, yyvsp[0].string ) ;
-			Ysafe_free( yyvsp[-2].string ) ;
-		    }
-break;
-case 48:
-{
-			addCell(SOFTCELLTYPE, yyvsp[0].string ) ;
-			Ysafe_free( yyvsp[-2].string ) ;
-		    }
-break;
-case 49:
-{
-			addCell(STDCELLTYPE, yyvsp[0].string ) ;
-			Ysafe_free( yyvsp[-1].string ) ;
-		    }
-break;
-case 77:
-{
-			set_bbox( yyvsp[-6].ival, yyvsp[-4].ival, yyvsp[-2].ival, yyvsp[0].ival ) ;
-		      }
-break;
-case 80:
-{ 
-			addCell(PADCELLTYPE, yyvsp[0].string ) ;
-			Ysafe_free( yyvsp[-2].string ) ;
-		    }
-break;
-case 81:
-{
-			addCell(PADCELLTYPE, yyvsp[-1].string ) ;
-		    }
-break;
-case 82:
-{
-			addCell(PADCELLTYPE, yyvsp[-1].string ) ;
-		    }
-break;
-case 83:
-{
-			Ysafe_free( yyvsp[-2].string ) ;
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 84:
-{
-			/* fixed locations same as pad context */
-			Ysafe_free( yyvsp[-2].string ) ;
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 120:
-{
-			Ysafe_free( yyvsp[-3].string ) ;
-			addNet( yyvsp[-1].string ) ;
-		    }
-break;
-case 122:
-{
-			addNet( yyvsp[-1].string ) ;
-		    }
-break;
-case 174:
-{
-			Ysafe_free( yyvsp[-1].string ) ;
-		    }
-break;
-case 175:
-{
-			Ysafe_free( yyvsp[-1].string ) ;
-		    }
-break;
-case 176:
-{
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 177:
-{
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 178:
-{
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 179:
-{
-			Ysafe_free( yyvsp[0].string ) ;
-		    }
-break;
-case 187:
-{ 
-			yyval.string = yyvsp[0].string ;	
-		    }
-break;
-case 188:
-{
-			/* convert integer to string */
-			/* this allows integers to be used as strings */
-			/* a kluge but timberwolf's old parser supported it */
-			sprintf( bufferS,"%d", yyvsp[0].ival ) ;
-			/* now clone string */
-			yyval.string = Ystrclone( bufferS ) ;
-		    }
-break;
-case 189:
-{
-			/* convert float to string */
-			/* this allows floats to be used as strings */
-			/* a kluge but timberwolf's old parser supported it */
-			sprintf( bufferS,"%f", yyvsp[0].fval ) ;
-			/* now clone string */
-			yyval.string = Ystrclone( bufferS ) ;
-		    }
-break;
-    }
-    yyssp -= yym;
-    yystate = *yyssp;
-    yyvsp -= yym;
-    yym = yylhs[yyn];
-    if (yystate == 0 && yym == 0)
-    {
+	yym = yylen[yyn];
+	yyval = yyvsp[1-yym];
+	switch (yyn)
+	{
+		case 33:
+			{
+				sprintf( YmsgG,
+						"hardcell at line %d does not have any pins\n",
+						line_countS+1 ) ;
+				M(WARNMSG,"readcells",YmsgG ) ;
+			}
+			break;
+		case 40:
+			{
+				sprintf( YmsgG,
+						"softcell at line %d does not have any pins\n",
+						line_countS+1 ) ;
+				M(WARNMSG,"readcells",YmsgG ) ;
+			}
+			break;
+		case 41:
+			{
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 43:
+			{
+				sprintf( YmsgG,
+						"pad cell at line %d does not have any pins\n",
+						line_countS+1 ) ;
+				M(WARNMSG,"readcells",YmsgG ) ;
+			}
+			break;
+		case 47:
+			{
+				addCell(HARDCELLTYPE, yyvsp[0].string ) ;
+				Ysafe_free( yyvsp[-2].string ) ;
+			}
+			break;
+		case 48:
+			{
+				addCell(SOFTCELLTYPE, yyvsp[0].string ) ;
+				Ysafe_free( yyvsp[-2].string ) ;
+			}
+			break;
+		case 49:
+			{
+				addCell(STDCELLTYPE, yyvsp[0].string ) ;
+				Ysafe_free( yyvsp[-1].string ) ;
+			}
+			break;
+		case 77:
+			{
+				set_bbox( yyvsp[-6].ival, yyvsp[-4].ival, yyvsp[-2].ival, yyvsp[0].ival ) ;
+			}
+			break;
+		case 80:
+			{ 
+				addCell(PADCELLTYPE, yyvsp[0].string ) ;
+				Ysafe_free( yyvsp[-2].string ) ;
+			}
+			break;
+		case 81:
+			{
+				addCell(PADCELLTYPE, yyvsp[-1].string ) ;
+			}
+			break;
+		case 82:
+			{
+				addCell(PADCELLTYPE, yyvsp[-1].string ) ;
+			}
+			break;
+		case 83:
+			{
+				Ysafe_free( yyvsp[-2].string ) ;
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 84:
+			{
+				/* fixed locations same as pad context */
+				Ysafe_free( yyvsp[-2].string ) ;
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 120:
+			{
+				Ysafe_free( yyvsp[-3].string ) ;
+				addNet( yyvsp[-1].string ) ;
+			}
+			break;
+		case 122:
+			{
+				addNet( yyvsp[-1].string ) ;
+			}
+			break;
+		case 174:
+			{
+				Ysafe_free( yyvsp[-1].string ) ;
+			}
+			break;
+		case 175:
+			{
+				Ysafe_free( yyvsp[-1].string ) ;
+			}
+			break;
+		case 176:
+			{
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 177:
+			{
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 178:
+			{
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 179:
+			{
+				Ysafe_free( yyvsp[0].string ) ;
+			}
+			break;
+		case 187:
+			{ 
+				yyval.string = yyvsp[0].string ;	
+			}
+			break;
+		case 188:
+			{
+				/* convert integer to string */
+				/* this allows integers to be used as strings */
+				/* a kluge but timberwolf's old parser supported it */
+				sprintf( bufferS,"%d", yyvsp[0].ival ) ;
+				/* now clone string */
+				yyval.string = Ystrclone( bufferS ) ;
+			}
+			break;
+		case 189:
+			{
+				/* convert float to string */
+				/* this allows floats to be used as strings */
+				/* a kluge but timberwolf's old parser supported it */
+				sprintf( bufferS,"%f", yyvsp[0].fval ) ;
+				/* now clone string */
+				yyval.string = Ystrclone( bufferS ) ;
+			}
+			break;
+	}
+	yyssp -= yym;
+	yystate = *yyssp;
+	yyvsp -= yym;
+	yym = yylhs[yyn];
+	if (yystate == 0 && yym == 0)
+	{
 #if YYDEBUG
-        if (yydebug)
-            printf("yydebug: after reduction, shifting from state 0 to\
- state %d\n", YYFINAL);
+		if (yydebug)
+			printf("yydebug: after reduction, shifting from state 0 to\
+					state %d\n", YYFINAL);
 #endif
-        yystate = YYFINAL;
-        *++yyssp = YYFINAL;
-        *++yyvsp = yyval;
-        if (yychar < 0)
-        {
-            if ((yychar = yylex()) < 0) yychar = 0;
+		yystate = YYFINAL;
+		*++yyssp = YYFINAL;
+		*++yyvsp = yyval;
+		if (yychar < 0)
+		{
+			if ((yychar = yylex()) < 0) yychar = 0;
 #if YYDEBUG
-            if (yydebug)
-            {
-                yys = 0;
-                if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-                if (!yys) yys = "illegal-symbol";
-                printf("yydebug: state %d, reading %d (%s)\n",
-                        YYFINAL, yychar, yys);
-            }
+			if (yydebug)
+			{
+				yys = 0;
+				if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
+				if (!yys) yys = "illegal-symbol";
+				printf("yydebug: state %d, reading %d (%s)\n",
+						YYFINAL, yychar, yys);
+			}
 #endif
-        }
-        if (yychar == 0) goto yyaccept;
-        goto yyloop;
-    }
-    if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
-        yystate = yytable[yyn];
-    else
-        yystate = yydgoto[yym];
+		}
+		if (yychar == 0) goto yyaccept;
+		goto yyloop;
+	}
+	if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
+		yystate = yytable[yyn];
+	else
+		yystate = yydgoto[yym];
 #if YYDEBUG
-    if (yydebug)
-        printf("yydebug: after reduction, shifting from state %d \
-to state %d\n", *yyssp, yystate);
+	if (yydebug)
+		printf("yydebug: after reduction, shifting from state %d \
+				to state %d\n", *yyssp, yystate);
 #endif
-    if (yyssp >= yyss + yystacksize - 1)
-    {
-        goto yyoverflow;
-    }
-    *++yyssp = yystate;
-    *++yyvsp = yyval;
-    goto yyloop;
+	if (yyssp >= yyss + yystacksize - 1)
+	{
+		goto yyoverflow;
+	}
+	*++yyssp = yystate;
+	*++yyvsp = yyval;
+	goto yyloop;
 yyoverflow:
-    yyerror("yacc stack overflow");
+	yyerror("yacc stack overflow");
 yyabort:
-    return (1);
+	return (1);
 yyaccept:
-    return (0);
+	return (0);
 }
+
