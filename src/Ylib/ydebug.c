@@ -144,11 +144,11 @@ YdebugWrite()
 
     if( debugFlagS ){
 	
-	if( YfileExists( DBGFILE ) ){
+	//if( YfileExists( DBGFILE ) ){
 	    /* move to .bak to save a copy of the file */
-	    sprintf( YmsgG, "/bin/cp %s %s.bak", DBGFILE,DBGFILE ) ;
-	    system( YmsgG ) ;
-	}
+	    //sprintf( YmsgG, "/bin/cp %s %s.bak", DBGFILE,DBGFILE ) ;
+	    //system( YmsgG ) ;
+	//}
 	/* now write a debug file */
 	fp = TWOPEN( DBGFILE, "w", ABORT ) ;
 	for( data = (ROUTINEPTR) Yrbtree_enumerate(debug_treeS,TRUE);data; 

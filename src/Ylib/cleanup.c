@@ -130,21 +130,8 @@ struct sigcontext *scp ;
 {
     if( sigNum != SIGINT && sigNum != SIGQUIT && sigNum != SIGKILL ){
 	printf("\nSystem has detected an error!\n") ;
-#ifdef apollo
-	{
-	    INT pid ;
-	    char command[LRECL] ;
-
-	    pid = getpid() ;
-	    sprintf( command, "/com/tb %d", pid ) ;
-	    if(Ysystem("traceback", FALSE, command, NULL )){
-	       printf("ERROR[cleanup]:could not perform traceback.\n");
-	    }
-	}
-#endif
     }
     YcleanupHandler(sigNum) ;
-
 }
 
 /* ***************************************************************** 

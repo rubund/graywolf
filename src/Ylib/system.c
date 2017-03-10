@@ -51,31 +51,6 @@ static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
 #include <yalecad/message.h>
 #include <dirent.h>
 
-INT Ysystem( program, abortFlag, exec_statement, abort_func )
-char *program ;
-BOOL abortFlag ;
-char *exec_statement ;
-INT  (*abort_func)() ;
-{
-	INT status ;        /* return status from program */
-	printf("Not executing %s \n", exec_statement);
-	/*
-	if( status = system( exec_statement ) ){
-		status = (status & 0x0000FF00) >> 8 ;
-		sprintf(YmsgG, "Program %s returned with exit code:%d\n", program, status);
-		M( ERRMSG, NULL, YmsgG ) ;
-		if( abort_func ){
-			(*abort_func)() ;
-		}
-		if( abortFlag ){
-			YexitPgm( PGMFAIL ) ;
-		}
-		return( status ) ;
-	}
-	*/ 
-	return( 0 ) ;
-} /* end Ysystem */
-
 YcopyFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
