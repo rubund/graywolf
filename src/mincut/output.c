@@ -165,94 +165,93 @@ INT left, right, bottom, top ;
 output( fp )
 FILE *fp ;
 {
-    INT g ;
+	INT g ;
 
-    if( total_std_cellS > 0 ){
-	average_cell_heightS = total_cell_heightS / 
-	    (DOUBLE) total_std_cellS ;
-    } else {
-	average_cell_heightS = 0.0 ;
-    }
-    core_areaS *= (row_sepS + 1.0) ;
+	if( total_std_cellS > 0 ){
+		average_cell_heightS = total_cell_heightS / 
+			(DOUBLE) total_std_cellS ;
+	} else {
+		average_cell_heightS = 0.0 ;
+	}
+	core_areaS *= (row_sepS + 1.0) ;
 
-    printf( "\n----------------------------\n" ) ;
-    printf( "Total stdcells     :%d\n", total_std_cellS ) ;
-    printf( "Total cell width   :%4.2le\n", total_cell_lenS ) ;
-    printf( "Total cell height  :%4.2le\n", total_cell_heightS ) ;
-    printf( "Total cell area    :%4.2le\n", total_areaS ) ;
-    printf( "Total core area    :%4.2le\n", core_areaS ) ;
-    printf( "Average cell height:%4.2le\n\n",
-	average_cell_heightS ) ;
+	printf( "\n----------------------------\n" ) ;
+	printf( "Total stdcells     :%d\n", total_std_cellS ) ;
+	printf( "Total cell width   :%4.2le\n", total_cell_lenS ) ;
+	printf( "Total cell height  :%4.2le\n", total_cell_heightS ) ;
+	printf( "Total cell area    :%4.2le\n", total_areaS ) ;
+	printf( "Total core area    :%4.2le\n", core_areaS ) ;
+	printf( "Average cell height:%4.2le\n\n",
+			average_cell_heightS ) ;
 
 
-    /* the first instance take as a rectangle - initially a square */
-    g = (INT) sqrt( core_areaS ) ;
-    fprintf( fp, "cluster 1 name core\n" ) ;
-    fprintf( fp, "corners 4 0 0   0 %d  %d %d   %d 0\n", g, g, g, g ) ;
-    write_softpins( fp ) ;
-
-    /* for the second instance use an L shape */
-    g = (INT) sqrt( core_areaS / 3.0 ) ;
-    if( g > 2 ){
-	fprintf( fp, "instance core_L\n" ) ;
-	fprintf( fp, "corners 6 " ) ;
-	fprintf( fp, "0 0 " ) ;
-	fprintf( fp, "0 %d ", 2*g ) ;
-	fprintf( fp, "%d %d ", g, 2*g ) ;
-	fprintf( fp, "%d %d ", g, g ) ;
-	fprintf( fp, "%d %d ", 2*g, g ) ;
-	fprintf( fp, "%d 0\n", 2*g ) ;
+	/* the first instance take as a rectangle - initially a square */
+	g = (INT) sqrt( core_areaS ) ;
+	fprintf( fp, "cluster 1 name core\n" ) ;
+	fprintf( fp, "corners 4 0 0   0 %d  %d %d   %d 0\n", g, g, g, g ) ;
 	write_softpins( fp ) ;
-    }
-    
-    /* for the third instance use a T shape */
-    g = (INT) sqrt( core_areaS / 4.0 ) ;
-    if( g > 2 ){
-	fprintf( fp, "instance core_T\n" ) ;
-	fprintf( fp, "corners 8 " ) ;
-	fprintf( fp, "%d 0 ", g ) ;
-	fprintf( fp, "%d %d ", g, g ) ;
-	fprintf( fp, "0 %d ", g ) ;
-	fprintf( fp, "0 %d ", 2*g ) ;
-	fprintf( fp, "%d %d ", 3*g, 2*g ) ;
-	fprintf( fp, "%d %d ", 3*g, g ) ;
-	fprintf( fp, "%d %d ", 2*g, g ) ;
-	fprintf( fp, "%d 0\n", 2*g ) ;
-	write_softpins( fp ) ;
-    }
+
+	/* for the second instance use an L shape */
+	g = (INT) sqrt( core_areaS / 3.0 ) ;
+	if( g > 2 ){
+		fprintf( fp, "instance core_L\n" ) ;
+		fprintf( fp, "corners 6 " ) ;
+		fprintf( fp, "0 0 " ) ;
+		fprintf( fp, "0 %d ", 2*g ) ;
+		fprintf( fp, "%d %d ", g, 2*g ) ;
+		fprintf( fp, "%d %d ", g, g ) ;
+		fprintf( fp, "%d %d ", 2*g, g ) ;
+		fprintf( fp, "%d 0\n", 2*g ) ;
+		write_softpins( fp ) ;
+	}
+
+	/* for the third instance use a T shape */
+	g = (INT) sqrt( core_areaS / 4.0 ) ;
+	if( g > 2 ){
+		fprintf( fp, "instance core_T\n" ) ;
+		fprintf( fp, "corners 8 " ) ;
+		fprintf( fp, "%d 0 ", g ) ;
+		fprintf( fp, "%d %d ", g, g ) ;
+		fprintf( fp, "0 %d ", g ) ;
+		fprintf( fp, "0 %d ", 2*g ) ;
+		fprintf( fp, "%d %d ", 3*g, 2*g ) ;
+		fprintf( fp, "%d %d ", 3*g, g ) ;
+		fprintf( fp, "%d %d ", 2*g, g ) ;
+		fprintf( fp, "%d 0\n", 2*g ) ;
+		write_softpins( fp ) ;
+	}
 
 #ifdef USHAPE
-    /* for the third instance use a U shape */
-    g = (INT) sqrt( core_areaS / 5.0 ) ;
-    if( g > 2 ){
-	fprintf( fp, "instance core_U\n" ) ;
-	fprintf( fp, "corners 8 " ) ;
-	fprintf( fp, "0 0 " ) ;
-	fprintf( fp, "0 %d ", 2*g ) ;
-	fprintf( fp, "%d %d ", g, 2*g ) ;
-	fprintf( fp, "%d %d ", g, g ) ;
-	fprintf( fp, "%d %d ", 2*g, g ) ;
-	fprintf( fp, "%d %d ", 2*g, 2*g ) ;
-	fprintf( fp, "%d %d ", 3*g, 2*g ) ;
-	fprintf( fp, "%d 0\n", 3*g ) ;
-	write_softpins( fp ) ;
-    }
+	/* for the third instance use a U shape */
+	g = (INT) sqrt( core_areaS / 5.0 ) ;
+	if( g > 2 ){
+		fprintf( fp, "instance core_U\n" ) ;
+		fprintf( fp, "corners 8 " ) ;
+		fprintf( fp, "0 0 " ) ;
+		fprintf( fp, "0 %d ", 2*g ) ;
+		fprintf( fp, "%d %d ", g, 2*g ) ;
+		fprintf( fp, "%d %d ", g, g ) ;
+		fprintf( fp, "%d %d ", 2*g, g ) ;
+		fprintf( fp, "%d %d ", 2*g, 2*g ) ;
+		fprintf( fp, "%d %d ", 3*g, 2*g ) ;
+		fprintf( fp, "%d 0\n", 3*g ) ;
+		write_softpins( fp ) ;
+	}
 #endif
 
-    /* for the fourth instance use a modified L shape */
-    g = (INT) sqrt( core_areaS / 5.0 ) ;
-    if( g > 2 ){
-	fprintf( fp, "instance core_L2\n" ) ;
-	fprintf( fp, "corners 6 " ) ;
-	fprintf( fp, "0 0 " ) ;
-	fprintf( fp, "0 %d ", 2*g ) ;
-	fprintf( fp, "%d %d ", 2*g, 2*g ) ;
-	fprintf( fp, "%d %d ", 2*g, g ) ;
-	fprintf( fp, "%d %d ", 3*g, g ) ;
-	fprintf( fp, "%d 0\n", 3*g ) ;
-	write_softpins( fp ) ;
-    }
-
+	/* for the fourth instance use a modified L shape */
+	g = (INT) sqrt( core_areaS / 5.0 ) ;
+	if( g > 2 ){
+		fprintf( fp, "instance core_L2\n" ) ;
+		fprintf( fp, "corners 6 " ) ;
+		fprintf( fp, "0 0 " ) ;
+		fprintf( fp, "0 %d ", 2*g ) ;
+		fprintf( fp, "%d %d ", 2*g, 2*g ) ;
+		fprintf( fp, "%d %d ", 2*g, g ) ;
+		fprintf( fp, "%d %d ", 3*g, g ) ;
+		fprintf( fp, "%d 0\n", 3*g ) ;
+		write_softpins( fp ) ;
+	}
 } /* end output */
 
 write_softpins( fp )
