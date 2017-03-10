@@ -149,7 +149,6 @@ int find_flow_file( general_mode, debug, filename )
 			G( TWcloseGraphics() ) ;
 		}
 		YexitPgm(PGMFAIL) ;
-
 	}
 
 	sprintf( filename, "%s.%s", prefix, suffix ) ;
@@ -166,13 +165,6 @@ int find_flow_file( general_mode, debug, filename )
 
 		printf("File %s exists \n", filename );
 		return 0;
-		/*fp = fopen( filename, "r" );
-		if(!fp) {
-			printf("Couldn't open %s \n", filename );
-			return 1;
-		}
-		TWCLOSE(fp);
-		return 0;*/
 	}
 
 	printf("File %s exists \n", filename );
