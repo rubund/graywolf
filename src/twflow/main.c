@@ -270,6 +270,9 @@ __attribute__((visibility("default"))) main( argc , argv )
 	if( !graphicsG ){
 		/* if no graphics must go auto_flow */
 		autoflowG  = TRUE ;
+	}
+
+	if( autoflowG ){
 		auto_flow() ;
 	}
 
