@@ -224,10 +224,10 @@ INT find_design_type()
 		localArgv[0]="syntax";
 		localArgv[1]=Ystrclone(cktNameG);
 		/* now execute the command */
-		status=Syntax( 2, localArgv );
-		//status = system( buffer ) ;
+		status = Syntax( 2, localArgv );
 		if( status ){
-			M( ERRMSG, "find_design_type", "Trouble executing syntax\n" ) ;
+			printf("Error with Syntax in src/twflow/findflow.c \n" );
+			M( ERRMSG, "find_design_type", "Trouble executing syntax\n" );
 			M( MSG, NULL, "FATAL - must exit\n\n" ) ;
 			YexitPgm( PGMFAIL ) ;
 		}
