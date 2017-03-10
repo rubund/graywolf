@@ -74,158 +74,157 @@ static int getnumRows();
 
 readpar()
 {
+	INT line ;
+	INT temp ;
+	INT numtokens ;
+	INT numrows ;
+	BOOL onNotOff ;
+	BOOL wildcard ;
+	BOOL feed_percent_default ;
+	BOOL row_sep_default ;
+	char design[LRECL] ;
+	char **tokens ;
+	char *lineptr ;
+	DOUBLE tempf ;
 
-    INT line ;
-    INT temp ;
-    INT numtokens ;
-    INT numrows ;
-    BOOL onNotOff ;
-    BOOL wildcard ;
-    BOOL feed_percent_default ;
-    BOOL row_sep_default ;
-    char design[LRECL] ;
-    char **tokens ;
-    char *lineptr ;
-    DOUBLE tempf ;
+	num_rowsG = 0 ;  /* means number of rows not specified */ 
+	wait_for_userG = TRUE ;
+	last_chanceG = TRUE ;
+	flip_alternateG = 0 ;
+	feed_percent_default = TRUE ;
+	row_sep_default = TRUE ;
+	no_outputG = FALSE ;
+	M( MSG, NULL, "\n" ) ;
 
-    num_rowsG = 0 ;  /* means number of rows not specified */ 
-    wait_for_userG = TRUE ;
-    last_chanceG = TRUE ;
-    flip_alternateG = 0 ;
-    feed_percent_default = TRUE ;
-    row_sep_default = TRUE ;
-    no_outputG = FALSE ;
-    M( MSG, NULL, "\n" ) ;
+	Yreadpar_init( cktNameG, USER, GENR, FALSE ) ;
 
-    Yreadpar_init( cktNameG, USER, GENR, FALSE ) ;
+	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, 
+				&onNotOff, &wildcard )){
+		if( numtokens == 0 ){
+			/* skip over empty lines */
+			continue ;
+		} else if( strcmp( tokens[0], "feed_percentage" ) == STRINGEQ ){
+			if( numtokens == 2 ){
+				tempf = atof( tokens[1] ) ;
+				if( tempf < 0.0 ){
+					err_msg("feed_percentage") ;
+					continue ;
+				}
+				set_feed_length( tempf ) ;
+				feed_percent_default = FALSE ;
+			} else {
+				err_msg("feed_percentage") ;
+			}
+		} else if( strcmp( tokens[0], "minimum_row_len" ) == STRINGEQ ){
+			if( numtokens == 2 ){
+				temp = atoi( tokens[1] ) ;
+				if( temp <= 0 ){
+					err_msg("minimum_row_len") ;
+					continue ;
+				}
+				set_minimum_length( temp ) ;
+			} else {
+				err_msg("minimum_row_len") ;
+			}
+		} else if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
+			if( numtokens >= 2 ){
+				tempf = atof( tokens[1] ) ;
+				if( tempf < 0 ){
+					err_msg("rowSep") ;
+					continue ;
+				}
+				temp = (numtokens == 3) ? (INT)atof(tokens[2]) : 0;
+				set_row_separation( tempf, temp ) ;
+				row_sep_default = FALSE ;
+			} else {
+				err_msg("rowSep") ;
+			}
+		} else if( strcmp( tokens[0], "row_to_tile_spacing" ) == STRINGEQ ){
+			if( numtokens == 2 ){
+				temp = atoi( tokens[1] ) ;
+				if( temp < 0 ){
+					err_msg("row_to_tile_spacing") ;
+					continue ;
+				}
+				spacingG = temp ;
+				set_spacing() ;
+			} else {
+				err_msg("row_to_tile_spacing") ;
+			}
+		} else if( strcmp( tokens[0], "numrows" ) == STRINGEQ ){
+			if( numtokens == 2 ){
+				temp = atoi( tokens[1] ) ;
+				if( temp < 0 ){
+					err_msg("numrows") ;
+					continue ;
+				}
+				num_rowsG = temp ;
+			} else {
+				err_msg("numrows") ;
+			}
+		} else if( strcmp( tokens[0], "flip_alternate_rows" ) == STRINGEQ ){
+			if( numtokens == 2 ){
+				temp = atoi( tokens[1] ) ;
+				if( temp < 0 || temp > 2 ){
+					err_msg("flip_alternate_rows") ;
+					continue ;
+				}
+				flip_alternateG = temp ;
+			} else {
+				err_msg("flip_alternate_rows") ;
+			}
+		} else if( strcmp( tokens[0], "graphics.wait" ) == STRINGEQ ){
+			if( onNotOff ){
+				wait_for_userG = TRUE ;
+			} else {
+				wait_for_userG = FALSE ;
+			}
+		} else if( strcmp( tokens[0], "last_chance.wait" ) == STRINGEQ ){
+			if( onNotOff ){
+				last_chanceG = TRUE ;
+			} else {
+				last_chanceG = FALSE ;
+			}
+		} else if( strcmp( tokens[0], "no_blk_file" ) == STRINGEQ ){
+			if( onNotOff ){
+				no_outputG = TRUE ;
+			} else {
+				no_outputG = FALSE ;
+			}
+			/*** catch all ***/
+		} else if(!(wildcard)){
+			sprintf( YmsgG, 
+					"unexpected keyword in the %s.par file at line:%d\n\t%s\n", 
+					cktNameG, line, lineptr );
+			M( ERRMSG, "readpar", YmsgG ) ;
+			Ymessage_error_count() ;
+			abortS = TRUE ;
+		}
+	} /* end of parsing loop */
 
-    while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, 
-	&onNotOff, &wildcard )){
-	if( numtokens == 0 ){
-	    /* skip over empty lines */
-	    continue ;
-	} else if( strcmp( tokens[0], "feed_percentage" ) == STRINGEQ ){
-	    if( numtokens == 2 ){
-		tempf = atof( tokens[1] ) ;
-		if( tempf < 0.0 ){
-		    err_msg("feed_percentage") ;
-		    continue ;
-		}
-		set_feed_length( tempf ) ;
-		feed_percent_default = FALSE ;
-	    } else {
-		err_msg("feed_percentage") ;
-	    }
-	} else if( strcmp( tokens[0], "minimum_row_len" ) == STRINGEQ ){
-	    if( numtokens == 2 ){
-		temp = atoi( tokens[1] ) ;
-		if( temp <= 0 ){
-		    err_msg("minimum_row_len") ;
-		    continue ;
-		}
-		set_minimum_length( temp ) ;
-	    } else {
-		err_msg("minimum_row_len") ;
-	    }
-	} else if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
-	    if( numtokens >= 2 ){
-		tempf = atof( tokens[1] ) ;
-		if( tempf < 0 ){
-		    err_msg("rowSep") ;
-		    continue ;
-		}
-		temp = (numtokens == 3) ? (INT)atof(tokens[2]) : 0;
-		set_row_separation( tempf, temp ) ;
-		row_sep_default = FALSE ;
-	    } else {
-		err_msg("rowSep") ;
-	    }
-	} else if( strcmp( tokens[0], "row_to_tile_spacing" ) == STRINGEQ ){
-	    if( numtokens == 2 ){
-		temp = atoi( tokens[1] ) ;
-		if( temp < 0 ){
-		    err_msg("row_to_tile_spacing") ;
-		    continue ;
-		}
-		spacingG = temp ;
-		set_spacing() ;
-	    } else {
-		err_msg("row_to_tile_spacing") ;
-	    }
-	} else if( strcmp( tokens[0], "numrows" ) == STRINGEQ ){
-	    if( numtokens == 2 ){
-		temp = atoi( tokens[1] ) ;
-		if( temp < 0 ){
-		    err_msg("numrows") ;
-		    continue ;
-		}
-		num_rowsG = temp ;
-	    } else {
-		err_msg("numrows") ;
-	    }
-	} else if( strcmp( tokens[0], "flip_alternate_rows" ) == STRINGEQ ){
-	    if( numtokens == 2 ){
-		temp = atoi( tokens[1] ) ;
-		if( temp < 0 || temp > 2 ){
-		    err_msg("flip_alternate_rows") ;
-		    continue ;
-		}
-		flip_alternateG = temp ;
-	    } else {
-		err_msg("flip_alternate_rows") ;
-	    }
-	} else if( strcmp( tokens[0], "graphics.wait" ) == STRINGEQ ){
-	    if( onNotOff ){
-		wait_for_userG = TRUE ;
-	    } else {
-		wait_for_userG = FALSE ;
-	    }
-	} else if( strcmp( tokens[0], "last_chance.wait" ) == STRINGEQ ){
-	    if( onNotOff ){
-		last_chanceG = TRUE ;
-	    } else {
-		last_chanceG = FALSE ;
-	    }
-	} else if( strcmp( tokens[0], "no_blk_file" ) == STRINGEQ ){
-	    if( onNotOff ){
-		no_outputG = TRUE ;
-	    } else {
-		no_outputG = FALSE ;
-	    }
-	/*** catch all ***/
-	} else if(!(wildcard)){
-	    sprintf( YmsgG, 
-	    "unexpected keyword in the %s.par file at line:%d\n\t%s\n", 
-	    cktNameG, line, lineptr );
-	    M( ERRMSG, "readpar", YmsgG ) ;
-	    Ymessage_error_count() ;
-	    abortS = TRUE ;
+	if( abortS ){
+		YexitPgm(PGMFAIL) ;
 	}
-    } /* end of parsing loop */
+	get_defaults( feed_percent_default, row_sep_default ) ;
 
-    if( abortS ){
-	YexitPgm(PGMFAIL) ;
-    }
-    get_defaults( feed_percent_default, row_sep_default ) ;
-
-    numrows = getnumRows() ;
-    if( numrows ){
-	if( numrows != num_rowsG && num_rowsG ){
-	    sprintf( YmsgG, 
-	    "Number of row discrepancy between .row file(%d) and .par file(%d)\n",
-	    numrows, num_rowsG ) ;
-	    M( ERRMSG, "readpar", YmsgG ) ;
-	    M( ERRMSG, NULL, "Using value found in .row file\n" ) ;
+	numrows = getnumRows() ;
+	if( numrows ){
+		if( numrows != num_rowsG && num_rowsG ){
+			sprintf( YmsgG, 
+					"Number of row discrepancy between .row file(%d) and .par file(%d)\n",
+					numrows, num_rowsG ) ;
+			M( ERRMSG, "readpar", YmsgG ) ;
+			M( ERRMSG, NULL, "Using value found in .row file\n" ) ;
+		}
+		num_rowsG = numrows ;
 	}
-	num_rowsG = numrows ;
-    }
 
-    /* now check for user errors */
-    check_user_data() ;
+	/* now check for user errors */
+	check_user_data() ;
 
-    if( no_outputG ){
-	M( WARNMSG, "readpar", "No .blk file will be output.\n\n" ) ;
-    }
+	if( no_outputG ){
+		M( WARNMSG, "readpar", "No .blk file will be output.\n\n" ) ;
+	}
 
 } /* end readpar */
 
