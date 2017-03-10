@@ -71,86 +71,85 @@ int argc ;
 char *argv[] ;
 {
 
-    char *YinitProgram(), *Ystrclone() ;
-    char filename[LRECL] ;
-    char filename2[LRECL] ;
-    char *ptr ;
-    int  arg_count ;
-    int  yaleIntro() ;
-    int  debug ;
-    FILE *fp ;
+	char *YinitProgram(), *Ystrclone() ;
+	char filename[LRECL] ;
+	char filename2[LRECL] ;
+	char *ptr ;
+	int  arg_count ;
+	int  yaleIntro() ;
+	int  debug ;
+	FILE *fp ;
 
-    /* start up cleanup handler */
-    YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
+	/* start up cleanup handler */
+	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
 
-    Yinit_memsize( EXPECTEDMEMORY ) ;
+	Yinit_memsize( EXPECTEDMEMORY ) ;
 
-    if( argc < 2 || argc > 3 ){
-	syntax() ;
-    } else {
-	debug      = FALSE ;
-	arg_count = 1 ;
-	if( *argv[1] == '-' ){
-	    for( ptr = ++argv[1]; *ptr; ptr++ ){
-		switch( *ptr ){
-		case 'd':
-		    debug = TRUE ;
-		    break ;
-		default:
-		    sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
-		    M(ERRMSG,"main",YmsgG);
-		    syntax() ;
-		}
-	    }
-	    YdebugMemory( debug ) ;
-	    cktNameG = Ystrclone( argv[++arg_count] );
-
-	    /* now tell the user what he picked */
-	    M(MSG,NULL,"\n\nSyntax switches:\n" ) ;
-	    if( debug ){
-		YsetDebug( TRUE ) ;
-		M(MSG,NULL,"\tdebug on\n" ) ;
-	    } 
-	    M(MSG,NULL,"\n" ) ;
-	} else if( argc == 2 ){
-	    /* order is important here */
-	    YdebugMemory( FALSE ) ;
-	    cktNameG = Ystrclone( argv[1] );
-
+	if( argc < 2 || argc > 3 ){
+		syntax() ;
 	} else {
-	    syntax() ;
+		debug      = FALSE ;
+		arg_count = 1 ;
+		if( *argv[1] == '-' ){
+			for( ptr = ++argv[1]; *ptr; ptr++ ){
+				switch( *ptr ){
+					case 'd':
+						debug = TRUE ;
+						break ;
+					default:
+						sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
+						M(ERRMSG,"main",YmsgG);
+						syntax() ;
+				}
+			}
+			YdebugMemory( debug ) ;
+			cktNameG = Ystrclone( argv[++arg_count] );
+
+			/* now tell the user what he picked */
+			M(MSG,NULL,"\n\nSyntax switches:\n" ) ;
+			if( debug ){
+				YsetDebug( TRUE ) ;
+				M(MSG,NULL,"\tdebug on\n" ) ;
+			} 
+			M(MSG,NULL,"\n" ) ;
+		} else if( argc == 2 ){
+			/* order is important here */
+			YdebugMemory( FALSE ) ;
+			cktNameG = Ystrclone( argv[1] );
+
+		} else {
+			syntax() ;
+		}
 	}
-    }
 
-    /* remove old version of stat file */
-    sprintf( filename, "%s.stat", cktNameG ) ;
-    Yrm_files( filename ) ;
+	/* remove old version of stat file */
+	sprintf( filename, "%s.stat", cktNameG ) ;
+	Yrm_files( filename ) ;
 
-    sprintf( filename, "%s.temp", cktNameG ) ;
-    fpoG = TWOPEN( filename, "w", ABORT ) ;
+	sprintf( filename, "%s.temp", cktNameG ) ;
+	fpoG = TWOPEN( filename, "w", ABORT ) ;
 
-    /* we can change this value in the debugger */
-    YinitProgram(SYNTAX, VERSION, yaleIntro) ;
+	/* we can change this value in the debugger */
+	YinitProgram(SYNTAX, VERSION, yaleIntro) ;
 
-    sprintf( filename, "%s.cel", cktNameG ) ;
-    readcells(filename) ;
+	sprintf( filename, "%s.cel", cktNameG ) ;
+	readcells(filename) ;
 
-    if(!(Ymessage_get_errorcount() ) ){
-	M( MSG, NULL, "No syntax errors were found\n" ) ;
-	output() ;
-    } else {
+	if(!(Ymessage_get_errorcount() ) ){
+		M( MSG, NULL, "No syntax errors were found\n" ) ;
+		output() ;
+	} else {
+		TWCLOSE( fpoG ) ;
+		YexitPgm( PGMFAIL ) ;
+	}
 	TWCLOSE( fpoG ) ;
-        YexitPgm( PGMFAIL ) ;
-    }
-    TWCLOSE( fpoG ) ;
 
-    /* now move .temp file to .stat */
-    sprintf( filename, "%s.temp", cktNameG ) ;
-    sprintf( filename2, "%s.stat", cktNameG ) ;
-    YmoveFile( filename, filename2 ) ;
+	/* now move .temp file to .stat */
+	sprintf( filename, "%s.temp", cktNameG ) ;
+	sprintf( filename2, "%s.stat", cktNameG ) ;
+	YmoveFile( filename, filename2 ) ;
 
-    YexitPgm( PGMOK ) ;
-
+	YexitPgm( PGMOK ) ;
 } /* end main */
 
 
@@ -167,16 +166,16 @@ syntax()
 
 yaleIntro() 
 {
-    int i ;
+	int i ;
 
-    M( MSG, NULL, "\n") ;
-    M( MSG, NULL, YmsgG) ;
-    M( MSG, NULL, "\nTimberWolf System Syntax Checker\n");
-    M( MSG, NULL, "Authors: Carl Sechen, Kai-Win Lee, Bill Swartz,\n");
-    M( MSG, NULL, "         Dahe Chen, and Jimmy Lam\n"); 
-    M( MSG, NULL, "         Yale University\n");
-    M( MSG, NULL, "\n");
+	M( MSG, NULL, "\n") ;
+	M( MSG, NULL, YmsgG) ;
+	M( MSG, NULL, "\nTimberWolf System Syntax Checker\n");
+	M( MSG, NULL, "Authors: Carl Sechen, Kai-Win Lee, Bill Swartz,\n");
+	M( MSG, NULL, "         Dahe Chen, and Jimmy Lam\n"); 
+	M( MSG, NULL, "         Yale University\n");
+	M( MSG, NULL, "\n");
 
-    fprintf(fpoG,"%s\n",YmsgG ) ; 
+	fprintf(fpoG,"%s\n",YmsgG ) ; 
 
 } /* end yaleIntro */
