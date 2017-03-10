@@ -129,11 +129,6 @@ char *argv[] ;
 	/* we can change this value in the debugger */
 	YinitProgram(NOCUT, VERSION, yaleIntro) ;
 
-	int separate_cel_file(char *cktName);
-	if( twdir = TWFLOWDIR ){
-		separate_cel_file(cktNameG);
-	}
-
 	read_par() ;
 
 	sprintf( filename, "%s.cel", cktNameG ) ;
@@ -148,6 +143,11 @@ char *argv[] ;
 	fp = fopen( filename, "a") ;
 	update_stats( fp ) ;
 	fclose( fp ) ;
+
+	int separate_cel_file(char *cktName);
+	if( twdir = TWFLOWDIR ){
+		separate_cel_file(cktNameG);
+	}
 
 	printf( "Splitting %s.cel into " , cktNameG ) ;
 	printf( "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;
