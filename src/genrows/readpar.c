@@ -98,8 +98,21 @@ readpar()
 
 	Yreadpar_init( cktNameG, USER, GENR, FALSE ) ;
 
-	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, 
-				&onNotOff, &wildcard )){
+	char *tmpStr;
+	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )) {
+		if( numtokens ) {
+			if(tmpStr = strstr(tokens[0], "TWSC*")) {
+				continue;
+			} else if (tmpStr = strstr(tokens[0], "TWMC*")) {
+				continue;
+			} else if (tmpStr = strstr(tokens[0], "GENR*")) {
+				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			} else if (tmpStr = strstr(tokens[0], "*")) {
+				continue;
+			}
+		}
+
 		if( numtokens == 0 ){
 			/* skip over empty lines */
 			continue ;

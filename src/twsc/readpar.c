@@ -200,15 +200,15 @@ INT parfile ;
 		readparamS = TRUE ;
 
 		if( numtokens ) {
-			tmpStr = strstr(tokens[0], "*");
-			if(tmpStr) {
-				tmpStr++;
-				tokens[0] = Ystrclone(tmpStr);
-			}
-
-			tmpStr = strstr(tokens[0], "TWSC*");
-			if(tmpStr) {
+			if(tmpStr = strstr(tokens[0], "TWSC*")) {
 				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			} else if (tmpStr = strstr(tokens[0], "TWMC*")) {
+				continue;
+			} else if (tmpStr = strstr(tokens[0], "GENR*")) {
+				continue;
+			} else if (tmpStr = strstr(tokens[0], "*")) {
+				tmpStr++;
 				tokens[0] = Ystrclone(tmpStr);
 			}
 		}

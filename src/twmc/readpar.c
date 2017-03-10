@@ -189,16 +189,18 @@ INT parfile ;
 	char *tmpStr;
 	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )){
 		readparamS = TRUE ;
-		if( numtokens ) {
-			tmpStr = strstr(tokens[0], "*");
-			if(tmpStr) {
-				tmpStr++;
-				tokens[0] = Ystrclone(tmpStr);
-			}
 
-			tmpStr = strstr(tokens[0], "TWMC*");
-			if(tmpStr) {
+		if( numtokens ) {
+			if(tmpStr = strstr(tokens[0], "TWSC*")) {
+				continue;
+			} else if (tmpStr = strstr(tokens[0], "TWMC*")) {
 				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			} else if (tmpStr = strstr(tokens[0], "GENR*")) {
+				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			} else if (tmpStr = strstr(tokens[0], "*")) {
+				tmpStr++;
 				tokens[0] = Ystrclone(tmpStr);
 			}
 		}
