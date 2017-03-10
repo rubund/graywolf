@@ -56,7 +56,8 @@ char *sourcefile, *destfile ;
 {
 	FILE* source = fopen(sourcefile, "rb");
 	FILE* dest = fopen(destfile, "wb");
-	for (int i = getc(source); i != EOF; i = getc(source)) {
+	int i;
+	for (i = getc(source); i != EOF; i = getc(source)) {
 		putc(i, dest);
 	}
 	fclose(dest);
