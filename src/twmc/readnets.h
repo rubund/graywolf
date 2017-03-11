@@ -26,7 +26,7 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yydebug		NET_yydebug
 #define yydef		NET_yydef
 #define yyerrflag	NET_yyerrflag
-#define yyerror	        NET_yyerror
+//#define yyerror	        NET_yyerror
 #define yyestate	NET_yyestate
 #define yyexca		NET_yyexca
 #define yyextra		NET_yyextra
@@ -63,7 +63,7 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yyv		NET_yyv
 #define yyval		NET_yyval
 #define yyvstop		NET_yyvstop
-#define yywrap		NET_yywrap
+//#define yywrap		NET_yywrap
 /* for byacc */
 #define yyrule          NET_yyrule
 #define yyname          NET_yyname

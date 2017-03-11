@@ -337,63 +337,29 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readnets_l.h" *******************/
 /* ********************* #include "readnets_l.h" *******************/
 
-readnets( fp )
-FILE *fp ;
+readnets( filename )
+char filename ;
 { 
-#ifdef YYDEBUG
-    extern int yydebug ;
-    yydebug = FALSE ;
-#endif
+	yyin = fopen(filename,"r") ;
+	line_countS = 0;
 
-
-    yyin = fp ;
-    line_countS = 0 ;
-    init_nets() ;
-    /* parse input file using yacc if input given */
-    if( fp ){
-	yyparse();  
-    }
-    cleanup_nets() ;
+	if( yyin ){
+		init_nets() ;
+		/* parse input file using yacc if input given */
+		yyparse();  
+	}
+	cleanup_nets() ;
 
 } /* end readnets */
 
-yyerror(s)
-char    *s;
-{
-    extern char *cktNameG ;
-
-    sprintf(YmsgG,"problem reading %s.mnet:", cktNameG );
-    M( ERRMSG, "yacc", YmsgG ) ;
-    sprintf(YmsgG, "line %d near '%s' : %s\n" ,
-	line_countS+1, yytext, s );
-    M( ERRMSG,NULL, YmsgG ) ;
-    Ymessage_error_count() ;
-    set_net_error() ;
-}
-
-yywrap()
-{
-    return(1);
-}                      
 #define YYABORT goto yyabort
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
 int
-yyparse()
+yyparse(fp)
+FILE *fp;
 {
     register int yym, yyn, yystate;
-#if YYDEBUG
-    register char *yys;
-    extern char *getenv();
-
-    if (yys = getenv("YYDEBUG"))
-    {
-        yyn = *yys;
-        if (yyn >= '0' && yyn <= '9')
-            yydebug = yyn - '0';
-    }
-#endif
-
     yynerrs = 0;
     yyerrflag = 0;
     yychar = (-1);
@@ -407,25 +373,10 @@ yyloop:
     if (yychar < 0)
     {
         if ((yychar = yylex()) < 0) yychar = 0;
-#if YYDEBUG
-        if (yydebug)
-        {
-            yys = 0;
-            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-            if (!yys) yys = "illegal-symbol";
-            printf("yydebug: state %d, reading %d (%s)\n", yystate,
-                    yychar, yys);
-        }
-#endif
     }
     if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
             yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
     {
-#if YYDEBUG
-        if (yydebug)
-            printf("yydebug: state %d, shifting to state %d\n",
-                    yystate, yytable[yyn]);
-#endif
         if (yyssp >= yyss + yystacksize - 1)
         {
             goto yyoverflow;
@@ -443,106 +394,13 @@ yyloop:
         goto yyreduce;
     }
     if (yyerrflag) goto yyinrecovery;
-#ifdef lint
-    goto yynewerror;
-#endif
 yynewerror:
-#if YYDEBUG
-    {
-        int test_state, i, expect, two_or_more ;
-        char err_msg[BUFSIZ] ;
-        if( yyname[yychar] ){
-            sprintf( err_msg, "Found %s.\nExpected ",
-                yyname[yychar] ) ;
-            two_or_more = 0 ;
-            if( test_state = yysindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-            if( test_state = yyrindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-             yyerror( err_msg ) ;
-             if (yycnprs) {
-                 yychar = (-1);
-                 if (yyerrflag > 0)  --yyerrflag;
-                 goto yyloop;
-             }
-        } else {
-            sprintf( err_msg, "Found unknown token.\nExpected ");
-            two_or_more = 0 ;
-            if( test_state = yysindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-            if( test_state = yyrindex[yystate] ){
-                for( i = 1; i <= YYMAXTOKEN; i++ ){
-                    expect = test_state + i ;
-                if((expect <= YYTABLESIZE) &&
-                   (yycheck[expect] == i) &&
-                   yyname[i]){
-                        if( two_or_more ){
-                            strcat( err_msg, " | " ) ;
-                        } else {
-                            two_or_more = 1 ;
-                        }
-                        strcat( err_msg, yyname[i] ) ;
-                     }
-                 }
-             }
-             yyerror( err_msg ) ;
-             if (yycnprs) {
-                 yychar = (-1);
-                 if (yyerrflag > 0)  --yyerrflag;
-                 goto yyloop;
-             }
-        }
-     }
-#else
      yyerror("syntax error");
      if (yycnprs) {
         yychar = (-1);
         if (yyerrflag > 0)  --yyerrflag;
         goto yyloop;
      }
-#endif
-#ifdef lint
-    goto yyerrlab;
-#endif
 yyerrlab:
     ++yynerrs;
 yyinrecovery:
@@ -554,11 +412,6 @@ yyinrecovery:
             if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
                     yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
             {
-#if YYDEBUG
-                if (yydebug)
-                    printf("yydebug: state %d, error recovery shifting\
- to state %d\n", *yyssp, yytable[yyn]);
-#endif
                 if (yyssp >= yyss + yystacksize - 1)
                 {
                     goto yyoverflow;
@@ -569,11 +422,6 @@ yyinrecovery:
             }
             else
             {
-#if YYDEBUG
-                if (yydebug)
-                    printf("yydebug: error recovery discarding state %d\n",
-                            *yyssp);
-#endif
                 if (yyssp <= yyss) goto yyabort;
                 --yyssp;
                 --yyvsp;
@@ -583,25 +431,10 @@ yyinrecovery:
     else
     {
         if (yychar == 0) goto yyabort;
-#if YYDEBUG
-        if (yydebug)
-        {
-            yys = 0;
-            if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-            if (!yys) yys = "illegal-symbol";
-            printf("yydebug: state %d, error recovery discards token %d (%s)\n",
-                    yystate, yychar, yys);
-        }
-#endif
         yychar = (-1);
         goto yyloop;
     }
 yyreduce:
-#if YYDEBUG
-    if (yydebug)
-        printf("yydebug: state %d, reducing by rule %d (%s)\n",
-                yystate, yyn, yyrule[yyn]);
-#endif
     yym = yylen[yyn];
     yyval = yyvsp[1-yym];
     switch (yyn)
@@ -748,27 +581,12 @@ break;
     yym = yylhs[yyn];
     if (yystate == 0 && yym == 0)
     {
-#if YYDEBUG
-        if (yydebug)
-            printf("yydebug: after reduction, shifting from state 0 to\
- state %d\n", YYFINAL);
-#endif
         yystate = YYFINAL;
         *++yyssp = YYFINAL;
         *++yyvsp = yyval;
         if (yychar < 0)
         {
             if ((yychar = yylex()) < 0) yychar = 0;
-#if YYDEBUG
-            if (yydebug)
-            {
-                yys = 0;
-                if (yychar <= YYMAXTOKEN) yys = yyname[yychar];
-                if (!yys) yys = "illegal-symbol";
-                printf("yydebug: state %d, reading %d (%s)\n",
-                        YYFINAL, yychar, yys);
-            }
-#endif
         }
         if (yychar == 0) goto yyaccept;
         goto yyloop;
@@ -778,11 +596,6 @@ break;
         yystate = yytable[yyn];
     else
         yystate = yydgoto[yym];
-#if YYDEBUG
-    if (yydebug)
-        printf("yydebug: after reduction, shifting from state %d \
-to state %d\n", *yyssp, yystate);
-#endif
     if (yyssp >= yyss + yystacksize - 1)
     {
         goto yyoverflow;
@@ -797,3 +610,4 @@ yyabort:
 yyaccept:
     return (0);
 }
+

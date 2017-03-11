@@ -71,7 +71,7 @@ int nstr; extern int yyprevious;
 while((nstr = yylook()) >= 0)
 yyfussy: switch(nstr){
 case 0:
-if(yywrap()) return(0); break;
+if(1) return(0); break;
 case 1:
 
 		      {
