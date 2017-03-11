@@ -20,7 +20,7 @@ REVISIONS:
 #define yydebug		CUSTOM_yydebug
 #define yydef		CUSTOM_yydef
 #define yyerrflag	CUSTOM_yyerrflag
-#define yyerror	        CUSTOM_yyerror
+//#define yyerror	        CUSTOM_yyerror
 #define yyestate	CUSTOM_yyestate
 #define yyexca		CUSTOM_yyexca
 #define yyextra		CUSTOM_yyextra
@@ -28,7 +28,7 @@ REVISIONS:
 #define yyin		CUSTOM_yyin
 #define yyinput		CUSTOM_yyinput
 #define yyleng		CUSTOM_yyleng
-#define yylex		CUSTOM_yylex
+//#define yylex		CUSTOM_yylex
 #define yylineno	CUSTOM_yylineno
 #define yylook		CUSTOM_yylook
 #define yylsp		CUSTOM_yylsp
