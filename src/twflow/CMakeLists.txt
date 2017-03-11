@@ -19,6 +19,7 @@ target_link_libraries(graywolf TimberWolfSC)
 target_link_libraries(graywolf GrayWolfSyntax)
 target_link_libraries(graywolf GrayWolfGetDate)
 target_link_libraries(graywolf GrayWolfGenRows)
+target_link_libraries(graywolf GrayWolfYYLex)
 target_link_libraries(graywolf X11)
 target_link_libraries(graywolf m)
 
