@@ -18,23 +18,18 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 
 #define yyact		NET_yyact
 #define yyback		NET_yyback
-#define yybgin		NET_yybgin
 #define yychar		NET_yychar
 #define yychk		NET_yychk
-#define yycrank		NET_yycrank
 #define yycnprs		NET_yycnprs
 #define yydebug		NET_yydebug
 #define yydef		NET_yydef
 #define yyerrflag	NET_yyerrflag
-//#define yyerror	        NET_yyerror
 #define yyestate	NET_yyestate
 #define yyexca		NET_yyexca
 #define yyextra		NET_yyextra
 #define yyfnd		NET_yyfnd
-#define yyin		NET_yyin
 #define yyinput		NET_yyinput
 #define yyleng		NET_yyleng
-#define yylex		NET_yylex
 #define yylineno	NET_yylineno
 #define yylook		NET_yylook
 #define yylsp		NET_yylsp
@@ -47,14 +42,12 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yyout		NET_yyout
 #define yyoutput	NET_yyoutput
 #define yypact		NET_yypact
-#define yyparse		NET_yyparse
 #define yypgo		NET_yypgo
 #define yyprevious	NET_yyprevious
 #define yyreds		NET_yyreds
 #define yyr2		NET_yyr2
 #define yysbuf		NET_yysbuf
 #define yysptr		NET_yysptr
-#define yysvec		NET_yysvec
 #define yytchar		NET_yytchar
 #define yytext		NET_yytext
 #define yytoks		NET_yytoks
@@ -63,7 +56,6 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yyv		NET_yyv
 #define yyval		NET_yyval
 #define yyvstop		NET_yyvstop
-//#define yywrap		NET_yywrap
 /* for byacc */
 #define yyrule          NET_yyrule
 #define yyname          NET_yyname
