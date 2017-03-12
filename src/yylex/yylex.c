@@ -8,70 +8,54 @@
 #include <yalecad/string.h>
 #define YYU(x) x
 
-/*int yycnprs = 0;
-int yydebug;
-short *yyssp;
-YYSTYPE *yyvsp;
-YYSTYPE yyval;
-short yyss[YYSTACKSIZE];
-YYSTYPE yyvs[YYSTACKSIZE];
-struct yysvf *yyestate;
-char yytext[YYLMAX];
-char yysbuf[YYLMAX];
-char *yysptr = yysbuf;
-extern struct yysvf *yyestate;
-int yylineno =1;
-int yyleng;
-int yymorfg;
-int yytchar;
-FILE *yyout;
-int *yyvstop;
-struct yysvf *yysvec;
-short __attribute__((visibility("default"))) *yylhs;
-short __attribute__((visibility("default"))) *yydefred;
-short __attribute__((visibility("default"))) *yydgoto;
-short __attribute__((visibility("default"))) *yysindex;
-short __attribute__((visibility("default"))) *yyrindex;
-short __attribute__((visibility("default"))) *yygindex;
-short __attribute__((visibility("default"))) *yytable;
-short __attribute__((visibility("default"))) *yycheck;
-short __attribute__((visibility("default"))) *match;
-char __attribute__((visibility("default"))) *yymatch;
-char __attribute__((visibility("default"))) *cktNameG;*/
-
-char yytext[];
-unsigned long line_countS = 0;
-YYSTYPE yylval;
 char *yyextra;
 struct yysvf **yylsp;
 struct yysvf **yyolsp;
 char *yysptr;
-char yysbuf[];
+char *yysbuf;
 struct yysvf *yyestate;
-struct yysvf *yysvec;
-struct yysvf *yybgin;
-struct yysvf *yybgin;
-struct yywork *yytop;
-int yyleng;
-int yymorfg;
-int yytchar;
-int yylineno;
-int *yyfnd;
-const struct yywork { YYTYPE verify, advance; } *yycrank;
+YYSTYPE yylval;
+
+int yyleng = 0;
+int yymorfg = 0;
+int yytchar = 0;
+int yylineno = 1;
+int *yyfnd = 0;
+
 int yyprevious = YYNEWLINE;
 struct yysvf *yylstate [YYLMAX];
 rw_table __attribute__((visibility("default"))) *rwtable;
+struct yywork __attribute__((visibility("default"))) *yycrank;
+struct yywork __attribute__((visibility("default"))) *yytop;
+struct yysvf  __attribute__((visibility("default"))) *yysvec;
+struct yysvf  __attribute__((visibility("default"))) *yybgin;
+char __attribute__((visibility("default"))) *yytext;
+unsigned long __attribute__((visibility("default"))) line_countS = 0;
+
+char input( FILE* yyin );
+int output( int out ) ;
+int screen();
+int yyback(int *p, int m);
+int check_line_count(char *s) ;
+void unput(char c);
 
 int
 yylook(fp)
 FILE *fp;
 {
-	struct yysvf *yystate, **lsp;
+	if(!fp) {
+		printf("File not open!\n");
+		return -1;
+	}
+
+	struct yysvf *yystate;
+	struct yysvf **lsp;
 	struct yywork *yyt;
 	struct yysvf *yyz;
-	int yych;
 	struct yywork *yyr;
+	char yych;
 	char *yylastch;
+
 	/* start off machines */
 	if (!yymorfg)
 		yylastch = yytext;
@@ -79,46 +63,43 @@ FILE *fp;
 		yymorfg=0;
 		yylastch = yytext+yyleng;
 	}
+
 	while(1) {
 		lsp = yylstate;
-		yyestate = yystate = yybgin;
+		yyestate = yybgin;
+		yystate = yybgin;
 		if (yyprevious==YYNEWLINE)
 			yystate++;
 		while(1) {
 			yyt = yystate->yystoff;
 			if(yyt == yycrank) {		/* may not be any transitions */
-				printf("miau1\n");
 				yyz = yystate->yyother;
 				if(yyz == 0) {
-					printf("miau2\n");
 					break;
 				}
 				if(yyz->yystoff == yycrank) {
-					printf("miau3\n");
 					break;
 				}
 			}
-			yych = getc(fp);
-			printf("yych: %s\n",yych);
-			(*yylastch++) = yych;
-			printf("yych: %s\n",yych);
-			printf("yylastch: %s\n",yylastch);
+			*yylastch++ = yych =  input(fp);
+//  			printf("yych: %c \n",yych);
+//   			printf("yylastch: %s \n",yylastch);
 tryagain:
 			yyr = yyt;
 			if ( (long)yyt > (long)yycrank) {
 				yyt = yyr + yych;
 				if (yyt <= yytop && yyt->verify+yysvec == yystate) {
-					if(yyt->advance+yysvec == YYLERR) {	/* error transitions */
+					if(yyt->advance+yysvec == YYLERR) {	// error transitions
 						unput(*--yylastch);
-						printf("yylastch: %s\n",yylastch);
+// 						printf("yylastch: %s\n",yylastch);
 						break;
 					}
 					*lsp++ = yystate = yyt->advance+yysvec;
 					goto contin;
 				}
 			} else {
-				printf("yylastch: %s\n",yylastch);
-				unput(*--yylastch);
+//  				printf("yylastch: %s\n",yylastch);
+  				unput(*(--yylastch));
 				break;
 			}
 contin:
@@ -147,7 +128,8 @@ contin:
 			yysptr=yysbuf;
 			return(0);
 		}
-		yyprevious = yytext[0] = getc(fp);
+		yyprevious = yytext[0] = input(fp);
+		
 		if (yyprevious>0)
 			output(yyprevious);
 		yylastch=yytext;
@@ -165,8 +147,7 @@ FILE *fp;
 		yyfussy:
 			switch(nstr)  {
 				case 0:
-					if(yywrap())
-						return(0);
+					return(0);
 					break;
 				case 1:
 					/* C-style comments over multiple lines */
@@ -202,7 +183,7 @@ FILE *fp;
 				case -1:
 					break;
 				default:
-					fprintf("bad switch yylook %d",nstr);
+					printf("bad switch yylook %d",nstr);
 					break;
 			}
 	}
@@ -211,7 +192,7 @@ FILE *fp;
 
 /* end of yylex */
 
-yyback(p, m)
+int yyback(p, m)
 int *p;
 int m;
 {
@@ -241,11 +222,6 @@ char *s ;
 	}
 } /* end check_line_count */
 
-yywrap()
-{
-	return(1);
-}
-
 int screen() 
 {
 	INT c ;
@@ -270,8 +246,26 @@ int screen()
 	return (STRING); 
 } /* end screen function */
 
-output( fp )
-FILE *fp ;
+int output( out )
+int out;
 {
 }
 
+char input( yyin )
+FILE *yyin;
+{
+	//char ret = (((yytchar=yysptr>yysbuf?U(*--yysptr):getc(yyin))==10?(yylineno++,yytchar):yytchar)==EOF?0:yytchar);
+	//char ret = fgetc(yyin);
+	//return ret;
+	return 42;
+}
+
+void unput(c)
+char c;
+ {
+	printf("char %c\n",c);
+	 /* yytchar= (c);
+	 if(yytchar=='\n')
+		 yylineno--;
+	 *yysptr++=yytchar;*/
+}
