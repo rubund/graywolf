@@ -336,6 +336,7 @@ void setup_lexer_NET();
 readnets( filename )
 char filename ;
 { 
+	FILE *yyin;
 	yyin = fopen(filename,"r") ;
 	line_countS = 0;
 
@@ -356,256 +357,256 @@ int
 yyparse_NET(fp)
 FILE *fp;
 {
-    register int yym, yyn, yystate;
-    yynerrs = 0;
-    yyerrflag = 0;
-    yychar = (-1);
+	register int yym, yyn, yystate;
+	yynerrs = 0;
+	yyerrflag = 0;
+	yychar = (-1);
 
-    yyssp = yyss;
-    yyvsp = yyvs;
-    *yyssp = yystate = 0;
+	yyssp = yyss;
+	yyvsp = yyvs;
+	*yyssp = yystate = 0;
 
-yyloop:
-    if (yyn = yydefred[yystate]) goto yyreduce;
-    if (yychar < 0)
-    {
-        if ((yychar = yylex(fp)) < 0) yychar = 0;
-    }
-    if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
-    {
-        if (yyssp >= yyss + yystacksize - 1)
-        {
-            goto yyoverflow;
-        }
-        *++yyssp = yystate = yytable[yyn];
-        *++yyvsp = yylval;
-        yychar = (-1);
-        if (yyerrflag > 0)  --yyerrflag;
-        goto yyloop;
-    }
-    if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
-    {
-        yyn = yytable[yyn];
-        goto yyreduce;
-    }
-    if (yyerrflag) goto yyinrecovery;
-yynewerror:
-     yyerror("syntax error");
-     if (yycnprs) {
-        yychar = (-1);
-        if (yyerrflag > 0)  --yyerrflag;
-        goto yyloop;
-     }
-yyerrlab:
-    ++yynerrs;
-yyinrecovery:
-    if (yyerrflag < 3)
-    {
-        yyerrflag = 3;
-        for (;;)
-        {
-            if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
-                    yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
-            {
-                if (yyssp >= yyss + yystacksize - 1)
-                {
-                    goto yyoverflow;
-                }
-                *++yyssp = yystate = yytable[yyn];
-                *++yyvsp = yylval;
-                goto yyloop;
-            }
-            else
-            {
-                if (yyssp <= yyss) goto yyabort;
-                --yyssp;
-                --yyvsp;
-            }
-        }
-    }
-    else
-    {
-        if (yychar == 0) goto yyabort;
-        yychar = (-1);
-        goto yyloop;
-    }
-yyreduce:
-    yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
-    switch (yyn)
-    {
-case 8:
-{
-			/* pathlist COLON lowerBound upperBound priority*/
-			end_path( yyvsp[-2].ival, yyvsp[-1].ival, yyvsp[0].ival ) ;
-		    }
-break;
-case 9:
-{
-			end_path( yyvsp[-1].ival, yyvsp[0].ival, 1 ) ;
-		    }
-break;
-case 10:
-{
-			add_path( STARTPATH, yyvsp[0].string ) ; 
-		    }
-break;
-case 11:
-{
-			add_path( CONTPATH, yyvsp[0].string ) ; 
-		    }
-break;
-case 12:
-{ init_analog( yyvsp[0].string ) ; }
-break;
-case 22:
-{
-			set_max_voltage_drop( yyvsp[0].fval ) ;
-		    }
-break;
-case 24:
-{
-			set_cap_upper_bound( yyvsp[0].fval ) ;
-		    }
-break;
-case 25:
-{
-			set_res_upper_bound( yyvsp[0].fval ) ;
-		    }
-break;
-case 26:
-{
-			set_net_type( NOISY_NET ) ;
-			
-		    }
-break;
-case 27:
-{
-			set_net_type( SENSITIVE_NET ) ;
-			
-		    }
-break;
-case 28:
-{
-			set_net_type( SHIELDING_NET ) ;
-			
-		    }
-break;
-case 29:
-{ add_common_pt(); }
-break;
-case 31:
-{
-			add2common( yyvsp[-1].string, yyvsp[0].string ) ;
-		    }
-break;
-case 32:
-{
-			add2common( yyvsp[-1].string, yyvsp[0].string ) ;
-		    }
-break;
-case 35:
-{
-			common_cap( yyvsp[-1].string, yyvsp[0].string ) ;
-		    }
-break;
-case 36:
-{
-			common_cap( yyvsp[-1].string, yyvsp[0].string ) ;
-		    }
-break;
-case 39:
-{
-			common_res( yyvsp[-1].string, yyvsp[0].string ) ;
-		    }
-break;
-case 40:
-{
-			common_res( yyvsp[-1].string, yyvsp[0].string ) ;
-		    }
-break;
-case 41:
-{
-			start_net_capmatch( yyvsp[0].string ) ;
-		    }
-break;
-case 42:
-{
-			add_net_capmatch( yyvsp[0].string ) ;
-		    }
-break;
-case 43:
-{
-			start_net_resmatch( yyvsp[0].string ) ;
-		    }
-break;
-case 44:
-{
-			add_net_resmatch( yyvsp[0].string ) ;
-		    }
-break;
-case 45:
-{ 
-			yyval.string = yyvsp[0].string ;	
-		    }
-break;
-case 46:
-{
-			/* convert integer to string */
-			/* this allows integers to be used as strings */
-			/* a kluge but timberwolf's old parser supported it */
-			sprintf( bufferS,"%d", yyvsp[0].ival ) ;
-			/* now clone string */
-			yyval.string = (char *) Ystrclone( bufferS ) ;
-		    }
-break;
-case 47:
-{
-			/* convert float to string */
-			/* this allows floats to be used as strings */
-			/* a kluge but timberwolf's old parser supported it */
-			sprintf( bufferS,"%f", yyvsp[0].fval ) ;
-			/* now clone string */
-			yyval.string = (char *) Ystrclone( bufferS ) ;
-		    }
-break;
-    }
-    yyssp -= yym;
-    yystate = *yyssp;
-    yyvsp -= yym;
-    yym = yylhs[yyn];
-    if (yystate == 0 && yym == 0)
-    {
-        yystate = YYFINAL;
-        *++yyssp = YYFINAL;
-        *++yyvsp = yyval;
-        if (yychar < 0)
-        {
-            if ((yychar = yylex(fp)) < 0) yychar = 0;
-        }
-        if (yychar == 0) goto yyaccept;
-        goto yyloop;
-    }
-    if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
-            yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
-        yystate = yytable[yyn];
-    else
-        yystate = yydgoto[yym];
-    if (yyssp >= yyss + yystacksize - 1)
-    {
-        goto yyoverflow;
-    }
-    *++yyssp = yystate;
-    *++yyvsp = yyval;
-    goto yyloop;
-yyoverflow:
-    yyerror("yacc stack overflow");
-yyabort:
-    return (1);
-yyaccept:
-    return (0);
+	yyloop:
+	if (yyn = yydefred[yystate]) goto yyreduce;
+	if (yychar < 0)
+	{
+		if ((yychar = yylex(fp)) < 0) yychar = 0;
+	}
+	if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
+		yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	{
+		if (yyssp >= yyss + yystacksize - 1)
+		{
+		goto yyoverflow;
+		}
+		*++yyssp = yystate = yytable[yyn];
+		*++yyvsp = yylval;
+		yychar = (-1);
+		if (yyerrflag > 0)  --yyerrflag;
+		goto yyloop;
+	}
+	if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
+		yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	{
+		yyn = yytable[yyn];
+		goto yyreduce;
+	}
+	if (yyerrflag) goto yyinrecovery;
+	yynewerror:
+	yyerror("syntax error");
+	if (yycnprs) {
+		yychar = (-1);
+		if (yyerrflag > 0)  --yyerrflag;
+		goto yyloop;
+	}
+	yyerrlab:
+	++yynerrs;
+	yyinrecovery:
+	if (yyerrflag < 3)
+	{
+		yyerrflag = 3;
+		for (;;)
+		{
+		if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
+			yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
+		{
+			if (yyssp >= yyss + yystacksize - 1)
+			{
+			goto yyoverflow;
+			}
+			*++yyssp = yystate = yytable[yyn];
+			*++yyvsp = yylval;
+			goto yyloop;
+		}
+		else
+		{
+			if (yyssp <= yyss) goto yyabort;
+			--yyssp;
+			--yyvsp;
+		}
+		}
+	}
+	else
+	{
+		if (yychar == 0) goto yyabort;
+		yychar = (-1);
+		goto yyloop;
+	}
+	yyreduce:
+	yym = yylen[yyn];
+	yyval = yyvsp[1-yym];
+	switch (yyn)
+	{
+	case 8:
+	{
+				/* pathlist COLON lowerBound upperBound priority*/
+				end_path( yyvsp[-2].ival, yyvsp[-1].ival, yyvsp[0].ival ) ;
+			}
+	break;
+	case 9:
+	{
+				end_path( yyvsp[-1].ival, yyvsp[0].ival, 1 ) ;
+			}
+	break;
+	case 10:
+	{
+				add_path( STARTPATH, yyvsp[0].string ) ; 
+			}
+	break;
+	case 11:
+	{
+				add_path( CONTPATH, yyvsp[0].string ) ; 
+			}
+	break;
+	case 12:
+	{ init_analog( yyvsp[0].string ) ; }
+	break;
+	case 22:
+	{
+				set_max_voltage_drop( yyvsp[0].fval ) ;
+			}
+	break;
+	case 24:
+	{
+				set_cap_upper_bound( yyvsp[0].fval ) ;
+			}
+	break;
+	case 25:
+	{
+				set_res_upper_bound( yyvsp[0].fval ) ;
+			}
+	break;
+	case 26:
+	{
+				set_net_type( NOISY_NET ) ;
+				
+			}
+	break;
+	case 27:
+	{
+				set_net_type( SENSITIVE_NET ) ;
+				
+			}
+	break;
+	case 28:
+	{
+				set_net_type( SHIELDING_NET ) ;
+				
+			}
+	break;
+	case 29:
+	{ add_common_pt(); }
+	break;
+	case 31:
+	{
+				add2common( yyvsp[-1].string, yyvsp[0].string ) ;
+			}
+	break;
+	case 32:
+	{
+				add2common( yyvsp[-1].string, yyvsp[0].string ) ;
+			}
+	break;
+	case 35:
+	{
+				common_cap( yyvsp[-1].string, yyvsp[0].string ) ;
+			}
+	break;
+	case 36:
+	{
+				common_cap( yyvsp[-1].string, yyvsp[0].string ) ;
+			}
+	break;
+	case 39:
+	{
+				common_res( yyvsp[-1].string, yyvsp[0].string ) ;
+			}
+	break;
+	case 40:
+	{
+				common_res( yyvsp[-1].string, yyvsp[0].string ) ;
+			}
+	break;
+	case 41:
+	{
+				start_net_capmatch( yyvsp[0].string ) ;
+			}
+	break;
+	case 42:
+	{
+				add_net_capmatch( yyvsp[0].string ) ;
+			}
+	break;
+	case 43:
+	{
+				start_net_resmatch( yyvsp[0].string ) ;
+			}
+	break;
+	case 44:
+	{
+				add_net_resmatch( yyvsp[0].string ) ;
+			}
+	break;
+	case 45:
+	{ 
+				yyval.string = yyvsp[0].string ;	
+			}
+	break;
+	case 46:
+	{
+				/* convert integer to string */
+				/* this allows integers to be used as strings */
+				/* a kluge but timberwolf's old parser supported it */
+				sprintf( bufferS,"%d", yyvsp[0].ival ) ;
+				/* now clone string */
+				yyval.string = (char *) Ystrclone( bufferS ) ;
+			}
+	break;
+	case 47:
+	{
+				/* convert float to string */
+				/* this allows floats to be used as strings */
+				/* a kluge but timberwolf's old parser supported it */
+				sprintf( bufferS,"%f", yyvsp[0].fval ) ;
+				/* now clone string */
+				yyval.string = (char *) Ystrclone( bufferS ) ;
+			}
+	break;
+	}
+	yyssp -= yym;
+	yystate = *yyssp;
+	yyvsp -= yym;
+	yym = yylhs[yyn];
+	if (yystate == 0 && yym == 0)
+	{
+		yystate = YYFINAL;
+		*++yyssp = YYFINAL;
+		*++yyvsp = yyval;
+		if (yychar < 0)
+		{
+		if ((yychar = yylex(fp)) < 0) yychar = 0;
+		}
+		if (yychar == 0) goto yyaccept;
+		goto yyloop;
+	}
+	if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
+		yyn <= YYTABLESIZE && yycheck[yyn] == yystate)
+		yystate = yytable[yyn];
+	else
+		yystate = yydgoto[yym];
+	if (yyssp >= yyss + yystacksize - 1)
+	{
+		goto yyoverflow;
+	}
+	*++yyssp = yystate;
+	*++yyvsp = yyval;
+	goto yyloop;
+	yyoverflow:
+	yyerror("yacc stack overflow");
+	yyabort:
+	return (1);
+	yyaccept:
+	return (0);
 }
 
  void setup_lexer_NET() {
@@ -626,5 +627,163 @@ yyaccept:
 	    "timing",            token(TIMING)
 	};
 	rwtable = rwtable_NET;
+
+	# define YYTYPE unsigned char
+	struct yywork { YYTYPE verify, advance; } yycrankT[] ={
+	0,0,	0,0,	1,3,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	1,4,	1,5,	
+	4,13,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	1,6,	4,13,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	1,6,	
+	1,7,	1,8,	10,17,	1,9,	
+	1,10,	1,11,	22,22,	29,35,	
+	30,36,	34,28,	35,29,	36,29,	
+	0,0,	0,0,	7,15,	1,12,	
+	7,16,	7,16,	7,16,	7,16,	
+	7,16,	7,16,	7,16,	7,16,	
+	7,16,	7,16,	1,6,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	6,14,	6,14,	6,14,	
+	6,14,	9,15,	9,15,	9,15,	
+	9,15,	9,15,	9,15,	9,15,	
+	9,15,	9,15,	9,15,	11,18,	
+	0,0,	11,19,	11,19,	11,19,	
+	11,19,	11,19,	11,19,	11,19,	
+	11,19,	11,19,	11,19,	15,15,	
+	15,15,	15,15,	15,15,	15,15,	
+	15,15,	15,15,	15,15,	15,15,	
+	15,15,	16,18,	11,20,	16,16,	
+	16,16,	16,16,	16,16,	16,16,	
+	16,16,	16,16,	16,16,	16,16,	
+	16,16,	0,0,	0,0,	0,0,	
+	0,0,	17,21,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	16,20,	17,21,	17,21,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	11,20,	0,0,	
+	18,18,	18,18,	18,18,	18,18,	
+	18,18,	18,18,	18,18,	18,18,	
+	18,18,	18,18,	0,0,	0,0,	
+	0,0,	17,22,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	16,20,	18,20,	17,23,	17,22,	
+	17,22,	0,0,	17,22,	17,24,	
+	17,22,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	19,18,	17,22,	19,19,	
+	19,19,	19,19,	19,19,	19,19,	
+	19,19,	19,19,	19,19,	19,19,	
+	19,19,	17,22,	0,0,	0,0,	
+	0,0,	18,20,	0,0,	0,0,	
+	20,25,	0,0,	20,25,	0,0,	
+	19,20,	20,26,	20,26,	20,26,	
+	20,26,	20,26,	20,26,	20,26,	
+	20,26,	20,26,	20,26,	21,21,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	23,28,	
+	21,27,	21,21,	21,21,	0,0,	
+	21,21,	21,21,	21,21,	23,28,	
+	23,28,	0,0,	0,0,	0,0,	
+	19,20,	0,0,	0,0,	0,0,	
+	21,21,	25,26,	25,26,	25,26,	
+	25,26,	25,26,	25,26,	25,26,	
+	25,26,	25,26,	25,26,	21,21,	
+	0,0,	0,0,	0,0,	23,29,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	23,30,	23,29,	23,29,	0,0,	
+	23,29,	23,31,	23,29,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	23,29,	26,26,	26,26,	26,26,	
+	26,26,	26,26,	26,26,	26,26,	
+	26,26,	26,26,	26,26,	23,29,	
+	27,28,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	28,21,	
+	0,0,	27,32,	27,28,	27,28,	
+	0,0,	27,28,	27,33,	27,28,	
+	28,27,	28,21,	28,21,	0,0,	
+	28,21,	28,34,	28,21,	0,0,	
+	32,21,	27,28,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	28,21,	32,27,	32,21,	32,21,	
+	27,28,	32,21,	32,37,	32,21,	
+	0,0,	0,0,	0,0,	28,21,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	32,21,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	0,0,	0,0,	0,0,	0,0,	
+	32,21,	0,0,	0,0,	0,0,	
+	0,0};
+	yycrank = yycrankT;
+	struct yysvf yysvecT[] ={
+	0,	0,	0,
+	yycrank+-1,	0,		yyvstop+1,
+	yycrank+0,	yysvec+1,	yyvstop+3,
+	yycrank+0,	0,		yyvstop+5,
+	yycrank+3,	0,		yyvstop+7,
+	yycrank+0,	0,		yyvstop+10,
+	yycrank+38,	0,		yyvstop+12,
+	yycrank+12,	yysvec+6,	yyvstop+15,
+	yycrank+0,	yysvec+6,	yyvstop+18,
+	yycrank+117,	yysvec+6,	yyvstop+22,
+	yycrank+4,	yysvec+6,	yyvstop+26,
+	yycrank+129,	yysvec+6,	yyvstop+29,
+	yycrank+0,	yysvec+6,	yyvstop+32,
+	yycrank+0,	yysvec+4,	yyvstop+36,
+	yycrank+0,	yysvec+6,	yyvstop+38,
+	yycrank+139,	yysvec+6,	yyvstop+40,
+	yycrank+151,	yysvec+6,	yyvstop+43,
+	yycrank+-212,	0,		yyvstop+46,
+	yycrank+184,	yysvec+6,	yyvstop+48,
+	yycrank+223,	yysvec+6,	yyvstop+51,
+	yycrank+245,	yysvec+6,	yyvstop+53,
+	yycrank+-270,	yysvec+17,	0,	
+	yycrank+-3,	yysvec+17,	yyvstop+55,
+	yycrank+-310,	0,		yyvstop+57,
+	yycrank+0,	yysvec+17,	yyvstop+59,
+	yycrank+281,	yysvec+6,	yyvstop+61,
+	yycrank+321,	yysvec+6,	yyvstop+63,
+	yycrank+-347,	yysvec+23,	0,	
+	yycrank+-354,	yysvec+17,	0,	
+	yycrank+-4,	yysvec+17,	yyvstop+66,
+	yycrank+-5,	yysvec+17,	yyvstop+68,
+	yycrank+0,	yysvec+6,	yyvstop+70,
+	yycrank+-371,	yysvec+17,	0,	
+	yycrank+0,	0,		yyvstop+73,
+	yycrank+6,	0,		0,	
+	yycrank+7,	yysvec+6,	yyvstop+75,
+	yycrank+8,	yysvec+6,	yyvstop+77,
+	yycrank+0,	yysvec+34,	yyvstop+80,
+	0,	0,	0};
+// 	yysvec = yysvecT;
+	yytop = yycrank+440;
 	yybgin = yysvec+1;
 }
