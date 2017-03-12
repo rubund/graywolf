@@ -804,23 +804,26 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcells_l.h" *******************/
 
 int readcells(char *filename)
-{ 
-	printf("readcells: Opening %s \n",filename);
+{
+	FILE *yyin;
+	printf("syntax-readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
-	line_countS = 0 ;
-	init();
-	/* parse input file using yacc */
-	yyparse();
+	if(yyin) {
+		line_countS = 0 ;
+		init();
+		/* parse input file using yacc */
+		yyparse();
+	}
 } /* end readcells */
 
 yyerror(s)
 char    *s;
 {
-    sprintf(YmsgG,"problem reading %s.cel:", cktNameG );
-    M( ERRMSG, "yacc", YmsgG ) ;
-    sprintf(YmsgG, "  line %d near '%s' : %s\n" ,
-	line_countS+1, yytext, s );
-    M( MSG,"yacc", YmsgG ) ;
+	sprintf(YmsgG,"problem reading %s.cel:", cktNameG );
+	M( ERRMSG, "yacc", YmsgG ) ;
+	sprintf(YmsgG, "  line %d near '%s' : %s\n" ,
+		line_countS+1, yytext, s );
+	M( MSG,"yacc", YmsgG ) ;
 } /* end yyerror */
 
 yywrap()
