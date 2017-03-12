@@ -21,8 +21,6 @@
 #define YYLERR yysvec
 #define YYSTATE (yyestate-yysvec-1)
 #define YYOPTIM 1
-#define unput(c) {yytchar= (c);if(yytchar=='\n')yylineno--;*yysptr++=yytchar;}
-#define yymore() (yymorfg=1)
 #define ECHO fprintf(yyout, "%s",yytext)
 #define token(x) x /* makes it look like regular lex */
 
@@ -35,7 +33,6 @@ struct yysvf {
 	int *yystops;
 };
 
-
 typedef union {
 	INT ival ;
 	char *string ;
@@ -43,6 +40,7 @@ typedef union {
 } YYSTYPE;
 
 # define YYTYPE unsigned char
+struct yywork { YYTYPE verify, advance; };
 
 /*	ncform	4.1	83/08/11	*/
 
