@@ -77,18 +77,14 @@ static char SccsId[] = "@(#) readnets.y version 3.8 3/6/92" ;
 #include <yalecad/message.h>
 #include <yalecad/string.h>
 #include <readnets.h>  /* redefine yacc and lex globals */
+#include <../yylex/general.h>
+#include <../yylex/externals.h>
 
 #undef REJECT          /* undefine TWMC macro for lex's version */ 
 #define YYDEBUG  1     /* condition compile for yacc debug */
 
-static INT line_countS ;
 static char bufferS[LRECL] ;
 
-typedef union {
-    INT ival ;
-    char *string ;
-    DOUBLE fval ;
-} YYSTYPE;
 #define INTEGER 257
 #define STRING 258
 #define FLOAT 259
@@ -336,7 +332,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* add readnets_l.h for debug purposes */
 /* ********************* #include "readnets_l.h" *******************/
 /* ********************* #include "readnets_l.h" *******************/
-
+void setup_lexer_NET();
 readnets( filename )
 char filename ;
 { 
@@ -344,9 +340,10 @@ char filename ;
 	line_countS = 0;
 
 	if( yyin ){
+		setup_lexer_NET();
 		init_nets() ;
 		/* parse input file using yacc if input given */
-		yyparse();  
+		yyparse_NET(yyin);  
 	}
 	cleanup_nets() ;
 
@@ -356,7 +353,7 @@ char filename ;
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
 int
-yyparse(fp)
+yyparse_NET(fp)
 FILE *fp;
 {
     register int yym, yyn, yystate;
@@ -372,7 +369,7 @@ yyloop:
     if (yyn = yydefred[yystate]) goto yyreduce;
     if (yychar < 0)
     {
-        if ((yychar = yylex()) < 0) yychar = 0;
+        if ((yychar = yylex(fp)) < 0) yychar = 0;
     }
     if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
             yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
@@ -586,7 +583,7 @@ break;
         *++yyvsp = yyval;
         if (yychar < 0)
         {
-            if ((yychar = yylex()) < 0) yychar = 0;
+            if ((yychar = yylex(fp)) < 0) yychar = 0;
         }
         if (yychar == 0) goto yyaccept;
         goto yyloop;
@@ -611,3 +608,23 @@ yyaccept:
     return (0);
 }
 
+ void setup_lexer_NET() {
+	rw_table rwtable_NET[] = {
+	    "cap_match",         token(CAP_MATCH),
+	    "cap_upper_bound",   token(CAP_UPPER_BOUND),
+	    "common_point",      token(COMMON_POINT),
+	    "max_voltage_drop",  token(MAX_VOLTAGE_DROP),
+	    "net",               token(NET),
+	    "net_cap_match",     token(NET_CAP_MATCH),
+	    "net_res_match",     token(NET_RES_MATCH),
+	    "noisy",             token(NOISY),
+	    "path",              token(PATH),
+	    "res_match",         token(RES_MATCH),
+	    "res_upper_bound",   token(RES_UPPER_BOUND),
+	    "sensitive",         token(SENSITIVE),
+	    "shielding",         token(SHIELDING),
+	    "timing",            token(TIMING)
+	};
+	rwtable = rwtable_NET;
+	yybgin = yysvec+1;
+}
