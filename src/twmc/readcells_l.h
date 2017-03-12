@@ -3,37 +3,27 @@
 #else
 # include "stdio.h"
 #endif
-# define U(x) ((x)&0377)
-# define NLSTATE yyprevious=YYNEWLINE
-# define BEGIN yybgin = yysvec + 1 +
-# define INITIAL 0
-# define YYLERR yysvec
-# define YYSTATE (yyestate-yysvec-1)
-# define YYOPTIM 1
-# define YYLMAX 200
-# define output(c) putc(c,yyout)
-# define input() (((yytchar=yysptr>yysbuf?U(*--yysptr):getc(yyin))==10?(yylineno++,yytchar):yytchar)==EOF?0:yytchar)
-# define unput(c) {yytchar= (c);if(yytchar=='\n')yylineno--;*yysptr++=yytchar;}
-# define yymore() (yymorfg=1)
-# define ECHO fprintf(yyout, "%s",yytext)
-# define REJECT { nstr = yyreject(); goto yyfussy;}
+#define U(x) ((x)&0377)
+#define NLSTATE yyprevious=YYNEWLINE
+#define BEGIN yybgin = yysvec + 1 +
+#define INITIAL 0
+#define YYLERR yysvec
+#define YYSTATE (yyestate-yysvec-1)
+#define YYOPTIM 1
+#define YYLMAX 200
+#define output(c) putc(c,yyout)
+#define input() (((yytchar=yysptr>yysbuf?U(*--yysptr):getc(yyin))==10?(yylineno++,yytchar):yytchar)==EOF?0:yytchar)
+#define unput(c) {yytchar= (c);if(yytchar=='\n')yylineno--;*yysptr++=yytchar;}
+#define yymore() (yymorfg=1)
+#define ECHO fprintf(yyout, "%s",yytext)
+#define REJECT { nstr = yyreject(); goto yyfussy;}
 int yyleng;
-char yytext[];
 int yymorfg;
 char *yysptr, yysbuf[];
 int yytchar;
-#ifdef linux
-FILE *yyin =NULL, *yyout =NULL;
-#else
-FILE *yyin ={stdin}, *yyout ={stdout};
-#endif
 int yylineno;
-struct yysvf { 
-	struct yywork *yystoff;
-	struct yysvf *yyother;
-	int *yystops;};
 struct yysvf *yyestate;
-struct yysvf yysvec[], *yybgin;
+
 /* ----------------------------------------------------------------- 
 FILE:	    readcells_lex                               
 DESCRIPTION:rules for lexical analyzer in readcell.  This lexical
@@ -67,59 +57,11 @@ REVISIONS:  Oct 6, 1988 - fixed sign mistake in INTEGER & FLOAT
 #define token(x)      x    /* makes it look like regular lex */
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
-static INT screen() ;
-static INT check_line_count() ;
-
-# define YYNEWLINE 10
-
 /* reserved word screener */
 /* ----------------------------------------------------------------- 
     The following is table of the reserved words - Table must be in
     alphabetical order for binary search to work properly.
 ----------------------------------------------------------------- */
-static struct rw_table {  /* reserved word table */
-    char *rw_name ;      /* pattern */
-    INT rw_yylex  ;      /* lex token number */
-} rwtable[] = {
-    "addequiv",            token(ADDEQUIV),
-    "asplb",               token(ASPLB),
-    "aspub",               token(ASPUB),
-    "at",                  token(AT),
-    "cellgroup",           token(CELLGROUP),
-    "class",               token(CLASS),
-    "cluster",             token(CLUSTER),
-    "connect",             token(CONNECT),
-    "corners",             token(CORNERS),
-    "current",             token(CURRENT),
-    "equiv",               token(EQUIV),
-    "fixed",               token(FIXED),
-    "from",                token(FROM),
-    "hardcell",            token(HARDCELL),
-    "instance",            token(INSTANCE),
-    "keepout",             token(KEEPOUT),
-    "layer",               token(LAYER),
-    "name",                token(NAME),
-    "neighborhood",        token(NEIGHBORHOOD),
-    "no_layer_change",     token(NO_LAYER_CHANGE),
-    "nonfixed",            token(NONFIXED),
-    "nopermute",           token(NOPERMUTE),
-    "orient",              token(ORIENT),
-    "orientations",        token(ORIENTATIONS),
-    "pad",                 token(PAD),
-    "padgroup",            token(PADGROUP),
-    "permute",             token(PERMUTE),
-    "pin",                 token(PIN),
-    "pin_group",           token(PINGROUP),
-    "power",               token(POWER),
-    "restrict",            token(RESTRICT),
-    "side",                token(SIDE),
-    "sidespace",           token(SIDESPACE),
-    "signal",              token(SIGNAL),
-    "softcell",            token(SOFTCELL),
-    "softpin",             token(SOFTPIN),
-    "supergroup",          token(SUPERGROUP),
-    "timing",              token(TIMING)
-} ;
 
 int yyvstop[] ={
 0,
@@ -228,149 +170,7 @@ int yyvstop[] ={
 0,
 0};
 # define YYTYPE unsigned char
-struct yywork { YYTYPE verify, advance; } yycrank[] ={
-0,0,	0,0,	1,3,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	1,4,	1,5,	
-4,11,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	1,6,	4,11,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	1,6,	
-1,7,	9,15,	0,0,	1,8,	
-1,9,	1,10,	7,13,	0,0,	
-7,14,	7,14,	7,14,	7,14,	
-7,14,	7,14,	7,14,	7,14,	
-7,14,	7,14,	20,20,	27,33,	
-28,34,	32,26,	33,27,	34,27,	
-0,0,	0,0,	1,6,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	6,12,	6,12,	6,12,	
-6,12,	8,13,	8,13,	8,13,	
-8,13,	8,13,	8,13,	8,13,	
-8,13,	8,13,	8,13,	10,16,	
-0,0,	10,17,	10,17,	10,17,	
-10,17,	10,17,	10,17,	10,17,	
-10,17,	10,17,	10,17,	13,13,	
-13,13,	13,13,	13,13,	13,13,	
-13,13,	13,13,	13,13,	13,13,	
-13,13,	14,16,	10,18,	14,14,	
-14,14,	14,14,	14,14,	14,14,	
-14,14,	14,14,	14,14,	14,14,	
-14,14,	15,19,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	15,19,	15,19,	0,0,	
-14,18,	0,0,	0,0,	0,0,	
-0,0,	0,0,	18,23,	0,0,	
-18,23,	0,0,	10,18,	18,24,	
-18,24,	18,24,	18,24,	18,24,	
-18,24,	18,24,	18,24,	18,24,	
-18,24,	15,20,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	15,21,	15,20,	
-14,18,	0,0,	15,20,	15,22,	
-15,20,	16,16,	16,16,	16,16,	
-16,16,	16,16,	16,16,	16,16,	
-16,16,	16,16,	16,16,	21,26,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	21,26,	
-21,26,	15,20,	16,18,	17,16,	
-0,0,	17,17,	17,17,	17,17,	
-17,17,	17,17,	17,17,	17,17,	
-17,17,	17,17,	17,17,	19,19,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	21,27,	
-19,25,	19,19,	17,18,	0,0,	
-19,19,	19,19,	19,19,	0,0,	
-21,28,	21,27,	16,18,	0,0,	
-21,27,	21,29,	21,27,	23,24,	
-23,24,	23,24,	23,24,	23,24,	
-23,24,	23,24,	23,24,	23,24,	
-23,24,	0,0,	0,0,	19,19,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	17,18,	21,27,	
-24,24,	24,24,	24,24,	24,24,	
-24,24,	24,24,	24,24,	24,24,	
-24,24,	24,24,	25,26,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	26,19,	0,0,	25,30,	
-25,26,	0,0,	0,0,	25,26,	
-25,31,	25,26,	26,25,	26,19,	
-30,19,	0,0,	26,19,	26,32,	
-26,19,	0,0,	0,0,	0,0,	
-0,0,	30,25,	30,19,	0,0,	
-0,0,	30,19,	30,35,	30,19,	
-0,0,	0,0,	25,26,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	26,19,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-0,0,	0,0,	0,0,	0,0,	
-30,19,	0,0,	0,0,	0,0,	
-0,0};
-struct yysvf yysvec[] ={
-0,	0,	0,
-yycrank+-1,	0,		yyvstop+1,
-yycrank+0,	yysvec+1,	yyvstop+3,
-yycrank+0,	0,		yyvstop+5,
-yycrank+3,	0,		yyvstop+7,
-yycrank+0,	0,		yyvstop+10,
-yycrank+38,	0,		yyvstop+12,
-yycrank+4,	yysvec+6,	yyvstop+15,
-yycrank+117,	yysvec+6,	yyvstop+18,
-yycrank+3,	yysvec+6,	yyvstop+22,
-yycrank+129,	yysvec+6,	yyvstop+25,
-yycrank+0,	yysvec+4,	yyvstop+28,
-yycrank+0,	yysvec+6,	yyvstop+30,
-yycrank+139,	yysvec+6,	yyvstop+32,
-yycrank+151,	yysvec+6,	yyvstop+35,
-yycrank+-208,	0,		yyvstop+38,
-yycrank+209,	yysvec+6,	yyvstop+40,
-yycrank+233,	yysvec+6,	yyvstop+43,
-yycrank+183,	yysvec+6,	yyvstop+45,
-yycrank+-258,	yysvec+15,	0,	
-yycrank+-15,	yysvec+15,	yyvstop+47,
-yycrank+-266,	0,		yyvstop+49,
-yycrank+0,	yysvec+15,	yyvstop+51,
-yycrank+267,	yysvec+6,	yyvstop+53,
-yycrank+288,	yysvec+6,	yyvstop+55,
-yycrank+-313,	yysvec+21,	0,	
-yycrank+-320,	yysvec+15,	0,	
-yycrank+-16,	yysvec+15,	yyvstop+58,
-yycrank+-17,	yysvec+15,	yyvstop+60,
-yycrank+0,	yysvec+6,	yyvstop+62,
-yycrank+-331,	yysvec+15,	0,	
-yycrank+0,	0,		yyvstop+65,
-yycrank+18,	0,		0,	
-yycrank+19,	yysvec+6,	yyvstop+67,
-yycrank+20,	yysvec+6,	yyvstop+69,
-yycrank+0,	yysvec+32,	yyvstop+72,
-0,	0,	0};
-struct yywork *yytop = yycrank+400;
-struct yysvf *yybgin = yysvec+1;
+
 char yymatch[] ={
 00  ,01  ,01  ,01  ,01  ,01  ,01  ,01  ,
 01  ,011 ,012 ,01  ,01  ,01  ,01  ,01  ,
@@ -414,7 +214,6 @@ char yyextra[] ={
 int yylineno =1;
 # define YYU(x) x
 # define NLSTATE yyprevious=YYNEWLINE
-char yytext[YYLMAX];
 struct yysvf *yylstate [YYLMAX], **yylsp, **yyolsp;
 char yysbuf[YYLMAX];
 char *yysptr = yysbuf;
