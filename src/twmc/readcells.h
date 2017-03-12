@@ -12,23 +12,18 @@ REVISIONS:
 
 #define yyact		CUSTOM_yyact
 #define yyback		CUSTOM_yyback
-#define yybgin		CUSTOM_yybgin
 #define yychar		CUSTOM_yychar
 #define yychk		CUSTOM_yychk
-#define yycrank		CUSTOM_yycrank
 #define yycnprs		CUSTOM_yycnprs
 #define yydebug		CUSTOM_yydebug
 #define yydef		CUSTOM_yydef
 #define yyerrflag	CUSTOM_yyerrflag
-//#define yyerror	        CUSTOM_yyerror
 #define yyestate	CUSTOM_yyestate
 #define yyexca		CUSTOM_yyexca
 #define yyextra		CUSTOM_yyextra
 #define yyfnd		CUSTOM_yyfnd
-#define yyin		CUSTOM_yyin
 #define yyinput		CUSTOM_yyinput
 #define yyleng		CUSTOM_yyleng
-//#define yylex		CUSTOM_yylex
 #define yylineno	CUSTOM_yylineno
 #define yylook		CUSTOM_yylook
 #define yylsp		CUSTOM_yylsp
@@ -41,7 +36,7 @@ REVISIONS:
 #define yyout		CUSTOM_yyout
 #define yyoutput	CUSTOM_yyoutput
 #define yypact		CUSTOM_yypact
-#define yyparse		CUSTOM_yyparse
+//#define yyparse		CUSTOM_yyparse
 #define yypgo		CUSTOM_yypgo
 #define yyprevious	CUSTOM_yyprevious
 #define yyreds		CUSTOM_yyreds
@@ -49,7 +44,6 @@ REVISIONS:
 #define yyr2		CUSTOM_yyr2
 #define yysbuf		CUSTOM_yysbuf
 #define yysptr		CUSTOM_yysptr
-#define yysvec		CUSTOM_yysvec
 #define yytchar		CUSTOM_yytchar
 //#define yytext		CUSTOM_yytext
 #define yytoks		CUSTOM_yytoks
