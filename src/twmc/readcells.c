@@ -96,15 +96,6 @@ static char SccsId[] = "@(#) readcells.y version 3.15 3/6/92" ;
 #include <readcells.h>  /* redefine yacc and lex globals */
 #include <readcells_l.h>
 
-#undef REJECT          /* undefine TWMC macro for lex's version */ 
-//#define YYDEBUG  1     /* condition compile for yacc debug */
-/* #define LEXDEBUG 1  */   /* conditional compile for lex debug */
-#ifdef LEXDEBUG
-/* two bugs in yale version of lex */
-#define allprint(x)    fprintf( stdout, "%c\n", x )
-#define sprint(x)      fprintf( stdout, "%s\n", x )
-#endif
-
 char bufferS[LRECL] ;
 
 short yylhs[] = {                                        -1,
@@ -723,8 +714,10 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcells_l.h" *******************/
 /* ********************* #include "readcells_l.h" *******************/
 
+void setup_lexer_CUSTOM();
 readcells( char *filename )
 { 
+	printf("twmc-readcells: Opening %s \n",filename);
 	FILE *yyin;
 	yyin = fopen(filename,"r");
 	line_countS = 0 ;
@@ -756,7 +749,9 @@ int
 yyparse_twmc1(fp)
 FILE *fp;
 {
-	register int yym, yyn, yystate;
+	register int yym;
+	register int yyn;
+	register int yystate;
 
 	yynerrs = 0;
 	yyerrflag = 0;
@@ -771,9 +766,7 @@ yyloop:
 	if (yychar < 0)
 	{
 		if ((yychar = yylex(fp)) < 0) {
-			printf("miau1\n");
 			yychar = 0;
-			printf("miau2\n");
 		}
 	}
 	if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
@@ -1317,8 +1310,7 @@ void setup_lexer_CUSTOM() {
 	};
 	rwtable = rwtable_CUSTOM;
 
-	struct yywork { YYTYPE verify, advance; } yycrankT[]
-	=
+	struct yywork yycrankT[] =
 	{
 	0,0,	0,0,	1,3,	0,0,	
 	0,0,	0,0,	0,0,	0,0,	
@@ -1424,8 +1416,7 @@ void setup_lexer_CUSTOM() {
 	0,0};
 	yycrank=yycrankT;
 
-	struct yysvf yysvecT[] =
-	{
+	struct yysvf yysvecT[] = {
 	0,     0,      0,
 	yycrank+-1,    0,              yyvstop+1,
 	yycrank+0,     yysvec+1,       yyvstop+3,
@@ -1463,8 +1454,11 @@ void setup_lexer_CUSTOM() {
 	yycrank+20,    yysvec+6,       yyvstop+69,
 	yycrank+0,     yysvec+32,      yyvstop+72,
 	0,     0,      0};
-	yysvec = yysvecT;
-	struct yywork *yytop = yycrank+400;
-	yybgin = yysvec+1;
 
+	yysvec = yysvecT;
+	yytop = yycrank+400;
+	yybgin = yysvec;
+
+	char yytextT[YYLMAX];
+	yytext = yytextT;
 }
