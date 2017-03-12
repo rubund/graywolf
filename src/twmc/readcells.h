@@ -28,7 +28,6 @@ REVISIONS:
 #define yylook		CUSTOM_yylook
 #define yylsp		CUSTOM_yylsp
 #define yylstate	CUSTOM_yylstate
-//#define yylval		CUSTOM_yylval
 #define yymatch		CUSTOM_yymatch
 #define yymorfg		CUSTOM_yymorfg
 #define yynerrs		CUSTOM_yynerrs
@@ -36,7 +35,6 @@ REVISIONS:
 #define yyout		CUSTOM_yyout
 #define yyoutput	CUSTOM_yyoutput
 #define yypact		CUSTOM_yypact
-//#define yyparse		CUSTOM_yyparse
 #define yypgo		CUSTOM_yypgo
 #define yyprevious	CUSTOM_yyprevious
 #define yyreds		CUSTOM_yyreds
@@ -45,9 +43,7 @@ REVISIONS:
 #define yysbuf		CUSTOM_yysbuf
 #define yysptr		CUSTOM_yysptr
 #define yytchar		CUSTOM_yytchar
-//#define yytext		CUSTOM_yytext
 #define yytoks		CUSTOM_yytoks
-#define yytop		CUSTOM_yytop
 #define yyunput		CUSTOM_yyunput
 #define yyv		CUSTOM_yyv
 #define yyval		CUSTOM_yyval

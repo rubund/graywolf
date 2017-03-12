@@ -51,7 +51,6 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yytchar		NET_yytchar
 #define yytext		NET_yytext
 #define yytoks		NET_yytoks
-#define yytop		NET_yytop
 #define yyunput		NET_yyunput
 #define yyv		NET_yyv
 #define yyval		NET_yyval
