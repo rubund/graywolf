@@ -94,7 +94,6 @@ static char SccsId[] = "@(#) readcells.y version 3.15 3/6/92" ;
 #include <../yylex/general.h>
 #include <../yylex/externals.h>
 #include <readcells.h>  /* redefine yacc and lex globals */
-#include <readcells_l.h>
 
 char bufferS[LRECL] ;
 
@@ -182,37 +181,37 @@ short yydgoto[] = {                                       4,
 };
 
 short yysindex[] = {                                   -207,
- -145, -141, -233,    0, -203, -231,    0,    0,    0, -138,
- -138,    0,    0,    0,    0, -194,    0, -144, -134, -150,
-    0, -157,    0, -175, -137, -131, -242,    0,    0, -150,
- -130, -162,    0, -115, -129, -175,    0, -151, -189, -175,
- -114, -129,    0, -150, -150, -150, -128, -122, -127,    0,
-    0, -150, -126,    0, -125,    0, -124,    0,    0, -186,
- -182, -150,    0, -109, -106, -150, -175, -129, -117, -110,
- -151,    0, -100,  -99, -129,  -98, -151, -175,    0,    0,
-    0, -150,    0, -183,    0, -180, -223,    0,  -97, -123,
- -150, -150, -118,    0, -241, -111,  -94,    0, -150,    0,
-  -92,    0,    0,  -90, -241,    0, -102, -101,  -91, -110,
-    0,    0,    0,    0,    0,    0, -116, -113,    0,    0,
- -113,    0,    0,    0,    0,    0,  -85,    0, -104,  -82,
-  -89,    0,    0, -103, -105,  -82,  -82,  -80, -241, -155,
-  -77,    0, -105,    0, -209,  -85,    0,  -84,  -82,  -74,
-  -88, -105,    0,  -83, -239,  -73,  -70,    0, -193,    0,
-    0,    0,  -71, -105,    0,    0, -209,  -81,  -67,  -66,
-  -65, -150,    0,  -79,  -83,    0,  -64,  -63,  -96,  -61,
-  -72,  -69,  -75, -107, -193,    0,    0,    0,  -76,    0,
-    0,  -58,  -68,    0,  -54,  -78, -150,    0,    0,    0,
-  -55,  -62,  -52,  -51,  -58,  -58, -150, -150, -107, -150,
-    0,  -60,  -57,    0,  -49,  -58,    0, -150,  -56,    0,
-  -48,  -53,    0,  -45,    0,  -43,  -50, -177, -150, -178,
- -215,    0,  -42,  -41, -192,  -47,  -38,  -56,  -37,  -36,
-    0,  -35,  -46,    0,  -39, -150,    0,    0, -215,    0,
-    0,  -57,    0,    0,  -32,  -31,    0,  -40,    0,  -33,
-  -33,  -76,    0,  -76,  -82,  -34,    0,    0,  -24,    0,
-    0,    0,  -82,  -56,  -57,    0,    0,    0, -150,  -33,
-    0,    0,  -44,  -20,  -82,    0,  -18,  -96,    0,  -56,
-    0,    0,  -30,  -16,  -27,    0,    0,  -58,  -25,  -58,
-    0,  -58,    0,    0,
+	-145, -141, -233,    0, -203, -231,    0,    0,    0, -138,
+	-138,    0,    0,    0,    0, -194,    0, -144, -134, -150,
+	0, -157,    0, -175, -137, -131, -242,    0,    0, -150,
+	-130, -162,    0, -115, -129, -175,    0, -151, -189, -175,
+	-114, -129,    0, -150, -150, -150, -128, -122, -127,    0,
+	0, -150, -126,    0, -125,    0, -124,    0,    0, -186,
+	-182, -150,    0, -109, -106, -150, -175, -129, -117, -110,
+	-151,    0, -100,  -99, -129,  -98, -151, -175,    0,    0,
+	0, -150,    0, -183,    0, -180, -223,    0,  -97, -123,
+	-150, -150, -118,    0, -241, -111,  -94,    0, -150,    0,
+	-92,    0,    0,  -90, -241,    0, -102, -101,  -91, -110,
+	0,    0,    0,    0,    0,    0, -116, -113,    0,    0,
+	-113,    0,    0,    0,    0,    0,  -85,    0, -104,  -82,
+	-89,    0,    0, -103, -105,  -82,  -82,  -80, -241, -155,
+	-77,    0, -105,    0, -209,  -85,    0,  -84,  -82,  -74,
+	-88, -105,    0,  -83, -239,  -73,  -70,    0, -193,    0,
+	0,    0,  -71, -105,    0,    0, -209,  -81,  -67,  -66,
+	-65, -150,    0,  -79,  -83,    0,  -64,  -63,  -96,  -61,
+	-72,  -69,  -75, -107, -193,    0,    0,    0,  -76,    0,
+	0,  -58,  -68,    0,  -54,  -78, -150,    0,    0,    0,
+	-55,  -62,  -52,  -51,  -58,  -58, -150, -150, -107, -150,
+	0,  -60,  -57,    0,  -49,  -58,    0, -150,  -56,    0,
+	-48,  -53,    0,  -45,    0,  -43,  -50, -177, -150, -178,
+	-215,    0,  -42,  -41, -192,  -47,  -38,  -56,  -37,  -36,
+	0,  -35,  -46,    0,  -39, -150,    0,    0, -215,    0,
+	0,  -57,    0,    0,  -32,  -31,    0,  -40,    0,  -33,
+	-33,  -76,    0,  -76,  -82,  -34,    0,    0,  -24,    0,
+	0,    0,  -82,  -56,  -57,    0,    0,    0, -150,  -33,
+	0,    0,  -44,  -20,  -82,    0,  -18,  -96,    0,  -56,
+	0,    0,  -30,  -16,  -27,    0,    0,  -58,  -25,  -58,
+	0,  -58,    0,    0,
 };
 
 short yyrindex[] = {                                      0,
@@ -506,197 +505,9 @@ short yycheck[] = {                                      11,
    -1,  279,
 };
 #define YYFINAL 4
-#ifndef YYDEBUG
-#define YYDEBUG 0
-#endif
 #define YYMAXTOKEN 297
-#if YYDEBUG
-
-char *yyname[] = {
-"end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"INTEGER","STRING","FLOAT",
-"ADDEQUIV","ASPLB","ASPUB","AT","CELLGROUP","CLASS","CONNECT","CORNERS","EQUIV",
-"FIXED","FROM","HARDCELL","INSTANCE","LAYER","NAME","NEIGHBORHOOD","NONFIXED",
-"NOPERMUTE","ORIENT","ORIENTATIONS","PAD","PADGROUP","PERMUTE","PIN","PINGROUP",
-"RESTRICT","SIDE","SIDESPACE","SIGNAL","SOFTCELL","SOFTPIN","CLUSTER",
-"SUPERGROUP","TIMING","CURRENT","KEEPOUT","NO_LAYER_CHANGE","POWER",
-};
-
-char *yyrule[] = {
-"$accept : start_file",
-"start_file : core pads",
-"start_file : core",
-"core : corecells",
-"core : corecells cellgroups",
-"corecells : coretype",
-"corecells : corecells coretype",
-"coretype : customcell",
-"coretype : softcell",
-"pads : padcells",
-"pads : padcells padgroups",
-"padcells : padcell",
-"padcells : padcells padcell",
-"padgroups : padgroup",
-"padgroups : padgroups padgroup",
-"cellgroups : cellgroup",
-"cellgroups : cellgroups cellgroup",
-"customcell : cellname custom_instance_list",
-"customcell : cellname fixed custom_instance_list",
-"custom_instance_list : custom_instance",
-"custom_instance_list : custom_instance_list instance custom_instance",
-"custom_instance : corners keep_outs class orient hardpins",
-"custom_instance : corners keep_outs class orient",
-"softcell : softname soft_instance_list",
-"softcell : softname fixed soft_instance_list",
-"soft_instance_list : soft_instance",
-"soft_instance_list : soft_instance_list instance soft_instance",
-"soft_instance : corners aspect keep_outs class orient softpins pingroup",
-"soft_instance : corners aspect keep_outs class orient softpins",
-"soft_instance : corners aspect keep_outs class orient",
-"instance : INSTANCE string",
-"padcell : padname corners cur_orient restriction sidespace hardpins",
-"padcell : padname corners cur_orient restriction sidespace",
-"padgroup : padgroupname padgrouplist restriction sidespace",
-"cellgroup : supergroupname supergrouplist class orient",
-"cellgroup : cellgroupname neighborhood cellgrouplist",
-"cellname : HARDCELL string NAME string",
-"cellname : HARDCELL error",
-"softname : SOFTCELL string NAME string",
-"softname : CLUSTER INTEGER NAME string",
-"softname : SOFTCELL error",
-"neighborhood : NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc",
-"neighborhood : NEIGHBORHOOD FIXED INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc",
-"fixed : fixedcontext AT INTEGER FROM xloc INTEGER FROM yloc",
-"fixed : fixedcontext NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc",
-"fixedcontext : FIXED",
-"xloc : STRING",
-"yloc : STRING",
-"padname : PAD string NAME string",
-"padgroupname : PADGROUP string PERMUTE",
-"padgroupname : PADGROUP string NOPERMUTE",
-"padgroupname : PADGROUP error",
-"supergroupname : SUPERGROUP string NAME string",
-"supergroupname : SUPERGROUP error",
-"cellgroupname : CELLGROUP string NAME string",
-"cellgroupname : CELLGROUP error",
-"corners : numcorners cornerpts",
-"numcorners : CORNERS INTEGER",
-"cornerpts : INTEGER INTEGER",
-"cornerpts : cornerpts INTEGER INTEGER",
-"class : CLASS INTEGER",
-"class : CLASS error",
-"orient : numorientations ORIENTATIONS orientlist cur_orient",
-"orient : ORIENTATIONS orientlist cur_orient",
-"numorientations : INTEGER",
-"orientlist : INTEGER",
-"orientlist : orientlist INTEGER",
-"cur_orient :",
-"cur_orient : ORIENT INTEGER",
-"aspect : ASPLB FLOAT ASPUB FLOAT",
-"softpins : softpinlist",
-"softpinlist : softtype",
-"softpinlist : softpinlist softtype",
-"softtype : pintype",
-"softtype : softpin",
-"hardpins : pintype",
-"hardpins : hardpins pintype",
-"pintype : pinrecord",
-"pintype : pinrecord equiv_list",
-"pinrecord : required_pinfo contour timing current power no_layer_change",
-"required_pinfo : PIN NAME string SIGNAL string layer",
-"contour : INTEGER INTEGER",
-"contour : num_corners pin_pts",
-"num_corners : CORNERS INTEGER",
-"pin_pts : INTEGER INTEGER",
-"pin_pts : pin_pts INTEGER INTEGER",
-"current :",
-"current : CURRENT FLOAT",
-"power :",
-"power : POWER FLOAT",
-"no_layer_change :",
-"no_layer_change : NO_LAYER_CHANGE",
-"softpin : softpin_info siderestriction pinspace",
-"softpin : softpin_info siderestriction pinspace softequivs",
-"softpin_info : SOFTPIN NAME string SIGNAL string layer timing",
-"softequivs : mc_equiv",
-"softequivs : mc_equiv user_equiv_list",
-"softequivs : user_equiv_list",
-"mc_equiv : addequiv siderestriction",
-"addequiv : ADDEQUIV",
-"user_equiv_list : user_equiv",
-"user_equiv_list : user_equiv_list user_equiv",
-"user_equiv : equiv_name siderestriction connect",
-"equiv_name : EQUIV NAME string layer",
-"connect :",
-"connect : CONNECT",
-"pingroup : pingroupname pingrouplist siderestriction pinspace",
-"pingroup : pingroup pingroupname pingrouplist siderestriction pinspace",
-"pingroupname : PINGROUP string PERMUTE",
-"pingroupname : PINGROUP string NOPERMUTE",
-"pingrouplist : pinset",
-"pingrouplist : pingrouplist pinset",
-"pinset : string FIXED",
-"pinset : string NONFIXED",
-"equiv_list : equiv",
-"equiv_list : equiv_list equiv",
-"equiv : EQUIV NAME string layer INTEGER INTEGER",
-"layer :",
-"layer : LAYER INTEGER",
-"siderestriction :",
-"siderestriction : RESTRICT SIDE side_list",
-"side_list : INTEGER",
-"side_list : side_list INTEGER",
-"pinspace :",
-"pinspace : SIDESPACE FLOAT",
-"pinspace : SIDESPACE FLOAT FLOAT",
-"sidespace :",
-"sidespace : SIDESPACE FLOAT",
-"sidespace : SIDESPACE FLOAT FLOAT",
-"sideplace : STRING",
-"sideplace : error",
-"restriction :",
-"restriction : RESTRICT SIDE sideplace",
-"padgrouplist : padset",
-"padgrouplist : padgrouplist padset",
-"padset : string FIXED",
-"padset : string NONFIXED",
-"supergrouplist : string",
-"supergrouplist : supergrouplist string",
-"cellgrouplist : string",
-"cellgrouplist : cellgrouplist string",
-"keep_outs :",
-"keep_outs : keep_out_list",
-"keep_out_list : keep_out",
-"keep_out_list : keep_out_list keep_out",
-"keep_out : KEEPOUT LAYER INTEGER CORNERS keep_pts",
-"keep_pts : INTEGER INTEGER",
-"keep_pts : keep_pts INTEGER INTEGER",
-"timing :",
-"timing : TIMING FLOAT",
-"string : STRING",
-"string : INTEGER",
-"string : FLOAT",
-};
-#endif
 #define yyclearin (yychar=(-1))
 #define yyerrok (yyerrflag=0)
-#ifdef YYSTACKSIZE
-#ifndef YYMAXDEPTH
-#define YYMAXDEPTH YYSTACKSIZE
-#endif
-#else
-#ifdef YYMAXDEPTH
-#define YYSTACKSIZE YYMAXDEPTH
-#else
-#define YYSTACKSIZE 500
-#define YYMAXDEPTH 500
-#endif
-#endif
 int yycnprs = 0;
 int yydebug;
 int yynerrs;
@@ -706,26 +517,25 @@ short *yyssp;
 YYSTYPE *yyvsp;
 YYSTYPE yyval;
 YYSTYPE yylval;
-short yyss[YYSTACKSIZE];
 YYSTYPE yyvs[YYSTACKSIZE];
-#define yystacksize YYSTACKSIZE
 
-/* add readcells_l.h for debug purposes */
-/* ********************* #include "readcells_l.h" *******************/
-/* ********************* #include "readcells_l.h" *******************/
+short yyss[YYSTACKSIZE];
 
 void setup_lexer_CUSTOM();
 readcells( char *filename )
 { 
 	printf("twmc-readcells: Opening %s \n",filename);
-	FILE *yyin;
+	FILE *yyin,*yyout;
 	yyin = fopen(filename,"r");
+	char ofile[420];
+	sprintf(ofile,"%s.lexout",filename);
+	yyout = fopen(ofile,"r");
 	line_countS = 0 ;
 	if(yyin) {
 		setup_lexer_CUSTOM();
 		initCellInfo() ;
 		/* parse input file using yacc */
-		yyparse_twmc1(yyin);  
+		yyparse_twmc1(yyin,yyout);  
 		cleanupReadCells() ;
 		fclose(yyin);
 	}
@@ -746,12 +556,13 @@ char *s;
 }
 
 int
-yyparse_twmc1(fp)
+yyparse_twmc1(fp,yyout)
 FILE *fp;
+FILE *yyout;
 {
-	register int yym;
-	register int yyn;
-	register int yystate;
+	int yym;
+	int yyn;
+	int yystate = 0;
 
 	yynerrs = 0;
 	yyerrflag = 0;
@@ -759,18 +570,37 @@ FILE *fp;
 
 	yyssp = yyss;
 	yyvsp = yyvs;
-	*yyssp = yystate = 0;
 
 yyloop:
-	if (yyn = yydefred[yystate]) goto yyreduce;
+	yyn = yydefred[yystate];
+	if(yyn) {
+		printf("goto yyreduce\n");
+		goto yyreduce;
+	}
+
 	if (yychar < 0)
 	{
-		if ((yychar = yylex(fp)) < 0) {
+		if ((yychar = yylex(fp,yyout)) < 0) {
 			yychar = 0;
 		}
+		printf("yytext=%s\n",yytext);
 	}
-	if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
-			yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	
+	yyn = yysindex[yystate];
+// 	printf("yyn=%d\n",yyn);
+// 	printf("YYTABLESIZE=%d\n",YYTABLESIZE);
+// 	printf("yychar=%c\n",yychar);
+// 	printf("(yyn + yychar)=%d\n",(yyn + yychar));
+// 	printf("yycheck[yyn] =%c yychar =%c \n", yycheck[yyn], yychar);
+	if (
+		yyn
+		&&
+		((yyn += yychar) >= 0)
+		&&
+		(yyn <= YYTABLESIZE)
+		&&
+		(yycheck[yyn] == yychar)
+	)
 	{
 		if (yyssp >= yyss + yystacksize - 1)
 		{
@@ -782,13 +612,13 @@ yyloop:
 		if (yyerrflag > 0)  --yyerrflag;
 		goto yyloop;
 	}
-	if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 &&
-			yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
+	if ((yyn = yyrindex[yystate]) && (yyn += yychar) >= 0 && yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
 	{
 		yyn = yytable[yyn];
 		goto yyreduce;
 	}
-	if (yyerrflag) goto yyinrecovery;
+	if (yyerrflag)
+		goto yyinrecovery;
 yynewerror:
 	yyerror("syntax error");
 	if (yycnprs) {
@@ -876,17 +706,13 @@ yyreduce:
 			break;
 		case 22:
 			{
-				sprintf(YmsgG,
-						"cell at line %d does not have any pins\n",
-						line_countS+1);
+				sprintf(YmsgG, "cell at line %lu does not have any pins\n", line_countS+1);
 				M( WARNMSG,"readcells", YmsgG ) ;
 			}
 			break;
 		case 29:
 			{
-				sprintf(YmsgG,
-						"cell at line %d does not have any pins\n",
-						line_countS+1);
+				sprintf(YmsgG, "cell at line %lu does not have any pins\n", line_countS+1);
 				M( WARNMSG,"readcells", YmsgG ) ;
 			}
 			break;
@@ -898,9 +724,7 @@ yyreduce:
 			break;
 		case 32:
 			{
-				sprintf(YmsgG,
-						"pad at line %d does not have any pins\n",
-						line_countS+1);
+				sprintf(YmsgG, "pad at line %lu does not have any pins\n", 	line_countS+1);
 				M( WARNMSG,"readcells", YmsgG ) ;
 			}
 			break;
@@ -923,8 +747,7 @@ yyreduce:
 			{
 				/* group neighborhood is free to move */
 				/* we use fixCell to build group box */
-				fixCell( GROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
-						yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
+				fixCell( GROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
 				addClass( --unique_classG ) ;
 			}
 			break;
@@ -932,8 +755,7 @@ yyreduce:
 			{
 				/* group neighborhood is fixed */
 				/* we use fixCell to build group box */
-				fixCell( FIXEDGROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, 
-						yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
+				fixCell( FIXEDGROUPFLAG, yyvsp[-11].ival, yyvsp[-9].string, yyvsp[-8].ival, yyvsp[-6].string, yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string  ) ;
 				addClass( --unique_classG ) ;
 
 			}
@@ -941,8 +763,7 @@ yyreduce:
 		case 43:
 			{
 				/* cell is fixed at a point */
-				fixCell( POINTFLAG, yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string,
-						0, "L", 0, "B" ) ;
+				fixCell( POINTFLAG, yyvsp[-5].ival, yyvsp[-3].string, yyvsp[-2].ival, yyvsp[0].string, 0, "L", 0, "B" ) ;
 				addClass( --unique_classG ) ;
 			}
 			break;
@@ -1242,7 +1063,7 @@ yyreduce:
 		*++yyvsp = yyval;
 		if (yychar < 0)
 		{
-			if ((yychar = yylex(fp)) < 0) yychar = 0;
+			if ((yychar = yylex(fp,yyout)) < 0) yychar = 0;
 		}
 		if (yychar == 0) goto yyaccept;
 		goto yyloop;
@@ -1310,8 +1131,7 @@ void setup_lexer_CUSTOM() {
 	};
 	rwtable = rwtable_CUSTOM;
 
-	struct yywork yycrankT[] =
-	{
+	yywork yycrankT[] ={
 	0,0,	0,0,	1,3,	0,0,	
 	0,0,	0,0,	0,0,	0,0,	
 	0,0,	0,0,	1,4,	1,5,	
@@ -1414,51 +1234,66 @@ void setup_lexer_CUSTOM() {
 	0,0,	0,0,	0,0,	0,0,	
 	30,19,	0,0,	0,0,	0,0,	
 	0,0};
-	yycrank=yycrankT;
+ 	yycrank=yycrankT;
 
-	struct yysvf yysvecT[] = {
-	0,     0,      0,
-	yycrank+-1,    0,              yyvstop+1,
-	yycrank+0,     yysvec+1,       yyvstop+3,
-	yycrank+0,     0,              yyvstop+5,
-	yycrank+3,     0,              yyvstop+7,
-	yycrank+0,     0,              yyvstop+10,
-	yycrank+38,    0,              yyvstop+12,
-	yycrank+4,     yysvec+6,       yyvstop+15,
-	yycrank+117,   yysvec+6,       yyvstop+18,
-	yycrank+3,     yysvec+6,       yyvstop+22,
-	yycrank+129,   yysvec+6,       yyvstop+25,
-	yycrank+0,     yysvec+4,       yyvstop+28,
-	yycrank+0,     yysvec+6,       yyvstop+30,
-	yycrank+139,   yysvec+6,       yyvstop+32,
-	yycrank+151,   yysvec+6,       yyvstop+35,
-	yycrank+-208,  0,              yyvstop+38,
-	yycrank+209,   yysvec+6,       yyvstop+40,
-	yycrank+233,   yysvec+6,       yyvstop+43,
-	yycrank+183,   yysvec+6,       yyvstop+45,
-	yycrank+-258,  yysvec+15,      0,      
-	yycrank+-15,   yysvec+15,      yyvstop+47,
-	yycrank+-266,  0,              yyvstop+49,
-	yycrank+0,     yysvec+15,      yyvstop+51,
-	yycrank+267,   yysvec+6,       yyvstop+53,
-	yycrank+288,   yysvec+6,       yyvstop+55,
-	yycrank+-313,  yysvec+21,      0,      
-	yycrank+-320,  yysvec+15,      0,      
-	yycrank+-16,   yysvec+15,      yyvstop+58,
-	yycrank+-17,   yysvec+15,      yyvstop+60,
-	yycrank+0,     yysvec+6,       yyvstop+62,
-	yycrank+-331,  yysvec+15,      0,      
-	yycrank+0,     0,              yyvstop+65,
-	yycrank+18,    0,              0,      
-	yycrank+19,    yysvec+6,       yyvstop+67,
-	yycrank+20,    yysvec+6,       yyvstop+69,
-	yycrank+0,     yysvec+32,      yyvstop+72,
-	0,     0,      0};
+	int yyvstopT[] ={
+		0,7,0,7,0,8,0,7,8,0,6,0,5,8,0,5,8,0,3,5,8,0,
+		5,8,0,2,8,0,7,0,5,0,3,5,0,2,5,0,5,0,3,5,0,
+		2,0,5,0,5,0,5,0,5,0,5,0,4,5,0,5,0,5,0,1,5,0,
+		1,0,5,0,1,5,0,1,0,0};
+	
+	yyvstop = yyvstopT;
 
+	yysvf yysvecT[] = {
+	0,	0,	0,
+	yycrank+-1,	0,		yyvstop+1,
+	yycrank+0,	yysvec+1,	yyvstop+3,
+	yycrank+0,	0,		yyvstop+5,
+	yycrank+3,	0,		yyvstop+7,
+	yycrank+0,	0,		yyvstop+10,
+	yycrank+38,	0,		yyvstop+12,
+	yycrank+4,	yysvec+6,	yyvstop+15,
+	yycrank+117,	yysvec+6,	yyvstop+18,
+	yycrank+3,	yysvec+6,	yyvstop+22,
+	yycrank+129,	yysvec+6,	yyvstop+25,
+	yycrank+0,	yysvec+4,	yyvstop+28,
+	yycrank+0,	yysvec+6,	yyvstop+30,
+	yycrank+139,	yysvec+6,	yyvstop+32,
+	yycrank+151,	yysvec+6,	yyvstop+35,
+	yycrank+-208,	0,		yyvstop+38,
+	yycrank+209,	yysvec+6,	yyvstop+40,
+	yycrank+233,	yysvec+6,	yyvstop+43,
+	yycrank+183,	yysvec+6,	yyvstop+45,
+	yycrank+-258,	yysvec+15,	0,	
+	yycrank+-15,	yysvec+15,	yyvstop+47,
+	yycrank+-266,	0,		yyvstop+49,
+	yycrank+0,	yysvec+15,	yyvstop+51,
+	yycrank+267,	yysvec+6,	yyvstop+53,
+	yycrank+288,	yysvec+6,	yyvstop+55,
+	yycrank+-313,	yysvec+21,	0,	
+	yycrank+-320,	yysvec+15,	0,	
+	yycrank+-16,	yysvec+15,	yyvstop+58,
+	yycrank+-17,	yysvec+15,	yyvstop+60,
+	yycrank+0,	yysvec+6,	yyvstop+62,
+	yycrank+-331,	yysvec+15,	0,	
+	yycrank+0,	0,		yyvstop+65,
+	yycrank+18,	0,		0,	
+	yycrank+19,	yysvec+6,	yyvstop+67,
+	yycrank+20,	yysvec+6,	yyvstop+69,
+	yycrank+0,	yysvec+32,	yyvstop+72,
+	0,	0,	0};
 	yysvec = yysvecT;
-	yytop = yycrank+400;
-	yybgin = yysvec;
 
-	char yytextT[YYLMAX];
-	yytext = yytextT;
+	/*for(int i=0;i<sizeof(yycrankT);i++) {
+		printf("Pointer of yycrankT[i]->advance:\t%d\n",yycrankT[i].advance);
+		printf("Pointer of yycrankT[i]->verify:\t\t%d\n",yycrankT[i].verify);
+		printf("Pointer of yycrank[i]->advance:\t\t%d\n",yycrank[i].advance);
+		printf("Pointer of yycrank[i]->verify:\t\t%d\n",yycrank[i].verify);
+		printf("------------------------------------------------------\n");
+	}*/
+	char yyextraT[] ={
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0};
+	yyextra=yyextraT;
 }

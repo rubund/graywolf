@@ -37,41 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
-#define YYBYACC 1
-/* ----------------------------------------------------------------- 
-FILE:	    readnets.c <- readnets_yacc <- readnets_lex
-DESCRIPTION:This file contains the grammar (BNF) for the TimberWolfMC
-	    input file parser for nets. The rules for lex are in 
-	    readnets_lex.  The grammar for yacc is in readnets_yacc.
-	    The output of yacc (y.tab.c) is renamed to readnets.c
-CONTENTS:   
-	    readnets( fp )
-		FILE *fp ;
-	    yyerror(s)
-		char    *s;
-	    yywrap()
-	
-	    Note:readcells.c will also include the yacc parser.
-DATE:	    Aug  7, 1988 
-REVISIONS:  Jan 29, 1989 - changed to YmsgG and added \n's.
-	    Mar 01, 1989 - modified argument to exitPgm.
-	    Mar 10, 1989 - added INSTANCETYPE code.
-	    Mar 11, 1989 - added get_total_paths for new print_paths.
-	    Mar 16, 1989 - changed data structure of netlist.
-	    Apr  2, 1989 - removed instance type.
-	    Oct  2, 1989 - made .mnet file optional.
-	    Apr 23, 1990 - now avoid crash when faulty user input.
-	    Sun Dec 16 00:42:34 EST 1990 - moved functions to initnets.c
-		and finalized analog input format.
-	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
------------------------------------------------------------------ */
-#ifndef lint
-static char SccsId[] = "@(#) readnets.y version 3.8 3/6/92" ;
-#endif
-
 #include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/message.h>
@@ -80,31 +45,10 @@ static char SccsId[] = "@(#) readnets.y version 3.8 3/6/92" ;
 #include <../yylex/general.h>
 #include <../yylex/externals.h>
 
-#undef REJECT          /* undefine TWMC macro for lex's version */ 
-#define YYDEBUG  1     /* condition compile for yacc debug */
-
 static char bufferS[LRECL] ;
 
-#define INTEGER 257
-#define STRING 258
-#define FLOAT 259
-#define CAP_MATCH 260
-#define CAP_UPPER_BOUND 261
-#define COLON 262
-#define COMMON_POINT 263
-#define NET 264
-#define NET_CAP_MATCH 265
-#define NET_RES_MATCH 266
-#define NOISY 267
-#define PATH 268
-#define RES_MATCH 269
-#define RES_UPPER_BOUND 270
-#define SENSITIVE 271
-#define SHIELDING 272
-#define TIMING 273
-#define MAX_VOLTAGE_DROP 274
-#define COMMA 275
-#define YYERRCODE 256
+
+
 short yylhs[] = {                                        -1,
     0,    2,    2,    3,    3,    3,    3,    4,    4,    8,
     8,   10,    5,    9,    9,   11,   11,   11,   11,   11,
@@ -233,74 +177,8 @@ short yycheck[] = {                                     257,
    -1,  268,  264,  265,  266,   -1,  268,
 };
 #define YYFINAL 5
-#ifndef YYDEBUG
-#define YYDEBUG 0
-#endif
 #define YYMAXTOKEN 275
-#if YYDEBUG
-char *yyname[] = {
-"end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"INTEGER","STRING","FLOAT",
-"CAP_MATCH","CAP_UPPER_BOUND","COLON","COMMON_POINT","NET","NET_CAP_MATCH",
-"NET_RES_MATCH","NOISY","PATH","RES_MATCH","RES_UPPER_BOUND","SENSITIVE",
-"SHIELDING","TIMING","MAX_VOLTAGE_DROP","COMMA",
-};
-char *yyrule[] = {
-"$accept : start_nets",
-"start_nets : critical_data",
-"critical_data : path_or_netdata",
-"critical_data : critical_data path_or_netdata",
-"path_or_netdata : single_path",
-"path_or_netdata : net_data",
-"path_or_netdata : net_cap_match",
-"path_or_netdata : net_res_match",
-"single_path : pathlist COLON INTEGER INTEGER INTEGER",
-"single_path : pathlist COLON INTEGER INTEGER",
-"pathlist : PATH string",
-"pathlist : pathlist string",
-"$$1 :",
-"net_data : NET string $$1 net_param_list",
-"net_param_list : net_option",
-"net_param_list : net_param_list net_option",
-"net_option : timing",
-"net_option : cap_upper_bound",
-"net_option : res_upper_bound",
-"net_option : analog_type",
-"net_option : voltage_drop",
-"net_option : common_point",
-"voltage_drop : MAX_VOLTAGE_DROP FLOAT",
-"timing : TIMING FLOAT",
-"cap_upper_bound : CAP_UPPER_BOUND FLOAT",
-"res_upper_bound : RES_UPPER_BOUND FLOAT",
-"analog_type : NOISY",
-"analog_type : SENSITIVE",
-"analog_type : SHIELDING",
-"$$2 :",
-"common_point : COMMON_POINT $$2 pt_list cap_match res_match",
-"pt_list : string string",
-"pt_list : pt_list COMMA string string",
-"cap_match :",
-"cap_match : cap_list",
-"cap_list : CAP_MATCH string string",
-"cap_list : cap_list COMMA string string",
-"res_match :",
-"res_match : res_list",
-"res_list : RES_MATCH string string",
-"res_list : res_list COMMA string string",
-"net_cap_match : NET_CAP_MATCH string",
-"net_cap_match : net_cap_match string",
-"net_res_match : NET_RES_MATCH string",
-"net_res_match : net_res_match string",
-"string : STRING",
-"string : INTEGER",
-"string : FLOAT",
-};
-#endif
+
 #define yyclearin (yychar=(-1))
 #define yyerrok (yyerrflag=0)
 #ifdef YYSTACKSIZE
@@ -328,23 +206,24 @@ short yyss[YYSTACKSIZE];
 YYSTYPE yyvs[YYSTACKSIZE];
 #define yystacksize YYSTACKSIZE
 
-#include "readnets_l.h"
-/* add readnets_l.h for debug purposes */
-/* ********************* #include "readnets_l.h" *******************/
-/* ********************* #include "readnets_l.h" *******************/
 void setup_lexer_NET();
-readnets( filename )
+int yyparse_NET(FILE* fp, FILE* yyout);
+
+int readnets( filename )
 char filename ;
 { 
-	FILE *yyin;
+	FILE *yyin,*yyout;
 	yyin = fopen(filename,"r") ;
+	char ofile[420];
+	sprintf(ofile,"%s.lexout",filename);
+	yyout = fopen(ofile,"r");
 	line_countS = 0;
 
 	if( yyin ){
 		setup_lexer_NET();
 		init_nets() ;
 		/* parse input file using yacc if input given */
-		yyparse_NET(yyin);  
+		yyparse_NET(yyin,yyout);  
 	}
 	cleanup_nets() ;
 
@@ -354,8 +233,9 @@ char filename ;
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
 int
-yyparse_NET(fp)
+yyparse_NET(fp,yyout)
 FILE *fp;
+FILE *yyout;
 {
 	register int yym, yyn, yystate;
 	yynerrs = 0;
@@ -370,7 +250,7 @@ FILE *fp;
 	if (yyn = yydefred[yystate]) goto yyreduce;
 	if (yychar < 0)
 	{
-		if ((yychar = yylex(fp)) < 0) yychar = 0;
+		if ((yychar = yylex(fp,yyout)) < 0) yychar = 0;
 	}
 	if ((yyn = yysindex[yystate]) && (yyn += yychar) >= 0 &&
 		yyn <= YYTABLESIZE && yycheck[yyn] == yychar)
@@ -584,7 +464,7 @@ FILE *fp;
 		*++yyvsp = yyval;
 		if (yychar < 0)
 		{
-		if ((yychar = yylex(fp)) < 0) yychar = 0;
+		if ((yychar = yylex(fp,yyout)) < 0) yychar = 0;
 		}
 		if (yychar == 0) goto yyaccept;
 		goto yyloop;
@@ -610,7 +490,7 @@ FILE *fp;
 }
 
  void setup_lexer_NET() {
-	rw_table rwtable_NET[] = {
+	rw_table rwtableT[] = {
 	    "cap_match",         token(CAP_MATCH),
 	    "cap_upper_bound",   token(CAP_UPPER_BOUND),
 	    "common_point",      token(COMMON_POINT),
@@ -626,10 +506,9 @@ FILE *fp;
 	    "shielding",         token(SHIELDING),
 	    "timing",            token(TIMING)
 	};
-	rwtable = rwtable_NET;
+	rwtable = rwtableT;
 
-	# define YYTYPE unsigned char
-	struct yywork { YYTYPE verify, advance; } yycrankT[] ={
+	yywork yycrankT[] ={
 	0,0,	0,0,	1,3,	0,0,	
 	0,0,	0,0,	0,0,	0,0,	
 	0,0,	0,0,	1,4,	1,5,	
@@ -743,7 +622,17 @@ FILE *fp;
 	32,21,	0,0,	0,0,	0,0,	
 	0,0};
 	yycrank = yycrankT;
-	struct yysvf yysvecT[] ={
+	
+	int yyvstopT[] ={
+	0,9,0,9,0,10,0,9,10,0,8,0,6,10,0,
+	6,10,0,6,7,10,0,3,6,10,0,6,10,0,
+	2,10,0,5,6,10,0,9,0,6,0,3,6,0,
+	2,6,0,6,0,3,6,0,2,0,6,0,6,0,6,0,
+	6,0,6,0,4,6,0,6,0,6,0,1,6,0,
+	1,0,6,0,1,6,0,1,0,0};
+	yyvstop = yyvstopT;
+
+	yysvf yysvecT[] ={
 	0,	0,	0,
 	yycrank+-1,	0,		yyvstop+1,
 	yycrank+0,	yysvec+1,	yyvstop+3,
@@ -783,7 +672,11 @@ FILE *fp;
 	yycrank+8,	yysvec+6,	yyvstop+77,
 	yycrank+0,	yysvec+34,	yyvstop+80,
 	0,	0,	0};
-// 	yysvec = yysvecT;
-	yytop = yycrank+440;
-	yybgin = yysvec+1;
+	yysvec = yysvecT;
+
+	char yyextraT[] ={
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0};
+	yyextra=yyextraT;
 }

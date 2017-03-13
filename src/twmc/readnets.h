@@ -26,7 +26,6 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yyerrflag	NET_yyerrflag
 #define yyestate	NET_yyestate
 #define yyexca		NET_yyexca
-#define yyextra		NET_yyextra
 #define yyfnd		NET_yyfnd
 #define yyinput		NET_yyinput
 #define yyleng		NET_yyleng
@@ -53,7 +52,6 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yyunput		NET_yyunput
 #define yyv		NET_yyv
 #define yyval		NET_yyval
-#define yyvstop		NET_yyvstop
 /* for byacc */
 #define yyrule          NET_yyrule
 #define yyname          NET_yyname
@@ -66,3 +64,24 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 #define yysindex        NET_yysindex
 #define yylen           NET_yylen
 #define yylhs           NET_yylhs
+
+#define INTEGER 257
+#define STRING 258
+#define FLOAT 259
+#define CAP_MATCH 260
+#define CAP_UPPER_BOUND 261
+#define COLON 262
+#define COMMON_POINT 263
+#define NET 264
+#define NET_CAP_MATCH 265
+#define NET_RES_MATCH 266
+#define NOISY 267
+#define PATH 268
+#define RES_MATCH 269
+#define RES_UPPER_BOUND 270
+#define SENSITIVE 271
+#define SHIELDING 272
+#define TIMING 273
+#define MAX_VOLTAGE_DROP 274
+#define COMMA 275
+#define YYERRCODE 256

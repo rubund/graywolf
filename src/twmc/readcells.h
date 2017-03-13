@@ -20,8 +20,6 @@ REVISIONS:
 #define yyerrflag	CUSTOM_yyerrflag
 #define yyestate	CUSTOM_yyestate
 #define yyexca		CUSTOM_yyexca
-#define yyextra		CUSTOM_yyextra
-#define yyfnd		CUSTOM_yyfnd
 #define yyinput		CUSTOM_yyinput
 #define yyleng		CUSTOM_yyleng
 #define yylineno	CUSTOM_yylineno
@@ -32,7 +30,6 @@ REVISIONS:
 #define yymorfg		CUSTOM_yymorfg
 #define yynerrs		CUSTOM_yynerrs
 #define yyolsp		CUSTOM_yyolsp
-#define yyout		CUSTOM_yyout
 #define yyoutput	CUSTOM_yyoutput
 #define yypact		CUSTOM_yypact
 #define yypgo		CUSTOM_yypgo
@@ -47,7 +44,6 @@ REVISIONS:
 #define yyunput		CUSTOM_yyunput
 #define yyv		CUSTOM_yyv
 #define yyval		CUSTOM_yyval
-#define yyvstop		CUSTOM_yyvstop
 #define yywrap		CUSTOM_yywrap
 
 #define INTEGER 257
