@@ -20,12 +20,12 @@ extern short *yygindex;
 extern short *yytable;
 extern short *yycheck;*/
 extern unsigned long line_countS;
-extern int yylex(FILE *fp);
+extern int yylex(FILE *yyin,FILE *yyout);
 extern char *yytext;
 
-extern struct yysvf *yybgin;
-extern struct yysvf *yysvec;
-extern struct yywork *yytop;
-
-extern struct yywork *yycrank;
-
+extern yysvf *yybgin;
+extern yysvf *yysvec;
+// extern struct yywork *yytop;
+extern yywork *yycrank;
+extern int *yyvstop;
+extern char *yyextra;

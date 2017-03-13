@@ -1,46 +1,32 @@
 #include <stdio.h>
 
-#ifdef YYSTACKSIZE
-#ifndef YYMAXDEPTH
-#define YYMAXDEPTH YYSTACKSIZE
-#endif
-#else
-#ifdef YYMAXDEPTH
-#define YYSTACKSIZE YYMAXDEPTH
-#else
 #define YYSTACKSIZE 500
 #define YYMAXDEPTH 500
-#endif
-#endif
-
 #define yystacksize YYSTACKSIZE
 #define U(x) ((x)&0377)
 #define NLSTATE yyprevious=YYNEWLINE
 #define BEGIN yybgin = yysvec + 1 +
 #define INITIAL 0
 #define YYLERR yysvec
-#define YYSTATE (yyestate-yysvec-1)
-#define YYOPTIM 1
-#define ECHO fprintf(yyout, "%s",yytext)
 #define token(x) x /* makes it look like regular lex */
 
 #define YYNEWLINE 10
 #define YYLMAX 2000       /* comments may be at most 2000 characters */
+# define YYTYPE unsigned char
 
-struct yysvf { 
-	struct yywork *yystoff;
+typedef struct { YYTYPE verify, advance; } yywork;
+
+typedef struct  { 
+	yywork *yystoff;
 	struct yysvf *yyother;
 	int *yystops;
-};
+} yysvf;
 
 typedef union {
 	INT ival ;
 	char *string ;
 	DOUBLE fval ;
 } YYSTYPE;
-
-# define YYTYPE unsigned char
-struct yywork { YYTYPE verify, advance; };
 
 /*	ncform	4.1	83/08/11	*/
 
@@ -53,4 +39,4 @@ typedef struct {  /* reserved word table */
 #define INTEGER 257
 #define STRING 258
 #define FLOAT 259
-
+#define COLON 262
