@@ -529,7 +529,7 @@ readcells( char *filename )
 	yyin = fopen(filename,"r");
 	char ofile[420];
 	sprintf(ofile,"%s.lexout",filename);
-	yyout = fopen(ofile,"r");
+	yyout = fopen(ofile,"w");
 	line_countS = 0 ;
 	if(yyin) {
 		setup_lexer_CUSTOM();
@@ -587,11 +587,6 @@ yyloop:
 	}
 	
 	yyn = yysindex[yystate];
-// 	printf("yyn=%d\n",yyn);
-// 	printf("YYTABLESIZE=%d\n",YYTABLESIZE);
-// 	printf("yychar=%c\n",yychar);
-// 	printf("(yyn + yychar)=%d\n",(yyn + yychar));
-// 	printf("yycheck[yyn] =%c yychar =%c \n", yycheck[yyn], yychar);
 	if (
 		yyn
 		&&
@@ -1237,11 +1232,111 @@ void setup_lexer_CUSTOM() {
  	yycrank=yycrankT;
 
 	int yyvstopT[] ={
-		0,7,0,7,0,8,0,7,8,0,6,0,5,8,0,5,8,0,3,5,8,0,
-		5,8,0,2,8,0,7,0,5,0,3,5,0,2,5,0,5,0,3,5,0,
-		2,0,5,0,5,0,5,0,5,0,5,0,4,5,0,5,0,5,0,1,5,0,
-		1,0,5,0,1,5,0,1,0,0};
-	
+	0,
+
+	7,
+	0,
+
+	7,
+	0,
+
+	8,
+	0,
+
+	7,
+	8,
+	0,
+
+	6,
+	0,
+
+	5,
+	8,
+	0,
+
+	5,
+	8,
+	0,
+
+	3,
+	5,
+	8,
+	0,
+
+	5,
+	8,
+	0,
+
+	2,
+	8,
+	0,
+
+	7,
+	0,
+
+	5,
+	0,
+
+	3,
+	5,
+	0,
+
+	2,
+	5,
+	0,
+
+	5,
+	0,
+
+	3,
+	5,
+	0,
+
+	2,
+	0,
+
+	5,
+	0,
+
+	5,
+	0,
+
+	5,
+	0,
+
+	5,
+	0,
+
+	5,
+	0,
+
+	4,
+	5,
+	0,
+
+	5,
+	0,
+
+	5,
+	0,
+
+	1,
+	5,
+	0,
+
+	1,
+	0,
+
+	5,
+	0,
+
+	1,
+	5,
+	0,
+
+	1,
+	0,
+	0};
 	yyvstop = yyvstopT;
 
 	yysvf yysvecT[] = {
@@ -1284,16 +1379,11 @@ void setup_lexer_CUSTOM() {
 	0,	0,	0};
 	yysvec = yysvecT;
 
-	/*for(int i=0;i<sizeof(yycrankT);i++) {
-		printf("Pointer of yycrankT[i]->advance:\t%d\n",yycrankT[i].advance);
-		printf("Pointer of yycrankT[i]->verify:\t\t%d\n",yycrankT[i].verify);
-		printf("Pointer of yycrank[i]->advance:\t\t%d\n",yycrank[i].advance);
-		printf("Pointer of yycrank[i]->verify:\t\t%d\n",yycrank[i].verify);
-		printf("------------------------------------------------------\n");
-	}*/
 	char yyextraT[] ={
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,
 	0};
 	yyextra=yyextraT;
+
+	reset_yylex();
 }
