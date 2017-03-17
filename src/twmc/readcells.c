@@ -583,9 +583,9 @@ yyloop:
 		if ((yychar = yylex(fp,yyout)) < 0) {
 			yychar = 0;
 		}
-		printf("yytext=%s\n",yytext);
 	}
-	
+	printf("yyparse_twmc1 got a result: %d\n",yychar);
+
 	yyn = yysindex[yystate];
 	if (
 		yyn
@@ -650,7 +650,8 @@ yyinrecovery:
 	}
 	else
 	{
-		if (yychar == 0) goto yyabort;
+		if (yychar == 0)
+                        goto yyabort;
 		yychar = (-1);
 		goto yyloop;
 	}
@@ -1058,7 +1059,8 @@ yyreduce:
 		*++yyvsp = yyval;
 		if (yychar < 0)
 		{
-			if ((yychar = yylex(fp,yyout)) < 0) yychar = 0;
+			if ((yychar = yylex(fp,yyout)) < 0)
+                                yychar = 0;
 		}
 		if (yychar == 0) goto yyaccept;
 		goto yyloop;
@@ -1084,7 +1086,7 @@ yyaccept:
 }
 
 void setup_lexer_CUSTOM() {
-	rw_table rwtable_CUSTOM[] = {
+	rw_table rwtableT[] = {
 	    "addequiv",            token(ADDEQUIV),
 	    "asplb",               token(ASPLB),
 	    "aspub",               token(ASPUB),
@@ -1124,7 +1126,7 @@ void setup_lexer_CUSTOM() {
 	    "supergroup",          token(SUPERGROUP),
 	    "timing",              token(TIMING)
 	};
-	rwtable = rwtable_CUSTOM;
+	rwtable = rwtableT;
 
 	yywork yycrankT[] ={
 	0,0,	0,0,	1,3,	0,0,	
@@ -1231,113 +1233,11 @@ void setup_lexer_CUSTOM() {
 	0,0};
  	yycrank=yycrankT;
 
-	int yyvstopT[] ={
-	0,
-
-	7,
-	0,
-
-	7,
-	0,
-
-	8,
-	0,
-
-	7,
-	8,
-	0,
-
-	6,
-	0,
-
-	5,
-	8,
-	0,
-
-	5,
-	8,
-	0,
-
-	3,
-	5,
-	8,
-	0,
-
-	5,
-	8,
-	0,
-
-	2,
-	8,
-	0,
-
-	7,
-	0,
-
-	5,
-	0,
-
-	3,
-	5,
-	0,
-
-	2,
-	5,
-	0,
-
-	5,
-	0,
-
-	3,
-	5,
-	0,
-
-	2,
-	0,
-
-	5,
-	0,
-
-	5,
-	0,
-
-	5,
-	0,
-
-	5,
-	0,
-
-	5,
-	0,
-
-	4,
-	5,
-	0,
-
-	5,
-	0,
-
-	5,
-	0,
-
-	1,
-	5,
-	0,
-
-	1,
-	0,
-
-	5,
-	0,
-
-	1,
-	5,
-	0,
-
-	1,
-	0,
-	0};
-	yyvstop = yyvstopT;
+	int yyvstop[] ={
+	0,7,0,7,0,8,0,7,8,0,6,0,5,8,0,5,8,0,3,5,8,0,5,8,0,
+	2,8,0,7,0,5,0,3,5,0,2,5,0,5,0,3,5,0,2,0,
+	5,0,5,0,5,0,5,0,5,0,4,5,0,
+	5,0,5,0,1,5,0,1,0,5,0,1,5,0,1,0,0};
 
 	yysvf yysvecT[] = {
 	0,	0,	0,
@@ -1385,5 +1285,6 @@ void setup_lexer_CUSTOM() {
 	0};
 	yyextra=yyextraT;
 
-	reset_yylex(sizeof(rwtable),sizeof(yycrank),sizeof(yysvec));
+	printf("sizeof(rwtable) %lu,sizeof(yycrank) %lu,sizeof(yysvec) %lu\n",sizeof(rwtableT),sizeof(yycrankT),sizeof(yysvecT));
+	reset_yylex(sizeof(rwtableT),sizeof(yycrankT),sizeof(yysvecT));
 }
