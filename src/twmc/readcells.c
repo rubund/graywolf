@@ -1385,5 +1385,5 @@ void setup_lexer_CUSTOM() {
 	0};
 	yyextra=yyextraT;
 
-	reset_yylex();
+	reset_yylex(sizeof(rwtable),sizeof(yycrank),sizeof(yysvec));
 }
