@@ -216,7 +216,7 @@ char filename ;
 	yyin = fopen(filename,"r") ;
 	char ofile[420];
 	sprintf(ofile,"%s.lexout",filename);
-	yyout = fopen(ofile,"r");
+	yyout = fopen(ofile,"w");
 	line_countS = 0;
 
 	if( yyin ){
