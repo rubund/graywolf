@@ -25,7 +25,6 @@ rw_table __attribute__((visibility("default"))) *rwtable;
 yywork __attribute__((visibility("default"))) *yycrank;
 yysvf  __attribute__((visibility("default"))) *yysvec;
 unsigned long __attribute__((visibility("default"))) line_countS = 1;
-int  __attribute__((visibility("default"))) *yyvstop;
 char __attribute__((visibility("default"))) *yyextra;
 char __attribute__((visibility("default"))) yytext[YYLMAX];
 
@@ -39,10 +38,10 @@ int yylook(FILE *yyin);
 
 yysvf *yystate;
 yysvf **lsp;
-unsigned int sizeof_yybgin;
-unsigned int sizeof_yycrank;
-unsigned int sizeof_yysvec;
-unsigned int sizeof_rwtable;
+unsigned long sizeof_yybgin;
+unsigned long sizeof_yycrank;
+unsigned long sizeof_yysvec;
+unsigned long sizeof_rwtable;
 
 int yylook(FILE *yyin)
 {
@@ -59,15 +58,26 @@ int yylook(FILE *yyin)
 		yymorfg=0;
 		yylastch = yytext+yyleng;
 	}
+#if DEBUG_MEM_VIOLATION
+	printf("yylastch: %p\n",yylastch);
+	printf("yytext: %p\n",yytext);
+#endif
 
 	while(1) {
-// 		yystate = yybgin;
 		memcpy(yystate, yybgin, sizeof_yybgin);
-        memcpy(yyestate, yybgin, sizeof_yybgin);
-		//lsp = yybgin;
+		yyestate = yystate;
+#if DEBUG_MEM_VIOLATION
+		printf("yystate: %p\n",yystate);
+		printf("yyestate: %p\n",yyestate);
+#endif
+		lsp = yylstate;
 
+#if DEBUG_MEM_VIOLATION
+		printf("yyprevious %c\n",yyprevious);
+#endif
 		if (yyprevious==YYNEWLINE) {
 #if DEBUG_MEM_VIOLATION
+			printf("Newline\n");
 			printf("yystate before: %p\n",yystate);
 #endif
 			yystate++;
@@ -80,147 +90,129 @@ int yylook(FILE *yyin)
 
 		while(1) {
 			yyt = yystate->yystoff;
-			if(yyt == yycrank) { // may not be any transitions
-				printf("Miau\n");
-				yyz = yystate->yyother;
-				if(yyz == 0) {
-					break;
-				}
-				if(yyz->yystoff == yycrank) {
-					break;
-				}
-			}
 			*yylastch++ = yych = input(yyin);
-
-		tryagain:
+#if DEBUG_MEM_VIOLATION
+			printf("yylastch: %p\n",yylastch);
+			printf("yytext: %p\n",yytext);
+			printf("yytext: %s\n",yytext);
+			printf("yych: %c\n",yych);
+#endif
 			yyr = yyt;
-			if ( (long)yyt > (long)yycrank) {
-				yyt = yyr + yych;
-				if (yyt <= yytop && yyt->verify+yysvec == yystate){
-					if(yyt->advance+yysvec == YYLERR) {	/* error transitions */
-						unput(*--yylastch);
-						break;
-					}
-					*(lsp++) = yystate;
-					yystate = yyt->advance+yysvec;
-					goto contin;
-				}
-			} else {
-				unput(*--yylastch);
+			yyt = yyr + yych;
+#if DEBUG_MEM_VIOLATION
+			printf("yyt %p yytop %p yyt->verify %d yyt->verify+yysvec %p yystate %p\n",yyt,yytop,yyt->verify,yyt->verify+yysvec,yystate);
+#endif
+			if((int)yych==32) {
 				break;
+			} else {
+				if(yyt->advance+yysvec == YYLERR) {	/* error transitions */
+// 					unput(*--yylastch);
+					break;
+				}
+				*(lsp++) = yystate;
+				yystate = yyt->advance+yysvec;
+				goto contin;
 			}
-		contin:
+contin:
 			;
 		}
-// 		printf("Value of yylstate %ld\n", yylstate);
-// 		printf("Value of lsp %ld\n", lsp);
-// 		printf("Value of yyfnd %d\n",yyfnd);
-// 		printf("Value of *lsp %ld\n",*lsp);
 
+#if DEBUG_MEM_VIOLATION
+		printf("lsp %lu, yylstate %lu\n",lsp,yylstate);
+#endif
 		while (lsp-- > yylstate) {
 			printf("Miau1\n");
 			*(yylastch--) = 0;
-			if (lsp != 0 && (yyfnd = *((*lsp)->yystops)) && yyfnd > 0){
-				printf("maunz1\n");
+			yyfnd = *((*lsp)->yystops);
+			if (lsp != 0 && yyfnd > 0){
 				if(yyextra[yyfnd]){		/* must backup */
 					while(yyback((*lsp)->yystops,-yyfnd) != 1 && lsp > yylstate){
 						lsp--;
-						unput(*yylastch--);
+// 						unput(*yylastch--);
 					}
 				}
 				yyprevious = *yylastch;
 				yyleng = yylastch-yytext+1;
 				yytext[yyleng] = 0;
 				printf("yytext: %s\n",yytext);
-				printf(" action %d\n",yyfnd);
+				printf("action %d\n",yyfnd);
 				return(yyfnd++);
 			}
-			unput(*yylastch);
+			//unput(*yylastch);
 		}
 		if ( yytext[0] == 0) {
 			printf("Miau2\n");
-			return(0);
+			return 0;
 		}
 		if (feof(yyin)) {
 			printf("Miau3\n");
-			return(0);
+			return 0;
 		}
 		yyprevious = yytext[0];
-		yytext[0] = input(yyin);
+// 		yytext[0] = input(yyin);
 		if (yyprevious>0)
 			output(yyprevious);
-		yylastch=yytext;
+		yylastch = yytext;
 	}
 	return 0;
 }
 
 int __attribute__((visibility("default"))) yylex(FILE *yyin, FILE *yyout)
 {
+#if DEBUG_MEM_VIOLATION
+	printf("Runing lexer\n");
+#endif
 	int nstr = 0;
 	while((nstr = yylook(yyin)) >= 0)
 		printf("nstr: %d\n",nstr);
 		yyfussy:
 			switch(nstr){
-		case 0:
-				return(0);
-				break;
-		case 1:
-				{
-					/* C-style comments over multiple lines */
-					check_line_count(yytext) ;
-				}
-				break;
-		case 2:
-				{
-					/* convert to an integer */
-					yylval.ival = atoi( yytext ) ;
-					return (INTEGER); 
-				}
-				break;
-		case 3:
-				{
+				case 0:
+						return 0;
+						break;
+				case 1:
+						/* C-style comments over multiple lines */
+						check_line_count(yytext) ;
+						break;
+				case 2:
+						/* convert to an integer */
+						yylval.ival = atoi( yytext ) ;
+						return (INTEGER); 
+						break;
+				case 3:
 					/* convert to an integer */
 					yylval.fval = atof( yytext ) ;
 					return (FLOAT); 
-				}
-			break;
-		case 4:
-				{
-					/* convert to an integer */
-					yylval.fval = atof( yytext ) ;
-					return (FLOAT); 
-				}
-				break;
-		case 5:
-				{
-					return( COLON ) ;
-				}
-				break;
-		case 6:
-				{
-					return( screen() ) ;
-				}
-				break;
-		case 7:
-				{
-					line_countS++;
-				}
-				break;
-		case 8:
-				break;
-		case 9:
-				{
-					return( token(yytext[0]) ) ;
-				}
-				break;
+					break;
+				case 4:
+						/* convert to an integer */
+						yylval.fval = atof( yytext ) ;
+						return (FLOAT); 
+						break;
+				case 5:
+						printf("It's a colon!\n");
+						return( COLON ) ;
+						break;
+				case 6:
+						printf("It's a 6!\n");
+						return( screen() ) ;
+						break;
+				case 7:
+						line_countS++;
+						break;
+				case 8:
+						break;
+				case 9:
+						return( token(yytext[0]) ) ;
+						break;
 
-		case -1:
-				break;
-
-		default:
-			fprintf(yyout,"bad switch yylook %d",nstr);
-	} 
-	return(0);
+				case -1:
+						break;
+				default:
+						printf("bad switch yylook %d",nstr);
+						break;
+	}
+	return 0;
 }
 
 /* end of yylex */
@@ -285,7 +277,7 @@ char input( FILE * yyin )
 	char ret;
 // 	char ret = (((yytchar=yysptr>yysbuf?U(*--yysptr):fgetc(yyin))==10?(yylineno++,yytchar):yytchar)==EOF?0:yytchar);
 	ret=fgetc(yyin);
-// 	printf("char %c\n",ret);
+	printf("char %d\n",ret);
 	return ret;
 }
 
@@ -295,23 +287,23 @@ int unput(char c)
 		 yylineno--;
 }
 
-void __attribute__((visibility("default"))) reset_yylex(unsigned int sizeof_rwtableS, unsigned int sizeof_yycrankS, unsigned int sizeof_yysvecS) {
+void __attribute__((visibility("default"))) reset_yylex(unsigned long sizeof_rwtableS, unsigned long sizeof_yycrankS, unsigned long sizeof_yysvecS) {
+
 	yybgin = yysvec+1;
-    sizeof_yysvec = sizeof_yysvecS;
-    sizeof_yybgin = sizeof_yysvecS-sizeof(yysvf);
-    sizeof_rwtable = sizeof_rwtableS;
-    sizeof_yycrank = sizeof_yycrankS;
-	yytop = yycrank+440;
+	sizeof_yysvec = sizeof_yysvecS;
+	sizeof_yybgin = sizeof_yysvecS-1;
+	sizeof_rwtable = sizeof_rwtableS;
+	sizeof_yycrank = sizeof_yycrankS;
+	printf("sizeof(rwtable) %lu,sizeof(yycrank) %lu,sizeof(yysvec) %lu\n",sizeof_rwtable,sizeof_yycrank,sizeof_yysvec);
+	yytop = yycrank+sizeof_yycrank;
 	yyleng = 0;
 	yymorfg = 0;
 	yylineno = 1;
 	yyfnd = 0;
-	yyprevious = YYNEWLINE;
+	yyprevious = 0;
 	yystate = malloc(sizeof_yybgin);
-    yyestate = malloc(sizeof_yybgin);
 	lsp = malloc(sizeof(yysvf *)*YYLMAX);
 #if DEBUG_MEM_VIOLATION
-	printf("Allocated sizeof_yybgin which is %u\n",sizeof_yybgin);
-	printf("Allocated sizeof(yysvf*)*YYLMAX which is %lu\n",sizeof(yysvf*)*YYLMAX);
+	printf("Allocated sizeof_yybgin which is %lu\n",sizeof_yybgin);
 #endif
 }
