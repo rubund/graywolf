@@ -7,7 +7,7 @@
 #include <string.h>
 #include <yalecad/string.h>
 
-#define DEBUG_MEM_VIOLATION 0
+#define DEBUG_MEM_VIOLATION 1
 
 char yysbuf[YYLMAX];
 yysvf *yyestate;
@@ -39,13 +39,13 @@ int yylook(FILE *yyin);
 
 yysvf *yystate;
 yysvf **lsp;
+unsigned int sizeof_yybgin;
+unsigned int sizeof_yycrank;
+unsigned int sizeof_yysvec;
+unsigned int sizeof_rwtable;
 
 int yylook(FILE *yyin)
 {
-#if DEBUG_MEM_VIOLATION
-	printf("Allocated sizeof(yysvf)*YYLMAX which is %lu\n",sizeof(yysvf)*YYLMAX);
-	printf("Allocated sizeof(yysvf*)*YYLMAX which is %lu\n",sizeof(yysvf*)*YYLMAX);
-#endif
 	yywork *yyt;
 	yywork *yyr;
 	yysvf *yyz;
@@ -62,9 +62,9 @@ int yylook(FILE *yyin)
 
 	while(1) {
 // 		yystate = yybgin;
-		memcpy(yystate, yybgin, sizeof(yysvf*));
-		yyestate = yybgin;
-// 		*lsp = yybgin;
+		memcpy(yystate, yybgin, sizeof_yybgin);
+        memcpy(yyestate, yybgin, sizeof_yybgin);
+		//lsp = yybgin;
 
 		if (yyprevious==YYNEWLINE) {
 #if DEBUG_MEM_VIOLATION
@@ -295,14 +295,23 @@ int unput(char c)
 		 yylineno--;
 }
 
-void __attribute__((visibility("default"))) reset_yylex() {
+void __attribute__((visibility("default"))) reset_yylex(unsigned int sizeof_rwtableS, unsigned int sizeof_yycrankS, unsigned int sizeof_yysvecS) {
 	yybgin = yysvec+1;
+    sizeof_yysvec = sizeof_yysvecS;
+    sizeof_yybgin = sizeof_yysvecS-sizeof(yysvf);
+    sizeof_rwtable = sizeof_rwtableS;
+    sizeof_yycrank = sizeof_yycrankS;
 	yytop = yycrank+440;
 	yyleng = 0;
 	yymorfg = 0;
 	yylineno = 1;
 	yyfnd = 0;
 	yyprevious = YYNEWLINE;
-	yystate = malloc(sizeof(yysvf)*YYLMAX);
+	yystate = malloc(sizeof_yybgin);
+    yyestate = malloc(sizeof_yybgin);
 	lsp = malloc(sizeof(yysvf *)*YYLMAX);
+#if DEBUG_MEM_VIOLATION
+	printf("Allocated sizeof_yybgin which is %u\n",sizeof_yybgin);
+	printf("Allocated sizeof(yysvf*)*YYLMAX which is %lu\n",sizeof(yysvf*)*YYLMAX);
+#endif
 }

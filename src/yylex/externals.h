@@ -1,26 +1,6 @@
 extern rw_table *rwtable;
-/*extern short *yylhs;
-extern short *yylen;
-extern short *yydefred;
-extern short *yydgoto;
-extern short *yysindex;
-extern short *yyrindex;
-extern short *yygindex;
-extern short *yytable;
-extern short *yycheck;
-extern short *match;
-extern char *yymatch;
-extern short *yylhs;
-extern short *yylen;
-extern short *yydefred;
-extern short *yydgoto;
-extern short *yysindex;
-extern short *yyrindex;
-extern short *yygindex;
-extern short *yytable;
-extern short *yycheck;*/
 extern int yylex(FILE *yyin,FILE *yyout);
-extern void reset_yylex();
+extern void reset_yylex(unsigned int sizeof_rwtableS, unsigned int sizeof_yycrankS, unsigned int sizeof_yysvecS);
 extern yysvf *yysvec;
 extern yywork *yycrank;
 extern unsigned long line_countS;
