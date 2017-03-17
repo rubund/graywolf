@@ -19,13 +19,11 @@ extern short *yyrindex;
 extern short *yygindex;
 extern short *yytable;
 extern short *yycheck;*/
-extern unsigned long line_countS;
 extern int yylex(FILE *yyin,FILE *yyout);
-extern char *yytext;
-
-extern yysvf *yybgin;
+extern void reset_yylex();
 extern yysvf *yysvec;
-// extern struct yywork *yytop;
 extern yywork *yycrank;
+extern unsigned long line_countS;
 extern int *yyvstop;
 extern char *yyextra;
+extern char *yytext;
