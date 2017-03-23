@@ -60,17 +60,14 @@ extern int yyget_lineno(void);
 %start start_file
 %%
 
-start_file:
-	| core pads
-	| core;
+start_file: core pads;
+start_file: core;
 
-core:
-	| corecells
-	| corecells cellgroups;
+core: corecells;
+core: corecells cellgroups;
 
-corecells:
-	| coretype
-	| corecells coretype;
+corecells: coretype;
+corecells: corecells coretype;
 
 coretype: customcell;
 coretype: softcell;
@@ -78,9 +75,8 @@ coretype: softcell;
 pads: padcells;
 pads: padcells padgroups;
 
-padcells:
-	| padcell
-	| padcells padcell;
+padcells: padcell;
+padcells: padcells padcell;
 
 padgroups: padgroup;
 padgroups: padgroups padgroup;
@@ -91,13 +87,11 @@ cellgroups: cellgroups cellgroup;
 customcell: cellname custom_instance_list;
 customcell: cellname fixed custom_instance_list;
 
-custom_instance_list:
-	| custom_instance
-	| custom_instance_list instance custom_instance;
+custom_instance_list: custom_instance;
+custom_instance_list: custom_instance_list instance custom_instance;
 
-custom_instance:
-	| corners keep_outs class orient hardpins
-	| corners keep_outs class orient;
+custom_instance: corners keep_outs class orient hardpins;
+custom_instance: corners keep_outs class orient;
 
 softcell: softname soft_instance_list;
 softcell: softname fixed soft_instance_list;
@@ -157,9 +151,8 @@ numcorners : CORNERS INTEGER;
 cornerpts : INTEGER INTEGER;
 cornerpts : cornerpts INTEGER INTEGER;
 
-class:
-	| CLASS INTEGER
-	| CLASS error;
+class: CLASS INTEGER;
+class: CLASS error;
 
 orient : numorientations ORIENTATIONS orientlist cur_orient;
 orient : ORIENTATIONS orientlist cur_orient;
