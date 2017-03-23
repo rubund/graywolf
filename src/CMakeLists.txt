@@ -7,6 +7,7 @@ add_subdirectory(mincut)
 add_subdirectory(twmc)
 add_subdirectory(twsc)
 add_subdirectory(yylex)
+add_subdirectory(twmc_readcells)
 #add_subdirectory(mc_compact)
 
 add_subdirectory(twflow)
