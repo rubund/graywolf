@@ -1,7 +1,15 @@
 
+INCLUDE(FindBISON)
+INCLUDE(FindFLEX)
+
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
+bison_target(readcell readcell.y ${CMAKE_BINARY_DIR}/src/twsc/readcell.c)
+flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c)
+
 add_library(TimberWolfSC SHARED
+	${BISON_readcell_OUTPUTS}
+	${FLEX_readcell_OUTPUTS}
 	acceptt.c
 	coarseglb.c
 	debug2.c
@@ -9,7 +17,6 @@ add_library(TimberWolfSC SHARED
 	globroute.c
 	newtemp.c
 	overlap.c
-	readcell.c
 	rowevener.c
 	sortpin.c
 	ucxxo1.c

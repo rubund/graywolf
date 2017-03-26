@@ -1,7 +1,19 @@
 
+INCLUDE(FindBISON)
+INCLUDE(FindFLEX)
+
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
+bison_target(twmcreadcells readcells.y ${CMAKE_BINARY_DIR}/src/twmc/readcells.c)
+flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c)
+bison_target(twmcreadnets readnets.y ${CMAKE_BINARY_DIR}/src/twmc/readnets.c)
+flex_target(twmcreadnets readnets.lex ${CMAKE_BINARY_DIR}/src/twmc/readnets.lex.c)
+
 add_library(TimberWolfMC SHARED
+	${BISON_twmcreadcells_OUTPUTS}
+	${FLEX_twmcreadcells_OUTPUTS}
+	${BISON_twmcreadnets_OUTPUTS}
+	${FLEX_twmcreadnets_OUTPUTS}
 	acceptt.c
 	analyze.c
 	compact.c
@@ -39,8 +51,6 @@ add_library(TimberWolfMC SHARED
 	placepads.c
 	placepin.c
 	prboard.c
-	readcells.c
-	readnets.c
 	rmain.c
 	readpar.c
 	reconfig.c
@@ -70,7 +80,7 @@ add_library(TimberWolfMC SHARED
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twmc .)
 
 install(
 	TARGETS TimberWolfMC
