@@ -48,6 +48,7 @@ edge : edge_keyword ifiles ofiles args;
 edge : edge_keyword ifiles ofiles args draw_edges;
 name : pname COLON depend_list;
 pname : POBJECT string INTEGER;
+pname : POBJECT string string INTEGER;
 depend_list : INTEGER;
 depend_list : depend_list INTEGER;
 path : PATH COLON string;
@@ -69,7 +70,7 @@ draw_edges : DRAWN COLON list_of_lines;
 list_of_lines : line;
 list_of_lines : list_of_lines line;
 line : INTEGER INTEGER INTEGER INTEGER;
-string: STRING | INTEGER | FLOAT;
+string : STRING | INTEGER | FLOAT;
 
 %%
 

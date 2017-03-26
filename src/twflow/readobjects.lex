@@ -12,7 +12,8 @@ blanks		[ \t]+
 newline		[\n]+
 integer		[0-9]+|[0-9]+[-]
 float			({integer}+[.]{integer}*)|({integer}*[.]{integer}+)
-string		[_a-zA-Z0-9<>:$]+|[_a-zA-Z<>:$]+[.]
+string		[_a-zA-Z0-9<>$]+|[_a-zA-Z<>$]+[.]+
+colon		[:]+
 
 %%
 args             return ARGS;
@@ -31,4 +32,5 @@ relative         return RELATIVE;
 {integer}+			{yylval.ival = atoi(yytext); return INTEGER;};
 {string}+			{for(int i=0;i<strlen(yylval.sval);i++){yylval.sval[i]=0;} sprintf(yylval.sval,"%s",yytext); return STRING;}
 {float}+			{yylval.fval = atof(yytext); return FLOAT;}
+{colon}+			{return COLON;}
 
