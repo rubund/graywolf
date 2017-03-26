@@ -1,0 +1,35 @@
+%option prefix="twmc_readnets_"
+%{
+#include "readnets.h"
+extern int yylineno;
+#define yylval twmc_readnets_lval
+#define yyin twmc_readnets_in
+%}
+
+blanks		[ \t]+
+newline		[\n]+
+integer		[0-9]+|[0-9]+[-]
+float			({integer}+[.]{integer}*)|({integer}*[.]{integer}+)
+string		[_a-zA-Z0-9<>:$]+|[_a-zA-Z<>:$]+[.]
+
+%%
+cap_match        return CAP_MATCH;
+cap_upper_bound  return CAP_UPPER_BOUND;
+common_point     return COMMON_POINT;
+max_voltage_drop return MAX_VOLTAGE_DROP;
+net              return NET;
+net_cap_match    return NET_CAP_MATCH;
+net_res_match    return NET_RES_MATCH;
+noisy            return NOISY;
+path             return PATH;
+res_match        return RES_MATCH;
+res_upper_bound  return RES_UPPER_BOUND;
+sensitive        return SENSITIVE;
+shielding        return SHIELDING;
+timing           return TIMING;
+
+{newline}+			{yylineno++;}
+{blanks}+			{};
+{integer}+			{yylval.ival = atoi(yytext); return INTEGER;};
+{string}+			{for(int i=0;i<strlen(yylval.sval);i++){yylval.sval[i]=0;} sprintf(yylval.sval,"%s",yytext); return STRING;}
+{float}+			{yylval.fval = atof(yytext); return FLOAT;}
