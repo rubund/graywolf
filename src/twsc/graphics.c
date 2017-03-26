@@ -521,7 +521,7 @@ INT cell ;
     PADBOXPTR  padptr ;
     char label[LRECL] ;
     char *labelptr ;
-    FLOAT acc_rate ;
+    float acc_rate ;
 
     cptr = carrayG[cell] ;
     x =  cptr->cxcenter ;
@@ -548,12 +548,12 @@ INT cell ;
 	}
     } else {
 	/* don't need to be very accurate here */
-	acc_rate = (FLOAT) cell_temp / (FLOAT) attempts ;
+	acc_rate = (float) cell_temp / (float) attempts ;
 	/* now pick the color base on acceptance rate */
 	/* 44% + 10% error margin */
-	if( acc_rate > (FLOAT) 0.48 ){
+	if( acc_rate > (float) 0.48 ){
 	    color = TWRED ;
-	} else if( acc_rate < (FLOAT) 0.40 ){
+	} else if( acc_rate < (float) 0.40 ){
 	    /* 44% - 10% error margin */
 	    color = TWBLUE ;
 	} else {
