@@ -35,8 +35,8 @@ typedef struct abox {
     INT    *x_contour       ;  /* x coordinates of pin contour          */
     INT    *y_contour       ;  /* y coordinates of pin contour          */
     INT    num_corners      ;  /* number of vertices in pin contour     */
-    FLOAT  current          ;  /* current for the pin                   */
-    FLOAT  power            ;  /* power  for the pin                    */
+    float  current          ;  /* current for the pin                   */
+    float  power            ;  /* power  for the pin                    */
     BOOL   no_layer_change  ;  /* whether layer change are allowed      */
 } ANALOGBOX, *ANALOGPTR ;
 

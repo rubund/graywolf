@@ -146,9 +146,9 @@ print_paths( )
 	    yspan += nptr->halfPy ;
 	    pathLength += length ;
 	    loLength = loLength + (INT) 
-		(nptr->max_driver * (FLOAT)length + nptr->driveFactor);
+		(nptr->max_driver * (float)length + nptr->driveFactor);
 	    hiLength = hiLength + (INT) 
-		(nptr->min_driver * (FLOAT)length + nptr->driveFactor);
+		(nptr->min_driver * (float)length + nptr->driveFactor);
 	}
 	fprintf( fp, "\tpriority:%d lower bound:%d upper bound:%d\n",
 	    pptr->priority, pptr->lower_bound, pptr->upper_bound ) ;
@@ -317,9 +317,9 @@ INT cell ;
 		length = ( dimptr->newhalfPx - dimptr->halfPx +
 		    (INT)(vertical_path_weightG * (DOUBLE)dimptr->newhalfPy) -
 		    (INT)(vertical_path_weightG * (DOUBLE)dimptr->halfPy) );
-		loLength = loLength + (INT) (dimptr->max_driver * (FLOAT) length +
+		loLength = loLength + (INT) (dimptr->max_driver * (float) length +
 		    dimptr->driveFactor ) ;
-		hiLength = hiLength + (INT) (dimptr->min_driver * (FLOAT) length +
+		hiLength = hiLength + (INT) (dimptr->min_driver * (float) length +
 		    dimptr->driveFactor ) ;
 	    } /* else this half - perimeter has not changed use old */
 	}
@@ -428,9 +428,9 @@ INT cellb ;
 		length = ( dimptr->newhalfPx - dimptr->halfPx +
 		    (INT)(vertical_path_weightG * (DOUBLE)dimptr->newhalfPy) -
 		    (INT)(vertical_path_weightG * (DOUBLE)dimptr->halfPy) );
-		loLength = loLength + (INT) (dimptr->max_driver * (FLOAT) length +
+		loLength = loLength + (INT) (dimptr->max_driver * (float) length +
 		    dimptr->driveFactor ) ;
-		hiLength = hiLength + (INT) (dimptr->min_driver * (FLOAT) length +
+		hiLength = hiLength + (INT) (dimptr->min_driver * (float) length +
 		    dimptr->driveFactor ) ;
 	    } /* else this half - perimeter has not changed use old */
 	}
@@ -643,10 +643,10 @@ INT dcalc_full_penalty()
 			(DOUBLE) dimptr->halfPy) ;
 	    }
 	    low_length = low_length + (INT) 
-		    (dimptr->max_driver * (FLOAT) length +
+		    (dimptr->max_driver * (float) length +
 			    dimptr->driveFactor ) ;
 	    high_length = high_length + (INT) 
-		    (dimptr->min_driver * (FLOAT) length +
+		    (dimptr->min_driver * (float) length +
 			    dimptr->driveFactor ) ;
 	}
 	/* calculate penalty */

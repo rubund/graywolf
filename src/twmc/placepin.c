@@ -66,7 +66,7 @@ REVISIONS:  Apr 23, 1990 - working version of softpin placement for
 	    Sat Apr 27 01:11:41 EDT 1991 - now avoid crash during
 		stdcell designs with no pads.
 	    Tue May 21 17:06:38 CDT 1991 - fixed argument problem,
-		FLOAT vs. DOUBLE.
+		float vs. DOUBLE.
 	    Wed Jun  5 15:43:33 CDT 1991 - changed REL_POS to REL_POST
 		for accuracy.
 ----------------------------------------------------------------- */
@@ -352,8 +352,8 @@ BOOL spacing_restricted ;
     BOOL intersect ;  /* whether pin intersects side */
     INT num_restrict ;/* number of side restrictions for pin */
     BOOL pinFound ;   /* true if we find a match on current net */
-    FLOAT lowbound ; /* lower bound for pin or pin group */
-    FLOAT hibound ;  /* upper bound for pin or pin group */
+    float lowbound ; /* lower bound for pin or pin group */
+    float hibound ;  /* upper bound for pin or pin group */
     PINBOXPTR pinptr; /* current pin */
     PINBOXPTR netterm;/* loop thru pins of a net */
     PINBOXPTR  child; /* child of the pin group */
@@ -629,8 +629,8 @@ BOOL spacing_restricted ;
     INT max_pos ;     /* max position of the last pingroup */
     INT howmany ;     /* number of soft pins including pg */
     INT child_pos ;   /* position of children */
-    FLOAT lowbound ; /* lower bound for pin or pingroup */
-    FLOAT hibound ;  /* upper bound for pin or pingroup */
+    float lowbound ; /* lower bound for pin or pingroup */
+    float hibound ;  /* upper bound for pin or pingroup */
     PINBOXPTR child;  /* go thru the children of the pingroup */
     SOFTBOXPTR spin ; /* current soft information pointer */
 

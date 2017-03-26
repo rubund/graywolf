@@ -143,8 +143,8 @@ typedef struct sbox {
     BOOL   fixed            ;  /* true if rank is fixed                 */
     INT    lo_pos           ;  /* low valid position                    */
     INT    hi_pos           ;  /* hi valid position                     */
-    FLOAT  lowerbound       ;  /* bounds of a pingroup                  */
-    FLOAT  upperbound       ;  /* upper bound of a pin group            */
+    float  lowerbound       ;  /* bounds of a pingroup                  */
+    float  upperbound       ;  /* upper bound of a pin group            */
 } SOFTBOX, *SOFTBOXPTR ;
 
 typedef struct pinbox {
@@ -170,7 +170,7 @@ typedef struct pinbox {
     INT skip               ;
     INT layer              ; /*        layer information               */
     INT type               ;  /* softpin, hardpin, equiv pin           */
-    FLOAT *timing          ; /* array of timing information for a pin  */
+    float *timing          ; /* array of timing information for a pin  */
     SOFTBOXPTR *soft_inst  ; /* array of spin info if appl. o.w. NULL  */
     EQUIVPTR   eqptr       ; /*        list of equivalent pins         */
     ANALOGPTR analog       ; /* analog information if given            */
@@ -224,7 +224,7 @@ typedef struct {
     INT   *y ;                /* the current positions of vertices */
     INT   *y_orig ;           /* the original positions of vertices */
     INT   *y_new ;            /* the proposed positions of the vertices */
-    FLOAT *numpins;           /* number of pins on each side */
+    float *numpins;           /* number of pins on each side */
 } VERTBOX, *VERTBOXPTR ;
 
 typedef struct {
@@ -340,9 +340,9 @@ typedef struct netbox {
     INT newhalfPy           ;  /* new half perimeter bounding box for y */
     INT halfPx              ;  /* current half perimeter bounding box for x */
     INT halfPy              ;  /* current half perimeter bounding box for y */
-    FLOAT driveFactor       ;  /* driver strength of this net */
-    FLOAT max_driver        ;  /* largest driver on this net */
-    FLOAT min_driver        ;  /* smallest driver on this net */
+    float driveFactor       ;  /* driver strength of this net */
+    float max_driver        ;  /* largest driver on this net */
+    float min_driver        ;  /* smallest driver on this net */
     ANETPTR analog_info     ;  /* for analog nets */
 } *NETBOXPTR , NETBOX ;
 

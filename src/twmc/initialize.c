@@ -700,7 +700,7 @@ vert->x_new = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
 vert->y = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
 vert->y_orig = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
 vert->y_new = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->numpins = (FLOAT *) Yvector_alloc( 1,numcorners,sizeof(FLOAT) ) ;
+vert->numpins = (float *) Yvector_alloc( 1,numcorners,sizeof(float) ) ;
 for( k = 1 ; k <= numcorners ; k++ ) {
     vert->x[k] = vert->x_orig[k] = cornerArrayS[k].x - xcenterS ;
     vert->y[k] = vert->y_orig[k] = cornerArrayS[k].y - ycenterS ;
@@ -938,9 +938,9 @@ char *pinName, *signal ;
 	netptr->pins = NULL ; /* initialize list */
 	netptr->paths = NULL ; /* initialize list */
 	netptr->skip = 0 ; /* initialize list */
-	netptr->driveFactor = (FLOAT) 0.0 ; /* initialize timing */
-	netptr->max_driver = (FLOAT) 1.0 ; /* initialize timing */
-	netptr->min_driver = (FLOAT) 1.0 ; /* initialize timing */
+	netptr->driveFactor = (float) 0.0 ; /* initialize timing */
+	netptr->max_driver = (float) 1.0 ; /* initialize timing */
+	netptr->min_driver = (float) 1.0 ; /* initialize timing */
 	netptr->analog_info = NIL(ANETPTR) ;
     } else {
 	Ysafe_free( signal ) ; /* no need to keep this copy */
@@ -1790,7 +1790,7 @@ INT numcorners ;
 	analogS->num_corners = 0 ;
     }
     analogS->current = INIT_CURRENT ;
-    analogS->power =   (FLOAT) 0.0 ;
+    analogS->power =   (float) 0.0 ;
     analogS->no_layer_change = FALSE ;
 
 } /* end add_analog */
@@ -1812,7 +1812,7 @@ INT x, y ;
 
 
 add_current( current )
-FLOAT current ;
+float current ;
 {
     if(!(analogS)){
 	add_analog( 0 ) ;
@@ -1821,7 +1821,7 @@ FLOAT current ;
 } /* end add_current */
 
 add_power( power )
-FLOAT power ;
+float power ;
 {
     if(!(analogS)){
 	add_analog( 0 ) ;

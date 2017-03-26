@@ -127,6 +127,8 @@ EXTERN BOOL wireEstimateOnlyG ;
 EXTERN BOOL wait_for_userG ;
 EXTERN BOOL verboseG ;
 
+extern int readcells(char *filename);
+
 #undef EXTERN
 
 #endif /* MAIN_H */

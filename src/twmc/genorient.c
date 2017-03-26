@@ -378,7 +378,7 @@ CELLBOXPTR ptr ;
     INT oldpt ;                     /* the place in the old array */
     INT *xvert ;                    /* xvertices */
     INT *yvert ;                    /* yvertices */
-    FLOAT *tmp ;                    /* array of the numpins per side */
+    float *tmp ;                    /* array of the numpins per side */
 
 
     xvert = ptr->vertices->x ;
@@ -386,7 +386,7 @@ CELLBOXPTR ptr ;
     /* find the bottom left so we have side 1 */
     miny = INT_MAX ;
     minx = INT_MAX ;
-    tmp = (FLOAT *) Yvector_alloc( 1, ptr->numsides, sizeof(FLOAT) );
+    tmp = (float *) Yvector_alloc( 1, ptr->numsides, sizeof(float) );
     for( pt = 1; pt <= ptr->numsides; pt++ ){
 	tmp[pt] = ptr->vertices->numpins[pt] ;
 	if( yvert[pt] < miny ){

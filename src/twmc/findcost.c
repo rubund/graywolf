@@ -240,10 +240,10 @@ for( pathcount = 1 ; pathcount <= numpathsG ; pathcount++ ) {
 		(DOUBLE) netptr->halfPy) ;
 
 	low_length = low_length + (INT) 
-		(netptr->max_driver * (FLOAT) length +
+		(netptr->max_driver * (float) length +
 			netptr->driveFactor ) ;
 	high_length = high_length + (INT) 
-		(netptr->min_driver * (FLOAT) length +
+		(netptr->min_driver * (float) length +
 			netptr->driveFactor ) ;
     }
     /* save result */

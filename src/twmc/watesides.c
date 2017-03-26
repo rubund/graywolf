@@ -75,7 +75,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    tileptr->lweight = pSideArray[side].pincount / 
 			(DOUBLE) pSideArray[side].length ; 
 		}
-		ptr->vertices->numpins[side] = (FLOAT)
+		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
 	    }
 	}
@@ -94,7 +94,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    tileptr->rweight = pSideArray[side].pincount / 
 			(DOUBLE) pSideArray[side].length ; 
 		}
-		ptr->vertices->numpins[side] = (FLOAT)
+		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
 	    }
 	}
@@ -113,7 +113,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    tileptr->bweight = pSideArray[side].pincount / 
 			(DOUBLE) pSideArray[side].length ; 
 		}
-		ptr->vertices->numpins[side] = (FLOAT)
+		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
 	    }
 	}
@@ -132,7 +132,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    tileptr->tweight = pSideArray[side].pincount / 
 			(DOUBLE) pSideArray[side].length ; 
 		}
-		ptr->vertices->numpins[side] = (FLOAT)
+		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
 	    }
 	}
