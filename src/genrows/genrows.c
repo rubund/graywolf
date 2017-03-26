@@ -1995,9 +1995,9 @@ static reset_tile_parameters()
     TILE_BOX *match_tile ; /* the old tile with the most area in common*/
     INT overlapx ;    /* type of x overlap */
     INT overlapy ;    /* type of y overlap */
-    FLOAT area ;        /* area of overlap between new and old tiles */
-    FLOAT deltay ;       /* area of overlap in y direction */
-    FLOAT largest_area ; /* old tile with largest amount of overlap */
+    float area ;        /* area of overlap between new and old tiles */
+    float deltay ;       /* area of overlap in y direction */
+    float largest_area ; /* old tile with largest amount of overlap */
 
     for( ntile=tile_listG;ntile;ntile = ntile->next ){
 	lo.llx   = INT_MIN ;
