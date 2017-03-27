@@ -157,7 +157,7 @@ INT windowId ;
 	}
     } else {
 	/* init window as a master */
-	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),FALSE,
+	if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),FALSE,
 	    menuS,draw_the_data ))){
 	    M(ERRMSG,"initGraphics","Aborting graphics.");
 	    doGraphicsG = FALSE ;
