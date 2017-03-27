@@ -2,8 +2,9 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(parser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c)
-flex_target(parser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c)
+bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c)
+#flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c COMPILE_FLAGS "-d") #debug
+flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
@@ -14,8 +15,8 @@ add_executable(graywolf
 	io.c
 	main.c
 	program.c
-	${BISON_parser_OUTPUTS}
-	${FLEX_parser_OUTPUTS}
+	${BISON_twflowparser_OUTPUTS}
+	${FLEX_twflowparser_OUTPUTS}
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 

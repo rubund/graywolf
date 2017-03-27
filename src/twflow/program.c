@@ -69,8 +69,7 @@ static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
 #define  WINDOWID     "@WINDOWID"
 #define  FLOWDIR      "@FLOWDIR"
 
-BOOL executePgm( adjptr )
-ADJPTR adjptr ;
+BOOL executePgm( ADJPTR adjptr, int debug )
 {
 	char *Yfixpath() ;               /* get full pathname */
 	char command[LRECL] ;
@@ -91,15 +90,13 @@ ADJPTR adjptr ;
 
 	stateSaved = FALSE ;  /* for remember whether we save graphics */
 
-	argv = adjptr->argv ;
+	/*argv = adjptr->argv ;
 	for( i = 0 ; i < adjptr->argc; i++ ){
 		strcat( command, " " ) ;
 		if( strncmp( argv[i], DESIGNNAME, DSNLEN ) == STRINGEQ ){
-			/* +1 skips over $ to see if other is present */
 			strcat( command, cktNameG ) ;
 			strcat( command, argv[i]+1 ) ;
 		} else if( strcmp( argv[i], WINDOWID ) == STRINGEQ ){
-			/* save state of graphics before call if necessary */
 			if( graphicsG ){
 				G( sprintf( window_name, "%d", TWsaveState() ) ) ;
 				stateSaved = TRUE ;
@@ -107,22 +104,19 @@ ADJPTR adjptr ;
 			strcat( command, window_name ) ;
 
 		} else if( strcmp( argv[i], FLOWDIR ) == STRINGEQ ){
-			/* add flow directory */
 			strcat( command, flow_dirG ) ;
 		} else {
 			strcat( command, argv[i] ) ;
 		}
-	}
+	}*/
 	D( "twflow/executePgm", sprintf( YmsgG, "%s\n", command ) ) ;
 	D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
 	/* now log the beginning time */
 	//sprintf( YmsgG, "%s started...", obj->name ) ;
 	//Ylog_msg( YmsgG ) ;
-	printf( "%s started...", obj->name ) ;
-
-	int localWindowID;
-	char tmpBuf[23];
+	status = 1;
+	printf( "%s started with node %d \n", obj->name,  obj->node) ;
 
 	/* now execute the command */
 	//status = system( command ) ;
@@ -136,39 +130,19 @@ ADJPTR adjptr ;
 		status = 0;
 	}
 
-	int Mincut( int argc, char *argv[]);
+	int Mincut( int, char*);
 
 	if(!strcmp("Mincut",obj->name)) {
-		printf("It's Mincut!\n");
-		char* localArgv[5];
-		localArgv[0] = "Mincut";
-		localArgv[1] = Ystrclone(cktNameG);
-		status = Mincut(2,localArgv);
+		status = Mincut(debug,Ystrclone(cktNameG));
 	}
 
-	int TimberWolfMC( int argc, char *argv[]);
+	int TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, int windowIdS, char *dName);
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
-		printf("It's TimberWolfMC!\n");
-		char* localArgv[5];
-		localArgv[0] = "TimberWolfMC";
-		if(graphicsG) {
-			// setup the variables
-			localWindowID = TWsaveState();
-			sprintf(tmpBuf,"%d",localWindowID);
-			// run the things
-			localArgv[1] = "-w";
-			localArgv[2] = Ystrclone(cktNameG);
-			localArgv[3] = Ystrclone(tmpBuf);
-			status = TimberWolfMC(4,localArgv);
-		} else {
-			localArgv[1] = "-n";
-			localArgv[2] = Ystrclone(cktNameG);
-			status = TimberWolfMC(3,localArgv);
-		}
+		status = TimberWolfMC(0, 0, !graphicsG, 0, 0, 0, 0, graphicsG, WINDOWID, cktNameG);
 	}
 
-	if(!strcmp("TimberWolfSC",obj->name)) {
+	/*if(!strcmp("TimberWolfSC",obj->name)) {
 		printf("It's TimberWolfSC!\n");
 		char* localArgv[5];
 		localArgv[0] = "TimberWolfSC";
@@ -186,7 +160,7 @@ ADJPTR adjptr ;
 			localArgv[2] = Ystrclone(cktNameG);
 			status = TimberWolfSC(3,localArgv);
 		}
-	}
+	}*/
 
 	sprintf( YmsgG, "%s completed...", obj->name ) ;
 	Ylog_msg( YmsgG ) ;

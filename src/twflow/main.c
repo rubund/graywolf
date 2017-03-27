@@ -273,7 +273,7 @@ __attribute__((visibility("default"))) main( argc , argv )
 	}
 
 	if( autoflowG ){
-		auto_flow() ;
+		auto_flow(debug) ;
 	}
 
 	if( graphicsG ) {

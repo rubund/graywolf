@@ -73,7 +73,7 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #define ERROR        -1         /* error from YgetFileTime() */
 static INT objectS ;            /* the last program that was run */
 
-auto_flow()
+auto_flow(int debug)
 {
 
 	ADJPTR     adjptr ;         /* current edge in graph */
@@ -106,7 +106,7 @@ auto_flow()
 
 		if( check_dependencies( adjptr ) ){
 			/* program files are out of date execute program */
-			if( executePgm( adjptr ) ){
+			if( executePgm( adjptr , debug ) ){
 				/* we received a non zero return code break loop */
 				/* report problem */
 				printf("There was a problem \n");
@@ -126,7 +126,7 @@ auto_flow()
 
 } /* end autoflow */
 
-exec_single_prog()
+void exec_single_prog(int debug)
 {
 	ADJPTR     adjptr ;         /* current edge in graph */
 	ADJPTR     get_edge_from_user(); /* decides which way to travel */
@@ -134,7 +134,7 @@ exec_single_prog()
 	OBJECTPTR  o ;              /* current object */
 	char       filename[LRECL] ;/* buffer for filename */
 	FPTR       fdepend ;        /* current file in question */
-	INT        numedges ;       /* count backward edges */
+	int  numedges ;       /* count backward edges */
 
 	o = proGraphG[objectS] ;
 	/* get backwards edge count */
@@ -178,7 +178,7 @@ exec_single_prog()
 		}
 	} /* end check of all input files */
 
-	if( executePgm( adjptr ) ){
+	if( executePgm( adjptr, debug ) ){
 		/* we received a non zero return code break loop */
 		report_problem( adjptr ) ;
 	}
@@ -188,86 +188,85 @@ exec_single_prog()
 report_problem( adjptr )
 ADJPTR adjptr ;
 {
-    sprintf( YmsgG, "Trouble executing %s", 
-	proGraphG[adjptr->node]->name)  ;
-    G( TWmessage( YmsgG ) ) ;
-    printf("%s\n",YmsgG);
-    //problemsG = TRUE ;
+	sprintf( YmsgG, "Trouble executing %s", proGraphG[adjptr->node]->name)  ;
+	G( TWmessage( YmsgG ) ) ;
+	printf("%s\n",YmsgG);
+	problemsG = TRUE ;
 } /* end report_problem */
 
 /* returns true if files are out of date - false otherwise */
 BOOL check_dependencies( adjptr )
 ADJPTR adjptr ;
 {
-    INT        input_time ;     /* last input file which was modified */
-    INT        output_time ;    /* first output file */
-    INT        ftime ;          /* time file was modified */
-    INT        YgetFileTime() ; /* returns last time file was modified */
-    char       filename[LRECL] ;/* buffer for filename */
-    FPTR       fdepend ;        /* current file in question */
-    BOOL       needtoExecute ;  /* TRUE if an output file doesnt exist */
+	int input_time ;     /* last input file which was modified */
+	int output_time ;    /* first output file */
+	int ftime ;          /* time file was modified */
+	int YgetFileTime() ; /* returns last time file was modified */
+	char filename[LRECL] ;/* buffer for filename */
+	FPTR fdepend ;        /* current file in question */
+	BOOL needtoExecute ;  /* TRUE if an output file doesnt exist */
 
-    /* check dependencies */
-    /* find the input file which was modified last */
-    input_time = INT_MIN ;
-    for( fdepend = adjptr->ifiles;fdepend; fdepend = fdepend->next ){
-	ASSERTNCONT( fdepend->fname, "auto_flow","Null file name\n");
-	if( *fdepend->fname == '$' ){
-	    /* suffix keyword */
-	    sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+	/* check dependencies */
+	/* find the input file which was modified last */
+	input_time = INT_MIN ;
+	for( fdepend = adjptr->ifiles;fdepend; fdepend = fdepend->next ){
+		ASSERTNCONT( fdepend->fname, "auto_flow","Null file name\n");
+		if( *fdepend->fname == '$' ){
+		/* suffix keyword */
+		sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+		} else {
+		strcpy( filename, fdepend->fname ) ;
+		}
+		if(!(YfileExists( filename,TRUE ))){
+		continue ;
+		}
+		ftime = YgetFileTime( filename ) ;
+		if( ftime == ERROR ){
+		Ymessage_error_count() ;
+		}
+		input_time = MAX( ftime, input_time ) ;
+	}
+
+	/* find the output file which was modified the earliest */
+	output_time = INT_MAX ;
+	/* ***************************************************************
+	*  Conditions for program execution:
+	*  1. Input files have later date than output files.
+	*  2. An output file does not exist.
+	*  3. No given output files program is assumed to always be executed.
+	*  ************************************************************* */
+	/* first make check if no output files exist program is executed */
+	if( fdepend = adjptr->ofiles ){
+		/* program may not need to be executed */
+		needtoExecute = FALSE ;
 	} else {
-	    strcpy( filename, fdepend->fname ) ;
+		/* always needs to be executed */
+		needtoExecute = TRUE ;
 	}
-	if(!(YfileExists( filename,TRUE ))){
-	    continue ;
+	for( ; fdepend; fdepend = fdepend->next ){
+		ASSERTNCONT( fdepend->fname,"auto_flow","Null file name\n" );
+		if( *fdepend->fname == '$' ){
+		sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+		} else {
+		strcpy( filename, fdepend->fname ) ;
+		}
+		if(!(YfileExists( filename,TRUE ))){
+		/* one of the output files doesn't exist */
+		needtoExecute = TRUE ;
+		continue ;
+		}
+		ftime = YgetFileTime( filename ) ;
+		if( ftime == ERROR ){
+		Ymessage_error_count() ;
+		}
+		output_time = MIN( ftime, output_time ) ;
 	}
-	ftime = YgetFileTime( filename ) ;
-	if( ftime == ERROR ){
-	    Ymessage_error_count() ;
-	}
-	input_time = MAX( ftime, input_time ) ;
-    }
 
-    /* find the output file which was modified the earliest */
-    output_time = INT_MAX ;
-    /* ***************************************************************
-    *  Conditions for program execution:
-    *  1. Input files have later date than output files.
-    *  2. An output file does not exist.
-    *  3. No given output files program is assumed to always be executed.
-    *  ************************************************************* */
-    /* first make check if no output files exist program is executed */
-    if( fdepend = adjptr->ofiles ){
-	/* program may not need to be executed */
-	needtoExecute = FALSE ;
-    } else {
-	/* always needs to be executed */
-	needtoExecute = TRUE ;
-    }
-    for( ; fdepend; fdepend = fdepend->next ){
-	ASSERTNCONT( fdepend->fname,"auto_flow","Null file name\n" );
-	if( *fdepend->fname == '$' ){
-	    sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
-	} else {
-	    strcpy( filename, fdepend->fname ) ;
+	if( output_time < input_time || needtoExecute ){
+		/* files are out of date - program needs to be executed */
+		return( TRUE ) ;
 	}
-	if(!(YfileExists( filename,TRUE ))){
-	    /* one of the output files doesn't exist */
-	    needtoExecute = TRUE ;
-	    continue ;
-	}
-	ftime = YgetFileTime( filename ) ;
-	if( ftime == ERROR ){
-	    Ymessage_error_count() ;
-	}
-	output_time = MIN( ftime, output_time ) ;
-    }
-
-    if( output_time < input_time || needtoExecute ){
-	/* files are out of date - program needs to be executed */
-	return( TRUE ) ;
-    }
-    return( FALSE ) ;
+	return( FALSE ) ;
 
 } /* end BOOL check_dependencies */
 
