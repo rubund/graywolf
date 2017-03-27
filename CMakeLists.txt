@@ -4,6 +4,9 @@ project (graywolf)
 INCLUDE(GNUInstallDirs)
 INCLUDE(CheckIncludeFiles)
 
+FIND_PACKAGE(BISON REQUIRED)
+FIND_PACKAGE(FLEX REQUIRED)
+
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/config-build.h)
 
 install(
