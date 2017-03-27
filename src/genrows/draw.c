@@ -172,7 +172,7 @@ char *argv[] ;
 	}
     } else {
 	/* init window as a master */
-	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
+	if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),
 	    FALSE,MENU, draw_the_data ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");
 	    graphicsG = FALSE ;
