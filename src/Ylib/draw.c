@@ -236,8 +236,7 @@ static closeFrame(P1(void)) ;
 static VOID set_viewing_transformation() ;
 extern VOID TW3Dperspective( P5(DOUBLE x, DOUBLE y, DOUBLE z, 
     DOUBLE *pX, DOUBLE *pY ) ) ;
-static BOOL TWinit( P7(INT argc,char *argv[],INT numC,char **desiredColors,
-		    BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)() ) ) ;
+static BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)()) ;
 static VOID set_clip_window( P4(INT l, INT r, INT b, INT t) ) ;
 
 /********** THE CRT ROUTINE STATIC DEFINITIONS *************/
@@ -333,59 +332,49 @@ BOOL TWcheckServer()
     return( TRUE ) ;
 } /* end TWcheckServer */
 
-TWsetMode( mode ) 
-INT mode ;
+void TWsetMode( int mode )
 {
-    if( dumpOnlyS && mode != TWWRITEONLY ){
-	D( "TWsetMode",
-	    printf( 
-	    "Drawing mode should not be changed in dumpOnly operation\n");
-	) ;
-	return ;
-    }
-    modeS = mode ;
-    /* select routines */
-    /* ------------------------------------------------------
-       NOTE THAT WRITE ROUTINES ALL CHECK MODE FOR TWWRITENDRAW
-       CASE AND CALL THE DRAW ROUTINES. It is done this way
-       since write routines take alot of time anyway.
-       ALSO note that TWinitGraphic and TWcloseGraphics are
-       implemented as mixed families, since they are only called
-       once each during a run.
-       ------------------------------------------------------ */
-    switch( mode ){
-	case TWDRAWONLY:
-	    /* pick from the D routines */
-	    _TWdrawRect   = drawDRect ;
-	    _TWdrawLine   = drawDLine ;
-	    _TWdrawArb    = drawDArb ;
-	    break ;
-	case TWWRITEONLY:
-	case TWWRITENDRAW:
-	    /* pick from the W routines */
-	    _TWdrawRect   = drawWRect ;
-	    _TWdrawLine   = drawWLine ;
-	    _TWdrawArb    = drawWArb ;
-	    break ;
-    }
+	if( dumpOnlyS && mode != TWWRITEONLY ){
+		D( "TWsetMode",
+		printf( 
+		"Drawing mode should not be changed in dumpOnly operation\n");
+		) ;
+		return ;
+	}
+	modeS = mode ;
+	/* select routines */
+	/* ------------------------------------------------------
+	NOTE THAT WRITE ROUTINES ALL CHECK MODE FOR TWWRITENDRAW
+	CASE AND CALL THE DRAW ROUTINES. It is done this way
+	since write routines take alot of time anyway.
+	ALSO note that TWinitGraphic and TWcloseGraphics are
+	implemented as mixed families, since they are only called
+	once each during a run.
+	------------------------------------------------------ */
+	switch( mode ){
+		case TWDRAWONLY:
+		/* pick from the D routines */
+		_TWdrawRect   = drawDRect ;
+		_TWdrawLine   = drawDLine ;
+		_TWdrawArb    = drawDArb ;
+		break ;
+		case TWWRITEONLY:
+		case TWWRITENDRAW:
+		/* pick from the W routines */
+		_TWdrawRect   = drawWRect ;
+		_TWdrawLine   = drawWLine ;
+		_TWdrawArb    = drawWArb ;
+		break ;
+	}
 
 } /* end TWsetMode */
 
 /* start a new window system */
-BOOL TWinitGraphics(argc,argv,numC,colors,dumpOnly,menu,refresh_func)
-INT argc;
-char *argv[];
-char **colors ;
-BOOL dumpOnly ;
-INT  numC ;
-TWMENUPTR menu ;
-INT (*refresh_func)() ;
+BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
 {
-    parasiteS = FALSE ;
-
-    radiansPerDegreeS = acos( (double) 0.0 ) / (double) 90.0 ;
-    
-    return(TWinit(argc,argv,numC,colors,dumpOnly,menu,refresh_func));
+	parasiteS = FALSE ;
+	radiansPerDegreeS = acos( (double) 0.0 ) / (double) 90.0 ;
+	return(TWinit(numC,colors,dumpOnly,menu,refresh_func));
 } /* end TWinitGraphics */
 
 /* TWinitParasite takes over windows that were already opened */
@@ -401,303 +390,295 @@ INT w ;
 {
     parasiteS = TRUE ;
     backS = (Window) w ;
-    return(TWinit(argc,argv,numC,colors,dumpOnly,menu,refresh_func));
+    return(TWinit(numC,colors,dumpOnly,menu,refresh_func));
 } /* end TWinitParasite */
 
-static BOOL TWinit(argc,argv,numC,desiredColors,dumpOnly,menu,refresh_func)
-INT argc;
-char *argv[];
-INT  numC ;
-char **desiredColors ;
-BOOL dumpOnly ;
-TWMENUPTR menu ;
-INT (*refresh_func)() ;
+static BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)())
 {
+	XSetWindowAttributes attr;
+	XWindowAttributes wattr;
+	XEvent event ;            /* describes event */
+	char *font ;              /* user font request */
+	char *hostmon ;           /* the host name of display */
+	char *Ygetenv() ;         /* get the environment variables */
+	char *reply ;             /* get xdefaults */
+	INT depth;
+	BOOL saveflag ;
+	Window root;
+	XSizeHints hints ;	      /* setup hints for window manager */
+	char *Yfixpath() ;
+	char *winstr ; /* position of Xdefault window */
+	long event_mask ;  /* used to set input selection to window */
+	INT  m ;       /* mask for determining window position*/
 
-    XSetWindowAttributes attr;
-    XWindowAttributes wattr;
-    XEvent event ;            /* describes event */
-    char *font ;              /* user font request */
-    char *hostmon ;           /* the host name of display */
-    char *Ygetenv() ;         /* get the environment variables */
-    char *reply ;             /* get xdefaults */
-    INT depth;
-    BOOL saveflag ;
-    Window root;
-    XSizeHints hints ;	      /* setup hints for window manager */
-    char *Yfixpath() ;
-    char *winstr ; /* position of Xdefault window */
-    long event_mask ;  /* used to set input selection to window */
-    INT  m ;       /* mask for determining window position*/
-
-    dumpOnlyS = dumpOnly ; /* save for rest of execution */
-    if(!(dirNameS = Ygetenv( "DATADIR" ))){
-	/* find fullpathname of data directory */
-	/* dirNameS = Yfixpath( "./DATA", FALSE ) ; */
-	/* Continue with no data dumps;  this is okay! */
-	dirNameS = NULL;
-    }
-
-    /* first look for data directory */
-    if((dirNameS != NULL) && !(YdirectoryExists(dirNameS)) ){
-	/* always send this message to the screen */
-	saveflag = Ymessage_get_mode() ;
-	Ymessage_mode( M_VERBOSE ) ;
-	M(MSG, NULL,"\n\n" ) ;
-	sprintf( YmsgG,"Not Fatal:can't find data directory:%s\n", dirNameS );
-	M(ERRMSG,"TWinitGraphics",YmsgG ) ;
-	M(MSG,NULL, "\tKill program and use \"setenv DATADIR <directoryPath>\" ");
-	M(MSG,NULL, "to set data directory\n");
-	M(MSG,NULL, "\tor allow program to continue with the inability to " ) ;
-	M(MSG,NULL, "perform screen dumps\n");
-	Ymessage_mode( saveflag ) ;
-	dirNameS = NULL ;
-    }
-
-    /* set count to zero */
-    frameCountS = 0 ;
-
-    frameOpenS = FALSE ;
-
-    /* -------------------------------------------------------
-	Set the mode of the graphic routines.
-	mode                      Function
-	0 TWDRAWONLY      Draw graphics to screen.
-	1 TWWRITEONLY     Write graphics to draw program binary files.
-	2 TWWRITENDRAW    Draw graphics to screen and write draw files.
-    For mode 0 hostmon must be valid.
-    For mode 1 dataDir (path of data directory) must be valid.
-    For all modes desiredColors must be valid.
-    --------------------------------------------------------- */
-    if( dumpOnlyS ){
-	/* we are done for the dump_graphics mode */
-	initS = TRUE ;
-	TWsetMode( TWWRITEONLY ) ;  /* always enable both modes */
-	return ;
-    } else {
-	/* OTHERWISE INITIALIZE BOTH MODES */
-	TWsetMode( TWWRITENDRAW ) ;  /* always enable both modes */
-    }
-    /*****  BEGIN SCREEN GRAPHICS IN THIS ROUTINE **** */
-
-    /* get host name from environment variable */
-    if(!(hostmon = Ygetenv("DISPLAY"))) {
-	M(ERRMSG,"TWinitGraphics","Could not get DISPLAY environment variable.\n");
-	YexitPgm(NOINIT) ;
-    }
-    /* open display */
-    if(!(dpyS = XOpenDisplay(hostmon))) {
-	M(ERRMSG,"TWinitGraphics","Could not connect to X server.\n");
-	YexitPgm(NOINIT) ;
-    }
-    /* get various information about display */
-    screenS = DefaultScreen(dpyS);
-    cmapS = DefaultColormap(dpyS,screenS);
-    parentS = root = RootWindow(dpyS,screenS);
-    depth = DefaultDepth(dpyS,screenS);
-
-    /* check whether machine is color or not */
-    if( (colorS = XDisplayCells( dpyS, screenS )) > 2 ){ 
-	/* if color number of display cells > 0 */
-	colorS = TRUE ;
-	if( reply = XGetDefault( dpyS, GRAPHICS, "bw" )){
-	    if( strcmp( reply, "on" ) == STRINGEQ ){
-		colorS = FALSE ;
-	    }
+	dumpOnlyS = dumpOnly ; /* save for rest of execution */
+	if(!(dirNameS = Ygetenv( "DATADIR" ))){
+		/* find fullpathname of data directory */
+		/* dirNameS = Yfixpath( "./DATA", FALSE ) ; */
+		/* Continue with no data dumps;  this is okay! */
+		dirNameS = NULL;
 	}
-    } else {
-	colorS = FALSE ;
-    }
 
+	/* first look for data directory */
+	if((dirNameS != NULL) && !(YdirectoryExists(dirNameS)) ){
+		/* always send this message to the screen */
+		saveflag = Ymessage_get_mode() ;
+		Ymessage_mode( M_VERBOSE ) ;
+		M(MSG, NULL,"\n\n" ) ;
+		sprintf( YmsgG,"Not Fatal:can't find data directory:%s\n", dirNameS );
+		M(ERRMSG,"TWinitGraphics",YmsgG ) ;
+		M(MSG,NULL, "\tKill program and use \"setenv DATADIR <directoryPath>\" ");
+		M(MSG,NULL, "to set data directory\n");
+		M(MSG,NULL, "\tor allow program to continue with the inability to " ) ;
+		M(MSG,NULL, "perform screen dumps\n");
+		Ymessage_mode( saveflag ) ;
+		dirNameS = NULL ;
+	}
 
-    /* set font and get font info */
-    if(font = XGetDefault( dpyS, GRAPHICS, "font" )){
-        fontinfoS = TWgetfont( font, &fontS ) ;
-	infoBoxS.fontname = font ;  
-    } else {
-	/* we perfer our default to be 9x15 */
-        fontinfoS = TWgetfont( "9x15", &fontS ) ;
-	if(!(fontinfoS )){
-	    fontinfoS = TWgetfont( "fixed", &fontS ) ;
-	    infoBoxS.fontname = "fixed" ;
+	/* set count to zero */
+	frameCountS = 0 ;
+
+	frameOpenS = FALSE ;
+
+	/* -------------------------------------------------------
+		Set the mode of the graphic routines.
+		mode                      Function
+		0 TWDRAWONLY      Draw graphics to screen.
+		1 TWWRITEONLY     Write graphics to draw program binary files.
+		2 TWWRITENDRAW    Draw graphics to screen and write draw files.
+	For mode 0 hostmon must be valid.
+	For mode 1 dataDir (path of data directory) must be valid.
+	For all modes desiredColors must be valid.
+	--------------------------------------------------------- */
+	if( dumpOnlyS ){
+		/* we are done for the dump_graphics mode */
+		initS = TRUE ;
+		TWsetMode( TWWRITEONLY ) ;  /* always enable both modes */
+		return ;
 	} else {
-	    infoBoxS.fontname = "9x15" ;
+		/* OTHERWISE INITIALIZE BOTH MODES */
+		TWsetMode( TWWRITENDRAW ) ;  /* always enable both modes */
 	}
-    }
-    /* see if we should turn on the stipple pattern */
-    if( reply = XGetDefault( dpyS, GRAPHICS, "stipple" )){
-	if( strcmp( reply, "on" ) == STRINGEQ ){
-	    stippleS = TRUE ;
+	/*****  BEGIN SCREEN GRAPHICS IN THIS ROUTINE **** */
+
+	/* get host name from environment variable */
+	if(!(hostmon = Ygetenv("DISPLAY"))) {
+		M(ERRMSG,"TWinitGraphics","Could not get DISPLAY environment variable.\n");
+		YexitPgm(NOINIT) ;
 	}
-    }
-    /* see if we should turn on/off the rectangular fill */
-    if( reply = XGetDefault( dpyS, GRAPHICS, "rectangle_fill" )){
-	if( strcmp( reply, "off" ) == STRINGEQ ){
-	    rect_fillS = FALSE ; /* dont fill rectangles - default on */
-	} 
-    }
-    /* see if we should turn on/off the arbitrary fill */
-    if( reply = XGetDefault( dpyS, GRAPHICS, "arbitrary_fill" )){
-	if( strcmp( reply, "off" ) == STRINGEQ ){
-	    fillArbS = FALSE ; /* dont fill arbs - default on */
-	} 
-    }
-    /* see if we should turn off the reverse video */
-    if( reply = XGetDefault( dpyS, GRAPHICS, "reverse" )){
-	if( strcmp( reply, "on" ) == STRINGEQ ){
-	    reverseS = TRUE ;
+	/* open display */
+	if(!(dpyS = XOpenDisplay(hostmon))) {
+		M(ERRMSG,"TWinitGraphics","Could not connect to X server.\n");
+		YexitPgm(NOINIT) ;
 	}
-    }
+	/* get various information about display */
+	screenS = DefaultScreen(dpyS);
+	cmapS = DefaultColormap(dpyS,screenS);
+	parentS = root = RootWindow(dpyS,screenS);
+	depth = DefaultDepth(dpyS,screenS);
 
-    /* see if we need to reset the wait time to redraw */
-    if( reply = XGetDefault( dpyS, GRAPHICS, "wait_time" )){
-	TWsafe_wait_timeG = atoi( reply ) ;
-    } else {
-	TWsafe_wait_timeG = 2 ;
-    }
-
-
-    /* initialize position */
-    if( winstr = XGetDefault( dpyS, GRAPHICS, "geometry" )){
-	m = XParseGeometry( winstr,&winxS,&winyS,&winwidthS,&winheightS) ;
-	if( m & XNegative ){
-	    winxS = XDisplayWidth( dpyS, screenS ) + winxS ;
-	}
-	if( m & YNegative ){
-	    winyS = XDisplayHeight( dpyS, screenS ) + winyS ;
-	}
-	/* these two lines insure that uses doesn't have to press */
-	/* button using twm window manager */
-	if( winxS == 0 ) winxS++ ;
-	if( winyS == 0 ) winyS++ ;
-	hints.flags = USPosition | USSize ;
-    } else {
-	winwidthS = INT_WIDTH;
-	winheightS = INT_HEIGHT;
-	winxS = INT_X;
-	winyS = INT_Y;
-	hints.flags = PPosition | PSize ;
-    }
-    /* end initializing position of window */
-
-    XSelectInput(dpyS,root,SubstructureNotifyMask );
-
-    attr.event_mask = StructureNotifyMask
-		    | SubstructureNotifyMask
-		    | VisibilityChangeMask
-		    | ExposureMask;
-
-    attr.override_redirect = FALSE ;
-    attr.save_under = FALSE ;
-    attr.backing_store = NotUseful ;
-
-    if(reverseS == TRUE){ 
-	attr.background_pixel = BlackPixel(dpyS,screenS);
-    } else {
-	attr.background_pixel = WhitePixel(dpyS,screenS);
-    }
-
-    if(!(parasiteS)){
-	backS = XCreateWindow(dpyS,root,winxS,winyS,winwidthS,
-		winheightS,
-		0,depth,InputOutput,DefaultVisual(dpyS,screenS),
-		CWEventMask|CWBackPixel|CWOverrideRedirect|
-		CWSaveUnder | CWBackingStore,&attr);
-
-	drawS = XCreateSimpleWindow( dpyS, backS, 
-	    0, MENUHEIGHT, winwidthS, winheightS - 2*MENUHEIGHT,
-		0L, BlackPixel(dpyS,screenS), attr.background_pixel ) ;
-
-	event_mask = ExposureMask | ButtonPressMask ;
-	XSelectInput(dpyS,drawS,event_mask);
-
-	/* initialize colors and/or stipple patterns */
-	initcolors( desiredColors, numC ) ;
-
-	/* set the window manager hints */
-	hints.x = winxS ;
-	hints.y = winyS ;
-	hints.width = winwidthS ;
-	hints.height = winheightS ;
-	XSetStandardProperties( dpyS,backS,GRAPHICS,GRAPHICS,None,argv,argc,&hints);
-
-	XMapWindow(dpyS,backS);
-	XMapRaised(dpyS,drawS);
-
-	/* wait to get window */
-	XSync(dpyS, FALSE );
-	/* -------------------------------------------------------------
-	   Now wait to window to become visible.  This code is necessary 
-	   since some window managers (uwm) map the window as a ghost 
-	   image and wait for user to resize window.  Other window 
-	   managers (twm) map window as requested.  Need to accomodate
-	   both.
-	-------------------------------------------------------------- */
-	while( TRUE ){
-	    if( XCheckTypedWindowEvent(dpyS,backS,VisibilityNotify,&event)){
-		if( event.xvisibility.state == VisibilityUnobscured ){
-		    break ;
+	/* check whether machine is color or not */
+	if( (colorS = XDisplayCells( dpyS, screenS )) > 2 ){ 
+		/* if color number of display cells > 0 */
+		colorS = TRUE ;
+		if( reply = XGetDefault( dpyS, GRAPHICS, "bw" )){
+		if( strcmp( reply, "on" ) == STRINGEQ ){
+			colorS = FALSE ;
 		}
-	    }
+		}
+	} else {
+		colorS = FALSE ;
 	}
 
-    } else { /* for a parasite case */
-	/* retrieve the window information */
-	drawS = TWgetWindowId( dpyS, backS ) ;
-	/* set the event mask for the windows */
-	event_mask = StructureNotifyMask | 
-	    SubstructureNotifyMask | VisibilityChangeMask ;
-	XSelectInput(dpyS,backS,event_mask);
-	event_mask = ExposureMask | ButtonPressMask ;
-	XSelectInput(dpyS,drawS,event_mask);
-	/* initialize colors and/or stipple patterns */
-	initcolors( desiredColors, numC ) ;
-    }
-	
-    /* if the window manager added border around window we */
-    /* need to save new origin of window */
-    /* also if user changed size we need to get it */
-    XGetWindowAttributes( dpyS, backS, &wattr ) ;
-    winxS = infoBoxS.winx = wattr.x ;
-    winyS = infoBoxS.winy = wattr.y ;
-    winwidthS = infoBoxS.winwidth = wattr.width ;
-    winheightS = infoBoxS.winheight = wattr.height - 2 * MENUHEIGHT ;
-    /* default user data boarder to size of window */
-    leftS = 0 ;
-    bottomS = MENUHEIGHT ;
-    rightS = winwidthS ;
-    topS = winheightS ;
-    fullViewS = TRUE ; 
 
-    /* save the refresh function */
-    infoBoxS.refresh_func = refresh_func ;
+	/* set font and get font info */
+	if(font = XGetDefault( dpyS, GRAPHICS, "font" )){
+		fontinfoS = TWgetfont( font, &fontS ) ;
+		infoBoxS.fontname = font ;  
+	} else {
+		/* we perfer our default to be 9x15 */
+		fontinfoS = TWgetfont( "9x15", &fontS ) ;
+		if(!(fontinfoS )){
+		fontinfoS = TWgetfont( "fixed", &fontS ) ;
+		infoBoxS.fontname = "fixed" ;
+		} else {
+		infoBoxS.fontname = "9x15" ;
+		}
+	}
+	/* see if we should turn on the stipple pattern */
+	if( reply = XGetDefault( dpyS, GRAPHICS, "stipple" )){
+		if( strcmp( reply, "on" ) == STRINGEQ ){
+		stippleS = TRUE ;
+		}
+	}
+	/* see if we should turn on/off the rectangular fill */
+	if( reply = XGetDefault( dpyS, GRAPHICS, "rectangle_fill" )){
+		if( strcmp( reply, "off" ) == STRINGEQ ){
+		rect_fillS = FALSE ; /* dont fill rectangles - default on */
+		} 
+	}
+	/* see if we should turn on/off the arbitrary fill */
+	if( reply = XGetDefault( dpyS, GRAPHICS, "arbitrary_fill" )){
+		if( strcmp( reply, "off" ) == STRINGEQ ){
+		fillArbS = FALSE ; /* dont fill arbs - default on */
+		} 
+	}
+	/* see if we should turn off the reverse video */
+	if( reply = XGetDefault( dpyS, GRAPHICS, "reverse" )){
+		if( strcmp( reply, "on" ) == STRINGEQ ){
+		reverseS = TRUE ;
+		}
+	}
 
-    TW3Dnormal_view() ;
-
-    if(!(parasiteS)){
-	XClearWindow(dpyS,drawS);
-    }
-
-    /* off screen copy of the data */
-    pixmapS = XCreatePixmap( dpyS, drawS,
-	(unsigned)winwidthS, (unsigned)winheightS, 
-	XDefaultDepth(dpyS,screenS) ) ;
-
-    if(!(TWinitMenuWindow( menu ))){
-	initS = TRUE ; /* fake out TWcloseGraphics */
-	TWcloseGraphics() ;
-	YexitPgm(NOINIT) ;
-    }
+	/* see if we need to reset the wait time to redraw */
+	if( reply = XGetDefault( dpyS, GRAPHICS, "wait_time" )){
+		TWsafe_wait_timeG = atoi( reply ) ;
+	} else {
+		TWsafe_wait_timeG = 2 ;
+	}
 
 
-    TWdrawMenus() ;
-    XFlush( dpyS ) ;
+	/* initialize position */
+	if( winstr = XGetDefault( dpyS, GRAPHICS, "geometry" )){
+		m = XParseGeometry( winstr,&winxS,&winyS,&winwidthS,&winheightS) ;
+		if( m & XNegative ){
+		winxS = XDisplayWidth( dpyS, screenS ) + winxS ;
+		}
+		if( m & YNegative ){
+		winyS = XDisplayHeight( dpyS, screenS ) + winyS ;
+		}
+		/* these two lines insure that uses doesn't have to press */
+		/* button using twm window manager */
+		if( winxS == 0 ) winxS++ ;
+		if( winyS == 0 ) winyS++ ;
+		hints.flags = USPosition | USSize ;
+	} else {
+		winwidthS = INT_WIDTH;
+		winheightS = INT_HEIGHT;
+		winxS = INT_X;
+		winyS = INT_Y;
+		hints.flags = PPosition | PSize ;
+	}
+	/* end initializing position of window */
 
-    /* initialization has been done sucessfully */
-    displayOpenS = TRUE; /* display is open for business */
-    initS = TRUE ;
-    TWsetMode( TWDRAWONLY ) ;
-    return( initS ) ;
+	XSelectInput(dpyS,root,SubstructureNotifyMask );
+
+	attr.event_mask = StructureNotifyMask
+			| SubstructureNotifyMask
+			| VisibilityChangeMask
+			| ExposureMask;
+
+	attr.override_redirect = FALSE ;
+	attr.save_under = FALSE ;
+	attr.backing_store = NotUseful ;
+
+	if(reverseS == TRUE){ 
+		attr.background_pixel = BlackPixel(dpyS,screenS);
+	} else {
+		attr.background_pixel = WhitePixel(dpyS,screenS);
+	}
+
+	if(!(parasiteS)){
+		backS = XCreateWindow(dpyS,root,winxS,winyS,winwidthS,
+			winheightS,
+			0,depth,InputOutput,DefaultVisual(dpyS,screenS),
+			CWEventMask|CWBackPixel|CWOverrideRedirect|
+			CWSaveUnder | CWBackingStore,&attr);
+
+		drawS = XCreateSimpleWindow( dpyS, backS, 
+		0, MENUHEIGHT, winwidthS, winheightS - 2*MENUHEIGHT,
+			0L, BlackPixel(dpyS,screenS), attr.background_pixel ) ;
+
+		event_mask = ExposureMask | ButtonPressMask ;
+		XSelectInput(dpyS,drawS,event_mask);
+
+		/* initialize colors and/or stipple patterns */
+		initcolors( desiredColors, numC ) ;
+
+		/* set the window manager hints */
+		hints.x = winxS ;
+		hints.y = winyS ;
+		hints.width = winwidthS ;
+		hints.height = winheightS ;
+		//XSetStandardProperties(dpyS,backS,GRAPHICS,GRAPHICS,None,&hints);
+
+		XMapWindow(dpyS,backS);
+		XMapRaised(dpyS,drawS);
+
+		/* wait to get window */
+		XSync(dpyS, FALSE );
+		/* -------------------------------------------------------------
+		Now wait to window to become visible.  This code is necessary 
+		since some window managers (uwm) map the window as a ghost 
+		image and wait for user to resize window.  Other window 
+		managers (twm) map window as requested.  Need to accomodate
+		both.
+		-------------------------------------------------------------- */
+		while( TRUE ){
+		if( XCheckTypedWindowEvent(dpyS,backS,VisibilityNotify,&event)){
+			if( event.xvisibility.state == VisibilityUnobscured ){
+			break ;
+			}
+		}
+		}
+
+	} else { /* for a parasite case */
+		/* retrieve the window information */
+		drawS = TWgetWindowId( dpyS, backS ) ;
+		/* set the event mask for the windows */
+		event_mask = StructureNotifyMask | 
+		SubstructureNotifyMask | VisibilityChangeMask ;
+		XSelectInput(dpyS,backS,event_mask);
+		event_mask = ExposureMask | ButtonPressMask ;
+		XSelectInput(dpyS,drawS,event_mask);
+		/* initialize colors and/or stipple patterns */
+		initcolors( desiredColors, numC ) ;
+	}
+		
+	/* if the window manager added border around window we */
+	/* need to save new origin of window */
+	/* also if user changed size we need to get it */
+	XGetWindowAttributes( dpyS, backS, &wattr ) ;
+	winxS = infoBoxS.winx = wattr.x ;
+	winyS = infoBoxS.winy = wattr.y ;
+	winwidthS = infoBoxS.winwidth = wattr.width ;
+	winheightS = infoBoxS.winheight = wattr.height - 2 * MENUHEIGHT ;
+	/* default user data boarder to size of window */
+	leftS = 0 ;
+	bottomS = MENUHEIGHT ;
+	rightS = winwidthS ;
+	topS = winheightS ;
+	fullViewS = TRUE ; 
+
+	/* save the refresh function */
+	infoBoxS.refresh_func = refresh_func ;
+
+	TW3Dnormal_view() ;
+
+	if(!(parasiteS)){
+		XClearWindow(dpyS,drawS);
+	}
+
+	/* off screen copy of the data */
+	pixmapS = XCreatePixmap( dpyS, drawS,
+		(unsigned)winwidthS, (unsigned)winheightS, 
+		XDefaultDepth(dpyS,screenS) ) ;
+
+	if(!(TWinitMenuWindow( menu ))){
+		initS = TRUE ; /* fake out TWcloseGraphics */
+		TWcloseGraphics() ;
+		YexitPgm(NOINIT) ;
+	}
+
+
+	TWdrawMenus() ;
+	XFlush( dpyS ) ;
+
+	/* initialization has been done sucessfully */
+	displayOpenS = TRUE; /* display is open for business */
+	initS = TRUE ;
+	TWsetMode( TWDRAWONLY ) ;
+	return( initS ) ;
 
 } /* end function TWinitGraphics */
 

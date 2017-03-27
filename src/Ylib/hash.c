@@ -76,143 +76,134 @@ static INT tablesize ;
 static YTABLEPTR *table ;
 
 
-YHASHPTR Yhash_table_create( numentries )
-INT numentries ;
+YHASHPTR Yhash_table_create( int numentries )
 {
-    YHASHPTR  hashtable ;
-    INT Yhash_table_size() ;
+	YHASHPTR  hashtable ;
+	INT Yhash_table_size() ;
 
-    hashtable = YMALLOC( 1, YHASHBOX ) ;
-    hashtable->size = tablesize = Yhash_table_size( numentries ) ;
+	hashtable = YMALLOC( 1, YHASHBOX ) ;
+	hashtable->size = tablesize = Yhash_table_size( numentries ) ;
 
-    table = YCALLOC( tablesize, YTABLEPTR ) ;
-    hashtable->hash_table = table ;
-    hashtable->thread = NULL ; /* initialize list */
-    return(hashtable) ;
+	table = YCALLOC( tablesize, YTABLEPTR ) ;
+	hashtable->hash_table = table ;
+	hashtable->thread = NULL ; /* initialize list */
+	return(hashtable) ;
 } /* end Yhash_create */
 
-INT Yhash_table_get( hashtable )
-YHASHPTR  hashtable ;
+int Yhash_table_get( YHASHPTR hashtable )
 {
-    return(hashtable->size) ;
+	return(hashtable->size) ;
 }
 
-Yhash_table_delete(hashtable, userdelete )
-YHASHPTR  hashtable ;
-INT  (*userdelete)() ;
+void Yhash_table_delete(YHASHPTR hashtable, int (*userdelete()))
 {
-    INT i ;
-    YTABLEPTR hptr , zapptr ;
+	INT i ;
+	YTABLEPTR hptr , zapptr ;
 
-    table = hashtable->hash_table ;
-    tablesize = hashtable->size ;
-    for( i = 0 ; i < tablesize ; i++ ) {
-	for( hptr=table[i];hptr; ){
-	    zapptr = hptr ;
-	    hptr = hptr->next ;
-	    /* execute user define delete function if requested */
-	    if( userdelete ){
-		(*userdelete)(zapptr->data) ;
-	    }
-	    YFREE( zapptr ) ;
+	table = hashtable->hash_table ;
+	tablesize = hashtable->size ;
+	for( i = 0 ; i < tablesize ; i++ ) {
+		for( hptr=table[i];hptr; ){
+		zapptr = hptr ;
+		hptr = hptr->next ;
+		/* execute user define delete function if requested */
+		if( userdelete ){
+			(*userdelete)(zapptr->data) ;
+		}
+		YFREE( zapptr ) ;
+		}
 	}
-    }
-    YFREE( table ) ;
-    YFREE( hashtable ) ;
+	YFREE( table ) ;
+	YFREE( hashtable ) ;
 
 }
 
 /* returns true if conflict occured */
-char *Yhash_search(hashtable, key, data, operation )
-YHASHPTR  hashtable ;
-char *key ;
-VOIDPTR data ;
-INT operation ;
+char *Yhash_search(YHASHPTR hashtable, char *key, VOIDPTR data, int operation )
 {
+	#ifdef HASHFUNC1
+	int i, len;
+	#else
+	int shift ;
+	char *name ;
+	#endif
+	unsigned int hsum = 0 ;
+	YTABLEPTR   curPtr, temptr, curTable, tempThread ;
 
-#ifdef HASHFUNC1
-    INT     i ,
-	    len ;
-#else
-    INT     shift ;
-    char    *name ;
-#endif
-    UNSIGNED_INT hsum = 0 ;
-    YTABLEPTR   curPtr, temptr, curTable, tempThread ;
+	/* initialization */
+	table = hashtable->hash_table ;
+	tablesize = hashtable->size ;
 
-    /* initialization */
-    table = hashtable->hash_table ;
-    tablesize = hashtable->size ;
+	#ifdef HASHFUNC1
+	printf("miau key=%s\n",key);
+	len = strlen(key) ;
+	for( i = 0 ;i < len; i++ ) {
+		hsum += ( unsigned int ) key[i] ;
+	}
+	#else
+	/*  FUNCTION hash_key */
+	name = key ;
+	for (shift=1 ;*name; name++){
+		hsum = hsum + *name<<shift;
+		shift = (shift + 1) & 0x0007;
+	}
+	#endif
+	hsum %= tablesize ;
 
-#ifdef HASHFUNC1
-    len = strlen(key) ;
-    for( i = 0 ;i < len; i++ ) {
-	hsum += ( UNSIGNED_INT ) key[i] ;
-    }
-#else
-    /*  FUNCTION hash_key */
-    name = key ;
-    for (shift=1 ;*name; name++){
-	hsum = hsum + *name<<shift;
-	shift = (shift + 1) & 0x0007;
-    }
-#endif
-    hsum %= tablesize ;
-
-    /* insert into table only if distinct number */
-    if( temptr = table[hsum] ){
-	/* list started at this hash */
-	for(curPtr=temptr;curPtr;curPtr=curPtr->next ) {
-	    if( strcmp(curPtr->key, key ) == STRINGEQ ){
-		if( operation == DELETE ){
-		    /* delete item in table by making data NULL */
-		    /* this is only a quick fix and should be */
-		    /* modified in the future to remove the space */
-		    curPtr->data = NULL ;
-		    /* operation a success so return -1 */
-		    return( (char *) -1 ) ;
-		} else {
-		    /* operation find or enter - return item */
-		    return( curPtr->data ) ;
+	/* insert into table only if distinct number */
+	if( temptr = table[hsum] ){
+		/* list started at this hash */
+		for(curPtr=temptr;curPtr;curPtr=curPtr->next ) {
+		if( strcmp(curPtr->key, key ) == STRINGEQ ){
+			if( operation == DELETE ){
+			/* delete item in table by making data NULL */
+			/* this is only a quick fix and should be */
+			/* modified in the future to remove the space */
+			curPtr->data = NULL ;
+			/* operation a success so return -1 */
+			return( (char *) -1 ) ;
+			} else {
+			/* operation find or enter - return item */
+			return( curPtr->data ) ;
+			}
 		}
-	    }
-	}
-	if( operation == ENTER ){
-	    /* now save data */
-	    table[hsum] = curTable = YMALLOC( 1, YTABLEBOX ) ;
-	    curTable->data = (char *) data ;
-	    curTable->key = (char *) Ystrclone( key ) ;
-	    curTable->next = temptr ;
-	    /* now fix thread which goes through hash table */
-	    tempThread = hashtable->thread ;
-	    hashtable->thread = curTable ;
-	    curTable->threadNext = tempThread ;
-	}
-
-    } else {
-	/* no list started at this hash */
-	if( operation == ENTER ){ 
-	    /* enter into the table on an enter command */
-	    curTable = table[hsum] = YMALLOC( 1, YTABLEBOX ) ;
-	    curTable->data = (char *) data ;
-	    curTable->key = (char *) Ystrclone( key ) ;
-	    curTable->next = NULL ;
-	    /* now fix thread which goes through hash table */
-	    if( tempThread = hashtable->thread ){
+		}
+		if( operation == ENTER ){
+		/* now save data */
+		table[hsum] = curTable = YMALLOC( 1, YTABLEBOX ) ;
+		curTable->data = (char *) data ;
+		curTable->key = (char *) Ystrclone( key ) ;
+		curTable->next = temptr ;
+		/* now fix thread which goes through hash table */
+		tempThread = hashtable->thread ;
 		hashtable->thread = curTable ;
 		curTable->threadNext = tempThread ;
-	    } else {
-		/* first entry into hash table */
-		hashtable->thread = curTable ;
-		curTable->threadNext = NULL ;
-	    } /* thread fixed */
+		}
 
 	} else {
-	    /* cant find anything on a find operation */
-	    return( NULL ) ;
+		/* no list started at this hash */
+		if( operation == ENTER ){ 
+		/* enter into the table on an enter command */
+		curTable = table[hsum] = YMALLOC( 1, YTABLEBOX ) ;
+		curTable->data = (char *) data ;
+		curTable->key = (char *) Ystrclone( key ) ;
+		curTable->next = NULL ;
+		/* now fix thread which goes through hash table */
+		if( tempThread = hashtable->thread ){
+			hashtable->thread = curTable ;
+			curTable->threadNext = tempThread ;
+		} else {
+			/* first entry into hash table */
+			hashtable->thread = curTable ;
+			curTable->threadNext = NULL ;
+		} /* thread fixed */
+
+		} else {
+		/* cant find anything on a find operation */
+			return( NULL ) ;
+		}
 	}
-    }
-    return( NULL ) ; /* no conflict on a enter */
+	return( NULL ) ; /* no conflict on a enter */
 
 } /* end hash_search */
 

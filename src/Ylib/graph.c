@@ -3170,34 +3170,33 @@ VOID Ygraph_drawRequired(graph)
     TW3DdrawLine(0,e->x1,e->y1,e->z1,e->x2,e->y2,e->z2,color,0);
   }
   ---------------------------------------------------------*/
-VOID Ygraph_drawPrime(graph)
-  YGRAPHPTR graph;
+void Ygraph_drawPrime(YGRAPHPTR graph)
 {
-  YEDGEPTR edge;
-  
-  D("Ygraph_drawPrime",
-    ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_drawPrime","bogus graph");
-    );
-  
-  if ( graph->userDrawEdge ) {    
-    
-    /* now draw the nodes which have not yet been drawn */
-    for ( Ydeck_top(graph->primeDeck); Ydeck_notEnd(graph->primeDeck);
-	 Ydeck_down(graph->primeDeck ) ) {
-      edge = (YEDGEPTR) Ydeck_getData(graph->primeDeck);
-      (*graph->userDrawEdge)(edge,edge->color);    
-    }
-    
-    
-  }     /* end for each node */
-  
-  TWflushFrame();       /* draw any pending events */
+	YEDGEPTR edge;
+	
+	D("Ygraph_drawPrime",
+	ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_drawPrime","bogus graph");
+	);
+	
+	if ( graph->userDrawEdge ) {    
+	
+	/* now draw the nodes which have not yet been drawn */
+	for ( Ydeck_top(graph->primeDeck); Ydeck_notEnd(graph->primeDeck);
+		Ydeck_down(graph->primeDeck ) ) {
+	edge = (YEDGEPTR) Ydeck_getData(graph->primeDeck);
+	(*graph->userDrawEdge)(edge,edge->color);    
+	}
+	
+	
+	}     /* end for each node */
+	
+	TWflushFrame();       /* draw any pending events */
 
-  D("Ygraph_drawPrime",
-    TWmessage("Waiting for keypress:");
-    getchar();
-    TWmessage("keypress acknowledged...");
-    );
+	D("Ygraph_drawPrime",
+	TWmessage("Waiting for keypress:");
+	getchar();
+	TWmessage("keypress acknowledged...");
+	);
 }
 
 /*---------------------------------------------------------

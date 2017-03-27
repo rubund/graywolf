@@ -891,18 +891,16 @@ INT size, num;
     return p;
 }
 /* when not testing memory just call system free */
-VOID Ysafe_free(ptr)
-VOIDPTR ptr;
+void Ysafe_free(VOIDPTR ptr)
 {
-    free(ptr);
-    return;
+	free(ptr);
+	return;
 }
 
-VOID Ysafe_cfree(ptr)
-VOIDPTR ptr;
+void Ysafe_cfree(VOIDPTR ptr)
 {
-    cfree(ptr);
-    return;
+// 	cfree(ptr);
+	return;
 }
 
 /* ***********DUMMY ROUTINES TO RESOLVE GLOBALS **************** */
