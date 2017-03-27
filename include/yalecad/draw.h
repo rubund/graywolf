@@ -81,8 +81,7 @@ extern  _TW3DdrawAxis( P1(BOOL drawNotErase) ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
-extern BOOL TWinitGraphics( P7(INT argc, char *argv[], INT numC, char *colors[],
-		BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)() )) ;
+extern BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)()) ;
 /* 
 Function:
     Initialization of graphics package.  Needs to be called first.
@@ -122,7 +121,7 @@ Function:
     Should be performed before end of program.
 */
 
-extern TWsetMode( P1(INT mode) ) ;
+extern void TWsetMode( P1(int mode) ) ;
 /* 
 Function:
     Allows user to change mode during run.  Helpful to dump the current
