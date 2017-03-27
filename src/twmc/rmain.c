@@ -65,7 +65,6 @@ static char SccsId[] = "@(#) rmain.c version 3.6 2/23/91" ;
 rmain( constraint_flag )
 BOOL constraint_flag ;
 {
-    INT closegraphics() ;
     char filename[LRECL] ;
     char *Yrelpath() ;
     char *pathname ;
@@ -109,7 +108,6 @@ BOOL constraint_flag ;
     M( MSG, NULL, YmsgG ) ;
     M( MSG, NULL, "\n" ) ;
     /* Ysystem will kill program if catastrophe occurred */
-    //Ysystem( GROUTEPROG, ABORT, YmsgG, closegraphics ) ;
     Ysafe_free( pathname ) ; /* free name created in Yrelpath */
     /* ############# end of gengraph execution ############# */
 

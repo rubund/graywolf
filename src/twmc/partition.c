@@ -114,8 +114,6 @@ static INT num_macroS ;               /* number of macros output */
 
 /* Forward declaration */
 
-extern INT closegraphics();
-
 config_rows()
 {
 	DOUBLE read_par_file() ;     /* get default from user */
@@ -140,7 +138,6 @@ config_rows()
 	/* now call genrows program */
 	/* find the path of genrows relative to main program */
 	/* Ysystem will kill program if catastrophe occurred */
-	//Ysystem( GENROWPROG, ABORT, YmsgG, closegraphics ) ;
 	int status;
 	int localWindowID;
 	char tmpBuf[23];
@@ -397,9 +394,6 @@ INT left, right, bottom, top ;
     TWCLOSE( fp ) ;
 } /* end build_mver_file */
 
-    
-
-
 read_gen_file()
 {
     char filename[LRECL] ;
@@ -459,8 +453,7 @@ read_gen_file()
 
     if( abort ){
 	M(ERRMSG, "read_gen_file", "Problem with genrows. Must abort\n" ) ;
-	closegraphics() ;
-	YexitPgm( PGMFAIL ) ;
+return 1;
     }
     /* ************ END READ RESULTS of genrows ************/
 

@@ -630,7 +630,7 @@ static process_readpar()
 			}
 		}
 		printf("TimberWolf instructed to do ");
-		printf("global route for circuit:<%s>\n", cktNameG ) ;
+		printf("global route for circuit: <%s>\n", cktNameG ) ;
 		if( ! doChannelGraphG ) {
 			printf("TimberWolf assumes input files: ");
 			printf("<%s.gph> and <%s.twf> are present in ",
@@ -640,7 +640,7 @@ static process_readpar()
 	}
 	if( doCompactionG ) {
 		printf("TimberWolf instructed to do ");
-		printf("post-placement compaction for circuit:<%s>\n",cktNameG);
+		printf("post-placement compaction for circuit: <%s>\n",cktNameG);
 		if( !(doChannelGraphG && doGlobalRouteG) ) {
 			printf("Error: TimberWolf cannot do compaction ");
 			printf("without request to also do:\n");

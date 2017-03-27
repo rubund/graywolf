@@ -94,7 +94,6 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing file */
     INT  numtokens, line ;
-    INT closegraphics() ;
     BOOL abort ; /* whether to abort program */
     INT cell ;
     INT xc, yc ;        /* xcenter and ycenter of cell */
@@ -132,7 +131,6 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
     M( MSG, NULL, YmsgG ) ;
     M( MSG, NULL, "\n" ) ;
     /* Ysystem will kill program if catastrophe occurred */
-    //Ysystem( GENGRAPHPROG, ABORT, YmsgG, closegraphics ) ;
 
     if( stateSaved ){
 	sleep(1) ;
@@ -226,8 +224,7 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
 	}
     }
     if( abort ){
-	closegraphics() ;
-	YexitPgm( PGMFAIL ) ;
+return 1;
     }
     TWCLOSE( fp ) ;
     /* ********************** end routing tiles ********************** */

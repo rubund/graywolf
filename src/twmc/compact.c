@@ -107,7 +107,6 @@ BOOL compactFlag ; /* signals use of compaction */
 	INT xcenter, ycenter ;
 	INT xoffset, yoffset ;
 	INT l, r, b, t ;
-	INT closegraphics() ;
 	CELLBOXPTR cellptr ;
 	TILEBOXPTR tileptr ;
 	BOUNBOXPTR bounptr ;            /* bounding box pointer */
@@ -331,8 +330,7 @@ BOOL compactFlag ; /* signals use of compaction */
 
 	if( abort ){
 		M(ERRMSG, "compact", "Problem with compaction. Must abort\n" ) ;
-		closegraphics() ;
-		YexitPgm( PGMFAIL ) ;
+		return 1;
 	}
 	/* ************ END READ RESULTS of compaction ************/
 

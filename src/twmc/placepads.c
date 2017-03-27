@@ -819,7 +819,6 @@ call_place_pads()
     INT line ;
     INT numnets ;
     INT numtokens ;
-    INT closegraphics() ;
     INT find_numnets() ;
     BOOL abort ;
     char **tokens ;
@@ -916,8 +915,7 @@ call_place_pads()
 
     if( abort ){
 	M(ERRMSG, "placepads", "Problem with placing pads.Must abort\n") ;
-	closegraphics() ;
-	YexitPgm( PGMFAIL ) ;
+	return 1;
     }
     /* ************ END READ RESULTS of placepads ************/
 

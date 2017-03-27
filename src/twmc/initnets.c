@@ -54,7 +54,7 @@ static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
 #include <analog.h>
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
-#include <readnets.h>  /* redefine yacc and lex globals */
+#include "readnets.h"  /* redefine yacc and lex globals */
 
 #define HOWMANY      0
 
@@ -74,25 +74,24 @@ static COMMONPTR commonS ;  /* current common point record */
 /* initialization before parsing nets */
 init_nets()
 {
-    YHASHPTR getNetTable() ;
-    numpathsG = 0 ;
-    netTableS = getNetTable() ;
-    net_cap_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
-    net_res_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
+	YHASHPTR getNetTable() ;
+	numpathsG = 0 ;
+	netTableS = getNetTable() ;
+	net_cap_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
+	net_res_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
 } /* end init_nets */
 
 
 /* cleanup after parsing nets */
 cleanup_nets()
 {
-    if( abortFlagS ){
-	closegraphics() ;
-	YexitPgm( FAIL ) ;
-    }
-    build_path_array() ;
-    init_path_set() ;
-    init_net_set() ;
-    add_paths_to_cells() ;
+	if( abortFlagS ){
+return 1;
+	}
+	build_path_array() ;
+	init_path_set() ;
+	init_net_set() ;
+	add_paths_to_cells() ;
 } /* end cleanup_nets */
 
 set_net_error()
@@ -100,29 +99,28 @@ set_net_error()
     abortFlagS = TRUE ;
 } /* end set_net_error */
 
-static INT find_net( netname )
-char *netname ;
+static INT find_net( char *netname)
 {
-    char *data ;
-    int  net ;
+	char *data ;
+	int  net ;
 
-    if(!(data = Yhash_search( netTableS, netname, NULL, FIND))){
-	printf( "The net named: %s  in the .net file ", netname );
-	printf( "was not encountered while reading\n");
-	printf( "the .cel file --- FATAL error\n");
-	Ymessage_error_count() ;
-	abortFlagS = TRUE ;
-	return( 0 ) ;
-    }
-    net = * ( (INT *) data ) ;
-    if( net < 1 || net > numnetsG ){
-	sprintf( YmsgG, "net:%s - number:%d out of bounds\n",
-	    netname, net ) ;
-	M( ERRMSG, "find_net", YmsgG ) ;
-	return( 0 ) ;
-    } else {
-	return( net ) ;
-    }
+	if(!(data = Yhash_search( netTableS, netname, NULL, FIND))){
+		printf( "The net named: %s  in the .net file ", netname );
+		printf( "was not encountered while reading\n");
+		printf( "the .cel file --- FATAL error\n");
+		Ymessage_error_count() ;
+		abortFlagS = TRUE ;
+		return( 0 ) ;
+	}
+	net = * ( (INT *) data ) ;
+	if( net < 1 || net > numnetsG ){
+		sprintf( YmsgG, "net:%s - number:%d out of bounds\n",
+		netname, net ) ;
+		M( ERRMSG, "find_net", YmsgG ) ;
+		return( 0 ) ;
+	} else {
+		return( net ) ;
+	}
 } /* end find_net */
 
 add_path( pathFlag, net )

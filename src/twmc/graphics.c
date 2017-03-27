@@ -178,56 +178,53 @@ INT argc, windowId ;
 char *argv[] ;
 {
 
-    char *host ;
+	char *host ;
 
 #ifndef DEVELOPMENU
-    set_graphics_wait_menu( MENU ) ;
+	set_graphics_wait_menu( MENU ) ;
 #endif
 
-    if( !(doGraphicsG) ){
-	TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),TRUE,MENU,
-	    draw_the_data ) ;
-	return ;
-    }
-	
-    /* we need to find host for display */
-    if(!(host = Ygetenv("DISPLAY"))) {
-	M(WARNMSG,"initMCGraphics","Can't get environment variable ");
-	M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
-	avoidDump = TRUE ;
-	doGraphicsG = FALSE ;
-	return ;
-    }
-    if( windowId ){
-	/* init windows as a parasite */
-	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
-	    M(ERRMSG,"initMCGraphics","Aborting graphics.");
-	    doGraphicsG = FALSE ;
-	    avoidDump = TRUE ;
-	    return ;
+	if( !(doGraphicsG) ){
+		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE,MENU, draw_the_data ) ;
+		return ;
 	}
-    } else {
-	/* init window as a master */
-	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),FALSE,MENU,
-	    draw_the_data ))){
-	    M(ERRMSG,"initMCGraphics","Aborting graphics.");
-	    doGraphicsG = FALSE ;
-	    avoidDump = TRUE ;
-	    return ;
+		
+	/* we need to find host for display */
+	if(!(host = Ygetenv("DISPLAY"))) {
+		M(WARNMSG,"initMCGraphics","Can't get environment variable ");
+		M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
+		avoidDump = TRUE ;
+		doGraphicsG = FALSE ;
+		return ;
 	}
-    }
-    TWsetwindow( 0, 0, 10, 10 ) ;
-    TWsetFrame(0) ;
-    TWdrawCell( 0, 0,0,11,11, BINCOLOR, INTRO ) ;
-    TWmessage("To interupt program click on top menu window") ;
-    TWflushFrame() ;
-    selectCellS = 0 ; /* initialize to no selected cells */
-    /* use TWinterupt to turn off window enter/leave lights */
-    TWinterupt() ;
-    /* set the default pin size */
-    pinsizeS = (track_spacingXG + track_spacingYG) / 4 - 1 ;
-    pinsizeS = MAX( 1, pinsizeS ) ;
+	if( windowId ){
+		/* init windows as a parasite */
+		if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data, windowId ))){
+			M(ERRMSG,"initMCGraphics","Aborting graphics.");
+			doGraphicsG = FALSE ;
+			avoidDump = TRUE ;
+			return ;
+		}
+	} else {
+		/* init window as a master */
+		if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),FALSE,MENU, draw_the_data ))){
+			M(ERRMSG,"initMCGraphics","Aborting graphics.");
+			doGraphicsG = FALSE ;
+			avoidDump = TRUE ;
+			return ;
+		}
+	}
+	TWsetwindow( 0, 0, 10, 10 ) ;
+	TWsetFrame(0) ;
+	TWdrawCell( 0, 0,0,11,11, BINCOLOR, INTRO ) ;
+	TWmessage("To interupt program click on top menu window") ;
+	TWflushFrame() ;
+	selectCellS = 0 ; /* initialize to no selected cells */
+	/* use TWinterupt to turn off window enter/leave lights */
+	TWinterupt() ;
+	/* set the default pin size */
+	pinsizeS = (track_spacingXG + track_spacingYG) / 4 - 1 ;
+	pinsizeS = MAX( 1, pinsizeS ) ;
 
 } /* end initMCGraphics */
 

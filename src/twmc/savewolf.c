@@ -331,24 +331,19 @@ FILE *fp ;
 	}
 } /* end TW_oldinput */
 
-HPO(fp,d)
-FILE *fp;			/* high precision output */
-DOUBLE d;
+void HPO(FILE *fp, double *d)
 {
 	fprintf(fp,"%34.32le\n",d);
 } /* end HPO */
 
-HPI(fp,d)
-FILE *fp;			/* high precision input */
-DOUBLE *d;
+int HPI(FILE *fp, double *d)
 {
 	INT numread ;
 
 	numread = (INT) fscanf(fp,"%s\n",YmsgG);
 	if( numread != 1 ){
 		M( ERRMSG, "HPI", "Could not read data.  FATAL must abort\n" ) ;
-		closegraphics() ;
-		YexitPgm( PGMFAIL ) ;
+		return 1;
 	}
 	*d = atof( YmsgG ) ;
 } /* end HPI */

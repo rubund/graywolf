@@ -111,41 +111,37 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #define  EXPECTEDMEMORY     (1024 * 1024) 
 #define  NOREDUCTION        -1000000.0 ; 
 
-DOUBLE saveLapFactorG ;
+double saveLapFactorG ;
 static BOOL parasiteS;   /* whether window is a parasite */
 static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
-static INT  windowIdS ;  /* the master window id if given */
-static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
+static double  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 
 /* Forward declarations */
 
-VOID syntax();
-INT closegraphics();
-
+int
 __attribute__((visibility("default")))
-TimberWolfMC( argc , argv )
-//main( argc , argv )
-INT argc ;
-char *argv[] ;
+TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, int windowIdS, char *dName)
 {
+	printf("Running TimberWolfMC\n");
 
 	FILE    *fp ;
-	char    filename[LRECL],
+	char
+		filename[LRECL],
 		arguments[LRECL], /* pointer to argument options */
 		*ptr,             /* pointer to argument options */
 		*Ystrclone() ;
 
-	INT	yaleIntro(),
-		attempts,
-		arg_count ;       /* argument counter */
+	int yaleIntro();
 
-	INT	rememberWire, /* variables for writing history of run */
+	int
+		rememberWire, /* variables for writing history of run */
 		rememberPenal,
 		rememberRand ;
-	BOOL	get_arg_string( P1(char *arguments) ) ;
-	DOUBLE	calc_init_lapFactor() ,
+
+	double
+		calc_init_lapFactor() ,
 		calc_init_timeFactor() ,
 		calc_init_coreFactor() ,
 		analyze() ,
@@ -159,114 +155,77 @@ char *argv[] ;
 	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
 	Yinit_memsize( EXPECTEDMEMORY ) ;
 
-	if( argc < 2 || argc > 5 ){
-		syntax() ;
-	} else {
-		debugS      = FALSE ;
-		verboseG    = FALSE ;
-		parasiteS   = FALSE ;
-		quickrouteG = FALSE ;
-		windowIdS   = 0 ;
-		scale_dataG = 0 ;
-		batchS      = FALSE ;
-		#ifndef NOGRAPHICS
-		doGraphicsG = TRUE ;
-		#else /* NOGRAPHICS case */
+	debugS      = FALSE ;
+	verboseG    = FALSE ;
+	parasiteS   = FALSE ;
+	quickrouteG = FALSE ;
+	windowIdS   = 0 ;
+	scale_dataG = 0 ;
+	batchS      = FALSE ;
+
+	if(b) {
+		batchS = TRUE ;
 		doGraphicsG = FALSE ;
-		#endif /* NOGRAPHICS */
-		arg_count = 1 ;
-		if( *argv[1] == '-' ){
-			for( ptr = ++argv[1]; *ptr; ptr++ ){
-				switch( *ptr ){
-					case 'b':
-						batchS = TRUE ;
-						doGraphicsG = FALSE ;
-						break ;
-					case 'd':
-						debugS = TRUE ;
-						break ;
-					case 'n':
-						doGraphicsG = FALSE ;
-						break ;
-					case 'o': /* overflow */
-						scale_dataG = atoi( argv[++arg_count] ) ;
-						break ;
-					case 'p':
-						padsOnlyS = TRUE ;
-						break ;
-					case 'q':
-						quickrouteG = TRUE ;
-						break ;
-					case 'v':
-						verboseG = TRUE ;
-						break ;
-					case 'w':
-						parasiteS = TRUE ;
-						break ;
-					default:
-						sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
-						M(ERRMSG,"main",YmsgG);
-						syntax() ;
-				}
-			}
-			YdebugMemory( debugS ) ;
+	}
+	if(d) {
+		debugS = TRUE ;
+	}
+	if(n) {
+		doGraphicsG = FALSE ;
+	}
+	if(p) {
+		padsOnlyS = TRUE ;
+	}
+	if(q) {
+		quickrouteG = TRUE ;
+	}
+	if(v) {
+		verboseG = TRUE ;
+	}
+	if(w) {
+		parasiteS = TRUE ;
+	}
+	cktNameG = dName;
 
-			/* handle I/O requests */
-			argv0G = Ystrclone( argv[0] ) ;
-			cktNameG = Ystrclone( argv[++arg_count] );
-			sprintf( filename, "%s.mout" , cktNameG ) ;
-			if( scale_dataG ){
-				fpoG = TWOPEN( filename, "a", ABORT ) ;
-			} else {
-				fpoG = TWOPEN( filename, "w", ABORT ) ;
-			}
+#ifndef NOGRAPHICS
+	doGraphicsG = TRUE ;
+#else /* NOGRAPHICS case */
+	doGraphicsG = FALSE ;
+#endif /* NOGRAPHICS */
 
-			YinitProgram( "TimberWolfMC", VERSION, yaleIntro );
+	scale_dataG = scale_dataP;
 
-			/* now tell the user what he picked */
-			M(MSG,NULL,"\n\nTimberWolfMC switches:\n" ) ;
-			if( debugS ){
-				YsetDebug( TRUE ) ;
-				M(MSG,NULL,"\tdebug on\n" ) ;
-			} 
-			if( verboseG  ){
-				M(MSG,NULL,"\tMessages will be redirected to screen\n" ) ;
-			}
-			if( doGraphicsG ){
-				M(MSG,NULL,"\tGraphics mode on\n" ) ;
-			} else {
-				M(MSG,NULL,"\tGraphics mode off\n" ) ;
-			}
-			if( parasiteS ){
-				M(MSG,NULL,"\tTimberWolfMC will inherit window\n" ) ;
-				/* look for windowid */
-				if((scale_dataG && argc != 5) || (!scale_dataG && argc != 4)){
-					M(ERRMSG,"main","Need to specify windowID\n" ) ;
-					syntax() ;
+	YdebugMemory( debugS ) ;
 
-				} else {
-					windowIdS = atoi( argv[++arg_count] ) ;
-				} 
-			}
-			M(MSG,NULL,"\n" ) ;
-		} else if( argc == 2 ){
-			/* order is important here */
-			YdebugMemory( FALSE ) ;
-			cktNameG = Ystrclone( argv[1] );
-			argv0G = Ystrclone( argv[0] ) ;
+	/* handle I/O requests */
+// 	argv0G = Ystrclone( argv[0] ) ;
+	sprintf( filename, "%s.mout" , cktNameG ) ;
+	if( scale_dataG ){
+		fpoG = TWOPEN( filename, "a", ABORT ) ;
+	} else {
+		fpoG = TWOPEN( filename, "w", ABORT ) ;
+	}
 
-			sprintf( filename, "%s.mout" , cktNameG ) ;
-			fpoG = TWOPEN( filename, "w", ABORT ) ;
+	YinitProgram( "TimberWolfMC", VERSION, yaleIntro );
 
-			YinitProgram( "TimberWolfMC", VERSION, yaleIntro );
-		} else {
-			syntax() ;
-		}
+	/* now tell the user what he picked */
+	M(MSG,NULL,"\n\nTimberWolfMC switches:\n" ) ;
+	if( debugS ){
+		YsetDebug( TRUE ) ;
+		M(MSG,NULL,"\tdebug on\n" ) ;
+	} 
+	if( verboseG  ){
+		M(MSG,NULL,"\tMessages will be redirected to screen\n" ) ;
+	}
+	if( doGraphicsG ){
+		M(MSG,NULL,"\tGraphics mode on\n" ) ;
+	} else {
+		M(MSG,NULL,"\tGraphics mode off\n" ) ;
 	}
 
 	/* ********************** end initialization ************************* */
 	readpar() ;
-	G( initMCGraphics( argc, argv, windowIdS  ) ) ;
+// 	G( initMCGraphics( argc, argv, windowIdS  ) ) ;
 
 	while( TRUE ) {
 		/* initialize annealing exp. table */
@@ -308,39 +267,14 @@ char *argv[] ;
 			if(!(YfileExists( filename ))){
 				/* perform a quickroute if file doesn't exist */
 				quickrouteG = TRUE ;
-				parasiteS = get_arg_string( arguments ) ;
-				M( MSG, NULL, arguments ) ;
-				M( MSG, NULL, "\n" ) ;
-				char tmpBuf[23];
-				int localArgc = 3;
-				char* localArgv[5];
-				localArgv[0] = "TimberWolfMC";
-				localArgv[2] = Ystrclone(cktNameG);
- 
-				if(parasiteS && doGraphicsG){
-					localArgc = 4;
-					localArgv[1] = "-qw";
-					int localWindowID = 0 ;
-					localWindowID = TWsaveState();
-					sprintf(tmpBuf,"%d",localWindowID);
-					localArgv[3] = Ystrclone(tmpBuf);
-				} else {
-					localArgc = 3;
-					if(doGraphicsG) {
-						localArgv[1] = "-q";
-					} else {
-						localArgv[1] = "-nq";
-					}
-				}
-				TimberWolfMC(localArgc,localArgv);
-
 				if( parasiteS ){
 					/* if we save the graphics state we need to restore it */
 					G( TWrestoreState() ) ;
 				}
-
+			} else {
 				quickrouteG = FALSE ;
 			}
+			TimberWolfMC(b, d, n, scale_dataP, p, quickrouteG, v, (parasiteS && doGraphicsG), windowIdS, cktNameG);
 		}
 		/* check to see if .mest file was created */
 		new_wire_estG = FALSE ;
@@ -408,8 +342,7 @@ char *argv[] ;
 				wire_red_ratioS = analyze() ;
 
 				if( wireEstimateOnlyG ) {
-					closegraphics() ;
-					YexitPgm(OK);
+					return 0;
 				}
 
 			} else {
@@ -458,7 +391,7 @@ char *argv[] ;
 		} else {
 			G( graphics_dump() ) ;
 		}
-		closegraphics() ;
+// 		closegraphics() ;
 	}
 	printf("\n\n************************************ \n\n");
 	printf("TimberWolf has completed its mission\n");
@@ -470,8 +403,7 @@ char *argv[] ;
 	if( sc_output() ){
 		create_sc_output() ;
 	}
-	//Ymessage_close() ;
-	YexitPgm(OK) ;
+	return 0;
 } /* end main routine */
 
 INT yaleIntro() 
@@ -512,93 +444,12 @@ INT wire, penal, rand ;
 	TWCLOSE( fpdebug ) ;
 } /* end writeResults */
 
-/* close graphics window on fault */
-
-INT closegraphics( )
-{
-	if( doGraphicsG ){
-		G( TWcloseGraphics() ) ;
-	}
-} /* end closegraphics */
-
-/* give user correct syntax */
-
-VOID syntax()
-{
-	M(ERRMSG,NULL,"\n" ) ; 
-	M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-	sprintf( YmsgG, 
-			"\nTimberWolfMC [-dnpvw] designName [windowId] \n" ) ;
-	M(MSG,NULL,YmsgG ) ; 
-	M(MSG,NULL,"\twhose options are zero or more of the following:\n");
-	M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
-	M(MSG,NULL,"\t\t    error checking\n");
-	M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
-	M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
-	M(MSG,NULL,"\t\tp - place pads only - read core placement.\n");
-	M(MSG,NULL,"\t\tv - verbose mode - writes to screen\n");
-	M(MSG,NULL,"\t\tw - parasite mode - user must specify windowId\n");
-	YexitPgm(PGMFAIL);
-} /* end syntax */
-
-/* used to TimberWolfMC recursively for the overflow case */
-/* returns windowid if graphics are on and window is passed */
-BOOL get_arg_string( arguments )
-char *arguments ;
-{
-	char temp[LRECL] ; /* used to build strings */
-	INT  window ;      /* current window ID */
-
-	sprintf( arguments, "%s -", argv0G ) ;
-	if( scale_dataG ){
-		strcat( arguments, "o" ) ;
-	}
-	if( debugS ){
-		strcat( arguments, "d" ) ;
-	}
-	if( verboseG ){
-		strcat( arguments, "v" ) ;
-	}
-	if( quickrouteG ){
-		strcat( arguments, "q" ) ;
-	}
-	window = 0 ;
-	if( doGraphicsG ){
-		/* save state of graphics and get window id */
-		G( window = TWsaveState() ) ;
-		if( window ){
-			strcat( arguments, "w" ) ;
-		}
-	} else if( batchS ){
-		strcat( arguments, "b" ) ;
-	} else {
-		strcat( arguments, "n" ) ;
-	}
-	strcat( arguments, " " ) ;
-	/* now build the values */
-	if( scale_dataG ){
-		sprintf( temp, "%d ", scale_dataG ) ;
-		strcat( arguments, temp ) ;
-	}
-	/* now the design name */
-	strcat( arguments, cktNameG ) ;
-	/* now pass graphics window if necessary */
-	if( window ){
-		sprintf( temp, " %d", window ) ;
-		strcat( arguments, temp ) ;
-		return(TRUE) ;
-	} else {
-		return(FALSE) ;
-	}
-} /* end function get_arg_string() */
-
 BOOL get_batch_mode()
 {
 	return( batchS ) ;
 } /* end get_batch_mode */
 
-set_wiring_reduction( reduction )
-DOUBLE reduction ;
+void set_wiring_reduction( double reduction )
 {
 	wire_red_ratioS = reduction ;
 } /* set_wiring_reduction */

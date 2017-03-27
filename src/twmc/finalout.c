@@ -117,8 +117,7 @@ savewolf( TRUE ) ;  /* for debug purposes force save to occur */
 if( scale_dataG > 1 ){
     /* end of the line for scaled case - 
 	will return to parent to continue using saved placement. */
-    closegraphics() ;
-    YexitPgm( PGMOK ) ;
+return 1;
 }
 grid_cells() ;      /* force cells to grid locations */
 compact(VIOLATIONSONLY); /* remove cell overlap */

@@ -312,8 +312,7 @@ NETBOXPTR netptr ;
 	    fprintf( fpS, "cap_match " ) ;
 	    for( j = 1; j <= howmany; j++ ){
 		pin = cpt->cap_match[j] ;
-		ASSERTNCONT( pin > 0 && pin < numpinsG,
-		    "outpin", "Trouble with cap_match\n" ) ;
+		ASSERTNCONT( pin > 0 && pin < numpinsG, "outpin", "Trouble with cap_match\n" ) ;
 		pinname = termarrayG[pin]->pinname ; 
 		len += strlen( pinname ) ;
 		if( j > 1 ){
