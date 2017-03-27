@@ -66,8 +66,8 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 #define EXPECTEDNUMNETS         10009
 
 typedef struct {
-    BOOL io_signal ;
-    char *net ;
+	BOOL io_signal ;
+	char *net ;
 } NETBOX, *NETPTR ;
 
 static int objectS = 0 ;       /* number of objects read */
@@ -84,88 +84,79 @@ static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 /* *************************************************************** */
-init()
+void init()
 {
-    /* get ready for parsing */
-    /* make hash table for nets */
-    netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
+	/* get ready for parsing */
+	/* make hash table for nets */
+	netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
 } /* end init */
 
-addCell( celltype, cellname )
-int celltype ;
-char *cellname ;
+void addCell(int celltype, char *cellname)
 {
-
-    strcpy( current_cellS, cellname ) ;
-    Ysafe_free( cellname ) ;
-    /* passify the user */
-    if( (++objectS % 50) == 0 ){
-	sprintf( YmsgG, "Read %4d objects so far...\n", objectS ) ;
-	M( MSG, NULL, YmsgG ) ;
-    }
-    celltypeS = celltype ;   /* save for determining instances etc. */
-
+	strcpy( current_cellS, cellname ) ;
+	/* passify the user */
+	if( (++objectS % 50) == 0 ){
+		sprintf( YmsgG, "Read %4d objects so far...\n", objectS ) ;
+		M( MSG, NULL, YmsgG ) ;
+	}
+	celltypeS = celltype ;   /* save for determining instances etc. */
 } /* end addCell */
 
-addNet( signal )
-char *signal ;
+void addNet( char *signal )
 {
-    NETPTR data ;
+	NETPTR data ;
 
-    if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
-	return ; /* not a net so return */
-    }
-    if( data = (NETPTR) Yhash_search( netTableS, signal, NULL, FIND )){
-	/* this net now makes an io connection mark it as such */
-	switch( celltypeS ){
-	case HARDCELLTYPE:
-	case SOFTCELLTYPE:
-	case PADCELLTYPE:
-	    data->io_signal = TRUE ;
-	    break ;
-	case STDCELLTYPE:
-	    break ;
+	if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
+		return ; /* not a net so return */
 	}
-    } else {
-	/* else a new net - load data holder */
-	data = (NETPTR) Ysafe_malloc( sizeof(NETBOX) ) ;
-	data->net = signal ;
-	switch( celltypeS ){
-	case HARDCELLTYPE:
-	case SOFTCELLTYPE:
-	case PADCELLTYPE:
-	    data->io_signal = TRUE ;
-	    break ;
-	case STDCELLTYPE:
-	    data->io_signal = FALSE ;
-	    break ;
+	if( data = (NETPTR) Yhash_search( netTableS, signal, NULL, FIND )) {
+		/* this net now makes an io connection mark it as such */
+		switch( celltypeS ){
+			case HARDCELLTYPE:
+			case SOFTCELLTYPE:
+			case PADCELLTYPE:
+				data->io_signal = TRUE ;
+				break ;
+			case STDCELLTYPE:
+				break ;
+		}
+	} else {
+		/* else a new net - load data holder */
+		data = (NETPTR) Ysafe_malloc( sizeof(NETBOX) ) ;
+		data->net = signal ;
+		switch( celltypeS ){
+			case HARDCELLTYPE:
+			case SOFTCELLTYPE:
+			case PADCELLTYPE:
+				data->io_signal = TRUE ;
+				break ;
+			case STDCELLTYPE:
+				data->io_signal = FALSE ;
+				break ;
+		}
+		if( Yhash_search( netTableS, signal, (char *)data, ENTER )) {
+			sprintf( YmsgG, "Trouble adding signal:%s to hash table\n", signal ) ;
+			M(ERRMSG,"addNet",YmsgG ) ;
+		}
 	}
-	if( Yhash_search( netTableS, signal, (char *)data, ENTER )){
-	    sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
-		signal ) ;
-	    M(ERRMSG,"addNet",YmsgG ) ;
-	}
-    }
 } /* end addNet */
 
-set_bbox( left, right, bottom, top )
-INT left, right, bottom, top ;
+void set_bbox( int left, int right, int bottom, int top )
 {
-    DOUBLE width, height ;
+	DOUBLE width, height ;
 
-    width = (DOUBLE) (right - left) ;
-    total_cell_lenS += width ;
-    height = (DOUBLE) (top - bottom) ;
-    total_cell_heightS += height ;
-    total_areaS += width * height ;
-    core_areaS += width * (height + row_sep_absS) ;
-    total_std_cellS++ ;
+	width = (DOUBLE) (right - left) ;
+	total_cell_lenS += width ;
+	height = (DOUBLE) (top - bottom) ;
+	total_cell_heightS += height ;
+	total_areaS += width * height ;
+	core_areaS += width * (height + row_sep_absS) ;
+	total_std_cellS++ ;
 } /* end set_bbox */
 
-output( fp )
-FILE *fp ;
+void output( FILE *fp )
 {
-	INT g ;
+	int g ;
 
 	if( total_std_cellS > 0 ){
 		average_cell_heightS = total_cell_heightS / 
@@ -181,18 +172,17 @@ FILE *fp ;
 	printf( "Total cell height  :%4.2le\n", total_cell_heightS ) ;
 	printf( "Total cell area    :%4.2le\n", total_areaS ) ;
 	printf( "Total core area    :%4.2le\n", core_areaS ) ;
-	printf( "Average cell height:%4.2le\n\n",
-			average_cell_heightS ) ;
+	printf( "Average cell height:%4.2le\n\n", average_cell_heightS ) ;
 
 
 	/* the first instance take as a rectangle - initially a square */
-	g = (INT) sqrt( core_areaS ) ;
+	g = (int) sqrt( core_areaS ) ;
 	fprintf( fp, "cluster 1 name core\n" ) ;
 	fprintf( fp, "corners 4 0 0   0 %d  %d %d   %d 0\n", g, g, g, g ) ;
 	write_softpins( fp ) ;
 
 	/* for the second instance use an L shape */
-	g = (INT) sqrt( core_areaS / 3.0 ) ;
+	g = (int) sqrt( core_areaS / 3.0 ) ;
 	if( g > 2 ){
 		fprintf( fp, "instance core_L\n" ) ;
 		fprintf( fp, "corners 6 " ) ;
@@ -206,7 +196,7 @@ FILE *fp ;
 	}
 
 	/* for the third instance use a T shape */
-	g = (INT) sqrt( core_areaS / 4.0 ) ;
+	g = (int) sqrt( core_areaS / 4.0 ) ;
 	if( g > 2 ){
 		fprintf( fp, "instance core_T\n" ) ;
 		fprintf( fp, "corners 8 " ) ;
@@ -223,7 +213,7 @@ FILE *fp ;
 
 #ifdef USHAPE
 	/* for the third instance use a U shape */
-	g = (INT) sqrt( core_areaS / 5.0 ) ;
+	g = (int) sqrt( core_areaS / 5.0 ) ;
 	if( g > 2 ){
 		fprintf( fp, "instance core_U\n" ) ;
 		fprintf( fp, "corners 8 " ) ;
@@ -240,7 +230,7 @@ FILE *fp ;
 #endif
 
 	/* for the fourth instance use a modified L shape */
-	g = (INT) sqrt( core_areaS / 5.0 ) ;
+	g = (int) sqrt( core_areaS / 5.0 ) ;
 	if( g > 2 ){
 		fprintf( fp, "instance core_L2\n" ) ;
 		fprintf( fp, "corners 6 " ) ;
@@ -254,69 +244,65 @@ FILE *fp ;
 	}
 } /* end output */
 
-write_softpins( fp )
-FILE *fp ;
+void write_softpins( FILE *fp )
 {
-    YTABLEPTR thread ;
-    NETPTR net ;
-    int pin_count ;
+	YTABLEPTR thread ;
+	NETPTR net ;
+	int pin_count ;
 
-    fprintf( fp, "asplb 0.5 aspub 2.0\n" ) ;
-    fprintf( fp, "class 0 orientations 0 1 2 3 4 5 6 7\n") ;
+	fprintf( fp, "asplb 0.5 aspub 2.0\n");
+	fprintf( fp, "class 0 orientations 0 1 2 3 4 5 6 7\n") ;
 
-    pin_count = 0 ;
-    for( thread=netTableS->thread;thread;thread=thread->threadNext){
-	net = (NETPTR) thread->data ;
-	if( net->io_signal ){
-	    fprintf( fp, "softpin name pin%d signal %s\n", 
-		++pin_count, net->net ) ;
-	    
+	pin_count = 0 ;
+	for( thread=netTableS->thread;thread;thread=thread->threadNext){
+		net = (NETPTR) thread->data ;
+		if( net->io_signal ) {
+			fprintf( fp, "softpin name pin%d signal %s\n", ++pin_count, net->net ) ;
+		}
 	}
-    }
-    fprintf( fp, "\n" ) ;
+	fprintf( fp, "\n" ) ;
 } /* end write_softpins */
 
 read_par()
 {
-    char input[LRECL] ;
-    char *bufferptr ;
-    char **tokens ;
-    INT  numtokens ;
-    INT  line ;
-    BOOL onNotOff ;
-    BOOL wildcard ;
-    BOOL found ;
+	char input[LRECL] ;
+	char *bufferptr ;
+	char **tokens ;
+	int numtokens ;
+	int line ;
+	BOOL onNotOff ;
+	BOOL wildcard ;
+	BOOL found ;
 
-    found = FALSE ;
-    Yreadpar_init( cktNameG, USER, TWSC, TRUE ) ;
-    while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens, 
-	&onNotOff, &wildcard )){
-	if( numtokens == 0 ){
-	    /* skip over empty lines */
-	    continue ;
+	found = FALSE ;
+	Yreadpar_init( cktNameG, USER, TWSC, TRUE ) ;
+	while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens, &onNotOff, &wildcard )) {
+		if( numtokens == 0 ){
+		/* skip over empty lines */
+		continue ;
+		}
+		if ((numtokens != 2) && (numtokens != 3)) {
+		continue ;
+		}
+		if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
+		row_sepS = atof( tokens[1] ) ;
+		if (numtokens == 3)
+			row_sep_absS = atof( tokens[2] ) ;
+		found = TRUE ;
+		}
 	}
-	if ((numtokens != 2) && (numtokens != 3)) {
-	    continue ;
+	if(!(found)){
+		M(WARNMSG, "read_par", "Couldn't find rowsep in parameter file\n" ) ;
+		M(WARNMSG, NULL,"Using default of 1.0\n" ) ; 
+		row_sepS = 1.0 ;
+		row_sep_absS = 0.0 ;
 	}
-	if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
-	    row_sepS = atof( tokens[1] ) ;
-	    if (numtokens == 3)
-		row_sep_absS = atof( tokens[2] ) ;
-	    found = TRUE ;
-	}
-    }
-    if(!(found)){
-	M(WARNMSG, "read_par", "Couldn't find rowsep in parameter file\n" ) ;
-	M(WARNMSG, NULL,"Using default of 1.0\n" ) ; 
-	row_sepS = 1.0 ;
-	row_sep_absS = 0.0 ;
-    }
 } /* end readpar */
 
 update_stats( fp )
 FILE *fp ;
 {
-    fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);
-    fprintf( fp, "num_soft:1\n" ) ;
-    fprintf( fp, "cell_height:%d\n", (INT) average_cell_heightS);
+	fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);
+	fprintf( fp, "num_soft:1\n" ) ;
+	fprintf( fp, "cell_height:%d\n", (INT) average_cell_heightS);
 } /* end update_stats */

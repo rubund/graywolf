@@ -69,17 +69,16 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
+int
 __attribute__((visibility("default")))
-Mincut( argc , argv )
-int argc ;
-char *argv[] ;
+Mincut( int debugON,  char *dName)
 {
 	char *YinitProgram(), *Ystrclone() ;
 	char filename[LRECL] ;
 	char command[LRECL] ;
 	char *ptr ;
 	int  arg_count ;
-	int  yaleIntro() ;
+	   void yaleIntro() ;
 	int  debug ;
 	FILE *fp ;
 	char *twdir, *Ygetenv() ;
@@ -89,42 +88,15 @@ char *argv[] ;
 
 	Yinit_memsize( EXPECTEDMEMORY ) ;
 
-	if( argc < 2 || argc > 3 ){
-		syntax() ;
+	if(debugON) {
+		debug = TRUE;
+		M(MSG,NULL,"\tdebug on\n" ) ;
 	} else {
-		debug      = FALSE ;
-		arg_count = 1 ;
-		if( *argv[1] == '-' ){
-			for( ptr = ++argv[1]; *ptr; ptr++ ){
-				switch( *ptr ){
-					case 'd':
-						debug = TRUE ;
-						break ;
-					default:
-						sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
-						M(ERRMSG,"main",YmsgG);
-						syntax() ;
-				}
-			}
-			YdebugMemory( debug ) ;
-			cktNameG = Ystrclone( argv[++arg_count] );
-
-			/* now tell the user what he picked */
-			M(MSG,NULL,"\n\nSyntax switches:\n" ) ;
-			if( debug ){
-				YsetDebug( TRUE ) ;
-				M(MSG,NULL,"\tdebug on\n" ) ;
-			} 
-			M(MSG,NULL,"\n" ) ;
-		} else if( argc == 2 ){
-			/* order is important here */
-			YdebugMemory( FALSE ) ;
-			cktNameG = Ystrclone( argv[1] );
-
-		} else {
-			syntax() ;
-		}
+		debug = FALSE;
 	}
+	cktNameG = Ystrclone(dName);
+	YsetDebug(debug) ;
+	YdebugMemory( debug );
 
 	/* we can change this value in the debugger */
 	YinitProgram(NOCUT, VERSION, yaleIntro) ;
@@ -136,8 +108,10 @@ char *argv[] ;
 
 	sprintf( filename, "%s.mcel", cktNameG ) ;
 	fp = fopen( filename, "w") ;
-	output( fp ) ;
-	fclose( fp ) ;
+	if(fp) {
+		output( fp ) ;
+		fclose( fp ) ;
+	}
 
 	sprintf( filename, "%s.stat", cktNameG ) ;
 	fp = fopen( filename, "a") ;
@@ -153,22 +127,10 @@ char *argv[] ;
 	printf( "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;
 	printf( "\tdone!\n\n" ) ;
 
-	YexitPgm( PGMOK ) ;
+	return 0;
 } /* end main */
 
-
-/* give user correct syntax */
-syntax()
-{
-   M(ERRMSG,NULL,"\n" ) ; 
-   M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-   sprintf( YmsgG, 
-       "\n%s circuitName\n\n", NOCUT );
-   M(MSG,NULL,YmsgG ) ; 
-   YexitPgm(PGMFAIL);
-} /* end syntax */
-
-yaleIntro() 
+void yaleIntro()
 {
     int i ;
 
