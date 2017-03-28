@@ -521,7 +521,7 @@ BOOL direction ;
 
 /* ***************************************************************** */
 
-fixCell( int fixedType, int xloc, char *lorR, int yloc, char *borT, int xloc2, char *lorR2, int yloc2, char *borT2 ) /* valid types - neighborhood. point, group */
+void fixCell( int fixedType, int xloc, char *lorR, int yloc, char *borT, int xloc2, char *lorR2, int yloc2, char *borT2 ) /* valid types - neighborhood. point, group */
 {
 	INT leftOrRight, bottomOrTop ;
 	INT leftOrRight2, bottomOrTop2 ;
@@ -569,6 +569,7 @@ fixCell( int fixedType, int xloc, char *lorR, int yloc, char *borT, int xloc2, c
 		M(ERRMSG,"fixCell", "Problem passing arguments to function\n" ) ;
 		setErrorFlag() ;
 	}
+
 	if( fixedType != POINTFLAG ){
 		fixptr->xloc1 = xloc ;
 		fixptr->yloc1 = yloc ;
@@ -765,8 +766,7 @@ void processCorners( int numcorners )
 } /* end processCorners */
 /* ***************************************************************** */
 
-addCorner( xpos, ypos )
-INT xpos, ypos ;
+void addCorner( int xpos, int ypos )
 {
 	if( ++cornerCountS >= tileptAllocS ){
 		tileptAllocS = cornerCountS + 1 ;
@@ -800,16 +800,15 @@ void initializeCorner( int cell )
 } /* end initializeCorner */
 /* ***************************************************************** */
 
-addClass( class )
-INT class ;
+void addClass( int class )
 {
-ERRORABORT() ;
+	ERRORABORT() ;
 
-if( ptrS->class >= 0 ){
-    /* this test is necessary since fix neighborhood may set it negative */
-    /* and we will not want to touch the value of it */
-    ptrS->class = class ;
-}
+	if( ptrS->class >= 0 ){
+	/* this test is necessary since fix neighborhood may set it negative */
+	/* and we will not want to touch the value of it */
+	ptrS->class = class ;
+	}
 } /* end addClass */
 /* ***************************************************************** */
 
@@ -868,21 +867,27 @@ PINBOXPTR addPinAndNet( char *pinName, char *signal )
 		data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
 		*data = netx = ++numnetsG ;
 		if( Yhash_search( netTableS, signal, (char*) data, ENTER )){
-		sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
-			signal ) ;
-		M(ERRMSG,"addPinAndNet",YmsgG ) ;
-		errorFlagS = TRUE ;
+			sprintf( YmsgG, "Trouble adding signal:%s to hash table\n", signal ) ;
+			M(ERRMSG,"addPinAndNet",YmsgG ) ;
+			errorFlagS = TRUE ;
 		}
 	}
+
+	/*if( cellinstanceS ){
+		if( notInTable ){
+			sprintf(YmsgG,"No match for net:%s in primary instance:%s\n", pinName, *ptrS->cname ) ;
+			M( ERRMSG, "addPinAndNet", YmsgG ) ;
+			errorFlagS = TRUE ;
+		}
+		return( NULL ) ; // at this point we are done 
+	}*/
+
 	if( cellinstanceS ){
 		if( notInTable ){
-		sprintf(YmsgG,"No match for net:%s in primary instance:%s\n", pinName, *ptrS->cname ) ;
-		M( ERRMSG, "addPinAndNet", YmsgG ) ;
-		errorFlagS = TRUE ;
+			printf("No match for net:%s in primary instance:%s\n", pinName, ptrS->cname ) ;
 		}
-		/* at this point we are done */ 
-		return( NULL ) ;
-	} 
+	}
+
 	/* increment number of pins */
 	numpinsG++ ;
 	/* check memory of netarray */
@@ -894,8 +899,7 @@ PINBOXPTR addPinAndNet( char *pinName, char *signal )
 
 	/* see if this is the first time for this signal */
 	if( notInTable ){
-		netptr = netarrayG[netx] =
-		(NETBOXPTR) Ysafe_malloc( sizeof(NETBOX) ) ;
+		netptr = netarrayG[netx] = (NETBOXPTR) Ysafe_malloc( sizeof(NETBOX) ) ;
 		netptr->nname = signal ; /* allocated by yylex */
 		netptr->pins = NULL ; /* initialize list */
 		netptr->paths = NULL ; /* initialize list */
@@ -953,8 +957,7 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 	int howmany ;            /* number of children - equivs */
 	SOFTBOXPTR sptr ;        /* current soft information */
 
-
-	curPinNameS = pinName ;
+	curPinNameS =  Ystrclone(pinName);
 	analogS = NIL(ANALOGPTR) ;
 	ERRORABORT() ;
 
@@ -974,8 +977,7 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 		pinS->layer = layer ;
 	} else if( cellinstanceS ){
 		if(!(pinS = findTerminal( pinName, totalcellsG))){
-		sprintf(YmsgG,"No match for pin:%s in primary instance:%s\n",
-			pinName, cellarrayG[totalcellsG]->cname ) ;
+		sprintf(YmsgG,"No match for pin:%s in primary instance:%s\n", pinName, cellarrayG[totalcellsG]->cname ) ;
 		M( ERRMSG, "addHardPin", YmsgG ) ;
 		errorFlagS = TRUE ;
 		return ;
@@ -993,12 +995,10 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 	if( ptrS->softflag ){
 		/* allocate space for array of instances */
 		if( cellinstanceS == 0 ){
-		pinS->soft_inst = (SOFTBOXPTR *) 
-			Ysafe_malloc( sizeof(SOFTBOXPTR) );
-		pinS->layer = layer ;
+			pinS->soft_inst = (SOFTBOXPTR *) Ysafe_malloc( sizeof(SOFTBOXPTR) );
+			pinS->layer = layer ;
 		} else {
-		pinS->soft_inst = (SOFTBOXPTR *) Ysafe_realloc( 
-			pinS->soft_inst,instAllocS * sizeof(SOFTBOXPTR) );
+			pinS->soft_inst = (SOFTBOXPTR *) Ysafe_realloc(pinS->soft_inst,instAllocS * sizeof(SOFTBOXPTR) );
 		}
 		/*  now allocate space for this instance */
 		spinptrS = pinS->soft_inst[cellinstanceS] = pinS->softinfo =
@@ -1034,7 +1034,7 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 		sptr->children[HOWMANY] = (PINBOXPTR) howmany ; 
 		sptr->children[howmany] = pinS ;
 		spinptrS->parent = softpinS ;
-	} else if( !(ptrS->softflag) ){
+	} else if( !(ptrS->softflag) ) {
 		pinS->softinfo = NULL ;
 	}
 
@@ -1044,38 +1044,38 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 set_pin_pos( xpos, ypos )
 INT xpos, ypos ;
 {
-    INT side ;
-    INT howmany ;            /* number of children - equivs */
+	INT side ;
+	INT howmany ;            /* number of children - equivs */
 
-    ERRORABORT() ;
+	ERRORABORT() ;
 
-    if( scale_dataG ){
-	if( portFlagS ){
-	    xpos = 0 ;
-	    ypos = 1 ;
-	} else {
-	    xpos = (INT) ( (DOUBLE) xpos / scaleS ) ;
-	    ypos = (INT) ( (DOUBLE) ypos / scaleS ) ;
+	if( scale_dataG ){
+		if( portFlagS ){
+			xpos = 0 ;
+			ypos = 1 ;
+		} else {
+			xpos = (INT) ( (DOUBLE) xpos / scaleS ) ;
+			ypos = (INT) ( (DOUBLE) ypos / scaleS ) ;
+		}
 	}
-    }
 
-    check_pos( curPinNameS, xpos, ypos ) ;
-    side = findside( pSideArrayS, ptrS , xpos , ypos ) ;
-    loadside( pSideArrayS, side , 1.0 ) ;
+	check_pos( curPinNameS, xpos, ypos ) ;
+	side = findside( pSideArrayS, ptrS , xpos , ypos ) ;
+	loadside( pSideArrayS, side , 1.0 ) ;
 
-    totxS = xpos ;
-    totyS = ypos ;
+	totxS = xpos ;
+	totyS = ypos ;
 
-    /* set global coordinates */
-    pinS->xpos = xpos ;
-    pinS->ypos = ypos ;
+	/* set global coordinates */
+	pinS->xpos = xpos ;
+	pinS->ypos = ypos ;
 
-    xpos -= xcenterS ;
-    ypos -= ycenterS ;
+	xpos -= xcenterS ;
+	ypos -= ycenterS ;
 
-    /* Note: initial pin positions will be last instance */
-    pinS->txpos = pinS->txpos_orig[cellinstanceS] = xpos ;
-    pinS->typos = pinS->typos_orig[cellinstanceS] = ypos ;
+	/* Note: initial pin positions will be last instance */
+	pinS->txpos = pinS->txpos_orig[cellinstanceS] = xpos ;
+	pinS->typos = pinS->typos_orig[cellinstanceS] = ypos ;
 } /* end set_pin_pos */
 /* ***************************************************************** */
 

@@ -265,11 +265,9 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 		sprintf( filename, "%s.mest", cktNameG ) ;
 		if( !(quickrouteG) && !(cost_onlyG) && !(scale_dataG) && !(doPartitionG)){
 			if(!(YfileExists( filename ))){
-				/* perform a quickroute if file doesn't exist */
-				quickrouteG = TRUE ;
+				quickrouteG = TRUE ; // perform a quickroute if file doesn't exist
 				if( parasiteS ){
-					/* if we save the graphics state we need to restore it */
-					G( TWrestoreState() ) ;
+					G( TWrestoreState() ) ; // if we save the graphics state we need to restore it
 				}
 			} else {
 				quickrouteG = FALSE ;

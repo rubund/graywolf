@@ -220,7 +220,7 @@ pintype : pinrecord equiv_list;
 pinrecord : required_pinfo contour timing current power no_layer_change;
 required_pinfo : PIN NAME STRING SIGNAL STRING layer
 {
-/* 	addPin( Ystrclone($3), Ystrclone($5),  $6, HARDPINTYPE ); */
+	addPin( Ystrclone($3), Ystrclone($5),  $6, HARDPINTYPE );
 };
 contour : INTEGER INTEGER;
 contour : num_corners pin_pts {

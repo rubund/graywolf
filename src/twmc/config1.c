@@ -122,8 +122,8 @@ void config1() {
 		printf("left %d right %d bottom %d top %d \n",l,r,b,t);
 		tileArea = (DOUBLE) (r - l) * (DOUBLE) (t - b) ;
 		totalArea += tileArea ; 
-		if( cellptr->celltype == STDCELLTYPE ){
-		softArea += tileArea ;
+		if( cellptr->celltype == STDCELLTYPE ) {
+			softArea += tileArea ;
 		}
 		/* calculate mean of smallest size of tile */
 		length = ABS( r - l ) ;
@@ -205,37 +205,35 @@ void config1() {
 	coreArea = ((DOUBLE) blocktG - blockbG) * ((DOUBLE) blockrG - blocklG) ;
 
 	if( 5.0 * coreArea > (DOUBLE) INT_MAX && !(cost_onlyG) ){
-	scale_dataG = (INT) sqrt( (10.0 * coreArea / (DOUBLE) INT_MAX)) ;
-	scale_dataG++ ; /* round up always */
-	M( MSG,"config1", "Design is too large for integer operations\n");
-	sprintf( YmsgG,
-		"Calling TimberWolfMC recursively to scale data by %d\n",
-		scale_dataG ) ;
-	M( MSG, NULL, YmsgG ) ;
-	TWCLOSE( fpoG ) ;
-	M( MSG, NULL, arguments ) ;
-	M( MSG, NULL, "\n" ) ;
-	/* go to cost only mode */
-	cost_onlyG = TRUE ;
+		scale_dataG = (INT) sqrt( (10.0 * coreArea / (DOUBLE) INT_MAX)) ;
+		scale_dataG++ ; /* round up always */
+		M( MSG,"config1", "Design is too large for integer operations\n");
+		sprintf(YmsgG, "Calling TimberWolfMC recursively to scale data by %d\n", scale_dataG ) ;
+		M( MSG, NULL, YmsgG ) ;
+		TWCLOSE( fpoG ) ;
+		M( MSG, NULL, arguments ) ;
+		M( MSG, NULL, "\n" ) ;
+		/* go to cost only mode */
+		cost_onlyG = TRUE ;
 
-	/* read the placement from restart file by moving sav to res */
-	sprintf( savfile, "%s.msav", cktNameG ) ;
-	sprintf( resfile, "%s.mres", cktNameG ) ;
+		/* read the placement from restart file by moving sav to res */
+		sprintf( savfile, "%s.msav", cktNameG ) ;
+		sprintf( resfile, "%s.mres", cktNameG ) ;
 
-	/* make a system independent copy */
-	//YcopyFile( savfile, resfile ) ;
+		/* make a system independent copy */
+		//YcopyFile( savfile, resfile ) ;
 
-	if( parasite ){
-		/* if we save the graphics state we need to restore it */
-		G( TWrestoreState() ) ;
-	}
-	restartG = TRUE ;
-	scale_dataG = 1 ;
+		if( parasite ){
+			/* if we save the graphics state we need to restore it */
+			G( TWrestoreState() ) ;
+		}
+		restartG = TRUE ;
+		scale_dataG = 1 ;
 	}
 
 	numbins = (INT) ((DOUBLE) NUMBINSPERCELL * coreArea / (DOUBLE) cellArea ) ;
 
-	if( numbins <= 1 ){
+	if( numbins <= 1 ) {
 		M(ERRMSG,"config1","number of bins calculated is <= 1. Must exit.\n");
 		return;
 	}
@@ -255,20 +253,20 @@ void config1() {
 
 	binWidthXG = (blockrG - blocklG) / numbinX ;
 	if( (blockrG - blocklG - binWidthXG * numbinX) >= numbinX / 2 ) {
-	binWidthXG++ ;
+		binWidthXG++ ;
 	}
 	binXOffstG = blocklG + 1 - binWidthXG ;
 
 	binWidthYG = (blocktG - blockbG) / numbinY ;
 	if( (blocktG - blockbG - binWidthYG * numbinY) >= numbinY / 2 ) {
-	binWidthYG++ ;
+		binWidthYG++ ;
 	}
 	binYOffstG = blockbG + 1 - binWidthYG ;
 
 	updateFixedCells( UPDATE ) ;  /* place fixed cells */
 
 	if( !(cost_onlyG) ){
-	loadbins( WIREAREAUNKNOWN ) ;
+		loadbins( WIREAREAUNKNOWN ) ;
 	}
 
 	placepads() ;
