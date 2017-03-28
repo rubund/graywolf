@@ -1,6 +1,7 @@
 %define api.prefix {mincut_}
 %{
 #include <stdio.h>
+#include "globals.h"
 #define yyget_lineno mincut_get_lineno
 #define yytext mincut_text
 #define yyin mincut_in
@@ -68,10 +69,6 @@ extern int yyget_lineno(void);
 %token SWAPGROUP
 %token TOP
 %token UNEQUIV
-
-%token STDCELLTYPE
-%token SOFTCELLTYPE
-%token HARDCELLTYPE
 
 %token INTEGER
 %token FLOAT
@@ -175,7 +172,10 @@ bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 };
 xloc : STRING;
 yloc : STRING;
-padname : PAD INTEGER NAME STRING;
+padname : PAD INTEGER NAME STRING
+{
+	addCell(PADCELLTYPE, Ystrclone($4) );
+};
 padgroupname : PADGROUP STRING PERMUTE;
 padgroupname : PADGROUP STRING NOPERMUTE;
 supergroupname : SUPERGROUP STRING NAME STRING;
