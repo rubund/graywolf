@@ -263,7 +263,7 @@ void write_softpins( FILE *fp )
 	fprintf( fp, "\n" ) ;
 } /* end write_softpins */
 
-read_par()
+void read_par()
 {
 	char input[LRECL] ;
 	char *bufferptr ;
@@ -279,16 +279,16 @@ read_par()
 	while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens, &onNotOff, &wildcard )) {
 		if( numtokens == 0 ){
 		/* skip over empty lines */
-		continue ;
+			continue ;
 		}
 		if ((numtokens != 2) && (numtokens != 3)) {
-		continue ;
+			continue ;
 		}
 		if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
-		row_sepS = atof( tokens[1] ) ;
-		if (numtokens == 3)
-			row_sep_absS = atof( tokens[2] ) ;
-		found = TRUE ;
+			row_sepS = atof( tokens[1] ) ;
+			if (numtokens == 3)
+				row_sep_absS = atof( tokens[2] ) ;
+			found = TRUE ;
 		}
 	}
 	if(!(found)){
@@ -299,8 +299,7 @@ read_par()
 	}
 } /* end readpar */
 
-update_stats( fp )
-FILE *fp ;
+void update_stats( FILE *fp )
 {
 	fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);
 	fprintf( fp, "num_soft:1\n" ) ;
