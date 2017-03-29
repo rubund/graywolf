@@ -230,9 +230,17 @@ initCellInfo()
 	pSideArrayS  = (PSIDEBOX *) Ysafe_malloc( tileptAllocS * sizeof( PSIDEBOX ) ) ;
 	kArrayS      = (KBOXPTR) Ysafe_calloc( (MAXSITES + 1), sizeof( KBOX ));
 	/* make hash table for nets */
-	netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
+	netTableS = Yhash_table_create( EXPECTEDNUMNETS );
+	if(netTableS==NULL) {
+		printf("Couldn't allocate memory\n");
+		return;
+	}
 	/* make hash table for cells */
-	cellTableS = Yhash_table_create( EXPECTEDNUMCELLS ) ;
+	cellTableS = Yhash_table_create( EXPECTEDNUMCELLS );
+	if(cellTableS==NULL) {
+		printf("Couldn't allocate memory\n");
+		return;
+	}
 	netAllocS = EXPECTEDNUMNETS ;
 	netarrayG = (NETBOXPTR *) Ysafe_malloc( netAllocS * sizeof(NETBOXPTR));
 	cellAllocS = EXPECTEDNUMCELLS ;
@@ -949,9 +957,8 @@ void addPin( char *pinName, char *signal, int layer, int pinType )
 		signal = Ystrclone( netarrayG[softpinS->net]->nname ) ;
 	}
 
-	printf("addPinAndNet. name: %s signal: %s\n",pinName,signal);
 	pinS = addPinAndNet( Ystrclone(pinName), Ystrclone(signal)) ;
-	if(pinS == NULL )
+	if(pinS == NULL)
 		return;
 
 	equivpinS = 1 ;
@@ -1712,103 +1719,99 @@ int numcorners ;
 
 } /* end add_analog */
 
-add_pin_contour( x, y )
-int x, y ;
+void add_pin_contour( int x, int y )
 {
-    if( cornerCountS >= analogS->num_corners ){
-	sprintf( YmsgG, "Incorrect number of vertices for pin:%s\n",
-	    curPinNameS ) ;
-	M(ERRMSG,"add_pin_contour", YmsgG ) ;
-	setErrorFlag() ;
-	cornerCountS = 0 ; /* reset to avoid numerous error msgs */
-    }
-    ERRORABORT() ;
-    analogS->x_contour[cornerCountS] = x ;
-    analogS->y_contour[cornerCountS++] = y ;
+	if( cornerCountS >= analogS->num_corners ){
+		sprintf( YmsgG, "Incorrect number of vertices for pin:%s\n", curPinNameS ) ;
+		M(ERRMSG,"add_pin_contour", YmsgG ) ;
+		setErrorFlag() ;
+		cornerCountS = 0 ; /* reset to avoid numerous error msgs */
+	}
+	ERRORABORT() ;
+	analogS->x_contour[cornerCountS] = x ;
+	analogS->y_contour[cornerCountS++] = y ;
 } /* end start_pin_contour */
 
 
-add_current( current )
-float current ;
+void add_current( float current )
 {
-    if(!(analogS)){
-	add_analog( 0 ) ;
-    }
-    analogS->current = current ;
+	if(!(analogS)){
+		add_analog( 0 ) ;
+	}
+	analogS->current = current ;
 } /* end add_current */
 
-add_power( power )
-float power ;
+void add_power( float power )
 {
-    if(!(analogS)){
-	add_analog( 0 ) ;
-    }
-    analogS->power = power ;
+	if(!(analogS)){
+		add_analog( 0 ) ;
+	}
+	analogS->power = power ;
 } /* end add_power */
 
-no_layer_change()
+void no_layer_change()
 {
-    if(!(analogS)){
-	add_analog( 0 ) ;
-    }
-    analogS->no_layer_change = TRUE ;
+	if(!(analogS)){
+		add_analog( 0 ) ;
+	}
+	analogS->no_layer_change = TRUE ;
 } /* end no_cross_under */
 
-process_pin()
+void process_pin()
 {
-    int i ;                      /* point counter */
-    int side ;                   /* current side for pin */
-    int ptx, pty ;               /* current point of interest */
-    int xpos, ypos ;             /* center of pin */
-    int minx, miny, maxx, maxy ; /* bounding box of pin contour */
-    char *buster_msg ;           /* message string to used by buster */
-    int xx1, yy1, xx2, yy2 ;     /* temp points */
+	int i ;                      /* point counter */
+	int side ;                   /* current side for pin */
+	int ptx, pty ;               /* current point of interest */
+	int xpos, ypos ;             /* center of pin */
+	int minx, miny, maxx, maxy ; /* bounding box of pin contour */
+	char *buster_msg ;           /* message string to used by buster */
+	int xx1, yy1, xx2, yy2 ;     /* temp points */
 
-    ERRORABORT() ;
+	ERRORABORT() ;
 
-    if(!(analogS) || analogS->num_corners < 4 ){
-	return ; /* no work to do */
-    }
-
-    /* now check the points to make sure they are good */
-    sprintf( YmsgG, " (cell:%s pin:%s) ", curCellNameS, pinS->pinname ) ;
-    buster_msg = Ystrclone( YmsgG ) ;
-    Ybuster_check_rect_init( buster_msg ) ;
-    minx = INT_MAX ;
-    miny = INT_MAX ;
-    maxx = INT_MIN ;
-    maxy = INT_MIN ;
-    for( i = 0 ; i < analogS->num_corners ; i++ ) {
-	xx1 = analogS->x_contour[i] ;
-	yy1 = analogS->y_contour[i] ;
-	if( i == analogS->num_corners-1 ) {
-	    xx2 = analogS->x_contour[0] ;
-	    yy2 = analogS->y_contour[0] ;
-	} else {
-	    xx2 = analogS->x_contour[ i + 1 ] ;
-	    yy2 = analogS->y_contour[ i + 1 ] ;
-	}
-	if( Ybuster_check_rect( xx1, yy1, xx2, yy2 ) ){
-	    analog_errorS = TRUE ;
+	if(!(analogS) || analogS->num_corners < 4 ){
+		return ; /* no work to do */
 	}
 
-	/* find bounding box of pins */
-	minx = MIN( minx, xx1 ) ;
-	maxx = MAX( maxx, xx1 ) ;
-	miny = MIN( miny, yy1 ) ;
-	maxy = MAX( maxy, yy1 ) ;
-    }
-    Ysafe_free( buster_msg ) ;
+	/* now check the points to make sure they are good */
+	sprintf( YmsgG, " (cell:%s pin:%s) ", curCellNameS, pinS->pinname ) ;
+	buster_msg = Ystrclone( YmsgG ) ;
+	Ybuster_check_rect_init( buster_msg ) ;
+	minx = INT_MAX ;
+	miny = INT_MAX ;
+	maxx = INT_MIN ;
+	maxy = INT_MIN ;
+	for( i = 0 ; i < analogS->num_corners ; i++ ) {
+		xx1 = analogS->x_contour[i] ;
+		yy1 = analogS->y_contour[i] ;
+		if( i == analogS->num_corners-1 ) {
+		xx2 = analogS->x_contour[0] ;
+		yy2 = analogS->y_contour[0] ;
+		} else {
+		xx2 = analogS->x_contour[ i + 1 ] ;
+		yy2 = analogS->y_contour[ i + 1 ] ;
+		}
+		if( Ybuster_check_rect( xx1, yy1, xx2, yy2 ) ){
+		analog_errorS = TRUE ;
+		}
 
-    /* now set the center of the pin to this location */
-    xpos = (minx + maxx) / 2 ;
-    ypos = (miny + maxy) / 2 ;
+		/* find bounding box of pins */
+		minx = MIN( minx, xx1 ) ;
+		maxx = MAX( maxx, xx1 ) ;
+		miny = MIN( miny, yy1 ) ;
+		maxy = MAX( maxy, yy1 ) ;
+	}
+	Ysafe_free( buster_msg ) ;
 
-    /* now subtract off the cell center */
-    for( i = 0 ; i < analogS->num_corners ; i++ ) {
-	analogS->x_contour[i] -= xcenterS ;
-	analogS->y_contour[i] -= ycenterS ;
-    }
-    set_pin_pos( xpos, ypos ) ;
+	/* now set the center of the pin to this location */
+	xpos = (minx + maxx) / 2 ;
+	ypos = (miny + maxy) / 2 ;
+
+	/* now subtract off the cell center */
+	for( i = 0 ; i < analogS->num_corners ; i++ ) {
+		analogS->x_contour[i] -= xcenterS ;
+		analogS->y_contour[i] -= ycenterS ;
+	}
+	set_pin_pos( xpos, ypos ) ;
 
 } /* end process_analog_pin */

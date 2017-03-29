@@ -8,13 +8,14 @@
 #define yyin twmc_readcells_in
 extern char *yytext;
 extern int yyget_lineno(void);
+int intar_offset;
+int cornerBuf[(2*EXPECTEDCORNERS)+1];
 %}
 
 %union {
 	int ival;
 	float fval;
 	char sval[100];
-	int *intar;
 }
 
 %token ADDEQUIV
@@ -66,10 +67,7 @@ extern int yyget_lineno(void);
 
 %type<ival> layer
 %type<ival> numcorners
-%type<intar> cornerpts
-
 %type<ival> num_corners
-%type<intar> pin_pts
 
 %start start_file
 %%
@@ -146,22 +144,17 @@ supergroupname : SUPERGROUP error;
 cellgroupname : CELLGROUP STRING NAME STRING;
 cellgroupname : CELLGROUP error;
 corners: numcorners cornerpts {
-	int *r = $2;
 	int t = $1;
 	int p1 = 0, p2 = 0;
-	r-=t*2;
-	int *rback = r;
 
-	for(int i=0;i<t;i++) {
-		p1=*r;
-		r++;
-		p2=*r;
-		r++;
+	for(int i=0;i<intar_offset;i++) {
+		p1=cornerBuf[i];
+		i++;
+		p2=cornerBuf[i];
 		addCorner(p1, p2) ;
 	}
 
 	processCorners(t);
-	free(rback);
 };
 numcorners : CORNERS INTEGER
 {
@@ -169,18 +162,18 @@ numcorners : CORNERS INTEGER
 };
 cornerpts : INTEGER INTEGER
 {
-	yyval.intar=malloc((2*EXPECTEDCORNERS)+1);
-	*(yyval.intar)=$1;
-	yyval.intar++;
-	*(yyval.intar)=$2;
-	yyval.intar++;
+	intar_offset=0;
+	cornerBuf[intar_offset]=$1;
+	intar_offset++;
+	cornerBuf[intar_offset]=$2;
+	intar_offset++;
 };
 cornerpts : cornerpts INTEGER INTEGER
 {
-	*(yyval.intar)=$2;
-	yyval.intar++;
-	*(yyval.intar)=$3;
-	yyval.intar++;
+	cornerBuf[intar_offset]=$2;
+	intar_offset++;
+	cornerBuf[intar_offset]=$3;
+	intar_offset++;
 };
 class : CLASS INTEGER
 {
@@ -219,46 +212,40 @@ hardpins : pintype;
 hardpins : hardpins pintype;
 pintype : pinrecord;
 pintype : pinrecord equiv_list;
-pinrecord : required_pinfo contour timing current power no_layer_change;
-required_pinfo : PIN NAME STRING SIGNAL STRING layer
+pinrecord : PIN NAME STRING SIGNAL STRING layer contour timing current power no_layer_change 
 {
 	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
 };
 contour : INTEGER INTEGER;
 contour : num_corners pin_pts {
-	int *r = $2;
 	int t = $1;
-	int p1=0, p2=0;
-	r-=t*2;
-	int *rback=r;
+	int p1 = 0, p2 = 0;
 
-	for(int i=0;i<t;i++) {
-		p1=*r;
-		r++;
-		p2=*r;
-		r++;
+	for(int i=0;i<intar_offset;i++) {
+		p1=cornerBuf[i];
+		i++;
+		p2=cornerBuf[i];
 		addCorner(p1, p2) ;
 	}
 
 	processCorners(t);
-	free(rback);
 };
 num_corners : CORNERS INTEGER
 {
 	yyval.ival=$2;
 };
 pin_pts : INTEGER INTEGER {
-	yyval.intar=malloc((2*EXPECTEDCORNERS)+1);
-	*(yyval.intar)=$1;
-	yyval.intar++;
-	*(yyval.intar)=$2;
-	yyval.intar++;
+	intar_offset=0;
+	cornerBuf[intar_offset]=$1;
+	intar_offset++;
+	cornerBuf[intar_offset]=$2;
+	intar_offset++;
 };
 pin_pts : pin_pts INTEGER INTEGER {
-	*(yyval.intar)=$2;
-	yyval.intar++;
-	*(yyval.intar)=$3;
-	yyval.intar++;
+	cornerBuf[intar_offset]=$2;
+	intar_offset++;
+	cornerBuf[intar_offset]=$3;
+	intar_offset++;
 };
 current :;
 current : CURRENT FLOAT;
