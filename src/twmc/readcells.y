@@ -69,6 +69,8 @@ int cornerBuf[(2*EXPECTEDCORNERS)+1];
 %type<ival> numcorners
 %type<ival> num_corners
 
+%type<fval> timing
+
 %start start_file
 %%
 
@@ -215,20 +217,17 @@ pintype : pinrecord equiv_list;
 pinrecord : PIN NAME STRING SIGNAL STRING layer contour timing current power no_layer_change 
 {
 	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
-};
-contour : INTEGER INTEGER;
-contour : num_corners pin_pts {
-	int t = $1;
 	int p1 = 0, p2 = 0;
-
 	for(int i=0;i<intar_offset;i++) {
 		p1=cornerBuf[i];
 		i++;
 		p2=cornerBuf[i];
-		addCorner(p1, p2) ;
+		add_pin_contour(p1, p2) ;
 	}
-
-	processCorners(t);
+	process_pin();
+};
+contour : INTEGER INTEGER;
+contour : num_corners pin_pts {
 };
 num_corners : CORNERS INTEGER
 {
@@ -258,6 +257,7 @@ softpin : softpin_info siderestriction pinspace softequivs;
 softpin_info : SOFTPIN NAME STRING SIGNAL STRING layer timing
 {
 	addPin(Ystrclone($3), Ystrclone($5), $6, SOFTPINTYPE );
+	process_pin();
 	set_restrict_type( SOFTPINTYPE ) ;
 };
 softequivs : mc_equiv;
