@@ -863,7 +863,7 @@ PINBOXPTR addPinAndNet( char *pinName, char *signal )
 		/* else a new net load data holder */
 		data = (int *) Ysafe_malloc( sizeof(int) ) ;
 		*data = netx = ++numnetsG ;
-		if( Yhash_search( netTableS, signal, (char*) data, ENTER )){
+		if( Yhash_search( netTableS, signal, (char*) data, ENTER )) {
 			sprintf( YmsgG, "Trouble adding signal: %s to hash table\n", signal ) ;
 			M(ERRMSG,"addPinAndNet",YmsgG ) ;
 			errorFlagS = TRUE ;
@@ -1785,14 +1785,14 @@ void process_pin()
 		xx1 = analogS->x_contour[i] ;
 		yy1 = analogS->y_contour[i] ;
 		if( i == analogS->num_corners-1 ) {
-		xx2 = analogS->x_contour[0] ;
-		yy2 = analogS->y_contour[0] ;
+			xx2 = analogS->x_contour[0] ;
+			yy2 = analogS->y_contour[0] ;
 		} else {
-		xx2 = analogS->x_contour[ i + 1 ] ;
-		yy2 = analogS->y_contour[ i + 1 ] ;
+			xx2 = analogS->x_contour[ i + 1 ] ;
+			yy2 = analogS->y_contour[ i + 1 ] ;
 		}
 		if( Ybuster_check_rect( xx1, yy1, xx2, yy2 ) ){
-		analog_errorS = TRUE ;
+			analog_errorS = TRUE ;
 		}
 
 		/* find bounding box of pins */
