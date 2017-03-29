@@ -6,7 +6,6 @@
 #define yyget_lineno twmc_readcells_get_lineno
 #define yytext twmc_readcells_text
 #define yyin twmc_readcells_in
-#define MAX_CORNERS 200
 extern char *yytext;
 extern int yyget_lineno(void);
 %}
@@ -148,9 +147,10 @@ cellgroupname : CELLGROUP STRING NAME STRING;
 cellgroupname : CELLGROUP error;
 corners: numcorners cornerpts {
 	int *r = $2;
-	int t=$1;
-	int p1=0, p2=0;
+	int t = $1;
+	int p1 = 0, p2 = 0;
 	r-=t*2;
+	int *rback = r;
 
 	for(int i=0;i<t;i++) {
 		p1=*r;
@@ -159,7 +159,9 @@ corners: numcorners cornerpts {
 		r++;
 		addCorner(p1, p2) ;
 	}
+
 	processCorners(t);
+	free(rback);
 };
 numcorners : CORNERS INTEGER
 {
@@ -167,7 +169,7 @@ numcorners : CORNERS INTEGER
 };
 cornerpts : INTEGER INTEGER
 {
-	yyval.intar=malloc(MAX_CORNERS);
+	yyval.intar=malloc((2*EXPECTEDCORNERS)+1);
 	*(yyval.intar)=$1;
 	yyval.intar++;
 	*(yyval.intar)=$2;
@@ -220,14 +222,15 @@ pintype : pinrecord equiv_list;
 pinrecord : required_pinfo contour timing current power no_layer_change;
 required_pinfo : PIN NAME STRING SIGNAL STRING layer
 {
-	addPin( Ystrclone($3), Ystrclone($5),  $6, HARDPINTYPE );
+	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
 };
 contour : INTEGER INTEGER;
 contour : num_corners pin_pts {
 	int *r = $2;
-	int t=$1;
+	int t = $1;
 	int p1=0, p2=0;
 	r-=t*2;
+	int *rback=r;
 
 	for(int i=0;i<t;i++) {
 		p1=*r;
@@ -236,14 +239,16 @@ contour : num_corners pin_pts {
 		r++;
 		addCorner(p1, p2) ;
 	}
+
 	processCorners(t);
+	free(rback);
 };
 num_corners : CORNERS INTEGER
 {
 	yyval.ival=$2;
 };
 pin_pts : INTEGER INTEGER {
-	yyval.intar=malloc(MAX_CORNERS);
+	yyval.intar=malloc((2*EXPECTEDCORNERS)+1);
 	*(yyval.intar)=$1;
 	yyval.intar++;
 	*(yyval.intar)=$2;
@@ -265,7 +270,7 @@ softpin : softpin_info siderestriction pinspace;
 softpin : softpin_info siderestriction pinspace softequivs;
 softpin_info : SOFTPIN NAME STRING SIGNAL STRING layer timing
 {
-	addPin( Ystrclone($3), Ystrclone($5), $6, SOFTPINTYPE );
+	addPin(Ystrclone($3), Ystrclone($5), $6, SOFTPINTYPE );
 	set_restrict_type( SOFTPINTYPE ) ;
 };
 softequivs : mc_equiv;
@@ -343,6 +348,7 @@ int readcells(char *filename)
 	/* parse input file using yacc */
 	if(yyin) {
 		yyparse();
+		fclose(yyin);
 	}
 } /* end readcells */
 
