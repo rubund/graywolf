@@ -87,11 +87,12 @@ static BOOL count_portS ;      /* whether a pin is a port */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 static DOUBLE cellAreaS = 0 ;  /* area of the macro cells */
 /* *************************************************************** */
-init()
+
+void init()
 {
-    /* get ready for parsing */
-    /* make hash table for nets */
-    netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
+	/* get ready for parsing */
+	/* make hash table for nets */
+	netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
 } /* end init */
 
 addCell( celltype, cellname )
