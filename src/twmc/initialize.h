@@ -22,7 +22,8 @@ REVISIONS:  Wed Dec 19 19:38:46 EST 1990 - added analog pin type.
 /* below is what we expect to be a large floorplanning input */
 /* user may change parameters if they wish. Subject to change */
 #define EXPECTEDNUMCELLS   500
-#define EXPECTEDNUMNETS   1000
+//#define EXPECTEDNUMNETS   1000
+#define EXPECTEDNUMNETS   10000
 #define EXPECTEDNUMUNCON  100
 #define EXPECTEDNUMPADS   10
 #define EXPECTEDCORNERS   8
