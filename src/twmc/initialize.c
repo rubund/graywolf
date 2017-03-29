@@ -130,16 +130,6 @@ static char SccsId[] = "@(#) initialize.c version 3.24 10/18/91" ;
 #include <yalecad/debug.h>
 #include <yalecad/string.h>
 
-/* below is what we expect to be a large floorplanning input */
-/* user may change parameters if they wish. Subject to change */
-#define EXPECTEDNUMCELLS   500
-#define EXPECTEDNUMNETS   1000
-#define EXPECTEDNUMUNCON  100
-#define EXPECTEDNUMPADS   10
-#define EXPECTEDCORNERS   8
-#define EXPECTEDINSTANCES 1
-#define EXPECTEDPINGRP    1
-
 #define PIN   (BOOL)      TRUE       /* for pinFlag below */ 
 #define EQUIV (BOOL)      FALSE 
 #define NUMPADMACROS      4 /* there are always 4 pad macros */
