@@ -867,25 +867,19 @@ PINBOXPTR addPinAndNet( char *pinName, char *signal )
 		data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
 		*data = netx = ++numnetsG ;
 		if( Yhash_search( netTableS, signal, (char*) data, ENTER )){
-			sprintf( YmsgG, "Trouble adding signal:%s to hash table\n", signal ) ;
+			sprintf( YmsgG, "Trouble adding signal: %s to hash table\n", signal ) ;
 			M(ERRMSG,"addPinAndNet",YmsgG ) ;
 			errorFlagS = TRUE ;
 		}
 	}
 
-	/*if( cellinstanceS ){
+	if( cellinstanceS ){
 		if( notInTable ){
 			sprintf(YmsgG,"No match for net:%s in primary instance:%s\n", pinName, *ptrS->cname ) ;
 			M( ERRMSG, "addPinAndNet", YmsgG ) ;
 			errorFlagS = TRUE ;
 		}
 		return( NULL ) ; // at this point we are done 
-	}*/
-
-	if( cellinstanceS ){
-		if( notInTable ){
-			printf("No match for net:%s in primary instance:%s\n", pinName, ptrS->cname ) ;
-		}
 	}
 
 	/* increment number of pins */
@@ -951,7 +945,7 @@ PINBOXPTR addPinAndNet( char *pinName, char *signal )
 } /* add pin and net */
 /* ***************************************************************** */
 
-addPin( char *pinName, char *signal, int layer, int pinType )
+void addPin( char *pinName, char *signal, int layer, int pinType )
 {
 	int side ;
 	int howmany ;            /* number of children - equivs */
@@ -966,7 +960,9 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 		signal = Ystrclone( netarrayG[softpinS->net]->nname ) ;
 	}
 
-	pinS = addPinAndNet( Ystrclone(pinName), Ystrclone(signal) ) ;
+	pinS = addPinAndNet( Ystrclone(pinName), Ystrclone(signal)) ;
+	if(pinS == NULL )
+		return;
 
 	equivpinS = 1 ;
 
@@ -975,12 +971,12 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 		ptrS->numpins++ ;
 		pinS->type = pinType ;
 		pinS->layer = layer ;
-	} else if( cellinstanceS ){
-		if(!(pinS = findTerminal( pinName, totalcellsG))){
-		sprintf(YmsgG,"No match for pin:%s in primary instance:%s\n", pinName, cellarrayG[totalcellsG]->cname ) ;
-		M( ERRMSG, "addHardPin", YmsgG ) ;
-		errorFlagS = TRUE ;
-		return ;
+	} else if( cellinstanceS ) {
+		if(!(pinS = findTerminal( pinName, totalcellsG))) {
+			sprintf(YmsgG,"No match for pin:%s in primary instance:%s\n", pinName, cellarrayG[totalcellsG]->cname ) ;
+			M( ERRMSG, "addHardPin", YmsgG ) ;
+			errorFlagS = TRUE ;
+			return ;
 		}
 		/* reallocate space if necessary */
 		pinS->txpos_orig = (INT *) 
@@ -989,7 +985,7 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 		Ysafe_realloc( pinS->typos_orig,(cellinstanceS+1)*sizeof(INT));
 		pinS->txpos = pinS->txpos_orig[cellinstanceS] = 0 ;
 		pinS->typos = pinS->typos_orig[cellinstanceS] = 0 ;
-	} 
+	}
 
 	/* now handle soft pin information */
 	if( ptrS->softflag ){
@@ -1022,14 +1018,11 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 		/* add to this pin's children */
 		sptr = softpinS->softinfo ;
 		if( sptr->children ){
-		howmany = (INT) sptr->children[HOWMANY] ;
-		sptr->children = (PINBOXPTR *)
-			Ysafe_realloc( sptr->children,
-			(++howmany+1) * sizeof(PINBOXPTR) ) ;
+			howmany = (INT) sptr->children[HOWMANY] ;
+			sptr->children = (PINBOXPTR *) Ysafe_realloc( sptr->children, (++howmany+1) * sizeof(PINBOXPTR) ) ;
 		} else {
-		howmany = 1 ;
-		sptr->children = (PINBOXPTR *)
-			Ysafe_malloc( (howmany+1) * sizeof(PINBOXPTR) ) ;
+			howmany = 1 ;
+			sptr->children = (PINBOXPTR *) Ysafe_malloc( (howmany+1) * sizeof(PINBOXPTR) ) ;
 		}
 		sptr->children[HOWMANY] = (PINBOXPTR) howmany ; 
 		sptr->children[howmany] = pinS ;
@@ -1037,7 +1030,6 @@ addPin( char *pinName, char *signal, int layer, int pinType )
 	} else if( !(ptrS->softflag) ) {
 		pinS->softinfo = NULL ;
 	}
-
 } /* end addPin */
 /* ***************************************************************** */
 
