@@ -684,31 +684,31 @@ static BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu
 
 TWINFOPTR TWgetDrawInfo() 
 {
-    TWINFOPTR info ;
+	TWINFOPTR info ;
 
-    /* put all information in record for other modules use */
-    /* a inefficient attempt at object orient programming */
-    info = &infoBoxS ;
-    info->graphicContext = graphicContextS ;
-    info->dpy = dpyS ;
-    info->drawWindow = drawS ;
-    info->backWindow = backS ;
-    info->rootWindow = parentS ;
-    info->screen = screenS ;
-    info->fontinfo = fontinfoS ;   
-    info->scaleFactor = scaleFactorS ; 
-    info->xoffset = xoffsetS ;
-    info->yoffset = yoffsetS ;
-    info->winwidth = winwidthS ;
-    info->winheight = winheightS ;
-    info->winx = winxS ;
-    info->winy = winyS ;
-    info->colorOn = colorOnS ;
-    info->numColors = numColorS ;
-    info->colors = userColorS ;
-    info->pixmap = pixmapS ;
-    info->stipple = stippleS ;
-    return( info ) ;
+	/* put all information in record for other modules use */
+	/* a inefficient attempt at object orient programming */
+	info = &infoBoxS ;
+	info->graphicContext = graphicContextS ;
+	info->dpy = dpyS ;
+	info->drawWindow = drawS ;
+	info->backWindow = backS ;
+	info->rootWindow = parentS ;
+	info->screen = screenS ;
+	info->fontinfo = fontinfoS ;   
+	info->scaleFactor = scaleFactorS ; 
+	info->xoffset = xoffsetS ;
+	info->yoffset = yoffsetS ;
+	info->winwidth = winwidthS ;
+	info->winheight = winheightS ;
+	info->winx = winxS ;
+	info->winy = winyS ;
+	info->colorOn = colorOnS ;
+	info->numColors = numColorS ;
+	info->colors = userColorS ;
+	info->pixmap = pixmapS ;
+	info->stipple = stippleS ;
+	return( info ) ;
 } /* end TWgetDrawInfo */
 
 

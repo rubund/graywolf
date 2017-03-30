@@ -221,34 +221,34 @@ static draw_persistent_message( P1(char *message) ) ;
 
 
 /* get information from main draw routine and set it */
-TWinforMenus( )
+void TWinforMenus( )
 {
-    TWINFOPTR TWgetDrawInfo() ;
+	TWINFOPTR TWgetDrawInfo() ;
 
-    infoS = TWgetDrawInfo() ;
-    /* save display info for future use */
-    dpyS = infoS->dpy ;
-    screenS = infoS->screen ;
-    drawS = infoS->drawWindow ;
-    backS = infoS->backWindow ;
-    pixmapS = infoS->pixmap ;
-    fontinfoS = infoS->fontinfo ;
-    fontS = fontinfoS->fid ;
-    winwidthS = infoS->winwidth ;
+	infoS = TWgetDrawInfo() ;
+	/* save display info for future use */
+// 	dpyS = infoS->dpy ;
+// 	screenS = infoS->screen ;
+// 	drawS = infoS->drawWindow ;
+// 	backS = infoS->backWindow ;
+// 	pixmapS = infoS->pixmap ;
+// 	fontinfoS = infoS->fontinfo ;
+// 	fontS = fontinfoS->fid ;
+// 	winwidthS = infoS->winwidth ;
 
 } /* end set StaticInfo */
 
-INT TWsaveState()
+int TWsaveState()
 {
-    /* turn off all event reporting to these windows */
-    XSelectInput(dpyS,drawS,NoEventMask) ;
-    XSelectInput(dpyS,backS,NoEventMask) ;
-    XSelectInput(dpyS,menuS,NoEventMask) ;
-    XSelectInput(dpyS,messageS,NoEventMask) ;
-    set_window_lights( FALSE ) ;
-    /* next flush event queue by calling XSync with discard true */
-    XSync( dpyS, TRUE ) ;
-    return( (INT) backS ) ;
+	/* turn off all event reporting to these windows */
+	XSelectInput(dpyS,drawS,NoEventMask) ;
+	XSelectInput(dpyS,backS,NoEventMask) ;
+	XSelectInput(dpyS,menuS,NoEventMask) ;
+	XSelectInput(dpyS,messageS,NoEventMask) ;
+	set_window_lights( FALSE ) ;
+	/* next flush event queue by calling XSync with discard true */
+	XSync( dpyS, TRUE ) ;
+	return( (int) backS ) ;
 } /* end TWgetWindowId */
 
 TWrestoreState()

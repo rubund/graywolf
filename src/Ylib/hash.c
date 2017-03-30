@@ -154,7 +154,6 @@ char *Yhash_search(YHASHPTR hashtable, char *key, VOIDPTR data, int operation )
 	if(temptr){
 		/* list started at this hash */
 		for(curPtr=temptr;curPtr;curPtr=curPtr->next ) {
-			printf("curPtr=%p\n",curPtr);
 			if( strcmp(curPtr->key, key ) == STRINGEQ ){
 				if( operation == DELETE ){
 					/* delete item in table by making data NULL */
@@ -169,18 +168,18 @@ char *Yhash_search(YHASHPTR hashtable, char *key, VOIDPTR data, int operation )
 				}
 			}
 		}
-		if( operation == ENTER ){
-		/* now save data */
-		table[hsum] = curTable = YMALLOC( 1, YTABLEBOX ) ;
-		curTable->data = (char *) data ;
-		curTable->key = (char *) Ystrclone( key ) ;
-		curTable->next = temptr ;
-		/* now fix thread which goes through hash table */
-		tempThread = hashtable->thread ;
-		hashtable->thread = curTable ;
-		curTable->threadNext = tempThread ;
-		}
 
+		if( operation == ENTER ){
+			/* now save data */
+			table[hsum] = curTable = YMALLOC( 1, YTABLEBOX ) ;
+			curTable->data = (char *) data ;
+			curTable->key = (char *) Ystrclone( key ) ;
+			curTable->next = temptr ;
+			/* now fix thread which goes through hash table */
+			tempThread = hashtable->thread ;
+			hashtable->thread = curTable ;
+			curTable->threadNext = tempThread ;
+		}
 	} else {
 		/* no list started at this hash */
 		if( operation == ENTER ){ 
