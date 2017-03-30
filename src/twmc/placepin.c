@@ -172,52 +172,45 @@ extern INT find_tile_side( P3( INT center, INT loc, INT direction ) ) ;
  pins along the sides and returns all answers in the pin->t?pos_new
  fields.  No calculation to funccost or timing penalty is performed.
 ____________________________________________________________________*/
-placepin( cell, newVertFlag )
-INT cell ;
-BOOL newVertFlag ; /* use the x_new field if true otherwise use x field */
+void placepin( int cell, BOOL newVertFlag ) /* use the x_new field if true otherwise use x field */
 {
 
-    INT i ;                          /* counter */
-    INT howmany ;              /* number of soft pins including pg */
-    INT where ;                /* where to put the pin on boundary */
-    INT side ;                 /* the side the pin is to be placed */
-    PINBOXPTR  pin ;
-    SOFTBOXPTR spin ;
-    GLISTPTR   pptr ;          /* pointer to nets of a cell */
+	int i ;                          /* counter */
+	int howmany ;              /* number of soft pins including pg */
+	int where ;                /* where to put the pin on boundary */
+	int side ;                 /* the side the pin is to be placed */
+	PINBOXPTR  pin ;
+	SOFTBOXPTR spin ;
+	GLISTPTR   pptr ;          /* pointer to nets of a cell */
 
-    ptrS = cellarrayG[cell] ;
+	ptrS = cellarrayG[cell] ;
 
-    if( ptrS->numpins <= 0 ){
-	return ; /* no work to do */
-    }
+	if( ptrS->numpins <= 0 ){
+		return ; /* no work to do */
+	}
 
-    init_side_array( newVertFlag ) ;
-    numpinS = 0 ;
-    softequivS = FALSE ;
-    howmany = (INT) ptrS->softpins[HOWMANY] ;
+	init_side_array( newVertFlag ) ;
+	numpinS = 0 ;
+	softequivS = FALSE ;
+	howmany = (INT) ptrS->softpins[HOWMANY] ;
+	printf("miau\n");
+	/** DETERMINE THE BOUNDING BOX OF NETS EXCLUDING THIS CELL **/
+	for( pptr = ptrS->nets; pptr ; pptr = pptr->next ) {
+		determine_bbox( pptr->p.net, cell ) ;
+		/* tell unet that this net has been modified. */
+		netarrayG[ pptr->p.net ]->nflag = TRUE ; 
+	}
 
-    /** DETERMINE THE BOUNDING BOX OF NETS EXCLUDING THIS CELL **/
-    for( pptr = ptrS->nets; pptr ; pptr = pptr->next ) {
-	determine_bbox( pptr->p.net, cell ) ;
-	/* tell unet that this net has been modified. */
-	netarrayG[ pptr->p.net ]->nflag = TRUE ; 
-    }
+	find_optimal_locations( newVertFlag ) ;
+	D( "placepins/after_find_opt", print_pins( "pins after_cost\n", ptrS->softpins, howmany ) ; ) ;
 
-    find_optimal_locations( newVertFlag ) ;
-    D( "placepins/after_find_opt",
-	print_pins( "pins after_cost\n", ptrS->softpins, howmany ) ;
-    ) ;
+	sort_softpins() ;
+	D( "placepins/after_sort", print_pins( "pins after all sorting\n", placearrayS, numpinS ); ) ;
 
-    sort_softpins() ;
-    D( "placepins/after_sort", 
-	print_pins( "pins after all sorting\n", placearrayS, numpinS );
-    ) ;
+	space_pins() ;
+	D( "placepins/after_spacing", print_pins( "pins after spacing\n", placearrayS, numpinS ); ) ;
 
-    space_pins() ;
-    D( "placepins/after_spacing", 
-	print_pins( "pins after spacing\n", placearrayS, numpinS );
-    ) ;
-    side_to_global() ;
+	side_to_global() ;
 
 } /* end placepins */
 /* ***************************************************************** */

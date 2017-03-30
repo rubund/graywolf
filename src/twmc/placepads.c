@@ -119,116 +119,111 @@ static BOOL external_pad_programS = FALSE ;
  field to endsuper.
 ____________________________________________________________________*/
 
-placepads()
+void placepads()
 {
 
-    if( padspacingG == EXACT_PADS ){
-	/* no work to do */
-	return ;
-    }
+	if( padspacingG == EXACT_PADS ){
+		/* no work to do */
+		return ;
+	}
 
-    find_core();  /* GET THE UPDATED CORE'S DIMENSION */
+	find_core();  /* GET THE UPDATED CORE'S DIMENSION */
 
-    if( external_pad_programG ){
-	call_place_pads() ;
+	if( external_pad_programG ){
+		call_place_pads() ;
+		funccostG = findcost() ;
+		return ;
+	}
+
+	/* otherwise do the internal routines */
+	D( "placepads/initially",
+		print_pads( "pads initially\n", padarrayG, totalpadsG ) ;
+	) ;
+
+	find_optimum_locations() ;
+	D( "placepads/after_find_opt",
+		print_pads( "pads after_cost\n", sortarrayG, totalpadsG ) ;
+	) ;
+
+	sort_pads();
+	D( "placepads/after_sort", 
+		print_pads( "pads after sort\n", placearrayG, numpadsG );
+	) ;
+
+	align_pads();
+	D( "placepads/after_align",
+		print_pads( "pads after align\n", placearrayG, numpadsG ) ;
+	) ;
+
+	orient_pads();
+	D( "placepads/after_orient",
+		print_pads( "pads after orient\n", placearrayG, numpadsG ) ;
+	) ;
+
+	dimension_pads();
+	D( "placepads/after_dim", 
+		print_pads( "pads after dimension\n", placearrayG, numpadsG ) ;
+	) ;
+
 	funccostG = findcost() ;
-	return ;
-    }
-
-    /* otherwise do the internal routines */
-    D( "placepads/initially",
-	print_pads( "pads initially\n", padarrayG, totalpadsG ) ;
-    ) ;
-
-    find_optimum_locations() ;
-    D( "placepads/after_find_opt",
-	print_pads( "pads after_cost\n", sortarrayG, totalpadsG ) ;
-    ) ;
-
-    sort_pads();
-    D( "placepads/after_sort", 
-	print_pads( "pads after sort\n", placearrayG, numpadsG );
-    ) ;
-
-    align_pads();
-    D( "placepads/after_align",
-	print_pads( "pads after align\n", placearrayG, numpadsG ) ;
-    ) ;
-
-    orient_pads();
-    D( "placepads/after_orient",
-	print_pads( "pads after orient\n", placearrayG, numpadsG ) ;
-    ) ;
-
-    dimension_pads();
-    D( "placepads/after_dim", 
-	print_pads( "pads after dimension\n", placearrayG, numpadsG ) ;
-    ) ;
-
-    funccostG = findcost() ;
 
 } /* end placepads */
 /* ***************************************************************** */
 
-static find_optimum_locations()
+static int find_optimum_locations()
 {
-    INT i ;                  /* pad counter */
-    INT side ;               /* loop thru valid sides */
-    INT cost ;               /* current cost */
-    INT bestpos ;            /* best modified position for pad */
-    INT besttie ;            /* best position for pad for tiebreak */
-    INT bestcost ;           /* best cost for pad or padgroup */
-    INT bestside ;           /* best side to place pad or padgroup */
-    PADBOXPTR pad ;          /* current pad */
+	int side ;               /* loop thru valid sides */
+	int cost ;               /* current cost */
+	int bestpos ;            /* best modified position for pad */
+	int besttie ;            /* best position for pad for tiebreak */
+	int bestcost ;           /* best cost for pad or padgroup */
+	int bestside ;           /* best side to place pad or padgroup */
+	PADBOXPTR pad ;          /* current pad */
 
-    /** FIND OPTIMUM PLACE FOR PADS ACCORDING TO THE RESTRICTIONS **/
-    for( i = 1; i <= totalpadsG; i++ ){
+	/** FIND OPTIMUM PLACE FOR PADS ACCORDING TO THE RESTRICTIONS **/
+	printf("padarrayG: %p\n",padarrayG);
+	for(int i = 1; i <= totalpadsG; i++ ) {
 
-	/**** LEAVES AND SUBROOTS NEED TO BE PLACED ON THE SAME
-	**** SIDE AS THEIR PARENT ROOT, HENCE WE PLACE THE ROOT
-	**** FIRST, AND THEN PLACE ALL ITS CHILDREN **/
+		/**** LEAVES AND SUBROOTS NEED TO BE PLACED ON THE SAME
+		**** SIDE AS THEIR PARENT ROOT, HENCE WE PLACE THE ROOT
+		**** FIRST, AND THEN PLACE ALL ITS CHILDREN **/
 
-	pad = padarrayG[i] ;
-	if( pad->padtype == PADGROUPTYPE && pad->hierarchy == ROOT  ){
-	    /* the case of a padgroup root */
-	    bestcost = INT_MAX ;
-	    for (side = 1; side <= 4; side++ ) {
-		if( pad->valid_side[ALL] || pad->valid_side[side] ){
-		    cost = find_cost_for_a_side( pad,side,
-			(DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound,
-			pad->fixed ) ;
-		    if( cost < bestcost) {
-			bestcost = cost;
-			bestside = side ;
-		    }
-		}
-	    }
-	    place_children( pad, bestside, (DOUBLE) pad->lowerbound, 
-		(DOUBLE) pad->upperbound, pad->fixed ) ;
-
-	} else if( pad->padtype == PADCELLTYPE && pad->hierarchy == NONE ) {
-	    /* the case of a pad that is not in a padgroup */
-	    bestcost = INT_MAX ;
-	    for (side = 1; side <= 4; side++ ) {
-		if( pad->valid_side[ALL] || pad->valid_side[side] ){
-		    cost = find_cost_for_a_side( pad,side,
-			(DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound, 
-			pad->fixed ) ;
-		    if( cost < bestcost) {
-			bestcost = cost;
-			bestside = side ;
-			bestpos = sumposS ;
-			besttie = sumtieS ;
-		    }
-		}
-	    }
-	    /* now use the best positions for the position */
-	    sumposS = bestpos ;
-	    sumtieS = besttie ;
-	    place_pad( pad, bestside ) ;
-
-	} /* end simple pad case */
-    }
+		pad = padarrayG[i] ;
+		if( pad->padtype == PADGROUPTYPE && pad->hierarchy == ROOT  ){
+			/* the case of a padgroup root */
+			bestcost = INT_MAX ;
+			for (side = 1; side <= 4; side++ ) {
+				if( pad->valid_side[ALL] || pad->valid_side[side] ){
+				cost = find_cost_for_a_side( pad,side,
+					(DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound,
+					pad->fixed ) ;
+					if( cost < bestcost) {
+						bestcost = cost;
+						bestside = side ;
+					}
+				}
+			}
+			place_children( pad, bestside, (DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound, pad->fixed ) ;
+		} else if( pad->padtype == PADCELLTYPE && pad->hierarchy == NONE ) {
+			/* the case of a pad that is not in a padgroup */
+			bestcost = INT_MAX ;
+			for (side = 1; side <= 4; side++ ) {
+				if( pad->valid_side[ALL] || pad->valid_side[side] ){
+					cost = find_cost_for_a_side( pad,side, (DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound, pad->fixed ) ;
+					if( cost < bestcost) {
+						bestcost = cost;
+						bestside = side ;
+						bestpos = sumposS ;
+						besttie = sumtieS ;
+					}
+				}
+			}
+			/* now use the best positions for the position */
+			sumposS = bestpos ;
+			sumtieS = besttie ;
+			place_pad( pad, bestside ) ;
+		} /* end simple pad case */
+	}
 } /* end find_optimum */
 
 /* ***************************************************************** */

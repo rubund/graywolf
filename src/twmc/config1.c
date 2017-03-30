@@ -221,12 +221,11 @@ void config1() {
 		sprintf( resfile, "%s.mres", cktNameG ) ;
 
 		/* make a system independent copy */
-		//YcopyFile( savfile, resfile ) ;
+		YcopyFile( savfile, resfile ) ;
 
-		if( parasite ){
-			/* if we save the graphics state we need to restore it */
+		/*if( parasite ){
 			G( TWrestoreState() ) ;
-		}
+		}*/
 		restartG = TRUE ;
 		scale_dataG = 1 ;
 	}

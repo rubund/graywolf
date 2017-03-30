@@ -1,4 +1,5 @@
 %define api.prefix {twmc_readcells_}
+%glr-parser
 %{
 #include <stdio.h>
 #include "main.h"
@@ -8,14 +9,12 @@
 #define yyin twmc_readcells_in
 extern char *yytext;
 extern int yyget_lineno(void);
-int intar_offset;
-int cornerBuf[(2*EXPECTEDCORNERS)+1];
 %}
 
 %union {
 	int ival;
 	float fval;
-	char sval[100];
+	char *sval;
 }
 
 %token ADDEQUIV
@@ -71,6 +70,11 @@ int cornerBuf[(2*EXPECTEDCORNERS)+1];
 
 %type<fval> timing
 
+%type<sval>padname
+%type<sval>softname
+%type<sval>cellname
+%type<sval>instance
+
 %start start_file
 %%
 
@@ -90,41 +94,58 @@ padgroups : padgroup;
 padgroups : padgroups padgroup;
 cellgroups : cellgroup;
 cellgroups : cellgroups cellgroup;
-customcell : cellname custom_instance_list;
-customcell : cellname fixed custom_instance_list;
+customcell : cellname custom_instance_list
+{
+	endCell();
+};
+customcell : cellname fixed custom_instance_list
+{
+	endCell();
+};
 custom_instance_list : custom_instance;
 custom_instance_list : custom_instance_list instance custom_instance;
 custom_instance : corners keep_outs class orient hardpins;
 custom_instance : corners keep_outs class orient;
-softcell : softname soft_instance_list;
-softcell : softname fixed soft_instance_list;
+softcell : softname soft_instance_list
+{
+	endCell();
+};
+softcell : softname fixed soft_instance_list
+{
+	endCell();
+};
 soft_instance_list : soft_instance;
 soft_instance_list : soft_instance_list instance soft_instance;
 soft_instance : corners aspect keep_outs class orient softpins pingroup;
 soft_instance : corners aspect keep_outs class orient softpins;
 soft_instance : corners aspect keep_outs class orient;
-instance : INSTANCE STRING
+instance: INSTANCE STRING
+{
+	addCell(Ystrclone($2), SOFTCELLTYPE);
+};
+padcell: padname corners cur_orient restriction sidespace hardpins
 {
 	endCell();
-	add_instance(Ystrclone($2)) ;
 };
-padcell : padname corners cur_orient restriction sidespace hardpins;
-padcell : padname corners cur_orient restriction sidespace;
-padgroup : padgroupname padgrouplist restriction sidespace;
-cellgroup : supergroupname supergrouplist class orient;
-cellgroup : cellgroupname neighborhood cellgrouplist;
-cellname : HARDCELL INTEGER NAME STRING
+padcell: padname corners cur_orient restriction sidespace
 {
-	addCell(Ystrclone($4), CUSTOMCELLTYPE ) ;
+	endCell();
+};
+padgroup: padgroupname padgrouplist restriction sidespace;
+cellgroup: supergroupname supergrouplist class orient;
+cellgroup: cellgroupname neighborhood cellgrouplist;
+cellname: HARDCELL INTEGER NAME STRING
+{
+	addCell(Ystrclone($4), CUSTOMCELLTYPE);
 };
 cellname : HARDCELL error;
 softname : SOFTCELL INTEGER NAME STRING
 {
-	addCell(Ystrclone($4), SOFTCELLTYPE ) ;
+	addCell(Ystrclone($4), SOFTCELLTYPE);
 };
 softname : CLUSTER INTEGER NAME STRING
 {
-	addCell(Ystrclone($4), SOFTCELLTYPE ) ;
+	addCell(Ystrclone($4), STDCELLTYPE);
 };
 softname : SOFTCELL error;
 neighborhood : NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
@@ -136,7 +157,7 @@ xloc : INTEGER;
 yloc : INTEGER;
 padname : PAD INTEGER NAME STRING
 {
-	addCell(Ystrclone($4), PADCELLTYPE ) ;
+	addCell(Ystrclone($4), PADCELLTYPE);
 };
 padgroupname : PADGROUP STRING PERMUTE;
 padgroupname : PADGROUP STRING NOPERMUTE;
@@ -146,40 +167,23 @@ supergroupname : SUPERGROUP error;
 cellgroupname : CELLGROUP STRING NAME STRING;
 cellgroupname : CELLGROUP error;
 corners: numcorners cornerpts {
-	int t = $1;
-	int p1 = 0, p2 = 0;
-
-	for(int i=0;i<intar_offset;i++) {
-		p1=cornerBuf[i];
-		i++;
-		p2=cornerBuf[i];
-		addCorner(p1, p2) ;
-	}
-
-	processCorners(t);
+	processCorners($1);
 };
 numcorners : CORNERS INTEGER
 {
-	yyval.ival=$2;
+	$$=$2;
 };
 cornerpts : INTEGER INTEGER
 {
-	intar_offset=0;
-	cornerBuf[intar_offset]=$1;
-	intar_offset++;
-	cornerBuf[intar_offset]=$2;
-	intar_offset++;
+	addCorner($1, $2);
 };
 cornerpts : cornerpts INTEGER INTEGER
 {
-	cornerBuf[intar_offset]=$2;
-	intar_offset++;
-	cornerBuf[intar_offset]=$3;
-	intar_offset++;
+	addCorner($2, $3);
 };
 class : CLASS INTEGER
 {
-	addClass($2) ;
+	addClass($2);
 };
 class : CLASS error;
 orient : numorientations ORIENTATIONS orientlist cur_orient;
@@ -194,7 +198,7 @@ orientlist : INTEGER
 };
 orientlist : orientlist INTEGER
 {
-	addOrient($2);
+ 	addOrient($2); 
 };
 cur_orient :;
 cur_orient : ORIENT INTEGER
@@ -203,48 +207,39 @@ cur_orient : ORIENT INTEGER
 };
 aspect : ASPLB FLOAT ASPUB FLOAT
 {
-	addAspectBounds( $2, $4 ) ;
+	addAspectBounds( $2, $4 );
 };
-softpins : softpinlist;
+softpins : softpinlist
+{
+	add_soft_array();
+};
 softpinlist : softtype;
 softpinlist : softpinlist softtype;
 softtype : pintype;
 softtype : softpin;
 hardpins : pintype;
 hardpins : hardpins pintype;
-pintype : pinrecord;
-pintype : pinrecord equiv_list;
-pinrecord : PIN NAME STRING SIGNAL STRING layer contour timing current power no_layer_change 
+pintype : pinrecord {};
+pintype : pinrecord equiv_list {};
+pinname: PIN NAME STRING SIGNAL STRING layer
 {
-	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
-	int p1 = 0, p2 = 0;
-	for(int i=0;i<intar_offset;i++) {
-		p1=cornerBuf[i];
-		i++;
-		p2=cornerBuf[i];
-		add_pin_contour(p1, p2) ;
-	}
+	addPin(Ystrclone($3), Ystrclone($5), $6, SOFTPINTYPE);
+};
+pinrecord : pinname contour timing current power no_layer_change 
+{
 	process_pin();
 };
-contour : INTEGER INTEGER;
-contour : num_corners pin_pts {
-};
+contour : INTEGER INTEGER {};
+contour : num_corners pin_pts {};
 num_corners : CORNERS INTEGER
 {
-	yyval.ival=$2;
+	$$=$2;
 };
 pin_pts : INTEGER INTEGER {
-	intar_offset=0;
-	cornerBuf[intar_offset]=$1;
-	intar_offset++;
-	cornerBuf[intar_offset]=$2;
-	intar_offset++;
+	add_pin_contour($1, $2) ;
 };
 pin_pts : pin_pts INTEGER INTEGER {
-	cornerBuf[intar_offset]=$2;
-	intar_offset++;
-	cornerBuf[intar_offset]=$3;
-	intar_offset++;
+	add_pin_contour($2, $3) ;
 };
 current :;
 current : CURRENT FLOAT;
@@ -252,12 +247,13 @@ power :;
 power : POWER FLOAT;
 no_layer_change :;
 no_layer_change : NO_LAYER_CHANGE;
-softpin : softpin_info siderestriction pinspace;
+softpin : softpin_info siderestriction pinspace
+{
+};
 softpin : softpin_info siderestriction pinspace softequivs;
 softpin_info : SOFTPIN NAME STRING SIGNAL STRING layer timing
 {
 	addPin(Ystrclone($3), Ystrclone($5), $6, SOFTPINTYPE );
-	process_pin();
 	set_restrict_type( SOFTPINTYPE ) ;
 };
 softequivs : mc_equiv;
@@ -285,7 +281,7 @@ equiv : EQUIV NAME STRING layer INTEGER INTEGER;
 layer :;
 layer : LAYER INTEGER
 {
-	yyval.ival=$2;
+	$$=$2;
 };
 siderestriction :;
 siderestriction : RESTRICT SIDE side_list;
@@ -330,12 +326,12 @@ int readcells(char *filename)
 	extern FILE *yyin;
 	printf("readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
-/* 	init(); */
 	initCellInfo();
-	/* parse input file using yacc */
 	if(yyin) {
+		/* parse input file using yacc */
 		yyparse();
 		fclose(yyin);
+		cleanupReadCells();
 	}
 } /* end readcells */
 
