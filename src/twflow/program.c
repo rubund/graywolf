@@ -90,25 +90,6 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 
 	stateSaved = FALSE ;  /* for remember whether we save graphics */
 
-	/*argv = adjptr->argv ;
-	for( i = 0 ; i < adjptr->argc; i++ ){
-		strcat( command, " " ) ;
-		if( strncmp( argv[i], DESIGNNAME, DSNLEN ) == STRINGEQ ){
-			strcat( command, cktNameG ) ;
-			strcat( command, argv[i]+1 ) ;
-		} else if( strcmp( argv[i], WINDOWID ) == STRINGEQ ){
-			if( graphicsG ){
-				G( sprintf( window_name, "%d", TWsaveState() ) ) ;
-				stateSaved = TRUE ;
-			}
-			strcat( command, window_name ) ;
-
-		} else if( strcmp( argv[i], FLOWDIR ) == STRINGEQ ){
-			strcat( command, flow_dirG ) ;
-		} else {
-			strcat( command, argv[i] ) ;
-		}
-	}*/
 	D( "twflow/executePgm", sprintf( YmsgG, "%s\n", command ) ) ;
 	D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
@@ -142,6 +123,10 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 		status = TimberWolfMC(0, 0, !graphicsG, 0, 0, 0, 0, graphicsG, WINDOWID, cktNameG);
 	}
 
+	if(!strcmp("TimberWolfSC",obj->name)) {
+		printf("It's TimberWolfSC!\n");
+		status=1;
+	}
 	/*if(!strcmp("TimberWolfSC",obj->name)) {
 		printf("It's TimberWolfSC!\n");
 		char* localArgv[5];
