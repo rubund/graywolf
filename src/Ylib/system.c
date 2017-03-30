@@ -50,28 +50,34 @@ static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
 #include <yalecad/file.h>
 #include <yalecad/message.h>
 #include <dirent.h>
+#include <unistd.h>
 
-YcopyFile( sourcefile, destfile )
-char *sourcefile, *destfile ;
+void YcopyFile( char *sourcefile, char *destfile )
 {
+	if( access( sourcefile, F_OK ) == -1 ) {
+		printf("%s doesn't exist\n",sourcefile);
+		return;
+	}
+
+	if( access( destfile, F_OK ) == -1 ) {
+		remove(destfile);
+	}
+
 	FILE* source = fopen(sourcefile, "rb");
 	FILE* dest = fopen(destfile, "wb");
-	int i;
-	for (i = getc(source); i != EOF; i = getc(source)) {
+	for (int i = getc(source); i != EOF; i = getc(source)) {
 		putc(i, dest);
 	}
 	fclose(dest);
 	fclose(source);
 } /* end Ycopyfile */
 
-YmoveFile( sourcefile, destfile )
-char *sourcefile, *destfile ;
+int YmoveFile( char *sourcefile, char *destfile )
 {
 	return rename(sourcefile, destfile);
 } /* end Ycopyfile */
 
-Yrm_files( files )
-char *files ;
+int Yrm_files( char *files )
 {
 	if(remove(files)) {
 		printf("Could not remove %s \n", files);
@@ -88,10 +94,9 @@ char *files ;
 	}
 } /* end Ycopyfile */
 
-char *Ygetenv( env_var )
-char *env_var ;
+char *Ygetenv( char *env_var )
 {
-    char *getenv() ;
-    return( (char *) getenv( env_var ) ) ;
+	char *getenv() ;
+	return( (char *) getenv( env_var ) ) ;
 
 } /* end Ygetenv */
