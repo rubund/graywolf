@@ -300,9 +300,11 @@ int readcells(char *filename)
 	extern FILE *yyin;
 	printf("readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
-	init();
-	/* parse input file using yacc */
-	yyparse();
+	if(yyin) {
+		init();
+		/* parse input file using yacc */
+		yyparse();
+	}
 } /* end readcells */
 
 int mincut_wrap(void) {return 1;}
