@@ -16,7 +16,7 @@ char *cktName;
 	sprintf( mcelfile, "%s.mcel", cktName ) ;
 
 	fp = fopen(celfile,"r");
-	fpsc = fopen(scelfile,"a");
+	fpsc = fopen(scelfile,"w");
 	fpmc = fopen(mcelfile,"a");
 
 	int sc = 0;
@@ -45,4 +45,3 @@ char *cktName;
 
 	return 0;
 }
-

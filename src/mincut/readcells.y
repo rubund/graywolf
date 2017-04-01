@@ -1,4 +1,5 @@
 %define api.prefix {mincut_}
+%glr-parser
 %{
 #include <stdio.h>
 #include "globals.h"

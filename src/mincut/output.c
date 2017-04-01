@@ -84,6 +84,9 @@ static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 /* *************************************************************** */
+
+void write_softpins( FILE *fp );
+
 void init()
 {
 	/* get ready for parsing */
@@ -159,8 +162,7 @@ void output( FILE *fp )
 	int g ;
 
 	if( total_std_cellS > 0 ){
-		average_cell_heightS = total_cell_heightS / 
-			(DOUBLE) total_std_cellS ;
+		average_cell_heightS = total_cell_heightS / (DOUBLE) total_std_cellS ;
 	} else {
 		average_cell_heightS = 0.0 ;
 	}
