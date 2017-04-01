@@ -121,7 +121,7 @@ soft_instance : corners aspect keep_outs class orient softpins;
 soft_instance : corners aspect keep_outs class orient;
 instance: INSTANCE STRING
 {
-	addCell(Ystrclone($2), SOFTCELLTYPE);
+	addCell(Ystrclone($2), STDCELLTYPE);
 };
 padcell: padname corners cur_orient restriction sidespace hardpins
 {

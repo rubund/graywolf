@@ -106,11 +106,11 @@ static char SccsId[] = "@(#) main.c (Yale) version 4.38 5/15/92" ;
 #define EXPECTEDMEMORY         (512 * 1024) 
 
 /* global variables definitions */
-INT row_extentG ;
-INT **bin_configG ;
-INT left_row_boundaryG ;
-INT save_abs_min_flagG ;
-INT actual_feed_thru_cells_addedG = 0 ;
+int row_extentG ;
+int **bin_configG ;
+int left_row_boundaryG ;
+int save_abs_min_flagG ;
+int actual_feed_thru_cells_addedG = 0 ;
 BOOL orientation_optimizationG = FALSE ;
 
 /* global variable references */
@@ -126,95 +126,73 @@ extern BOOL route_padnets_outsideG ;
 extern BOOL call_row_evenerG ;
 extern BOOL placement_improveG ;
 extern BOOL ignore_feedsG ;
-extern INT ECOs_existG ;
-extern INT spacer_widthG ;
-extern INT longest_row_lengthG ;
-extern INT largest_delta_row_lenG ;
-extern INT total_row_lengthG ;
+extern int ECOs_existG ;
+extern int spacer_widthG ;
+extern int longest_row_lengthG ;
+extern int largest_delta_row_lenG ;
+extern int total_row_lengthG ;
 
 /* static variables */
-static INT routing_loopS ;
-static INT *save_cell_xS ;
-static INT *save_cell_yS ;
-static INT *save_cell_bS ;
-static INT *save_cell_cS ;
-static INT *save_desireS ;
-static INT *save_orientS ;
-static INT *save_orig_desireS ;
+static int routing_loopS ;
+static int *save_cell_xS ;
+static int *save_cell_yS ;
+static int *save_cell_bS ;
+static int *save_cell_cS ;
+static int *save_desireS ;
+static int *save_orientS ;
+static int *save_orig_desireS ;
 static char *twdirS ; 
-static INT num_feeds_addedS ;/* number of feeds added on best iteration */
-static DOUBLE ave_row_sepS ; /* the row separation for a run */
+static int num_feeds_addedS ;/* number of feeds added on best iteration */
+static double ave_row_sepS ; /* the row separation for a run */
 
-//main( argc , argv )
+void readParFile();
+
+int
 __attribute__((visibility("default")))
-TimberWolfSC ( argc , argv )
-INT argc ;
-char *argv[] ;
+TimberWolfSC(int n, int v, char *cktName)
 {
+	FILE *fp ;
+	double quality_value();
+	char filename[LRECL] ;
+	int ll, rr, bb, tt ;
+	int bdxlen , bdylen ;
+	int block ;
+	int yaleIntro() ;
+	int cx, cy, cl, cr, cb, ct, cell ;
+	char *ptr ;
+	char *Ystrclone() ;
+	BOOL debug ;
+	BOOL verbose ;
+	int arg_count ;
+	char *Ygetenv() ;
 
+	/* ********************** start initialization *********************** */
+	/* start up cleanup handler */
 
-FILE *fp ;
-DOUBLE quality_value();
-char filename[LRECL] ;
-INT ll, rr, bb, tt ;
-INT bdxlen , bdylen ;
-INT block ;
-INT yaleIntro() ;
-INT cx, cy, cl, cr, cb, ct, cell ;
-char *ptr ;
-char *Ystrclone() ;
-BOOL debug ;
-BOOL parasite ;
-BOOL windowId ;
-BOOL verbose ;
-INT arg_count ;
-char *Ygetenv() ;
+	Yinit_memsize( EXPECTEDMEMORY ) ;
 
-/* ********************** start initialization *********************** */
-/* start up cleanup handler */
-YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
+	USER_INITIALIZATION() ;
 
-Yinit_memsize( EXPECTEDMEMORY ) ;
-
-USER_INITIALIZATION() ;
-
-if( argc < 2 || argc > 4 ){
-    syntax() ;
-} else {
-    debug      = FALSE ;
-    parasite   = FALSE ;
-    verbose    = FALSE ;
-#ifndef NOGRAPHICS
-    windowId   = 0 ;
-    doGraphicsG = TRUE ;
-#else /* NOGRAPHICS case */
-    doGraphicsG = FALSE ;
-#endif /* NOGRAPHICS */
-    arg_count = 1 ;
-    if( *argv[1] == '-' ){
-	for( ptr = ++argv[1]; *ptr; ptr++ ){
-	    switch( *ptr ){
-	    case 'd':
-		debug = TRUE ;
-	        break ;
-	    case 'n':
-	        doGraphicsG = FALSE ;
-	        break ;
-	    case 'v':
-	        verbose = TRUE ;
-	        break ;
-	    case 'w':
-	        parasite = TRUE ;
-	        break ;
-	    default:
-		sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
-		M(ERRMSG,"main",YmsgG);
-		syntax() ;
-	    }
+	debug      = FALSE ;
+	verbose    = FALSE ;
+	doGraphicsG = TRUE;
+		
+	if(n) {
+		doGraphicsG = FALSE ;
 	}
+	if(v) {
+		verbose = TRUE ;
+	}
+
+#ifdef NOGRAPHICS
+	/* NOGRAPHICS case */
+	doGraphicsG = FALSE ;
+#endif /* NOGRAPHICS */
+
 	YdebugMemory( debug ) ;
 
-	cktNameG = Ystrclone( argv[++arg_count] );
+	cktNameG = Ystrclone(cktName);
+	printf("routing design name: %s\n",cktNameG);
 
 	/* now tell the user what he picked */
 	M(MSG,NULL,"\n\nTimberWolfSC switches:\n" ) ;
@@ -227,252 +205,227 @@ if( argc < 2 || argc > 4 ){
 	} else {
 	    M(MSG,NULL,"\tGraphics mode off\n" ) ;
 	}
-	if( parasite ){
-	    M(MSG,NULL,"\tTimberWolfSC will inherit window\n" ) ;
-	    /* look for windowid */
-	    if(argc != 4){
-		M(ERRMSG,"main","Need to specify windowID\n" ) ;
-		syntax() ;
-
-	    } else {
-		G( windowId = atoi( argv[++arg_count] ) ) ;
-	    } 
-	}
 	if( verbose ){
 	    M(MSG,NULL,"\tVerbose mode on\n" ) ;
 	    Ymessage_mode( M_VERBOSE ) ;
 	}
 	M(MSG,NULL,"\n" ) ;
-    } else if( argc == 2 ){
-	/* order is important here */
-	YdebugMemory( FALSE ) ;
-	cktNameG = Ystrclone( argv[1] );
 
-    } else {
-	syntax() ;
-    }
-}
-sprintf( filename , "%s.out" , cktNameG ) ;
-fpoG = TWOPEN( filename, "w", ABORT ) ;
-Ymessage_init( fpoG ) ;  /* send all the messages to a file normally */
-YinitProgram( "TimberWolfSC", "v6.0", yaleIntro );
-/* ********************** end initialization ************************* */
+	sprintf( filename , "%s.out" , cktNameG ) ;
+	fpoG = fopen( filename, "w") ;
+	Ymessage_init( fpoG ) ;  /* send all the messages to a file normally */
+	YinitProgram( "TimberWolfSC", "v6.0", yaleIntro );
+	/* ********************** end initialization ************************* */
 
-readParFile();
+	readParFile();
 
-/* check to see if twdir is set so we can run SGGR */
-if( SGGRG ){
-    if( !(twdirS = TWFLOWDIR)){
-       //M( ERRMSG,main,"TWDIR environment variable not set.\n");
-       M( ERRMSG,NULL,"Please set it to TimberWolf root directory\n");
-       M( ERRMSG,NULL,"SGGR cannot automatically be run after annealing\n");
-    }
-}
-G( initGraphics( argc, argv, windowId ) ) ;
+	/* check to see if twdir is set so we can run SGGR */
+	if( SGGRG ){
+		if( !(twdirS = TWFLOWDIR)){
+		//M( ERRMSG,main,"TWDIR environment variable not set.\n");
+			M( ERRMSG,NULL,"Please set it to TimberWolf root directory\n");
+			M( ERRMSG,NULL,"SGGR cannot automatically be run after annealing\n");
+		}
+	}
 
-Yset_random_seed( (INT) randomSeedG ) ; 
-fprintf( fpoG, "\nThe random number generator seed is: %u\n\n\n", 
-						randomSeedG ) ;
+	Yset_random_seed( (INT) randomSeedG ) ; 
+	fprintf( fpoG, "\nThe random number generator seed is: %u\n\n\n", randomSeedG ) ;
 
-/* 
-    get a pointer to blockfile
-*/
-sprintf( filename , "%s.blk" , cktNameG ) ;
-fp = TWOPEN( filename , "r" , ABORT ) ;
-readblck( fp ) ;
-TWCLOSE( fp ) ;
+	/* 
+	get a pointer to blockfile
+	*/
+	sprintf( filename , "%s.blk" , cktNameG ) ;
+	fp = TWOPEN( filename , "r" , ABORT ) ;
+	readblck( fp ) ;
+	TWCLOSE( fp ) ;
 
-maxCellOG = 0 ;
-for( block = 1 ; block <= numRowsG ; block++ ) {
-    if( barrayG[block]->borient == 2 ) {
-	maxCellOG = 1 ;
-	break ;
-    }
-}
+	maxCellOG = 0 ;
+	for( block = 1 ; block <= numRowsG ; block++ ) {
+		if( barrayG[block]->borient == 2 ) {
+			maxCellOG = 1 ;
+			break ;
+		}
+	}
 
+	if( rowsG > 0 ) {
+		sprintf( filename , "%s.scel" , cktNameG ) ;
+	} else {
+		sprintf( filename , "%s.cel" , cktNameG ) ;
+	}
+	/* avoid crashes later on */
+	if( spacer_widthG == -1 && (rowsG > 0 || gate_arrayG) ){
+		M( ERRMSG, "main", "Neither spacer width nor feedthru width was specified in .par file\n" ) ;
+		M( ERRMSG, NULL, "FATAL:must exit\n\n" ) ;
+	}
 
-if( rowsG > 0 ) {
-    sprintf( filename , "%s.scel" , cktNameG ) ;
-} else {
-    sprintf( filename , "%s.cel" , cktNameG ) ;
-}
-/* avoid crashes later on */
-if( spacer_widthG == -1 && (rowsG > 0 || gate_arrayG) ){
-    M( ERRMSG, "main", 
-    "Neither spacer width nor feedthru width was specified in .par file\n" ) ;
-    M( ERRMSG, NULL, "FATAL:must exit\n\n" ) ;
-}
+	readcell( filename ) ;
 
-fp = TWOPEN( filename , "r" , ABORT ) ;
-readcell( fp ) ;
-TWCLOSE( fp ) ;
-
-/* 
-    get a pointer to the netlist input file 
-*/
-sprintf( filename , "%s.net" , cktNameG ) ;
-fp = TWOPEN( filename , "r", NOABORT  ) ;
-readnets( fp ) ;
-if( fp ) {
-    TWCLOSE( fp ) ;
-}
+	/* 
+	get a pointer to the netlist input file 
+	*/
+	sprintf( filename , "%s.net" , cktNameG ) ;
+	fp = fopen( filename , "r") ;
+	readnets( fp ) ;
+	if( fp ) {
+		fclose( fp ) ;
+	}
 
 
-if ( Equal_Width_CellsG && file_conversionG ) {
-     closegraphics() ;
-     calc_cells_width();
-     printf("\n***************************************************");
-     printf("\nThe file stdcell.comp has the converted equal cells");
-     printf("\n***************************************************");
-     printf("\n\n");
-     YexitPgm(PGMOK);     
+	if ( Equal_Width_CellsG && file_conversionG ) {
+	closegraphics() ;
+	calc_cells_width();
+	printf("\n***************************************************");
+	printf("\nThe file stdcell.comp has the converted equal cells");
+	printf("\n***************************************************");
+	printf("\n\n");
+	YexitPgm(PGMOK);     
 
-}
+	}
 
-iterationG = 0 ;
+	iterationG = 0 ;
 
-tt = INT_MIN ;
-bb = INT_MAX ;
-rr = INT_MIN ;
-ll = INT_MAX ;
-for( block = 1 ; block <= numRowsG ; block++ ) {
-    cx = barrayG[block]->bxcenter ;
-    cy = barrayG[block]->bycenter ;
-    cl = barrayG[block]->bleft;
-    cr = barrayG[block]->bright;
-    cb = barrayG[block]->bbottom;
-    ct = barrayG[block]->btop;
-    if( cx + cr > rr ) {
-	rr = cx + cr ;
-    }
-    if( cx + cl < ll ) {
-	ll = cx + cl ;
-    }
-    if( cy + ct > tt ) {
-	tt = cy + ct ;
-    }
-    if( cy + cb < bb ) {
-	bb = cy + cb ;
-    }
-}
-blkxspanG = rr - ll ;
-blkyspanG = tt - bb ;
+	tt = INT_MIN ;
+	bb = INT_MAX ;
+	rr = INT_MIN ;
+	ll = INT_MAX ;
+	for( block = 1 ; block <= numRowsG ; block++ ) {
+	cx = barrayG[block]->bxcenter ;
+	cy = barrayG[block]->bycenter ;
+	cl = barrayG[block]->bleft;
+	cr = barrayG[block]->bright;
+	cb = barrayG[block]->bbottom;
+	ct = barrayG[block]->btop;
+	if( cx + cr > rr ) {
+		rr = cx + cr ;
+	}
+	if( cx + cl < ll ) {
+		ll = cx + cl ;
+	}
+	if( cy + ct > tt ) {
+		tt = cy + ct ;
+	}
+	if( cy + cb < bb ) {
+		bb = cy + cb ;
+	}
+	}
+	blkxspanG = rr - ll ;
+	blkyspanG = tt - bb ;
 
-left_row_boundaryG = ll ;
-row_extentG = rr - ll ;
+	left_row_boundaryG = ll ;
+	row_extentG = rr - ll ;
 
-fprintf(fpoG,"block x-span:%d  block y-span:%d\n",blkxspanG,blkyspanG);
+	fprintf(fpoG,"block x-span:%d  block y-span:%d\n",blkxspanG,blkyspanG);
 
-for( cell = 1 ; cell <= lastpadG ; cell++ ) {
-    if( cell > numcellsG - extra_cellsG && cell <= numcellsG ) {
-	continue ;
-    }
-    cx = carrayG[cell]->cxcenter ;
-    cy = carrayG[cell]->cycenter ;
-    cl = carrayG[cell]->tileptr->left;
-    cr = carrayG[cell]->tileptr->right;
-    cb = carrayG[cell]->tileptr->bottom;
-    ct = carrayG[cell]->tileptr->top;
-    if( cx + cr > rr ) {
-	rr = cx + cr ;
-    }
-    if( cx + cl < ll ) {
-	ll = cx + cl ;
-    }
-    if( cy + ct > tt ) {
-	tt = cy + ct ;
-    }
-    if( cy + cb < bb ) {
-	bb = cy + cb ;
-    }
-}
-bdxlen = rr - ll ;
-bdylen = tt - bb ;
+	for( cell = 1 ; cell <= lastpadG ; cell++ ) {
+	if( cell > numcellsG - extra_cellsG && cell <= numcellsG ) {
+		continue ;
+	}
+	cx = carrayG[cell]->cxcenter ;
+	cy = carrayG[cell]->cycenter ;
+	cl = carrayG[cell]->tileptr->left;
+	cr = carrayG[cell]->tileptr->right;
+	cb = carrayG[cell]->tileptr->bottom;
+	ct = carrayG[cell]->tileptr->top;
+	if( cx + cr > rr ) {
+		rr = cx + cr ;
+	}
+	if( cx + cl < ll ) {
+		ll = cx + cl ;
+	}
+	if( cy + ct > tt ) {
+		tt = cy + ct ;
+	}
+	if( cy + cb < bb ) {
+		bb = cy + cb ;
+	}
+	}
+	bdxlen = rr - ll ;
+	bdylen = tt - bb ;
 
-lrtxspanG = rr ;
-lrtyspanG = tt ;
+	lrtxspanG = rr ;
+	lrtyspanG = tt ;
 
 
 
-if( Equal_Width_CellsG ) {
-    binpenConG = 0 ;
-    roLenConG  = 0 ;
-} else {
-    binpenConG = 1.0 ;
-    roLenConG  = 6.0 ;
-}
-calc_init_timeFactor() ;
-fprintf(fpoG,"Using default value of bin.penalty.control:%f\n",
-					    binpenConG ) ;
-pairArrayG = NULL ;
+	if( Equal_Width_CellsG ) {
+	binpenConG = 0 ;
+	roLenConG  = 0 ;
+	} else {
+	binpenConG = 1.0 ;
+	roLenConG  = 6.0 ;
+	}
+	calc_init_timeFactor() ;
+	fprintf(fpoG,"Using default value of bin.penalty.control:%f\n",
+						binpenConG ) ;
+	pairArrayG = NULL ;
 
-funccostG = findcost() ;
+	funccostG = findcost() ;
 
-fprintf( fpoG , "bdxlen:%d  bdylen:%d\n", bdxlen , bdylen ) ;
-fprintf( fpoG , "l:%d  t:%d  r:%d  b:%d\n", ll , tt , rr , bb ) ;
-			    
-fprintf( fpoG, "\n\n\nTHIS IS THE ROUTE COST OF THE ");
-fprintf( fpoG, "CURRENT PLACEMENT: %d\n" , funccostG ) ;
-fprintf( fpoG, "\n\n\nTHIS IS THE PENALTY OF THE ") ;
-fprintf( fpoG , "CURRENT PLACEMENT: %d\n" , penaltyG ) ;
-fflush( fpoG ) ;
+	fprintf( fpoG , "bdxlen:%d  bdylen:%d\n", bdxlen , bdylen ) ;
+	fprintf( fpoG , "l:%d  t:%d  r:%d  b:%d\n", ll , tt , rr , bb ) ;
+				
+	fprintf( fpoG, "\n\n\nTHIS IS THE ROUTE COST OF THE ");
+	fprintf( fpoG, "CURRENT PLACEMENT: %d\n" , funccostG ) ;
+	fprintf( fpoG, "\n\n\nTHIS IS THE PENALTY OF THE ") ;
+	fprintf( fpoG , "CURRENT PLACEMENT: %d\n" , penaltyG ) ;
+	fflush( fpoG ) ;
 
-if( intelG && !ignore_crossbusesG ) {
-    handle_crossbuses() ;
-}
+	if( intelG && !ignore_crossbusesG ) {
+	handle_crossbuses() ;
+	}
 
-G( init_heat_index() ) ;
-G( check_graphics(TRUE) ) ;
+	G( init_heat_index() ) ;
+	G( check_graphics(TRUE) ) ;
 
-fflush(fpoG);
-fflush(stdout);
+	fflush(fpoG);
+	fflush(stdout);
 
-if( orientation_optimizationG ) {
-    costonlyG = FALSE ;
-}
+	if( orientation_optimizationG ) {
+	costonlyG = FALSE ;
+	}
 
-if( ECOs_existG ) {
-    costonlyG = TRUE ;
-    printf("ECOs are being incorporated as requested\n");
-    fprintf(fpoG,"ECOs are being incorporated as requested\n");
-    incorporate_ECOs() ;
-}
+	if( ECOs_existG ) {
+	costonlyG = TRUE ;
+	printf("ECOs are being incorporated as requested\n");
+	fprintf(fpoG,"ECOs are being incorporated as requested\n");
+	incorporate_ECOs() ;
+	}
 
-if( costonlyG ) {
-    orientation_optimizationG = TRUE ;
-    utemp() ;
-} else {
-    init_utemp() ;
-    utemp() ;
-}
+	if( costonlyG ) {
+	orientation_optimizationG = TRUE ;
+	utemp() ;
+	} else {
+	init_utemp() ;
+	utemp() ;
+	}
 
 
-fprintf( fpoG , "\nStatistics:\n");
-fprintf( fpoG , "Number of Cells: %d\n", numcellsG );
-fprintf( fpoG , "Number of Pads: %d \n", numtermsG - numpadgrpsG );
-fprintf( fpoG , "Number of Nets: %d \n", numnetsG ) ;
-fprintf( fpoG , "Number of Pins: %d \n", maxtermG ) ;
-fprintf( fpoG , "Number of PadGroups: %d \n", numpadgrpsG );
-fprintf( fpoG , "Number of Implicit Feed Thrus: %d\n",
-				implicit_feed_countG++ ) ;
-fprintf( fpoG , "Number of Feed Thrus Added: %d\n", num_feeds_addedS ) ;
-fprintf( fpoG , "Feed Percentage: %4.2f%%\n",
-    100.0 * (DOUBLE) (num_feeds_addedS * fdWidthG) /
-    (DOUBLE) total_row_lengthG ) ;
-fprintf( fpoG , "Average Row Separation: %4.2f\n",
-    ave_row_sepS ) ;
+	fprintf( fpoG , "\nStatistics:\n");
+	fprintf( fpoG , "Number of Cells: %d\n", numcellsG );
+	fprintf( fpoG , "Number of Pads: %d \n", numtermsG - numpadgrpsG );
+	fprintf( fpoG , "Number of Nets: %d \n", numnetsG ) ;
+	fprintf( fpoG , "Number of Pins: %d \n", maxtermG ) ;
+	fprintf( fpoG , "Number of PadGroups: %d \n", numpadgrpsG );
+	fprintf( fpoG , "Number of Implicit Feed Thrus: %d\n",
+					implicit_feed_countG++ ) ;
+	fprintf( fpoG , "Number of Feed Thrus Added: %d\n", num_feeds_addedS ) ;
+	fprintf( fpoG , "Feed Percentage: %4.2f%%\n",
+	100.0 * (DOUBLE) (num_feeds_addedS * fdWidthG) /
+	(DOUBLE) total_row_lengthG ) ;
+	fprintf( fpoG , "Average Row Separation: %4.2f\n",
+	ave_row_sepS ) ;
 
-if( intelG ) {
-    fprintf( fpoG , "Checking violations at the end\n");
-    check_violations() ;
-}
+	if( intelG ) {
+	fprintf( fpoG , "Checking violations at the end\n");
+	check_violations() ;
+	}
 
-Yprint_stats(fpoG);
-/* TWCLOSE(fpoG) ; */  /* Handled by Ymessage_close() in YexitPgm() */
+	Yprint_stats(fpoG);
+	/* TWCLOSE(fpoG) ; */  /* Handled by Ymessage_close() in YexitPgm() */
 
-closegraphics() ;
+	closegraphics() ;
 
-YexitPgm(PGMOK);
+	YexitPgm(PGMOK);
 
 } /* end main */
 

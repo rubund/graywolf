@@ -78,7 +78,7 @@ Mincut( int debugON,  char *dName)
 	char command[LRECL] ;
 	char *ptr ;
 	int  arg_count ;
-	   void yaleIntro() ;
+	void yaleIntro() ;
 	int  debug ;
 	FILE *fp ;
 	char *twdir, *Ygetenv() ;
@@ -115,7 +115,7 @@ Mincut( int debugON,  char *dName)
 
 	sprintf( filename, "%s.stat", cktNameG ) ;
 	fp = fopen( filename, "a") ;
-	update_stats( fp ) ;
+	update_stats( fp );
 	fclose( fp ) ;
 
 	int separate_cel_file(char *cktName);

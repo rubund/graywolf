@@ -70,7 +70,7 @@ static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
 
 int
 __attribute__((visibility("default")))
-mc_compact(int a, int d, int c, int n, int p, int v, int w, int windowId, char*cktName,int blockr, int blockt, int track_spacingX, int track_spacingY)
+mc_compact(int a, int d, int c, int n, int p, int v, char*cktName,int blockr, int blockt, int track_spacingX, int track_spacingY)
 {
 	char *ptr ;
 
@@ -87,7 +87,6 @@ mc_compact(int a, int d, int c, int n, int p, int v, int w, int windowId, char*c
 	graphicsG  = TRUE ;
 	alignG     = FALSE ;
 	compactG   = TRUE ; 
-	parasiteG  = FALSE ;
 	partitionG = FALSE ;
 	debugG     = FALSE ;
 	constraintsG = FALSE ;
@@ -108,9 +107,6 @@ mc_compact(int a, int d, int c, int n, int p, int v, int w, int windowId, char*c
 	}
 	if(v) {
 		compactG = FALSE ;
-	}
-	if(w) {
-		parasiteG = TRUE ;
 	}
 
 #ifdef NOGRAPHICS
@@ -163,10 +159,6 @@ mc_compact(int a, int d, int c, int n, int p, int v, int w, int windowId, char*c
 	blockmyG = blocktG / 2 ;
 
 	/* turn on the graphics if requested */
-	if( graphicsG ){
-		G( init_graphics(windowId ) ) ;
-	}
-
 	readtiles() ;
 
 	if( constraintsG ){

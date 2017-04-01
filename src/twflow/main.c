@@ -84,12 +84,13 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #include "config-build.h"
 
 #define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
-#define NULLWINDOW      0
 #define VERSION         "2.1" 
+#define WINDOWID "@WINDOWID"
 
-__attribute__((visibility("default"))) main( argc , argv )
-	INT argc ;
-	char *argv[] ;
+int windowIdG;
+
+int
+__attribute__((visibility("default"))) main( int argc , char *argv[]  )
 {
 
 	char        filename[LRECL] ;    /* buffer for filename */
@@ -101,10 +102,8 @@ __attribute__((visibility("default"))) main( argc , argv )
 	BOOL        general_mode ;       /* TRUE if top level user flow */
 	BOOL        lock ;               /* whether to create a lock file */
 	BOOL        verbose ;            /* whether to go into verbose mode.*/
-	BOOL        parasite ;           /* TRUE if we are to take over win */
-	INT         arg_count ;          /* parse the command line */
-	INT         windowId ;           /* the parasite window id */
-	VOID        yaleIntro() ;        /* give intro for program */
+	int         arg_count ;          /* parse the command line */
+	void        yaleIntro() ;        /* give intro for program */
 
 	/* start up cleanup handler */
 	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
@@ -124,11 +123,9 @@ __attribute__((visibility("default"))) main( argc , argv )
 	if( argc < 2 || argc > 5 ){
 		syntax() ;
 	} else {
-		windowId   = NULLWINDOW ;    /* initialize window to NULL */
 		debug      = FALSE ;
 		lock       = FALSE ;
 		tomusG     = FALSE ;
-		parasite   = FALSE ;
 		autoflowG  = TRUE ;
 		general_mode = FALSE ;
 		verbose    = FALSE ;
@@ -158,9 +155,6 @@ __attribute__((visibility("default"))) main( argc , argv )
 					case 'v':
 						verbose = TRUE ;
 						break ;
-					case 'w':
-						parasite = TRUE ;
-						break ;
 					default:
 						sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
 						M(ERRMSG,"main",YmsgG);
@@ -186,16 +180,6 @@ __attribute__((visibility("default"))) main( argc , argv )
 				M(MSG,NULL,"\tGraphics mode on\n" ) ;
 			} else {
 				M(MSG,NULL,"\tGraphics mode off\n" ) ;
-			}
-			if( parasite ){
-				M(MSG,NULL,"\tTwflow will inherit window\n" ) ;
-				/* look for windowid */
-				if(argc != 4){
-					M(ERRMSG,"main","Need to specify windowID\n" ) ;
-					syntax() ;
-				} else {
-					G( windowId = atoi( argv[++arg_count] ) ) ;
-				} 
 			}
 			if( general_mode ){
 				M(MSG,NULL,"\tGeneral mode on\n" ) ;
@@ -223,7 +207,12 @@ __attribute__((visibility("default"))) main( argc , argv )
 	}
 
 	/* initialize the graphics */
-	G( init_graphics(argc,argv,windowId) ) ;
+	windowIdG = 0;
+	if(graphicsG) {
+		G( init_graphics() ) ;
+		windowIdG = TWsaveState();
+		printf("twflow windowId: %d\n",windowIdG);
+	}
 
 	Ylog_start( cktNameG, "Program initialization completed..." ) ;
 	if( lock ){
@@ -245,18 +234,6 @@ __attribute__((visibility("default"))) main( argc , argv )
 		printf("Unable to find a flow file \n");
 		return 1;
 	}
-
-	/* If we haven't been given a flow directory override, find */
-	/* the flow directory.  */
-	//if(!(flow_dirG)){
-	//	sprintf( filename, "%s/flow.noroute", twdirG ) ;
-	//	if( flow_dirG = Yfile_slink( filename )){
-	//		flow_dirG = Ystrclone( flow_dirG ) ;
-	//	} else {
-	//		G( TWcloseGraphics() ) ;
-	//		YexitPgm(PGMFAIL);
-	//	}
-	//}
 
 	/* let user user see data */
 	G( draw_the_data() ) ;
@@ -305,15 +282,13 @@ syntax()
 	M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
 	M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
 	M(MSG,NULL,"\t\t    error checking\n");
-	M(MSG,NULL,"\t\tw - parasite mode will inherit a window. Requires\n");
-	M(MSG,NULL,"\t\t    a valid windowId\n");
 
 	show_flows() ;
 
 	YexitPgm(MASTERFAIL);
 } /* end syntax */
 
-VOID yaleIntro() 
+void yaleIntro()
 {
 	char message[LRECL] ;
 	sprintf( message,"\n%s\n",YmsgG) ;

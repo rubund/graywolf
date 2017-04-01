@@ -112,7 +112,6 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #define  NOREDUCTION        -1000000.0 ; 
 
 double saveLapFactorG ;
-static BOOL parasiteS;   /* whether window is a parasite */
 static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
@@ -123,20 +122,20 @@ int finalout();
 
 int
 __attribute__((visibility("default")))
-TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, int windowIdS, char *dName)
+TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dName)
 {
 	printf("Running TimberWolfMC\n");
 
 	FILE    *fp ;
+
 	char
 		filename[LRECL],
 		arguments[LRECL], /* pointer to argument options */
 		*ptr,             /* pointer to argument options */
 		*Ystrclone() ;
 
-	int yaleIntro();
-
 	int
+		yaleIntro(),
 		rememberWire, /* variables for writing history of run */
 		rememberPenal,
 		rememberRand ;
@@ -158,9 +157,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 
 	debugS      = FALSE ;
 	verboseG    = FALSE ;
-	parasiteS   = FALSE ;
 	quickrouteG = FALSE ;
-	windowIdS   = 0 ;
 	scale_dataG = 0 ;
 	batchS      = FALSE ;
 	doGraphicsG = TRUE ;
@@ -184,9 +181,6 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 	if(v) {
 		verboseG = TRUE ;
 	}
-	if(w) {
-		parasiteS = TRUE ;
-	}
 	cktNameG = dName;
 
 #ifdef NOGRAPHICS
@@ -198,7 +192,6 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 	YdebugMemory( debugS ) ;
 
 	/* handle I/O requests */
-// 	argv0G = Ystrclone( argv[0] ) ;
 	sprintf( filename, "%s.mout" , cktNameG ) ;
 	if( scale_dataG ){
 		fpoG = TWOPEN( filename, "a", ABORT ) ;
@@ -225,7 +218,6 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 
 	/* ********************** end initialization ************************* */
 	readpar() ;
-// 	G( initMCGraphics( argc, argv, windowIdS  ) ) ;
 
 	while( TRUE ) {
 		/* initialize annealing exp. table */
@@ -263,16 +255,14 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 		/* now see if we need to perform a quickroute to get */
 		/* wiring estimate */
 		sprintf( filename, "%s.mest", cktNameG ) ;
+		int status;
 		if( !(quickrouteG) && !(cost_onlyG) && !(scale_dataG) && !(doPartitionG)){
 			if(!(YfileExists( filename ))){
 				quickrouteG = TRUE ; // perform a quickroute if file doesn't exist
-				if( parasiteS && doGraphicsG ){
-					G( TWrestoreState() ) ; // if we save the graphics state we need to restore it
-				}
 			} else {
 				quickrouteG = FALSE ;
 			}
-			TimberWolfMC(b, d, n, scale_dataP, p, quickrouteG, v, (parasiteS && doGraphicsG), windowIdS, cktNameG);
+			status=TimberWolfMC(b, d, n, scale_dataP, p, quickrouteG, v, cktNameG);
 		}
 		/* check to see if .mest file was created */
 		new_wire_estG = FALSE ;
@@ -394,8 +384,8 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 	printf("TimberWolf has completed its mission\n");
 	printf("\n\n************************************ \n\n");
 
-	Yprint_stats( fpoG ) ;
-	Yplot_close() ;
+// 	Yprint_stats( fpoG ) ;
+// 	Yplot_close() ;
 	writeResults( rememberWire, rememberPenal, rememberRand );
 	if( sc_output() ){
 		create_sc_output() ;

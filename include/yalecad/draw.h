@@ -34,16 +34,14 @@ typedef struct {
     char *bool_item ;    /* used for Boolean items */
     BOOL bool_init ;     /* which item is initialized */
     BOOL menuNotItem ;   /* true if menu; false if menu item */
-    INT  action_index ;  /* when selected returns this number */
-    INT  action_indexb ; /* when selected returns this number */
+    int  action_index ;  /* when selected returns this number */
+    int  action_indexb ; /* when selected returns this number */
 } TWMENUBOX, *TWMENUPTR ;
 
 /* the switchable routines */
-extern VOID (*_TWdrawRect)(P7( INT ref_num, INT x1, INT y1, INT x2, INT y2, INT color,
-		    char *label )) ;
-extern VOID (*_TWdrawLine)(P7( INT ref_num, INT x1, INT y1, INT x2, INT y2, INT color,
-		    char *label )) ;
-extern VOID (*_TWdrawArb)(P3( INT ref_num, INT color, char *label )) ;
+extern void (*_TWdrawRect)( int ref_num, int x1, int y1, int x2, int y2, int color, char *label ) ;
+extern void (*_TWdrawLine)( int ref_num, int x1, int y1, int x2, int y2, int color, char *label ) ;
+extern void (*_TWdrawArb)( int ref_num, int color, char *label ) ;
 
 /* make calls easier for the user so he doesn't know that the */
 /* routines are switchable according to mode */
@@ -77,7 +75,7 @@ extern VOID (*_TWdrawArb)(P3( INT ref_num, INT color, char *label )) ;
     TWdrawLine(ref_num,(INT)X1,(INT)Y1,(INT)X2,(INT)Y2,color, label) ; \
 }
 
-extern  _TW3DdrawAxis( P1(BOOL drawNotErase) ) ;
+extern  _TW3DdrawAxis( BOOL drawNotErase ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
@@ -104,8 +102,7 @@ Function:
     for numC arg and use include file <yalecad/colors.h>.
 */
 
-extern BOOL TWinitParasite( P8( INT argc, char *argv[], INT numC, char **colors,
-    BOOL dumpOnly,TWMENUPTR menu, INT (*refresh_func)(), INT w) ) ;
+BOOL TWinitParasite(int numC, char **colors, BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)(), int w);
 /*
 Function:
     Take over the control of a window already created by
@@ -121,7 +118,7 @@ Function:
     Should be performed before end of program.
 */
 
-extern void TWsetMode( P1(int mode) ) ;
+extern void TWsetMode(int mode) ;
 /* 
 Function:
     Allows user to change mode during run.  Helpful to dump the current
@@ -211,7 +208,7 @@ Function:
     Label is optional - a label is attached to figure if non-null.
 */
 
-extern TWarb_init() ;
+extern void TWarb_init() ;
 /*
 Arguments:
     none
@@ -219,7 +216,7 @@ Function:
     Start a new arbitrary figure.
 */
 
-extern TWarb_addpt( P2( INT xpos, INT ypos ) ) ;
+extern void TWarb_addpt( int xpos, int ypos );
 /*
 Function:
     Add a new point to the current arbitrary figure 
@@ -239,7 +236,7 @@ Function:
 */
 
 /* copy pixmap to screen and flush screen output buffer */
-extern TWflushFrame() ;
+extern void TWflushFrame() ;
 /*
 Arguments: None.
 Function:
@@ -248,7 +245,7 @@ Function:
     after all TWdraws have performed.
 */
 
-extern TWstartFrame() ;
+extern void TWstartFrame() ;
 /*
 Arguments: None.
 Function:
@@ -258,21 +255,21 @@ Function:
 */
 
 /********** ROUTINES USED BY SCREEN GRAPHICS ONLY ******************/
-extern TWzoom() ;
+extern void TWzoom() ;
 /* 
 Arguments: None
 Function:
     Performs a zoom in main graphics window.
 */
 
-extern TWtranslate() ;
+extern void TWtranslate() ;
 /* 
 Arguments: None
 Function:
     Translate center to picked or entered point in main graphics window.
 */
 
-extern TWfullView() ;
+extern void TWfullView() ;
 /* 
 Arguments: None
 Function:
@@ -280,14 +277,14 @@ Function:
     determined by TWsetWindow.
 */
 
-extern TWsetwindow( P4( INT left, INT bottom, INT right, INT top ) ) ; 
+extern void TWsetwindow( int left, int bottom, int right, int top ) ; 
 /* 
 Function:
     set the boundary of the visible window according to user coordinates
     Must call this function before draws.
 */
 
-extern TWcolorXOR( P2( INT color, BOOL exorFlag ) ) ;
+extern void TWcolorXOR( int color, BOOL exorFlag) ;
 /* 
 Function:
     set a particular colors draw function.  If exorFlag is set to TRUE,
@@ -296,13 +293,13 @@ Function:
     over any current contents blocking the view.  The default is copy mode.
 */
 
-extern TWhighLightRect( P4( INT x1,INT y1,INT x2,INT y2 )) ;
+extern void TWhighLightRect( int x1, int y1, int x2, int y2 );
 /* 
 Function:
     Highlight the given area in black.
 */
 
-extern TWsync( ) ;
+extern void TWsync( ) ;
 /* 
 Arguments: None
 Function:
@@ -311,7 +308,7 @@ Function:
     internally in the graphics module.
 */
 
-extern TWmoveRect( P6( INT *x1, INT *y1, INT *x2, INT *y2, INT ptx, INT pty )) ;
+extern void TWmoveRect( P6( INT *x1, INT *y1, INT *x2, INT *y2, INT ptx, INT pty )) ;
 /*
 Function:
     Draw ghost figure of rectangle as the user moves it on the screen.
@@ -325,7 +322,7 @@ Function:
 
 
 /********** MENU ROUTINES-USED BY SCREEN GRAPHICS ONLY ******************/
-extern INT TWcheckMouse() ;
+extern int TWcheckMouse() ;
 /* 
 Arguments: None
 Function:
@@ -334,20 +331,20 @@ Function:
     value corresponding to the function value given in the menu file.
 */
 
-extern TWgetPt( P2( INT *x, INT *y )) ;
+extern void TWgetPt( int *x, int *y );
 /* 
 Function:
     Wait for user to enter point with a mouse pointer.  Returns x,y
     position of pointer when clicked in user coordinate system.
 */
 
-extern TWmessage( P1( char *message ) ) ;
+extern void TWmessage( char *message );
 /* 
 Function:
     Write messsage to the message window.
 */
 
-extern char *TWgetString( P1( char *directions ) ) ;
+extern char *TWgetString( char *directions );
 /* 
 Function:
     Write directions on what to do to message window and then return
@@ -355,7 +352,7 @@ Function:
 */
 
 
-extern BOOL TWgetPt2( P2( INT *x, INT *y ) ) ;
+extern BOOL TWgetPt2( int *x, int *y );
 /* 
 Function:
     Wait for user to enter point with a mouse pointer or by entering
@@ -374,7 +371,7 @@ Function:
     User uses this knowledge for redraw of window data.
 */
 
-extern INT TWsaveState() ;
+extern int TWsaveState() ;
 /* 
 Arguments:None 
 Function:
@@ -382,7 +379,7 @@ Function:
     the window ID which is needed in the TWinitParasite argument list.
 */
 
-extern TWrestoreState() ;
+extern void TWrestoreState() ;
 /* 
 Arguments:None 
 Function:
@@ -391,7 +388,7 @@ Function:
 */
 
 /* check to see if main window has been requested to change size */
-extern TWcheckReconfig() ;
+extern void TWcheckReconfig() ;
 /* 
 Arguments:None 
 Function:
@@ -402,7 +399,7 @@ Function:
 */
 
 
-extern TWsetFrame( P1(INT number) ) ;
+extern void TWsetFrame( int number ) ;
 /* 
 Function:
     Set the dump file to the given frame number.  Valid frame numbers start
@@ -410,7 +407,7 @@ Function:
     in the DATADIR.
 */
 
-extern TWMENUPTR TWread_menus( P1(char *filename) ) ;
+extern TWMENUPTR TWread_menus( char *filename ) ;
 /* 
 Function:
     This convenience function reads a menu file and create the menu
@@ -420,7 +417,7 @@ Function:
     menus.
 */
 
-extern TWforceRedraw() ;
+extern void TWforceRedraw() ;
 /* 
 Function:
     This function forces a redraw by sending an exposure event
@@ -428,7 +425,7 @@ Function:
     exposure events.
 */
 
-extern TWdrawString( P4(INT x, INT y, INT color, char *label ) ) ;
+extern void TWdrawString( INT x, INT y, INT color, char *label) ;
 /* 
 Function:
     Draw a string left justified from the given location.
@@ -441,13 +438,13 @@ Function:
     TW3DdrawAxis draws the x y z axis.
 */
 
-extern VOID TW3Dnormal_view() ;
+extern void TW3Dnormal_view() ;
 /* 
 Function:
     Turn off the 3D viewing.
 */
 
-extern VOID TW3DsetCamera() ;
+extern void TW3DsetCamera() ;
 /* 
 Function:
     Turn on the 3D viewing.  The view is set with the mouse.
@@ -456,18 +453,18 @@ Function:
 /*------------------
   Perform a 3D transformation.  
   ------------------*/
-extern VOID TW3Dperspective(P5(DOUBLE x, DOUBLE y, DOUBLE z, DOUBLE *pX, DOUBLE *pY));
+extern void TW3Dperspective(double x, double y, double z, double *pX, double *pY);
 /*
   Perform a 3D transformation.  
 */
 
-extern VOID TW3DperspectiveOn() ;
+extern void TW3DperspectiveOn() ;
 /* 
 Function:
     Turn on the 3D perspective.  Make things farther away smaller.
 */
 
-extern VOID TW3DperspectiveOff() ;
+extern void TW3DperspectiveOff() ;
 /* 
 Function:
     Turns off the 3D perspective.
@@ -480,8 +477,7 @@ Function:
     Draws a line in 3 dimensions.
 */
 
-extern INT TW3DdrawCube( P9(INT ref_num, INT x1, INT y1, INT z1,
-    INT x2, INT y2, INT z2, INT color, char *label ) ) ;
+extern int TW3DdrawCube( int ref_num, int x1, int y1, int z1, int x2, int y2, int z2, int color, char *label );
 /* 
 Function:
     Draws a 3 dimensional cube.
@@ -505,7 +501,7 @@ Function:
     Finished arbitrary point and draws it to the screen.
 */
 
-extern TWarb_fill( P1(BOOL flag ) ) ;
+extern void TWarb_fill(BOOL flag );
 /*
 Function:
     If flag is true, arbitrary figures (both 2D and 3D) will be filled.

@@ -97,7 +97,6 @@ static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
 #define GENROWPATH      "../genrows"
 #define  NUMROWKEYWORD  "rows"
 #define  ROWKEYWORD     "row"
-#define WINDOWID "@WINDOWID"
 
 static INT tlengthS ;                 /* total length of stdcells */
 static INT cheightS ;                 /* height of stdcell */
@@ -119,8 +118,8 @@ void read_stat_file();
 
 void config_rows()
 {
-	DOUBLE read_par_file() ;     /* get default from user */
-	INT left, right, bottom, top;/* core area */
+	double read_par_file() ;     /* get default from user */
+	int left, right, bottom, top;/* core area */
 	char *Yrelpath() ;
 	char *pathname ;
 	char *twdir ;       /* path of TimberWolf directory */
@@ -128,6 +127,7 @@ void config_rows()
 	char filename[LRECL] ;
 	BOOL stateSaved = FALSE ; /* whether need to restore state */
 	BOOL get_batch_mode() ;   /* find out whether we are in batch mode */
+	extern int windowIdG;
 
 	read_stat_file() ;
 	(void) read_par_file() ;
@@ -142,14 +142,17 @@ void config_rows()
 	/* find the path of genrows relative to main program */
 	/* Ysystem will kill program if catastrophe occurred */
 	int status;
-	int Genrows( int d, int f, int n, int w, char *cktName, int  windowId);
+	int Genrows( BOOL d, BOOL f, BOOL n, char *cktName);
 	if( doGraphicsG ){
 		// setup the variables
-		status = Genrows( 0, 0, 0, 1, cktNameG, WINDOWID);
+		status = Genrows( 0, 0, 0, cktNameG);
 	} else if( get_batch_mode() ){
-		status = Genrows( 0, 0, 0, 0, cktNameG, WINDOWID);
+		status = Genrows( 0, 0, 0, cktNameG);
 	} else {
-		status = Genrows( 0, 0, 1, 0, cktNameG, WINDOWID);
+		status = Genrows( 0, 0, 1, cktNameG);
+	}
+	if(doGraphicsG) {
+		G( TWrestoreState() ) ;
 	}
 
 	/* ############# end of genrows execution ############# */
@@ -216,7 +219,7 @@ void read_stat_file()
 	fclose( fin ) ;
 } /* end read_stat_file */
 
-DOUBLE read_par_file()
+double read_par_file()
 {
     char *bufferptr ;
     char **tokens ;      /* for parsing menu file */
@@ -226,8 +229,7 @@ DOUBLE read_par_file()
     BOOL wildcard ;
 
     Yreadpar_init( cktNameG, USER, TWSC, TRUE ) ;
-    while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens, 
-	&onNotOff, &wildcard )){
+    while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens,  &onNotOff, &wildcard )){
 	if( numtokens == 0 ){
 	    /* skip over empty lines */
 	    continue ;

@@ -88,19 +88,19 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
 #include <yalecad/yreadpar.h>
 
 /* globals variable definitions */
-INT attprcelG ;
-INT core_widthG ;
-INT core_heightG ;
-INT core_xstartG ;
-INT core_ystartG ;
-INT spacer_widthG = -1 ;
-INT *spacer_feedsG ;
-INT vertical_pitchG = 0 ;
-INT total_row_lengthG ;
-INT vertical_track_pitchG = 0 ;
-INT horizontal_track_pitchG = 0 ;
-INT approximately_fixed_factorG = 1 ;
-INT global_routing_iterationsG = 0 ;
+int attprcelG ;
+int core_widthG ;
+int core_heightG ;
+int core_xstartG ;
+int core_ystartG ;
+int spacer_widthG = -1 ;
+int *spacer_feedsG ;
+int vertical_pitchG = 0 ;
+int total_row_lengthG ;
+int vertical_track_pitchG = 0 ;
+int horizontal_track_pitchG = 0 ;
+int approximately_fixed_factorG = 1 ;
+int global_routing_iterationsG = 0 ;
 BOOL no_feed_estG = TRUE ;
 BOOL placement_improveG = TRUE ;
 BOOL intel_debugG = FALSE ;
@@ -139,12 +139,12 @@ extern BOOL doubleback_rows_start_at_oneG ;
 static BOOL abortS = FALSE ;
 static BOOL readparamS = FALSE ;
 
-static init_read_par();
-static readparam();
-static process_readpar();
-static err_msg();
+static void init_read_par();
+static void readparam();
+static void process_readpar();
+static void err_msg();
 
-readParFile()
+void readParFile()
 {
 	init_read_par() ;
 	readparam( TWSC ) ;
@@ -152,7 +152,7 @@ readParFile()
 	process_readpar() ;
 }
 
-static init_read_par()
+static void init_read_par()
 {
 	/* initialization of variables */
 	SGGRG = FALSE ;
@@ -160,7 +160,7 @@ static init_read_par()
 	try_not_to_add_explicit_feedsG = FALSE ;
 	vertical_track_on_cell_edgeG = FALSE ;
 	no_feed_at_endG = TRUE ;
-	spacer_feedsG = (INT *) Ysafe_malloc( 101 * sizeof(INT) ) ;
+	spacer_feedsG = (int *) Ysafe_malloc( 101 * sizeof(INT) ) ;
 	spacer_feedsG[0] = 0 ;
 	metal2_pitchG = 0.0 ;
 	core_widthG  = 0 ;
@@ -178,16 +178,15 @@ static init_read_par()
 	file_conversionG = FALSE ;
 } /* end init_read_par */
 
-static readparam( parfile )
-INT parfile ;
+static void readparam( int parfile )
 {
 
-	INT test ;
-	INT speed ;
-	INT pins ;
-	INT spacer_tmp ;
-	INT line ;
-	INT numtokens ;
+	int test ;
+	int speed ;
+	int pins ;
+	int spacer_tmp ;
+	int line ;
+	int numtokens ;
 	BOOL onNotOff ;
 	BOOL wildcard ;
 	char **tokens ;
@@ -683,30 +682,19 @@ INT parfile ;
 			}
 
 			/*** catch all ***/
-		} else if(!(wildcard)){
-			if( parfile == USER ){
-				printf("ERROR[readpar]:unexpected keyword in the %s.par file at line:%d\n\t%s\n", 
-						cktNameG, line, lineptr );
-			} else {
-				printf("ERROR[readpar]:Unexpected keyword in the %s.spar file at line:%d\n\t%s\n", 
-						cktNameG, line, lineptr );
-			}
-			Ymessage_error_count() ;
-			abortS = TRUE ;
 		}
 	}
 } /* end  readparam */
 
-
-static process_readpar()
+static void process_readpar()
 {
 
 	char *layer ;             /* name of layer */
-	INT i ;                   /* counter */
-	INT pitch ;               /* the pitch of the layer */
-	INT numv_layers ;         /* number of vertical   layers */
-	INT numh_layers ;         /* number of horizontal layers */
-	INT num_layers ;          /* total number of layers */
+	int i ;                   /* counter */
+	int pitch ;               /* the pitch of the layer */
+	int numv_layers ;         /* number of vertical   layers */
+	int numh_layers ;         /* number of horizontal layers */
+	int num_layers ;          /* total number of layers */
 
 	if( abortS ){
 		printf( "Errors found in the .par file.  Must exit\n\n" ) ;
@@ -830,58 +818,57 @@ static process_readpar()
 	return ;
 } /* end process_readpar */
 
-yaleIntro() 
+void yaleIntro() 
 {
-    INT i ;
+	int i ;
 
-    fprintf(fpoG,"\n%s\n",YmsgG) ;
-    fprintf(fpoG,"Row-Based Placement and Global Routing Program\n");
-    fprintf(fpoG,"Authors: Carl Sechen, Kai-Win Lee, and Bill Swartz,\n");
-    fprintf(fpoG,"         Yale University\n");
+	fprintf(fpoG,"\n%s\n",YmsgG) ;
+	fprintf(fpoG,"Row-Based Placement and Global Routing Program\n");
+	fprintf(fpoG,"Authors: Carl Sechen, Kai-Win Lee, and Bill Swartz,\n");
+	fprintf(fpoG,"         Yale University\n");
 
-    printf("%s\n",YmsgG) ;
-    printf("Row-Based Placement and Global Routing Program\n");
-    printf("Authors: Carl Sechen, Kai-Win Lee, and Bill Swartz,\n");
-    printf("         Yale University\n");
+	printf("%s\n",YmsgG) ;
+	printf("Row-Based Placement and Global Routing Program\n");
+	printf("Authors: Carl Sechen, Kai-Win Lee, and Bill Swartz,\n");
+	printf("         Yale University\n");
 
-    /* inialize variables */
-    randomSeedG  = (unsigned) Yrandom_seed() ;
+	/* inialize variables */
+	randomSeedG  = (unsigned) Yrandom_seed() ;
 
-    fixarrayG = (INT *) NULL ;
-    ffeedsG = 0 ;
-    macspaceG = (DOUBLE *) Ysafe_malloc( 24 * sizeof(DOUBLE) ) ;
-    for( i = 1 ; i <= 15 ; i++ ) {
-	macspaceG[i] = -1.0 ;
-    }
-    costonlyG = FALSE ;
-    fdthrusG = FALSE ;
-    doglobalG = FALSE ;
+	fixarrayG = (int *) NULL ;
+	ffeedsG = 0 ;
+	macspaceG = (DOUBLE *) Ysafe_malloc( 24 * sizeof(DOUBLE) ) ;
+	for( i = 1 ; i <= 15 ; i++ ) {
+		macspaceG[i] = -1.0 ;
+	}
+	costonlyG = FALSE ;
+	fdthrusG = FALSE ;
+	doglobalG = FALSE ;
 
-    attprcelG = 0 ;
+	attprcelG = 0 ;
 
-    fdWidthG  = -1 ;
-    track_pitchG = -1 ; 
-    route2actG = -1 ;
-    rowSepG = -1.0 ;
-    rowSepAbsG = 0 ;
-    indentG = 1.0 ;
-    numSegsG = 0 ;
-    resume_runG = NO ;
-    pin_layers_givenG = TRUE ;
-    no_feeds_side_netsG = FALSE ;
-    feedLayerG = 0 ;
-    tw_fastG = 0 ;
-    tw_slowG = 0 ;
-    estimate_feedsG = TRUE ;
-    connection_machineG = 0 ;
-    route_padnets_outsideG = FALSE ;
+	fdWidthG  = -1 ;
+	track_pitchG = -1 ; 
+	route2actG = -1 ;
+	rowSepG = -1.0 ;
+	rowSepAbsG = 0 ;
+	indentG = 1.0 ;
+	numSegsG = 0 ;
+	resume_runG = NO ;
+	pin_layers_givenG = TRUE ;
+	no_feeds_side_netsG = FALSE ;
+	feedLayerG = 0 ;
+	tw_fastG = 0 ;
+	tw_slowG = 0 ;
+	estimate_feedsG = TRUE ;
+	connection_machineG = 0 ;
+	route_padnets_outsideG = FALSE ;
 
 } /* end yaleIntro */
 
-static err_msg( keyword ) 
-char *keyword ;
+static void err_msg( char *keyword ) 
 {
-    printf("The value for %s was", keyword );
-    printf(" not properly entered in the .par file\n");
-    abortS = TRUE ;
+	printf("The value for %s was", keyword );
+	printf(" not properly entered in the .par file\n");
+	abortS = TRUE ;
 }/* end err_msg */

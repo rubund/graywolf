@@ -81,13 +81,13 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 	 functionality. ---Carl Sechen  */
 
 int
-__attribute__((visibility("default"))) Genrows( int d, int f, int n, int w, char *cktName, int  windowId)
+__attribute__((visibility("default")))
+Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 {
 	FILE *fp ;
 	int yaleIntro() ;
 	char filename[LRECL] ; /* used for input filename */
 	char *ptr ;     /* used to parse command line */
-	BOOL parasite ; /* true if window inheritance is on */
 	BOOL debug ;    /* true if debug is requested */
 	BOOL force_tiles() ; /* returns true if last tile is forced */
 
@@ -103,7 +103,6 @@ __attribute__((visibility("default"))) Genrows( int d, int f, int n, int w, char
 	Yinit_memsize( EXPECTEDMEMORY ) ;
 
 	debug       = FALSE ;
-	parasite    = FALSE ;
 	noMacroMoveG = FALSE ;
 	graphicsG = TRUE ;
 
@@ -116,9 +115,6 @@ __attribute__((visibility("default"))) Genrows( int d, int f, int n, int w, char
 	}
 	if(n) {
 		graphicsG = FALSE ;
-	}
-	if(w) {
-		parasite = TRUE ;
 	}
 #ifdef NOGRAPHICS
 	graphicsG = FALSE ;
@@ -142,9 +138,6 @@ __attribute__((visibility("default"))) Genrows( int d, int f, int n, int w, char
 	} else {
 		M(MSG,NULL,"\tGraphics mode off\n" ) ;
 	}
-	if( parasite ){
-		M(MSG,NULL,"\tconfig will inherit window\n" ) ;
-	}
 	if( noMacroMoveG ){
 		M(MSG,NULL,"\tconfig will not alloc macro moves\n" ) ;
 	}
@@ -153,16 +146,16 @@ __attribute__((visibility("default"))) Genrows( int d, int f, int n, int w, char
 	YinitProgram( "config", VERSION, yaleIntro );
 
 	init_data_structures() ;
-	G( initgraphics(windowId ) ) ;
+
 	/* ********************** end initialization ************************* */
 
 	sprintf( filename, "%s.mver", cktNameG ) ;
-	fp = TWOPEN( filename, "r", ABORT ) ;
+	fp = fopen( filename, "r") ;
 
 	/* actual_row_heightS is the default used for rows placed across the 
 	top of the core--these are NOT generated from a tile */
 	read_vertices(fp,TRUE) ;
-	TWCLOSE(fp);
+	fclose(fp);
 
 	/* now safe to read parameter file */
 	readpar() ;
@@ -215,21 +208,17 @@ __attribute__((visibility("default"))) Genrows( int d, int f, int n, int w, char
 	}
 
 	if( graphicsG ){
-
 		G( process_graphics() ) ;
-		
+// 		G( TWcloseGraphics() ) ;
 	} /* end graphics switch */
 
-	if( graphicsG ){
-		G( TWcloseGraphics() ) ;
-	}
 	print_blk_file()  ;
 
 	/* now save a restart file */
 	sprintf( filename, "%s.gsav", cktNameG ) ;
-	fp = TWOPEN( filename, "w", ABORT ) ;
+	fp = fopen( filename, "w") ;
 	save_state(fp) ;
-	TWCLOSE( fp ) ;
+	fclose( fp ) ;
 
 	/* now blow away do and undo files if they exist */
 	sprintf( filename, "%s.undo", cktNameG ) ;
@@ -254,20 +243,3 @@ yaleIntro()
     printf("    Yale University\n");
 
 } /* end yaleIntro */
-
-/* give user correct syntax */
-syntax()
-{
-   M(ERRMSG,NULL,"\n" ) ; 
-   M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-   sprintf( YmsgG, 
-       "\nconfig [-dnw] designName [windowId] \n" ) ;
-   M(MSG,NULL,YmsgG ) ; 
-   M(MSG,NULL,"\twhose options are zero or more of the following:\n");
-   M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
-   M(MSG,NULL,"\t\t    error checking\n");
-   M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
-   M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
-   M(MSG,NULL,"\t\tw - parasite mode - user must specify windowId\n");
-   YexitPgm(PGMFAIL);
-} /* end syntax */

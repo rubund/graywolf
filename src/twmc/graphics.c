@@ -173,9 +173,7 @@ static edit_field_case();
 static fix_the_cell();
 static fix_the_cell2();
 
-initMCGraphics( argc, argv, windowId )
-INT argc, windowId ;
-char *argv[] ;
+void initMCGraphics(int windowId)
 {
 
 	char *host ;
@@ -188,7 +186,7 @@ char *argv[] ;
 		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE,MENU, draw_the_data ) ;
 		return ;
 	}
-		
+
 	/* we need to find host for display */
 	if(!(host = Ygetenv("DISPLAY"))) {
 		M(WARNMSG,"initMCGraphics","Can't get environment variable ");
@@ -199,7 +197,7 @@ char *argv[] ;
 	}
 	if( windowId ){
 		/* init windows as a parasite */
-		if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data, windowId ))){
+		if( !( TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data, windowId ))){
 			M(ERRMSG,"initMCGraphics","Aborting graphics.");
 			doGraphicsG = FALSE ;
 			avoidDump = TRUE ;

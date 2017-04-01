@@ -92,45 +92,42 @@ static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
 static INT  zspanS ;
 
-init_graphics( argc, argv, windowId )
-INT argc, windowId ;
-char *argv[] ;
+void init_graphics( int windowId )
 {
-    char *host, *Ygetenv() ;
-    int  xpandx, xpandy ;
-    INT draw_the_data() ;
+	char *host, *Ygetenv() ;
+	int  xpandx, xpandy ;
+	INT draw_the_data() ;
 
-    /* we need to find host for display */
-    if(!(host = Ygetenv("DISPLAY"))) {
-	M(WARNMSG,"init_graphics","Can't get environment variable ");
-	M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
-	graphicsG = FALSE ;
-	return ;
-    }
-    if( windowId ){
-	/* init windows as a parasite */
-	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
-	    M(ERRMSG,"initgraphics","Aborting graphics.");
-	    graphicsG = FALSE ;
-	    return ;
+	/* we need to find host for display */
+	if(!(host = Ygetenv("DISPLAY"))) {
+		M(WARNMSG,"init_graphics","Can't get environment variable ");
+		M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
+		graphicsG = FALSE ;
+		return ;
 	}
-    } else {
-	if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data ))){
-	    M(ERRMSG,"init_graphics","Aborting graphics.");
-	    graphicsG = FALSE ;
-	    return ;
+	if( windowId ){
+		/* init windows as a parasite */
+		if( !( TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data, windowId ))){
+		M(ERRMSG,"initgraphics","Aborting graphics.");
+		graphicsG = FALSE ;
+		return ;
+		}
+	} else {
+		if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data ))){
+		M(ERRMSG,"init_graphics","Aborting graphics.");
+		graphicsG = FALSE ;
+		return ;
+		}
+		xpandx = blockrG - blocklG ;
+		xpandy = blocktG - blockbG ;
+		zspanS = MIN( xpandx, xpandy ) ;
+		xpandx /= 2 ;
+		xpandx /= 2 ;
+		TWsetwindow( blocklG-xpandx, blockbG-xpandy, 
+		blockrG+xpandx, blocktG+xpandy ) ;
+		TWdrawMenus() ;
+		TWflushFrame() ;
 	}
-	xpandx = blockrG - blocklG ;
-	xpandy = blocktG - blockbG ;
-	zspanS = MIN( xpandx, xpandy ) ;
-	xpandx /= 2 ;
-	xpandx /= 2 ;
-	TWsetwindow( blocklG-xpandx, blockbG-xpandy, 
-	    blockrG+xpandx, blocktG+xpandy ) ;
-	TWdrawMenus() ;
-	TWflushFrame() ;
-    }
 }
 
 set_draw_critical( flag ) 

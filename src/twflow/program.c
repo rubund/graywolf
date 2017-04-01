@@ -66,7 +66,6 @@ static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
 
 #define  DESIGNNAME   "$"
 #define  DSNLEN       1
-#define  WINDOWID     "@WINDOWID"
 #define  FLOWDIR      "@FLOWDIR"
 
 BOOL executePgm( ADJPTR adjptr, int debug )
@@ -79,6 +78,7 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 	INT status ;                     /* program return status */
 	char **argv ;                    /* argument vector */
 	BOOL stateSaved ;                /* whether graphics state was saved*/
+	extern int windowIdG;
 
 	obj = proGraphG[adjptr->node] ;
 
@@ -94,13 +94,10 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 	D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
 	/* now log the beginning time */
-	//sprintf( YmsgG, "%s started...", obj->name ) ;
 	//Ylog_msg( YmsgG ) ;
-	status = 1;
+	status = 0;
 	printf( "%s started with node %d \n", obj->name,  obj->node) ;
 
-	/* now execute the command */
-	//status = system( command ) ;
 	if(!strcmp("edit_twfiles",obj->name)) {
 		printf("It's edit_twfiles!\n");
 		status = 0;
@@ -117,43 +114,28 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 		status = Mincut(debug,Ystrclone(cktNameG));
 	}
 
-	int TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, int windowIdS, char *dName);
+	int TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dName);
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
-		status = TimberWolfMC(0, 0, !graphicsG, 0, 0, 0, 0, graphicsG, WINDOWID, cktNameG);
+		status = TimberWolfMC(0, debug, !graphicsG, 0, 0, 0, debug, cktNameG);
+		if(graphicsG) {
+			G( TWrestoreState() ) ;
+			G( draw_the_data() ) ;
+		}
 	}
 
+	int TimberWolfSC(int n, int v, char *cktName);
+
 	if(!strcmp("TimberWolfSC",obj->name)) {
-		printf("It's TimberWolfSC!\n");
-		status=1;
-	}
-	/*if(!strcmp("TimberWolfSC",obj->name)) {
-		printf("It's TimberWolfSC!\n");
-		char* localArgv[5];
-		localArgv[0] = "TimberWolfSC";
+		status=TimberWolfSC (!graphicsG, debug, cktNameG);
 		if(graphicsG) {
-			// setup the variables
-			localWindowID = TWsaveState();
-			sprintf(tmpBuf,"%d",localWindowID);
-			// run the things
-			localArgv[1] = "-w";
-			localArgv[2] = Ystrclone(cktNameG);
-			localArgv[3] = Ystrclone(tmpBuf);
-			status = TimberWolfSC(4,localArgv);
-		} else {
-			localArgv[1] = "-n";
-			localArgv[2] = Ystrclone(cktNameG);
-			status = TimberWolfSC(3,localArgv);
+			G( TWrestoreState() ) ;
+			G( draw_the_data() ) ;
 		}
-	}*/
+	}
 
 	sprintf( YmsgG, "%s completed...", obj->name ) ;
 	Ylog_msg( YmsgG ) ;
-
-	if( stateSaved ){
-		/* if we save the graphics state we need to restore it */
-		G( TWrestoreState() ) ;
-	}
 
 	return( status ) ;
 

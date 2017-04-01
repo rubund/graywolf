@@ -2,6 +2,7 @@
 %glr-parser
 %{
 #include <stdio.h>
+#include <globals.h>
 #define yyget_lineno twflow_readobjects_get_lineno
 #define yytext twflow_readobjects_text
 #define yyin twflow_readobjects_in
@@ -12,7 +13,7 @@ extern int yyget_lineno(void);
 %union {
 	int ival;
 	float fval;
-	char sval[200];
+	char *sval;
 }
 
 %token ARGS;
@@ -40,7 +41,12 @@ extern int yyget_lineno(void);
 %%
 
 start_file : numobjects object_list;
-numobjects : NUMOBJECTS INTEGER {init( $2 );};
+
+numobjects : NUMOBJECTS INTEGER
+{
+	init( $2 );
+};
+
 object_list : object;
 object_list : object_list object;
 object : name path draw_obj list_of_edges;
@@ -49,29 +55,69 @@ list_of_edges : list_of_edges edge;
 edge : edge_keyword ifiles ofiles args;
 edge : edge_keyword ifiles ofiles args draw_edges;
 name : pname COLON depend_list;
-pname : POBJECT string INTEGER {add_object( $2, $3);};
-pname : POBJECT string string INTEGER {add_object( $2, $4);};
-depend_list : INTEGER {add_pdependency($1);};
-depend_list : depend_list INTEGER {add_pdependency($2);};
-path : PATH COLON string {add_path( $3 );};
-path : PATH COLON {add_path("none");};
-ifiles : ifiletype;
+
+pname : POBJECT string INTEGER
+{
+	add_object( $2, $3);
+};
+
+pname : POBJECT string string INTEGER
+{
+	add_object( $2, $4);
+};
+
+depend_list : INTEGER
+{
+	add_pdependency($1);
+};
+
+depend_list : depend_list INTEGER
+{
+	add_pdependency($2);
+};
+
+path : PATH COLON string
+{
+	add_path( $3 );
+};
+
+path : PATH COLON;
+
+ifiles : ifiletype
+{
+	set_file_type( INPUTFILE );
+};
+
 ifiles : ifiletype list_of_files;
-ofiles : ofiletype;
+
+ofiles : ofiletype
+{
+	set_file_type( OUTPUTFILE );
+};
+
 ofiles : ofiletype list_of_files;
 ifiletype : IFILES COLON;
 ofiletype : OFILES COLON;
+
 list_of_files : string;
 list_of_files : list_of_files string;
 args : ARGS COLON list_of_args;
 list_of_args : string;
 list_of_args : list_of_args string;
-draw_obj : DRAWN COLON INTEGER INTEGER INTEGER INTEGER;
+draw_obj : DRAWN COLON INTEGER INTEGER INTEGER INTEGER
+{
+	add_box( $3, $4,$5, $6 );
+};
 edge_keyword : EDGE INTEGER COLON {start_edge($2);};
 draw_edges : DRAWN COLON list_of_lines;
 list_of_lines : line;
 list_of_lines : list_of_lines line;
-line : INTEGER INTEGER INTEGER INTEGER;
+
+line : INTEGER INTEGER INTEGER INTEGER
+{
+	add_line($1, $2, $3, $4);
+};
+
 string : STRING
 {
 	sprintf( $$ ,"%s", $1 ) ;

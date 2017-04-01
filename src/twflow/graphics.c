@@ -99,33 +99,20 @@ static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 #include <menus.h>
 
-init_graphics(argc,argv,windowId)
-INT argc ;
-char *argv[] ;
-INT windowId ;
+void init_graphics()
 {
 	INT draw_the_data() ;
 
 	if( !(graphicsG) ){
 		return ;
-	} 
-	if( windowId ){
-		/* init windows as a parasite */
-		printf("windowId:%d\n", windowId ) ;
-		if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-		FALSE, MENU, draw_the_data, windowId ))){
-		M(ERRMSG,"initgraphics","Aborting graphics.");
-		graphicsG = FALSE ;
-		return ;
-		}
-	} else {
-		if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),
-		FALSE, MENU, draw_the_data ))){
-		M(ERRMSG,"init_graphics","Aborting graphics.");
-		graphicsG = FALSE ;
-		return ;
-		}
 	}
+
+	if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data ))) {
+		M(ERRMSG,"init_graphics","Aborting graphics.");
+		graphicsG = TRUE ;
+		return ;
+	}
+
 	TWdrawMenus() ;
 	TWflushFrame() ;
 } /* end init_graphics */

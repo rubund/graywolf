@@ -6,6 +6,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
 bison_target(readcell readcell.y ${CMAKE_BINARY_DIR}/src/twsc/readcell.c)
 flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c)
+# flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c COMPILE_FLAGS "-d") #debug
 
 add_library(TimberWolfSC SHARED
 	${BISON_readcell_OUTPUTS}

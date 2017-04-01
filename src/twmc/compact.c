@@ -90,7 +90,6 @@ static char SccsId[] = "@(#) compact.c version 3.12 5/5/91" ;
 #define CELLKEYWORD      "cell"
 #define SCELLKEYWORD     "stdcell"
 #define TILEKEYWORD      "l"
-#define WINDOWID "@WINDOWID"
 
 int compact( BOOL compactFlag ) /* signals use of compaction */
 {
@@ -214,18 +213,21 @@ int compact( BOOL compactFlag ) /* signals use of compaction */
 
 	/* now call the compactor */
 	
-	int mc_compact(int a, int d, int c, int n, int p, int v, int w, int windowId, char*cktName, int blockr, int blockt, int track_spacingX, int track_spacingY);
+	int mc_compact(int a, int d, int c, int n, int p, int v, char*cktName, int blockr, int blockt, int track_spacingX, int track_spacingY);
 	int status;
 	if( doPartitionG ){
 		sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG, track_spacingXG, track_spacingYG);
-		status=mc_compact(0, 0, 0, 1, 0, 1, 0, WINDOWID, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
+		status=mc_compact(0, 0, 0, !doGraphicsG, 0, 1, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
 	} else if( compactFlag == VIOLATIONSONLY ){
 		sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG, track_spacingXG, track_spacingYG );
-		status=mc_compact(0, 0, 0, 1, 0, 1, 0, WINDOWID, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
+		status=mc_compact(0, 0, 0, !doGraphicsG, 0, 1, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
 	} else if( compactFlag == COMPACT ){
 		sprintf( YmsgG, "%s -cn %s %d %d %d %d 0 0", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG );
-		status=mc_compact(0, 0, 1, 1, 0, 0, 0, WINDOWID, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
+		status=mc_compact(0, 0, 1, !doGraphicsG, 0, 0, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
 		D( "twsc/compact_graphics", sprintf( YmsgG, "%s -c %s %d %d %d %d 0 0", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG);) ;
+	}
+	if(doGraphicsG) {
+		G( TWrestoreState() ) ;
 	}
 
 	M( MSG, NULL, YmsgG ) ;

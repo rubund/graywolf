@@ -934,10 +934,9 @@ INT flag ;
     return ;
 }
 
-INT YcheckDebug( where )
-VOIDPTR where ; 
+int YcheckDebug( VOIDPTR where )
 {
-    return ( INT_MAX ) ;
+	return ( INT_MAX ) ;
 } /* end checkDebug */
 
 VOID Yinit_memsize( memsize )

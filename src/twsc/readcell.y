@@ -1,6 +1,9 @@
 %define api.prefix {twsc_readcell_}
+%glr-parser
 %{
 #include <stdio.h>
+#include "parser_defines.h"
+
 #define yylval twsc_readcell_lval
 #define yyget_lineno twsc_readcell_get_lineno
 #define yytext twsc_readcell_text
@@ -12,47 +15,61 @@ extern int yyget_lineno(void);
 %union {
 	int ival;
 	float fval;
-	char sval[200];
+	char *sval;
 }
 
-%token ADDEQUIV
+%token ECO_ADDED_CELL
+%token APPROXIMATELY_FIXED
 %token ASPLB
 %token ASPUB
 %token AT
+%token BLOCK
+%token BOTTOM
+%token CELL
+%token CELLOFFSET
 %token CELLGROUP
 %token CLASS
-%token CLUSTER
-%token CONNECT
 %token CORNERS
-%token CURRENT
+%token ENDPINGROUP
 %token EQUIV
 %token FIXED
 %token FROM
+%token GROUP
 %token HARDCELL
+%token INITIALLY
 %token INSTANCE
-%token KEEPOUT
 %token LAYER
+%token LEFT
+%token LEGALBLKCLASS
 %token NAME
 %token NEIGHBORHOOD
-%token NO_LAYER_CHANGE
+%token NOMIRROR
 %token NONFIXED
 %token NOPERMUTE
+%token OF
 %token ORIENT
 %token ORIENTATIONS
 %token PAD
 %token PADGROUP
+%token PADSIDE
 %token PERMUTE
 %token PIN
 %token PINGROUP
-%token POWER
+%token PORT
 %token RESTRICT
+%token RIGHT
+%token RIGIDFIXED
+%token SEQUENCE
 %token SIDE
+%token SIDERESTRICTION
 %token SIDESPACE
 %token SIGNAL
 %token SOFTCELL
-%token SOFTPIN
+%token STDCELL
 %token SUPERGROUP
-%token TIMING
+%token SWAPGROUP
+%token TOP
+%token UNEQUIV
 
 %token INTEGER
 %token FLOAT
@@ -65,228 +82,201 @@ extern int yyget_lineno(void);
 %start start_file
 %%
 
-start_file: core pads;
-start_file: core;
-
-core: corecells;
-core: corecells cellgroups;
-
-corecells: coretype;
-corecells: corecells coretype;
-
-coretype: customcell;
-coretype: softcell;
-
-pads: padcells;
-pads: padcells padgroups;
-
-padcells: padcell;
-padcells: padcells padcell;
-
-padgroups: padgroup;
-padgroups: padgroups padgroup;
-
-cellgroups: cellgroup;
-cellgroups: cellgroups cellgroup;
-
-customcell: cellname custom_instance_list;
-customcell: cellname fixed custom_instance_list;
-
-custom_instance_list: custom_instance;
-custom_instance_list: custom_instance_list instance custom_instance;
-
-custom_instance: corners keep_outs class orient hardpins;
-custom_instance: corners keep_outs class orient;
-
-softcell: softname soft_instance_list;
-softcell: softname fixed soft_instance_list;
-
+start_file : core macros;
+start_file : core macros pads;
+start_file : core pads;
+start_file : core ports;
+start_file : core;
+core : corecells;
+core : corecells cellgroups;
+corecells : stdcell;
+corecells : corecells stdcell;
+pads : padcells;
+pads : padcells padgroups;
+padcells : padcell;
+padcells : padcells padcell;
+macros : macro;
+macros : macros macro;
+macro : hardcell;
+macro : softcell;
+padgroups : padgroup;
+padgroups : padgroups padgroup;
+cellgroups : cellgroup;
+cellgroups : cellgroups cellgroup;
+stdcell : cellname std_fixed bbox pinlist;
+stdcell : cellname optional_list std_fixed bbox pinlist;
+optional_list : option;
+optional_list : optional_list option;
+option : celloffset;
+option : eco;
+option : swap_group;
+option : legal_block_classes;
+option : mirror;
+option : initial_orient;
+hardcell : hardcellname custom_instance_list;
+hardcell : hardcellname fixed custom_instance_list;
+custom_instance_list : custom_instance;
+custom_instance_list : custom_instance_list instance custom_instance;
+custom_instance : corners class orient actual_orient hardpins;
+custom_instance : corners class orient actual_orient;
+softcell : softname soft_instance_list;
+softcell : softname fixed soft_instance_list;
 soft_instance_list : soft_instance;
 soft_instance_list : soft_instance_list instance soft_instance;
-
-soft_instance : corners aspect keep_outs class orient softpins pingroup;
-soft_instance : corners aspect keep_outs class orient softpins;
-soft_instance : corners aspect keep_outs class orient;
-
-instance : INSTANCE string;
-
-padcell : padname corners cur_orient restriction sidespace hardpins;
-padcell : padname corners cur_orient restriction sidespace;
-
-padgroup : padgroupname padgrouplist restriction sidespace;
-
+soft_instance : corners aspect class orient softpins;
+instance : INSTANCE STRING;
+padcell : padname corners actual_orient restriction_pad sidespace hardpins;
+padcell : padname corners actual_orient restriction_pad sidespace;
+padcell : padname_std padside bbox sidespace hardpins;
+padcell : padname_std padside bbox sidespace;
+padgroup : padgroupname padgrouplist restriction_pdgrp sidespace;
 cellgroup : supergroupname supergrouplist class orient;
 cellgroup : cellgroupname neighborhood cellgrouplist;
-
-cellname : HARDCELL string NAME string;
-cellname : HARDCELL error;
-
-softname : SOFTCELL string NAME string;
-softname : CLUSTER INTEGER NAME string;
-softname : SOFTCELL error;
-
+hardcellname : HARDCELL INTEGER NAME STRING
+{
+	addCell($4, HARDCELLTYPE ) ;
+};
+softname : SOFTCELL INTEGER NAME STRING
+{
+	addCell($4, SOFTCELLTYPE ) ;
+};
+cellname : CELL INTEGER STRING
+{
+	addCell($3, STDCELLTYPE ) ;
+};
 neighborhood : NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
 neighborhood : NEIGHBORHOOD FIXED INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
-
 fixed : fixedcontext AT INTEGER FROM xloc INTEGER FROM yloc;
 fixed : fixedcontext NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
-
 fixedcontext : FIXED;
-
+std_fixed :;
+std_fixed : INITIALLY fixed_type INTEGER FROM fixed_loc OF BLOCK INTEGER;
+swap_group : SWAPGROUP STRING;
+legal_block_classes : LEGALBLKCLASS num_block_classes block_classes;
+num_block_classes : INTEGER;
+block_classes : block_class;
+block_classes : block_classes block_class;
+block_class : INTEGER;
+eco : ECO_ADDED_CELL;
+initial_orient : ORIENT INTEGER;
+celloffset : CELLOFFSET offset_list;
+offset_list : INTEGER;
+offset_list : offset_list INTEGER;
+fixed_type : FIXED;
+fixed_type : NONFIXED;
+fixed_type : RIGIDFIXED;
+fixed_type : APPROXIMATELY_FIXED;
+fixed_loc : LEFT;
+fixed_loc : RIGHT;
+mirror : NOMIRROR;
+bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
+{
+	add_tile( $2,$6,$4,$8 ) ;
+};
 xloc : STRING;
-
 yloc : STRING;
-
-padname : PAD string NAME string;
-
-padgroupname : PADGROUP string PERMUTE;
-padgroupname : PADGROUP string NOPERMUTE;
-padgroupname : PADGROUP error;
-
-supergroupname : SUPERGROUP string NAME string;
-supergroupname : SUPERGROUP error;
-
-cellgroupname : CELLGROUP string NAME string;
-cellgroupname : CELLGROUP error;
-
-corners : numcorners cornerpts;
-
-numcorners : CORNERS INTEGER;
-
-cornerpts : INTEGER INTEGER;
-cornerpts : cornerpts INTEGER INTEGER;
-
-class: CLASS INTEGER;
-class: CLASS error;
-
-orient : numorientations ORIENTATIONS orientlist cur_orient;
-orient : ORIENTATIONS orientlist cur_orient;
-
-numorientations : INTEGER;
-
+padname : PAD INTEGER NAME STRING
+{
+	addCell( $4, PADTYPE ) ;
+};
+padname_std : PAD INTEGER STRING ORIENT INTEGER;
+padside : PADSIDE STRING;
+padgroupname : PADGROUP STRING PERMUTE;
+padgroupname : PADGROUP STRING NOPERMUTE;
+supergroupname : SUPERGROUP INTEGER NAME STRING;
+cellgroupname : CELLGROUP INTEGER NAME STRING;
+corners : num_corners cornerpts
+{
+	process_corners();
+};
+num_corners : CORNERS INTEGER
+{
+	init_corners();
+};
+cornerpts : cornerpt;
+cornerpts : cornerpts cornerpt;
+cornerpt : INTEGER INTEGER
+{
+	add_corner( $1, $2 );
+};
+class : CLASS INTEGER;
+actual_orient :;
+actual_orient : ORIENT INTEGER;
+orient : INTEGER ORIENTATIONS orientlist;
+orient : INTEGER ORIENTATIONS orientlist initial_orient;
+orient : ORIENTATIONS orientlist;
+orient : ORIENTATIONS orientlist initial_orient;
 orientlist : INTEGER;
 orientlist : orientlist INTEGER;
-
-cur_orient :;
-cur_orient : ORIENT INTEGER;
-
 aspect : ASPLB FLOAT ASPUB FLOAT;
-
-softpins : softpinlist;
-
-softpinlist : softtype;
-softpinlist : softpinlist softtype;
-
+softpins : softtype;
+softpins : softpins softtype;
 softtype : pintype;
-softtype : softpin;
-
+softtype : pingrouptype;
+softtype : sequencetype;
 hardpins : pintype;
 hardpins : hardpins pintype;
-
+pinlist :;
+pinlist : stdgrppins;
+stdgrppins : std_grppintype;
+stdgrppins : stdgrppins std_grppintype;
+stdpins : std_pintype;
+stdpins : stdpins std_pintype;
+std_grppintype : pinrecord;
+std_grppintype : pinrecord equiv_list;
+std_grppintype : pinrecord unequiv_list;
+std_grppintype : pingroup stdpins endpingroup;
+std_pintype : pinrecord;
+std_pintype : pinrecord equiv_list;
+std_pintype : pinrecord unequiv_list;
 pintype : pinrecord;
 pintype : pinrecord equiv_list;
-
-pinrecord : required_pinfo contour timing current power no_layer_change;
-
-required_pinfo : PIN NAME string SIGNAL string layer;
-
-contour : INTEGER INTEGER;
-contour : num_corners pin_pts;
-
-num_corners : CORNERS INTEGER;
-
-pin_pts : INTEGER INTEGER;
-pin_pts : pin_pts INTEGER INTEGER;
-
-current :;
-current : CURRENT FLOAT;
-
-power :;
-power : POWER FLOAT;
-
-no_layer_change :;
-no_layer_change : NO_LAYER_CHANGE;
-
-softpin : softpin_info siderestriction pinspace;
-softpin : softpin_info siderestriction pinspace softequivs;
-
-softpin_info : SOFTPIN NAME string SIGNAL string layer timing;
-
-softequivs : mc_equiv;
-softequivs : mc_equiv user_equiv_list;
-softequivs : user_equiv_list;
-
-mc_equiv : addequiv siderestriction;
-
-addequiv : ADDEQUIV;
-
-user_equiv_list : user_equiv;
-user_equiv_list : user_equiv_list user_equiv;
-
-user_equiv : equiv_name siderestriction connect;
-
-equiv_name : EQUIV NAME string layer;
-
-connect :;
-connect : CONNECT;
-
-pingroup : pingroupname pingrouplist siderestriction pinspace;
-pingroup : pingroup pingroupname pingrouplist siderestriction pinspace;
-
-pingroupname : PINGROUP string PERMUTE;
-pingroupname : PINGROUP string NOPERMUTE;
-
-pingrouplist : pinset;
-pingrouplist : pingrouplist pinset;
-
-pinset : string FIXED;
-pinset : string NONFIXED;
-
+pingroup : PINGROUP;
+endpingroup : ENDPINGROUP;
+pingrouptype : pingroupident softpinlist siderestriction;
+pingroupident : GROUP INTEGER;
+sequencetype : seqident softpinlist siderestriction;
+seqident : SEQUENCE INTEGER;
+softpinlist : softpinrecord;
+softpinlist : softpinlist softpinrecord;
+softpinrecord : PIN NAME STRING SIGNAL STRING;
+pinrecord : PIN NAME STRING SIGNAL STRING LAYER INTEGER INTEGER INTEGER
+{
+	add_pin($3, $5, $7, $8, $9 ) ;
+};
+pinrecord : PIN NAME STRING SIGNAL STRING INTEGER INTEGER
+{
+	add_pin($3, $5, 0, $6, $7 ) ;
+};
 equiv_list : equiv;
 equiv_list : equiv_list equiv;
-
-equiv : EQUIV NAME string layer INTEGER INTEGER;
-
-layer :;
-layer : LAYER INTEGER;
-
-siderestriction :;
-siderestriction : RESTRICT SIDE side_list;
-
-side_list : INTEGER;
-side_list : side_list INTEGER;
-
-pinspace :;
-pinspace : SIDESPACE FLOAT;
-pinspace : SIDESPACE FLOAT FLOAT;
-
+equiv : EQUIV NAME STRING LAYER INTEGER INTEGER INTEGER;
+equiv : EQUIV NAME STRING INTEGER INTEGER;
+unequiv_list : unequiv;
+unequiv_list : unequiv_list unequiv;
+unequiv : UNEQUIV NAME STRING LAYER INTEGER INTEGER INTEGER;
+unequiv : UNEQUIV NAME STRING INTEGER INTEGER;
+ports : port;
+ports : ports port;
+port : PORT NAME STRING SIGNAL STRING LAYER INTEGER INTEGER INTEGER;
+port : PORT NAME STRING SIGNAL STRING INTEGER INTEGER;
+siderestriction : SIDERESTRICTION INTEGER INTEGER;
 sidespace :;
 sidespace : SIDESPACE FLOAT;
 sidespace : SIDESPACE FLOAT FLOAT;
-
+restriction_pad :;
+restriction_pad : RESTRICT SIDE sideplace;
+restriction_pdgrp :;
+restriction_pdgrp : RESTRICT SIDE sideplace;
 sideplace : STRING;
-sideplace : error;
-
-restriction :;
-restriction : RESTRICT SIDE sideplace;
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
-padset : string FIXED;
-padset : string NONFIXED;
-supergrouplist : string;
-supergrouplist : supergrouplist string;
-cellgrouplist : string;
-cellgrouplist : cellgrouplist string;
-keep_outs :;
-keep_outs : keep_out_list;
-keep_out_list : keep_out;
-keep_out_list : keep_out_list keep_out;
-keep_out : KEEPOUT LAYER INTEGER CORNERS keep_pts;
-keep_pts : INTEGER INTEGER;
-keep_pts : keep_pts INTEGER INTEGER;
-timing: TIMING FLOAT;
-timing: ;
-string: STRING | INTEGER | FLOAT;
+padset : STRING FIXED;
+padset : STRING NONFIXED;
+supergrouplist : STRING;
+supergrouplist : supergrouplist STRING;
+cellgrouplist : STRING;
+cellgrouplist : cellgrouplist STRING;
 
 %%
 
@@ -299,10 +289,11 @@ int readcell(char *filename)
 	extern FILE *yyin;
 	printf("readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
-	//init();
 	/* parse input file using yacc */
+	initialize_parser() ;
 	yyparse();
-} /* end readcells */
+	cleanup_readcells();
+} /* end readcell */
 
 int twsc_readcell_wrap(void) {return 1;}
 

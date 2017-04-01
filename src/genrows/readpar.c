@@ -66,13 +66,11 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 1.9 5/14/92" ;
 
 static BOOL abortS = FALSE ;
 
-
-static err_msg(); 
-static get_defaults();
+static void err_msg(); 
+static void get_defaults();
 static int getnumRows();
 
-
-readpar()
+void readpar()
 {
 	INT line ;
 	INT temp ;
@@ -88,8 +86,8 @@ readpar()
 	DOUBLE tempf ;
 
 	num_rowsG = 0 ;  /* means number of rows not specified */ 
-	wait_for_userG = TRUE ;
-	last_chanceG = TRUE ;
+	wait_for_userG = FALSE ;
+	last_chanceG = FALSE ;
 	flip_alternateG = 0 ;
 	feed_percent_default = TRUE ;
 	row_sep_default = TRUE ;

@@ -66,9 +66,9 @@ static char SccsId[] = "@(#) main.c version 1.6 2/23/91" ;
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.1"
 
-__attribute__((visibility("default"))) Syntax( argc , argv )
-int argc ;
-char *argv[] ;
+int
+__attribute__((visibility("default")))
+Syntax( BOOL d , char *cktName )
 {
 
 	char *YinitProgram(), *Ystrclone() ;
@@ -85,42 +85,20 @@ char *argv[] ;
 
 	Yinit_memsize( EXPECTEDMEMORY ) ;
 
-	if( argc < 2 || argc > 3 ){
-		syntax() ;
-	} else {
-		debug      = FALSE ;
-		arg_count = 1 ;
-		if( *argv[1] == '-' ){
-			for( ptr = ++argv[1]; *ptr; ptr++ ){
-				switch( *ptr ){
-					case 'd':
-						debug = TRUE ;
-						break ;
-					default:
-						sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
-						M(ERRMSG,"main",YmsgG);
-						syntax() ;
-				}
-			}
-			YdebugMemory( debug ) ;
-			cktNameG = Ystrclone( argv[++arg_count] );
-
-			/* now tell the user what he picked */
-			M(MSG,NULL,"\n\nSyntax switches:\n" ) ;
-			if( debug ){
-				YsetDebug( TRUE ) ;
-				M(MSG,NULL,"\tdebug on\n" ) ;
-			} 
-			M(MSG,NULL,"\n" ) ;
-		} else if( argc == 2 ){
-			/* order is important here */
-			YdebugMemory( FALSE ) ;
-			cktNameG = Ystrclone( argv[1] );
-
-		} else {
-			syntax() ;
-		}
+	debug      = FALSE ;
+	arg_count = 1 ;
+	if(d) {
+		debug = TRUE ;
 	}
+	cktNameG = Ystrclone(cktName);
+	/* now tell the user what he picked */
+	M(MSG,NULL,"\n\nSyntax switches:\n" ) ;
+	if( debug ){
+		YsetDebug( TRUE ) ;
+		M(MSG,NULL,"\tdebug on\n" ) ;
+	} 
+	M(MSG,NULL,"\n" ) ;
+	YdebugMemory( debug ) ;
 
 	/* remove old version of stat file */
 	sprintf( filename, "%s.stat", cktNameG ) ;
@@ -149,20 +127,8 @@ char *argv[] ;
 	sprintf( filename2, "%s.stat", cktNameG ) ;
 	YmoveFile( filename, filename2 ) ;
 
-	YexitPgm( PGMOK ) ;
+	return 0;
 } /* end main */
-
-
-/* give user correct syntax */
-syntax()
-{
-   M(ERRMSG,NULL,"\n" ) ; 
-   M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-   sprintf( YmsgG, 
-       "\n%s circuitName\n\n", SYNTAX );
-   M(MSG,NULL,YmsgG ) ; 
-   YexitPgm(PGMFAIL);
-} /* end syntax */
 
 yaleIntro() 
 {

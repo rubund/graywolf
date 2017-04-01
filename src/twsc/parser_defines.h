@@ -6,6 +6,7 @@
 #define EXTRATYPE         5
 #define PADGROUPTYPE      6
 #define HARDCELLTYPE      7
+#define SOFTCELLTYPE      8
 /* pin types */
 #define PINTYPE           1
 #define PASS_THRU         2

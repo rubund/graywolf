@@ -80,44 +80,35 @@ static char progDate[LRECL];
    The user may perform various initialization in introTextFunction. 
    Returns string with program name, version, and compile date.
    ----------------------------------------------------------------- */
-char *YinitProgram(name,version,introTextFunction)
-     char *name ;
-     char *version ;
-     VOID (*introTextFunction)() ;
+char *YinitProgram(char *name,  char *version ,void (*introTextFunction)() )
 {
-  char    *date ,
-  *getCompileDate() ;
-  
-  Ytimer_start() ;   /* start the elapsed timer */
-  sprintf(programName,"%s",name);
-  sprintf(progVersion,"%s",version);
-  
-  if ( date = getCompileDate() ){
-    sprintf(progDate,"%s",date);
-  } else {
-    sprintf(progDate,"unknown") ;
-  }
-  sprintf( YmsgG, "%s version:%s date:%s",
-	  programName,progVersion,progDate) ;
-  
-  /* call the users intro text if available */
-  /* Intro Text function may use YmsgG as a global variable */
-  if( introTextFunction ){
-    (*introTextFunction)() ;
-  }
-  return( YmsgG ) ;
-  
+	char    *date ,
+	*getCompileDate() ;
+	
+	Ytimer_start() ;   /* start the elapsed timer */
+	sprintf(programName,"%s",name);
+	sprintf(progVersion,"%s",version);
+	
+	if ( date = getCompileDate() ){
+		sprintf(progDate,"%s",date);
+	} else {
+		sprintf(progDate,"unknown") ;
+	}
+	sprintf( YmsgG, "%s version:%s date:%s", programName, progVersion, progDate) ;
+	
+	/* call the users intro text if available */
+	/* Intro Text function may use YmsgG as a global variable */
+	if( introTextFunction ){
+		(*introTextFunction)() ;
+	}
+	return( YmsgG ) ;
 } /* end initProgram */
 
 /* exit program gracefully */
-YexitPgm(status)
-INT status ;
+int YexitPgm(int status)
 {
-	INT	errorCount, 
-		warningCount,
-		mode ;
-	char	message[LRECL] ,
-		*name ;
+	int errorCount, warningCount, mode ;
+	char	message[LRECL] , *name ;
 
 	warningCount = Ymessage_get_warncount() ;
 	errorCount = Ymessage_get_errorcount() ;
@@ -145,12 +136,12 @@ INT status ;
 	/* now write debug file if desired */
 	//YdebugWrite() ;
 	//Ymessage_close();
-	exit(status);
+	//exit(status);
+	return status;
 } /* end exitPgm */
 
 char *YgetProgName()
 {
- 
-    return(programName);
+	return(programName);
 }
 /*---------------end program control routines --------------------- */

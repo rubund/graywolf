@@ -67,8 +67,8 @@ int find_flow_file( general_mode, debug, filename )
 	BOOL general_mode, debug ;
 	char *filename ;
 {
-	INT type ;                     /* design type */
-	INT find_design_type() ;
+	int type ;                     /* design type */
+	int find_design_type(BOOL debug) ;
 	char prefix[LRECL] ;
 	char suffix[LRECL] ;
 
@@ -96,7 +96,7 @@ int find_flow_file( general_mode, debug, filename )
 	if( general_mode ){
 		sprintf( prefix, "user" ) ;
 	} else {
-		type = find_design_type() ;
+		type = find_design_type(debug) ;
 		switch( type ){
 			case MIXED:
 				sprintf( prefix, "mixed" ) ;
@@ -172,7 +172,7 @@ int find_flow_file( general_mode, debug, filename )
 } /* end find_flow_file */
 
 /* call syntax if necessary and then read result */
-INT find_design_type()
+INT find_design_type(BOOL debug)
 {
 	ADJBOX syntax_info ;
 	FBOX infile ;
@@ -219,12 +219,9 @@ INT find_design_type()
 		G( TWdrawCell( 0, -150, -50, 150, 50, TWRED, "syntax" ) ) ;
 		G( TWflushFrame() ) ;
 
-		int Syntax( int argc , char *argv[] );
-		char *localArgv[2];
-		localArgv[0]="syntax";
-		localArgv[1]=Ystrclone(cktNameG);
+		int Syntax( BOOL d , char *cktName );
 		/* now execute the command */
-		status = Syntax( 2, localArgv );
+		status = Syntax( debug, cktNameG );
 		if( status ){
 			printf("Error with Syntax in src/twflow/findflow.c \n" );
 			M( ERRMSG, "find_design_type", "Trouble executing syntax\n" );
@@ -264,9 +261,7 @@ INT find_design_type()
 	} else {
 		mode = UNKNOWN ;
 	}
-	D( "find_design_type", 
-		printf( "Found design type %d\n", mode ) ;
-	);
+	D( "find_design_type", printf( "Found design type %d\n", mode ) ; );
 
 	return( mode ) ;
 

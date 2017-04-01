@@ -119,10 +119,7 @@ static draw_fs();
 extern VOID draw_a_cell( INT );
 extern INT draw_the_data() ;
 
-initGraphics( argc, argv, windowId )
-INT argc ;
-char *argv[] ;
-INT windowId ;
+void initGraphics( int windowId )
 {
 
     char *host ;
@@ -148,8 +145,7 @@ INT windowId ;
 
     if( windowId ){
 	/* init windows as a parasite */
-	if(!(TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE,menuS, draw_the_data, windowId ))){
+	if(!(TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE,menuS, draw_the_data, windowId ))){
 	    M(ERRMSG,"initGraphics","Aborting graphics.");
 	    doGraphicsG = FALSE ;
 	    avoidDump = TRUE ;
