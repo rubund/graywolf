@@ -124,11 +124,6 @@ __attribute__((visibility("default"))) main( argc , argv )
 	if( argc < 2 || argc > 5 ){
 		syntax() ;
 	} else {
-#ifndef NOGRAPHICS
-		graphicsG  = TRUE ;
-#else
-		graphicsG  = FALSE ;
-#endif /* NOGRAPHICS */
 		windowId   = NULLWINDOW ;    /* initialize window to NULL */
 		debug      = FALSE ;
 		lock       = FALSE ;
@@ -137,6 +132,7 @@ __attribute__((visibility("default"))) main( argc , argv )
 		autoflowG  = TRUE ;
 		general_mode = FALSE ;
 		verbose    = FALSE ;
+		graphicsG  = TRUE;
 		arg_count = 1 ;
 		if( *argv[1] == '-' ){
 			for( ptr = ++argv[1]; *ptr; ptr++ ){
@@ -171,6 +167,9 @@ __attribute__((visibility("default"))) main( argc , argv )
 						syntax() ;
 				}
 			}
+#ifdef NOGRAPHICS
+		graphicsG  = FALSE ;
+#endif /* NOGRAPHICS */
 			YdebugMemory( debug ) ;
 			YinitProgram( MASTER, VERSION, yaleIntro );
 
@@ -222,7 +221,6 @@ __attribute__((visibility("default"))) main( argc , argv )
 			M( MSG,NULL, YmsgG ) ;
 		}
 	}
-
 
 	/* initialize the graphics */
 	G( init_graphics(argc,argv,windowId) ) ;

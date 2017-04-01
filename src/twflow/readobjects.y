@@ -1,4 +1,5 @@
 %define api.prefix {twflow_readobjects_}
+%glr-parser
 %{
 #include <stdio.h>
 #define yyget_lineno twflow_readobjects_get_lineno
@@ -73,18 +74,15 @@ list_of_lines : list_of_lines line;
 line : INTEGER INTEGER INTEGER INTEGER;
 string : STRING
 {
-	char bufferS[200];
-	sprintf( yyval.sval,"%s", $1 ) ;
+	sprintf( $$ ,"%s", $1 ) ;
 };
 string : INTEGER
 {
-	char bufferS[200];
-	sprintf( yyval.sval,"%d", $1 ) ;
+	sprintf( $$ ,"%d", $1 ) ;
 };
 string : FLOAT
 {
-	char bufferS[200];
-	sprintf( yyval.sval,"%f", $1 ) ;
+	sprintf( $$,"%f", $1 ) ;
 };
 
 %%
