@@ -1,5 +1,7 @@
 
-add_executable(mc_compact
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
+add_library(GrayWolfMCCompact SHARED
 	cdraw.c
 	compactor.c
 	io.c
@@ -18,13 +20,10 @@ add_executable(mc_compact
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
-target_link_libraries(mc_compact ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
-
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
 install(
-	TARGETS mc_compact
-	DESTINATION ${CMAKE_INSTALL_BINDIR}
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+	TARGETS GrayWolfMCCompact
+	DESTINATION ${CMAKE_INSTALL_LIBDIR}
 	)
 

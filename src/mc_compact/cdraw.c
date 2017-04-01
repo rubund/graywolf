@@ -116,8 +116,7 @@ char *argv[] ;
 	    return ;
 	}
     } else {
-	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data ))){
+	if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data ))){
 	    M(ERRMSG,"init_graphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
