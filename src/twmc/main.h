@@ -107,11 +107,11 @@ typedef INT CELLTYPE ;
 
 EXTERN char *cktNameG ;
 EXTERN char *argv0G ;     /* the pathname of the program */
-EXTERN INT attpercellG ;
-EXTERN INT scale_dataG ;  /* reduce the scale of the input data */
-EXTERN INT track_spacingXG ;
-EXTERN INT track_spacingYG ;
-EXTERN INT defaultTracksG ;
+EXTERN int attpercellG ;
+EXTERN int scale_dataG ;  /* reduce the scale of the input data */
+EXTERN int track_spacingXG ;
+EXTERN int track_spacingYG ;
+EXTERN int defaultTracksG ;
 
 /* booleans for control of program */
 EXTERN BOOL cost_onlyG ;

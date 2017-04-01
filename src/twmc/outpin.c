@@ -86,7 +86,7 @@ static int output_pin( PINBOXPTR pinptr );
 static int find_cell();
 static int process_analog_net();
 static int find_cell();
-static int output_matches();
+static void output_matches();
 
 void outpin()
 {
@@ -96,7 +96,7 @@ void outpin()
 	PINBOXPTR pinptr ;      /* current pin info */
 
 	sprintf( filename, "%s.mpin", cktNameG ) ;
-	fpS = TWOPEN( filename , "w", ABORT ) ;
+	fpS = fopen( filename , "w") ;
 
 	output_alreadyS = (BOOL *) Ysafe_calloc( numpinsG+1, sizeof(BOOL) ) ;
 	output_typeS = NONE ;
@@ -121,7 +121,7 @@ void outpin()
 		fprintf( fpS,"\n" ) ;
 	}
 	output_matches() ;
-	TWCLOSE(fpS);
+	fclose(fpS);
 	return ;
 } /* end outpins */
 
@@ -149,8 +149,7 @@ static int output_pin( PINBOXPTR pinptr )
 	/* setup translation of output points */
 	bounptr = cellptr->bounBox[0] ;
 	/* now init the translation routines using bounding box */
-	Ytrans_init( bounptr->l,bounptr->b,bounptr->r,bounptr->t,
-			cellptr->orient ) ;
+	Ytrans_init( bounptr->l,bounptr->b,bounptr->r,bounptr->t, cellptr->orient ) ;
 
 	if( pinptr->type == SOFTEQUIVTYPE ){
 		/* delay the equivalent softpins until below */
@@ -200,52 +199,54 @@ static int output_pin( PINBOXPTR pinptr )
 		}
 		fprintf( fpS, "\n" ) ;
 	}
+
 	/* ******** HARD PIN EQUIVALENT CASE ****** */
-	if( pinptr->eqptr && !(pinptr->softinfo)){ 
+	if( pinptr->eqptr && !(pinptr->softinfo)) {
 		/* occurs only for hard pins */
 		/* now process the equivalent pins */
 		for( eqptr=pinptr->eqptr; eqptr; eqptr=eqptr->next ){
-		REL_POST( cellptr->orient, 
-			x, y,                               /* result */
-			eqptr->txpos[instance],
-			eqptr->typos[instance],          /* cell relative */
-			cellptr->xcenter, cellptr->ycenter ) ; /* center */
-		fprintf(fpS,"pin %s  x %d  y %d  cell %d layer %d PinOrEquiv 0",
-			pinptr->pinname, x, y , cell, pinptr->layer ) ;
-		if( pinptr->analog ){
-			current = pinptr->analog->current ;
-			if( current > NO_CURRENT_SPECIFIED ){
-			fprintf( fpS, " current %4.3le", current ) ;
-			}
-		}
-		fprintf( fpS, "\n" ) ;
+			REL_POST( cellptr->orient,
+				x, y,                               /* result */
+				eqptr->txpos[instance],
+				eqptr->typos[instance],          /* cell relative */
+				cellptr->xcenter, cellptr->ycenter ) ; /* center */
+			fprintf(fpS,"pin %s  x %d  y %d  cell %d layer %d PinOrEquiv 0", pinptr->pinname, x, y , cell, pinptr->layer );
+			if( pinptr->analog ) {
+				current = pinptr->analog->current ;
+				if( current > NO_CURRENT_SPECIFIED ){
+					fprintf( fpS, " current %4.3le", current ) ;
+				}
+			}	
+			fprintf( fpS, "\n" ) ;
 		}
 	}
+
 	/* ******** SOFT PIN EQUIVALENT CASE ****** */
 	/* now look for equivalent pins are children */
-	if( pinptr->type == SOFTPINTYPE ){
+	if( pinptr->type == SOFTPINTYPE ) {
 		spin = pinptr->softinfo ;
-		if( spin->children ){
-		howmany = (INT) spin->children[HOWMANY] ;
-		} else {
 		howmany = 0 ;
-		}
-		for( i = 1; i <= howmany; i++ ){
-		child = spin->children[i] ;
-		REL_POST( cellptr->orient, 
-			x, y,                               /* result */
-			child->txpos, child->typos,     /* cell relative */
-			cellptr->xcenter, cellptr->ycenter ) ; /* center */
-
-		fprintf(fpS,"pin %s  x %d  y %d  cell %d layer %d PinOrEquiv 0",
-			child->pinname, x, y , cell, child->layer ) ;
-		if( pinptr->analog ){
-			current = pinptr->analog->current ;
-			if( current > NO_CURRENT_SPECIFIED ){
-			fprintf( fpS, " current %4.3le", current ) ;
+		if( spin) {
+			if( spin->children ){
+				howmany = (INT) spin->children[HOWMANY] ;
 			}
 		}
-		fprintf( fpS, "\n" ) ;
+
+		for( i = 1; i <= howmany; i++ ) {
+			child = spin->children[i] ;
+			REL_POST( cellptr->orient, 
+				x, y,                               /* result */
+				child->txpos, child->typos,     /* cell relative */
+				cellptr->xcenter, cellptr->ycenter ) ; /* center */
+
+			fprintf(fpS,"pin %s  x %d  y %d  cell %d layer %d PinOrEquiv 0", child->pinname, x, y , cell, child->layer ) ;
+			if( pinptr->analog ){
+				current = pinptr->analog->current ;
+				if( current > NO_CURRENT_SPECIFIED ){
+				fprintf( fpS, " current %4.3le", current ) ;
+				}
+			}
+			fprintf( fpS, "\n" ) ;
 		}
 	}
 } /* end output_pin */
@@ -403,13 +404,16 @@ int get_circuit_type()
 	return( output_typeS ) ;
 } /* end get_circuit_type */
 
-static int output_matches()
+static void output_matches()
 {
 	int i, j ;
 	int net ;
 	int *match ;
 	int num_matches ;
 	int howmany ;
+
+	if(!net_cap_matchG)
+		return;
 
 	howmany = (int) net_cap_matchG[HOWMANY] ;
 	for( i = 1; i <= howmany; i++ ){

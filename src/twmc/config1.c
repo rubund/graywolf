@@ -87,7 +87,6 @@ void config1() {
 	INT l , r , b , t , cell ;
 	INT numbins, numbinX, numbinY ;
 	INT window ;
-	char arguments[LRECL] ;
 	char resfile[LRECL] ;
 	char savfile[LRECL] ;
 	BOOL parasite ;
@@ -211,8 +210,6 @@ void config1() {
 		sprintf(YmsgG, "Calling TimberWolfMC recursively to scale data by %d\n", scale_dataG ) ;
 		M( MSG, NULL, YmsgG ) ;
 		TWCLOSE( fpoG ) ;
-		M( MSG, NULL, arguments ) ;
-		M( MSG, NULL, "\n" ) ;
 		/* go to cost only mode */
 		cost_onlyG = TRUE ;
 

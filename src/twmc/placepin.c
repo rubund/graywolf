@@ -193,7 +193,6 @@ void placepin( int cell, BOOL newVertFlag ) /* use the x_new field if true other
 	numpinS = 0 ;
 	softequivS = FALSE ;
 	howmany = (INT) ptrS->softpins[HOWMANY] ;
-	printf("miau\n");
 	/** DETERMINE THE BOUNDING BOX OF NETS EXCLUDING THIS CELL **/
 	for( pptr = ptrS->nets; pptr ; pptr = pptr->next ) {
 		determine_bbox( pptr->p.net, cell ) ;

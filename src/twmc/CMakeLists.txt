@@ -83,6 +83,8 @@ add_library(TimberWolfMC SHARED
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
+target_link_libraries(TimberWolfMC GrayWolfMCCompact)
+
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twmc .)
 
 install(

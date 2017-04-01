@@ -181,7 +181,6 @@ static int find_optimum_locations()
 	PADBOXPTR pad ;          /* current pad */
 
 	/** FIND OPTIMUM PLACE FOR PADS ACCORDING TO THE RESTRICTIONS **/
-	printf("padarrayG: %p\n",padarrayG);
 	for(int i = 1; i <= totalpadsG; i++ ) {
 
 		/**** LEAVES AND SUBROOTS NEED TO BE PLACED ON THE SAME

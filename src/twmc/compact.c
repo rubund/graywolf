@@ -90,9 +90,9 @@ static char SccsId[] = "@(#) compact.c version 3.12 5/5/91" ;
 #define CELLKEYWORD      "cell"
 #define SCELLKEYWORD     "stdcell"
 #define TILEKEYWORD      "l"
+#define WINDOWID "@WINDOWID"
 
-compact( compactFlag )
-BOOL compactFlag ; /* signals use of compaction */
+int compact( BOOL compactFlag ) /* signals use of compaction */
 {
 	char filename[LRECL] ;
 	char *Yrelpath() ;
@@ -101,32 +101,30 @@ BOOL compactFlag ; /* signals use of compaction */
 	char *getenv() ;    /* used to get TWDIR environment variable */
 	char buffer[LRECL], *bufferptr ;
 	char **tokens ;     /* for parsing file */
-	INT  numtokens, line ;
+	int  numtokens, line ;
 	BOOL abort ; /* whether to abort program */
-	INT cell, numtiles, numcells ;
-	INT xcenter, ycenter ;
-	INT xoffset, yoffset ;
-	INT l, r, b, t ;
+	int cell, numtiles, numcells ;
+	int xcenter, ycenter ;
+	int xoffset, yoffset ;
+	int l, r, b, t ;
 	CELLBOXPTR cellptr ;
 	TILEBOXPTR tileptr ;
 	BOUNBOXPTR bounptr ;            /* bounding box pointer */
 	RTILEBOXPTR rtptr ;             /* current routing tile */
 	FILE *fp ;
-	INT type ;
-
+	int type ;
 
 	/* ######### Create compaction file and exec compactor ######### */
 	/* open compaction file for writing */
 	sprintf(filename, "%s.mvio" , cktNameG ) ;
-	fp = TWOPEN( filename , "w", ABORT ) ;
+	fp = fopen( filename , "w") ;
 
 	/* first count number of tiles and cells to be output */
 	numtiles = 0 ;
 	numcells = 0 ;
-	for( cell = 1 ; cell <= endsuperG ; cell++ ){
+	for( cell = 1 ; cell <= endsuperG ; cell++ ) {
 		cellptr = cellarrayG[cell] ;
-		if( cellptr->celltype != CUSTOMCELLTYPE && cellptr->celltype !=
-				SOFTCELLTYPE ){
+		if( cellptr->celltype != CUSTOMCELLTYPE && cellptr->celltype != SOFTCELLTYPE ){
 			continue ;
 		}
 		numcells++ ;
@@ -161,14 +159,10 @@ BOOL compactFlag ; /* signals use of compaction */
 		xoffset = cellptr->bounBox[cellptr->orient]->l ;
 		yoffset = cellptr->bounBox[cellptr->orient]->b ;
 
-		if( type == CUSTOMCELLTYPE || type == SOFTCELLTYPE ){
-			fprintf( fp, "cell %d x:%d y:%d offset:%d %d\n", 
-					cellarrayG[cell]->cellnum, xcenter, ycenter,
-					xoffset, yoffset ) ;
+		if( type == CUSTOMCELLTYPE || type == SOFTCELLTYPE ) {
+			fprintf( fp, "cell %d x:%d y:%d offset:%d %d\n", cellarrayG[cell]->cellnum, xcenter, ycenter, xoffset, yoffset ) ;
 		} else {
-			fprintf( fp, "stdcell %d x:%d y:%d offset:%d %d\n", 
-					cellarrayG[cell]->cellnum, xcenter, ycenter,
-					xoffset, yoffset ) ;
+			fprintf( fp, "stdcell %d x:%d y:%d offset:%d %d\n", cellarrayG[cell]->cellnum, xcenter, ycenter, xoffset, yoffset ) ;
 		}
 
 		/* setup translation of output points */
@@ -216,50 +210,27 @@ BOOL compactFlag ; /* signals use of compaction */
 
 	} /* end cell loop */
 
-	TWCLOSE( fp ) ;
-
+	fclose( fp ) ;
 
 	/* now call the compactor */
-	/* find the path of compactor relative to main program */
-	pathname = Yrelpath( argv0G, COMPACTPATH ) ;
-	if( !(YfileExists(pathname))){
-		if( twdir = TWFLOWDIR ){
-			sprintf( filename, "%s/bin/%s", twdir, COMPACTPROG ) ;
-			pathname = Ystrclone( filename ) ;
-		}
-	}
+	
+	int mc_compact(int a, int d, int c, int n, int p, int v, int w, int windowId, char*cktName, int blockr, int blockt, int track_spacingX, int track_spacingY);
+	int status;
 	if( doPartitionG ){
-		sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname,
-				cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG,
-				track_spacingXG, track_spacingYG);
+		sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG, track_spacingXG, track_spacingYG);
+		status=mc_compact(0, 0, 0, 1, 0, 1, 0, WINDOWID, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
 	} else if( compactFlag == VIOLATIONSONLY ){
-		sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname,
-				cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG,
-				track_spacingXG, track_spacingYG );
+		sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG, track_spacingXG, track_spacingYG );
+		status=mc_compact(0, 0, 0, 1, 0, 1, 0, WINDOWID, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
 	} else if( compactFlag == COMPACT ){
-		/*
-		   sprintf( YmsgG, "%s -n %s %d %d 0 0 0 0", pathname,
-		   cktNameG, blockrG, blocktG );
-		   */
-		sprintf( YmsgG, "%s -cn %s %d %d %d %d 0 0", pathname,
-				cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG );
-
-		D( "twsc/compact_graphics",
-				sprintf( YmsgG, "%s -c %s %d %d %d %d 0 0", pathname,
-					cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG);
-		 ) ;
-	} else {
-		M( ERRMSG,"compact", "unknown compact flag\n" ) ;
-		return ;
+		sprintf( YmsgG, "%s -cn %s %d %d %d %d 0 0", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG );
+		status=mc_compact(0, 0, 1, 1, 0, 0, 0, WINDOWID, cktNameG, blockrG, blocktG, track_spacingXG, track_spacingYG);
+		D( "twsc/compact_graphics", sprintf( YmsgG, "%s -c %s %d %d %d %d 0 0", pathname, cktNameG, blockrG, blocktG, track_spacingXG,track_spacingYG);) ;
 	}
+
 	M( MSG, NULL, YmsgG ) ;
 	M( MSG, NULL, "\n" ) ;
-	/* Ysystme will kill program if catastrophe occurred */
-	//Ysystem( COMPACTPROG, ABORT, YmsgG, closegraphics ) ; 
-	Ysafe_free( pathname ) ; /* free name created in Yrelpath */
 	/* ############# end of compactor execution ############# */
-
-
 
 	/* **************** READ RESULTS of compaction ************/
 	/* open compaction file for writing */
@@ -292,8 +263,7 @@ BOOL compactFlag ; /* signals use of compaction */
 				abort = TRUE ;
 			}
 			if( abort ) break ; /* no sense in reading any longer */
-		} else if( strcmp( tokens[0], CELLKEYWORD ) == STRINGEQ ||
-				strcmp( tokens[0], SCELLKEYWORD ) == STRINGEQ ){
+		} else if( strcmp( tokens[0], CELLKEYWORD ) == STRINGEQ || strcmp( tokens[0], SCELLKEYWORD ) == STRINGEQ ){
 			/* cell 1 x:312 y:512 offet:39 40 or */
 			/* softcell 1 x:312 y:512 offet:39 40 */
 			/* look at first field for keyword */
@@ -326,7 +296,7 @@ BOOL compactFlag ; /* signals use of compaction */
 			continue ;
 		}
 	}
-	TWCLOSE( fp ) ;
+	fclose( fp ) ;
 
 	if( abort ){
 		M(ERRMSG, "compact", "Problem with compaction. Must abort\n" ) ;
@@ -334,14 +304,14 @@ BOOL compactFlag ; /* signals use of compaction */
 	}
 	/* ************ END READ RESULTS of compaction ************/
 
+	return 0;
+
 } /* end compact */
 
 #define HOWMANY 0
 
 /* need accurate cell centers in density calculation */
-get_cell_centers( cell, xc, yc )
-INT cell ;
-INT *xc, *yc ;
+void get_cell_centers( int cell, int *xc, int *yc )
 {
 	INT last_core_cell ;
 

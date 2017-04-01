@@ -117,6 +117,7 @@ static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
 static double  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
+int finalout();
 
 /* Forward declarations */
 
@@ -162,6 +163,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 	windowIdS   = 0 ;
 	scale_dataG = 0 ;
 	batchS      = FALSE ;
+	doGraphicsG = TRUE ;
 
 	if(b) {
 		batchS = TRUE ;
@@ -187,9 +189,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 	}
 	cktNameG = dName;
 
-#ifndef NOGRAPHICS
-	doGraphicsG = TRUE ;
-#else /* NOGRAPHICS case */
+#ifdef NOGRAPHICS
 	doGraphicsG = FALSE ;
 #endif /* NOGRAPHICS */
 
@@ -266,7 +266,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 		if( !(quickrouteG) && !(cost_onlyG) && !(scale_dataG) && !(doPartitionG)){
 			if(!(YfileExists( filename ))){
 				quickrouteG = TRUE ; // perform a quickroute if file doesn't exist
-				if( parasiteS ){
+				if( parasiteS && doGraphicsG ){
 					G( TWrestoreState() ) ; // if we save the graphics state we need to restore it
 				}
 			} else {
@@ -331,7 +331,6 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 		printf("\n\n\nTHE ROUTE COST OF THE CURRENT PLACEMENT: %d",funccostG );
 		printf("\nTHE PENALTY OF THE CURRENT PLACEMENT: %d\n", penaltyG ) ;
 
-
 		if( wire_red_ratioS < -1000.0 ){
 		
 			/* if wire_red_ratioS is greater that -1000 it was set in readpar */
@@ -349,30 +348,30 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 			}
 		}
 
-	if( cost_onlyG && !restartG ){
-		/* done initialization */
-		break ;
-	}
+		if( cost_onlyG && !restartG ){
+			/* done initialization */
+			break ;
+		}
 
-	Yplot_init( 0, "graph", "graph_par","graph_stp","graph_lap","graph_T","graph_prob",NULL ) ;
+		Yplot_init( 0, "graph", "graph_par","graph_stp","graph_lap","graph_T","graph_prob",NULL ) ;
 
-	attmaxG = compute_attprcel() ;
+		attmaxG = compute_attprcel() ;
 
-	if( !cost_onlyG ) {
-		printf("\n\nTimberWolf Cell Placement Ready for Action\n\n");
-		/* allow multi cell moves */
-		G( set_graphic_context( PLACEMENT ) ) ;
-		utemp( attmaxG, TRUE ) ;
-	}
+		if( !cost_onlyG ) {
+			printf("\n\nTimberWolf Cell Placement Ready for Action\n\n");
+			/* allow multi cell moves */
+			G( set_graphic_context( PLACEMENT ) ) ;
+			utemp( attmaxG, TRUE ) ;
+		}
 
-	funccostG = findcost() ;
-	rememberWire = funccostG ;
-	rememberPenal = binpenalG ;
+		funccostG = findcost() ;
+		rememberWire = funccostG ;
+		rememberPenal = binpenalG ;
 
-	finalout() ;
-	finalcheck() ;
-	twstats() ;
-	break ; /* avoid a loop-loop only for restart failure */
+		finalout();
+		finalcheck() ;
+		twstats() ;
+		break ; /* avoid a loop-loop only for restart failure */
 
 	} /* end doPlacement loop */ 
 
@@ -404,7 +403,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, int w, i
 	return 0;
 } /* end main routine */
 
-INT yaleIntro() 
+int yaleIntro() 
 {
 	fprintf(fpoG,"\n%s\n",YmsgG) ;
 	fprintf(fpoG,"Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");

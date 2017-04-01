@@ -87,143 +87,129 @@ static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
 #define NOCONSTRAINTS    FALSE
 #define CONSTRAINTS      TRUE
 
-finalout()
+int finalout()
 {
+	int c ;
+	int bbtop, bbbottom, bbleft, bbright ;
 
-INT c ;
-INT bbtop, bbbottom, bbleft, bbright ;
+	/* dump the results of the placement to graphics file */
+	G( graphics_dump() ) ;
+	G( TWsetMode(1) ) ;
+	G( draw_the_data() ) ;
+	G( TWsetMode(0) ) ;
+	/* we known wire area at this point don't need to estimate */
+	turn_wireest_on(FALSE) ;
 
-/* dump the results of the placement to graphics file */
-G( graphics_dump() ) ;
-G( TWsetMode(1) ) ;
-G( draw_the_data() ) ;
-G( TWsetMode(0) ) ;
+	/* let the user know which pins we couldn't place */
+	set_pin_verbosity( TRUE ) ;
 
+	/* before channel graph generation and global routing let use tweak */
+	/* placement if desired */
+	if( doGraphicsG && wait_for_userG ){
+		G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;
+		G( process_graphics() ) ;
+	} 
 
-/* we known wire area at this point don't need to estimate */
-turn_wireest_on(FALSE) ;
-
-/* let the user know which pins we couldn't place */
-set_pin_verbosity( TRUE ) ;
-
-/* before channel graph generation and global routing let use tweak */
-/* placement if desired */
-if( doGraphicsG && wait_for_userG ){
-    G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;
-    G( process_graphics() ) ;
-} 
-
-savewolf( TRUE ) ;  /* for debug purposes force save to occur */
-if( scale_dataG > 1 ){
-    /* end of the line for scaled case - 
-	will return to parent to continue using saved placement. */
-return 1;
-}
-grid_cells() ;      /* force cells to grid locations */
-compact(VIOLATIONSONLY); /* remove cell overlap */
-
-/* if this is a partitioning run determine row placement */
-if( doPartitionG && !(quickrouteG) ){
-    set_determine_side( FALSE ) ;  /* allow SC to pick side */
-    G( set_graphic_context( PARTITION_PLACEMENT ) ) ;
-    config_rows() ;
-    print_paths() ; /* print path information */
-    Output( 0 ) ;
-    return ;
-}
-/* do final placement of pads using virtual core to insure pads */
-/* are outside of core */
-setVirtualCore( TRUE ) ;
-placepads() ;
-
-/* before channel graph generation and global routing let use tweak */
-/* placement if desired */
-check_graphics() ;
-
-if( !scale_dataG ){ 
-    /* reload bins to get new overlap penalty */
-    loadbins(FALSE) ; /* wireArea not known */
-}
-prnt_cost( "\nFINAL PLACEMENT RESULTS AFTER VIOLATION REMOVAL ARE:\n" ) ;
-
-print_paths() ; /* print path information */
-Output( 0 ) ;
-
-if( doCompactionG > 0 || quickrouteG ) {
-    gmain( CHANNELGRAPH ) ;
-    rmain( NOCONSTRAINTS ) ;
-    gmain( UPDATE_ROUTING ) ;
-    adapt_wire_estimator() ;
-    check_graphics() ;
-
-    if( quickrouteG ){
-	return ;
-    }
-
-    for( c = 1 ; c <= doCompactionG ; c++ ) {
-
-	funccostG = findcost() ;
-	sprintf(YmsgG,"\n\nCompactor Pass Number: %d begins with:\n", c ) ;
-	prnt_cost( YmsgG ) ;
-
-	wirecosts() ;
-
-
+	savewolf( TRUE ) ;  /* for debug purposes force save to occur */
+	if( scale_dataG > 1 ){
+		/* end of the line for scaled case - 
+		will return to parent to continue using saved placement. */
+		return 1;
+	}
 	grid_cells() ;      /* force cells to grid locations */
-	compact(COMPACT);   /* remove white space */
-	reorigin() ;
-	check_graphics() ;
-
-	sprintf(YmsgG,"\n\nCompactor Pass Number: %d after cost:\n", c ) ;
-	prnt_cost( YmsgG ) ;
-
-	Output( c ) ;
-
-	gmain( CHANNELGRAPH ) ;
-
-	if( c == doCompactionG ){
-	    rmain( CONSTRAINTS ) ;
-	} else {
-	    rmain( NOCONSTRAINTS ) ;
-	    gmain( UPDATE_ROUTING ) ;
-	    adapt_wire_estimator() ;
-	    check_graphics() ;
+	compact(VIOLATIONSONLY); /* remove cell overlap */
+	
+	/* if this is a partitioning run determine row placement */
+	if( doPartitionG && !(quickrouteG) ){
+		set_determine_side( FALSE ) ;  /* allow SC to pick side */
+		if(doGraphicsG) {
+			G( set_graphic_context( PARTITION_PLACEMENT ) ) ;
+		}
+		config_rows() ;
+		print_paths() ; /* print path information */
+		Output( 0 ) ;
+		return 0;
 	}
 
-    } /* end compaction - global route loop */
+	/* do final placement of pads using virtual core to insure pads */
+	/* are outside of core */
+	setVirtualCore( TRUE ) ;
+	placepads() ;
 
-} else {
-    if( doChannelGraphG ) {
-	gmain( CHANNELGRAPH ) ;
-    }
-    if( doGlobalRouteG ) {
-	rmain( CONSTRAINTS ) ;
-    }
-}
+	/* before channel graph generation and global routing let use tweak */
+	/* placement if desired */
+	check_graphics() ;
 
+	if( !scale_dataG ){ 
+		/* reload bins to get new overlap penalty */
+		loadbins(FALSE) ; /* wireArea not known */
+	}
+	prnt_cost( "\nFINAL PLACEMENT RESULTS AFTER VIOLATION REMOVAL ARE:\n" ) ;
 
-prnt_cost("\nTIMBERWOLFMC FINAL RESULTS ARE:\n" ) ;
+	print_paths() ; /* print path information */
+	Output( 0 ) ;
 
-return ;
+	if( doCompactionG > 0 || quickrouteG ) {
+		gmain( CHANNELGRAPH ) ;
+		rmain( NOCONSTRAINTS ) ;
+		gmain( UPDATE_ROUTING ) ;
+		adapt_wire_estimator() ;
+		check_graphics() ;
+
+		if( quickrouteG ){
+			return ;
+		}
+
+		for( c = 1 ; c <= doCompactionG ; c++ ) {
+			funccostG = findcost() ;
+			sprintf(YmsgG,"\n\nCompactor Pass Number: %d begins with:\n", c ) ;
+			prnt_cost( YmsgG ) ;
+			wirecosts() ;
+			grid_cells() ;      /* force cells to grid locations */
+			compact(COMPACT);   /* remove white space */
+			reorigin() ;
+			check_graphics() ;
+			sprintf(YmsgG,"\n\nCompactor Pass Number: %d after cost:\n", c ) ;
+			prnt_cost( YmsgG ) ;
+			Output( c ) ;
+			gmain( CHANNELGRAPH ) ;
+			if( c == doCompactionG ){
+				rmain( CONSTRAINTS ) ;
+			} else {
+				rmain( NOCONSTRAINTS ) ;
+				gmain( UPDATE_ROUTING ) ;
+				adapt_wire_estimator() ;
+				check_graphics() ;
+			}
+
+		} /* end compaction - global route loop */
+	} else {
+		if( doChannelGraphG ) {
+			gmain( CHANNELGRAPH ) ;
+		}
+		if( doGlobalRouteG ) {
+			rmain( CONSTRAINTS ) ;
+		}
+	}
+
+	prnt_cost("\nTIMBERWOLFMC FINAL RESULTS ARE:\n" ) ;
+
+	return ;
 } /* end finalout */
 
-
-
-
-Output( cycle )
-INT cycle ;
+void Output( int cycle )
 {
-
-    if( cycle == 0 || cycle < doCompactionG / 2 ){
-	update_pins( FALSE ) ;  /* update the _orig fields */
-    }
-    outgeo() ;
-    output(NULL)   ;
-    outpin() ;
-    if( doPartitionG ){
-	output_partition() ;
-    }
-    return ;
+	if( cycle == 0 || cycle < doCompactionG / 2 ){
+		update_pins( FALSE ) ;  /* update the _orig fields */
+	}
+	outgeo() ;
+	output(NULL)   ;
+	outpin() ;
+	if( doPartitionG ){
+		output_partition() ;
+	}
+	printf("Output\n");
+	return ;
 } /* end Output */
 
 /* print out the current cost to the user */

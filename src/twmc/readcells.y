@@ -223,7 +223,7 @@ pintype : pinrecord {};
 pintype : pinrecord equiv_list {};
 pinname: PIN NAME STRING SIGNAL STRING layer
 {
-	addPin(Ystrclone($3), Ystrclone($5), $6, SOFTPINTYPE);
+	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
 };
 pinrecord : pinname contour timing current power no_layer_change 
 {

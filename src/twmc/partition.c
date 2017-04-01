@@ -97,6 +97,7 @@ static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
 #define GENROWPATH      "../genrows"
 #define  NUMROWKEYWORD  "rows"
 #define  ROWKEYWORD     "row"
+#define WINDOWID "@WINDOWID"
 
 static INT tlengthS ;                 /* total length of stdcells */
 static INT cheightS ;                 /* height of stdcell */
@@ -113,8 +114,10 @@ static BOOL dataValidS = FALSE ;      /* used to avoid invalid request */
 static INT num_macroS ;               /* number of macros output */
 
 /* Forward declaration */
+void read_gen_file();
+void read_stat_file();
 
-config_rows()
+void config_rows()
 {
 	DOUBLE read_par_file() ;     /* get default from user */
 	INT left, right, bottom, top;/* core area */
@@ -139,26 +142,14 @@ config_rows()
 	/* find the path of genrows relative to main program */
 	/* Ysystem will kill program if catastrophe occurred */
 	int status;
-	int localWindowID;
-	char tmpBuf[23];
-	char* localArgv[5];
-	localArgv[0] = "genrows";
+	int Genrows( int d, int f, int n, int w, char *cktName, int  windowId);
 	if( doGraphicsG ){
 		// setup the variables
-		localWindowID = TWsaveState();
-		sprintf(tmpBuf,"%d",localWindowID);
-		// run the things
-		localArgv[1] = "-w";
-		localArgv[2] = Ystrclone(cktNameG);
-		localArgv[3] = Ystrclone(tmpBuf);
-		status = Genrows(4,localArgv);
+		status = Genrows( 0, 0, 0, 1, cktNameG, WINDOWID);
 	} else if( get_batch_mode() ){
-		localArgv[1] = Ystrclone(cktNameG);
-		status = Genrows(2,localArgv);
+		status = Genrows( 0, 0, 0, 0, cktNameG, WINDOWID);
 	} else {
-		localArgv[1] = "-n";
-		localArgv[2] = Ystrclone(cktNameG);
-		status = Genrows(3,localArgv);
+		status = Genrows( 0, 0, 1, 0, cktNameG, WINDOWID);
 	}
 
 	/* ############# end of genrows execution ############# */
@@ -184,46 +175,45 @@ config_rows()
 	placepads() ;
 } /* end config_rows */
 
-read_stat_file()
+void read_stat_file()
 {
+	char filename[LRECL] ;
+	char input[LRECL] ;
+	char *bufferptr ;
+	char **tokens ;
+	int class ;
+	int numtokens ;
+	int class_count ;
+	FILE *fin ;
 
-    char filename[LRECL] ;
-    char input[LRECL] ;
-    char *bufferptr ;
-    char **tokens ;
-    INT  class ;
-    INT  numtokens ;
-    INT  class_count ;
-    FILE *fin ;
+	/***********************************************************
+	* Read from circuitName.stat file.
+	***********************************************************/
+	sprintf( filename, "%s.stat", cktNameG ) ;
+	fin = fopen(filename,"r") ;
 
-    /***********************************************************
-    * Read from circuitName.stat file.
-    ***********************************************************/
-    sprintf( filename, "%s.stat", cktNameG ) ;
-    fin = TWOPEN(filename,"r", ABORT ) ;
-
-    class_count = 0 ;
-    num_classeS = 0 ;
-    while( bufferptr = fgets( input, LRECL, fin ) ){
-	tokens = Ystrparser( bufferptr, " :\t\n", &numtokens ) ;
-	if( strcmp( tokens[0], "tot_length" ) == STRINGEQ ){
-	    tlengthS = atoi( tokens[1] ) ;
-	} else if( strcmp( tokens[0], "cell_height" ) == STRINGEQ ){
-	    cheightS = atoi( tokens[1] ) ;
-	} else if( strcmp( tokens[0], "num_classes" ) == STRINGEQ ){
-	    num_classeS = atoi( tokens[1] ) ;
-	    classS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-	    lbS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-	    ubS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-	} else if( strcmp( tokens[0], "class" ) == STRINGEQ ){
-	    class = atoi( tokens[1] ) ;
-	    classS[++class_count] = class ;
-	    lbS[class_count] = atoi( tokens[3] ) ;
-	    ubS[class_count] = atoi( tokens[5] ) ;
+	class_count = 0 ;
+	num_classeS = 0 ;
+	while( bufferptr = fgets( input, LRECL, fin ) ){
+		tokens = Ystrparser( bufferptr, " :\t\n", &numtokens ) ;
+		if( strcmp( tokens[0], "tot_length" ) == STRINGEQ ){
+			tlengthS = atoi( tokens[1] ) ;
+		} else if( strcmp( tokens[0], "cell_height" ) == STRINGEQ ){
+			cheightS = atoi( tokens[1] ) ;
+		} else if( strcmp( tokens[0], "num_classes" ) == STRINGEQ ){
+			num_classeS = atoi( tokens[1] ) ;
+			classS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
+			lbS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
+			ubS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
+		} else if( strcmp( tokens[0], "class" ) == STRINGEQ ){
+			class = atoi( tokens[1] ) ;
+			classS[++class_count] = class ;
+			lbS[class_count] = atoi( tokens[3] ) ;
+			ubS[class_count] = atoi( tokens[5] ) ;
+		}
 	}
-    }
 
-    TWCLOSE( fin ) ;
+	fclose( fin ) ;
 } /* end read_stat_file */
 
 DOUBLE read_par_file()
@@ -270,191 +260,180 @@ DOUBLE read_par_file()
     return( rowSepS ) ;
 } /* end read_par_file */
 
-
-output_partition()
-{
-
 #define  RELATIVE_TO_CURPOS  1
+void output_partition()
+{
+	int line = 0;               /* current line number */
+	FILE *fp ;
+	char filename[LRECL] ;
+	char buffer[LRECL] ;
+	char *bufferptr ;
+	char *matchptr ;
 
-    INT i ;
-    long delta ;             /* how far to jump backwards */
-    INT error ;              /* error code returned from fseek */
-    INT x, y ;               /* pin positions */
-    INT xc, yc ;             /* cell center */
-    INT instance ;           /* current cell instance */
-    INT line ;               /* current line number */
-    BOOL found ;             /* find mc keywords */
-    FILE *fp ;
-    char filename[LRECL] ;
-    char buffer[LRECL] ;
-    char *bufferptr ;
-    char *matchptr ;
-    PINBOXPTR pin ;
-    CELLBOXPTR cptr ;
+	/* ****************************************************************
+		Output the ports into sc cell file.
+	***************************************************************** */
 
-    /* ****************************************************************
-        Output the ports into sc cell file.
-    ***************************************************************** */
+	/* other definitions for the apollo version */
+	char filename_out[LRECL] ;
+	FILE *fout ;
 
-    /* other definitions for the apollo version */
-    char filename_out[LRECL] ;
-    FILE *fout ;
+	sprintf( filename, "%s.scel", cktNameG ) ;
+	if(!YfileExists(filename))
+		return;
 
-    sprintf( filename, "%s.scel", cktNameG ) ;
-    fp = TWOPEN( filename, "r", ABORT ) ;
-    sprintf( filename_out, "%s.temp", cktNameG ) ;
-    fout = TWOPEN( filename_out, "w", ABORT ) ;
+	fp = fopen( filename, "r" ) ;
+	sprintf( filename_out, "%s.temp", cktNameG ) ;
+	fout = fopen( filename_out, "w") ;
 
-    /* start at beginning of file and read till read mc entity or pad */
-    line = 0 ;
-    while( bufferptr = fgets( buffer, LRECL, fp )){
-	/* remove leading blanks or tabs */
-	matchptr = Yremove_lblanks( bufferptr ) ;
-	if( strncmp( matchptr, "hardcell", 8 ) == STRINGEQ ){
-	    break ;
-	} else if( strncmp( matchptr, "softcell", 8 ) == STRINGEQ ){
-	    break ;
-	} else if( strncmp( matchptr, "pad", 3 ) == STRINGEQ ){
-	    break ;
-	} else {
-	    /* do an echo */
-	    line++ ;
-	    fprintf( fout, "%s", bufferptr ) ;
+	/* start at beginning of file and read till read mc entity or pad */
+	while( bufferptr = fgets( buffer, LRECL, fp )) {
+		/* remove leading blanks or tabs */
+		if(!(line%1000))
+			printf("Did read %d lines\n",line);
+
+		matchptr = Yremove_lblanks( bufferptr ) ;
+		if( strncmp( matchptr, "hardcell", 8 ) == STRINGEQ ){
+			break ;
+		} else if( strncmp( matchptr, "softcell", 8 ) == STRINGEQ ){
+			break ;
+		} else if( strncmp( matchptr, "pad", 3 ) == STRINGEQ ){
+			break ;
+		} else {
+		/* do an echo */
+			line++ ;
+			fprintf( fout, "%s", bufferptr ) ;
+		}
 	}
-    }
-    D( "output_partition",
-	printf( "broke on line:%d\n", line ) ;
-    ) ;
-    /* send the rest of the macro output of .mdat to fout */
-    output( fout ) ;
-    TWCLOSE( fp ) ;
-    Yrm_files( filename ) ;
-    /* move the new file to .scel due to a bug in fseek on the apollo */
-    YmoveFile( filename_out, filename ) ;
+	D( "output_partition", printf( "broke on line:%d\n", line ) ; );
+	/* send the rest of the macro output of .mdat to fout */
+	output( fout ) ;
+	fclose( fp ) ;
+	Yrm_files( filename ) ;
+	/* move the new file to .scel due to a bug in fseek on the apollo */
+	YmoveFile( filename_out, filename ) ;
 
 } /* end of prnt_data */
 
-
-build_mver_file( left, right, bottom, top )
-INT left, right, bottom, top ;
+void build_mver_file( int left, int right, int bottom, int top )
 {
-    CELLBOXPTR cellptr ;
-    FILE *fp ;
-    char filename[LRECL] ;
-    INT type ;
-    INT i, k, cell ;
-    INT xc, yc ;
-    INT x, y ;
-    INT separation ;
-    BOUNBOXPTR bounptr ;         /* bounding box pointer */
+	CELLBOXPTR cellptr ;
+	FILE *fp ;
+	char filename[LRECL] ;
+	int  type ;
+	int  i, k, cell ;
+	int  xc, yc ;
+	int  x, y ;
+	int  separation ;
+	BOUNBOXPTR bounptr ;         /* bounding box pointer */
 
-    /* ######### Create genrows file and exec genrows ######### */
-    /* open vertex file for writing */
-    sprintf(filename, "%s.mver" , cktNameG ) ;
-    fp = TWOPEN( filename , "w", ABORT ) ;
+	/* ######### Create genrows file and exec genrows ######### */
+	/* open vertex file for writing */
+	sprintf(filename, "%s.mver" , cktNameG ) ;
+	fp = fopen( filename , "w" ) ;
 
-    fprintf( fp, "total_row_length %d\n", tlengthS ) ;
-    if( num_classeS ){
-	fprintf( fp, "num_classes %d\n", num_classeS ) ;
-    }
-    for( i = 1 ; i <= num_classeS ; i++ ){
-	fprintf( fp, "class %d lb %d ub %d\n", classS[i], lbS[i], ubS[i] ) ;
-    }
-    fprintf( fp, "actual_row_height %d\n", cheightS ) ;
-    separation = (INT) ( (DOUBLE) cheightS * rowSepS + rowSepAbsS) ;
-    fprintf( fp, "channel_separation %d\n", separation ) ;
-    fprintf( fp, "min_length %d\n", (right-left) / 5 ) ;
-    fprintf( fp, "core %d %d %d %d\n", left, bottom, right, top ) ;
-    fprintf( fp, "grid %d %d\n", track_spacingXG, track_spacingYG ) ;
-    num_macroS = 0 ;
-    for( cell = 1 ; cell <= numcellsG ; cell++ ) {
-
-	cellptr = cellarrayG[cell] ;
-	type = cellptr->celltype ;
-	if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
-	    continue ;
+	fprintf( fp, "total_row_length %d\n", tlengthS ) ;
+	if( num_classeS ){
+		fprintf( fp, "num_classes %d\n", num_classeS ) ;
 	}
-	num_macroS++ ;
-    }
-    fprintf( fp, "num_macro %d\n", num_macroS ) ;
-
-
-    for( cell = 1 ; cell <= numcellsG ; cell++ ) {
-
-	cellptr = cellarrayG[cell] ;
-	type = cellptr->celltype ;
-	if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
-	    continue ;
+	for( i = 1 ; i <= num_classeS ; i++ ){
+		fprintf( fp, "class %d lb %d ub %d\n", classS[i], lbS[i], ubS[i] ) ;
 	}
-	fprintf(fp,"macro orient %d %d vertices ", cellptr->orient,
-	    cellptr->numsides ) ;
-	output_vertices( fp, cellptr ) ;
-    }
+	fprintf( fp, "actual_row_height %d\n", cheightS ) ;
+	separation = (INT) ( (DOUBLE) cheightS * rowSepS + rowSepAbsS) ;
+	fprintf( fp, "channel_separation %d\n", separation ) ;
+	fprintf( fp, "min_length %d\n", (right-left) / 5 ) ;
+	fprintf( fp, "core %d %d %d %d\n", left, bottom, right, top ) ;
+	fprintf( fp, "grid %d %d\n", track_spacingXG, track_spacingYG ) ;
+	num_macroS = 0 ;
+	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 
-    TWCLOSE( fp ) ;
+		cellptr = cellarrayG[cell] ;
+		type = cellptr->celltype ;
+		if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
+		continue ;
+		}
+		num_macroS++ ;
+	}
+	fprintf( fp, "num_macro %d\n", num_macroS ) ;
+
+
+	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
+
+		cellptr = cellarrayG[cell] ;
+		type = cellptr->celltype ;
+		if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
+		continue ;
+		}
+		fprintf(fp,"macro orient %d %d vertices ", cellptr->orient,
+		cellptr->numsides ) ;
+		output_vertices( fp, cellptr ) ;
+	}
+
+	fclose( fp ) ;
 } /* end build_mver_file */
 
-read_gen_file()
+void read_gen_file()
 {
-    char filename[LRECL] ;
-    char buffer[LRECL], *bufferptr ;
-    char **tokens ;     /* for parsing file */
-    INT  numtokens, line ;
-    INT  cell ;          /* current cell number */
-    INT  type ;          /* current cell type */
-    CELLBOXPTR cellptr ; /* current cell */
-    BOOL abort ; /* whether to abort program */
-    FILE *fp ;
+	char filename[LRECL] ;
+	char buffer[LRECL], *bufferptr ;
+	char **tokens ;     /* for parsing file */
+	int  numtokens, line ;
+	int  cell ;          /* current cell number */
+	int  type ;          /* current cell type */
+	CELLBOXPTR cellptr ; /* current cell */
+	BOOL abort ; /* whether to abort program */
+	FILE *fp ;
 
-    if( num_macroS == 0 ){
-	return ;
-    }
-    /* **************** READ RESULTS of genrows ************/
-    sprintf(filename, "%s.gen" , cktNameG ) ;
-    fp = TWOPEN( filename , "r", ABORT ) ;
-
-    /* parse file */
-    line = 0 ;
-    abort = FALSE ;
-    for( cell = 1 ; cell <= numcellsG ; cell++ ) {
-
-	cellptr = cellarrayG[cell] ;
-	type = cellptr->celltype ;
-	if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
-	    continue ;
+	if( num_macroS == 0 ){
+		return ;
 	}
-	while( bufferptr=fgets(buffer,LRECL,fp )){
-	    /* parse file */
-	    line++ ; /* increment line number */
-	    tokens = Ystrparser( bufferptr, " \t\n", &numtokens );
-	    if( numtokens == 0 ){
-		/* skip over empty lines */
+	/* **************** READ RESULTS of genrows ************/
+	sprintf(filename, "%s.gen" , cktNameG ) ;
+	fp = TWOPEN( filename , "r", ABORT ) ;
+
+	/* parse file */
+	line = 0 ;
+	abort = FALSE ;
+	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
+
+		cellptr = cellarrayG[cell] ;
+		type = cellptr->celltype ;
+		if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
 		continue ;
-	    } else if( numtokens == 3 ){
-		cellptr->xcenter = atoi( tokens[0] ) ;
-		cellptr->ycenter = atoi( tokens[1] ) ;
-		cellptr->orient = atoi( tokens[2] ) ;
-		break ; /* go on to the next cell */
-	    } else if( strcmp(tokens[0], "core" ) == STRINGEQ &&
-		numtokens == 5 ){
-		blocklG = MIN( blocklG, atoi( tokens[1] ) ) ;
-		blockbG = MIN( blockbG, atoi( tokens[2] ) ) ;
-		blockrG = MAX( blockrG, atoi( tokens[3] ) ) ;
-		blocktG = MAX( blocktG, atoi( tokens[4] ) ) ;
-	    } else {
-		sprintf( YmsgG, "Problem reading .gen file on line:%d\n",line ) ;
-		M( ERRMSG, "read_gen_file", YmsgG ) ;
-		abort = TRUE ;
-	    }
+		}
+		while( bufferptr=fgets(buffer,LRECL,fp )){
+		/* parse file */
+		line++ ; /* increment line number */
+		tokens = Ystrparser( bufferptr, " \t\n", &numtokens );
+		if( numtokens == 0 ){
+			/* skip over empty lines */
+			continue ;
+		} else if( numtokens == 3 ){
+			cellptr->xcenter = atoi( tokens[0] ) ;
+			cellptr->ycenter = atoi( tokens[1] ) ;
+			cellptr->orient = atoi( tokens[2] ) ;
+			break ; /* go on to the next cell */
+		} else if( strcmp(tokens[0], "core" ) == STRINGEQ &&
+			numtokens == 5 ){
+			blocklG = MIN( blocklG, atoi( tokens[1] ) ) ;
+			blockbG = MIN( blockbG, atoi( tokens[2] ) ) ;
+			blockrG = MAX( blockrG, atoi( tokens[3] ) ) ;
+			blocktG = MAX( blocktG, atoi( tokens[4] ) ) ;
+		} else {
+			sprintf( YmsgG, "Problem reading .gen file on line:%d\n",line ) ;
+			M( ERRMSG, "read_gen_file", YmsgG ) ;
+			abort = TRUE ;
+		}
+		}
 	}
-    }
 
-    TWCLOSE( fp ) ;
+	TWCLOSE( fp ) ;
 
-    if( abort ){
-	M(ERRMSG, "read_gen_file", "Problem with genrows. Must abort\n" ) ;
-return 1;
-    }
-    /* ************ END READ RESULTS of genrows ************/
+	if( abort ){
+		M(ERRMSG, "read_gen_file", "Problem with genrows. Must abort\n" ) ;
+	return 1;
+	}
+	/* ************ END READ RESULTS of genrows ************/
 
 } /* end read_gen_file() */

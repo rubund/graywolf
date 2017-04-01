@@ -188,6 +188,17 @@ PINBOXPTR findTerminal() ;
 static void check_pos(char *pinname, int xpos, int ypos);
 void endCell();
 void addCell( char *cellName, CELLTYPE cellType );
+void setpwates() ;
+void sortpins() ;
+void prnt_netinfo() ;   /* tell user net information */
+void genorient(int,int ) ;
+void updateFixedCells( int ) ;
+void loadTermArray() ;
+void build_active_array() ;
+void build_soft_array() ;
+void set_up_pinplace() ;   /* for soft cell pin placement */
+void update_pins(int) ;  /* initial pin placement */
+void updateFixedCells( int ) ;
 
 /* set processing switch to avoid work when an error is found */
 void setErrorFlag()
