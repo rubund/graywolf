@@ -16,36 +16,25 @@ REVISIONS:
 #define EXTERN extern 
 #endif
 
-/* cell types */
-#define STDCELLTYPE       1
-#define EXCEPTTYPE        2
-#define PADTYPE           3
-#define PORTTYPE          4
-#define EXTRATYPE         5
-#define PADGROUPTYPE      6
-#define HARDCELLTYPE      7
-/* pin types */
-#define PINTYPE           1
-#define PASS_THRU         2
-#define SWAP_PASS         3
+#include "parser_defines.h"
 
 EXTERN SWAPBOX *swap_group_listG ;
 EXTERN BOOL one_pin_feedthruG ;
 
-EXTERN INT maxCellOG ;
-EXTERN INT case_unequiv_pinG ;
-EXTERN INT celllenG ;
-EXTERN INT cells_per_clusterG ;
-EXTERN INT cluster_widthG ;
-EXTERN INT extra_cellsG ;
-EXTERN INT *fixLRBTG ;
-EXTERN INT last_pin_numberG ;
-EXTERN INT num_clustersG ;
+EXTERN int maxCellOG ;
+EXTERN int case_unequiv_pinG ;
+EXTERN int celllenG ;
+EXTERN int cells_per_clusterG ;
+EXTERN int cluster_widthG ;
+EXTERN int extra_cellsG ;
+EXTERN int *fixLRBTG ;
+EXTERN int last_pin_numberG ;
+EXTERN int num_clustersG ;
 EXTERN BOOL swappable_gates_existG ;
 
-EXTERN INT swap_netG ;
-EXTERN INT totallenG ;
-EXTERN DOUBLE *padspaceG ;
+EXTERN int swap_netG ;
+EXTERN int totallenG ;
+EXTERN double *padspaceG ;
 
 #undef EXTERN  
 
