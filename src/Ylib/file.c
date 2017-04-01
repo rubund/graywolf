@@ -78,19 +78,16 @@ static char SccsId[] = "@(#) file.c version 3.11 10/20/91" ;
                       File routines                                 */ 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 /* check if a file exists */
-BOOL YfileExists(pathname)
-char *pathname ;
+BOOL YfileExists(char *pathname)
 {
-    struct stat buf;
-
-    if( pathname ){
-	if( stat(pathname, &buf) == 0 ){
-	    return(TRUE) ;
+	int ret = 1;
+	if( access( pathname, F_OK ) == -1 ) {
+		ret = 0;
 	}
-    }
-    return(FALSE) ;
+	return ret;
 }
 
 char *Yfile_slink( pathname )

@@ -15,7 +15,7 @@ REVISIONS:  Thu Apr 18 00:51:06 EDT 1991 - added lock routines.
 
 #include <yalecad/base.h>
 
-extern BOOL YfileExists( P1(char *pathname ) ) ;
+extern BOOL YfileExists(char *pathname) ;
 /*
 Function:
     Returns TRUE if the given file exists.  It returns FALSE otherwise.

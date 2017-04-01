@@ -52,15 +52,17 @@ static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
 #include <dirent.h>
 #include <unistd.h>
 
+int Yrm_files( char *files );
+
 void YcopyFile( char *sourcefile, char *destfile )
 {
-	if( access( sourcefile, F_OK ) == -1 ) {
+	if(YfileExists(sourcefile)) {
 		printf("%s doesn't exist\n",sourcefile);
 		return;
 	}
 
-	if( access( destfile, F_OK ) == -1 ) {
-		remove(destfile);
+	if(YfileExists(destfile)) {
+		Yrm_files(destfile);
 	}
 
 	FILE* source = fopen(sourcefile, "rb");
