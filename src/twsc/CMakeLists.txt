@@ -8,9 +8,14 @@ bison_target(readcell readcell.y ${CMAKE_BINARY_DIR}/src/twsc/readcell.c)
 flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c)
 # flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c COMPILE_FLAGS "-d") #debug
 
+bison_target(readnets readnets.y ${CMAKE_BINARY_DIR}/src/twsc/readnets.c)
+flex_target(readnets readnets.lex ${CMAKE_BINARY_DIR}/src/twsc/readnets.lex.c)
+
 add_library(TimberWolfSC SHARED
 	${BISON_readcell_OUTPUTS}
 	${FLEX_readcell_OUTPUTS}
+	${BISON_readnets_OUTPUTS}
+	${FLEX_readnets_OUTPUTS}
 	acceptt.c
 	coarseglb.c
 	debug2.c
@@ -29,7 +34,6 @@ add_library(TimberWolfSC SHARED
 	graphics.c
 	outcm.c
 	parser.c
-	readnets.c
 	savewolf.c
 	steiner.c
 	ucxxo2.c
