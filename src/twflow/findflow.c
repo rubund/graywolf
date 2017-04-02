@@ -63,9 +63,7 @@ static char SccsId[] = "@(#) findflow.c version 1.4 4/18/91" ;
 #include <yalecad/colors.h>
 #endif
 
-int find_flow_file( general_mode, debug, filename )
-	BOOL general_mode, debug ;
-	char *filename ;
+int find_flow_file( BOOL general_mode, BOOL debug, char *filename )
 {
 	int type ;                     /* design type */
 	int find_design_type(BOOL debug) ;
@@ -111,9 +109,8 @@ int find_flow_file( general_mode, debug, filename )
 				sprintf( prefix, "tomus" ) ;
 				break ;
 			case UNKNOWN:
-				M( ERRMSG, "find_flow_file", 
-						"FATAL - Couldn't determine design type\n" ) ;
-				YexitPgm( PGMFAIL ) ;
+				M( ERRMSG, "find_flow_file", "FATAL - Couldn't determine design type (-> Is there a *.cel*-file)?\n" ) ;
+				exit(0);
 		}
 	}
 	if( debug ){
@@ -172,16 +169,16 @@ int find_flow_file( general_mode, debug, filename )
 } /* end find_flow_file */
 
 /* call syntax if necessary and then read result */
-INT find_design_type(BOOL debug)
+int find_design_type(BOOL debug)
 {
 	ADJBOX syntax_info ;
 	FBOX infile ;
 	FBOX outfile ;
-	INT status ;
-	INT numtokens ;
-	INT num_stdcell ;
-	INT num_macro ;
-	INT mode ;
+	int status ;
+	int numtokens ;
+	int num_stdcell ;
+	int num_macro ;
+	int mode = STANDARD;
 	FILE *fin ;
 	char in_name[8] ;
 	char out_name[8] ;
