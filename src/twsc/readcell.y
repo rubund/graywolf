@@ -179,7 +179,11 @@ padname : PAD INTEGER NAME STRING
 {
 	addCell( $4, PADTYPE ) ;
 };
-padname_std : PAD INTEGER STRING ORIENT INTEGER;
+padname_std : PAD INTEGER STRING ORIENT INTEGER
+{
+	addCell( $3, PADTYPE ) ;
+	add_orient($5);
+};
 padside : PADSIDE STRING;
 padgroupname : PADGROUP STRING PERMUTE;
 padgroupname : PADGROUP STRING NOPERMUTE;
@@ -201,14 +205,26 @@ cornerpt : INTEGER INTEGER
 };
 class : CLASS INTEGER;
 actual_orient :;
-actual_orient : ORIENT INTEGER;
+actual_orient : ORIENT INTEGER
+{
+/* 	 add_initial_orient($2); */
+};
 orient : INTEGER ORIENTATIONS orientlist;
 orient : INTEGER ORIENTATIONS orientlist initial_orient;
 orient : ORIENTATIONS orientlist;
 orient : ORIENTATIONS orientlist initial_orient;
-orientlist : INTEGER;
-orientlist : orientlist INTEGER;
-aspect : ASPLB FLOAT ASPUB FLOAT;
+orientlist : INTEGER
+{
+	add_orient($1);
+};
+orientlist : orientlist INTEGER
+{
+	add_orient($2);
+};
+aspect : ASPLB FLOAT ASPUB FLOAT
+{
+
+};
 softpins : softtype;
 softpins : softpins softtype;
 softtype : pintype;
@@ -262,8 +278,14 @@ port : PORT NAME STRING SIGNAL STRING LAYER INTEGER INTEGER INTEGER;
 port : PORT NAME STRING SIGNAL STRING INTEGER INTEGER;
 siderestriction : SIDERESTRICTION INTEGER INTEGER;
 sidespace :;
-sidespace : SIDESPACE FLOAT;
-sidespace : SIDESPACE FLOAT FLOAT;
+sidespace : SIDESPACE FLOAT
+{
+	add_sidespace( $2, $2 );
+};
+sidespace : SIDESPACE FLOAT FLOAT
+{
+	add_sidespace( $2, $3 );
+};
 restriction_pad :;
 restriction_pad : RESTRICT SIDE sideplace;
 restriction_pdgrp :;
