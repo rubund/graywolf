@@ -77,7 +77,7 @@ add_library(TimberWolfSC SHARED
 	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twsc .)
 
 install(
 	TARGETS TimberWolfSC
