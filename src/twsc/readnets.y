@@ -25,6 +25,9 @@ extern int yyget_lineno(void);
 %token NET
 %token PATH
 
+%token STARTPATH
+%token CONTPATH
+
 %token INTEGER
 %token FLOAT
 %token STRING
