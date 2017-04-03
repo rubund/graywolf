@@ -16,6 +16,7 @@ add_library(TimberWolfSC SHARED
 	${FLEX_readcell_OUTPUTS}
 	${BISON_readnets_OUTPUTS}
 	${FLEX_readnets_OUTPUTS}
+	readnets_functions.c
 	acceptt.c
 	coarseglb.c
 	debug2.c
