@@ -47,11 +47,26 @@ path_or_net : single_path;
 path_or_net : net_record net_options;
 net_options : list_of_options;
 net_options : net_options list_of_options;
-list_of_options : IGNORE;
-list_of_options : DONTGLOBALROUTE;
-net_record : NET STRING;
-single_path : pathlist COLON INTEGER INTEGER INTEGER;
-single_path : pathlist COLON INTEGER INTEGER;
+list_of_options : IGNORE
+{
+	ignore_net() ;
+};
+list_of_options : DONTGLOBALROUTE
+{
+
+};
+net_record : NET STRING
+{
+	process_net_rec( $2 ) ;
+};
+single_path : pathlist COLON INTEGER INTEGER INTEGER
+{
+
+};
+single_path : pathlist COLON INTEGER INTEGER
+{
+
+};
 pathlist : PATH netlist;
 netlist : string;
 netlist : netlist string;
