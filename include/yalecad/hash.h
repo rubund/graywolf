@@ -74,7 +74,7 @@ Function:
 */
 
 
-void Yhash_table_delete(YHASHPTR hashtable, int (*userdelete())) ;
+void Yhash_table_delete(YHASHPTR hashtable, int (*userdelete(int*))) ;
 /*
 Function:
     Frees the memory associated with a hash table. The user
