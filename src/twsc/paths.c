@@ -87,8 +87,9 @@ static char SccsId[] = "@(#) paths.c version 4.12 4/2/92" ;
 
 #include "standard.h"
 #include "main.h"
+#include "parser.h"
 #include <yalecad/debug.h>
-#include "readnets.h"
+// #include "readnets.h"
 #include <yalecad/message.h>
 #include <yalecad/stat.h>
 

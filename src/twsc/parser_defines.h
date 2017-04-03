@@ -1,3 +1,10 @@
+
+typedef struct psetrec {
+	int  member; /* integer for determining membership */
+	int  path ;  /* data */
+	struct psetrec *next ;
+} PSETBOX, *PSETPTR ; /* path set record */
+
 /* cell types */
 #define STDCELLTYPE       1
 #define EXCEPTTYPE        2

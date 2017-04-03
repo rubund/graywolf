@@ -58,7 +58,7 @@ static char SccsId[] = "@(#) gateswap.c (Yale) version 4.6 2/23/92" ;
 #include "ucxxglb.h"
 #include "parser.h"
 #include <yalecad/debug.h>
-#include "readnets.h"
+// #include "readnets.h"
 
 gate_swap( between_two_cells, sgidxa, sgidxb )
 INT between_two_cells ;
