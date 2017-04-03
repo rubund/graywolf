@@ -131,7 +131,10 @@ padcell: padname corners cur_orient restriction sidespace
 {
 	endCell();
 };
-padgroup: padgroupname padgrouplist restriction sidespace;
+padgroup: padgroupname padgrouplist restriction sidespace
+{
+	endCell();
+};
 cellgroup: supergroupname supergrouplist class orient;
 cellgroup: cellgroupname neighborhood cellgrouplist;
 cellname: HARDCELL INTEGER NAME STRING
@@ -159,14 +162,23 @@ padname : PAD INTEGER NAME STRING
 {
 	addCell(Ystrclone($4), PADCELLTYPE);
 };
-padgroupname : PADGROUP STRING PERMUTE;
-padgroupname : PADGROUP STRING NOPERMUTE;
+padgroupname : PADGROUP STRING PERMUTE
+{
+	addCell( $2, PADGROUPTYPE ) ;
+	setPermutation( TRUE ) ;
+};
+padgroupname : PADGROUP STRING NOPERMUTE
+{
+	addCell( $2, PADGROUPTYPE ) ;
+	setPermutation( FALSE ) ;
+};
 padgroupname : PADGROUP error;
 supergroupname : SUPERGROUP STRING NAME STRING;
 supergroupname : SUPERGROUP error;
 cellgroupname : CELLGROUP STRING NAME STRING;
 cellgroupname : CELLGROUP error;
-corners: numcorners cornerpts {
+corners: numcorners cornerpts
+{
 	processCorners($1);
 };
 numcorners : CORNERS INTEGER
@@ -299,8 +311,14 @@ restriction :;
 restriction : RESTRICT SIDE sideplace;
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
-padset : STRING FIXED;
-padset : STRING NONFIXED;
+padset : STRING FIXED
+{
+	add2padgroup( $1, TRUE ) ; /* fixed */
+};
+padset : STRING NONFIXED
+{
+	add2padgroup( $1 , FALSE ) ; /* nonfixed */
+};
 supergrouplist : STRING;
 supergrouplist : supergrouplist STRING;
 cellgrouplist : STRING;
