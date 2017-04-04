@@ -87,10 +87,10 @@ void init_nets()
 } /* end init_nets */
 
 /* cleanup after parsing nets */
-cleanup_nets()
+void cleanup_nets()
 {
 	if( abortFlagS ){
-return 1;
+		return 1;
 	}
 	build_path_array() ;
 	init_path_set() ;
@@ -98,9 +98,9 @@ return 1;
 	add_paths_to_cells() ;
 } /* end cleanup_nets */
 
-set_net_error()
+void set_net_error()
 {
-    abortFlagS = TRUE ;
+	abortFlagS = TRUE ;
 } /* end set_net_error */
 
 static int find_net( char *netname)
@@ -118,8 +118,7 @@ static int find_net( char *netname)
 	}
 	net = * ( (int *) data ) ;
 	if( net < 1 || net > numnetsG ){
-		sprintf( YmsgG, "net:%s - number:%d out of bounds\n",
-		netname, net ) ;
+		sprintf( YmsgG, "net:%s - number:%d out of bounds\n", netname, net ) ;
 		M( ERRMSG, "find_net", YmsgG ) ;
 		return( 0 ) ;
 	} else {

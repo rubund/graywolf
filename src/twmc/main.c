@@ -116,9 +116,9 @@ static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
 static double  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
-int finalout();
 
 /* Forward declarations */
+int finalout();
 
 int
 __attribute__((visibility("default")))
@@ -278,14 +278,16 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 
 		/* first check existence of .mnet file, for .net file */
 		sprintf(filename, "%s.mnet", cktNameG ) ;
-		if(!(fp = TWOPEN( filename , "r", NOABORT ))){
-			if(!(doPartitionG)){ 
+		if(YfileExists(filename)) {
+			readnets( filename ) ;
+		} else {
+			if(!(doPartitionG)) {
 				sprintf(filename, "%s.net", cktNameG ) ;
-				fp = TWOPEN( filename , "r", NOABORT ) ;
+				if(YfileExists(filename)){
+					readnets(filename) ;
+				}
 			}
 		}
-		readnets( fp ) ;
-		if( fp ) TWCLOSE( fp ) ;
 
 		if( doPartitionG && numcellsG == numstdcellG ) {
 			/* no macro cells to be placed - perform cost only from now on */
