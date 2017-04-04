@@ -13,13 +13,15 @@
 static YHASHPTR net_hash_tableS ;
 static PATHPTR pathPtrS = NULL ;  /* start of path list */
 static int total_num_pathS = 0 ;
-BOOL abortFlagS;
+static BOOL abortFlagS;
 static int netS ; /* current net being processed */
 static PATHPTR curPathS ; /* current bottom of path list so list */
 static GLISTPTR netPtrS ;
 
 YHASHPTR get_net_table() ;
 static void bad_net( char *net, BOOL fatal );
+void init_path_set() ;
+void init_net_set() ;
 
 static void free_net_data( int *data )
 {
@@ -202,7 +204,7 @@ static void bad_net( char *net, BOOL fatal )
 	if( fatal ){
 		M( ERRMSG, "add_path", YmsgG ) ;
 		strcpy( YmsgG,"\twhile reading the .cel file --- FATAL error\n") ;
-	// 	abortFlagS = TRUE ;
+		abortFlagS = TRUE ;
 		M( ERRMSG, NULL, YmsgG ) ;
 	} else {
 		M( WARNMSG, "add_path", YmsgG ) ;
@@ -217,10 +219,10 @@ void init_read_nets() {
 }
 
 void finish_read_nets() {
+	init_net_set();
+	init_path_set();
 	check_paths() ;
 	build_path_array() ;
-	init_path_set() ;
-	init_net_set() ;
 	add_paths_to_cells() ;
 	/* free hash table */
 	Yhash_table_delete( net_hash_tableS , free_net_data ) ;

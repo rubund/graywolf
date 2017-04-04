@@ -2,6 +2,7 @@
 %glr-parser
 %{
 #include <stdio.h>
+#include <yalecad/base.h>
 #include "parser_defines.h"
 
 #define yylval twsc_readcell_lval
@@ -184,9 +185,23 @@ padname_std : PAD INTEGER STRING ORIENT INTEGER
 	addCell( $3, PADTYPE ) ;
 	add_orient($5);
 };
-padside : PADSIDE STRING;
-padgroupname : PADGROUP STRING PERMUTE;
-padgroupname : PADGROUP STRING NOPERMUTE;
+padside : PADSIDE STRING
+{
+	add_padside( $2 ) ;
+	set_old_format( $2 ) ;
+};
+padgroupname : PADGROUP STRING PERMUTE
+{
+	addCell( $2, PADGROUPTYPE ) ;
+	setPermutation( TRUE ) ;
+	add_tile( 0,0,0,0 ) ;
+};
+padgroupname : PADGROUP STRING NOPERMUTE
+{
+	addCell( $2, PADGROUPTYPE ) ;
+	setPermutation( FALSE ) ;
+	add_tile( 0,0,0,0 ) ;
+};
 supergroupname : SUPERGROUP INTEGER NAME STRING;
 cellgroupname : CELLGROUP INTEGER NAME STRING;
 corners : num_corners cornerpts
@@ -293,8 +308,14 @@ restriction_pdgrp : RESTRICT SIDE sideplace;
 sideplace : STRING;
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
-padset : STRING FIXED;
-padset : STRING NONFIXED;
+padset : STRING FIXED
+{
+	add2padgroup( $1, TRUE ) ; /* fixed */
+};
+padset : STRING NONFIXED
+{
+	add2padgroup( $1, FALSE ) ; /* nonfixed */
+};
 supergrouplist : STRING;
 supergrouplist : supergrouplist STRING;
 cellgrouplist : STRING;
@@ -309,12 +330,14 @@ int yyerror(char *s) {
 int readcell(char *filename)
 { 
 	extern FILE *yyin;
-	printf("readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
 	/* parse input file using yacc */
-	initialize_parser() ;
-	yyparse();
-	cleanup_readcells();
+	if(yyin) {
+		printf("opened %s\n",filename);
+		initialize_parser() ;
+		yyparse();
+		cleanup_readcells();
+	}
 } /* end readcell */
 
 int twsc_readcell_wrap(void) {return 1;}

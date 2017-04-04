@@ -562,13 +562,13 @@ INT  path ;
 
 PSETPTR enum_path_set()
 {
-    return( path_set_listS ) ;
+	return( path_set_listS ) ;
 }
 
-clear_path_set() 
+void clear_path_set() 
 {
-    path_set_countS ++ ;
-    path_set_listS = NULL ;
+	path_set_countS ++ ;
+	path_set_listS = NULL ;
 } /* end clear_path_set */
 
 /* ----------------------------------------------------------------- 
@@ -581,37 +581,35 @@ clear_path_set()
    Since we don't need to enumerate set we only need array to implement
    this set.  
 ----------------------------------------------------------------- */
-static INT *net_set_array ; /* set is an array of net set boxes */
-static INT net_set_count ;      /* current set count */
+static int *net_set_array; /* set is an array of net set boxes */
+static int net_set_count ;      /* current set count */
 
 /* initialize set */
-init_net_set() 
-{   
-    net_set_array = (INT *) Ysafe_calloc((numnetsG+1), sizeof(INT) );
-    net_set_count = 1 ;
+void init_net_set() 
+{
+	net_set_array = (int*) Ysafe_malloc( (numnetsG+1)*sizeof(int)) ;
+	net_set_count = 1 ;
 } /* end initset */
 
 /* add a net to the set if not already in set */
-add2net_set( net ) 
-INT  net ;
-{  
-    if( net >= 1 || net <= numnetsG ){
-	/* current count make array member a valid member of set */
-	net_set_array[net] = net_set_count ;
-
-    } else {
-	M( ERRMSG, "ADD2SET", "value of path is out of bounds of set" ) ;
-    }
+void add2net_set( int net ) 
+{
+	if( net >= 1 && net <= numnetsG && net_set_array){
+		/* current count make array member a valid member of set */
+		net_set_array[net] = net_set_count ;
+	} else {
+		M( ERRMSG, "ADD2SET", "value of path is out of bounds of set" ) ;
+	}
 } /* end add2net_set */
 
-BOOL member_net_set( net )
+BOOL member_net_set( int net )
 /* test for membership */
 {
-    if( net_set_array[net] == net_set_count ){
-	return( TRUE ) ;
-    } else {
-	return( FALSE ) ;
-    }
+	if( net_set_array[net] == net_set_count ){
+		return( TRUE ) ;
+	} else {
+		return( FALSE ) ;
+	}
 } /* end member_net_set */
 
 clear_net_set() 

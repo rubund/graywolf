@@ -100,27 +100,27 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #define PINLOC_OFFSET 3  /* diff needed to make field positive */
 
 typedef struct blockbox {
-    INT bxcenter  ;
-    INT bycenter  ;
-    INT bleft     ;
-    INT bright    ;
-    INT desire    ;
-    INT blength   ;
-    INT oldsize   ;
-    INT newsize   ;
-    INT orig_desire ;
-    INT bbottom   ;
-    INT btop      ;
-    INT bheight   ;
+    int bxcenter  ;
+    int bycenter  ;
+    int bleft     ;
+    int bright    ;
+    int desire    ;
+    int blength   ;
+    int oldsize   ;
+    int newsize   ;
+    int orig_desire ;
+    int bbottom   ;
+    int btop      ;
+    int bheight   ;
     SHORT bclass    ;
     SHORT borient   ;
 } *BBOXPTR, BBOX ;
 
 typedef struct glistbox {  /* generic list */
     union {
-	INT net ;      /* make code easier to read */
-	INT path ;     
-	INT cell ;     
+	int net ;      /* make code easier to read */
+	int path ;     
+	int cell ;     
     } p ; 
     struct glistbox *next ;
 } GLISTBOX , *GLISTPTR ;
@@ -139,15 +139,15 @@ typedef struct pinbox {
     struct pinbox *next ;          /* next pin on this net */
     struct pinbox *nextpin ;       /* next pin on this cell */
     char *pinname ;
-    INT terminal ;
-    INT xpos     ;                 /* global positions */
-    INT ypos     ;
-    INT newx     ;
-    INT newy     ;
+    int terminal ;
+    int xpos     ;                 /* global positions */
+    int ypos     ;
+    int newx     ;
+    int newy     ;
     SHORT_LONG txpos[2] ;          /* cell relative position */
     SHORT_LONG typos[2] ;          /* cell relative position */
-    INT cell ;
-    INT net ;
+    int cell ;
+    int net ;
     SHORT row  ;
     char pinloc   ;
     char flag     ;
@@ -156,11 +156,11 @@ typedef struct pinbox {
 } *PINBOXPTR, PINBOX ;
 
 typedef struct pathbox {
-    INT path_len ;     /* bound on the calculated half perim */
-    INT new_path_len ; /* new path */
-    INT priority ;
-    INT upper_bound ;
-    INT lower_bound ;
+    int path_len ;     /* bound on the calculated half perim */
+    int new_path_len ; /* new path */
+    int priority ;
+    int upper_bound ;
+    int lower_bound ;
     GLISTPTR nets ;
     struct pathbox *next ;  /* build a list first then array for speed */
 } PATHBOX , *PATHPTR ;
@@ -196,10 +196,10 @@ typedef struct cellbox {
     char corient          ;
     char orflag           ;
     char ECO_flag	  ;
-    INT cxcenter          ;
-    INT cycenter          ;
-    INT border            ;
-    INT cclass            ;
+    int cxcenter          ;
+    int cycenter          ;
+    int border            ;
+    int cclass            ;
     UNSIGNED_INT cbclass[8] ;
     SHORT_LONG cheight    ;
     SHORT_LONG clength    ;
@@ -216,10 +216,10 @@ typedef struct cellbox {
 } *CBOXPTR, CBOX ;
 
 typedef struct fencebox {
-    INT min_block   ;
-    INT max_block   ;
-    INT min_xpos    ;
-    INT max_xpos    ;
+    int min_block   ;
+    int max_block   ;
+    int min_xpos    ;
+    int max_xpos    ;
     struct fencebox *next_fence ;
 } *FENCEBOXPTR, FENCEBOX ;
 
@@ -229,14 +229,14 @@ typedef struct dimbox {
     char dflag    ;
     char feedflag ;
     char ignore   ;
-    INT xmin     ;
-    INT newxmin  ;
-    INT xmax     ;
-    INT newxmax  ;
-    INT ymin     ;
-    INT newymin  ;
-    INT ymax     ;
-    INT newymax  ;
+    int xmin     ;
+    int newxmin  ;
+    int xmax     ;
+    int newxmax  ;
+    int ymin     ;
+    int newymin  ;
+    int ymax     ;
+    int newymax  ;
     SHORT Lnum     ;
     SHORT newLnum  ;
     SHORT Rnum     ;
@@ -247,25 +247,25 @@ typedef struct dimbox {
     SHORT newTnum  ;
     SHORT numpins  ;
     GLISTPTR paths ;     /* paths which this net belongs */
-    INT newhalfPx ;     /* new half perimeter bounding box */
-    INT newhalfPy ;     /* new half perimeter: y portion */
-    INT halfPx ;        /* current half perimeter bounding box */
-    INT halfPy ;        /* current half perimeter: y portion */
+    int newhalfPx ;     /* new half perimeter bounding box */
+    int newhalfPy ;     /* new half perimeter: y portion */
+    int halfPx ;        /* current half perimeter bounding box */
+    int halfPy ;        /* current half perimeter: y portion */
 } *DBOXPTR, DBOX ;
 
 
 typedef struct hash {
     char *hname ;
-    INT hnum ;
+    int hnum ;
     struct hash *hnext ;
 } HASHBOX, *HASHPTR ;
 
 typedef struct binbox {
-    INT left ;
-    INT right ;
-    INT *cell ;
-    INT penalty ;
-    INT nupenalty ;
+    int left ;
+    int right ;
+    int *cell ;
+    int penalty ;
+    int nupenalty ;
 } BINBOX, *BINPTR ;
 
 typedef struct pin_list {              /* list of pins */
@@ -275,7 +275,7 @@ typedef struct pin_list {              /* list of pins */
 } PINLIST, *PINLISTPTR ;
 
 typedef struct swapbox {        /* list of list of pins to be swapped */
-    INT num_pin_grps ;
+    int num_pin_grps ;
     YHASHPTR pin_grp_hash ;	
 } SWAPBOX ;
 
@@ -288,45 +288,44 @@ EXTERN BBOXPTR *barrayG ;
 EXTERN BINBOX ***binptrG ;
 EXTERN PATHPTR *patharrayG ;  /* array of timing paths */
 
-EXTERN DOUBLE vertical_path_weightG ;
-EXTERN DOUBLE horizontal_path_weightG ;
-EXTERN DOUBLE vertical_wire_weightG ;
+EXTERN double vertical_path_weightG ;
+EXTERN double horizontal_path_weightG ;
+EXTERN double vertical_wire_weightG ;
 
 /* the configuration */
-EXTERN INT numcellsG ;
-EXTERN INT numtermsG ;
-EXTERN INT numnetsG ;
-EXTERN INT numpadgrpsG ;
-EXTERN INT lastpadG ;
-EXTERN INT maxtermG ;
-EXTERN INT numRowsG ;
-EXTERN INT numChansG ;
-EXTERN INT numpathsG ;
-EXTERN INT numBinsG ;
-EXTERN INT binWidthG ;
-EXTERN INT binOffstG ;
-EXTERN INT TotRegPinsG ;
-EXTERN INT implicit_feed_countG ;
+EXTERN int numcellsG ;
+EXTERN int numtermsG ;
+EXTERN int numnetsG ;
+EXTERN int numpadgrpsG ;
+EXTERN int lastpadG ;
+EXTERN int maxtermG ;
+EXTERN int numRowsG ;
+EXTERN int numChansG ;
+EXTERN int numpathsG ;
+EXTERN int numBinsG ;
+EXTERN int binWidthG ;
+EXTERN int binOffstG ;
+EXTERN int TotRegPinsG ;
+EXTERN int implicit_feed_countG ;
 
 /* for the penalties */
-EXTERN INT TrybinG   ;
-EXTERN INT binpenalG ;
-EXTERN INT funccostG ;
-EXTERN INT newbinpenalG ;
-EXTERN INT newrowpenalG ;
-EXTERN INT penaltyG  ;
-EXTERN INT rowpenalG ;
-EXTERN INT timingcostG ;
-EXTERN DOUBLE binpenConG ;
-EXTERN DOUBLE roLenConG ;
-EXTERN DOUBLE timeFactorG ;
+EXTERN int TrybinG   ;
+EXTERN int binpenalG ;
+EXTERN int funccostG ;
+EXTERN int newbinpenalG ;
+EXTERN int newrowpenalG ;
+EXTERN int penaltyG  ;
+EXTERN int rowpenalG ;
+EXTERN int timingcostG ;
+EXTERN double binpenConG ;
+EXTERN double roLenConG ;
+EXTERN double timeFactorG ;
 
 #undef EXTERN  
 
 /* *********************** PROTOTYPES FOR TWSC ******************** */
-extern init_table( P1(void) ) ;
-extern BOOL acceptt( P3(INT d_wire,INT d_time,INT d_penal) ) ;
-extern BOOL accept_greedy( P3(INT d_wire,INT d_time,INT d_penal) ) ;
-
+extern void init_table( void ) ;
+extern BOOL acceptt( int d_wire, int d_time, int d_penal ) ;
+extern BOOL accept_greedy( int d_wire, int d_time, int d_penal ) ;
 
 #endif /* YSTANDARD_H */

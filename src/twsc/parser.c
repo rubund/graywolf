@@ -178,13 +178,13 @@ static int transTableS[5][8] = {  /* translate from old pad format */
     { 0, 1, 2, 3, 4, 5, 7, 6   }    /* PADB state */
 } ;
 
-
 static void layer_test();
 static void check_pin();
 void setPermutation( BOOL permuteFlag );
 void addCell( char *cellname, int celltype );
 void add_tile( int left, int bottom, int right, int top );
 void end_padgroup();
+void add_padside( char *padside );
 
 /* ###################### END STATIC definitions ############################ */
 static void get_stat_hints()
@@ -472,16 +472,16 @@ void add_initial_orient( int orient )
 
 static char *add_swap_func()
 {
-    int *data ;   /* pointer to allocated space for swap_group record */
+	int *data ;   /* pointer to allocated space for swap_group record */
 
-    ERRORABORT() ;
+	ERRORABORT() ;
 
-    /* how to add the data to the hash table */
-    /* create space for data */
-    data = (int *) Ysafe_malloc( sizeof(int) ) ;
-    /* if data is not found in hash table update swap_groupS */
-    *data = ++swap_nextS ;
-    return( (char *) data ) ;
+	/* how to add the data to the hash table */
+	/* create space for data */
+	data = (int *) Ysafe_malloc( sizeof(int) ) ;
+	/* if data is not found in hash table update swap_groupS */
+	*data = ++swap_nextS ;
+	return( (char *) data ) ;
 } /* end add_swap_func */
 
 void add_swap_group( char *swap_name )
@@ -632,14 +632,14 @@ static char *add_net_func()
 
 static char *add_pin_func()
 {
-		int *data ;   /* pointer to allocated space for pin_grp_hash record */
+	int *data ;   /* pointer to allocated space for pin_grp_hash record */
 
-		ERRORABORT() ;
+	ERRORABORT() ;
 
-		/* how to add the data to the hash table */
-		/* create space for data */
-		data = (PINLIST *) Ysafe_malloc( sizeof(PINLIST) ) ;
-		return( (char *) data ) ;
+	/* how to add the data to the hash table */
+	/* create space for data */
+	data = (PINLIST *) Ysafe_malloc( sizeof(PINLIST) ) ;
+	return( (char *) data ) ;
 } /* end add_swap_func */
 
 void add_pin( char *pin_name, char *signal, int layer, int xpos, int ypos )
@@ -1354,7 +1354,6 @@ void cleanup_readcells()
 			}
 		}
 	}
-	printf("miau\n");
 
 	/*
 		NOW WE HAVE TO LOAD IN THE OTHER CONFIGURATIONS
@@ -1895,166 +1894,153 @@ void add_padside( char *padside )
 		pptrS->valid_side[ALL] = FALSE ;
 		numsides = strlen( padside ) ;
 		for( i = 0 ; i < numsides; i++ ){
-		switch( padside[i] ){
-			case 'B' :
-			pptrS->valid_side[B] = TRUE ;
-			break ;
-			case 'L' :
-			pptrS->valid_side[L] = TRUE ;
-			break ;
-			case 'R' :
-			pptrS->valid_side[R] = TRUE ;
-			break ;
-			case 'T' :
-			pptrS->valid_side[T] = TRUE ;
-			break ;
-			default:
-			sprintf( YmsgG,
-				"side restriction not specified properly for pad:%s\n",
-				curCellNameS );
-			M(ERRMSG,"add_padside",YmsgG ) ;
-			abortS = TRUE ;
-		} /* end switch */
+			switch( padside[i] ){
+				case 'B' :
+					pptrS->valid_side[B] = TRUE ;
+					break ;
+				case 'L' :
+					pptrS->valid_side[L] = TRUE ;
+					break ;
+				case 'R' :
+					pptrS->valid_side[R] = TRUE ;
+					break ;
+				case 'T' :
+					pptrS->valid_side[T] = TRUE ;
+					break ;
+				default:
+					sprintf( YmsgG, "side restriction not specified properly for pad:%s\n", curCellNameS );
+					M(ERRMSG,"add_padside",YmsgG ) ;
+					abortS = TRUE ;
+			} /* end switch */
 		}
 	} 
 } /* end add_padside */
 
-add_sidespace( lower, upper )
-double lower, upper ;
+void add_sidespace( double lower, double upper )
 {
-    ERRORABORT() ;
+	ERRORABORT() ;
 
-    if( pptrS->padside == L ) {
-	fixLRBTG[0] = 1 ;	
-    } else if( pptrS->padside == R ) {
-	fixLRBTG[1] = 1 ;	
-    } else if( pptrS->padside == B ) {
-	fixLRBTG[2] = 1 ;	
-    } else if( pptrS->padside == T ) {
-	fixLRBTG[3] = 1 ;	
-    } else {
-	macspaceG[ pptrS->padside ] = (lower + upper) / 2.0 ;
-    }
-    pptrS->fixed = TRUE ;
-    if( lower > 1.0 || upper > 1.0 ){
-	sprintf(YmsgG,
-	    "side space must be less or equal to 1.0 for pad: %s\n",curCellNameS ) ;
-	M(ERRMSG,"add_sidespace",YmsgG ) ;
-	abortS = TRUE ;
-    }
-    if( lower < 0.0 || upper < 0.0 ){
-	sprintf(YmsgG,
-	    "side space must be greater or equal to 0.0 for pad: %s\n",curCellNameS ) ;
-	M(ERRMSG,"add_sidespace",YmsgG ) ;
-	abortS = TRUE ;
-    }
-    if( lower > upper ){
-	sprintf(YmsgG,
-	    "side space upper bound must be greater or equal to lower bound for pad: %s\n",curCellNameS ) ;
-	M(ERRMSG,"add_sidespace",YmsgG ) ;
-	abortS = TRUE ;
-    }
-    pptrS->lowerbound = lower ;
-    pptrS->upperbound = upper ;
+	if( pptrS->padside == L ) {
+		fixLRBTG[0] = 1 ;	
+	} else if( pptrS->padside == R ) {
+		fixLRBTG[1] = 1 ;	
+	} else if( pptrS->padside == B ) {
+		fixLRBTG[2] = 1 ;	
+	} else if( pptrS->padside == T ) {
+		fixLRBTG[3] = 1 ;	
+	} else {
+		macspaceG[ pptrS->padside ] = (lower + upper) / 2.0 ;
+	}
+	pptrS->fixed = TRUE ;
+	if( lower > 1.0 || upper > 1.0 ){
+		sprintf(YmsgG,
+		"side space must be less or equal to 1.0 for pad: %s\n",curCellNameS ) ;
+		M(ERRMSG,"add_sidespace",YmsgG ) ;
+		abortS = TRUE ;
+	}
+	if( lower < 0.0 || upper < 0.0 ){
+		sprintf(YmsgG,
+		"side space must be greater or equal to 0.0 for pad: %s\n",curCellNameS ) ;
+		M(ERRMSG,"add_sidespace",YmsgG ) ;
+		abortS = TRUE ;
+	}
+	if( lower > upper ){
+		sprintf(YmsgG,
+		"side space upper bound must be greater or equal to lower bound for pad: %s\n",curCellNameS ) ;
+		M(ERRMSG,"add_sidespace",YmsgG ) ;
+		abortS = TRUE ;
+	}
+	pptrS->lowerbound = lower ;
+	pptrS->upperbound = upper ;
 } /* end add_sidespace */
 /* ***************************************************************** */
 
 /* set whether a pad group can be permuted */
 void setPermutation( BOOL permuteFlag ) 
 {
-		ERRORABORT() ;
-		pptrS->permute = permuteFlag ;
+	ERRORABORT() ;
+	pptrS->permute = permuteFlag ;
 } /* end setPermutation */
 /* ***************************************************************** */
 
 void set_old_format( char *padside )
 {
 	ERRORABORT() ;
-	if( strcmp( padside , "L" ) == STRINGEQ ||
-		strcmp( padside , "T" ) == STRINGEQ ||
-		strcmp( padside , "R" ) == STRINGEQ ||
-		strcmp( padside , "B" ) == STRINGEQ ){
+	if( strcmp( padside , "L" ) == STRINGEQ || strcmp( padside , "T" ) == STRINGEQ || strcmp( padside , "R" ) == STRINGEQ || strcmp( padside , "B" ) == STRINGEQ ) {
 		pptrS->oldformat = TRUE ; /* set this switch to rotate pads */
 		old_pad_formatS = TRUE ;  /* set this switch to add padgroups */
 		if( strcmp( padside , "L" ) == STRINGEQ ){
-		pptrS->padside = L ;
+			pptrS->padside = L ;
 		} else if( strcmp( padside , "T" ) == STRINGEQ ){
-		pptrS->padside = T ;
+			pptrS->padside = T ;
 		} else if( strcmp( padside , "R" ) == STRINGEQ ){
-		pptrS->padside = R ;
+			pptrS->padside = R ;
 		} else if( strcmp( padside , "B" ) == STRINGEQ ){
-		pptrS->padside = B ;
+			pptrS->padside = B ;
 		}
 	}
 } /* set_old_format */
 
 /* add this pad to the current pad group */
-add2padgroup( padName, ordered ) 
-char *padName ;
-BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
+void add2padgroup( char *padName, BOOL ordered ) /* ordered flag is true if pad is fixed in padgroup */
 {
-    int i, endofpads, endofgroups ;
+	int i, endofpads, endofgroups ;
 
-    ERRORABORT() ;
-    endofpads = numcellsG + numtermsG - numpadgrpsG ;
-    /* check pads for correctness */
-    for (i = numcellsG + 1; i <= endofpads; i++) {
-	if (strcmp(padName, carrayG[i]->cname) == STRINGEQ) {
-	    if (carrayG[i]->padptr->hierarchy == LEAF) {
-		sprintf(YmsgG,
-		    "pad %s was included in more than 1 pad group\n",
-		    carrayG[i]->cname);
-		M(ERRMSG,"add2padgroup",YmsgG ) ;
-		abortS = TRUE ;
-		return ;
-	    }
-	    /* check memory of pin array */
-	    if( ++numchildrenS >= childAllocS ){
-		childAllocS += EXPECTEDNUMPADS ;
-		pptrS->children = (int *)
-		    Ysafe_realloc( pptrS->children,
-		    childAllocS * sizeof(int) ) ;
-	    }
-	    pptrS->children[numchildrenS]  = i - numcellsG - numMacroG ;
-	    carrayG[i]->padptr->hierarchy = LEAF    ;
-	    carrayG[i]->padptr->ordered = ordered ;
-	    ptrS->numterms += carrayG[i]->numterms;
-	    return;
+	ERRORABORT() ;
+	endofpads = numcellsG + numtermsG - numpadgrpsG ;
+	/* check pads for correctness */
+	for (i = numcellsG + 1; i <= endofpads; i++) {
+		if (strcmp(padName, carrayG[i]->cname) == STRINGEQ) {
+		if (carrayG[i]->padptr->hierarchy == LEAF) {
+			sprintf(YmsgG,
+			"pad %s was included in more than 1 pad group\n",
+			carrayG[i]->cname);
+			M(ERRMSG,"add2padgroup",YmsgG ) ;
+			abortS = TRUE ;
+			return ;
+		}
+		/* check memory of pin array */
+		if( ++numchildrenS >= childAllocS ){
+			childAllocS += EXPECTEDNUMPADS ;
+			pptrS->children = (int *)
+			Ysafe_realloc( pptrS->children,
+			childAllocS * sizeof(int) ) ;
+		}
+		pptrS->children[numchildrenS]  = i - numcellsG - numMacroG ;
+		carrayG[i]->padptr->hierarchy = LEAF    ;
+		carrayG[i]->padptr->ordered = ordered ;
+		ptrS->numterms += carrayG[i]->numterms;
+		return;
+		}
 	}
-    }
 
-    /* if no match above must be subroot */
-    endofgroups = numcellsG + numtermsG ;
-    for (i = endofpads; i <= endofgroups; i++ ) {
-	if (strcmp(padName, carrayG[i]->cname) == STRINGEQ) {
-	    if (carrayG[i]->padptr->hierarchy == SUBROOT) {
-		sprintf(YmsgG,
-		"pad group %s was included in more than 1 pad group\n",
-		    curCellNameS ) ;
-		M(ERRMSG,"add2padgroup",YmsgG ) ;
-		abortS = TRUE ;
-		return ;
-	    }
-	    /* check memory of pin array */
-	    if( ++numchildrenS >= childAllocS ){
-		childAllocS += EXPECTEDNUMPADS ;
-		pptrS->children = (int *)
-		    Ysafe_realloc( pptrS->children,
-		    childAllocS * sizeof(int) ) ;
-	    }
-	    pptrS->children[numchildrenS] = i - numcellsG - numMacroG ;
-	    carrayG[i]->padptr->hierarchy     = SUBROOT ;
-	    carrayG[i]->padptr->ordered = ordered ;
-	    /* total pins of the leaves */
-	    ptrS->numterms += carrayG[i]->numterms;
-	    return ;
+	/* if no match above must be subroot */
+	endofgroups = numcellsG + numtermsG ;
+	for (i = endofpads; i <= endofgroups; i++ ) {
+		if (strcmp(padName, carrayG[i]->cname) == STRINGEQ) {
+			if (carrayG[i]->padptr->hierarchy == SUBROOT) {
+				sprintf(YmsgG, "pad group %s was included in more than 1 pad group\n", curCellNameS ) ;
+				M(ERRMSG,"add2padgroup",YmsgG ) ;
+				abortS = TRUE ;
+				return ;
+			}
+			/* check memory of pin array */
+			if( ++numchildrenS >= childAllocS ) {
+				childAllocS += EXPECTEDNUMPADS ;
+				pptrS->children = (int *) Ysafe_realloc( pptrS->children, childAllocS * sizeof(int) ) ;
+			}
+			pptrS->children[numchildrenS] = i - numcellsG - numMacroG ;
+			carrayG[i]->padptr->hierarchy     = SUBROOT ;
+			carrayG[i]->padptr->ordered = ordered ;
+			/* total pins of the leaves */
+			ptrS->numterms += carrayG[i]->numterms;
+			return ;
+		}
 	}
-    }
 
-    sprintf(YmsgG,"cannot find pad <%s> for pad_group <%s>\n",
-	padName,ptrS->cname);
-    M(ERRMSG,"add2padgroup",YmsgG ) ;
-    return ;
+	sprintf(YmsgG,"cannot find pad <%s> for pad_group <%s>\n", padName,ptrS->cname);
+	M(ERRMSG,"add2padgroup",YmsgG ) ;
+	return ;
 
 } /* end add2PadGroup */
 
@@ -2066,11 +2052,8 @@ void end_padgroup()
 	pptrS->children = (int *)
 		Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(int));
 	pptrS->children[HOWMANY] = numchildrenS ;
-	// if( numchildrenS <= 1 ){
 	if( numchildrenS < 1 ){
-		M(ERRMSG,"end_padgroup",
-	//	    "Must have at least 2 pads in a padgroup.\n");
-		"Must have at least 1 pad in a padgroup.\n");
+		M(ERRMSG,"end_padgroup", "Must have at least 1 pad in a padgroup.\n");
 		sprintf( YmsgG, "\t%s only has %d pad\n", curCellNameS, 
 		numchildrenS ) ;
 		abortS = TRUE ;

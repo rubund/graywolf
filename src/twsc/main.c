@@ -264,12 +264,9 @@ TimberWolfSC(int n, int v, char *cktName)
 	get a pointer to the netlist input file 
 	*/
 	sprintf( filename , "%s.net" , cktNameG ) ;
-	fp = fopen( filename , "r") ;
-	readnets( fp ) ;
-	if( fp ) {
-		fclose( fp ) ;
+	if(YfileExists(filename)) {
+		readnets( filename ) ;
 	}
-
 
 	if ( Equal_Width_CellsG && file_conversionG ) {
 	closegraphics() ;

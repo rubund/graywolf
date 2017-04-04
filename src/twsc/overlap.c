@@ -171,56 +171,44 @@ if( ablockG != bblockG ) {
 }
 */
 
-
-old_assgnto_new1( alobin , ahibin , anewlobin , anewhibin )
-INT alobin , ahibin , anewlobin , anewhibin ;
+void old_assgnto_new1( int alobin , int ahibin , int anewlobin , int anewhibin )
 {
+	int bin , lobin , hibin ;
 
-INT bin , lobin , hibin ;
-
-if( ablockG == bblockG ) {
-    lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
-    hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
-    for( bin = lobin ; bin <= hibin ; bin++ ) {
-	binptrG[ablockG][bin]->nupenalty = 
-			 binptrG[ablockG][bin]->penalty ;
-    } 
-} else {
-    for( bin = alobin ; bin <= ahibin ; bin++ ) {
-	binptrG[ablockG][bin]->nupenalty = 
-			 binptrG[ablockG][bin]->penalty ;
-    }
-    for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
-	binptrG[bblockG][bin]->nupenalty = 
-			 binptrG[bblockG][bin]->penalty ;
-    }
-} 
+	if( ablockG == bblockG ) {
+			lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
+			hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
+			for( bin = lobin ; bin <= hibin ; bin++ ) {
+				binptrG[ablockG][bin]->nupenalty = binptrG[ablockG][bin]->penalty ;
+			}
+		} else {
+			for( bin = alobin ; bin <= ahibin ; bin++ ) {
+				binptrG[ablockG][bin]->nupenalty = binptrG[ablockG][bin]->penalty ;
+			}
+			for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
+				binptrG[bblockG][bin]->nupenalty = binptrG[bblockG][bin]->penalty ;
+			}
+	} 
 }
-    
 
-new_assgnto_old1( alobin , ahibin , anewlobin , anewhibin )
-INT alobin , ahibin , anewlobin , anewhibin ;
+void new_assgnto_old1( int alobin , int ahibin , int anewlobin , int anewhibin )
 {
+	int bin , lobin , hibin ;
 
-INT bin , lobin , hibin ;
-
-if( ablockG == bblockG ) {
-    lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
-    hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
-    for( bin = lobin ; bin <= hibin ; bin++ ) {
-	binptrG[ablockG][bin]->penalty = 
-			 binptrG[ablockG][bin]->nupenalty ;
-    } 
-} else {
-    for( bin = alobin ; bin <= ahibin ; bin++ ) {
-	binptrG[ablockG][bin]->penalty = 
-			 binptrG[ablockG][bin]->nupenalty ;
-    }
-    for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
-	binptrG[bblockG][bin]->penalty = 
-			 binptrG[bblockG][bin]->nupenalty ;
-    }
-} 
+	if( ablockG == bblockG ) {
+		lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
+		hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
+		for( bin = lobin ; bin <= hibin ; bin++ ) {
+			binptrG[ablockG][bin]->penalty = binptrG[ablockG][bin]->nupenalty ;
+		}
+	} else {
+		for( bin = alobin ; bin <= ahibin ; bin++ ) {
+			binptrG[ablockG][bin]->penalty = binptrG[ablockG][bin]->nupenalty ;
+		}
+		for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
+			binptrG[bblockG][bin]->penalty = binptrG[bblockG][bin]->nupenalty ;
+		}
+	} 
 }
 
 old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,

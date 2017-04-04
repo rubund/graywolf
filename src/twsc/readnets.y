@@ -86,15 +86,15 @@ void finish_read_nets();
 int readnets(char *filename)
 { 
 	extern FILE *yyin;
-	printf("readnets: Opening %s \n",filename);
+
 	yyin = fopen(filename,"r");
 	/* parse input file using yacc */
-	
 	if( yyin ) {
 		init_read_nets();
 		yyparse();
 		finish_read_nets();
 	}
+
 } /* end readnets */
 
 int twsc_readnets_wrap(void) {return 1;}
