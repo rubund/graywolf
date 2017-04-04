@@ -587,7 +587,7 @@ static int net_set_count ;      /* current set count */
 /* initialize set */
 void init_net_set() 
 {
-	net_set_array = (int*) Ysafe_malloc( (numnetsG+1)*sizeof(int)) ;
+	net_set_array = (int*) Ysafe_calloc((numnetsG+1), sizeof(int));
 	net_set_count = 1 ;
 } /* end initset */
 

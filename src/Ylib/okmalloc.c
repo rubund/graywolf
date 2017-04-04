@@ -88,10 +88,10 @@ CONTENTS:
 	    char *Yvector_calloc( lo, hi, size )
 		INT size, lo, hi ;
 	    char *Yvector_realloc( array_orig, lo, hi, size )
-	    VOIDPTR array_orig ;
+	    void* array_orig ;
 		INT size, lo, hi ;
 	    VOID Yvector_free( array, lo, size )
-		VOIDPTR array ;
+		void* array ;
 		INT lo, size ;
 DATE:	    Feb  2, 1988 
 REVISIONS:  Sep 25, 1988 - converted to common utility.
@@ -142,21 +142,6 @@ static char SccsId[] = "@(#) okmalloc.c (Yale) version 3.24 3/6/92" ;
 #define  heap_no_mem       (heap_error_base + 2)
 #define  heap_ok          0
 
-#ifdef MEM_DEBUG
-#include        	<yalecad/file.h>
-/* -----------------------------------------------------------------
-   These two unusual definitions MEM_DEBUG1 and MEM_DEBUG2 add 
-   arguments to memory user routines so that we can pass the file
-   and line number from the preprocessor.
------------------------------------------------------------------ */
-#define MEM_DEBUG1	,file,line
-#define MEM_DEBUG2      char *file ; int line ;
-#define ALLOC_NAME_SIZE 40
-#else
-#define MEM_DEBUG1
-#define MEM_DEBUG2
-#endif /* MEM_DEBUG */
-
 /*
   *--------------------------------------------------------------
   * BEGIN NORMAL C MEMORY MANAGEMENT SYSTEM
@@ -165,8 +150,10 @@ static char SccsId[] = "@(#) okmalloc.c (Yale) version 3.24 3/6/92" ;
 
 /* use standard calls to malloc, calloc, etc */
 
-void Ysafe_free(VOIDPTR ptr);
-void Ysafe_cfree(VOIDPTR ptr);
+void Yvector_free( void* array, int lo, int size)
+{
+	Ysafe_free( ((char *)array) + lo * size) ;
+} /* end Yvector_free */
 
 char *Ysafe_malloc(int size)
 {
@@ -178,7 +165,7 @@ char *Ysafe_malloc(int size)
 	return p;
 }
 
-char *Ysafe_realloc(VOIDPTR obj, int size)
+char *Ysafe_realloc(void* obj, int size)
 {
 	char *p;
 	if (!(p = realloc(obj, size))) {
@@ -198,13 +185,13 @@ char *Ysafe_calloc(int num, int size)
 	return p;
 }
 /* when not testing memory just call system free */
-void Ysafe_free(VOIDPTR ptr)
+void Ysafe_free(void *ptr)
 {
 // 	free(ptr);
 	return;
 }
 
-void Ysafe_cfree(VOIDPTR ptr)
+void Ysafe_cfree(void* ptr)
 {
 // 	cfree(ptr);
 	return;
@@ -241,7 +228,7 @@ void YdebugMemory( int flag )
 	return ;
 }
 
-int YcheckDebug( VOIDPTR where )
+int YcheckDebug( void* where )
 {
 	return ( INT_MAX ) ;
 } /* end checkDebug */
@@ -288,11 +275,11 @@ void Ypmemerror( char *s )
 
 /* *******  memory convenience functions  ******* */
 /* ALLOCATE an array [lo..hi] of the given size not initialized */
-char *Yvector_alloc( int lo, int hi, int size MEM_DEBUG1 )
+char *Yvector_alloc( int lo, int hi, int size)
 {
 	char *array_return ;
 
-	array_return = (char *) Ysafe_malloc((unsigned) (hi-lo+1)*size MEM_DEBUG1 ) ;
+	array_return = (char *) Ysafe_malloc((unsigned) (hi-lo+1)*size) ;
 	if( array_return ){
 		return( array_return - size * lo ) ;
 	}
@@ -301,10 +288,10 @@ char *Yvector_alloc( int lo, int hi, int size MEM_DEBUG1 )
 } /* end Yvector_alloc */
 
 /* ALLOCATE an array [lo..hi] of the given size initialized to zero */
-char *Yvector_calloc( int lo, int hi, int size MEM_DEBUG1 )
+char *Yvector_calloc( int lo, int hi, int size )
 {
 	char *array_return ;
-	array_return = (char *) Ysafe_calloc((unsigned) (hi-lo+1),size MEM_DEBUG1 ) ;
+	array_return = (char *) Ysafe_calloc((unsigned) (hi-lo+1),size ) ;
 	if( array_return ){
 		return( array_return - size * lo ) ;
 	}
@@ -312,72 +299,18 @@ char *Yvector_calloc( int lo, int hi, int size MEM_DEBUG1 )
 } /* end Yvector_calloc */
 
 /* REALLOCATE an array [lo..hi] of the given size no initialization */
-char *Yvector_realloc( array_orig, lo, hi, size MEM_DEBUG1 )
-VOIDPTR array_orig ;
-INT size, lo, hi ;
-MEM_DEBUG2
+char *Yvector_realloc( void *array_orig, int lo, int hi, int size  )
 {
-    char *adj_array ;          /* put back the offset */
-    char *array_return ;       /* the new offset */
+	char *adj_array ;          /* put back the offset */
+	char *array_return ;       /* the new offset */
 
-    adj_array = ((char *) array_orig) + lo * size ;
-    array_return = (char *) 
-	Ysafe_realloc( adj_array, (unsigned) (hi-lo+1)*size MEM_DEBUG1 ) ;
-    if( array_return ){
-	return( array_return - size * lo ) ;
-    }
-    return( NIL(char *) ) ;
+	adj_array = ((char *) array_orig) + lo * size ;
+	array_return = (char *) Ysafe_realloc( adj_array, (unsigned) (hi-lo+1)*size  ) ;
+	if( array_return ){
+		return( array_return - size * lo ) ;
+	}
+	return( NIL(char *) ) ;
 
 } /* end Yvector_realloc */
 
-VOID Yvector_free( array, lo, size MEM_DEBUG1 )
-VOIDPTR array ;
-INT lo, size ;
-MEM_DEBUG2
-{
-    Ysafe_free( ((char *)array) + lo * size MEM_DEBUG1 ) ;
-} /* end Yvector_free */
-
-/* ************************* TEST ROUTINES ******************************** */
-#ifdef TEST 
-
-typedef struct {
-    INT bogus_dude ;
-    DOUBLE narly ;
-    char *awesome ;
-} MEMDATA, *MEMDATAPTR ;
-
-main()
-{
-    MEMDATAPTR array ;
-    MEMDATAPTR vector ;
-    char *string, *Ystrclone() ;
-
-    YdebugMemory( TRUE ) ;
-    Yinit_memsize( 1024 ) ;
-
-    /* allocate an array 0..9 */
-    array = YMALLOC( 10, MEMDATA ) ;
-    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
-    /* allocate an array 1..10 */
-    vector = YVECTOR_MALLOC( 1, 10, MEMDATA ) ;
-    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
-    /* clone this string */
-    string = Ystrclone( "Droog" ) ;
-    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
-    /* look at mem.data at this point */
-    Ydump_mem() ;
-    /* free all the memory */
-    YFREE( array ) ;
-    YFREE( string ) ;
-    YVECTOR_FREE( vector, 1 ) ;
-    printf( "Memory size :%d\n", YgetCurMemUse() ) ;
-    printf( "Memory max size :%d\n", YgetMaxMemUse() ) ;
-    Ydump_mem() ;
-
-    exit(0) ;
-    
-}/* end main() */
-
-#endif /* TEST */
 

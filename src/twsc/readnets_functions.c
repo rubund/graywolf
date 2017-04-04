@@ -129,11 +129,9 @@ void check_paths()
 	for( int i = 1; i <= numnetsG; i++ ){
 		nptr = netarrayG[i] ;
 		if( nptr->paths && nptr->ignore ){
-		sprintf( YmsgG, 
-			"Net:%s is specified in a path and ignored\n",
-			nptr->name ) ;
-		M( ERRMSG, "check_paths", YmsgG ) ;
-		abortFlagS = TRUE ;
+			sprintf( YmsgG, "Net:%s is specified in a path and ignored\n", nptr->name ) ;
+			M( ERRMSG, "check_paths", YmsgG ) ;
+			abortFlagS = TRUE ;
 		}
 	}
 } /* check_paths */
