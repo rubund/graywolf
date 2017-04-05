@@ -73,7 +73,7 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #define ERROR        -1         /* error from YgetFileTime() */
 static INT objectS ;            /* the last program that was run */
 
-auto_flow(int debug)
+void auto_flow(int debug)
 {
 
 	ADJPTR     adjptr ;         /* current edge in graph */
@@ -120,10 +120,8 @@ auto_flow(int debug)
 		G( if( graphicsG && TWinterupt() ) ){
 			G( process_graphics() ) ;
 		}
-
 	} /* end autoflow loop */
-	G( draw_the_data() ) ;
-
+	G( draw_the_data() );
 } /* end autoflow */
 
 void exec_single_prog(int debug)
@@ -185,8 +183,7 @@ void exec_single_prog(int debug)
 	G( draw_the_data() ) ;
 } /* end exec_single_prog */
 
-report_problem( adjptr )
-ADJPTR adjptr ;
+void report_problem( ADJPTR adjptr )
 {
 	sprintf( YmsgG, "Trouble executing %s", proGraphG[adjptr->node]->name)  ;
 	G( TWmessage( YmsgG ) ) ;
@@ -195,8 +192,7 @@ ADJPTR adjptr ;
 } /* end report_problem */
 
 /* returns true if files are out of date - false otherwise */
-BOOL check_dependencies( adjptr )
-ADJPTR adjptr ;
+BOOL check_dependencies( ADJPTR adjptr )
 {
 	int input_time ;     /* last input file which was modified */
 	int output_time ;    /* first output file */
@@ -213,16 +209,16 @@ ADJPTR adjptr ;
 		ASSERTNCONT( fdepend->fname, "auto_flow","Null file name\n");
 		if( *fdepend->fname == '$' ){
 		/* suffix keyword */
-		sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+			sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
 		} else {
-		strcpy( filename, fdepend->fname ) ;
+			strcpy( filename, fdepend->fname ) ;
 		}
-		if(!(YfileExists( filename,TRUE ))){
-		continue ;
+		if(!(YfileExists( filename ))){
+			continue ;
 		}
 		ftime = YgetFileTime( filename ) ;
 		if( ftime == ERROR ){
-		Ymessage_error_count() ;
+			Ymessage_error_count() ;
 		}
 		input_time = MAX( ftime, input_time ) ;
 	}
@@ -246,14 +242,14 @@ ADJPTR adjptr ;
 	for( ; fdepend; fdepend = fdepend->next ){
 		ASSERTNCONT( fdepend->fname,"auto_flow","Null file name\n" );
 		if( *fdepend->fname == '$' ){
-		sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
+			sprintf( filename, "%s%s", cktNameG, fdepend->fname+1 ) ;
 		} else {
-		strcpy( filename, fdepend->fname ) ;
+			strcpy( filename, fdepend->fname ) ;
 		}
-		if(!(YfileExists( filename,TRUE ))){
-		/* one of the output files doesn't exist */
-		needtoExecute = TRUE ;
-		continue ;
+		if(!(YfileExists( filename ))){
+			/* one of the output files doesn't exist */
+			needtoExecute = TRUE ;
+			continue ;
 		}
 		ftime = YgetFileTime( filename ) ;
 		if( ftime == ERROR ){
@@ -271,8 +267,7 @@ ADJPTR adjptr ;
 } /* end BOOL check_dependencies */
 
 /* allow graphics loop to change the object */
-autoflow_set_object( object )
-INT object ;
+void autoflow_set_object( int object )
 {
-    objectS = object ;
+	objectS = object ;
 } /* end autoflow_set_object */

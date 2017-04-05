@@ -127,13 +127,7 @@ extern BOOL spacer_name_twfeedG ;
 extern BOOL rigidly_fixed_cellsG ;
 extern BOOL stand_cell_as_gate_arrayG ;
 
-/* below is what we expect to be a typical standard cell input */
-/* user may change parameters if they wish. Subject to change */
-#define EXPECTEDNUMCELLS  3500
-#define EXPECTEDNUMNETS   1000
-#define EXPECTEDSWAPGROUPS  10
-#define EXPECTEDNUMPADS     10
-#define E                    0
+#include "../globals.h"
 
 /* ERRORABORT is a macro which forces routines not to do any work */
 /* when we find a syntax error in the input routine. */

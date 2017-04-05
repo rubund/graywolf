@@ -58,6 +58,7 @@ static char SccsId[] = "@(#) output.c version 1.8 7/24/91" ;
 
 #include <string.h>
 #include "globals.h"
+#include "../globals.h"
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/hash.h>
@@ -66,7 +67,6 @@ static char SccsId[] = "@(#) output.c version 1.8 7/24/91" ;
 // YcurTime() is not declared in any of the above
 extern char *YcurTime( INT * );
 
-#define EXPECTEDNUMNETS         10009
 static int objectS = 0 ;       /* number of objects read */
 static int celltypeS ;         /* current cell type */
 static int stdcellS = 0 ;      /* number of standard cells */
@@ -85,142 +85,133 @@ static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
 static BOOL count_portS ;      /* whether a pin is a port */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
-static DOUBLE cellAreaS = 0 ;  /* area of the macro cells */
+static double cellAreaS = 0 ;  /* area of the macro cells */
 /* *************************************************************** */
 
 void init()
 {
 	/* get ready for parsing */
 	/* make hash table for nets */
-	netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
+	netTableS = Yhash_table_create(EXPECTEDNUMNETS) ;
 } /* end init */
 
-addCell( celltype, cellname )
-int celltype ;
-char *cellname ;
+void addCell( int celltype, char *cellname )
 {
+	strcpy( current_cellS, cellname ) ;
+// 	Ysafe_free( cellname ) ;
+	/* passify the user */
+	if( (++objectS % 50) == 0 ){
+		sprintf( YmsgG, "Read %4d objects so far...\n", objectS ) ;
+		M( MSG, NULL, YmsgG ) ;
+	}
 
-    strcpy( current_cellS, cellname ) ;
-    Ysafe_free( cellname ) ;
-    /* passify the user */
-    if( (++objectS % 50) == 0 ){
-	sprintf( YmsgG, "Read %4d objects so far...\n", objectS ) ;
-	M( MSG, NULL, YmsgG ) ;
-    }
-
-    celltypeS = celltype ;   /* save for determining instances etc. */
-    switch( celltype ){
-	case HARDCELLTYPE:
-	case SOFTCELLTYPE:
-	    macroS++ ;
-	    numinstanceS++ ;
-	    count_portS = TRUE ;    /* count pins as ports */
-	    break ;
-	case STDCELLTYPE:
-	    stdcellS++ ;
-	    count_portS = FALSE ;
-	    break ;
-	case PADCELLTYPE:
-	    padS++ ;
-	    count_portS = TRUE ;
-	    break ;
-    }
-
+	celltypeS = celltype ;   /* save for determining instances etc. */
+	switch( celltype ) {
+		case HARDCELLTYPE:
+		case SOFTCELLTYPE:
+			macroS++ ;
+			numinstanceS++ ;
+			count_portS = TRUE ;    /* count pins as ports */
+			break ;
+		case STDCELLTYPE:
+			stdcellS++ ;
+			count_portS = FALSE ;
+			break ;
+		case PADCELLTYPE:
+			padS++ ;
+			count_portS = TRUE ;
+			break ;
+	}
 } /* end addCell */
 
-addNet( signal )
-char *signal ;
+void addNet( char *signal )
 {
-    int *data ;
+	int *data ;
 
-    if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
-	impS++ ;
-	return ; /* not a net so return */
-    }
-    if(!(Yhash_search( netTableS, signal, NULL, FIND ))){
-	/* else a new net load data holder */
-	data = (int *) Ysafe_malloc( sizeof(int) ) ;
-	*data = ++netS ;
-	if( Yhash_search( netTableS, signal, (char *)data, ENTER )){
-	    sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
-		signal ) ;
-	    M(ERRMSG,"addNet",YmsgG ) ;
+	if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
+		impS++ ;
+		return ; /* not a net so return */
 	}
-    }
-    pinS++ ;
-    if( count_portS ){
-	portS++ ;
-    }
-
+	if(!(Yhash_search( netTableS, signal, NULL, FIND ))){
+		/* else a new net load data holder */
+		data = (int *) Ysafe_malloc( sizeof(int) ) ;
+		*data = ++netS ;
+		if( Yhash_search( netTableS, signal, (char *)data, ENTER )){
+		sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
+			signal ) ;
+		M(ERRMSG,"addNet",YmsgG ) ;
+		}
+	}
+	pinS++ ;
+	if( count_portS ){
+		portS++ ;
+	}
 } /* end addNet */
 
-addEquiv()
+void addEquiv()
 {
-    equivS++ ;
+	equivS++ ;
 } /* end addEquiv */
 
-addUnEquiv()
+void addUnEquiv()
 {
-    unequivS++ ;
+	unequivS++ ;
 } /* end addUnEquiv */
 
-add_instance()
+void add_instance()
 {
-    if( celltypeS == HARDCELLTYPE || celltypeS == SOFTCELLTYPE ){
-	numinstanceS++ ;
-    }
+	if( celltypeS == HARDCELLTYPE || celltypeS == SOFTCELLTYPE ){
+		numinstanceS++ ;
+	}
 } /* end add_instance */
 
-set_bbox( left, right, bottom, top )
-INT left, right, bottom, top ;
+void set_bbox( int left, int right, int bottom, int top )
 {
-    minxS = left ;
-    minyS = bottom ;
-    maxxS = right ;
-    maxyS = top ;
+	minxS = left ;
+	minyS = bottom ;
+	maxxS = right ;
+	maxyS = top ;
 } /* end set_bbox */
 
-start_pt( x, y )
-int x, y ;
+void start_pt( int x, int y )
 {
-    Ybuster_init() ;
-    Ybuster_addpt( x, y ) ;
-    minxS = x ;
-    minyS = y ;
-    maxxS = x ;
-    maxyS = y ;
+	Ybuster_init() ;
+	Ybuster_addpt( x, y ) ;
+	minxS = x ;
+	minyS = y ;
+	maxxS = x ;
+	maxyS = y ;
 } /* end start_pt */
 
-add_pt( x, y )
-int x, y ;
+void add_pt( int x, int y )
 {
-    Ybuster_addpt( x, y ) ;
-    minxS = MIN( x, minxS ) ;
-    minyS = MIN( y, minyS ) ;
-    maxxS = MAX( x, maxxS ) ;
-    maxyS = MAX( y, maxyS ) ;
+	Ybuster_addpt( x, y ) ;
+	minxS = MIN( x, minxS ) ;
+	minyS = MIN( y, minyS ) ;
+	maxxS = MAX( x, maxxS ) ;
+	maxyS = MAX( y, maxyS ) ;
 } /* end add_pt */
 
-processCorners()
+void processCorners()
 {
-    YBUSTBOXPTR bustptr ;        /* get a tile from Ybuster */
-    DOUBLE this_cell ;           /* area of the current tile */
-    DOUBLE l, r, b, t ;          /* the coordinates of the current tile*/
+	YBUSTBOXPTR bustptr ;        /* get a tile from Ybuster */
+	double this_cell ;           /* area of the current tile */
+	double l, r, b, t ;          /* the coordinates of the current tile*/
 
-    if( celltypeS == HARDCELLTYPE || celltypeS == SOFTCELLTYPE ){
-	if( !(Ybuster_verify( current_cellS ))){
-	    M(ERRMSG,"processCorners",YmsgG ) ;
-	    return ;
+	if( celltypeS == HARDCELLTYPE || celltypeS == SOFTCELLTYPE ){
+		if( !(Ybuster_verify( current_cellS ))) {
+			M(ERRMSG,"processCorners",YmsgG ) ;
+			return ;
+		}
+		while( bustptr = Ybuster() ){
+			l = (double) bustptr[1].x ;
+			r = (double) bustptr[3].x ;
+			b = (double) bustptr[1].y ;
+			t = (double) bustptr[3].y ;
+			this_cell = (r - l) * (t - b) ;
+			cellAreaS += this_cell ;
+		}
 	}
-	while( bustptr = Ybuster() ){
-	    l = (DOUBLE) bustptr[1].x ;
-	    r = (DOUBLE) bustptr[3].x ;
-	    b = (DOUBLE) bustptr[1].y ;
-	    t = (DOUBLE) bustptr[3].y ;
-	    this_cell = (r - l) * (t - b) ;
-	    cellAreaS += this_cell ;
-	}
-    }
 } /* end processCorners */
 
 check_xloc( value )

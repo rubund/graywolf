@@ -62,8 +62,7 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 #include <yalecad/message.h>
 #include <yalecad/hash.h>
 #include <yalecad/yreadpar.h>
-
-#define EXPECTEDNUMNETS         10009
+#include "../globals.h"
 
 typedef struct {
 	BOOL io_signal ;

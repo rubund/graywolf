@@ -98,9 +98,14 @@ ofiles : ofiletype
 ofiles : ofiletype list_of_files;
 ifiletype : IFILES COLON;
 ofiletype : OFILES COLON;
-
-list_of_files : string;
-list_of_files : list_of_files string;
+list_of_files : string
+{
+	add_fdependency($1);
+};
+list_of_files : list_of_files string
+{
+	add_fdependency($2);
+};
 args : ARGS COLON list_of_args;
 list_of_args : string;
 list_of_args : list_of_args string;

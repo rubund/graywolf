@@ -94,7 +94,7 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 	char        filename[LRECL] ;    /* buffer for filename */
 	char        *ptr ;               /* argument pointer */
 	char        *Ygetenv() ;         /* get environment variable */
-	FILE        *fp ;                /* file pointer */
+	FILE        *fp;                /* file pointer */
 	FILE        *find_flow_file() ;  /* return pointer to flow file */
 	BOOL        debug ;              /* TRUE if debug on */
 	BOOL        general_mode ;       /* TRUE if top level user flow */
@@ -108,8 +108,7 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 	/* make sure we have environment variable */
 	if(!(twdirG = TWFLOWDIR)) {
 		M(ERRMSG,"twflow","Can't get environment variable 'TWDIR'\n") ;
-		M(MSG,NULL, 
-				"Please use setenv to set 'TWDIR' to TimberWolf directory\n" ) ;
+		M(MSG,NULL, "Please use setenv to set 'TWDIR' to TimberWolf directory\n" ) ;
 		YexitPgm(MASTERFAIL);
 	}
 
@@ -204,14 +203,13 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 	if(graphicsG) {
 		G( init_graphics() ) ;
 		windowIdG = TWsaveState();
-		printf("twflow windowId: %d\n",windowIdG);
 	}
 
 	Ylog_start( cktNameG, "Program initialization completed..." ) ;
 	if( lock ){
 		/* create a lock file to say we are busy */
 		sprintf( filename, "/tmp/twsc.%s", cktNameG ) ;
-		(VOID) Yfile_create_lock( filename, FALSE ) ;
+		(void) Yfile_create_lock( filename, FALSE ) ;
 	}
 	Ymessage_flush() ;
 
@@ -291,8 +289,7 @@ void yaleIntro()
 
 } /* end yaleIntro */
 
-
-show_flows()
+void show_flows()
 {
 	DIR *dpdf;
 	struct dirent *epdf;
@@ -305,4 +302,3 @@ show_flows()
 	} 
 	closedir(dpdf);
 }
-
