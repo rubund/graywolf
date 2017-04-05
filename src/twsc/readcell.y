@@ -130,7 +130,10 @@ padcell : padname corners actual_orient restriction_pad sidespace hardpins;
 padcell : padname corners actual_orient restriction_pad sidespace;
 padcell : padname_std padside bbox sidespace hardpins;
 padcell : padname_std padside bbox sidespace;
-padgroup : padgroupname padgrouplist restriction_pdgrp sidespace;
+padgroup : padgroupname padgrouplist restriction_pdgrp sidespace
+{
+	end_padgroup() ;
+};
 cellgroup : supergroupname supergrouplist class orient;
 cellgroup : cellgroupname neighborhood cellgrouplist;
 hardcellname : HARDCELL INTEGER NAME STRING
@@ -154,12 +157,21 @@ std_fixed :;
 std_fixed : INITIALLY fixed_type INTEGER FROM fixed_loc OF BLOCK INTEGER;
 swap_group : SWAPGROUP STRING;
 legal_block_classes : LEGALBLKCLASS num_block_classes block_classes;
-num_block_classes : INTEGER;
+num_block_classes : INTEGER
+{
+	add_legal_blocks( $1 ) ;
+};
 block_classes : block_class;
 block_classes : block_classes block_class;
 block_class : INTEGER;
-eco : ECO_ADDED_CELL;
-initial_orient : ORIENT INTEGER;
+eco : ECO_ADDED_CELL
+{
+	add_eco() ;
+};
+initial_orient : ORIENT INTEGER
+{
+	 add_initial_orient($2);
+};
 celloffset : CELLOFFSET offset_list;
 offset_list : INTEGER;
 offset_list : offset_list INTEGER;
@@ -188,7 +200,7 @@ padname_std : PAD INTEGER STRING ORIENT INTEGER
 padside : PADSIDE STRING
 {
 	add_padside( $2 ) ;
-	set_old_format( $2 ) ;
+/* 	set_old_format( $2 ) ; */
 };
 padgroupname : PADGROUP STRING PERMUTE
 {
@@ -222,7 +234,6 @@ class : CLASS INTEGER;
 actual_orient :;
 actual_orient : ORIENT INTEGER
 {
-/* 	 add_initial_orient($2); */
 };
 orient : INTEGER ORIENTATIONS orientlist;
 orient : INTEGER ORIENTATIONS orientlist initial_orient;
@@ -289,8 +300,14 @@ unequiv : UNEQUIV NAME STRING LAYER INTEGER INTEGER INTEGER;
 unequiv : UNEQUIV NAME STRING INTEGER INTEGER;
 ports : port;
 ports : ports port;
-port : PORT NAME STRING SIGNAL STRING LAYER INTEGER INTEGER INTEGER;
-port : PORT NAME STRING SIGNAL STRING INTEGER INTEGER;
+port : PORT NAME STRING SIGNAL STRING LAYER INTEGER INTEGER INTEGER
+{
+	add_port( $3, $5, $7, $8, $9 ) ;
+};
+port : PORT NAME STRING SIGNAL STRING INTEGER INTEGER
+{
+	add_port( $3, $5, 0, $6, $7 ) ;
+};
 siderestriction : SIDERESTRICTION INTEGER INTEGER;
 sidespace :;
 sidespace : SIDESPACE FLOAT
@@ -336,6 +353,7 @@ int readcell(char *filename)
 		printf("opened %s\n",filename);
 		initialize_parser() ;
 		yyparse();
+		init_net_set();
 		cleanup_readcells();
 	}
 } /* end readcell */

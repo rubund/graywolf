@@ -61,7 +61,6 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 #endif
 
 #define GLOBAL_DEFS
-#define EXPECTEDMEMORY ( 512 * 1024 )
 #define VERSION        "v1.0"
 
 #include <stdio.h>
@@ -96,11 +95,6 @@ Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 	extern int _Xdebug ;
 	_Xdebug = TRUE ;
 	#endif
-
-	/* start up cleanup handler */
-	YINITCLEANUP( "config", NULL, MAYBEDUMP ) ;
-
-	Yinit_memsize( EXPECTEDMEMORY ) ;
 
 	debug       = FALSE ;
 	noMacroMoveG = FALSE ;

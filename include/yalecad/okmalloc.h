@@ -40,7 +40,6 @@ extern int YgetMaxMemUse(void) ;
 extern int YcheckMemObj(char *ptr) ;
 extern void YdebugMemory(int flag) ;
 extern int YcheckDebug(void* where) ;
-extern void Yinit_memsize(int memsize) ;
 extern void Ydump_mem(void) ;
 extern void Ypmemerror(char *message) ;
 

@@ -66,7 +66,6 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 
 #include "config-build.h"
 
-#define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
 int
@@ -82,11 +81,6 @@ Mincut( int debugON,  char *dName)
 	int  debug ;
 	FILE *fp ;
 	char *twdir, *Ygetenv() ;
-
-	/* start up cleanup handler */
-	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
-
-	Yinit_memsize( EXPECTEDMEMORY ) ;
 
 	if(debugON) {
 		debug = TRUE;

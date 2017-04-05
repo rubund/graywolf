@@ -108,7 +108,6 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #include <yalecad/file.h>
 
 #define  VERSION            "v2.2"
-#define  EXPECTEDMEMORY     (1024 * 1024) 
 #define  NOREDUCTION        -1000000.0 ; 
 
 double saveLapFactorG ;
@@ -152,8 +151,6 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 
 	/* ********************** start initialization *********************** */
 	/* start up cleanup handler */
-	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
-	Yinit_memsize( EXPECTEDMEMORY ) ;
 
 	debugS      = FALSE ;
 	verboseG    = FALSE ;

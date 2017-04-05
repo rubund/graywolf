@@ -80,10 +80,8 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 
 #define GLOBAL_DEFS
 #include <globals.h>
-
 #include "config-build.h"
 
-#define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
 #define VERSION         "2.1" 
 #define WINDOWID "@WINDOWID"
 
@@ -104,11 +102,6 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 	BOOL        verbose ;            /* whether to go into verbose mode.*/
 	int         arg_count ;          /* parse the command line */
 	void        yaleIntro() ;        /* give intro for program */
-
-	/* start up cleanup handler */
-	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
-
-	Yinit_memsize( EXPECTEDMEMORY ) ;
 
 	flow_dirG = NIL(char *) ;
 

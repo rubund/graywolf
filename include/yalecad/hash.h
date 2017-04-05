@@ -88,7 +88,7 @@ Function:
     }
 */
 
-extern int Yhash_set_size( P1( YHASHPTR  hashtable ) ) ;
+int Yhash_set_size( YHASHPTR  hashtable) ;
 /*
 Function:
     Since this is a threaded hash table we can find the size of

@@ -157,43 +157,56 @@ void Yvector_free( void* array, int lo, int size)
 
 char *Ysafe_malloc(int size)
 {
-	char *p;
-	if (!(p = malloc(size))) {
+	if(size<0) {
+		printf("%s size %d. Exiting\n",__FUNCTION__,size);
+		exit(0);
+	}
+	char *p = malloc(size);
+// 	printf("%s size %d ptr %p\n",__FUNCTION__,size,p);
+	if (!p) {
 		errno = heap_no_mem ;
 // 		kill(getpid(),SIGUSR1);
+		exit(0);
 	}
 	return p;
 }
 
 char *Ysafe_realloc(void* obj, int size)
 {
-	char *p;
-	if (!(p = realloc(obj, size))) {
+	char *p = realloc(obj, size);
+	if (!p) {
 		errno = heap_no_mem ;
-	//         kill(getpid(),SIGUSR1);
+// 		kill(getpid(),SIGUSR1);
+		exit(0);
 	}
 	return p;
 }
 
 char *Ysafe_calloc(int num, int size)
 {
-	char *p;
-	if (!(p = calloc(num,size))) {
+	if((num<0)||(size<0)) {
+		printf("%s num %d size %d. Exiting\n",__FUNCTION__,num,size);
+		exit(0);
+	}
+	char *p = calloc(num,size);
+// 	printf("%s num %d size %d ptr %p\n",__FUNCTION__,num,size,p);
+	if (!p) {
 		errno = heap_no_mem ;
 // 		kill(getpid(),SIGUSR1);
+		exit(0);
 	}
 	return p;
 }
 /* when not testing memory just call system free */
 void Ysafe_free(void *ptr)
 {
-// 	free(ptr);
+	free(ptr);
 	return;
 }
 
 void Ysafe_cfree(void* ptr)
 {
-// 	cfree(ptr);
+	cfree(ptr);
 	return;
 }
 
@@ -233,11 +246,6 @@ int YcheckDebug( void* where )
 	return ( INT_MAX ) ;
 } /* end checkDebug */
 
-void Yinit_memsize( int memsize )
-{
-	return ;
-} /* end Yinit_memsize */
-
 void Ydump_mem()
 {
 } /* end Ydump_mem() */
@@ -256,20 +264,16 @@ void Ypmemerror( char *s )
 	}
 	switch(errno){
 		case heap_ok:
-		printf(
-		"Memory ok - Problem in memory management logic.\n" ) ;
-		break; 
+			printf("Memory ok - Problem in memory management logic.\n" ) ;
+			break; 
 		case heap_bad_block:
-		printf(
-		"Memory block was found to be corrupted.\n" ) ;
-		break; 
+			printf("Memory block was found to be corrupted.\n" ) ;
+			break; 
 		case heap_no_mem:
-		printf(
-		"No memory available to allocate.\n" ) ;
-		break; 
+			printf("No memory available to allocate.\n" ) ;
+			break; 
 		default:
-		printf(
-		"Error = %0x Unrecognized error code.\n",errno ) ;
+			printf("Error = %0x Unrecognized error code.\n",errno ) ;
 	}
 } /* end Ypmemerror */
 

@@ -66,8 +66,6 @@ static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
 #define COMPACT_DEFS
 #include <compact.h>
 
-#define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
-
 int
 __attribute__((visibility("default")))
 mc_compact(int a, int d, int c, int n, int p, int v, char*cktName,int blockr, int blockt, int track_spacingX, int track_spacingY)
@@ -78,12 +76,6 @@ mc_compact(int a, int d, int c, int n, int p, int v, char*cktName,int blockr, in
 	extern int _Xdebug ;
 	_Xdebug = TRUE ;
 #endif
-
-	/* start up cleanup handler */
-	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
-
-	Yinit_memsize( EXPECTEDMEMORY ) ;
-
 	graphicsG  = TRUE ;
 	alignG     = FALSE ;
 	compactG   = TRUE ; 

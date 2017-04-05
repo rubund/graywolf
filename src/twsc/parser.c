@@ -185,6 +185,7 @@ void addCell( char *cellname, int celltype );
 void add_tile( int left, int bottom, int right, int top );
 void end_padgroup();
 void add_padside( char *padside );
+void add2padgroup( char *padName, BOOL ordered );
 
 /* ###################### END STATIC definitions ############################ */
 static void get_stat_hints()
@@ -1170,11 +1171,7 @@ void add_extra_cells()
 		if( !spacer_name_twfeedG ) {
 			addCell( Ystrclone( "GATE_ARRAY_SPACER"), EXTRATYPE ) ;
 		} else {
-	#ifdef FEED_INSTANCES
 			sprintf( buffer, "twfeed%d", 100000 + totalCellS ) ;
-	#else
-			sprintf( buffer, "twfeed" ) ;
-	#endif
 			addCell( Ystrclone( buffer), EXTRATYPE ) ;
 		}
 		ptrS->cheight = barrayG[1]->bheight ;
@@ -1185,31 +1182,6 @@ void add_extra_cells()
 			- barrayG[1]->bheight / 2,
 			spacer_widthG - spacer_widthG / 2, 
 			barrayG[1]->bheight - barrayG[1]->bheight / 2 ) ;
-
-	#ifdef OLD_WAY
-		for( pin = 1 ; pin <= spacer_feedsG[0] ; pin++ ) {
-			imptr = ( IPBOXPTR )Ysafe_malloc( sizeof( IPBOX ) ) ;
-			if( pin_layers_givenG ) {
-			sprintf( buffer,"]%1d%s%d",feedLayerG,"SPACER_FEED_TOP_", pin ) ;
-			} else {
-			sprintf( buffer, "%s%d" , "SPACER_FEED_TOP_" , pin ) ;
-			}
-			imptr->pinname = Ystrclone( buffer ) ;
-			imptr->txpos = spacer_feedsG[pin] - spacer_widthG / 2 ;
-			imptr->cell  = totalCellS ;
-			imptr->terminal = -1 ; /* to be set later */
-			imptr->next = ptrS->imptr ;
-			ptrS->imptr = imptr ;
-
-			if( pin_layers_givenG != 0 ) {
-			sprintf( buffer, "]%1d%s%d",feedLayerG,"SPACER_FEED_BOTTOM_",pin );
-			} else {
-			sprintf( buffer, "%s%d" , "SPACER_FEED_BOTTOM_" , pin );
-			}
-			imptr->eqpinname = Ystrclone( buffer ) ;
-		}
-	#endif /* OLD_WAY */
-
 		}
 	}	
 } /* end add_extra_cells */
@@ -1305,18 +1277,18 @@ void cleanup_readcells()
 
 	if( old_pad_formatS ){
 		
-		/* add the old pads to a padgroup */
+		// add the old pads to a padgroup
 		lastpadG = numcellsG + numtermsG ;
 
-		/* see if we need to first build left padgroup */
+		// see if we need to first build left padgroup
 		build_pad_group( L, "L", "left_pads" ) ;
 		build_pad_group( T, "T", "top_pads" ) ;
 		build_pad_group( R, "R", "right_pads" ) ;
 		build_pad_group( B, "B", "bottom_pads" ) ;
 
 		if( abortS ){
-		closegraphics() ;
-		YexitPgm( PGMFAIL ) ;
+			closegraphics() ;
+			YexitPgm( PGMFAIL ) ;
 		}
 	}
 
@@ -1331,6 +1303,7 @@ void cleanup_readcells()
 	last_pin_numberG = maxtermG ;
 	impcount = TotRegPinsG ;
 	lastpadG = numcellsG + numtermsG - numpadgrpsG ;
+
 	init_acceptance_rate() ;
 
 	for( cell = 1 ; cell <= totalCellS ; cell++ ) {
@@ -1360,38 +1333,38 @@ void cleanup_readcells()
 	*/
 	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 		if( carrayG[cell]->orflag == 1 ) {
-		if( maxCellOG == 0 ) {
-			maxCellOG = 2 ;
-		} else if( maxCellOG == 1 ) {
-			maxCellOG = 3 ;
-		} 
-		break ;
+			if( maxCellOG == 0 ) {
+				maxCellOG = 2 ;
+			} else if( maxCellOG == 1 ) {
+				maxCellOG = 3 ;
+			}
+			break ;
 		}
 	}
 	for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 
 		ptr = carrayG[ cell ] ;
 		if( ptr->clength %2 != 0 ) {
-		xFlag = TRUE ;
+			xFlag = TRUE ;
 		} else {
-		xFlag = FALSE ;
+			xFlag = FALSE ;
 		}
 		if( ptr->cheight %2 != 0 ) {
-		yFlag = TRUE ;
+			yFlag = TRUE ;
 		} else {
-		yFlag = FALSE ;
+			yFlag = FALSE ;
 		}
 		for( pinptr = ptr->pins ; pinptr; pinptr = pinptr->nextpin ) {
-		if( xFlag ) {
-			pinptr->txpos[1] = -pinptr->txpos[0] + 1 ;
-		} else {
-			pinptr->txpos[1] = -pinptr->txpos[0] ;
-		}
-		if( yFlag && pinptr->typos[0] != 0 ) {
-			pinptr->typos[1] = -pinptr->typos[0] + 1 ;
-		} else {
-			pinptr->typos[1] = -pinptr->typos[0] ;
-		}
+			if( xFlag ) {
+				pinptr->txpos[1] = -pinptr->txpos[0] + 1 ;
+			} else {
+				pinptr->txpos[1] = -pinptr->txpos[0] ;
+			}
+			if( yFlag && pinptr->typos[0] != 0 ) {
+				pinptr->typos[1] = -pinptr->typos[0] + 1 ;
+			} else {
+				pinptr->typos[1] = -pinptr->typos[0] ;
+			}
 		}
 
 	} /* end processing core cells */
@@ -1406,15 +1379,15 @@ void cleanup_readcells()
 		orient = ptr->corient ;
 		inverse = 0 ;
 		if(!(padptr->macroNotPad)){
-		numpadsG++ ;
+			numpadsG++ ;
 		}
 		if( padptr->oldformat ){
-		/* calculate effective orientation to pad B */
-		inverse = transTableS[padptr->padside][orient] ;
+			/* calculate effective orientation to pad B */
+			inverse = transTableS[padptr->padside][orient] ;
 		} else if( padptr->padside == MMC ){
-		/* calculate effective orientation for hardcell. */
-		/* Normal inverse use side B */
-		inverse = transTableS[B][orient] ;
+			/* calculate effective orientation for hardcell. */
+			/* Normal inverse use side B */
+			inverse = transTableS[B][orient] ;
 		} else {  /* the new pad format */
 		if( orient ){
 
@@ -1554,8 +1527,7 @@ void cleanup_readcells()
 		placearrayG[cell1] = padptr ;
 		}
 	}
-	ASSERT( cell1 == totalpadsG, "cleanup_readcells", 
-		"Pad initialization problem" ) ;
+	ASSERT( cell1 == totalpadsG, "cleanup_readcells", "Pad initialization problem" ) ;
 
 	if( rowsG == 0 ) {
 		configure() ;
@@ -1563,152 +1535,137 @@ void cleanup_readcells()
 		total_desire = 0 ;
 		bogus_rows = FALSE ;
 		for( row = 1 ; row <= numRowsG ; row++ ) {
-		total_desire += barrayG[row]->desire ;
-		if( barrayG[row]->desire > celllenG && numRowsG > 1 ){
-			sprintf( YmsgG, 
-			"Unreasonable row length for row:%d. Please check\n", row ) ;
-			M( ERRMSG, "cleanup_readcells", YmsgG ) ;
-			bogus_rows = TRUE ;
-		}
+			total_desire += barrayG[row]->desire ;
+			if( barrayG[row]->desire > celllenG && numRowsG > 1 ){
+				sprintf( YmsgG, "Unreasonable row length for row:%d. Please check\n", row ) ;
+				M( ERRMSG, "cleanup_readcells", YmsgG ) ;
+				bogus_rows = TRUE ;
+			}
 		}
 		if( celllenG > 0 ){
-		fraction = (double) total_desire / (double) celllenG ;
-		if( fraction < 0.70 || fraction > 1.30 ){
-			bogus_rows = TRUE ;
-		}
+			fraction = (double) total_desire / (double) celllenG ;
+			if( fraction < 0.70 || fraction > 1.30 ){
+				bogus_rows = TRUE ;
+			}
 		} else {
-		bogus_rows = TRUE ;
+			bogus_rows = TRUE ;
 		}
 
 		if( bogus_rows ){
-		M( WARNMSG, "cleanup_readcells", 
-			"Cell length doesn't match row length\n" ) ;
-		deviate_by_row = (celllenG - total_desire) / numRowsG ;
-		for( row = 1 ; row <= numRowsG ; row++ ) {
-			barrayG[row]->desire      += deviate_by_row ;
-			barrayG[row]->orig_desire += deviate_by_row ;
-			barrayG[row]->blength     += deviate_by_row ;
-			barrayG[row]->bright      += deviate_by_row ;
-		}
+			M( WARNMSG, "cleanup_readcells", "Cell length doesn't match row length\n" ) ;
+			deviate_by_row = (celllenG - total_desire) / numRowsG ;
+			for( row = 1 ; row <= numRowsG ; row++ ) {
+				barrayG[row]->desire      += deviate_by_row ;
+				barrayG[row]->orig_desire += deviate_by_row ;
+				barrayG[row]->blength     += deviate_by_row ;
+				barrayG[row]->bright      += deviate_by_row ;
+			}
 		}
 		random_placement() ;
 	}
 
-
 	/* now check for rigidly_fixed cells which may illegally overlap */
 	for( cell1 = 1 ; cell1 < numcellsG ; cell1++ ) {
 		if( carrayG[cell1]->cclass != -5 ) {
-		continue ;
+			continue ;
 		}
 		row = carrayG[cell1]->cblock ;
 		for( cell2 = cell1 + 1 ; cell2 <= numcellsG ; cell2++ ) {
-		if( carrayG[cell2]->cclass != -5 ) {
-			continue ;
-		}
-		if( row != carrayG[cell2]->cblock ) {
-			continue ;
-		}
-		/* must conduct the overlap test */
-		if( carrayG[cell1]->cxcenter + carrayG[cell1]->tileptr->left >=
-			carrayG[cell2]->cxcenter + carrayG[cell2]->tileptr->right ){
-			continue ;
-		}
-		if( carrayG[cell2]->cxcenter + carrayG[cell2]->tileptr->left >=
-			carrayG[cell1]->cxcenter + carrayG[cell1]->tileptr->right ){
-			continue ;
-		}
-		sprintf( YmsgG, 
-		"\nFATAL -- rigidly_fixed cells <%s> and <%s> overlap\n",
-				carrayG[cell1]->cname , carrayG[cell2]->cname ) ;
-		M( ERRMSG, "cleanup_readcells", YmsgG ) ;
-		abortS = TRUE ;
+			if( carrayG[cell2]->cclass != -5 ) {
+				continue ;
+			}
+			if( row != carrayG[cell2]->cblock ) {
+				continue ;
+			}
+			/* must conduct the overlap test */
+			if( carrayG[cell1]->cxcenter + carrayG[cell1]->tileptr->left >= carrayG[cell2]->cxcenter + carrayG[cell2]->tileptr->right ) {
+				continue ;
+			}
+			if( carrayG[cell2]->cxcenter + carrayG[cell2]->tileptr->left >= carrayG[cell1]->cxcenter + carrayG[cell1]->tileptr->right ) {
+				continue ;
+			}
+			sprintf( YmsgG, "\nFATAL -- rigidly_fixed cells <%s> and <%s> overlap\n", carrayG[cell1]->cname , carrayG[cell2]->cname ) ;
+			M( ERRMSG, "cleanup_readcells", YmsgG ) ;
+			abortS = TRUE ;
 		}
 	}
-
 
 	/* now check for rigidly_fixed pads which may illegally overlap */
 	if( padspacingG == EXACT_PADS ){
 		for( cell1 = numcellsG + 1 ; cell1 < lastpadG; cell1++ ) {
-		ptr = carrayG[ cell1 ]  ;
-		orient = ptr->corient ;
-		tptr = ptr->tileptr ;
-		l1 = tptr->left ;
-		r1 = tptr->right ;
-		b1 = tptr->bottom ;
-		t1 = tptr->top ;
-		YtranslateT( &l1, &b1, &r1, &t1, orient ) ;
-		l1 += ptr->cxcenter ;
-		r1 += ptr->cxcenter ;
-		b1 += ptr->cycenter ;
-		t1 += ptr->cycenter ;
-		for( cell2 = cell1 + 1 ; cell2 <= lastpadG ; cell2++ ) {
-			ptr = carrayG[ cell2 ]  ;
+			ptr = carrayG[ cell1 ]  ;
 			orient = ptr->corient ;
 			tptr = ptr->tileptr ;
-			l2 = tptr->left ;
-			r2 = tptr->right ;
-			b2 = tptr->bottom ;
-			t2 = tptr->top ;
-			YtranslateT( &l2, &b2, &r2, &t2, orient ) ;
-			l2 += ptr->cxcenter ;
-			r2 += ptr->cxcenter ;
-			b2 += ptr->cycenter ;
-			t2 += ptr->cycenter ;
-			/* must conduct the overlap test */
-			if( l1 >= r2 ){
-			continue ;
+			l1 = tptr->left ;
+			r1 = tptr->right ;
+			b1 = tptr->bottom ;
+			t1 = tptr->top ;
+			YtranslateT( &l1, &b1, &r1, &t1, orient ) ;
+			l1 += ptr->cxcenter ;
+			r1 += ptr->cxcenter ;
+			b1 += ptr->cycenter ;
+			t1 += ptr->cycenter ;
+			for( cell2 = cell1 + 1 ; cell2 <= lastpadG ; cell2++ ) {
+				ptr = carrayG[ cell2 ]  ;
+				orient = ptr->corient ;
+				tptr = ptr->tileptr ;
+				l2 = tptr->left ;
+				r2 = tptr->right ;
+				b2 = tptr->bottom ;
+				t2 = tptr->top ;
+				YtranslateT( &l2, &b2, &r2, &t2, orient ) ;
+				l2 += ptr->cxcenter ;
+				r2 += ptr->cxcenter ;
+				b2 += ptr->cycenter ;
+				t2 += ptr->cycenter ;
+				/* must conduct the overlap test */
+				if( l1 >= r2 ){
+					continue ;
+				}
+				if( l2 >= r1 ){
+					continue ;
+				}
+				if( b1 >= t2 ){
+					continue ;
+				}
+				if( b2 >= t1 ){
+					continue ;
+				}
+				/* the only case that would be fatal is two macro's overlapping */
+				if( carrayG[cell1]->padptr->macroNotPad && ptr->padptr->macroNotPad ){
+					sprintf( YmsgG, "\nmacros <%s> and <%s> overlap -- FATAL\n", carrayG[cell1]->cname , carrayG[cell2]->cname ) ;
+					M( ERRMSG, "cleanup_readcells", YmsgG ) ;
+					abortS = TRUE ;
+				} else {
+					sprintf( YmsgG, "\npads (or macros) <%s> and <%s> overlap -- NONFATAL\n", carrayG[cell1]->cname , carrayG[cell2]->cname ) ;
+					M( ERRMSG, "cleanup_readcells", YmsgG ) ;
+					M( ERRMSG, NULL, "Padspacing set to abut\n\n" ) ;
+					padspacingG = ABUT_PADS ;
+				}
 			}
-			if( l2 >= r1 ){
-			continue ;
-			}
-			if( b1 >= t2 ){
-			continue ;
-			}
-			if( b2 >= t1 ){
-			continue ;
-			}
-			/* the only case that would be fatal is two macro's overlapping */
-			if( carrayG[cell1]->padptr->macroNotPad && ptr->padptr->macroNotPad ){
-			sprintf( YmsgG, "\nmacros <%s> and <%s> overlap -- FATAL\n",
-					carrayG[cell1]->cname , carrayG[cell2]->cname ) ;
-			M( ERRMSG, "cleanup_readcells", YmsgG ) ;
-			abortS = TRUE ;
-			} else {
-			sprintf( YmsgG, "\npads (or macros) <%s> and <%s> overlap -- NONFATAL\n",
-					carrayG[cell1]->cname , carrayG[cell2]->cname ) ;
-			M( ERRMSG, "cleanup_readcells", YmsgG ) ;
-			M( ERRMSG, NULL, "Padspacing set to abut\n\n" ) ;
-			padspacingG = ABUT_PADS ;
-			}
-
-		}
 		}
 	}
 
 	/* check if position of fixed cells are within bounds of their rows */
 	for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 		if( carrayG[cell]->cclass >= 0 ) {
-		continue ;
+			continue ;
 		}
-		if( ABS(carrayG[cell]->border) > 
-				barrayG[carrayG[cell]->cblock]->blength ) {
-		sprintf( YmsgG, "initial placement assigned to cell <%s> is\n",
-					carrayG[cell]->cname );
-		M( ERRMSG, "cleanup_readcells", YmsgG ) ;
-		sprintf( YmsgG, "\toutside the length of its block (%d vs. %d)\n",
-			ABS(carrayG[cell]->border), 
-			barrayG[carrayG[cell]->cblock]->blength );
-		M( ERRMSG, NULL, YmsgG ) ;
-		abortS = TRUE ;
+		if( ABS(carrayG[cell]->border) > barrayG[carrayG[cell]->cblock]->blength ) {
+			sprintf( YmsgG, "initial placement assigned to cell <%s> is\n", carrayG[cell]->cname );
+			M( ERRMSG, "cleanup_readcells", YmsgG ) ;
+			sprintf( YmsgG, "\toutside the length of its block (%d vs. %d)\n", ABS(carrayG[cell]->border), barrayG[carrayG[cell]->cblock]->blength );
+			M( ERRMSG, NULL, YmsgG ) ;
+			abortS = TRUE ;
 		}
 	}
 	if( abortS ){
 		M( ERRMSG, NULL,"\n\nFATAL errors exist in input\n" );
 		if(!(doGraphicsG)){
-		M( ERRMSG, NULL,"You are not running graphics.\n" );
-		M( ERRMSG, NULL,"Turn on graphics to see the problem!\n" );
+			M( ERRMSG, NULL,"You are not running graphics.\n" );
+			M( ERRMSG, NULL,"Turn on graphics to see the problem!\n" );
 		} else {
-		M( ERRMSG, NULL,"Entering process graphics to determine error\n" ) ;
+			M( ERRMSG, NULL,"Entering process graphics to determine error\n" ) ;
 		}
 		G( init_heat_index() ) ;
 		G( process_graphics() ) ;
@@ -1722,7 +1679,7 @@ void cleanup_readcells()
 	for( block = 1 ; block <= numRowsG ; block++ ) {
 		totallenG += barrayG[ block ]->blength ;
 		if( orig_max_row_lengthG < barrayG[block]->blength ) {
-		orig_max_row_lengthG = barrayG[block]->blength ;
+			orig_max_row_lengthG = barrayG[block]->blength ;
 		}
 	}
 	fprintf( fpoG, "total cell length: %d\n",  celllenG ) ;

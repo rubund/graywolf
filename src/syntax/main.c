@@ -63,7 +63,6 @@ static char SccsId[] = "@(#) main.c version 1.6 2/23/91" ;
 #include <yalecad/debug.h>
 #include "globals.h"
 
-#define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.1"
 
 int
@@ -81,9 +80,6 @@ Syntax( BOOL d , char *cktName )
 	FILE *fp ;
 
 	/* start up cleanup handler */
-	YINITCLEANUP( argv[0], NULL, MAYBEDUMP ) ;
-
-	Yinit_memsize( EXPECTEDMEMORY ) ;
 
 	debug      = FALSE ;
 	arg_count = 1 ;
