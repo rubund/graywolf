@@ -69,7 +69,6 @@ void sort_pads()
 	int sort_by_pos() ;    /* how to sort the pads */
 	PADBOXPTR pad ;        /* current pad */
 
-	printf("%s: miau 1\n",__FUNCTION__);
 	/* first perform an initial sort to order the pads by side, hierarchy, */
 	/* and position on the side. */
 	Yquicksort( &(sortarrayG[1]), totalpadsG, sizeof(PADBOXPTR), compare_pads );
@@ -79,7 +78,7 @@ void sort_pads()
 	for( i = 1; i <= totalpadsG; i++ ){
 		pad = sortarrayG[i];
 		if( pad->hierarchy == ROOT ){
-		permute_pads( pad ) ;
+			permute_pads( pad ) ;
 		}
 	}
 
