@@ -123,7 +123,10 @@ soft_instance_list : soft_instance_list instance soft_instance;
 soft_instance : corners aspect class orient softpins mc_pingroup;
 soft_instance : corners aspect class orient softpins;
 soft_instance : corners aspect class orient;
-instance : INSTANCE string;
+instance : INSTANCE string
+{
+	add_instance();
+};
 padcell : padname corners cur_orient restriction sidespace hardpins;
 padcell : padname corners cur_orient restriction sidespace;
 padgroup : padgroupname padgrouplist restriction sidespace;
@@ -210,7 +213,11 @@ softpin : softpin_info siderestriction;
 softpin : softpin_info siderestriction softequivs;
 softpin_info : SOFTPIN NAME string SIGNAL string opt_layer;
 pinrecord : required_pinfo contour current power no_layer_change;
-required_pinfo : PIN NAME string SIGNAL string layer;
+required_pinfo : PIN NAME STRING SIGNAL STRING layer
+{
+	set_pinname( $3 ) ;
+	addNet( $5 ) ;
+};
 contour : INTEGER INTEGER;
 contour : num_corners pin_pts;
 num_corners : CORNERS INTEGER;
