@@ -65,7 +65,7 @@ static char SccsId[] = "@(#) output.c version 1.8 7/24/91" ;
 #include <yalecad/buster.h>
 
 // YcurTime() is not declared in any of the above
-extern char *YcurTime( INT * );
+extern char *YcurTime( int * );
 
 static int objectS = 0 ;       /* number of objects read */
 static int celltypeS ;         /* current cell type */
@@ -98,7 +98,6 @@ void init()
 void addCell( int celltype, char *cellname )
 {
 	strcpy( current_cellS, cellname ) ;
-// 	Ysafe_free( cellname ) ;
 	/* passify the user */
 	if( (++objectS % 50) == 0 ){
 		sprintf( YmsgG, "Read %4d objects so far...\n", objectS ) ;
@@ -214,48 +213,45 @@ void processCorners()
 	}
 } /* end processCorners */
 
-check_xloc( value )
-char *value ;
+void check_xloc( char *value )
 {
-    if( (strcmp( value, "L" ) != STRINGEQ ) && strcmp( value, "R" ) != STRINGEQ ){
-	sprintf( YmsgG, "x location should be L or R:%s\n", current_cellS ) ;
-	M( ERRMSG,"check_xloc", YmsgG ) ;
-    }
-    Ysafe_free( value ) ;
+	if( (strcmp( value, "L" ) != STRINGEQ ) && strcmp( value, "R" ) != STRINGEQ ){
+		sprintf( YmsgG, "x location should be L or R:%s\n", current_cellS ) ;
+		M( ERRMSG,"check_xloc", YmsgG ) ;
+	}
+	Ysafe_free( value ) ;
 } /* end check_xloc */
 
-check_yloc( value )
-char *value ;
+void check_yloc( char *value )
 {
-    if( (strcmp( value, "B" ) != STRINGEQ ) && strcmp( value, "T" ) != STRINGEQ ){
-	sprintf( YmsgG, "y location should be B or T:%s\n", current_cellS ) ;
-	M( ERRMSG,"check_yloc", YmsgG ) ;
-    }
-    Ysafe_free( value ) ;
+	if( (strcmp( value, "B" ) != STRINGEQ ) && strcmp( value, "T" ) != STRINGEQ ){
+		sprintf( YmsgG, "y location should be B or T:%s\n", current_cellS ) ;
+		M( ERRMSG,"check_yloc", YmsgG ) ;
+	}
+	Ysafe_free( value ) ;
 } /* end check_xloc */
 
-check_sideplace( side )
-char *side ;
+void check_sideplace( char *side )
 {
-    INT numsides ;
-    INT i ;
+	int numsides ;
+	int i ;
 
-    numsides = strlen( side ) ;
-    for( i = 0 ; i < numsides; i++ ){
-	switch( side[i] ){
-	    case 'B' :
-	    case 'L' :
-	    case 'R' :
-	    case 'T' :
-		break ;
-	    default:
-		sprintf( YmsgG,
-		    "side restriction not specified properly for cell:%s\n",
-		    current_cellS );
-	    M(ERRMSG,"check_sideplace",YmsgG ) ;
-	} /* end switch */
-    } 
-    Ysafe_free( side ) ;
+	numsides = strlen( side ) ;
+	for( i = 0 ; i < numsides; i++ ){
+		switch( side[i] ){
+		case 'B' :
+		case 'L' :
+		case 'R' :
+		case 'T' :
+			break ;
+		default:
+			sprintf( YmsgG,
+			"side restriction not specified properly for cell:%s\n",
+			current_cellS );
+		M(ERRMSG,"check_sideplace",YmsgG ) ;
+		} /* end switch */
+	} 
+	Ysafe_free( side ) ;
 } /* end check_sideplace */
 
 set_pinname( pinname )
@@ -264,36 +260,32 @@ char *pinname ;
     strcpy( cur_pinnameS, pinname ) ;
 } /* end set_pinname */
 
-check_pos( xpos, ypos ) 
-int xpos, ypos ;
+void check_pos( int xpos, int ypos ) 
 {
-
-    if( xpos < minxS || xpos > maxxS || ypos < minyS || ypos > maxyS ){
-	sprintf( YmsgG, "Pin:%s cell:%s @(%d,%d) is outside cell boundary\n",
-	    cur_pinnameS, current_cellS, xpos, ypos ) ;
-	M( ERRMSG, "check_pos", YmsgG ) ;
-    }
+	if( xpos < minxS || xpos > maxxS || ypos < minyS || ypos > maxyS ){
+		sprintf( YmsgG, "Pin:%s cell:%s @(%d,%d) is outside cell boundary\n", cur_pinnameS, current_cellS, xpos, ypos ) ;
+		M( ERRMSG, "check_pos", YmsgG ) ;
+	}
 } /* end check_pos */
 
 /* ***************************************************************** 
     OUTPUT routine - output the results.
    **************************************************************** */
-output()
+void output()
 {
-    char *yctime = (char *)YcurTime(NULL);
-    fprintf( fpoG, "TIMESTAMP:%s\n", yctime ) ;
-    // fprintf( fpoG, "TIMESTAMP:%s\n", YcurTime(NULL) ) ;
-    fprintf( fpoG, "Statistics for %s:\n", cktNameG ) ;
-    fprintf( fpoG, "num_stdcells:%d\n", stdcellS ) ;
-    fprintf( fpoG, "num_macros:%d\n", macroS ) ;
-    fprintf( fpoG, "num_instances:%d\n", numinstanceS ) ;
-    fprintf( fpoG, "num_pads:%d\n", padS ) ;
-    fprintf( fpoG, "num_nets:%d\n", netS ) ;
-    fprintf( fpoG, "num_pins:%d\n", pinS ) ;
-    fprintf( fpoG, "num_implicit_feeds:%d\n", impS ) ;
-    fprintf( fpoG, "num_equivs:%d\n", equivS ) ;
-    fprintf( fpoG, "num_unequivs:%d\n", unequivS ) ;
-    fprintf( fpoG, "num_ports:%d\n", portS ) ;
-    fprintf( fpoG, "macro_area:%4.3le\n", cellAreaS ) ;
-
+	char *yctime = (char *)YcurTime(NULL);
+	fprintf( fpoG, "TIMESTAMP:%s\n", yctime ) ;
+	// fprintf( fpoG, "TIMESTAMP:%s\n", YcurTime(NULL) ) ;
+	fprintf( fpoG, "Statistics for %s:\n", cktNameG ) ;
+	fprintf( fpoG, "num_stdcells:%d\n", stdcellS ) ;
+	fprintf( fpoG, "num_macros:%d\n", macroS ) ;
+	fprintf( fpoG, "num_instances:%d\n", numinstanceS ) ;
+	fprintf( fpoG, "num_pads:%d\n", padS ) ;
+	fprintf( fpoG, "num_nets:%d\n", netS ) ;
+	fprintf( fpoG, "num_pins:%d\n", pinS ) ;
+	fprintf( fpoG, "num_implicit_feeds:%d\n", impS ) ;
+	fprintf( fpoG, "num_equivs:%d\n", equivS ) ;
+	fprintf( fpoG, "num_unequivs:%d\n", unequivS ) ;
+	fprintf( fpoG, "num_ports:%d\n", portS ) ;
+	fprintf( fpoG, "macro_area:%4.3le\n", cellAreaS ) ;
 } /* end output */

@@ -121,7 +121,7 @@ int find_flow_file( BOOL general_mode, BOOL debug, char *filename )
 		sprintf( suffix, "flow" ) ;
 	}
 
-	/*if( flow_dirG ){
+	if( flow_dirG ) {
 		// first try absolute path
 		sprintf( filename, "%s/%s.%s", flow_dirG, prefix, suffix ) ;
 		if( access( filename, F_OK ) != -1 ) {
@@ -146,7 +146,7 @@ int find_flow_file( BOOL general_mode, BOOL debug, char *filename )
 			G( TWcloseGraphics() ) ;
 		}
 		YexitPgm(PGMFAIL) ;
-	}*/
+	}
 
 	sprintf( filename, "%s.%s", prefix, suffix ) ;
 	printf("Does file %s exist? \n", filename );
@@ -200,6 +200,9 @@ int find_design_type(BOOL debug)
 	outfile.next = NULL ;
 	syntax_info.ifiles = &infile ;
 	syntax_info.ofiles = &outfile ;
+	sprintf( buffer, "%s.stat", cktNameG ) ;
+	Yrm_files(buffer);
+
 	if( check_dependencies( &syntax_info )) {
 		/* we need to execute the syntax program */
 		sprintf( buffer, "syntax %s", cktNameG ) ;

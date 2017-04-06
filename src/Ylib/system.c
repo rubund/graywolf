@@ -57,7 +57,7 @@ int Yrm_files( char *files );
 void YcopyFile( char *sourcefile, char *destfile )
 {
 	if(YfileExists(sourcefile)) {
-		printf("%s doesn't exist\n",sourcefile);
+		printf("%s: %s doesn't exist\n",__FUNCTION__,sourcefile);
 		return;
 	}
 

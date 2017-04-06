@@ -239,7 +239,7 @@ void initCellInfo()
 	tileptAllocS = EXPECTEDCORNERS ;
 	cornerArrayS = ( YBUSTBOXPTR ) Ysafe_malloc( tileptAllocS * sizeof( YBUSTBOX ) );
 	pSideArrayS  = (PSIDEBOX *) Ysafe_malloc( tileptAllocS * sizeof( PSIDEBOX ) ) ;
-	kArrayS      = (KBOXPTR) Ysafe_calloc( (MAXSITES + 1), sizeof( KBOX ));
+	kArrayS = (KBOXPTR) Ysafe_calloc( (MAXSITES + 1), sizeof( KBOX ));
 	/* make hash table for nets */
 	netTableS = Yhash_table_create( EXPECTEDNUMNETS );
 	if(netTableS==NULL) {
@@ -395,24 +395,24 @@ void addCell( char *cellName, CELLTYPE cellType )
 		}
 	}
 	if( cellType == SOFTCELLTYPE ){
-		ptrS->padptr = NULL ;
+		ptrS->padptr = (PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
 		ptrS->softflag = TRUE ;
 		/* allocate space for uncommitted pins array */
 		numcellsG++ ;
 		numsoftG++ ;
 		numpingroupS = 0 ;
 	} else if( cellType == STDCELLTYPE ){
-		ptrS->padptr = NULL ;
+		ptrS->padptr = (PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
 		ptrS->softflag = TRUE ;
 		/* allocate space for uncommitted pins array */
 		numcellsG++ ;
 		numstdcellG++ ;
 		doPartitionG = TRUE ;
-	} else if( cellType == CUSTOMCELLTYPE){
+	} else if( cellType == CUSTOMCELLTYPE) {
 		ptrS->softflag = FALSE ;
-		ptrS->padptr = NULL ;
+		ptrS->padptr = (PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
 		numcellsG++ ;
-	} else if( cellType == PADCELLTYPE || cellType == PADGROUPTYPE){
+	} else if( cellType == PADCELLTYPE || cellType == PADGROUPTYPE) {
 		ptrS->softflag = FALSE ;
 		pptrS =ptrS->padptr = (PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
 		pptrS->fixed = FALSE ;
@@ -1212,51 +1212,49 @@ switch( cur_restrict_objS ){
 /* ***************************************************************** */
 
 
-add_pinspace( lower, upper )
-double lower ;
-double upper ;
+void add_pinspace( double lower, double upper )
 {
-    char *name ;         /* name of current object */
-    SOFTBOXPTR spin ;    /* soft pin information of current pin or pg */
+	char *name ;         /* name of current object */
+	SOFTBOXPTR spin ;    /* soft pin information of current pin or pg */
 
-    ERRORABORT() ;
+	ERRORABORT() ;
 
-    switch( cur_restrict_objS ){ 
-	case PINGROUPTYPE:
-	    spin = pingroupS->softinfo ;
-	    name = pingroupS->pinname ;
-	    break ;
-	case SOFTPINTYPE:
-	case SOFTEQUIVTYPE:
-	    spin = pinS->softinfo ;
-	    name = pinS->pinname ;
-	    break ;
-	case ADDEQUIVTYPE:
-	    return ;
-    } /* end switch on current object */
+	switch( cur_restrict_objS ){ 
+		case PINGROUPTYPE:
+		spin = pingroupS->softinfo ;
+		name = pingroupS->pinname ;
+		break ;
+		case SOFTPINTYPE:
+		case SOFTEQUIVTYPE:
+		spin = pinS->softinfo ;
+		name = pinS->pinname ;
+		break ;
+		case ADDEQUIVTYPE:
+		return ;
+	} /* end switch on current object */
 
-    spin->fixed = TRUE ;
-    if( lower > 1.0 || upper > 1.0 ){
-	sprintf(YmsgG,
-	    "side space must be less or equal to 1.0 for pin: %s\n", name ) ;
-	M(ERRMSG,"add_pinspace",YmsgG ) ;
-	setErrorFlag() ;
-    }
-    if( lower < 0.0 || upper < 0.0 ){
-	sprintf(YmsgG,
-	    "side space must be greater or equal to 0.0 for pin: %s\n",name ) ;
-	M(ERRMSG,"add_pinspace",YmsgG ) ;
-	setErrorFlag() ;
-    }
-    if( lower > upper ){
-	sprintf(YmsgG,
-	    "side space upper bound must be greater or equal to lower bound for pin: %s\n",
-	    name ) ;
-	M(ERRMSG,"add_pinspace",YmsgG ) ;
-	setErrorFlag() ;
-    }
-    spin->lowerbound = lower ;
-    spin->upperbound = upper ;
+	spin->fixed = TRUE ;
+	if( lower > 1.0 || upper > 1.0 ){
+		sprintf(YmsgG,
+		"side space must be less or equal to 1.0 for pin: %s\n", name ) ;
+		M(ERRMSG,"add_pinspace",YmsgG ) ;
+		setErrorFlag() ;
+	}
+	if( lower < 0.0 || upper < 0.0 ){
+		sprintf(YmsgG,
+		"side space must be greater or equal to 0.0 for pin: %s\n",name ) ;
+		M(ERRMSG,"add_pinspace",YmsgG ) ;
+		setErrorFlag() ;
+	}
+	if( lower > upper ){
+		sprintf(YmsgG,
+		"side space upper bound must be greater or equal to lower bound for pin: %s\n",
+		name ) ;
+		M(ERRMSG,"add_pinspace",YmsgG ) ;
+		setErrorFlag() ;
+	}
+	spin->lowerbound = lower ;
+	spin->upperbound = upper ;
 } /* end add_pinspace */
 /* ***************************************************************** */
 

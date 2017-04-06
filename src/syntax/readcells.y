@@ -132,8 +132,14 @@ padcell : padname corners cur_orient restriction sidespace;
 padgroup : padgroupname padgrouplist restriction sidespace;
 cellgroup : supergroupname supergrouplist class orient;
 cellgroup : cellgroupname neighborhood cellgrouplist;
-hardcellname : HARDCELL string NAME string;
-softname : SOFTCELL string NAME string;
+hardcellname : HARDCELL INTEGER NAME STRING
+{
+	addCell(HARDCELLTYPE, $4 ) ;
+};
+softname : SOFTCELL INTEGER NAME STRING
+{
+	addCell(SOFTCELLTYPE, $4 ) ;
+};
 cellname : CELL INTEGER STRING
 {
 	addCell(STDCELLTYPE, $3 );
@@ -171,7 +177,10 @@ bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 };
 xloc : STRING;
 yloc : STRING;
-padname : PAD string NAME string;
+padname : PAD INTEGER NAME STRING
+{
+	addCell(PADCELLTYPE, $4 ) ;
+};
 padgroupname : PADGROUP string PERMUTE;
 padgroupname : PADGROUP string NOPERMUTE;
 supergroupname : SUPERGROUP string NAME string;
@@ -218,11 +227,23 @@ required_pinfo : PIN NAME STRING SIGNAL STRING layer
 	set_pinname( $3 ) ;
 	addNet( $5 ) ;
 };
-contour : INTEGER INTEGER;
-contour : num_corners pin_pts;
+contour : INTEGER INTEGER
+{
+	start_pt( $1, $2 ) ;
+};
+contour : num_corners pin_pts
+{
+	processCorners();
+};
 num_corners : CORNERS INTEGER;
-pin_pts : INTEGER INTEGER;
-pin_pts : pin_pts INTEGER INTEGER;
+pin_pts : INTEGER INTEGER
+{
+	add_pt( $1, $2 ) ;
+};
+pin_pts : pin_pts INTEGER INTEGER
+{
+	add_pt( $2, $3 ) ;
+};
 current :;
 current : CURRENT FLOAT;
 power :;
@@ -231,15 +252,24 @@ no_layer_change :;
 no_layer_change : NO_LAYER_CHANGE;
 equiv_list : equiv;
 equiv_list : equiv_list equiv;
-equiv : EQUIV NAME string layer contour;
+equiv : EQUIV NAME string layer contour
+{
+	addEquiv() ;
+};
 unequiv_list : unequiv;
 unequiv_list : unequiv_list unequiv;
-unequiv : UNEQUIV NAME string layer contour;
+unequiv : UNEQUIV NAME string layer contour
+{
+	addUnEquiv() ;
+};
 softequivs : mc_equiv;
 softequivs : mc_equiv user_equiv_list;
 softequivs : user_equiv_list;
 mc_equiv : addequiv siderestriction;
-addequiv : ADDEQUIV;
+addequiv : ADDEQUIV
+{
+	addEquiv();
+};
 user_equiv_list : user_equiv;
 user_equiv_list : user_equiv_list user_equiv;
 user_equiv : equiv_name siderestriction connect;

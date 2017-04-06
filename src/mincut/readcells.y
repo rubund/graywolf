@@ -13,7 +13,7 @@ extern int yyget_lineno(void);
 %union {
 	int ival;
 	float fval;
-	char sval[200];
+	char *sval;
 }
 
 %token ECO_ADDED_CELL

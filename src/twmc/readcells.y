@@ -103,25 +103,34 @@ customcell : cellname fixed custom_instance_list
 	endCell();
 };
 custom_instance_list : custom_instance;
-custom_instance_list : custom_instance_list instance custom_instance;
+custom_instance_list : custom_instance_list instance custom_instance
+{
+	endCell() ;
+};
 custom_instance : corners keep_outs class orient hardpins;
 custom_instance : corners keep_outs class orient;
 softcell : softname soft_instance_list
 {
-	endCell();
+/* 	endCell(); */
 };
 softcell : softname fixed soft_instance_list
 {
-	endCell();
+/* 	endCell(); */
 };
 soft_instance_list : soft_instance;
 soft_instance_list : soft_instance_list instance soft_instance;
-soft_instance : corners aspect keep_outs class orient softpins pingroup;
-soft_instance : corners aspect keep_outs class orient softpins;
+soft_instance : corners aspect keep_outs class orient softpins pingroup
+{
+	endCell() ;
+};
+soft_instance : corners aspect keep_outs class orient softpins
+{
+	endCell() ;
+};
 soft_instance : corners aspect keep_outs class orient;
 instance: INSTANCE STRING
 {
-	addCell(Ystrclone($2), STDCELLTYPE);
+	add_instance(Ystrclone($2)) ;
 };
 padcell: padname corners cur_orient restriction sidespace hardpins
 {
@@ -235,17 +244,20 @@ pintype : pinrecord {};
 pintype : pinrecord equiv_list {};
 pinname: PIN NAME STRING SIGNAL STRING layer
 {
-	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
+/* 	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE); */
 };
 pinrecord : pinname contour timing current power no_layer_change 
 {
-	process_pin();
+/* 	process_pin(); */
 };
-contour : INTEGER INTEGER {};
-contour : num_corners pin_pts {};
+contour : INTEGER INTEGER
+{
+/* 	set_pin_pos( $1, $2 ) ; */
+};
+contour : num_corners pin_pts;
 num_corners : CORNERS INTEGER
 {
-	$$=$2;
+	add_analog( $2 );
 };
 pin_pts : INTEGER INTEGER {
 	add_pin_contour($1, $2) ;
@@ -305,7 +317,10 @@ pinspace : SIDESPACE FLOAT FLOAT;
 sidespace :;
 sidespace : SIDESPACE FLOAT;
 sidespace : SIDESPACE FLOAT FLOAT;
-sideplace : STRING;
+sideplace : STRING
+{
+	addPadSide( $1 ); 
+};
 sideplace : error;
 restriction :;
 restriction : RESTRICT SIDE sideplace;
@@ -342,7 +357,6 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
-	printf("readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
 	initCellInfo();
 	if(yyin) {

@@ -72,5 +72,5 @@ unequiv           return UNEQUIV;
 {newline}+			{yylineno++;}
 {blanks}+			{};
 {integer}+			{yylval.ival = atoi(yytext); return INTEGER;};
-{string}+			{for(int i=0;i<strlen(yylval.sval);i++){yylval.sval[i]=0;} sprintf(yylval.sval,"%s",yytext); return STRING;}
+{string}+			{yylval.sval=Ystrclone(yytext); return STRING;}
 {float}+			{yylval.fval = atof(yytext); return FLOAT;}

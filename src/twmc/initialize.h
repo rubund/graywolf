@@ -11,14 +11,6 @@ REVISIONS:  Wed Dec 19 19:38:46 EST 1990 - added analog pin type.
 #ifndef INITIALIZE_H
 #define INITIALIZE_H
 
-#define PINGROUPTYPE     1
-#define HARDPINTYPE      2
-#define SOFTPINTYPE      3
-#define SOFTEQUIVTYPE    4
-#define HARDEQUIVTYPE    5
-#define ADDEQUIVTYPE     6
-#define ANALOGPINTYPE    7
-
 #include "../globals.h"
 
 #endif /* INITIALIZE_H */

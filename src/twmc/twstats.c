@@ -53,62 +53,57 @@ static char SccsId[] = "@(#) twstats.c version 3.3 9/5/90" ;
 #include <yalecad/debug.h>
 
 #define MAXPININFO 100
-static INT maxpinS = 0 ;
+static int maxpinS = 0 ;
 
-
-twstats()
+void twstats()
 {
-    INT temp ;
-    DOUBLE reduction ;
+	int temp ;
+	double reduction ;
+	printf("\nInitial Wiring Cost: %d   Final Wiring Cost: %d\n", icostG , fcostG ) ;
+	if( icostG != 0 ) {
+		temp = 100 - (INT)( (double)fcostG / (double)icostG * 100.0 ) ;
+		printf("############ Percent Wire Cost Reduction: %d\n\n", temp ) ;
+	}
 
-printf("\nInitial Wiring Cost: %d   Final Wiring Cost: %d\n",
-						icostG , fcostG ) ;
-if( icostG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE)fcostG / (DOUBLE)icostG * 100.0 ) ;
-    printf("############ Percent Wire Cost Reduction: %d\n\n", temp ) ;
+	printf("\nInitial Wire Length: %d   Final Wire Length: %d\n", iwireG, fwireG ) ;
+	if( icostG != 0 ) {
+		temp = 100 - (INT)( (double) fwireG / (double) iwireG * 100.0 ) ;
+		printf("*********** Percent Wire Length Reduction: %d\n\n", temp ) ;
+	}
+
+	printf("\nInitial Horiz. Wire: %d   Final Horiz. Wire: %d\n", iwirexG , fwirexG ) ;
+	if( iwirexG != 0 ) {
+		temp = 100 - (INT)( (double)fwirexG / (double)iwirexG * 100.0 ) ;
+		printf("$$$$$$$$$ Percent H-Wire Length Reduction: %d\n\n", temp ) ;
+	}
+	printf("\nInitial Vert. Wire: %d   Final Vert. Wire: %d\n", iwireyG , fwireyG ) ;
+
+	if( iwireyG != 0 ) {
+		temp = 100 - (INT)( (double)fwireyG / (double)iwireyG * 100.0 ) ;
+		printf("@@@@@@@@@ Percent V-Wire Length Reduction: %d\n\n", temp ) ;
+	}
+
+	printf("\nStatistics:\n");
+	printf("Number of Cells: %d\n", numcellsG );
+	printf("Number of Pads: %d\n", numpadsG );
+	printf("Number of Nets: %d \n", numnetsG ) ;
+	printf("Number of Pins: %d \n", numpinsG ) ;
+
+	/* write wire reduction to log file */
+	if( avg_funcG > 0 ){
+	reduction = (double) avg_funcG / (double) fwireG ;
+	sprintf( YmsgG,
+		"TimberWolfMC reduction:%4.4le", reduction ) ;
+	Ylog_start( cktNameG, YmsgG ) ;
+	}
+
+	return ;
 }
 
-printf("\nInitial Wire Length: %d   Final Wire Length: %d\n",
-					    iwireG, fwireG ) ;
-if( icostG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE) fwireG / (DOUBLE) iwireG * 100.0 ) ;
-    printf("*********** Percent Wire Length Reduction: %d\n\n", temp ) ;
-}
-
-printf("\nInitial Horiz. Wire: %d   Final Horiz. Wire: %d\n",
-					    iwirexG , fwirexG ) ;
-if( iwirexG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE)fwirexG / (DOUBLE)iwirexG * 100.0 ) ;
-    printf("$$$$$$$$$ Percent H-Wire Length Reduction: %d\n\n", temp ) ;
-}
-printf("\nInitial Vert. Wire: %d   Final Vert. Wire: %d\n",
-					    iwireyG , fwireyG ) ;
-if( iwireyG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE)fwireyG / (DOUBLE)iwireyG * 100.0 ) ;
-    printf("@@@@@@@@@ Percent V-Wire Length Reduction: %d\n\n", temp ) ;
-}
-
-printf("\nStatistics:\n");
-printf("Number of Cells: %d\n", numcellsG );
-printf("Number of Pads: %d\n", numpadsG );
-printf("Number of Nets: %d \n", numnetsG ) ;
-printf("Number of Pins: %d \n", numpinsG ) ;
-
-/* write wire reduction to log file */
-if( avg_funcG > 0 ){
-    reduction = (DOUBLE) avg_funcG / (DOUBLE) fwireG ;
-    sprintf( YmsgG,
-	"TimberWolfMC reduction:%4.4le", reduction ) ;
-    Ylog_start( cktNameG, YmsgG ) ;
-}
-
-return ;
-}
-
-static INT printPinS = 0 ;
+static int printPinS = 0 ;
 
 set_print_pin( pin )
-INT pin ;
+int pin ;
 {
     printPinS = pin ;
 }
@@ -117,8 +112,8 @@ prnt_netinfo()
 {
 
 SHORT numpins ;
-INT net_pin_num[ MAXPININFO+1 ] ;
-INT n, net, cell ;
+int net_pin_num[ MAXPININFO+1 ] ;
+int n, net, cell ;
 NETBOXPTR dimptr ;
 PINBOXPTR termptr ;
 

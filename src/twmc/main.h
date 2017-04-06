@@ -95,6 +95,14 @@ typedef INT CELLTYPE ;
 #define COMPACTION               4
 #define CHANNEL_GENERATION       5
 
+#define PINGROUPTYPE     1
+#define HARDPINTYPE      2
+#define SOFTPINTYPE      3
+#define SOFTEQUIVTYPE    4
+#define HARDEQUIVTYPE    5
+#define ADDEQUIVTYPE     6
+#define ANALOGPINTYPE    7
+
 /* I/O MACRO DEFINITIONS */
 #include <yalecad/message.h>
 

@@ -84,7 +84,7 @@ __attribute__((visibility("default")))
 Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 {
 	FILE *fp ;
-	int yaleIntro() ;
+	void yaleIntro() ;
 	char filename[LRECL] ; /* used for input filename */
 	char *ptr ;     /* used to parse command line */
 	BOOL debug ;    /* true if debug is requested */
@@ -203,7 +203,6 @@ Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 
 	if( graphicsG ){
 		G( process_graphics() ) ;
-// 		G( TWcloseGraphics() ) ;
 	} /* end graphics switch */
 
 	print_blk_file()  ;
@@ -228,12 +227,9 @@ Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 
 } /* end main */
 
-
-yaleIntro() 
+void yaleIntro() 
 {
-
-    printf("\n%s\n",YmsgG) ;
-    printf("Row configuration program\n");
-    printf("    Yale University\n");
-
+	printf("\n%s\n",YmsgG) ;
+	printf("Row configuration program\n");
+	printf("    Yale University\n");
 } /* end yaleIntro */

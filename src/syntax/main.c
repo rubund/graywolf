@@ -69,7 +69,6 @@ int
 __attribute__((visibility("default")))
 Syntax( BOOL d , char *cktName )
 {
-
 	char *YinitProgram(), *Ystrclone() ;
 	char filename[LRECL] ;
 	char filename2[LRECL] ;
