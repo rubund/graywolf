@@ -103,10 +103,7 @@ customcell : cellname fixed custom_instance_list
 	endCell();
 };
 custom_instance_list : custom_instance;
-custom_instance_list : custom_instance_list instance custom_instance
-{
-	endCell() ;
-};
+custom_instance_list : custom_instance_list instance custom_instance;
 custom_instance : corners keep_outs class orient hardpins;
 custom_instance : corners keep_outs class orient;
 softcell : softname soft_instance_list
@@ -127,7 +124,10 @@ soft_instance : corners aspect keep_outs class orient softpins
 {
 	endCell() ;
 };
-soft_instance : corners aspect keep_outs class orient;
+soft_instance : corners aspect keep_outs class orient
+{
+	endCell() ;
+};
 instance: INSTANCE STRING
 {
 	endCell();
@@ -158,7 +158,6 @@ softname : SOFTCELL INTEGER NAME STRING
 };
 softname : CLUSTER INTEGER NAME STRING
 {
-	printf("Adding cluster %s\n",$4);
 	addCell(Ystrclone($4), STDCELLTYPE);
 };
 softname : SOFTCELL error;
@@ -242,8 +241,8 @@ softtype : pintype;
 softtype : softpin;
 hardpins : pintype;
 hardpins : hardpins pintype;
-pintype : pinrecord {};
-pintype : pinrecord equiv_list {};
+pintype : pinrecord;
+pintype : pinrecord equiv_list;
 pinname: PIN NAME STRING SIGNAL STRING layer
 {
 	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
@@ -273,9 +272,7 @@ power :;
 power : POWER FLOAT;
 no_layer_change :;
 no_layer_change : NO_LAYER_CHANGE;
-softpin : softpin_info siderestriction pinspace
-{
-};
+softpin : softpin_info siderestriction pinspace;
 softpin : softpin_info siderestriction pinspace softequivs;
 softpin_info : SOFTPIN NAME STRING SIGNAL STRING layer timing
 {

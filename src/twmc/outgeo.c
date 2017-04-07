@@ -283,6 +283,11 @@ void store_pad_loc( CELLBOXPTR cellptr, int l, int r, int b, int t )
 {
 	TILEBOXPTR tptr ;
 
+	if(!cellptr) {
+		printf("cellptr is NULL!\n");
+		return;
+	}
+
 	tptr = cellptr->tiles ;
 	cellptr->xcenter = (l + r) / 2 ;
 	cellptr->ycenter = (b + t) / 2 ;

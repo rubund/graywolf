@@ -91,10 +91,9 @@ void twstats()
 
 	/* write wire reduction to log file */
 	if( avg_funcG > 0 ){
-	reduction = (double) avg_funcG / (double) fwireG ;
-	sprintf( YmsgG,
-		"TimberWolfMC reduction:%4.4le", reduction ) ;
-	Ylog_start( cktNameG, YmsgG ) ;
+		reduction = (double) avg_funcG / (double) fwireG ;
+		sprintf( YmsgG, "TimberWolfMC reduction:%4.4le", reduction ) ;
+		Ylog_start( cktNameG, YmsgG ) ;
 	}
 
 	return ;
