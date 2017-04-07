@@ -297,6 +297,12 @@ void read_par()
 				row_sep_absS = atof( tokens[2] ) ;
 			found = TRUE ;
 		}
+		if( strcmp( tokens[0], "*rowSep" ) == STRINGEQ ){
+			row_sepS = atof( tokens[1] ) ;
+			if (numtokens == 3)
+				row_sep_absS = atof( tokens[2] ) ;
+			found = TRUE ;
+		}
 	}
 	if(!(found)){
 		M(WARNMSG, "read_par", "Couldn't find rowsep in parameter file\n" ) ;
