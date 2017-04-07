@@ -75,7 +75,7 @@ extern void (*_TWdrawArb)( int ref_num, int color, char *label ) ;
     TWdrawLine(ref_num,(INT)X1,(INT)Y1,(INT)X2,(INT)Y2,color, label) ; \
 }
 
-extern  _TW3DdrawAxis( BOOL drawNotErase ) ;
+extern  void _TW3DdrawAxis( BOOL drawNotErase ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
@@ -111,7 +111,7 @@ Function:
     It is found by calling TWsaveState in the calling processs.
 */
 
-extern TWcloseGraphics() ;
+extern void TWcloseGraphics() ;
 /* 
 Function:
     Closes graphics display and performs cleanup operations.

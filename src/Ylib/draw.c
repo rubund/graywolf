@@ -709,7 +709,7 @@ void TWforceRedraw()
     XSendEvent( dpyS, drawS, TRUE, ExposureMask, &event ) ;
 } /* end TWforceRedraw */
 
-int TWcloseGraphics()
+void TWcloseGraphics()
 {
 	if(!(initS )){
 		printf("ERROR[closeGraphics]:initialization was not" ) ;
@@ -1300,376 +1300,354 @@ char	*label ;
     }
 } /* end drawDCell */
 
-TWarb_init()
+void TWarb_init()
 {
-    /* allocate memory if needed */
-    if(!(ptS)){
-	ptAllocS = EXPECTEDPTS ;
-	ptS = YMALLOC( ptAllocS, XPoint );
-    }
-    if( modeS == TWWRITEONLY || modeS == TWWRITENDRAW ){
-	Ybuster_init() ;
-    }
-    /* make sure we cannot match the 0 record in the redundancy */
-#if 0
-    /* Yikes! XPoint x and y records are defined as type short. . . */
-    ptS[0].x = INT_MIN ;
-    ptS[0].y = INT_MIN ;
-#else
-    ptS[0].x = SHRT_MIN ;
-    ptS[0].y = SHRT_MIN ;
-#endif
-    numptS = 0 ;
-    if( !(fullViewS)){
-	arblS = INT_MAX ; arbrS = INT_MIN ; arbbS = INT_MAX ; arbtS = INT_MIN ;
-    }
+	/* allocate memory if needed */
+	if(!(ptS)){
+		ptAllocS = EXPECTEDPTS ;
+		ptS = YMALLOC( ptAllocS, XPoint );
+	}
+	if( modeS == TWWRITEONLY || modeS == TWWRITENDRAW ){
+		Ybuster_init() ;
+	}
+	/* make sure we cannot match the 0 record in the redundancy */
+	#if 0
+	/* Yikes! XPoint x and y records are defined as type short. . . */
+	ptS[0].x = INT_MIN ;
+	ptS[0].y = INT_MIN ;
+	#else
+	ptS[0].x = SHRT_MIN ;
+	ptS[0].y = SHRT_MIN ;
+	#endif
+	numptS = 0 ;
+	if( !(fullViewS)){
+		arblS = INT_MAX ; arbrS = INT_MIN ; arbbS = INT_MAX ; arbtS = INT_MIN ;
+	}
 } /* end TWarb_init */
 /* ***************************************************************** */
 
-TWarb_addpt( xpos, ypos )
-int xpos, ypos ;
+void TWarb_addpt( int xpos, int ypos )
 {
-
-    if( modeS == TWWRITEONLY || modeS == TWWRITENDRAW ){
-	Ybuster_addpt( xpos, ypos ) ;
-    }
-    if(!(fullViewS)){
-	arblS = MIN( arblS, xpos ) ;
-	arbbS = MIN( arbbS, ypos ) ;
-	arbrS = MAX( arbrS, xpos ) ;
-	arbtS = MAX( arbtS, ypos ) ;
-    }
-    /* first add data offset to move to relative to 0,0 */
-    xpos += xoffsetS ;
-    ypos += yoffsetS ;
-    /* next scale coordinates to window */
-    xpos = (INT) ( (double ) xpos * scaleFactorS ) ;
-    ypos = (INT) ( (double ) ypos * scaleFactorS ) ;
-    /* account for inversion of y axis */
-    ypos = winheightS - ypos ;
-    /* now points are in X coordinates */
-    if( xpos == (INT) ptS[numptS].x && ypos == (INT) ptS[numptS].y ){
-	/* avoid redundant points */
-	return ;
-    }
-    /* increase the space if necessary */
-    if( ++numptS >= ptAllocS ){
-	ptAllocS += EXPECTEDPTS ;
-	ptS = YREALLOC( ptS,  ptAllocS, XPoint ) ;
-    }
-    ptS[numptS].x = (SHORT) xpos ;
-    ptS[numptS].y = (SHORT) ypos ;
+	if( modeS == TWWRITEONLY || modeS == TWWRITENDRAW ){
+		Ybuster_addpt( xpos, ypos ) ;
+	}
+	if(!(fullViewS)){
+		arblS = MIN( arblS, xpos ) ;
+		arbbS = MIN( arbbS, ypos ) ;
+		arbrS = MAX( arbrS, xpos ) ;
+		arbtS = MAX( arbtS, ypos ) ;
+	}
+	/* first add data offset to move to relative to 0,0 */
+	xpos += xoffsetS ;
+	ypos += yoffsetS ;
+	/* next scale coordinates to window */
+	xpos = (INT) ( (double ) xpos * scaleFactorS ) ;
+	ypos = (INT) ( (double ) ypos * scaleFactorS ) ;
+	/* account for inversion of y axis */
+	ypos = winheightS - ypos ;
+	/* now points are in X coordinates */
+	if( xpos == (INT) ptS[numptS].x && ypos == (INT) ptS[numptS].y ){
+		/* avoid redundant points */
+		return ;
+	}
+	/* increase the space if necessary */
+	if( ++numptS >= ptAllocS ){
+		ptAllocS += EXPECTEDPTS ;
+		ptS = YREALLOC( ptS,  ptAllocS, XPoint ) ;
+	}
+	ptS[numptS].x = (SHORT) xpos ;
+	ptS[numptS].y = (SHORT) ypos ;
 } /* end TWarb_addpt */
 /* ***************************************************************** */
 
 
-static VOID drawDArb( ref, color, label )
-INT	ref, color ;
-char	*label ;
+static void drawDArb( int ref, int color, char *label )
 {
-    int    i ;           /* counter */
-    int    len ;         /* length of string if given */
-    int x1, y1, x2, y2 ; /* bounding box of figure */
-    unsigned int width ; /* width of font */
-    XPoint *points ;     /* array starts from 1 not zero */
+	int    i ;           /* counter */
+	int    len ;         /* length of string if given */
+	int x1, y1, x2, y2 ; /* bounding box of figure */
+	unsigned int width ; /* width of font */
+	XPoint *points ;     /* array starts from 1 not zero */
 
-    if( color <= 0 || color > numColorS ){
-	if( initS ){ /* graphics are available */
-	    sprintf( YmsgG, "Color number:%d is out of range", color ) ;
-	    TWmessage( YmsgG ) ;
-	} else {
-	    printf("Color number:%d is out of range", color ) ;
+	if( color <= 0 || color > numColorS ){
+		if( initS ){ /* graphics are available */
+		sprintf( YmsgG, "Color number:%d is out of range", color ) ;
+		TWmessage( YmsgG ) ;
+		} else {
+		printf("Color number:%d is out of range", color ) ;
+		}
+		return ;
+	} else if(!(colorOnS[color])){
+		return ;
 	}
-	return ;
-    } else if(!(colorOnS[color])){
-	return ;
-    }
-    points = &(ptS[1]) ;
+	points = &(ptS[1]) ;
 
-    /* close the figure if it is not already closed */
-    if( ptS[numptS].x != ptS[1].x || ptS[numptS].y != ptS[1].y ){
-	/* increase the space if necessary */
-	if( ++numptS >= ptAllocS ){
-	    ptAllocS += EXPECTEDPTS ;
-	    ptS = YREALLOC( ptS,  ptAllocS, XPoint ) ;
+	/* close the figure if it is not already closed */
+	if( ptS[numptS].x != ptS[1].x || ptS[numptS].y != ptS[1].y ){
+		/* increase the space if necessary */
+		if( ++numptS >= ptAllocS ){
+		ptAllocS += EXPECTEDPTS ;
+		ptS = YREALLOC( ptS,  ptAllocS, XPoint ) ;
+		}
+		ptS[numptS].x = ptS[1].x ;
+		ptS[numptS].y = ptS[1].y ;
 	}
-	ptS[numptS].x = ptS[1].x ;
-	ptS[numptS].y = ptS[1].y ;
-    }
-    x1 = x2 = (INT) ptS[1].x ;
-    y1 = y2 = (INT) ptS[1].y ;
-    for( i = 2; i <= numptS; i++ ){
-	x1 = MIN( x1, (INT) ptS[i].x ) ;
-	x2 = MAX( x2, (INT) ptS[i].x ) ;
-	y1 = MIN( y1, (INT) ptS[i].y ) ;
-	y2 = MAX( y2, (INT) ptS[i].y ) ;
-    }
-    if(!(fullViewS)){
-	/* clip if necessary for speed. Avoid interprocess communication */
-	if(!(Yproject_intersect( arblS, arbrS, arbbS, arbtS, lS, rS, bS, tS ) )){
-	    return ;
-	}
-    }
-
-    if( fillArbS ){
-	/* the fill automatically closed the region. if we don't */
-	/* let it close the region, we have problems - bug in XFillPolygon */
-	XFillPolygon( dpyS, drawS, graphicContextS[color], points, numptS,
-	    Complex, CoordModeOrigin ) ;
-	XFillPolygon( dpyS, pixmapS, graphicContextS[color], points, numptS,
-	    Complex, CoordModeOrigin ) ;
-    }
-
-    if( label ){
-	if( *label != EOS ){
-	    len = strlen(label) ;
-	    /* now find width of string as offset */
-	    width = XTextWidth( fontinfoS, label, len ) ;
-	    /* need image string so you can write on top of fill */
-	    /* calculate where we need to put the label */
-	    x1 = x2 = (INT) ptS[1].x ;
-	    y1 = y2 = (INT) ptS[1].y ;
-	    for( i = 2; i <= numptS; i++ ){
+	x1 = x2 = (INT) ptS[1].x ;
+	y1 = y2 = (INT) ptS[1].y ;
+	for( i = 2; i <= numptS; i++ ){
 		x1 = MIN( x1, (INT) ptS[i].x ) ;
 		x2 = MAX( x2, (INT) ptS[i].x ) ;
 		y1 = MIN( y1, (INT) ptS[i].y ) ;
 		y2 = MAX( y2, (INT) ptS[i].y ) ;
-	    }
-	    XDrawImageString( dpyS, drawS, graphicContextS[color], 
-		(x1+x2-width)/2, (y1+y2)/2, label, strlen(label) ) ;
-	    XDrawImageString( dpyS, pixmapS, graphicContextS[color], 
-		(x1+x2-width)/2, (y1+y2)/2, label, strlen(label) ) ;
 	}
-    }
-    if( fillArbS ){
-	if( borderColorS ){
-	    XDrawLines( dpyS, drawS, graphicContextS[borderColorS], 
+	if(!(fullViewS)){
+		/* clip if necessary for speed. Avoid interprocess communication */
+		if(!(Yproject_intersect( arblS, arbrS, arbbS, arbtS, lS, rS, bS, tS ) )){
+		return ;
+		}
+	}
+
+	if( fillArbS ){
+		/* the fill automatically closed the region. if we don't */
+		/* let it close the region, we have problems - bug in XFillPolygon */
+		XFillPolygon( dpyS, drawS, graphicContextS[color], points, numptS,
+		Complex, CoordModeOrigin ) ;
+		XFillPolygon( dpyS, pixmapS, graphicContextS[color], points, numptS,
+		Complex, CoordModeOrigin ) ;
+	}
+
+	if( label ){
+		if( *label != EOS ){
+		len = strlen(label) ;
+		/* now find width of string as offset */
+		width = XTextWidth( fontinfoS, label, len ) ;
+		/* need image string so you can write on top of fill */
+		/* calculate where we need to put the label */
+		x1 = x2 = (INT) ptS[1].x ;
+		y1 = y2 = (INT) ptS[1].y ;
+		for( i = 2; i <= numptS; i++ ){
+			x1 = MIN( x1, (INT) ptS[i].x ) ;
+			x2 = MAX( x2, (INT) ptS[i].x ) ;
+			y1 = MIN( y1, (INT) ptS[i].y ) ;
+			y2 = MAX( y2, (INT) ptS[i].y ) ;
+		}
+		XDrawImageString( dpyS, drawS, graphicContextS[color], 
+			(x1+x2-width)/2, (y1+y2)/2, label, strlen(label) ) ;
+		XDrawImageString( dpyS, pixmapS, graphicContextS[color], 
+			(x1+x2-width)/2, (y1+y2)/2, label, strlen(label) ) ;
+		}
+	}
+	if( fillArbS ){
+		if( borderColorS ){
+		XDrawLines( dpyS, drawS, graphicContextS[borderColorS], 
+			points, numptS, CoordModeOrigin ) ;
+		XDrawLines( dpyS, pixmapS, graphicContextS[borderColorS], 
+			points, numptS, CoordModeOrigin ) ;
+		}
+	} else {
+		XDrawLines( dpyS, drawS, graphicContextS[color], 
 		points, numptS, CoordModeOrigin ) ;
-	    XDrawLines( dpyS, pixmapS, graphicContextS[borderColorS], 
+		XDrawLines( dpyS, pixmapS, graphicContextS[color], 
 		points, numptS, CoordModeOrigin ) ;
 	}
-    } else {
-	XDrawLines( dpyS, drawS, graphicContextS[color], 
-	    points, numptS, CoordModeOrigin ) ;
-	XDrawLines( dpyS, pixmapS, graphicContextS[color], 
-	    points, numptS, CoordModeOrigin ) ;
-    }
 } /* end drawDArb */
 
-TWarb_fill( flag )
-BOOL flag ;
+void TWarb_fill( BOOL flag )
 {
-    fillArbS = flag ;
+	fillArbS = flag ;
 } /* end TWarb_fill */
 
 BOOL TWget_arb_fill()
 {
-    return( fillArbS ) ;
+	return( fillArbS ) ;
 } /* end TWget_arb_fill */
 
-TWrect_fill( flag )
-BOOL flag ;
+void TWrect_fill( BOOL flag )
 {
-    rect_fillS = flag ;
+	rect_fillS = flag ;
 } /* end TWrect_fill */
 
 BOOL TWget_rect_fill()
 {
-    return( rect_fillS ) ;
+	return( rect_fillS ) ;
 } /* end TWget_rect_fill */
 
-TWhighLightRect( x1,y1,x2,y2 )
+void TWhighLightRect( int x1, int y1, int x2, int y2 )
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
-register INT	x1,y1,x2,y2 ;
 {	
-    unsigned int width, height ;
+	unsigned int width, height ;
 
-    /* first add data offset to move to relative to 0,0 */
-    x1 += xoffsetS ;
-    x2 += xoffsetS ;
-    y1 += yoffsetS ;
-    y2 += yoffsetS ;
-    /* next scale coordinates to window */
-    x1 = (INT) ( (double ) x1 * scaleFactorS ) ;
-    x2 = (INT) ( (double ) x2 * scaleFactorS ) ;
-    y1 = (INT) ( (double ) y1 * scaleFactorS ) ;
-    y2 = (INT) ( (double ) y2 * scaleFactorS ) ;
-    width = x2 - x1 ;
-    height = y2 - y1 ;
-    /* account for inversion of y axis */
-    y2 = winheightS - y2 ;
-    XFillRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
-	x1,y2,width,height ) ;
-    XFillRectangle( dpyS,pixmapS,graphicContextS[HIGHLITE],
-	x1,y2,width,height ) ;
+	/* first add data offset to move to relative to 0,0 */
+	x1 += xoffsetS ;
+	x2 += xoffsetS ;
+	y1 += yoffsetS ;
+	y2 += yoffsetS ;
+	/* next scale coordinates to window */
+	x1 = (INT) ( (double ) x1 * scaleFactorS ) ;
+	x2 = (INT) ( (double ) x2 * scaleFactorS ) ;
+	y1 = (INT) ( (double ) y1 * scaleFactorS ) ;
+	y2 = (INT) ( (double ) y2 * scaleFactorS ) ;
+	width = x2 - x1 ;
+	height = y2 - y1 ;
+	/* account for inversion of y axis */
+	y2 = winheightS - y2 ;
+	XFillRectangle( dpyS,drawS,graphicContextS[HIGHLITE], x1,y2,width,height ) ;
+	XFillRectangle( dpyS,pixmapS,graphicContextS[HIGHLITE], x1,y2,width,height ) ;
 } /* end TWhighLightRect */
 
-TWmoveRect( x1, y1, x2, y2, ptx, pty )
-int *x1, *y1, *x2, *y2, ptx, pty ;
+void TWmoveRect( int *x1, int *y1, int *x2, int *y2, int ptx, int pty )
 /* x1, y1, x2, y2 are all user data absolute coordinates */
 /* ptx and pty are the value of the pointer from TWgetPt */
 {
-    BOOL press ;              /* tells whether button has been released */
-    XEvent event ;            /* describes event */
-    long event_mask ;         /* set events */
-    int x, y ;                /* current position of pointer */
-    int last_time ;           /* last time rectangle was moved */
-    int dx_user, dy_user ;    /* rect pos rel to pointer in user scale */
-    int dx_pix, dy_pix ;      /* rect pos rel to pointer in pixels */
-    int oldx, oldy ;          /* rect pos rel to pointer in pixels */
-    unsigned int width_user ; /* width of rectangle user coordinates */
-    unsigned int height_user; /* height of rectangle user coordinates */
-    unsigned int width_pix ; /* width of rectangle pixel coordinates */
-    unsigned int height_pix; /* height of rectangle pixel coordinates */
+	BOOL press ;              /* tells whether button has been released */
+	XEvent event ;            /* describes event */
+	long event_mask ;         /* set events */
+	int x, y ;                /* current position of pointer */
+	int last_time ;           /* last time rectangle was moved */
+	int dx_user, dy_user ;    /* rect pos rel to pointer in user scale */
+	int dx_pix, dy_pix ;      /* rect pos rel to pointer in pixels */
+	int oldx, oldy ;          /* rect pos rel to pointer in pixels */
+	unsigned int width_user ; /* width of rectangle user coordinates */
+	unsigned int height_user; /* height of rectangle user coordinates */
+	unsigned int width_pix ; /* width of rectangle pixel coordinates */
+	unsigned int height_pix; /* height of rectangle pixel coordinates */
 
-    width_user = *x2 - *x1 ;
-    dx_user = *x1 - ptx ;
-    height_user = *y2 - *y1 ;
-    dy_user = pty - *y2 ; /* note that y - axis is inverted */
-    ptx += xoffsetS ;
-    pty += yoffsetS ;
-    /* next scale coordinates to window */
-    ptx  =       (INT) ( (double ) ptx * scaleFactorS ) ;
-    pty  =       (INT) ( (double ) pty * scaleFactorS ) ;
-    width_pix  = (INT) ( (double ) width_user * scaleFactorS ) ;
-    height_pix = (INT) ( (double ) height_user * scaleFactorS ) ;
-    dx_pix     = (INT) ( (double ) dx_user * scaleFactorS ) ;
-    dy_pix     = (INT) ( (double ) dy_user * scaleFactorS ) ;
+	width_user = *x2 - *x1 ;
+	dx_user = *x1 - ptx ;
+	height_user = *y2 - *y1 ;
+	dy_user = pty - *y2 ; /* note that y - axis is inverted */
+	ptx += xoffsetS ;
+	pty += yoffsetS ;
+	/* next scale coordinates to window */
+	ptx  =       (INT) ( (double ) ptx * scaleFactorS ) ;
+	pty  =       (INT) ( (double ) pty * scaleFactorS ) ;
+	width_pix  = (INT) ( (double ) width_user * scaleFactorS ) ;
+	height_pix = (INT) ( (double ) height_user * scaleFactorS ) ;
+	dx_pix     = (INT) ( (double ) dx_user * scaleFactorS ) ;
+	dy_pix     = (INT) ( (double ) dy_user * scaleFactorS ) ;
 
-    /* account for inversion of y axis */
-    pty = winheightS - pty ;
+	/* account for inversion of y axis */
+	pty = winheightS - pty ;
 
-    /* turn on event mask for main drawing window - known as wS */
-    event_mask = StructureNotifyMask | SubstructureNotifyMask
-	    | VisibilityChangeMask | ExposureMask | ButtonPressMask |
-	    PointerMotionMask ;
-    XSelectInput(dpyS,drawS,event_mask);
+	/* turn on event mask for main drawing window - known as wS */
+	event_mask = StructureNotifyMask | SubstructureNotifyMask | VisibilityChangeMask | ExposureMask | ButtonPressMask | PointerMotionMask ;
+	XSelectInput(dpyS,drawS,event_mask);
 
-    oldx = ptx ;
-    oldy = pty ;
-    /* draw rectangle at absolute coordinates */
-    XDrawRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
-	ptx+dx_pix,pty+dy_pix,width_pix,height_pix ) ;
+	oldx = ptx ;
+	oldy = pty ;
+	/* draw rectangle at absolute coordinates */
+	XDrawRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
+		ptx+dx_pix,pty+dy_pix,width_pix,height_pix ) ;
 
-    /* now look for either event - button press or keyboard */
-    press = FALSE ;
-    last_time = 0 ;
-    while(!(press )){
-	/* check for user input from mouse */
-	if( press = XCheckTypedWindowEvent( dpyS,drawS,
-		ButtonPress,&event ) ){
-	    /* we have an event from the pointer */
-	    /* put event back on queue  and call TWgetPt */
-	    XPutBackEvent( dpyS, &event ) ;
-	    TWgetPt( &x, &y ) ;
-	    *x1 = x + dx_user ;
-	    *x2 = *x1 + width_user ;
-	    *y2 = y - dy_user ; /* - because of y axis inversion */
-	    *y1 = *y2 - height_user ;
-	} /* otherwise continue to loop */
-	/* move rectangle */
-	if( XCheckTypedWindowEvent( dpyS,drawS,
-		MotionNotify,&event ) ){
-	    /* avoid to many events to screen wait 50 msec.*/
-	    if( event.xmotion.time - last_time < 50 ){
-		continue ;
-	    }
-	    last_time = event.xmotion.time ;
-	    x = event.xmotion.x ;
-	    y = event.xmotion.y ;
-	    /* draw rectangle at old position absolute coordinates */
-	    XDrawRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
-		oldx+dx_pix,oldy+dy_pix,width_pix,height_pix ) ;
-	    XFillRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
-		oldx+dx_pix,oldy+dy_pix,width_pix,height_pix ) ;
-	    XDrawRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
-		x+dx_pix,y+dy_pix,width_pix,height_pix ) ;
-	    XFillRectangle( dpyS,drawS,graphicContextS[HIGHLITE],
-		x+dx_pix,y+dy_pix,width_pix,height_pix ) ;
-	    oldx = x ; oldy = y ;
-	    XFlush( dpyS ) ;
-	}
-    } /* end while loop */
-	
+	/* now look for either event - button press or keyboard */
+	press = FALSE ;
+	last_time = 0 ;
+	while(!(press )){
+		/* check for user input from mouse */
+		if( press = XCheckTypedWindowEvent( dpyS,drawS, ButtonPress,&event ) ){
+			/* we have an event from the pointer */
+			/* put event back on queue  and call TWgetPt */
+			XPutBackEvent( dpyS, &event ) ;
+			TWgetPt( &x, &y ) ;
+			*x1 = x + dx_user ;
+			*x2 = *x1 + width_user ;
+			*y2 = y - dy_user ; /* - because of y axis inversion */
+			*y1 = *y2 - height_user ;
+		} /* otherwise continue to loop */
+		/* move rectangle */
+		if( XCheckTypedWindowEvent( dpyS,drawS, MotionNotify,&event ) ){
+			/* avoid to many events to screen wait 50 msec.*/
+			if( event.xmotion.time - last_time < 50 ){
+				continue ;
+			}
+			last_time = event.xmotion.time ;
+			x = event.xmotion.x ;
+			y = event.xmotion.y ;
+			/* draw rectangle at old position absolute coordinates */
+			XDrawRectangle( dpyS,drawS,graphicContextS[HIGHLITE], oldx+dx_pix,oldy+dy_pix,width_pix,height_pix ) ;
+			XFillRectangle( dpyS,drawS,graphicContextS[HIGHLITE], oldx+dx_pix,oldy+dy_pix,width_pix,height_pix ) ;
+			XDrawRectangle( dpyS,drawS,graphicContextS[HIGHLITE], x+dx_pix,y+dy_pix,width_pix,height_pix ) ;
+			XFillRectangle( dpyS,drawS,graphicContextS[HIGHLITE], x+dx_pix,y+dy_pix,width_pix,height_pix ) ;
+			oldx = x ; oldy = y ;
+			XFlush( dpyS ) ;
+		}
+	} /* end while loop */
 } /* end TWmoveRect */
 
-XFontStruct *TWgetfont( fname, font )
-char *fname ;
-Font *font ;
+XFontStruct *TWgetfont( char *fname, Font *font )
 {
-    XFontStruct *fontinfo ;
+	XFontStruct *fontinfo ;
 
-    /* set font and get font info */
-    /* this is a safe test to see if font exists */
-    if(!(fontinfo = XLoadQueryFont( dpyS, fname ))){
-	sprintf( YmsgG, "font:%s not available - using default:fixed\n", fname ) ;
-	M( ERRMSG,"TWgetfont", YmsgG ) ;
-	fontinfo = XLoadQueryFont( dpyS, "fixed" ) ;
-    }
-    *font = fontinfo->fid ;
-    return( fontinfo ) ;
+	/* set font and get font info */
+	/* this is a safe test to see if font exists */
+	if(!(fontinfo = XLoadQueryFont( dpyS, fname ))){
+		sprintf( YmsgG, "font:%s not available - using default:fixed\n", fname ) ;
+		M( ERRMSG,"TWgetfont", YmsgG ) ;
+		fontinfo = XLoadQueryFont( dpyS, "fixed" ) ;
+	}
+	*font = fontinfo->fid ;
+	return( fontinfo ) ;
 } /* end TWgetfont */
 
-_TW3DdrawAxis( drawNotErase )
-BOOL drawNotErase ;
+void _TW3DdrawAxis( BOOL drawNotErase )
 {
-    int xspan, yspan, zspan ;
-    int c ;      /* string color */
-    int xstring, ystring ;
-    double  X0, Y0, X, Y ;
+	int xspan, yspan, zspan ;
+	int c ;      /* string color */
+	int xstring, ystring ;
+	double  X0, Y0, X, Y ;
 
-    xspan = rightS - leftS ; 
-    yspan = topS - bottomS ;
-    zspan = MAX( xspan, yspan ) ;
+	xspan = rightS - leftS ; 
+	yspan = topS - bottomS ;
+	zspan = MAX( xspan, yspan ) ;
 
-    if( reverseS ){
-	if( drawNotErase ){
-	    c = 1 ;  /* white characters */
+	if( reverseS ){
+		if( drawNotErase ){
+		c = 1 ;  /* white characters */
+		} else {
+		/* erase */
+		c = 2 ;  /* black background */
+		}
 	} else {
-	    /* erase */
-	    c = 2 ;  /* black background */
+		if( drawNotErase ){
+		c = 2 ;  /* black characters */
+		} else {
+		/* erase */
+		c = 1 ;  /* white background */
+		}
 	}
-    } else {
-	if( drawNotErase ){
-	    c = 2 ;  /* black characters */
-	} else {
-	    /* erase */
-	    c = 1 ;  /* white background */
-	}
-    }
 
-    /* there are 4 points of interest */
-    /* (0,0,0),  (xspan,0,0), (0,yspan,0),  (0,0,zspan) */
+	/* there are 4 points of interest */
+	/* (0,0,0),  (xspan,0,0), (0,yspan,0),  (0,0,zspan) */
 
-    /* first (0,0,0) */
-    TW3Dperspective( (double )0, (double )0, (double )0, &X0, &Y0 );
+	/* first (0,0,0) */
+	TW3Dperspective( (double )0, (double )0, (double )0, &X0, &Y0 );
 
-    /* next  (xspan,0,0) */
-    TW3Dperspective( (double )xspan, (double )0, (double )0, &X, &Y );
-    /* draw X axis */
-    TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
-    /* draw label - find label coordinates */
-    xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
-    ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
-    TWdrawString( xstring, ystring, c, "x" ) ;
+	/* next  (xspan,0,0) */
+	TW3Dperspective( (double )xspan, (double )0, (double )0, &X, &Y );
+	/* draw X axis */
+	TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
+	/* draw label - find label coordinates */
+	xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
+	ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
+	TWdrawString( xstring, ystring, c, "x" ) ;
 
-    /* next  (0,yspan,0) */
-    TW3Dperspective( (double )0, (double )yspan, (double )0, &X, &Y );
-    /* draw X axis */
-    TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
-    /* draw label - find label coordinates */
-    xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
-    ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
-    TWdrawString( xstring, ystring, c, "y" ) ;
+	/* next  (0,yspan,0) */
+	TW3Dperspective( (double )0, (double )yspan, (double )0, &X, &Y );
+	/* draw X axis */
+	TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
+	/* draw label - find label coordinates */
+	xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
+	ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
+	TWdrawString( xstring, ystring, c, "y" ) ;
 
-    /* next  (0,0,zspan) */
-    TW3Dperspective( (double )0, (double )0, (double )zspan, &X, &Y );
-    /* draw X axis */
-    TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
-    /* draw label - find label coordinates */
-    xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
-    ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
-    TWdrawString( xstring, ystring, c, "z" ) ;
+	/* next  (0,0,zspan) */
+	TW3Dperspective( (double )0, (double )0, (double )zspan, &X, &Y );
+	/* draw X axis */
+	TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
+	/* draw label - find label coordinates */
+	xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
+	ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
+	TWdrawString( xstring, ystring, c, "z" ) ;
 } /* end _TW3DdrawAxis */
 
 VOID TW3DsetCamera()

@@ -232,17 +232,14 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 		/* it is a macro cell only case so look for .cel */
 
 		sprintf(filename, "%s.mcel" , cktNameG ) ;
-		printf("Does %s exist?\n", filename);
-
 		if( access( filename, F_OK ) == -1 ) { 
-			printf("File %s doesn't exist \n", filename);
 			sprintf(filename, "%s.cel" , cktNameG );
-			if( access( filename, F_OK ) == -1 ) {
-				printf("File %s doesn't exist \n", filename);
-				sprintf(filename, "%s.cel" , cktNameG );
-			} else {
+			if( access( filename, F_OK ) != -1 ) {
 				printf("Now pass filename %s to readcells \n", filename);
 				readcells(filename);
+			} else {
+				printf("No cel/mcel file found!\n");
+				return 1;
 			}
 		} else {
 			printf("Now pass filename %s to readcells \n", filename);

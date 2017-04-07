@@ -324,6 +324,7 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
+	printf("syntax_\n");
 	yyin = fopen(filename,"r");
 	init();
 	/* parse input file using yacc */

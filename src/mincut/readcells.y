@@ -169,6 +169,7 @@ fixed_loc : RIGHT;
 mirror : NOMIRROR;
 bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 {
+	//set_bbox( int left, int right, int bottom, int top )
 	set_bbox( $2, $4, $6, $8 );
 };
 xloc : STRING;
@@ -177,8 +178,14 @@ padname : PAD INTEGER NAME STRING
 {
 	addCell(PADCELLTYPE, Ystrclone($4) );
 };
-padgroupname : PADGROUP STRING PERMUTE;
-padgroupname : PADGROUP STRING NOPERMUTE;
+padgroupname : PADGROUP STRING PERMUTE
+{
+	addCell(PADCELLTYPE, Ystrclone($2) );
+};
+padgroupname : PADGROUP STRING NOPERMUTE
+{
+	addCell(PADCELLTYPE, Ystrclone($2) );
+};
 supergroupname : SUPERGROUP STRING NAME STRING;
 cellgroupname : CELLGROUP STRING NAME STRING;
 corners : CORNERS INTEGER cornerpts;
@@ -276,8 +283,14 @@ restriction :;
 restriction : RESTRICT SIDE sideplace;
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
-padset : STRING FIXED;
-padset : STRING NONFIXED;
+padset : STRING FIXED
+{
+	addCell(PADCELLTYPE, $1 ) ;
+};
+padset : STRING NONFIXED
+{
+	addCell(PADCELLTYPE, $1 ) ;
+};
 supergrouplist : STRING;
 supergrouplist : supergrouplist STRING;
 cellgrouplist : STRING;
@@ -299,7 +312,7 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
-	printf("readcells: Opening %s \n",filename);
+	printf("mincut_readcells: Opening %s \n",filename);
 	yyin = fopen(filename,"r");
 	if(yyin) {
 		init();

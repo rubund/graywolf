@@ -111,11 +111,11 @@ custom_instance : corners keep_outs class orient hardpins;
 custom_instance : corners keep_outs class orient;
 softcell : softname soft_instance_list
 {
-/* 	endCell(); */
+	endCell();
 };
 softcell : softname fixed soft_instance_list
 {
-/* 	endCell(); */
+	endCell();
 };
 soft_instance_list : soft_instance;
 soft_instance_list : soft_instance_list instance soft_instance;
@@ -130,6 +130,7 @@ soft_instance : corners aspect keep_outs class orient softpins
 soft_instance : corners aspect keep_outs class orient;
 instance: INSTANCE STRING
 {
+	endCell();
 	add_instance(Ystrclone($2)) ;
 };
 padcell: padname corners cur_orient restriction sidespace hardpins
@@ -157,6 +158,7 @@ softname : SOFTCELL INTEGER NAME STRING
 };
 softname : CLUSTER INTEGER NAME STRING
 {
+	printf("Adding cluster %s\n",$4);
 	addCell(Ystrclone($4), STDCELLTYPE);
 };
 softname : SOFTCELL error;
@@ -244,15 +246,15 @@ pintype : pinrecord {};
 pintype : pinrecord equiv_list {};
 pinname: PIN NAME STRING SIGNAL STRING layer
 {
-/* 	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE); */
+	addPin(Ystrclone($3), Ystrclone($5), $6, HARDPINTYPE);
 };
 pinrecord : pinname contour timing current power no_layer_change 
 {
-/* 	process_pin(); */
+	process_pin();
 };
 contour : INTEGER INTEGER
 {
-/* 	set_pin_pos( $1, $2 ) ; */
+	set_pin_pos( $1, $2 ) ;
 };
 contour : num_corners pin_pts;
 num_corners : CORNERS INTEGER
@@ -357,6 +359,7 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
+	printf("twmc_readcells_\n");
 	yyin = fopen(filename,"r");
 	initCellInfo();
 	if(yyin) {

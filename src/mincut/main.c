@@ -113,9 +113,9 @@ Mincut( int debugON,  char *dName)
 	fclose( fp ) ;
 
 	int separate_cel_file(char *cktName);
-	if( twdir = TWFLOWDIR ){
-		separate_cel_file(cktNameG);
-	}
+// 	if( twdir = TWFLOWDIR ){
+	separate_cel_file(cktNameG);
+// 	}
 
 	printf( "Splitting %s.cel into " , cktNameG ) ;
 	printf( "%s.scel and %s.mcel...\n" , cktNameG , cktNameG ) ;

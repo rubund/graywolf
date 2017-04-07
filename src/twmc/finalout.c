@@ -209,9 +209,9 @@ void Output( int cycle )
 	outgeo() ;
 	output(NULL)   ;
 	outpin() ;
-	if( doPartitionG ){
-		output_partition() ;
-	}
+// 	if( doPartitionG ){
+// 		output_partition() ;
+// 	}
 	return ;
 } /* end Output */
 

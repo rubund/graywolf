@@ -184,8 +184,6 @@ void output( FILE * fp )
 			break ;
 		}
 	}
-	fclose( outS ) ;
-
 	return ;
 
 } /* end output */

@@ -302,7 +302,7 @@ void output_partition()
 		} else if( strncmp( matchptr, "pad", 3 ) == STRINGEQ ){
 			break ;
 		} else {
-		/* do an echo */
+			/* do an echo */
 			line++ ;
 			fprintf( fout, "%s", bufferptr ) ;
 		}
@@ -310,10 +310,9 @@ void output_partition()
 	D( "output_partition", printf( "broke on line:%d\n", line ) ; );
 	/* send the rest of the macro output of .mdat to fout */
 	output( fout ) ;
+	fclose( fout ) ;
 	fclose( fp ) ;
-	Yrm_files( filename ) ;
-	/* move the new file to .scel due to a bug in fseek on the apollo */
-	YmoveFile( filename_out, filename ) ;
+	YmoveFile( filename_out, filename );
 
 } /* end of prnt_data */
 

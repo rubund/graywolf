@@ -672,28 +672,27 @@ INT x, y ;
 
 
 /* dumps the data to a file for future study */
-graphics_dump() 
+void graphics_dump() 
 {
-    /* now change mode to dump to file */
-    TWsetMode(1) ;
-    /* dump the data to a file now instead of screen */
-    draw_the_data() ;
-    /* restore the state to previous condition and set draw to screen */
-    TWsetMode(0) ;
+	/* now change mode to dump to file */
+	TWsetMode(1) ;
+	/* dump the data to a file now instead of screen */
+	draw_the_data() ;
+	/* restore the state to previous condition and set draw to screen */
+	TWsetMode(0) ;
 }
 
 /* see if uses wishes an interupt otherwise just draw the data */
-check_graphics( drawFlag )
-BOOL drawFlag ;
+void check_graphics( BOOL drawFlag )
 {
-    if( doGraphicsG ){
-	if( TWinterupt() ){
-	    process_graphics() ;
-	} else if( drawFlag && updateS ){
-	    setGraphicWindow() ;
-	    draw_the_data() ;
+	if( doGraphicsG ){
+		if( TWinterupt() ){
+			process_graphics() ;
+		} else if( drawFlag && updateS ){
+			setGraphicWindow() ;
+			draw_the_data() ;
+		}
 	}
-    }
 } /* end check_graphics */
 
 graphics_cell_update( cell )

@@ -71,13 +71,13 @@ typedef struct {
 
 static int objectS = 0 ;       /* number of objects read */
 static int celltypeS ;         /* current cell type */
-static DOUBLE total_cell_lenS = 0.0 ;
-static DOUBLE total_cell_heightS = 0.0;
-static DOUBLE total_areaS = 0.0 ;
-static DOUBLE core_areaS = 0.0 ;
-static DOUBLE average_cell_heightS ;
-static DOUBLE row_sepS ;
-static DOUBLE row_sep_absS ;
+static double total_cell_lenS = 0.0 ;
+static double total_cell_heightS = 0.0;
+static double total_areaS = 0.0 ;
+static double core_areaS = 0.0 ;
+static double average_cell_heightS ;
+static double row_sepS ;
+static double row_sep_absS ;
 static int total_std_cellS = 0 ;
 static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
@@ -145,11 +145,11 @@ void addNet( char *signal )
 
 void set_bbox( int left, int right, int bottom, int top )
 {
-	DOUBLE width, height ;
+	double width, height ;
 
-	width = (DOUBLE) (right - left) ;
+	width = (double) (right - left) ;
 	total_cell_lenS += width ;
-	height = (DOUBLE) (top - bottom) ;
+	height = (double) (top - bottom) ;
 	total_cell_heightS += height ;
 	total_areaS += width * height ;
 	core_areaS += width * (height + row_sep_absS) ;
@@ -161,7 +161,7 @@ void output( FILE *fp )
 	int g ;
 
 	if( total_std_cellS > 0 ){
-		average_cell_heightS = total_cell_heightS / (DOUBLE) total_std_cellS ;
+		average_cell_heightS = total_cell_heightS / ((double) total_std_cellS);
 	} else {
 		average_cell_heightS = 0.0 ;
 	}
@@ -175,13 +175,13 @@ void output( FILE *fp )
 	printf( "Total core area    :%4.2le\n", core_areaS ) ;
 	printf( "Average cell height:%4.2le\n\n", average_cell_heightS ) ;
 
-
 	/* the first instance take as a rectangle - initially a square */
 	g = (int) sqrt( core_areaS ) ;
 	fprintf( fp, "cluster 1 name core\n" ) ;
 	fprintf( fp, "corners 4 0 0   0 %d  %d %d   %d 0\n", g, g, g, g ) ;
 	write_softpins( fp ) ;
 
+#ifdef LSHAPE
 	/* for the second instance use an L shape */
 	g = (int) sqrt( core_areaS / 3.0 ) ;
 	if( g > 2 ){
@@ -195,7 +195,9 @@ void output( FILE *fp )
 		fprintf( fp, "%d 0\n", 2*g ) ;
 		write_softpins( fp ) ;
 	}
+#endif
 
+#ifdef TSHAPE
 	/* for the third instance use a T shape */
 	g = (int) sqrt( core_areaS / 4.0 ) ;
 	if( g > 2 ){
@@ -211,6 +213,7 @@ void output( FILE *fp )
 		fprintf( fp, "%d 0\n", 2*g ) ;
 		write_softpins( fp ) ;
 	}
+#endif
 
 #ifdef USHAPE
 	/* for the third instance use a U shape */
@@ -230,6 +233,7 @@ void output( FILE *fp )
 	}
 #endif
 
+#ifdef L2SHAPE
 	/* for the fourth instance use a modified L shape */
 	g = (int) sqrt( core_areaS / 5.0 ) ;
 	if( g > 2 ){
@@ -243,6 +247,8 @@ void output( FILE *fp )
 		fprintf( fp, "%d 0\n", 3*g ) ;
 		write_softpins( fp ) ;
 	}
+#endif
+
 } /* end output */
 
 void write_softpins( FILE *fp )
