@@ -64,6 +64,10 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 #include <yalecad/yreadpar.h>
 #include "../globals.h"
 
+#define LSHAPE
+#define L2SHAPE
+#define TSHAPE
+
 typedef struct {
 	BOOL io_signal ;
 	char *net ;
@@ -165,7 +169,11 @@ void output( FILE *fp )
 	} else {
 		average_cell_heightS = 0.0 ;
 	}
-	core_areaS *= (row_sepS + 1.0) ;
+
+	if(row_sepS>0)
+		core_areaS *= row_sepS;
+	else
+		core_areaS *= (row_sepS + 1.0) ;
 
 	printf( "\n----------------------------\n" ) ;
 	printf( "Total stdcells     :%d\n", total_std_cellS ) ;
