@@ -166,8 +166,8 @@ neighborhood : NEIGHBORHOOD FIXED INTEGER FROM xloc INTEGER FROM yloc INTEGER FR
 fixed : fixedcontext AT INTEGER FROM xloc INTEGER FROM yloc;
 fixed : fixedcontext NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
 fixedcontext : FIXED;
-xloc : INTEGER;
-yloc : INTEGER;
+xloc : STRING;
+yloc : STRING;
 padname : PAD INTEGER NAME STRING
 {
 	addCell(Ystrclone($4), PADCELLTYPE);

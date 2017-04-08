@@ -5,8 +5,8 @@ INCLUDE(FindFLEX)
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
 bison_target(twmcreadcells readcells.y ${CMAKE_BINARY_DIR}/src/twmc/readcells.c)
-flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c)
-# flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c COMPILE_FLAGS "-d") #debug
+# flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c)
+flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c COMPILE_FLAGS "-d") #debug
 
 bison_target(twmcreadnets readnets.y ${CMAKE_BINARY_DIR}/src/twmc/readnets.c)
 flex_target(twmcreadnets readnets.lex ${CMAKE_BINARY_DIR}/src/twmc/readnets.lex.c)
