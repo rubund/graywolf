@@ -99,12 +99,12 @@ static INT gOffsetYS = INT_MIN ;
 static INT gridXS = INT_MIN ;
 static INT gridYS = INT_MIN ;
 
-static init_read_par();
-static readparam();
-static process_readpar();
-static err_msg();
+static void init_read_par();
+static void readparam();
+static void process_readpar();
+static void err_msg();
 
-readpar()
+void readpar()
 {
 	init_read_par() ;
 	readparam( TWMC ) ;
@@ -112,7 +112,7 @@ readpar()
 	process_readpar() ;
 }
 
-static init_read_par()
+static void init_read_par()
 {
 	/* set the default values */
 	offsetG     = 0  ;
@@ -156,8 +156,7 @@ static init_read_par()
 	x_originG = 0 ; y_originG = 0 ;
 } /* end init_read_par */
 
-static readparam( parfile )
-INT parfile ;
+static void readparam( int parfile )
 {
 
 	INT test ;
@@ -187,19 +186,20 @@ INT parfile ;
 	}
 
 	char *tmpStr;
-	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )){
+	while((tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard ))){
 		readparamS = TRUE ;
 
 		if( numtokens ) {
-			if(tmpStr = strstr(tokens[0], "TWSC*")) {
-				continue;
-			} else if (tmpStr = strstr(tokens[0], "TWMC*")) {
+			if((tmpStr = strstr(tokens[0], "TWSC*"))) {
 				tmpStr+=5;
 				tokens[0] = Ystrclone(tmpStr);
-			} else if (tmpStr = strstr(tokens[0], "GENR*")) {
+			} else if ((tmpStr = strstr(tokens[0], "TWMC*"))) {
 				tmpStr+=5;
 				tokens[0] = Ystrclone(tmpStr);
-			} else if (tmpStr = strstr(tokens[0], "*")) {
+			} else if ((tmpStr = strstr(tokens[0], "GENR*"))) {
+				tmpStr+=5;
+				tokens[0] = Ystrclone(tmpStr);
+			} else if ((tmpStr = strstr(tokens[0], "*"))) {
 				tmpStr++;
 				tokens[0] = Ystrclone(tmpStr);
 			}
@@ -453,7 +453,7 @@ INT parfile ;
 				err_msg("vertical_wire_weight") ;
 			}
 
-		} else if( strcmp( tokens[0],"vertical_path_weight")==STRINGEQ){
+		} else if(strcmp( tokens[0],"vertical_path_weight")==STRINGEQ){
 			if( numtokens == 2 ) {
 				vertical_path_weightG = atof( tokens[1] ) ;
 				if( vertical_wire_weightG < 0.0 ){
@@ -475,7 +475,7 @@ INT parfile ;
 	}
 } /* end readpar */
 
-static process_readpar()
+static void process_readpar()
 {
 	char *layer ;             /* name of layer */
 	INT i ;                   /* counter */
@@ -507,7 +507,7 @@ static process_readpar()
 
 	for( i = 1; i <= num_layers; i++ ){
 		layer = Yreadpar_id2layer( i ) ;
-		pitch = (INT) Yreadpar_pitch( layer ) ;
+		pitch = (int) Yreadpar_pitch( layer ) ;
 
 		if( Yreadpar_layer_HnotV( layer ) ){
 			track_spacingYG += pitch ;

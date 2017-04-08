@@ -163,10 +163,7 @@ static int output_pin( PINBOXPTR pinptr )
 		if( cell != pinptr->cell ) {
 			/* this only occurs for pads */
 			if( yrel != bounptr->t ){
-				D( "twmc/outpin",
-				printf( "Moving pad pin:%s to boundary\n",
-					pinptr->pinname ) ;
-				) ;
+				D( "twmc/outpin", printf( "Moving pad pin:%s to boundary\n", pinptr->pinname ) ; ) ;
 				yrel = bounptr->t ;
 			}
 		}
@@ -180,12 +177,10 @@ static int output_pin( PINBOXPTR pinptr )
 
 		D( "twmc/outpin",
 		if( x % track_spacingXG ){
-			printf( "Pin %s on cell %d x not on grid\n",
-			pinptr->pinname, cell ) ;
+			printf( "Pin %s on cell %d x not on grid\n", pinptr->pinname, cell ) ;
 		}
 		if( y % track_spacingYG ){
-			printf( "Pin %s on cell %d x not on grid\n",
-			pinptr->pinname, cell ) ;
+			printf( "Pin %s on cell %d x not on grid\n", pinptr->pinname, cell ) ;
 		}
 		) ;
 

@@ -873,14 +873,14 @@ PINBOXPTR addPinAndNet( char *pinName, char *signal )
 		}
 	}
 
-// 	if( cellinstanceS ){
-// 		if( notInTable ){
-// 			sprintf(YmsgG,"No match for net:%s in primary instance:%s\n", pinName, *ptrS->cname ) ;
-// 			M( ERRMSG, "addPinAndNet", YmsgG ) ;
-// 			errorFlagS = TRUE ;
-// 		}
-// 		return( NULL ) ; // at this point we are done 
-// 	}
+	if( cellinstanceS ){
+		if( notInTable ){
+			sprintf(YmsgG,"No match for net:%s in primary instance:%s\n", pinName, *ptrS->cname ) ;
+			M( ERRMSG, "addPinAndNet", YmsgG ) ;
+			errorFlagS = TRUE ;
+		}
+		return( NULL ) ; // at this point we are done 
+	}
 
 	/* increment number of pins */
 	numpinsG++ ;

@@ -129,8 +129,6 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 
 	char
 		filename[LRECL],
-		arguments[LRECL], /* pointer to argument options */
-		*ptr,             /* pointer to argument options */
 		*Ystrclone() ;
 
 	int
@@ -214,7 +212,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 	}
 
 	/* ********************** end initialization ************************* */
-	readpar() ;
+	readpar();
 
 	while( TRUE ) {
 		/* initialize annealing exp. table */

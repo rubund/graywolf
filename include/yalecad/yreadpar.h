@@ -38,8 +38,7 @@ static char YreadParId[] = "@(#) yreadpar.h version 1.4 4/18/91" ;
 typedef YTREEPTR YPARPTR ;
 typedef YTREEBOX YPARBOX ;
 
-extern VOID Yreadpar_init( P4(char *design_name, INT  program,
-				INT  filter, BOOL abortFlag ) ) ;
+extern void Yreadpar_init(char *design_name, int program, int  filter, BOOL abortFlag);
 /* ******************* READPAR ROUTINES ****************** */
 /* 
 Function:
