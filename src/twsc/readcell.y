@@ -200,7 +200,7 @@ padname_std : PAD INTEGER STRING ORIENT INTEGER
 padside : PADSIDE STRING
 {
 	add_padside( $2 ) ;
-/* 	set_old_format( $2 ) ; */
+	set_old_format( $2 ) ;
 };
 padgroupname : PADGROUP STRING PERMUTE
 {
