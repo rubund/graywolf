@@ -20,24 +20,28 @@ int separate_cel_file(char *cktName)
 	fpsc = fopen(scelfile,"w");
 	fpmc = fopen(mcelfile,"a");
 
-	int sc = 0;
+	int sc = 0, both = 0;
 	while (fgets(line, sizeof(line), fp)) {
 		strcpy(cmpbuf, "cell");
 		if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
 			sc = 1;
+			both = 0;
 		}
 		if(sc) {
 			strcpy(cmpbuf, "hardcell");
 			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
 				sc = 0;
+				both = 0;
 			}
 			strcpy(cmpbuf, "softcell");
 			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
 				sc = 0;
+				both = 0;
 			}
 			strcpy(cmpbuf, "pad");
 			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
 				sc = 0;
+				both = 1;
 			}
 		}
 
@@ -45,6 +49,9 @@ int separate_cel_file(char *cktName)
 			fprintf(fpsc, "%s", line);
 		} else {
 			fprintf(fpmc, "%s", line);
+			if(both) {
+				fprintf(fpsc, "%s", line);
+			}
 		}
 	}
 
