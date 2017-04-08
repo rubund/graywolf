@@ -12,7 +12,7 @@ blanks		[ \t]+
 newline		[\n]+
 integer		[0-9]+|[-]+[0-9]+
 float			({integer}+[.]{integer}*)|({integer}*[.]{integer}+)
-string		[a-zA-Z_][a-zA-Z0-9_<>\[\]:.?$/]*
+string		[a-zA-Z0-9_<>\[\]:.?$/]*[a-zA-Z_][a-zA-Z0-9_<>\[\]:.?$/]*
 
 %%
 addequiv			return ADDEQUIV;
