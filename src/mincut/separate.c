@@ -1,8 +1,8 @@
 #include <stdio.h>
+#include <string.h>
 #include <yalecad/base.h>
 
-int separate_cel_file(cktName)
-char *cktName;
+int separate_cel_file(char *cktName)
 {
 	char celfile[LRECL];
 	char mcelfile[LRECL];
@@ -10,6 +10,7 @@ char *cktName;
 
 	FILE *fp, *fpsc, *fpmc;
 	char line[LRECL];
+	char cmpbuf[LRECL];
 
 	sprintf( celfile, "%s.cel", cktName ) ;
 	sprintf( scelfile, "%s.scel", cktName ) ;
@@ -20,16 +21,24 @@ char *cktName;
 	fpmc = fopen(mcelfile,"a");
 
 	int sc = 0;
-	char *tmpStr;
 	while (fgets(line, sizeof(line), fp)) {
-		if(tmpStr = strstr(line, "cell")) {
+		strcpy(cmpbuf, "cell");
+		if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
 			sc = 1;
-		} else if(tmpStr = strstr(line, "hardcell")) {
-			sc = 0;
-		} else if(tmpStr = strstr(line, "softcell")) {
-			sc = 0;
-		} else if(tmpStr = strstr(line, "pad")) {
-			sc = 0;
+		}
+		if(sc) {
+			strcpy(cmpbuf, "hardcell");
+			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
+				sc = 0;
+			}
+			strcpy(cmpbuf, "softcell");
+			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
+				sc = 0;
+			}
+			strcpy(cmpbuf, "pad");
+			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
+				sc = 0;
+			}
 		}
 
 		if(sc) {

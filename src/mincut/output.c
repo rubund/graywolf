@@ -115,7 +115,7 @@ void addNet( char *signal )
 	if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
 		return ; /* not a net so return */
 	}
-	if( data = (NETPTR) Yhash_search( netTableS, signal, NULL, FIND )) {
+	if((data = (NETPTR) Yhash_search( netTableS, signal, NULL, FIND))) {
 		/* this net now makes an io connection mark it as such */
 		switch( celltypeS ){
 			case HARDCELLTYPE:
