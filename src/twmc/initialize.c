@@ -1076,84 +1076,79 @@ static void check_pos( char *pinname, int xpos, int ypos )
 } /* end check_pos */
 
 /* add an equivalent pin-updates the pin position to effective position */
-addEquivPin( pinName, layer, xpos, ypos, pinType )
-char *pinName ;
-int layer ; 
-int xpos, ypos ;
-int pinType ;
+void addEquivPin( char *pinName, int layer, int xpos, int ypos, int pinType )
 {
-    int side ;
-    EQUIVPTR temp, eqptr ;
+	int side ;
+	EQUIVPTR temp, eqptr ;
 
-    curPinNameS = pinName ;
-    ERRORABORT() ;
-    ASSERTNRETURN( pinS, "addEquivPin", "pinS is NULL" ) ;
+	curPinNameS = pinName ;
+	ERRORABORT() ;
+	ASSERTNRETURN( pinS, "addEquivPin", "pinS is NULL" ) ;
 
-    if( pinType != ADDEQUIVTYPE ){
-	if( scale_dataG ){
-	    if( portFlagS ){
-		xpos = 0 ;
-		ypos = 1 ;
-	    } else {
-		xpos = (int) ( (double) xpos / scaleS ) ;
-		ypos = (int) ( (double) ypos / scaleS ) ;
-	    }
+	if( pinType != ADDEQUIVTYPE ){
+		if( scale_dataG ){
+		if( portFlagS ){
+			xpos = 0 ;
+			ypos = 1 ;
+		} else {
+			xpos = (int) ( (double) xpos / scaleS ) ;
+			ypos = (int) ( (double) ypos / scaleS ) ;
+		}
+		}
+
+		if( curCellTypeS == SOFTCELLTYPE || 
+		curCellTypeS == CUSTOMCELLTYPE ||
+		curCellTypeS == STDCELLTYPE ){
+		check_pos( pinName, xpos, ypos ) ;
+		side = findside( pSideArrayS, ptrS , xpos , ypos ) ;
+		loadside( pSideArrayS, side , 1.0 ) ;
+		}
+		equivpinS++ ;
+		totPinS++ ;
+		totxS += xpos ;
+		totyS += ypos ;
+
+		/* average pin positions - note we leave _orig fields untouched */
+		pinS->txpos = (totxS / equivpinS ) - xcenterS;
+		pinS->typos = (totyS / equivpinS ) - ycenterS;
+	} else {
+		/* get pinname from main soft pin */
+		pinName = softpinS->pinname ;
 	}
 
-	if( curCellTypeS == SOFTCELLTYPE || 
-	    curCellTypeS == CUSTOMCELLTYPE ||
-	    curCellTypeS == STDCELLTYPE ){
-	    check_pos( pinName, xpos, ypos ) ;
-	    side = findside( pSideArrayS, ptrS , xpos , ypos ) ;
-	    loadside( pSideArrayS, side , 1.0 ) ;
+	/* now save locations of equivalent pins for later output */
+	if((temp = pinS->eqptr)){
+		eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc(sizeof(EQUIVBOX)) ;
+		eqptr->next = temp ;
+	} else {
+		eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc(sizeof(EQUIVBOX)) ;
+		eqptr->next = NULL ;
 	}
-	equivpinS++ ;
-	totPinS++ ;
-	totxS += xpos ;
-	totyS += ypos ;
-
-	/* average pin positions - note we leave _orig fields untouched */
-	pinS->txpos = (totxS / equivpinS ) - xcenterS;
-	pinS->typos = (totyS / equivpinS ) - ycenterS;
-    } else {
-	/* get pinname from main soft pin */
-	pinName = softpinS->pinname ;
-    }
-
-    /* now save locations of equivalent pins for later output */
-    if( temp = pinS->eqptr ){
-	eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc(sizeof(EQUIVBOX)) ;
-	eqptr->next = temp ;
-    } else {
-	eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc(sizeof(EQUIVBOX)) ;
-	eqptr->next = NULL ;
-    }
-    if( cellinstanceS ){ /* more than one instance */
-	eqptr->txpos = (int *) 
-	    Ysafe_realloc( eqptr->txpos,(cellinstanceS+1) * sizeof(int) ) ;
-	eqptr->typos = (int *) 
-	    Ysafe_realloc( eqptr->typos,(cellinstanceS+1) * sizeof(int) ) ;
-    } else {
-	/* by default only expect one instance */
-	eqptr->txpos      = (int *) Ysafe_malloc( sizeof(int) ) ;
-	eqptr->typos      = (int *) Ysafe_malloc( sizeof(int) ) ;
-    }
-    /* now load the data */
-    eqptr->txpos[cellinstanceS] = xpos - xcenterS;
-    eqptr->typos[cellinstanceS] = ypos - ycenterS;
-    eqptr->pinname = pinName ;
-    /* if the user didn't give us any layer set to 2 for now */
-    if( layer == 0 ){
-	layer = -2 ;
-    }
-    eqptr->layer = layer ;
-    if( pinType == ADDEQUIVTYPE ){
-	/* build the restrict field and initialize HOWMANY [0] to 0 */
-	eqptr->restrict1 = (int *) Ysafe_calloc( 1, sizeof(int) ) ;
-    } else {
-	eqptr->restrict1 = NULL ;
-    }
-
+	if( cellinstanceS ){ /* more than one instance */
+		eqptr->txpos = (int *) 
+		Ysafe_realloc( eqptr->txpos,(cellinstanceS+1) * sizeof(int) ) ;
+		eqptr->typos = (int *) 
+		Ysafe_realloc( eqptr->typos,(cellinstanceS+1) * sizeof(int) ) ;
+	} else {
+		/* by default only expect one instance */
+		eqptr->txpos      = (int *) Ysafe_malloc( sizeof(int) ) ;
+		eqptr->typos      = (int *) Ysafe_malloc( sizeof(int) ) ;
+	}
+	/* now load the data */
+	eqptr->txpos[cellinstanceS] = xpos - xcenterS;
+	eqptr->typos[cellinstanceS] = ypos - ycenterS;
+	eqptr->pinname = pinName ;
+	/* if the user didn't give us any layer set to 2 for now */
+	if( layer == 0 ){
+		layer = -2 ;
+	}
+	eqptr->layer = layer ;
+	if( pinType == ADDEQUIVTYPE ){
+		/* build the restrict field and initialize HOWMANY [0] to 0 */
+		eqptr->restrict1 = (int *) Ysafe_calloc( 1, sizeof(int) ) ;
+	} else {
+		eqptr->restrict1 = NULL ;
+	}
 } /* end addEquivPin */
 /* ***************************************************************** */
 
