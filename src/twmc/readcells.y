@@ -283,11 +283,18 @@ softequivs : mc_equiv;
 softequivs : mc_equiv user_equiv_list;
 softequivs : user_equiv_list;
 mc_equiv : addequiv siderestriction;
-addequiv : ADDEQUIV;
+addequiv : ADDEQUIV
+{
+	set_restrict_type( ADDEQUIVTYPE ) ;
+	addEquivPin( NULL, 0, 0, 0, ADDEQUIVTYPE ) ;
+};
 user_equiv_list : user_equiv;
 user_equiv_list : user_equiv_list user_equiv;
 user_equiv : equiv_name siderestriction connect;
-equiv_name : EQUIV NAME STRING layer;
+equiv_name : EQUIV NAME STRING layer
+{
+	addPin( $3, NULL, $4, SOFTEQUIVTYPE ) ;
+};
 connect :;
 connect : CONNECT;
 pingroup : pingroupname pingrouplist siderestriction pinspace;
@@ -300,7 +307,10 @@ pinset : STRING FIXED;
 pinset : STRING NONFIXED;
 equiv_list : equiv;
 equiv_list : equiv_list equiv;
-equiv : EQUIV NAME STRING layer INTEGER INTEGER;
+equiv : EQUIV NAME STRING layer INTEGER INTEGER
+{
+	addEquivPin( $3, $4, $5, $6, HARDPINTYPE ) ;
+};
 layer :;
 layer : LAYER INTEGER
 {
