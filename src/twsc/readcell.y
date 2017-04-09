@@ -292,12 +292,24 @@ pinrecord : PIN NAME STRING SIGNAL STRING INTEGER INTEGER
 };
 equiv_list : equiv;
 equiv_list : equiv_list equiv;
-equiv : EQUIV NAME STRING LAYER INTEGER INTEGER INTEGER;
-equiv : EQUIV NAME STRING INTEGER INTEGER;
+equiv : EQUIV NAME STRING LAYER INTEGER INTEGER INTEGER
+{
+	add_equiv( $3, $5, $6, $7, TRUE ) ; 
+};
+equiv : EQUIV NAME STRING INTEGER INTEGER
+{
+	add_equiv( $3, 0, $4, $5, TRUE ) ; 
+};
 unequiv_list : unequiv;
 unequiv_list : unequiv_list unequiv;
-unequiv : UNEQUIV NAME STRING LAYER INTEGER INTEGER INTEGER;
-unequiv : UNEQUIV NAME STRING INTEGER INTEGER;
+unequiv : UNEQUIV NAME STRING LAYER INTEGER INTEGER INTEGER
+{
+	add_equiv( $3, $5, $6, $7, FALSE ) ; 
+};
+unequiv : UNEQUIV NAME STRING INTEGER INTEGER
+{
+	add_equiv( $3, 0, $4, $5, FALSE ) ; 
+};
 ports : port;
 ports : ports port;
 port : PORT NAME STRING SIGNAL STRING LAYER INTEGER INTEGER INTEGER
