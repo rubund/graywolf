@@ -72,6 +72,8 @@ static char programName[LRECL];
 static char progVersion[LRECL];
 static char progDate[LRECL];
 
+void YdebugWrite() ;
+
 /* ----------------------------------------------------------------- 
    Program control routines                    
    
@@ -116,11 +118,11 @@ int YexitPgm(int status)
 		/* if we have an error status but no recorded error record error*/
 		errorCount++ ;
 	}
-	//mode = Ymessage_get_mode() ;
-	//if( errorCount != 0 || mode != M_SILENT ){
-	//	/* make sure we see errors */
-	//	Ymessage_mode( M_VERBOSE ) ;
-	//}
+	mode = Ymessage_get_mode() ;
+	if( errorCount != 0 || mode != M_SILENT ){
+		/* make sure we see errors */
+		Ymessage_mode( M_VERBOSE ) ;
+	}
 
 	if( name = YgetProgName() ){
 		if( errorCount ){
@@ -134,10 +136,10 @@ int YexitPgm(int status)
 	}
 	printf(message) ;
 	/* now write debug file if desired */
-	//YdebugWrite() ;
-	//Ymessage_close();
-	//exit(status);
-	return status;
+	YdebugWrite() ;
+// 	Ymessage_close();
+	exit(status);
+	//return status;
 } /* end exitPgm */
 
 char *YgetProgName()

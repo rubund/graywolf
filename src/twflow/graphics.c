@@ -50,7 +50,7 @@ CONTENTS:   init_graphics()
 		OBJECTPTR obj ;
 		BOOL direction ;
 	    graphics_set_object( object )
-		INT find_obj()
+		int find_obj()
 DATE:	    May  7, 1989 - original coding.
 REVISIONS:  Jun 19, 1989 - added return for no graphics case.
 	    Jun 19, 1989 - added prompt toggle.  Added get_edge_from_user
@@ -82,7 +82,7 @@ static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
 
 static BOOL auto_drawS  = TRUE ;
 static BOOL promptS     = FALSE ;        /* whether to prompt for path */
-static INT selectedObjS = 0 ;            /* current selected object */
+static int selectedObjS = 0 ;            /* current selected object */
 static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 #ifndef NOGRAPHICS 
@@ -101,7 +101,7 @@ static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 void init_graphics()
 {
-	INT draw_the_data() ;
+	int draw_the_data() ;
 
 	if( !(graphicsG) ){
 		return ;
@@ -118,10 +118,10 @@ void init_graphics()
 } /* end init_graphics */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+int draw_the_data()
 {
-	INT  i ;
-	INT  color ;
+	int  i ;
+	int  color ;
 	OBJECTPTR o ;
 	DPTR   dptr ;
 	ADJPTR eptr ;
@@ -167,11 +167,11 @@ INT draw_the_data()
 
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
-	INT selection ;     /* the users pick */
-	INT find_obj() ;    /* find the users pick */
-	INT x, y ;          /* the picked point */
+	int selection ;     /* the users pick */
+	int find_obj() ;    /* find the users pick */
+	int x, y ;          /* the picked point */
 
 	/* data might have changed so show user current config */
 	/* any function other that the draw controls need to worry about */
@@ -188,97 +188,95 @@ process_graphics()
 	while( selection != CONTINUE_PGM ){ /* loop until exit */
 		selection = TWcheckMouse() ;
 		switch( selection ){
-		case CANCEL:
-		/* do nothing */
-		break ;
-		case AUTO_REDRAW_ON:
-		auto_drawS = TRUE ;
-		break ;
-		case AUTO_REDRAW_OFF:
-		auto_drawS = FALSE ;
-		break ;
-		case CLOSE_GRAPHICS:
-		TWcloseGraphics() ;
-		/* update all costs and reload cells */
-		graphicsG = FALSE ;
-		return ;
-		case COLORS:
-		TWtoggleColors() ;
-		break ;
-		case CONTINUE_PGM:
-		break ;
-		case DUMP_GRAPHICS:
-		TWsetFrame(0) ; /* update the frame count */
-		/* now change mode to dump to file */
-		TWsetMode(1) ;
-		/* dump the data to a file now instead of screen */
-		draw_the_data() ;
-		/* restore the state to previous condition */
-		/* and set draw to screen */
-		TWsetMode(0) ;
-		break ;
-		case EXIT_PROGRAM:
-		TWcloseGraphics() ;
-		YexitPgm( PGMOK ) ;
-		return ;
-		case FULLVIEW:
-		TWfullView() ;
-		break ;
-		case REDRAW:
-		draw_the_data() ;
-		/* use TWcheckExposure to flush exposure events since */
-		/* we just drew the data */
-		TWcheckExposure() ;
-		break ;
-		case TELL_POINT:
-		TWmessage( "Pick a point" ) ;
-		TWgetPt( &x, &y ) ;
-		sprintf( YmsgG,"The point is (%d,%d)",x,y ) ;
-		TWmessage( YmsgG ) ;
-		break ;
-		case TRANSLATE:
-		TWtranslate() ;
-		break ;
-		case ZOOM:
-		TWzoom() ;
-		break ;
-		case AUTOFLOW:
-		autoflowG = TRUE ; /* used to interupt auto flow */
-		auto_flow() ;
-		break ;
-		case PICK_PGM:
-		selectedObjS = find_obj() ;
-		autoflow_set_object( selectedObjS ) ;
-		break ;
-		case EXECUTE_PGM:
-		exec_single_prog() ;
-		break ;
-		case PROMPT_ON:
-		promptS = TRUE ;
-		TWmessage( "Prompt on" ) ;
-		break ;
-		case PROMPT_OFF:
-		promptS = FALSE ;
-		TWmessage( "Prompt off" ) ;
-		break ;
+			case CANCEL:
+				/* do nothing */
+				break ;
+			case AUTO_REDRAW_ON:
+				auto_drawS = TRUE ;
+				break ;
+			case AUTO_REDRAW_OFF:
+				auto_drawS = FALSE ;
+				break ;
+			case CLOSE_GRAPHICS:
+				TWcloseGraphics() ;
+				/* update all costs and reload cells */
+				graphicsG = FALSE ;
+				return ;
+			case COLORS:
+				TWtoggleColors() ;
+				break ;
+			case CONTINUE_PGM:
+				break ;
+			case DUMP_GRAPHICS:
+				TWsetFrame(0) ; /* update the frame count */
+				/* now change mode to dump to file */
+				TWsetMode(1) ;
+				/* dump the data to a file now instead of screen */
+				draw_the_data() ;
+				/* restore the state to previous condition */
+				/* and set draw to screen */
+				TWsetMode(0) ;
+				break ;
+			case EXIT_PROGRAM:
+				TWcloseGraphics() ;
+				YexitPgm( PGMOK ) ;
+				return ;
+			case FULLVIEW:
+				TWfullView() ;
+				break ;
+			case REDRAW:
+				draw_the_data() ;
+				/* use TWcheckExposure to flush exposure events since */
+				/* we just drew the data */
+				TWcheckExposure() ;
+				break ;
+			case TELL_POINT:
+				TWmessage( "Pick a point" ) ;
+				TWgetPt( &x, &y ) ;
+				sprintf( YmsgG,"The point is (%d,%d)",x,y ) ;
+				TWmessage( YmsgG ) ;
+				break ;
+			case TRANSLATE:
+				TWtranslate() ;
+				break ;
+			case ZOOM:
+				TWzoom() ;
+				break ;
+			case AUTOFLOW:
+				autoflowG = TRUE ; /* used to interupt auto flow */
+				auto_flow() ;
+				break ;
+			case PICK_PGM:
+				selectedObjS = find_obj() ;
+				autoflow_set_object( selectedObjS ) ;
+				break ;
+			case EXECUTE_PGM:
+				exec_single_prog() ;
+				break ;
+			case PROMPT_ON:
+				promptS = TRUE ;
+				TWmessage( "Prompt on" ) ;
+				break ;
+			case PROMPT_OFF:
+				promptS = FALSE ;
+				TWmessage( "Prompt off" ) ;
+				break ;
 		} /* end switch */
 
 		if( auto_drawS && TWcheckExposure() ){
-		draw_the_data() ;
+			draw_the_data() ;
 		}
 	} 
 	TWmessage("Continuing - to interupt program click on top menu window") ;
 } /* end process_graphics */
 
 /* get edge loops until it gets answer from user */
-ADJPTR get_edge_from_user( obj, direction )
-OBJECTPTR obj ;
-BOOL direction ;
+ADJPTR get_edge_from_user( OBJECTPTR obj, BOOL direction )
 {
 	ADJPTR adjptr ;
 	ADJPTR start_edge ;
 	ADJPTR findEdge() ;
-	INT edge_count ;
+	int edge_count ;
 	char *answer ;
 
 	while( TRUE ){ /* loop until user makes a selection */
@@ -297,8 +295,7 @@ BOOL direction ;
 				selectedEdgeS = adjptr ;
 			} else {
 				/* need to reverse edge so selectedEdge will match */
-				selectedEdgeS = findEdge( adjptr->node, obj->node, 
-				FORWARD ) ;
+				selectedEdgeS = findEdge( adjptr->node, obj->node, FORWARD ) ;
 			}
 			/* show user the edge */
 			draw_the_data() ;
@@ -307,8 +304,7 @@ BOOL direction ;
 			if( edge_count > 1 ){
 				/* give directions */
 				sprintf( YmsgG,"%s","If edge is not correct, enter n<cr> ") ;
-				strcat( YmsgG, 
-				"for next edge. If satisfied, enter non-null string:") ;
+				strcat( YmsgG, "for next edge. If satisfied, enter non-null string:") ;
 				/* look for empty string - means we are satisfied */
 				answer = TWgetString(YmsgG) ;
 				if( answer ){
@@ -330,16 +326,16 @@ BOOL direction ;
 /* the corresponding handshake to set the highlighted drawing object */
 void graphics_set_object( int object )
 {
-    selectedObjS = object ;     /* set the current selected object */
+	selectedObjS = object ;     /* set the current selected object */
 } /* graphics_set_object */
 
 /* find the object in question */
 int find_obj()
 {
 
-	INT i ;
-	INT x, y ;               /* coordinates picked by user */
-	INT obj ;               /* selected cell */
+	int i ;
+	int x, y ;               /* coordinates picked by user */
+	int obj ;               /* selected cell */
 	OBJECTPTR o ;           /* pointer to object */
 
 	obj = 0 ;
@@ -359,7 +355,6 @@ int find_obj()
 				selectedObjS = i ;
 				draw_the_data() ;
 				TWcheckExposure() ;
-
 				obj = selectedObjS ;
 				break ;
 			}
@@ -387,7 +382,7 @@ ADJPTR get_edge_from_user( OBJECTPTR obj, BOOL direction )
 {
 	ADJPTR adjptr ;
 	ADJPTR findEdge() ;
-	INT node1, node2 ;
+	int node1, node2 ;
 	char reply[LRECL] ;
 
 	while( TRUE ){ /* loop until user makes a selection */
@@ -421,42 +416,37 @@ ADJPTR get_edge_from_user( OBJECTPTR obj, BOOL direction )
 	} /* end while loop */
 } /* end get_edge_from_user */
 
-
 #endif /* NOGRAPHICS */
 
 /* make_decision asks the user for the next program to run */
-ADJPTR make_decision( obj, direction )
-OBJECTPTR obj ;
-BOOL direction ;
+ADJPTR make_decision( OBJECTPTR obj, BOOL direction )
 {
-    ADJPTR adjptr ;
-    ADJPTR get_edge_from_user() ;
+	ADJPTR adjptr ;
+	ADJPTR get_edge_from_user() ;
 
-    if( promptS ){
-	adjptr = get_edge_from_user( obj, direction ) ;
-	adjptr->marked = TRUE ;
-	return( adjptr ) ;
-    } else { 
-	/* ********************************************************
-	*  Avoid asking user - use ordering information given by 
-	*  the user.  Take first unexecuted edge as next edge to be
-	*  executed.
-	*********************************************************** */
-	if( direction == FORWARD ){
-	    adjptr = obj->adjF ;
-	} else {
-	    adjptr = obj->adjB ;
-	}
-	for( ; adjptr ; adjptr = adjptr->next ){
-	    if( !(adjptr->marked) ){
+	if( promptS ){
+		adjptr = get_edge_from_user( obj, direction ) ;
 		adjptr->marked = TRUE ;
 		return( adjptr ) ;
-	    }
+	} else {
+		/* ********************************************************
+		*  Avoid asking user - use ordering information given by 
+		*  the user.  Take first unexecuted edge as next edge to be
+		*  executed.
+		*********************************************************** */
+		if( direction == FORWARD ){
+			adjptr = obj->adjF ;
+		} else {
+			adjptr = obj->adjB ;
+		}
+		for( ; adjptr ; adjptr = adjptr->next ){
+			if( !(adjptr->marked) ){
+				adjptr->marked = TRUE ;
+				return( adjptr ) ;
+			}
+		}
+		/* if we didn't find any unmarked nodes we need to ask user */
+		adjptr =  get_edge_from_user( obj, direction ) ;
+		return( adjptr ) ;
 	}
-	/* if we didn't find any unmarked nodes we need to ask user */
-	adjptr =  get_edge_from_user( obj, direction ) ;
-	return( adjptr ) ;
-	
-    }
-
 } /* end make decision */

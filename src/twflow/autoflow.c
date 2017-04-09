@@ -47,7 +47,7 @@ CONTENTS:   auto_flow()
 	    BOOL check_dependencies( adjptr )
 		ADJPTR adjptr ;
 	    autoflow_set_object( object )
-		INT object ;
+		int object ;
 DATE:	    May  7, 1989 - original coding.
 REVISIONS:  May 25, 1989 - added needtoExecute to handle case of no
 		input file but an output file.
@@ -71,7 +71,8 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 
 #define STARTOBJECT  0          /* start of the graph */
 #define ERROR        -1         /* error from YgetFileTime() */
-static INT objectS ;            /* the last program that was run */
+static int objectS ;            /* the last program that was run */
+void report_problem( ADJPTR adjptr );
 
 void auto_flow(int debug)
 {
@@ -121,7 +122,9 @@ void auto_flow(int debug)
 			G( process_graphics() ) ;
 		}
 	} /* end autoflow loop */
-	G( draw_the_data() );
+// 	G( process_graphics() ) ;
+// 	G( draw_the_data() );
+	return;
 } /* end autoflow */
 
 void exec_single_prog(int debug)

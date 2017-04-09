@@ -145,6 +145,7 @@ static double ave_row_sepS ; /* the row separation for a run */
 
 void readParFile();
 void init_utemp();
+void install_swap_pass_thrus( PINBOXPTR netptr );
 
 int
 __attribute__((visibility("default")))
@@ -396,7 +397,7 @@ TimberWolfSC(int n, int v, char *cktName)
 	fprintf( fpoG , "Number of PadGroups: %d \n", numpadgrpsG );
 	fprintf( fpoG , "Number of Implicit Feed Thrus: %d\n", implicit_feed_countG++ ) ;
 	fprintf( fpoG , "Number of Feed Thrus Added: %d\n", num_feeds_addedS ) ;
-	fprintf( fpoG , "Feed Percentage: %4.2f%%\n", 100.0 * (DOUBLE) (num_feeds_addedS * fdWidthG) / (DOUBLE) total_row_lengthG ) ;
+	fprintf( fpoG , "Feed Percentage: %4.2f%%\n", 100.0 * (double) (num_feeds_addedS * fdWidthG) / (double) total_row_lengthG ) ;
 	fprintf( fpoG , "Average Row Separation: %4.2f\n", ave_row_sepS ) ;
 
 	if( intelG ) {
@@ -405,9 +406,10 @@ TimberWolfSC(int n, int v, char *cktName)
 	}
 
 	Yprint_stats(fpoG);
-	/* TWCLOSE(fpoG) ; */  /* Handled by Ymessage_close() in YexitPgm() */
 
-	closegraphics() ;
+	/* Handled by Ymessage_close() in YexitPgm() */
+	if(fpoG)
+		fclose(fpoG);
 
 	return 0;
 
@@ -685,7 +687,7 @@ void execute_global_router()
 		}
 		core_width += largest_delta_row_lenG ;
 		core_height = tracksG * track_pitchG + total_row_height ;
-		area = (DOUBLE) core_height * (DOUBLE) core_width ;
+		area = (double) core_height * (double) core_width ;
 		if( area < best_area ){
 			best_area = area ;
 			decision = TRUE ;
@@ -696,8 +698,7 @@ void execute_global_router()
 
 		if( decision ) {
 			fprintf(fpoG,"THIS G. ROUTING IS BEING SAVED AS BEST SO FAR\n");
-			fprintf(fpoG,"\nFINAL NUMBER OF ROUTING TRACKS: %d\n\n", 
-								tracksG);
+			fprintf(fpoG,"\nFINAL NUMBER OF ROUTING TRACKS: %d\n\n", tracksG);
 			for( i = 1 ; i <= numChansG ; i++ ) {
 				fprintf(fpoG,"MAX OF CHANNEL:%3d  is: %3d\n", i, maxTrackG[i]);
 			}
@@ -708,23 +709,20 @@ void execute_global_router()
 			/* save this for final statistics */
 			num_feeds_addedS = actual_feed_thru_cells_addedG ;
 			/* save the effective row separation */
-			ave_row_sepS = (DOUBLE) (tracksG * track_pitchG) / (DOUBLE) total_row_height ;
+			ave_row_sepS = (double) (tracksG * track_pitchG) / (double) total_row_height ;
 		}
 		globe_free_up() ;
 		final_free_up() ;
 		USER_INCR_METER() ;
 	}
 	fprintf(fpoG,"\n\n***********************************************\n");
-	fprintf(fpoG,"*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n", 
-							best_tracks);
+	fprintf(fpoG,"*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n", best_tracks);
 	fprintf(fpoG,"***********************************************\n\n");
-	fflush(fpoG);
+// 	fflush(fpoG);
 	printf("\n\n***********************************************\n");
-	printf("*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n", 
-							best_tracks);
+	printf("*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: %d\n", best_tracks);
 	printf("***********************************************\n\n");
-	fflush(stdout);
-
+// 	fflush(stdout);
 	return ;
 }
 
@@ -758,12 +756,12 @@ void install_swap_pass_thrus( PINBOXPTR netptr )
 	cell = netptr->cell ;
 	ptr = carrayG[cell] ;
 	for( termptr = ptr->pins ;termptr ; termptr = termptr->nextpin ) {
-	if( termptr == netptr ) {
-		impxpos = termptr->txpos[0] ;
-		impypos = termptr->typos[0] ;
-		fprintf(fpoG,"FOUND the connection in install_swap...\n");
-		break ;
-	}
+		if( termptr == netptr ) {
+			impxpos = termptr->txpos[0] ;
+			impypos = termptr->typos[0] ;
+			fprintf(fpoG,"FOUND the connection in install_swap...\n");
+			break ;
+		}
 	}
 	imptr = ( IPBOXPTR )Ysafe_malloc( sizeof( IPBOX ) ) ;
 	imptr->pinname = (char *) Ysafe_malloc((strlen( netptr->pinname ) + 1 ) * sizeof( char ) ) ;

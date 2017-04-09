@@ -207,26 +207,26 @@ BOOL Ymessage_get_mode()
     return( modeS ) ;
 } /* end Ymessage_get_mode */
 
-Ymessage_flush()
+void Ymessage_flush()
 {
-    if( outS ){
-	fflush(outS) ;
-    }
-    if( foutS ){
-	fflush(foutS) ;
-    }
-    fflush( stdout ) ;
+	if( outS ){
+		fflush(outS) ;
+	}
+	if( foutS ){
+		fflush(foutS) ;
+	}
+	fflush( stdout ) ;
 } /* end Ymessage_flush */
 
-Ymessage_close()
+void Ymessage_close()
 {
-    if( foutS ){
-	TWCLOSE(foutS) ;
-	foutS = (FILE *)NULL;
-    }
-    if( outS ){
-	TWCLOSE(outS) ;
-	outS = (FILE *)NULL;
-    }
+	if( foutS ){
+		TWCLOSE(foutS) ;
+		foutS = (FILE *)NULL;
+	}
+	if( outS ){
+		TWCLOSE(outS) ;
+		outS = (FILE *)NULL;
+	}
 } /* end Ymessage_close */
 

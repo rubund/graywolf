@@ -118,20 +118,12 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 
 	if(!strcmp("TimberWolfMC",obj->name)) {
 		status = TimberWolfMC(0, debug, !graphicsG, 0, 0, 0, debug, cktNameG);
-		if(graphicsG) {
-			G( TWrestoreState() ) ;
-			G( draw_the_data() ) ;
-		}
 	}
 
 	int TimberWolfSC(int n, int v, char *cktName);
 
 	if(!strcmp("TimberWolfSC",obj->name)) {
 		status=TimberWolfSC (!graphicsG, debug, cktNameG);
-		if(graphicsG) {
-			G( TWrestoreState() ) ;
-			G( draw_the_data() ) ;
-		}
 	}
 
 	sprintf( YmsgG, "%s completed...", obj->name ) ;

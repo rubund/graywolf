@@ -242,11 +242,11 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 		auto_flow(debug) ;
 	}
 
-	if( graphicsG ) {
+	/*if( graphicsG ) {
 		G( process_graphics() ) ;
-	}
+	}*/
 
-	G( TWcloseGraphics() ) ;
+	/*G( TWcloseGraphics() ) ;*/
 
 	if( problemsG ){
 		YexitPgm(PGMFAIL);
@@ -258,7 +258,7 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
 	M(ERRMSG,NULL,"\n" ) ; 
 	M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
