@@ -94,7 +94,7 @@ void globroute()
 			printf(" tracks = %3d at attempts = %5d\n" ,tracksG ,attempts ) ;
 		}
 		do {
-			net = (INT) ( (double) numnetsG * ( (double) RAND / (double) 0x7fffffff ) ) + 1 ;
+			net = (int) ( (double) numnetsG * ( (double) RAND / (double) 0x7fffffff ) ) + 1 ;
 		} while( net == numnetsG + 1 ) ;
 		number = 0 ;
 		for( segptr = netsegHeadG[net]->next ; segptr ; segptr = segptr->next ){
@@ -107,7 +107,7 @@ void globroute()
 		trys = 0 ;
 		while( ++trys <= maxtrys ) {
 			do {
-				pick = (INT) ( (double) number * ( (double) RAND / (double) 0x7fffffff ) ) + 1 ;
+				pick = (int) ( (double) number * ( (double) RAND / (double) 0x7fffffff ) ) + 1 ;
 			} while( pick == number + 1 ) ;
 			segptr = segment[ pick ] ;
 			netptr1 = segptr->pin1ptr ;
