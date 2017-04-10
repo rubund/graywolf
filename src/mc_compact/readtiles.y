@@ -1,6 +1,7 @@
 %define api.prefix {readtiles_}
 %glr-parser
 %{
+#include "compact.h"
 #define yyget_lineno readtiles_get_lineno
 #define yytext readtiles_text
 #define yyin readtiles_in
@@ -39,15 +40,30 @@ static int nodeS ;          /* current node */
 %start start_file
 %%
 start_file : tile_info cell_list;
-tile_info : NUMTILES COLON INTEGER NUMCELLS COLON INTEGER;
+tile_info : NUMTILES COLON INTEGER NUMCELLS COLON INTEGER
+{
+	init($3,$6);
+};
 cell_list : cell;
 cell_list : cell_list cell;
-cell : cell_info tile_list;
-cell_info : CELL INTEGER X COLON INTEGER Y COLON INTEGER OFFSET COLON INTEGER INTEGER;
-cell_info : STDCELL INTEGER X COLON INTEGER Y COLON INTEGER OFFSET COLON INTEGER INTEGER;
+cell : cell_info tile_list
+{
+	endCell();
+};
+cell_info : CELL INTEGER X COLON INTEGER Y COLON INTEGER OFFSET COLON INTEGER INTEGER
+{
+	initCell( CELLTYPE, $2, $5, $8, $11, $12) ;
+};
+cell_info : STDCELL INTEGER X COLON INTEGER Y COLON INTEGER OFFSET COLON INTEGER INTEGER
+{
+	initCell( STDCELLTYPE, $2, $5, $8, $11, $12) ;
+};
 tile_list : tile;
 tile_list : tile_list tile;
-tile : L COLON INTEGER R COLON INTEGER B COLON INTEGER T COLON INTEGER;
+tile : L COLON INTEGER R COLON INTEGER B COLON INTEGER T COLON INTEGER
+{
+	addtile($3, $6, $9, $12 );
+};
 
 %%
 
