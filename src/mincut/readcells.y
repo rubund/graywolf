@@ -278,9 +278,8 @@ sidespace : SIDESPACE FLOAT FLOAT;
 layer : LAYER INTEGER;
 opt_layer :;
 opt_layer : LAYER INTEGER;
-sideplace : STRING;
 restriction :;
-restriction : RESTRICT SIDE sideplace;
+restriction : RESTRICT SIDE STRING;
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
 padset : STRING FIXED
