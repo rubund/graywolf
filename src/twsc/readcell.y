@@ -371,4 +371,3 @@ int readcell(char *filename)
 } /* end readcell */
 
 int twsc_readcell_wrap(void) {return 1;}
-

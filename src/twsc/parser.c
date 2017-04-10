@@ -1433,8 +1433,7 @@ void cleanup_readcells()
 				}
 			case B:
 			default:
-				M( ERRMSG, "cleanup_readcell",
-				"\nNON-PAD or PAD w/o valid side rotatation\n");
+				M( ERRMSG, "cleanup_readcell", "\nNON-PAD or PAD w/o valid side rotatation\n");
 				sprintf( YmsgG, "\tpad:%s is bogus\n", ptr->cname ) ;
 				M( ERRMSG, NULL, YmsgG ) ;
 				abortS = TRUE ;
