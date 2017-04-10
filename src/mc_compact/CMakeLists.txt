@@ -1,7 +1,16 @@
 
+INCLUDE(FindBISON)
+INCLUDE(FindFLEX)
+
+bison_target(readcgraph readcgraph.y ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.c)
+#flex_target(readcgraph .lex ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.lex.c COMPILE_FLAGS "-d") #debug
+flex_target(readcgraph readcgraph.lex ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.lex.c)
+
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
 add_library(GrayWolfMCCompact SHARED
+	${BISON_readcgraph_OUTPUTS}
+	${FLEX_readcgraph_OUTPUTS}
 	cdraw.c
 	compactor.c
 	io.c
@@ -10,7 +19,6 @@ add_library(GrayWolfMCCompact SHARED
 	changraph.c
 	debug2.c
 	movestrat2.c
-	readcgraph.c
 	xcompact.c
 	cmain.c
 	grid.c
