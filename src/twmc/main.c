@@ -125,7 +125,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 {
 	printf("Running TimberWolfMC\n");
 
-	FILE    *fp ;
+	FILE *fp ;
 
 	char
 		filename[LRECL],
@@ -233,14 +233,12 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 		if( access( filename, F_OK ) == -1 ) { 
 			sprintf(filename, "%s.cel" , cktNameG );
 			if( access( filename, F_OK ) != -1 ) {
-				printf("Now pass filename %s to readcells \n", filename);
 				readcells(filename);
 			} else {
 				printf("No cel/mcel file found!\n");
 				return 1;
 			}
 		} else {
-			printf("Now pass filename %s to readcells \n", filename);
 			readcells(filename);
 		}
 
@@ -403,11 +401,10 @@ int yaleIntro()
 
 /* this routine takes information about run and write to history file */
 /* to accumulate data about runs */
-writeResults( wire, penal, rand )
-INT wire, penal, rand ;
+void writeResults( int wire, int penal, int rand )
 {
 	FILE *fpdebug ;
-	INT left_side, right_side, bottom_side, top_side ;
+	int left_side, right_side, bottom_side, top_side ;
 	char filename[LRECL] ;
 
 	funccostG = findcost() ;
@@ -417,11 +414,10 @@ INT wire, penal, rand ;
 	find_core_boundary( &left_side, &right_side, &bottom_side, &top_side);
 	bdxlengthG = right_side - left_side ;
 	bdylengthG = top_side - bottom_side ;
-	fprintf( fpdebug, 
-			"%4.2le\t%4.2le\t%4.2le\t%4.2le\t%d\t%d\t%d\t%4.2le\t%34.32le\n", 
-			(DOUBLE) wire, (DOUBLE) penal,
-			(DOUBLE) funccostG, (DOUBLE) penaltyG, bdxlengthG, bdylengthG, 
-			rand, (DOUBLE) bdxlengthG * bdylengthG, wire_red_ratioS ) ;
+	fprintf( fpdebug, "%4.2le\t%4.2le\t%4.2le\t%4.2le\t%d\t%d\t%d\t%4.2le\t%34.32le\n", 
+			(double) wire, (double) penal,
+			(double) funccostG, (double) penaltyG, bdxlengthG, bdylengthG, 
+			rand, (double) bdxlengthG * bdylengthG, wire_red_ratioS ) ;
 	TWCLOSE( fpdebug ) ;
 } /* end writeResults */
 
