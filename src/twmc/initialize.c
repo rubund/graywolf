@@ -1158,53 +1158,45 @@ void set_restrict_type( int object )
 }
 /* ***************************************************************** */
 
-addSideRestriction( side )
-int side ;
+void addSideRestriction( int side )
 {
-int howmany ;
-SOFTBOXPTR spin ;
-EQUIVPTR eqptr ;
+	int howmany ;
+	SOFTBOXPTR spin ;
+	EQUIVPTR eqptr ;
 
-ERRORABORT() ;
-if( side < 0 || side > cornerCountS ) {
-    M(ERRMSG,"addSideRestriction","value of side out of range");
-    sprintf(YmsgG,"\n\tside:%d  range:1 to %d ", side, 
-	cornerCountS ) ;
-    M(MSG,NULL,YmsgG);
-    sprintf(YmsgG, "current cell is:%d\n", totalcellsG ) ;
-    M(MSG,NULL,YmsgG);
-    setErrorFlag() ;
-}
+	ERRORABORT() ;
+	if( side < 0 || side > cornerCountS ) {
+		M(ERRMSG,"addSideRestriction","value of side out of range");
+		sprintf(YmsgG,"\n\tside:%d  range:1 to %d ", side, cornerCountS ) ;
+		M(MSG,NULL,YmsgG);
+		sprintf(YmsgG, "current cell is:%d\n", totalcellsG ) ;
+		M(MSG,NULL,YmsgG);
+		setErrorFlag() ;
+	}
 
-/* this variable set by set_restrict type */
-switch( cur_restrict_objS ){ 
-    case PINGROUPTYPE:
-	spin = pingroupS->softinfo ;
-	howmany = ++(spin->restrict1[HOWMANY]) ;
-	spin->restrict1 = (int *) Ysafe_realloc( spin->restrict1,
-	    (howmany+1)*sizeof(int) ) ;
-	spin->restrict1[howmany] = side ;
-	break ;
-    case SOFTPINTYPE:
-    case SOFTEQUIVTYPE:
-	spin = pinS->softinfo ;
-	howmany = ++(spin->restrict1[HOWMANY]) ;
-	spin->restrict1 = (int *) Ysafe_realloc( spin->restrict1,
-	    (howmany+1)*sizeof(int) ) ;
-	spin->restrict1[howmany] = side ;
-	break ;
-    case ADDEQUIVTYPE:
-	eqptr = softpinS->eqptr ;
-	howmany = ++(eqptr->restrict1[HOWMANY]) ;
-	eqptr->restrict1 = (int *) Ysafe_realloc( eqptr->restrict1,
-	    (howmany+1)*sizeof(int) ) ;
-	eqptr->restrict1[howmany] = side ;
-	break ;
-} /* end switch on current object */
-
-} /* end addSideRestriction *
-/* ***************************************************************** */
-
+	/* this variable set by set_restrict type */
+	switch( cur_restrict_objS ){ 
+		case PINGROUPTYPE:
+			spin = pingroupS->softinfo ;
+			howmany = ++(spin->restrict1[HOWMANY]) ;
+			spin->restrict1 = (int *) Ysafe_realloc( spin->restrict1, (howmany+1)*sizeof(int) ) ;
+			spin->restrict1[howmany] = side ;
+			break ;
+		case SOFTPINTYPE:
+		case SOFTEQUIVTYPE:
+			spin = pinS->softinfo ;
+			howmany = ++(spin->restrict1[HOWMANY]) ;
+			spin->restrict1 = (int *) Ysafe_realloc( spin->restrict1, (howmany+1)*sizeof(int) ) ;
+			spin->restrict1[howmany] = side ;
+			break ;
+		case ADDEQUIVTYPE:
+			eqptr = softpinS->eqptr ;
+			howmany = ++(eqptr->restrict1[HOWMANY]) ;
+			eqptr->restrict1 = (int *) Ysafe_realloc( eqptr->restrict1, (howmany+1)*sizeof(int) ) ;
+			eqptr->restrict1[howmany] = side ;
+			break ;
+	} /* end switch on current object */
+} /* end addSideRestriction */
 
 void add_pinspace( double lower, double upper )
 {
@@ -1215,16 +1207,16 @@ void add_pinspace( double lower, double upper )
 
 	switch( cur_restrict_objS ){ 
 		case PINGROUPTYPE:
-		spin = pingroupS->softinfo ;
-		name = pingroupS->pinname ;
-		break ;
+			spin = pingroupS->softinfo ;
+			name = pingroupS->pinname ;
+			break ;
 		case SOFTPINTYPE:
 		case SOFTEQUIVTYPE:
-		spin = pinS->softinfo ;
-		name = pinS->pinname ;
-		break ;
+			spin = pinS->softinfo ;
+			name = pinS->pinname ;
+			break ;
 		case ADDEQUIVTYPE:
-		return ;
+			return ;
 	} /* end switch on current object */
 
 	spin->fixed = TRUE ;
@@ -1312,9 +1304,8 @@ void start_pin_group( char *pingroup, BOOL permute )
 				break ;
 			}
 		}
-		if( pingroupS ){
-			pingroupS->soft_inst = (SOFTBOXPTR *) Ysafe_realloc( 
-			pingroupS->soft_inst,instAllocS * sizeof(SOFTBOXPTR) );
+		if( pingroupS ) {
+			pingroupS->soft_inst = (SOFTBOXPTR *) Ysafe_realloc(pingroupS->soft_inst,instAllocS * sizeof(SOFTBOXPTR) );
 		} else {
 			sprintf(YmsgG,"No match for pingroup:%s in primary instance:%s\n", pingroup, cellarrayG[totalcellsG]->cname ) ;
 			M( ERRMSG, "start_pin_group", YmsgG ) ;
@@ -1340,96 +1331,82 @@ void start_pin_group( char *pingroup, BOOL permute )
 /* ***************************************************************** */
 
 /* add this pad to the current pad group */
-add2pingroup( pinName, ordered ) 
-char *pinName ;
-BOOL ordered ;  /* ordered flag is true if padgroup is fixed */
+void add2pingroup( char *pinName, BOOL ordered ) /* ordered flag is true if padgroup is fixed */
 {
+	int i ;
+	int howmany ;
+	PINBOXPTR pin ;
+	PINBOXPTR cpin ;
+	SOFTBOXPTR spin ;
+	SOFTBOXPTR pingroup_spin ;
+	int curpingroup ;
 
-int i ;
-int howmany ;
-PINBOXPTR pin ;
-PINBOXPTR cpin ;
-SOFTBOXPTR spin ;
-SOFTBOXPTR pingroup_spin ;
-int curpingroup ;
+	ERRORABORT() ;
 
-ERRORABORT() ;
-
-/* check pads for correctness */
-for( pin = ptrS->pinptr ; pin ; pin = pin->nextpin ){
-    spin = pin->softinfo ;
-    if( strcmp(pinName, pin->pinname) == STRINGEQ ){
-	
-	if( spin->hierarchy == LEAF ){
-	    sprintf(YmsgG,
-		"pin %s was included in more than 1 pin group\n",
-		pin->pinname);
-	    M(ERRMSG,"add2pingroup",YmsgG ) ;
-	    setErrorFlag() ;
-	    return ;
-	}
-	/* check memory of pin array */
-	pingroup_spin = pingroupS->softinfo ;
-	if( ++numchildrenS >= childAllocS ){
-	    childAllocS += EXPECTEDPINGRP ;
-	    pingroup_spin->children = (PINBOXPTR *)
-		Ysafe_realloc( pingroup_spin->children,
-		childAllocS * sizeof(PINBOXPTR) ) ;
-	}
-	pingroup_spin->children[numchildrenS] = pin ;
-	pingroup_spin->children[HOWMANY] = (PINBOXPTR) numchildrenS ;
-	spin->parent = pingroupS ;
-	/* now update any equivalent subpins to leaves */
-	if( spin->hierarchy == NONE && spin->children ){
-	    howmany = (int) spin->children[HOWMANY] ;
-	    for( i = 1; i <= howmany; i++ ){
-		cpin = spin->children[i] ;
-		if( cpin->type == SOFTEQUIVTYPE ){
-		    cpin->softinfo->hierarchy = LEAF ;
-		    cpin->softinfo->ordered = ordered ;
+	/* check pads for correctness */
+	for( pin = ptrS->pinptr ; pin ; pin = pin->nextpin ){
+		spin = pin->softinfo ;
+		if( strcmp(pinName, pin->pinname) == STRINGEQ ){
+			if( spin->hierarchy == LEAF ){
+				sprintf(YmsgG, "pin %s was included in more than 1 pin group\n", pin->pinname);
+				M(ERRMSG,"add2pingroup",YmsgG ) ;
+				setErrorFlag() ;
+				return ;
+			}
+			/* check memory of pin array */
+			pingroup_spin = pingroupS->softinfo ;
+			if( ++numchildrenS >= childAllocS ){
+				childAllocS += EXPECTEDPINGRP ;
+				pingroup_spin->children = (PINBOXPTR *) Ysafe_realloc( pingroup_spin->children, childAllocS * sizeof(PINBOXPTR) ) ;
+			}
+			pingroup_spin->children[numchildrenS] = pin ;
+			pingroup_spin->children[HOWMANY] = (PINBOXPTR) numchildrenS ;
+			spin->parent = pingroupS ;
+			/* now update any equivalent subpins to leaves */
+			if( spin->hierarchy == NONE && spin->children ) {
+				howmany = (int) spin->children[HOWMANY] ;
+				for( i = 1; i <= howmany; i++ ) {
+					cpin = spin->children[i] ;
+					if( cpin->type == SOFTEQUIVTYPE ){
+						cpin->softinfo->hierarchy = LEAF ;
+						cpin->softinfo->ordered = ordered ;
+					}
+				}
+			}
+			spin->hierarchy = LEAF ;
+			spin->ordered = ordered ;
+			return;
 		}
-	    }
 	}
-	spin->hierarchy = LEAF ;
-	spin->ordered = ordered ;
-	return;
-    }
-}
 
-/* if no match above must be subroot */
-curpingroup = ptrS->numpins + numchildrenS ;
-for( i = ptrS->numpins ; i < curpingroup; i++ ){
-    pin = ptrS->softpins[i] ;
-    spin = pin->softinfo ;
-    if (strcmp(pinName, pin->pinname) == STRINGEQ) {
-	if (spin->hierarchy == SUBROOT) {
-	    sprintf(YmsgG,
-		"pin group %s was included in more than 1 pin group\n",
-		pin->pinname);
-	    M(ERRMSG,"add2pingroup",YmsgG ) ;
-	    setErrorFlag() ;
-	    return ;
+	/* if no match above must be subroot */
+	curpingroup = ptrS->numpins + numchildrenS ;
+	for( i = ptrS->numpins ; i < curpingroup; i++ ){
+		pin = ptrS->softpins[i] ;
+		spin = pin->softinfo ;
+		if (strcmp(pinName, pin->pinname) == STRINGEQ) {
+			if (spin->hierarchy == SUBROOT) {
+				sprintf(YmsgG, "pin group %s was included in more than 1 pin group\n", pin->pinname);
+				M(ERRMSG,"add2pingroup",YmsgG ) ;
+				setErrorFlag() ;
+				return ;
+			}
+			pingroup_spin = pingroupS->softinfo ;
+			if( ++numchildrenS >= childAllocS ){
+				childAllocS += EXPECTEDPINGRP ;
+				pingroup_spin->children = (PINBOXPTR *) Ysafe_realloc( pingroup_spin->children, childAllocS * sizeof(PINBOXPTR) ) ;
+			}
+			pingroup_spin->children[numchildrenS] = pin ;
+			pingroup_spin->children[HOWMANY] = (PINBOXPTR) numchildrenS ;
+			spin->parent = pingroupS ;
+			spin->hierarchy = SUBROOT ;
+			spin->ordered = ordered ;
+			return ;
+		}
 	}
-	pingroup_spin = pingroupS->softinfo ;
-	if( ++numchildrenS >= childAllocS ){
-	    childAllocS += EXPECTEDPINGRP ;
-	    pingroup_spin->children = (PINBOXPTR *)
-		Ysafe_realloc( pingroup_spin->children,
-		childAllocS * sizeof(PINBOXPTR) ) ;
-	}
-	pingroup_spin->children[numchildrenS] = pin ;
-	pingroup_spin->children[HOWMANY] = (PINBOXPTR) numchildrenS ;
-	spin->parent = pingroupS ;
-	spin->hierarchy = SUBROOT ;
-	spin->ordered = ordered ;
+	sprintf(YmsgG,"cannot find pin <%s> for pin_group <%s>\n", pinName,ptrS->softpins[curpingroup]->pinname );
+	M(ERRMSG,"add2pingroup",YmsgG ) ;
 	return ;
-    }
-}
-
-sprintf(YmsgG,"cannot find pin <%s> for pin_group <%s>\n",
-    pinName,ptrS->softpins[curpingroup]->pinname );
-M(ERRMSG,"add2pingroup",YmsgG ) ;
-return ;
 
 } /* end add2pingroup */
 /* ***************************************************************** */
@@ -1474,24 +1451,22 @@ void addPadSide( char *side )
 	numsides = strlen( side ) ;
 	for( i = 0 ; i < numsides; i++ ){
 		switch( side[i] ){
-		case 'B' :
-			pptrS->valid_side[B] = TRUE ;
-			break ;
-		case 'L' :
-			pptrS->valid_side[L] = TRUE ;
-			break ;
-		case 'R' :
-			pptrS->valid_side[R] = TRUE ;
-			break ;
-		case 'T' :
-			pptrS->valid_side[T] = TRUE ;
-			break ;
-		default:
-			sprintf( YmsgG,
-			"side restriction not specified properly for pad:%s\n",
-			ptrS->cname );
-		M(ERRMSG,"addPadSide",YmsgG ) ;
-			setErrorFlag() ;
+			case 'B' :
+				pptrS->valid_side[B] = TRUE ;
+				break ;
+			case 'L' :
+				pptrS->valid_side[L] = TRUE ;
+				break ;
+			case 'R' :
+				pptrS->valid_side[R] = TRUE ;
+				break ;
+			case 'T' :
+				pptrS->valid_side[T] = TRUE ;
+				break ;
+			default:
+				sprintf( YmsgG, "side restriction not specified properly for pad:%s\n", ptrS->cname );
+				M(ERRMSG,"addPadSide",YmsgG ) ;
+				setErrorFlag() ;
 		} /* end switch */
 	} 
 } /* end addPadSide */
@@ -1559,7 +1534,6 @@ void add2padgroup( char *padName, BOOL ordered )  /* ordered flag is true if pad
 			return ;
 		}
 	}
-
 	sprintf(YmsgG,"cannot find pad <%s> for pad_group <%s>\n", padName,ptrS->cname);
 	M(ERRMSG,"add2padgroup",YmsgG ) ;
 	return ;
@@ -1580,7 +1554,7 @@ void add_cell_to_group( char *cellName )
 	} 
 	cell = *data ;
 
-	if( tempCell = curGroupS->cells ){
+	if((tempCell = curGroupS->cells)){
 		curGroupS->cells = (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
 		curGroupS->cells->next = tempCell ;
 	} else { /* start list */
@@ -1713,7 +1687,6 @@ void add_pin_contour( int x, int y )
 	analogS->x_contour[cornerCountS] = x ;
 	analogS->y_contour[cornerCountS++] = y ;
 } /* end start_pin_contour */
-
 
 void add_current( float current )
 {
