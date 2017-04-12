@@ -267,9 +267,15 @@ pin_pts : pin_pts INTEGER INTEGER {
 	add_pin_contour($2, $3) ;
 };
 current :;
-current : CURRENT FLOAT;
+current : CURRENT FLOAT
+{
+	add_current($2);
+};
 power :;
-power : POWER FLOAT;
+power : POWER FLOAT
+{
+	add_power($2);
+};
 no_layer_change :;
 no_layer_change : NO_LAYER_CHANGE;
 softpin : softpin_info siderestriction pinspace;
