@@ -1,6 +1,4 @@
 
-#SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
-
 add_library(ycadgraywolf SHARED
 	assign.c
 	buster.c
@@ -49,7 +47,7 @@ add_library(ycadgraywolf SHARED
 	yreadpar.c
 	)
 
-set_target_properties(ycadgraywolf PROPERTIES VERSION 0.0.0 SOVERSION 0)
+set_target_properties(ycadgraywolf PROPERTIES VERSION 1.0.0 SOVERSION 1)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
 
