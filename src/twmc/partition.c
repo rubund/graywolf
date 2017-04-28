@@ -80,6 +80,7 @@ REVISIONS:  May 24, 1989 - added stdcell configuration code.
 static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
 #endif
 
+#include <string.h>
 #include <custom.h>
 #include <partition.h>
 #include <pads.h>
@@ -94,27 +95,27 @@ static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
 
 #define ROWSEP    "rowSep"
 #define GENROWPROG      "genrows"
-#define GENROWPATH      "../genrows"
 #define  NUMROWKEYWORD  "rows"
 #define  ROWKEYWORD     "row"
 
-static INT tlengthS ;                 /* total length of stdcells */
-static INT cheightS ;                 /* height of stdcell */
-static INT num_classeS ;	      /* number of cell classes */
-static INT *classS ;	      	      /* cell class name */
-static INT *lbS ;	              /* lower bound of cell class length */
-static INT *ubS ;	              /* upper bound of cell class length */
+static int tlengthS ;                 /* total length of stdcells */
+static int cheightS ;                 /* height of stdcell */
+static int num_classeS ;	      /* number of cell classes */
+static int *classS ;	      	      /* cell class name */
+static int *lbS ;	              /* lower bound of cell class length */
+static int *ubS ;	              /* upper bound of cell class length */
 
-static DOUBLE rowSepS ;               /* row separation, relative */
-static DOUBLE rowSepAbsS ;            /* row separation, absolute */
+static float rowSepS ;               /* row separation, relative */
+static int rowSepAbsS ;            /* row separation, absolute */
 
 static BOOL dataValidS = FALSE ;      /* used to avoid invalid request */
 
-static INT num_macroS ;               /* number of macros output */
+static int num_macroS ;               /* number of macros output */
 
 /* Forward declaration */
-void read_gen_file();
+int read_gen_file();
 void read_stat_file();
+void build_mver_file( int left, int right, int bottom, int top );
 
 void config_rows()
 {
@@ -197,7 +198,7 @@ void read_stat_file()
 
 	class_count = 0 ;
 	num_classeS = 0 ;
-	while( bufferptr = fgets( input, LRECL, fin ) ){
+	while((bufferptr = fgets( input, LRECL, fin ))){
 		tokens = Ystrparser( bufferptr, " :\t\n", &numtokens ) ;
 		if( strcmp( tokens[0], "tot_length" ) == STRINGEQ ){
 			tlengthS = atoi( tokens[1] ) ;
@@ -205,9 +206,9 @@ void read_stat_file()
 			cheightS = atoi( tokens[1] ) ;
 		} else if( strcmp( tokens[0], "num_classes" ) == STRINGEQ ){
 			num_classeS = atoi( tokens[1] ) ;
-			classS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-			lbS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-			ubS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
+			classS = YVECTOR_MALLOC( 1, num_classeS, int ) ;
+			lbS = YVECTOR_MALLOC( 1, num_classeS, int ) ;
+			ubS = YVECTOR_MALLOC( 1, num_classeS, int ) ;
 		} else if( strcmp( tokens[0], "class" ) == STRINGEQ ){
 			class = atoi( tokens[1] ) ;
 			classS[++class_count] = class ;
@@ -223,13 +224,13 @@ double read_par_file()
 {
     char *bufferptr ;
     char **tokens ;      /* for parsing menu file */
-    INT  numtokens ;
-    INT  line ; /* line number of TWmenu file */
+    int  numtokens ;
+    int  line ; /* line number of TWmenu file */
     BOOL onNotOff ;
     BOOL wildcard ;
 
     Yreadpar_init( cktNameG, USER, TWSC, TRUE ) ;
-    while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens,  &onNotOff, &wildcard )){
+    while((tokens = Yreadpar_next( &bufferptr, &line, &numtokens,  &onNotOff, &wildcard ))){
 	if( numtokens == 0 ){
 	    /* skip over empty lines */
 	    continue ;
@@ -243,13 +244,15 @@ double read_par_file()
 	    /* 3rd token for absolute row spacing is not handled */
 	    if( numtokens == 2 ){
 		rowSepS = atof( tokens[1] ) ;
+		rowSepAbsS = 0;
 	    } else if (numtokens == 3 ){
 		rowSepS = atof( tokens[1] ) ;
-		rowSepAbsS = atof( tokens[2] ) ;
+		rowSepAbsS = atoi( tokens[2] ) ;
 	    } else {
 		sprintf( YmsgG, "Syntax error on line:%d\n", line ) ;
 		M(ERRMSG, "read_par_file", YmsgG ) ;
 	    }
+	    printf("%s: rowSepG %f rowSepAbsG %d\n",__FUNCTION__,rowSepS,rowSepAbsS);
 	}
     }
     if( rowSepS < 0.0 ) {
@@ -341,18 +344,17 @@ void build_mver_file( int left, int right, int bottom, int top )
 		fprintf( fp, "class %d lb %d ub %d\n", classS[i], lbS[i], ubS[i] ) ;
 	}
 	fprintf( fp, "actual_row_height %d\n", cheightS ) ;
-	separation = (INT) ( (DOUBLE) cheightS * rowSepS + rowSepAbsS) ;
+	separation = (int) ( (double) cheightS * rowSepS + rowSepAbsS) ;
 	fprintf( fp, "channel_separation %d\n", separation ) ;
 	fprintf( fp, "min_length %d\n", (right-left) / 5 ) ;
 	fprintf( fp, "core %d %d %d %d\n", left, bottom, right, top ) ;
 	fprintf( fp, "grid %d %d\n", track_spacingXG, track_spacingYG ) ;
 	num_macroS = 0 ;
 	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
-
 		cellptr = cellarrayG[cell] ;
 		type = cellptr->celltype ;
 		if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
-		continue ;
+			continue ;
 		}
 		num_macroS++ ;
 	}
@@ -360,11 +362,10 @@ void build_mver_file( int left, int right, int bottom, int top )
 
 
 	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
-
 		cellptr = cellarrayG[cell] ;
 		type = cellptr->celltype ;
 		if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
-		continue ;
+			continue ;
 		}
 		fprintf(fp,"macro orient %d %d vertices ", cellptr->orient,
 		cellptr->numsides ) ;
@@ -374,7 +375,7 @@ void build_mver_file( int left, int right, int bottom, int top )
 	fclose( fp ) ;
 } /* end build_mver_file */
 
-void read_gen_file()
+int read_gen_file()
 {
 	char filename[LRECL] ;
 	char buffer[LRECL], *bufferptr ;
@@ -387,7 +388,7 @@ void read_gen_file()
 	FILE *fp ;
 
 	if( num_macroS == 0 ){
-		return ;
+		return 0;
 	}
 	/* **************** READ RESULTS of genrows ************/
 	sprintf(filename, "%s.gen" , cktNameG ) ;
@@ -401,31 +402,31 @@ void read_gen_file()
 		cellptr = cellarrayG[cell] ;
 		type = cellptr->celltype ;
 		if( type != CUSTOMCELLTYPE && type != SOFTCELLTYPE ){
-		continue ;
+			continue ;
 		}
 		while( bufferptr=fgets(buffer,LRECL,fp )){
-		/* parse file */
-		line++ ; /* increment line number */
-		tokens = Ystrparser( bufferptr, " \t\n", &numtokens );
-		if( numtokens == 0 ){
-			/* skip over empty lines */
-			continue ;
-		} else if( numtokens == 3 ){
-			cellptr->xcenter = atoi( tokens[0] ) ;
-			cellptr->ycenter = atoi( tokens[1] ) ;
-			cellptr->orient = atoi( tokens[2] ) ;
-			break ; /* go on to the next cell */
-		} else if( strcmp(tokens[0], "core" ) == STRINGEQ &&
-			numtokens == 5 ){
-			blocklG = MIN( blocklG, atoi( tokens[1] ) ) ;
-			blockbG = MIN( blockbG, atoi( tokens[2] ) ) ;
-			blockrG = MAX( blockrG, atoi( tokens[3] ) ) ;
-			blocktG = MAX( blocktG, atoi( tokens[4] ) ) ;
-		} else {
-			sprintf( YmsgG, "Problem reading .gen file on line:%d\n",line ) ;
-			M( ERRMSG, "read_gen_file", YmsgG ) ;
-			abort = TRUE ;
-		}
+			/* parse file */
+			line++ ; /* increment line number */
+			tokens = Ystrparser( bufferptr, " \t\n", &numtokens );
+			if( numtokens == 0 ){
+				/* skip over empty lines */
+				continue ;
+			} else if( numtokens == 3 ){
+				cellptr->xcenter = atoi( tokens[0] ) ;
+				cellptr->ycenter = atoi( tokens[1] ) ;
+				cellptr->orient = atoi( tokens[2] ) ;
+				break ; /* go on to the next cell */
+			} else if( strcmp(tokens[0], "core" ) == STRINGEQ &&
+				numtokens == 5 ){
+				blocklG = MIN( blocklG, atoi( tokens[1] ) ) ;
+				blockbG = MIN( blockbG, atoi( tokens[2] ) ) ;
+				blockrG = MAX( blockrG, atoi( tokens[3] ) ) ;
+				blocktG = MAX( blocktG, atoi( tokens[4] ) ) ;
+			} else {
+				sprintf( YmsgG, "Problem reading .gen file on line:%d\n",line ) ;
+				M( ERRMSG, "read_gen_file", YmsgG ) ;
+				abort = TRUE ;
+			}
 		}
 	}
 

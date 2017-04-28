@@ -81,7 +81,7 @@ static double total_areaS = 0.0 ;
 static double core_areaS = 0.0 ;
 static double average_cell_heightS ;
 static double row_sepS ;
-static double row_sep_absS ;
+static int row_sep_absS ;
 static int total_std_cellS = 0 ;
 static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
@@ -156,7 +156,7 @@ void set_bbox( int left, int right, int bottom, int top )
 	height = (double) (top - bottom) ;
 	total_cell_heightS += height ;
 	total_areaS += width * height ;
-	core_areaS += width * (height + row_sep_absS) ;
+	core_areaS += width * (height + (double)row_sep_absS) ;
 	total_std_cellS++ ;
 } /* end set_bbox */
 
@@ -291,32 +291,40 @@ void read_par()
 
 	found = FALSE ;
 	Yreadpar_init( cktNameG, USER, TWSC, TRUE ) ;
-	while( tokens = Yreadpar_next( &bufferptr, &line, &numtokens, &onNotOff, &wildcard )) {
+	char *tmpStr;
+	while((tokens = Yreadpar_next( &bufferptr, &line, &numtokens, &onNotOff, &wildcard))) {
+		if( numtokens ) {
+			if((tmpStr = strstr(tokens[0], "TWSC*"))) {
+				tmpStr+=strlen("TWSC*");
+				tokens[0] = Ystrclone(tmpStr);
+			} else if ((tmpStr = strstr(tokens[0], "TWMC*"))) {
+				tmpStr+=strlen("TWMC*");
+				tokens[0] = Ystrclone(tmpStr);
+			} else if ((tmpStr = strstr(tokens[0], "GENR*"))) {
+				tmpStr+=strlen("GENR*");
+				tokens[0] = Ystrclone(tmpStr);
+			} else if ((tmpStr = strstr(tokens[0], "*"))) {
+				tmpStr++;
+				tokens[0] = Ystrclone(tmpStr);
+			}
+		}
 		if( numtokens == 0 ){
 		/* skip over empty lines */
-			continue ;
-		}
-		if ((numtokens != 2) && (numtokens != 3)) {
 			continue ;
 		}
 		if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
 			row_sepS = atof( tokens[1] ) ;
 			if (numtokens == 3)
-				row_sep_absS = atof( tokens[2] ) ;
+				row_sep_absS = atoi( tokens[2] ) ;
 			found = TRUE ;
-		}
-		if( strcmp( tokens[0], "*rowSep" ) == STRINGEQ ){
-			row_sepS = atof( tokens[1] ) ;
-			if (numtokens == 3)
-				row_sep_absS = atof( tokens[2] ) ;
-			found = TRUE ;
+			printf("%s: rowSepG %f rowSepAbsG %d\n",__FUNCTION__,row_sepS,row_sep_absS);
 		}
 	}
 	if(!(found)){
 		M(WARNMSG, "read_par", "Couldn't find rowsep in parameter file\n" ) ;
 		M(WARNMSG, NULL,"Using default of 1.0\n" ) ; 
 		row_sepS = 1.0 ;
-		row_sep_absS = 0.0 ;
+		row_sep_absS = 0;
 	}
 } /* end readpar */
 

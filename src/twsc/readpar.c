@@ -86,6 +86,7 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
 #include <yalecad/message.h>
 #include <yalecad/string.h>
 #include <yalecad/yreadpar.h>
+#include <string.h>
 
 /* globals variable definitions */
 int attprcelG ;
@@ -160,7 +161,7 @@ static void init_read_par()
 	try_not_to_add_explicit_feedsG = FALSE ;
 	vertical_track_on_cell_edgeG = FALSE ;
 	no_feed_at_endG = TRUE ;
-	spacer_feedsG = (int *) Ysafe_malloc( 101 * sizeof(INT) ) ;
+	spacer_feedsG = (int *) Ysafe_malloc( 101 * sizeof(int) ) ;
 	spacer_feedsG[0] = 0 ;
 	metal2_pitchG = 0.0 ;
 	core_widthG  = 0 ;
@@ -195,18 +196,18 @@ static void readparam( int parfile )
 	Yreadpar_init( cktNameG, parfile, TWSC, FALSE ) ;
 
 	char *tmpStr;
-	while( tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard )){
+	while((tokens = Yreadpar_next( &lineptr, &line, &numtokens, &onNotOff, &wildcard))){
 		readparamS = TRUE ;
 
 		if( numtokens ) {
-			if(tmpStr = strstr(tokens[0], "TWSC*")) {
-				tmpStr+=5;
+			if((tmpStr = strstr(tokens[0], "TWSC*"))) {
+				tmpStr+=strlen("TWSC*");
 				tokens[0] = Ystrclone(tmpStr);
-			} else if (tmpStr = strstr(tokens[0], "TWMC*")) {
+			} else if ((tmpStr = strstr(tokens[0], "TWMC*"))) {
 				continue;
-			} else if (tmpStr = strstr(tokens[0], "GENR*")) {
+			} else if ((tmpStr = strstr(tokens[0], "GENR*"))) {
 				continue;
-			} else if (tmpStr = strstr(tokens[0], "*")) {
+			} else if ((tmpStr = strstr(tokens[0], "*"))) {
 				tmpStr++;
 				tokens[0] = Ystrclone(tmpStr);
 			}
@@ -583,14 +584,15 @@ static void readparam( int parfile )
 			/*  indent should always be 1.0 now  */
 		} else if( strcmp( tokens[0],"random.seed") == STRINGEQ ){
 			if( numtokens == 2 ) {
-				randomSeedG = (UNSIGNED_INT) atoi( tokens[1] ) ; 
+				randomSeedG = (unsigned int) atoi( tokens[1] ) ; 
 			} else {
 				err_msg("random.seed") ;
 			}
 		} else if( strcmp( tokens[0],"rowSep") == STRINGEQ ){
 			if( numtokens >= 2 ) {
 				rowSepG = atof( tokens[1] ) ; 
-				rowSepAbsG = (numtokens == 3) ? (INT) atof( tokens[2] ) : 0 ; 
+				rowSepAbsG = (numtokens == 3) ? atoi( tokens[2] ) : 0;
+				printf("%s: rowSepG %f rowSepAbsG %d\n",__FUNCTION__,rowSepG,rowSepAbsG);
 			} else {
 				err_msg("rowSep") ;
 			}

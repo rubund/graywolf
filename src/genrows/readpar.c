@@ -106,7 +106,6 @@ void readpar()
 				continue;
 			} else if ((tmpStr = strstr(tokens[0], "GENR*"))) {
 				tmpStr+=strlen("GENR*");
-				wildcard = TRUE;
 				tokens[0] = Ystrclone(tmpStr);
 			} else if ((tmpStr = strstr(tokens[0], "*"))) {
 				tmpStr++;
@@ -142,15 +141,16 @@ void readpar()
 				err_msg("minimum_row_len") ;
 			}
 		} else if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
-			if( numtokens >= 2 ){
+			if( numtokens >= 2 ) {
 				tempf = atof( tokens[1] ) ;
 				if( tempf < 0 ){
 					err_msg("rowSep") ;
 					continue ;
 				}
-				temp = (numtokens == 3) ? (int)atof(tokens[2]) : 0;
+				temp = (numtokens == 3) ? atoi(tokens[2]) : 0;
 				set_row_separation( tempf, temp ) ;
 				row_sep_default = FALSE ;
+				printf("%s: rowSepG %f rowSepAbsG %d\n",__FUNCTION__,tempf,temp);
 			} else {
 				err_msg("rowSep") ;
 			}
@@ -245,96 +245,94 @@ void readpar()
 
 static void err_msg( char *keyword ) 
 {
-    sprintf( YmsgG, "The value for %s was", keyword );
-    M( ERRMSG, "readpar", YmsgG ) ;
-    sprintf( YmsgG, " not properly entered in the .par file\n");
-    M( ERRMSG, NULL, YmsgG ) ;
-    abortS = TRUE ;
+	sprintf( YmsgG, "The value for %s was", keyword );
+	M( ERRMSG, "readpar", YmsgG ) ;
+	sprintf( YmsgG, " not properly entered in the .par file\n");
+	M( ERRMSG, NULL, YmsgG ) ;
+	abortS = TRUE ;
 }/* end err_msg */
 
 static void get_defaults( BOOL feed_percent_default, BOOL row_sep_default )
 {
-    FILE *fp ;
-    char filename[LRECL] ;
-    char buffer[LRECL] ;
-    char *bufferptr ;
-    double tempf ;
+	FILE *fp ;
+	char filename[LRECL] ;
+	char buffer[LRECL] ;
+	char *bufferptr ;
+	double tempf ;
 
-    sprintf( filename, "%s.out", cktNameG ) ;
-    if(!(fp = TWOPEN( filename, "r", NOABORT ))){
-	return ;
-    }
-
-    /* start at beginning and read till we find feed percentage */
-    while((bufferptr = fgets( buffer, LRECL, fp))){
-	/* remove leading blanks or tabs */
-	bufferptr = Yremove_lblanks( bufferptr ) ;
-	if( strncmp( bufferptr, "Feed Percentage:", 16 ) == STRINGEQ ){
-	    /* skip over Feed Percentage */
-	    bufferptr += 16 ;
-	    /* remove any leading blanks */
-	    bufferptr = Yremove_lblanks( bufferptr ) ;
-	    tempf = atof( bufferptr ) ;
-	    sprintf( YmsgG, 
-	    "Found previous value for feed percentage:%4.2f\n", tempf ) ;
-	    M( MSG, NULL, YmsgG ) ;
-
-	    if( feed_percent_default ){
-		set_feed_length( tempf ) ;
-	    } else {
-		M( MSG,NULL,"Overridden by .par file value for feed percentage\n" ) ;
-	    }
+	sprintf( filename, "%s.out", cktNameG ) ;
+	if(!(fp = TWOPEN( filename, "r", NOABORT ))){
+		return ;
 	}
-	if( strncmp( bufferptr, "Average Row Separation:", 23 ) == STRINGEQ ){
-	    /* skip over Feed Percentage */
-	    bufferptr += 23 ;
-	    /* remove any leading blanks */
-	    bufferptr = Yremove_lblanks( bufferptr ) ;
-	    tempf = atof( bufferptr ) ;
-	    sprintf( YmsgG, 
-	    "Found previous value for row separation:%4.2f\n", tempf ) ;
-	    M( MSG, NULL, YmsgG ) ;
 
-	    if( row_sep_default ){
-		set_row_separation( tempf, (int)0 ) ;
-	    } else {
-		M( MSG,NULL,"Overridden by .par file value for row separation.\n" ) ;
-	    }
-	    break ;
+	/* start at beginning and read till we find feed percentage */
+	while((bufferptr = fgets( buffer, LRECL, fp))){
+		/* remove leading blanks or tabs */
+		bufferptr = Yremove_lblanks( bufferptr ) ;
+		if( strncmp( bufferptr, "Feed Percentage:", 16 ) == STRINGEQ ){
+			/* skip over Feed Percentage */
+			bufferptr += 16 ;
+			/* remove any leading blanks */
+			bufferptr = Yremove_lblanks( bufferptr ) ;
+			tempf = atof( bufferptr ) ;
+			sprintf( YmsgG, 
+			"Found previous value for feed percentage:%4.2f\n", tempf ) ;
+			M( MSG, NULL, YmsgG ) ;
+
+			if( feed_percent_default ){
+				set_feed_length( tempf ) ;
+			} else {
+				M( MSG,NULL,"Overridden by .par file value for feed percentage\n" ) ;
+			}
+		}
+		if( strncmp( bufferptr, "Average Row Separation:", 23 ) == STRINGEQ ){
+			/* skip over Feed Percentage */
+			bufferptr += 23 ;
+			/* remove any leading blanks */
+			bufferptr = Yremove_lblanks( bufferptr ) ;
+			tempf = atof( bufferptr ) ;
+			sprintf( YmsgG, 
+			"Found previous value for row separation:%4.2f\n", tempf ) ;
+			M( MSG, NULL, YmsgG ) ;
+
+			if( row_sep_default ){
+				set_row_separation( tempf, (int)0 ) ;
+			} else {
+				M( MSG,NULL,"Overridden by .par file value for row separation.\n" ) ;
+			}
+			break ;
+		}
 	}
-    }
-    TWCLOSE( fp ) ;
+	TWCLOSE( fp ) ;
 } /* end get_defaults */
 
 static int getnumRows()
 {
+	char **tokens ;         /* for parsing menu file */
+	int  numtokens ;        /* number of tokens on the line */
+	int  line ;             /* count lines in input file */
+	char buffer[LRECL], *bufferptr = buffer ;
+	char filename[LRECL];
+	FILE* fp;
 
-    char **tokens ;         /* for parsing menu file */
-    int  numtokens ;        /* number of tokens on the line */
-    int  line ;             /* count lines in input file */
-    char buffer[LRECL], *bufferptr = buffer ;
-    char filename[LRECL];
-    FILE* fp;
+	/* read net list file */
+	sprintf( filename, "%s.row", cktNameG ) ;
+	fp = TWOPEN( filename,"r",NOABORT) ;
 
-    /* read net list file */
-    sprintf( filename, "%s.row", cktNameG ) ;
-    fp = TWOPEN( filename,"r",NOABORT) ;
-
-    if(!(fp)){
-	return(0) ;
-    }
-  
-    line = 0 ;  /*--- initialize the line counter ---*/
-  
-    /*-----------  parse file ------------*/
-    while((bufferptr = fgets( buffer, LRECL, fp))){
-
-	tokens = Ystrparser( bufferptr, "\t\n/ ", &numtokens );
-	if( numtokens == 0 ){
-	    continue ;
+	if(!(fp)){
+		return(0) ;
 	}
-	line++;
-    } /* end while... */
+	
+	line = 0 ;  /*--- initialize the line counter ---*/
+	
+	/*-----------  parse file ------------*/
+	while((bufferptr = fgets( buffer, LRECL, fp))){
+		tokens = Ystrparser( bufferptr, "\t\n/ ", &numtokens );
+		if( numtokens == 0 ){
+			continue ;
+		}
+		line++;
+	} /* end while... */
 
-    return(line) ; 
+	return(line) ; 
 } /* end int getnumRows() */
