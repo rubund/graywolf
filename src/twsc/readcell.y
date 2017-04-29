@@ -334,7 +334,10 @@ restriction_pad :;
 restriction_pad : RESTRICT SIDE sideplace;
 restriction_pdgrp :;
 restriction_pdgrp : RESTRICT SIDE sideplace;
-sideplace : STRING;
+sideplace : STRING
+{
+	add_padside( $1 ) ;
+};
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
 padset : STRING FIXED
