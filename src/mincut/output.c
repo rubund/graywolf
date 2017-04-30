@@ -67,28 +67,30 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 #define LSHAPE
 #define L2SHAPE
 #define TSHAPE
+#define USHAPE
 
 typedef struct {
 	BOOL io_signal ;
 	char *net ;
 } NETBOX, *NETPTR ;
 
-static int objectS = 0 ;       /* number of objects read */
-static int celltypeS ;         /* current cell type */
-static double total_cell_lenS = 0.0 ;
-static double total_cell_heightS = 0.0;
-static double total_areaS = 0.0 ;
-static double core_areaS = 0.0 ;
-static double average_cell_heightS ;
-static double row_sepS ;
-static int row_sep_absS ;
-static int total_std_cellS = 0 ;
-static char current_cellS[LRECL] ; /* the current cell name */
-static char cur_pinnameS[LRECL] ;  /* current pinname */
-static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+int objectS = 0 ;       /* number of objects read */
+int celltypeS ;         /* current cell type */
+double total_cell_lenS = 0.0 ;
+double total_cell_heightS = 0.0;
+double total_areaS = 0.0 ;
+double core_areaS = 0.0 ;
+double average_cell_heightS ;
+double row_sepS = 0;
+int row_sep_absS = 0;
+int total_std_cellS = 0 ;
+char current_cellS[LRECL] ; /* the current cell name */
+char cur_pinnameS[LRECL] ;  /* current pinname */
+YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 /* *************************************************************** */
 
 void write_softpins( FILE *fp );
+char *Ystrclone(char *);
 
 void init()
 {
@@ -106,6 +108,18 @@ void addCell(int celltype, char *cellname)
 		M( MSG, NULL, YmsgG ) ;
 	}
 	celltypeS = celltype ;   /* save for determining instances etc. */
+
+	switch( celltypeS ){
+		case HARDCELLTYPE:
+			break ;
+		case SOFTCELLTYPE:
+			break ;
+		case PADCELLTYPE:
+			break ;
+		case STDCELLTYPE:
+			total_std_cellS++ ;
+			break ;
+	}
 } /* end addCell */
 
 void addNet( char *signal )
@@ -149,15 +163,13 @@ void addNet( char *signal )
 
 void set_bbox( int left, int right, int bottom, int top )
 {
-	double width, height ;
-
-	width = (double) (right - left) ;
-	total_cell_lenS += width ;
-	height = (double) (top - bottom) ;
-	total_cell_heightS += height ;
+	int width, height ;
+	width = right - left;
+	height = top - bottom;
+	total_cell_heightS += height;
+	total_cell_lenS += width;
 	total_areaS += width * height ;
-	core_areaS += width * (height + (double)row_sep_absS) ;
-	total_std_cellS++ ;
+	core_areaS += (width + (double)row_sep_absS) * (height + (double)row_sep_absS) ;
 } /* end set_bbox */
 
 void output( FILE *fp )
@@ -165,15 +177,12 @@ void output( FILE *fp )
 	int g ;
 
 	if( total_std_cellS > 0 ){
-		average_cell_heightS = total_cell_heightS / ((double) total_std_cellS);
+		average_cell_heightS = total_cell_heightS / total_std_cellS;
 	} else {
 		average_cell_heightS = 0.0 ;
 	}
 
-	if(row_sepS>0)
-		core_areaS *= row_sepS;
-	else
-		core_areaS *= (row_sepS + 1.0) ;
+	core_areaS *= row_sepS*2;
 
 	printf( "\n----------------------------\n" ) ;
 	printf( "Total stdcells     :%d\n", total_std_cellS ) ;
@@ -314,8 +323,9 @@ void read_par()
 		}
 		if( strcmp( tokens[0], "rowSep" ) == STRINGEQ ){
 			row_sepS = atof( tokens[1] ) ;
-			if (numtokens == 3)
-				row_sep_absS = atoi( tokens[2] ) ;
+			if(!(row_sepS>0.0))
+				row_sepS = 1.0;
+			row_sep_absS = (numtokens == 3) ? atoi( tokens[2] ) : 0;
 			found = TRUE ;
 			printf("%s: rowSepG %f rowSepAbsG %d\n",__FUNCTION__,row_sepS,row_sep_absS);
 		}
@@ -330,7 +340,7 @@ void read_par()
 
 void update_stats( FILE *fp )
 {
-	fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);
+	fprintf( fp, "tot_length:%d\n", (int)total_cell_lenS);
 	fprintf( fp, "num_soft:1\n" ) ;
-	fprintf( fp, "cell_height:%d\n", (INT) average_cell_heightS);
+	fprintf( fp, "cell_height:%d\n", (int)average_cell_heightS);
 } /* end update_stats */
