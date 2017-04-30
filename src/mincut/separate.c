@@ -20,7 +20,7 @@ int separate_cel_file(char *cktName)
 	fpsc = fopen(scelfile,"w");
 	fpmc = fopen(mcelfile,"a");
 
-	int sc = 0, both = 0;
+	int sc = 0, both = 0, end_both=0;
 	while (fgets(line, sizeof(line), fp)) {
 		strcpy(cmpbuf, "cell");
 		if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
@@ -43,6 +43,11 @@ int separate_cel_file(char *cktName)
 				sc = 0;
 				both = 1;
 			}
+			strcpy(cmpbuf, "pin");
+			if(!strncmp(line, cmpbuf, strlen(cmpbuf))) {
+				if(both)
+					end_both=1;
+			}
 		}
 
 		if(sc) {
@@ -51,6 +56,10 @@ int separate_cel_file(char *cktName)
 			fprintf(fpmc, "%s", line);
 			if(both) {
 				fprintf(fpsc, "%s", line);
+				if(end_both) {
+					both=0;
+					end_both=0;
+				}
 			}
 		}
 	}
