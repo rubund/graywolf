@@ -71,6 +71,7 @@ static char SccsId[] = "@(#) graphics.c version 4.21 5/15/92" ;
 #include <yalecad/draw.h>
 #include <yalecad/relpos.h>
 
+#include <string.h>
 
 #define INTRO            "Welcome to TimberWolfSC"
 #define GRAPHICSABORT    if(!(doGraphicsG))  return ;
@@ -96,7 +97,7 @@ static char SccsId[] = "@(#) graphics.c version 4.21 5/15/92" ;
 #include <menus.h>
 
 
-extern INT actual_feed_thru_cells_addedG ;
+extern int actual_feed_thru_cells_addedG ;
 /* ***************************************************************** */
 static BOOL avoidDump = FALSE ;
 static BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
@@ -108,146 +109,143 @@ static BOOL updateS = TRUE ;     /* normally in the update mode */
 static BOOL single_cell_moveS = FALSE ; /* whether we have single cell moves */
 static BOOL drawOrientS = FALSE ; /* whether to draw orientation mark */
 static BOOL initS = FALSE ;    /* true if all initialization complete */
-static INT  *heat_indexS ;     /* how much the cells are moving */
-static INT  *heat_attemptS ;     /* how many attempts during the run */
-static INT  heat_allocS ;     /* size of temperature index array */
-static INT  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
-static INT  pinsizeS ;     /* size of the pin */
+static int  *heat_indexS ;     /* how much the cells are moving */
+static int  *heat_attemptS ;     /* how many attempts during the run */
+static int  heat_allocS ;     /* size of temperature index array */
+static int  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
+static int  pinsizeS ;     /* size of the pin */
 
-
-static draw_fs();
-extern VOID draw_a_cell( INT );
-extern INT draw_the_data() ;
+static void draw_fs();
+extern void draw_a_cell( int );
+extern int draw_the_data() ;
+void setGraphicWindow();
+void closegraphics( );
 
 void initGraphics( int windowId )
 {
+	char *host ;
+	char *Ygetenv() ;
+	extern int horizontal_track_pitchG ;
+	extern int vertical_track_pitchG ;
 
-    char *host ;
-    char *Ygetenv() ;
-    extern INT horizontal_track_pitchG ;
-    extern INT vertical_track_pitchG ;
-
-    GRAPHICSABORT ;
-	
-    /* we need to find host for display */
-    if(!(host = Ygetenv("DISPLAY"))) {
-	M(WARNMSG,"initGraphics","Can't get environment variable ");
-	M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
-	avoidDump = TRUE ;
-	doGraphicsG = FALSE ;
-	return ;
-    }
-
-    MENUREAD() ;
-    /* initialize the boolean menu entries according to current state */
-    /* "Graphics Update On","Graphics Update Off",1,0,8,9, is the 8 line */
-    menuS[7].bool_init = updateS ;
-
-    if( windowId ){
-	/* init windows as a parasite */
-	if(!(TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE,menuS, draw_the_data, windowId ))){
-	    M(ERRMSG,"initGraphics","Aborting graphics.");
-	    doGraphicsG = FALSE ;
-	    avoidDump = TRUE ;
-	    return ;
+	GRAPHICSABORT ;
+		
+	/* we need to find host for display */
+	if(!(host = Ygetenv("DISPLAY"))) {
+		M(WARNMSG,"initGraphics","Can't get environment variable ");
+		M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
+		avoidDump = TRUE ;
+		doGraphicsG = FALSE ;
+		return ;
 	}
-    } else {
-	/* init window as a master */
-	if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),FALSE,
-	    menuS,draw_the_data ))){
-	    M(ERRMSG,"initGraphics","Aborting graphics.");
-	    doGraphicsG = FALSE ;
-	    avoidDump = TRUE ;
-	    return ;
-	}
-    }
-    TWsetwindow( 0, 0, 10, 10 ) ;
-    TWsetFrame(0) ;
-    TWdrawCell( 0, 0,0,11,11, TWBLUE, INTRO ) ;
-    setGraphicWindow() ;
-    TWdrawMenus() ;
-    TWmessage("To interupt program click on top menu window") ;
-    TWflushFrame() ;
-    /* use TWinterupt to turn off window enter/leave lights */
-    TWinterupt() ;
-    /* set the default pin size */
-    pinsizeS = (vertical_track_pitchG + horizontal_track_pitchG) / 4 - 1 ;
-    pinsizeS = MAX( 1, pinsizeS ) ;
 
+	MENUREAD() ;
+	/* initialize the boolean menu entries according to current state */
+	/* "Graphics Update On","Graphics Update Off",1,0,8,9, is the 8 line */
+	menuS[7].bool_init = updateS ;
+
+	if( windowId ){
+		/* init windows as a parasite */
+		if(!(TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE,menuS, draw_the_data, windowId ))){
+			M(ERRMSG,"initGraphics","Aborting graphics.");
+			doGraphicsG = FALSE ;
+			avoidDump = TRUE ;
+			return ;
+		}
+	} else {
+		/* init window as a master */
+		if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),FALSE, menuS,draw_the_data ))){
+			M(ERRMSG,"initGraphics","Aborting graphics.");
+			doGraphicsG = FALSE ;
+			avoidDump = TRUE ;
+			return ;
+		}
+	}
+	TWsetwindow( 0, 0, 10, 10 ) ;
+	TWsetFrame(0) ;
+	TWdrawCell( 0, 0,0,11,11, TWBLUE, INTRO ) ;
+	setGraphicWindow() ;
+	TWdrawMenus() ;
+	TWmessage("To interupt program click on top menu window") ;
+	TWflushFrame() ;
+	/* use TWinterupt to turn off window enter/leave lights */
+	TWinterupt() ;
+	/* set the default pin size */
+	pinsizeS = (vertical_track_pitchG + horizontal_track_pitchG) / 4 - 1 ;
+	pinsizeS = MAX( 1, pinsizeS ) ;
 } /* end initGraphics */
 
-init_heat_index()
+void init_heat_index()
 {
-    GRAPHICSABORT ;
+	GRAPHICSABORT ;
 
-    heat_allocS = lastpadG + 1;
-    heat_indexS = (INT *) Ysafe_malloc( heat_allocS * sizeof(INT) ) ;
-    heat_attemptS = (INT *) Ysafe_malloc( heat_allocS * sizeof(INT) ) ;
-    reset_heat_index() ;
-    initS = TRUE ;
+	heat_allocS = lastpadG + 1;
+	heat_indexS = (int *) Ysafe_malloc( heat_allocS * sizeof(int) ) ;
+	heat_attemptS = (int *) Ysafe_malloc( heat_allocS * sizeof(int) ) ;
+	reset_heat_index() ;
+	initS = TRUE ;
 } /* end init_heat_index */
 
-expand_heat_index()
+void expand_heat_index()
 {
-    INT oldnum, i;
+	int oldnum, i;
 
-    GRAPHICSABORT ;
+	GRAPHICSABORT ;
 
-    oldnum = heat_allocS;
-    heat_allocS = lastpadG + actual_feed_thru_cells_addedG + 1;
-    if (oldnum < heat_allocS) {
-       heat_indexS = (INT *) Ysafe_realloc( heat_indexS, heat_allocS * sizeof(INT) ) ;
-       heat_attemptS = (INT *) Ysafe_realloc( heat_attemptS, heat_allocS * sizeof(INT) ) ;
-       for( i = oldnum; i < heat_allocS ; i++ ){
-	   heat_indexS[i] = 0 ;
-	   heat_attemptS[i] = 0 ;
-       }
-    }
+	oldnum = heat_allocS;
+	heat_allocS = lastpadG + actual_feed_thru_cells_addedG + 1;
+	if (oldnum < heat_allocS) {
+		heat_indexS = (int *) Ysafe_realloc( heat_indexS, heat_allocS * sizeof(int) ) ;
+		heat_attemptS = (int *) Ysafe_realloc( heat_attemptS, heat_allocS * sizeof(int) ) ;
+		for( i = oldnum; i < heat_allocS ; i++ ){
+			heat_indexS[i] = 0 ;
+			heat_attemptS[i] = 0 ;
+		}
+	}
 } /* end expand_heat_index */
 
-setGraphicWindow() 
+void setGraphicWindow() 
 {
-    INT  expand ;
-    INT  minx ;
-    INT  maxx ;
-    INT  miny ;
-    INT  maxy ;
-    INT  xc, yc ;      /* cell center */
-    INT  i ;           /* counter */
-    CBOXPTR cptr ;  /* cell record pointer */
+	int  expand ;
+	int  minx ;
+	int  maxx ;
+	int  miny ;
+	int  maxy ;
+	int  xc, yc ;      /* cell center */
+	int  i ;           /* counter */
+	CBOXPTR cptr ;  /* cell record pointer */
 
-    minx = INT_MAX ;
-    miny = INT_MAX ;
-    maxx = INT_MIN ;
-    maxy = INT_MIN ;
+	minx = INT_MAX ;
+	miny = INT_MAX ;
+	maxx = INT_MIN ;
+	maxy = INT_MIN ;
 
-    /* look thru cells to find overall bounding box */
-    for( i = 1; i <= lastpadG ; i++ ){
-	cptr = carrayG[i] ;
-	xc = cptr->cxcenter ;
-	yc = cptr->cycenter ;
-	if( yc == GATE_ARRAY_MAGIC_CONSTANT ){
-	    /* don't draw these */
-	    continue ;
+	/* look thru cells to find overall bounding box */
+	for( i = 1; i <= lastpadG ; i++ ){
+		cptr = carrayG[i] ;
+		xc = cptr->cxcenter ;
+		yc = cptr->cycenter ;
+		if( yc == GATE_ARRAY_MAGIC_CONSTANT ){
+			/* don't draw these */
+			continue ;
+		}
+		minx = MIN( minx, cptr->tileptr->left + xc ) ;
+		miny = MIN( miny, cptr->tileptr->bottom + yc ) ;
+		maxx = MAX( maxx, cptr->tileptr->right + xc ) ;
+		maxy = MAX( maxy, cptr->tileptr->top + yc ) ;
 	}
-	minx = MIN( minx, cptr->tileptr->left + xc ) ;
-	miny = MIN( miny, cptr->tileptr->bottom + yc ) ;
-	maxx = MAX( maxx, cptr->tileptr->right + xc ) ;
-	maxy = MAX( maxy, cptr->tileptr->top + yc ) ;
-    }
 
-    expand = MAX( maxy - miny, maxx - minx ) ;
-    expand = (INT) (0.1 * (DOUBLE) expand ) ;
-    TWsetwindow( minx - expand, miny - expand, 
-	maxx + expand, maxy + expand ) ;
+	expand = MAX( maxy - miny, maxx - minx ) ;
+	expand = (int) (0.1 * (double) expand ) ;
+	TWsetwindow( minx - expand, miny - expand, maxx + expand, maxy + expand ) ;
 } /* end setGraphicWindow */
 
 /* heart of the graphic syskem processes user input */
-process_graphics()
+void process_graphics()
 {
 
-    INT x, y ;           /* coordinates from pointer */
-    INT selection ;     /* the users pick */
+    int x, y ;           /* coordinates from pointer */
+    int selection ;     /* the users pick */
     char *reply ;       /* user reply to a querry */
     BOOL ok ;           /* loop until this value is true */
 
@@ -415,20 +413,20 @@ process_graphics()
 
 /* the graphics program can draw the results at each desired */
 /* timestep. */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  x ;
-    INT  y ;
-    INT  l, r, b, t ;
-    INT  layer ;
-    INT last_cell ;     /* end of cells to be drawn */
+    int  i ;
+    int  x ;
+    int  y ;
+    int  l, r, b, t ;
+    int  layer ;
+    int last_cell ;     /* end of cells to be drawn */
     PINBOXPTR  curPin ;
     char *pinname, *find_layer( /* pinname, layer */ ) ;
 
     if( avoidDump || !(doGraphicsG) || !(initS) ){
-	return ;
+	return 0;
     }
     TWstartFrame() ;
     TWmessage( "Drawing the data...Please wait" ) ;
@@ -503,173 +501,165 @@ INT draw_the_data()
 
 } /* end draw_the_data */
 
-VOID draw_a_cell( cell )
-INT cell ;
+void draw_a_cell( int cell )
 {
-    INT  x ;
-    INT  y ;
-    INT  l, r, b, t ;
-    INT  pt ;
-    INT  color ;
-    INT  cell_temp ; /* cell temperature */
-    INT  attempts ;
-    CBOXPTR cptr ;
-    PADBOXPTR  padptr ;
-    char label[LRECL] ;
-    char *labelptr ;
-    float acc_rate ;
+	int  x ;
+	int  y ;
+	int  l, r, b, t ;
+	int  pt ;
+	int  color ;
+	int  cell_temp ; /* cell temperature */
+	int  attempts ;
+	CBOXPTR cptr ;
+	PADBOXPTR  padptr ;
+	char label[LRECL] ;
+	char *labelptr ;
+	float acc_rate ;
 
-    cptr = carrayG[cell] ;
-    x =  cptr->cxcenter ;
-    y =  cptr->cycenter ;
-    if( y == GATE_ARRAY_MAGIC_CONSTANT ){
-	/* don't draw these */
-	return ;
-    }
-    /* name the cell */
-    /* draw cell labels if requested */
-    if( drawLabelS ){
-	sprintf(label,"C%d:%s",cell, carrayG[cell]->cname ) ; 
-	labelptr = label ;
-    } else {
-	labelptr = NIL(char *) ;
-    }
-    cell_temp = heat_indexS[cell] ;
-    attempts = heat_attemptS[cell] ;
-    if( attempts <= 0 ){
-	if( strncmp(carrayG[cell]->cname,"twfeed",6) == STRINGEQ ) {
-	    color = TWYELLOW ;
+	cptr = carrayG[cell] ;
+	x =  cptr->cxcenter ;
+	y =  cptr->cycenter ;
+	if( y == GATE_ARRAY_MAGIC_CONSTANT ){
+		/* don't draw these */
+		return ;
+	}
+	/* name the cell */
+	/* draw cell labels if requested */
+	if( drawLabelS ){
+		sprintf(label,"C%d:%s",cell, carrayG[cell]->cname ) ; 
+		labelptr = label ;
 	} else {
-	    color = TWGREEN ;
+		labelptr = NIL(char *) ;
 	}
-    } else {
-	/* don't need to be very accurate here */
-	acc_rate = (float) cell_temp / (float) attempts ;
-	/* now pick the color base on acceptance rate */
-	/* 44% + 10% error margin */
-	if( acc_rate > (float) 0.48 ){
-	    color = TWRED ;
-	} else if( acc_rate < (float) 0.40 ){
-	    /* 44% - 10% error margin */
-	    color = TWBLUE ;
+	cell_temp = heat_indexS[cell] ;
+	attempts = heat_attemptS[cell] ;
+	if( attempts <= 0 ){
+		if( strncmp(carrayG[cell]->cname,"twfeed",6) == STRINGEQ ) {
+			color = TWYELLOW ;
+		} else {
+			color = TWGREEN ;
+		}
 	} else {
-	    /* in the 44% region */
-	    color = TWORANGE ;
+		/* don't need to be very accurate here */
+		acc_rate = (float) cell_temp / (float) attempts ;
+		/* now pick the color base on acceptance rate */
+		/* 44% + 10% error margin */
+		if( acc_rate > (float) 0.48 ){
+			color = TWRED ;
+		} else if( acc_rate < (float) 0.40 ){
+			/* 44% - 10% error margin */
+			color = TWBLUE ;
+		} else {
+			/* in the 44% region */
+			color = TWORANGE ;
+		}
 	}
-    }
-    padptr = cptr->padptr ;
-    if( padptr && padptr->numcorners > 4 ){
-	/* way to draw a rectilinear cell */
-	TWarb_init() ;
+	padptr = cptr->padptr ;
+	if( padptr && padptr->numcorners > 4 ){
+		/* way to draw a rectilinear cell */
+		TWarb_init() ;
 
-	for( pt = 0; pt < padptr->numcorners; pt++ ){
-	    /* rel position is a macro which calculates */
-	    /* absolute pin loc - defined in relpos.h */
-	    REL_POS( (INT) cptr->corient, 
-		l, b,                               /* result */
-		padptr->xpoints[pt],
-		padptr->ypoints[pt],             /* cell relative */
-		x, y ) ;                        /* cell center */
+		for( pt = 0; pt < padptr->numcorners; pt++ ){
+		/* rel position is a macro which calculates */
+		/* absolute pin loc - defined in relpos.h */
+		REL_POS( (int) cptr->corient, 
+			l, b,                               /* result */
+			padptr->xpoints[pt],
+			padptr->ypoints[pt],             /* cell relative */
+			x, y ) ;                        /* cell center */
+			TWarb_addpt( l, b ) ;
+		}
+		TWdrawArb( cell, color, labelptr ) ;
 
-	    TWarb_addpt( l, b ) ;
+	} else {
+		l = cptr->tileptr->left ;
+		r = cptr->tileptr->right ;
+		b = cptr->tileptr->bottom ;
+		t = cptr->tileptr->top ;
+		YtranslateT( &l, &b, &r, &t, (int) cptr->corient ) ;
+		l += x ;
+		r += x ;
+		b += y ;
+		t += y ;
+		TWdrawCell( cell, l,b,r,t, color, labelptr ) ;
 	}
-	TWdrawArb( cell, color, labelptr ) ;
-
-    } else {
-	l = cptr->tileptr->left ;
-	r = cptr->tileptr->right ;
-	b = cptr->tileptr->bottom ;
-	t = cptr->tileptr->top ;
-	YtranslateT( &l, &b, &r, &t, (INT) cptr->corient ) ;
-	l += x ;
-	r += x ;
-	b += y ;
-	t += y ;
-	TWdrawCell( cell, l,b,r,t, color, labelptr ) ;
-    }
-    if( drawOrientS && padptr ){
-	draw_fs( cptr ) ;
-    }
+	if( drawOrientS && padptr ){
+		draw_fs( cptr ) ;
+	}
 } /* end draw a cell */
 
-
-static draw_fs( cptr )
-CBOXPTR cptr ;
+static void draw_fs( CBOXPTR cptr )
 {
-    INT x[10], y[10] ;   /* only 10 points to an F */
-    INT l, b, r, t ;     /* bounding box points */
-    INT xout, yout ;     /* rotated points */
-    INT wid ;            /* with of the F */
-    INT pt ;             /* point counter */
-    TIBOXPTR bounptr ;   /* cell's boundary */
+	int x[10], y[10] ;   /* only 10 points to an F */
+	int l, b, r, t ;     /* bounding box points */
+	int xout, yout ;     /* rotated points */
+	int wid ;            /* with of the F */
+	int pt ;             /* point counter */
+	TIBOXPTR bounptr ;   /* cell's boundary */
 
-    bounptr = cptr->tileptr ;
-    l = bounptr->left ;
-    b = bounptr->bottom ;
-    r = bounptr->right ;
-    t = bounptr->top ;
-    wid = (INT) (0.25 * (DOUBLE)( t - b ) ) ;
-    /* now set the points */
-    x[0] = l ;         y[0] = b ;
-    x[1] = l ;         y[1] = t ;
-    x[2] = r ;         y[2] = t ;
-    x[3] = r ;         y[3] = t - wid ;
-    x[4] = l + wid ;   y[4] = y[3] ;
-    x[5] = x[4] ;      y[5] = y[4] - wid ;
-    x[6] = l + 2*wid ; y[6] = y[5] ;
-    x[7] = x[6] ;      y[7] = y[6] - wid ;
-    x[8] = x[5] ;      y[8] = y[7] ;
-    x[9] = x[4] ;      y[9] = b ;
-    TWarb_init() ;
-    for( pt = 0; pt <= 9; pt++ ){
-	/* rel position is a macro which calculates */
-	/* absolute pin loc - defined in relpos.h */
-	REL_POS( (INT) cptr->corient, 
-	    xout, yout,                              /* result */
-	    x[pt], y[pt],                        /* cell relative */
-	    cptr->cxcenter, cptr->cycenter ) ;   /* cell center */
-
-	TWarb_addpt( xout, yout ) ;
-    }
-    TWdrawArb( 0, FCOLOR, NIL(char *) ) ;
+	bounptr = cptr->tileptr ;
+	l = bounptr->left ;
+	b = bounptr->bottom ;
+	r = bounptr->right ;
+	t = bounptr->top ;
+	wid = (int) (0.25 * (double)( t - b ) ) ;
+	/* now set the points */
+	x[0] = l ;         y[0] = b ;
+	x[1] = l ;         y[1] = t ;
+	x[2] = r ;         y[2] = t ;
+	x[3] = r ;         y[3] = t - wid ;
+	x[4] = l + wid ;   y[4] = y[3] ;
+	x[5] = x[4] ;      y[5] = y[4] - wid ;
+	x[6] = l + 2*wid ; y[6] = y[5] ;
+	x[7] = x[6] ;      y[7] = y[6] - wid ;
+	x[8] = x[5] ;      y[8] = y[7] ;
+	x[9] = x[4] ;      y[9] = b ;
+	TWarb_init() ;
+	for( pt = 0; pt <= 9; pt++ ){
+		/* rel position is a macro which calculates */
+		/* absolute pin loc - defined in relpos.h */
+		REL_POS( (int) cptr->corient, 
+		xout, yout,                              /* result */
+		x[pt], y[pt],                        /* cell relative */
+		cptr->cxcenter, cptr->cycenter ) ;   /* cell center */
+		TWarb_addpt( xout, yout ) ;
+	}
+	TWdrawArb( 0, FCOLOR, NIL(char *) ) ;
 } /* end draw_fs */
 
-erase_a_cell( cell, x, y )
-INT cell ;
-INT x, y ;
+void erase_a_cell( int cell, int x, int y )
 {
-    INT  i, j ;
-    INT  l, r, b, t ;
-    INT  block ;
-    INT  lobin, hibin ;
-    INT  *cells_in_bins ;
-    CBOXPTR cptr ;
+	int  i, j ;
+	int  l, r, b, t ;
+	int  block ;
+	int  lobin, hibin ;
+	int  *cells_in_bins ;
+	CBOXPTR cptr ;
 
-    GRAPHICSABORT ;
-    if( !(binptrG) || !(single_cell_moveS) || !(updateS) ){
-	/* won't work if binptr is not valid */
-	return ;
-    }
-
-    cptr = carrayG[cell] ;
-    l = x + cptr->tileptr->left ;
-    r = x + cptr->tileptr->right ;
-    b = y + cptr->tileptr->bottom ;
-    t = y + cptr->tileptr->top ;
-    TWdrawCell( cell, l,b,r,t, TWWHITE, NULL ) ;
-    /* now find the bins that it overlaps and redraw all the cells */
-    /* in these bins */
-    lobin = SetBin( l ) ; 
-    hibin = SetBin( r ) ; 
-    block = cptr->cblock ;
-    for( i = lobin; i <= hibin ; i++ ){
-	cells_in_bins = binptrG[block][i]->cell ;
-	for( j = 1 ; j <= *cells_in_bins ; j++ ) {
-	    draw_a_cell( cells_in_bins[j] ) ;
+	GRAPHICSABORT ;
+	if( !(binptrG) || !(single_cell_moveS) || !(updateS) ){
+		/* won't work if binptr is not valid */
+		return ;
 	}
-    }
-} /* end draw a cell */
 
+	cptr = carrayG[cell] ;
+	l = x + cptr->tileptr->left ;
+	r = x + cptr->tileptr->right ;
+	b = y + cptr->tileptr->bottom ;
+	t = y + cptr->tileptr->top ;
+	TWdrawCell( cell, l,b,r,t, TWWHITE, NULL ) ;
+	/* now find the bins that it overlaps and redraw all the cells */
+	/* in these bins */
+	lobin = SetBin( l ) ; 
+	hibin = SetBin( r ) ; 
+	block = cptr->cblock ;
+	for( i = lobin; i <= hibin ; i++ ){
+		cells_in_bins = binptrG[block][i]->cell ;
+		for( j = 1 ; j <= *cells_in_bins ; j++ ) {
+			draw_a_cell( cells_in_bins[j] ) ;
+		}
+	}
+} /* end draw a cell */
 
 /* dumps the data to a file for future study */
 void graphics_dump() 
@@ -695,53 +685,50 @@ void check_graphics( BOOL drawFlag )
 	}
 } /* end check_graphics */
 
-graphics_cell_update( cell )
-INT cell ;
+void graphics_cell_update( int cell )
 {
-    GRAPHICSABORT ;
-    if( !(single_cell_moveS) || !(updateS) ){
-	return ;
-    }
-    ASSERTNRETURN( cell > 0 && cell < heat_allocS, "graphics_cell_update",
-	"cell out of bounds\n" ) ;
-    heat_indexS[cell]++ ;
-    heat_attemptS[cell]++ ;
-    draw_a_cell( cell ) ;
+	GRAPHICSABORT ;
+	if( !(single_cell_moveS) || !(updateS) ){
+		return ;
+	}
+	ASSERTNRETURN( cell > 0 && cell < heat_allocS, "graphics_cell_update",
+		"cell out of bounds\n" ) ;
+	heat_indexS[cell]++ ;
+	heat_attemptS[cell]++ ;
+	draw_a_cell( cell ) ;
 } /* end graphics_cell_update */
 
-graphics_cell_attempt( cell )
-INT cell ;
+void graphics_cell_attempt( int cell )
 {
-    GRAPHICSABORT ;
-    ASSERTNRETURN( cell > 0 && cell < heat_allocS, "graphics_cell_update",
-	"cell out of bounds\n" ) ;
-    heat_attemptS[cell]++ ;
+	GRAPHICSABORT ;
+	ASSERTNRETURN( cell > 0 && cell < heat_allocS, "graphics_cell_update",
+		"cell out of bounds\n" ) ;
+	heat_attemptS[cell]++ ;
 } /* end graphics_cell_attempt */
 
-reset_heat_index()
+void reset_heat_index()
 {
-    INT i ; /* counter */
+	int i ; /* counter */
 
-    GRAPHICSABORT ;
-    for( i = 0; i < heat_allocS ; i++ ){
-	heat_indexS[i] = 0 ;
-	heat_attemptS[i] = 0 ;
-    }
+	GRAPHICSABORT ;
+	for( i = 0; i < heat_allocS ; i++ ){
+		heat_indexS[i] = 0 ;
+		heat_attemptS[i] = 0 ;
+	}
 } /* end reset_heat_index */
 
-set_update( flag )
-BOOL flag ;
+void set_update( BOOL flag )
 {
-    updateS = flag ;
+	updateS = flag ;
 } /* end set_update */
 
 #endif /* NOGRAPHICS */
 
 /* close graphics window on fault */
-closegraphics( )
+void closegraphics( )
 {
-    if( doGraphicsG ){
-	G( TWcloseGraphics() ) ;
-	doGraphicsG = FALSE ;
-    }
+	if( doGraphicsG ){
+		G( TWcloseGraphics() ) ;
+		doGraphicsG = FALSE ;
+	}
 } /* end closegraphics */
