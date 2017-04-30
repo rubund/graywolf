@@ -113,7 +113,7 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 	}
 
 	if( argc < 2 || argc > 5 ){
-		syntax() ;
+		syntax();
 	} else {
 		debug      = FALSE ;
 		lock       = FALSE ;
@@ -123,8 +123,8 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 		verbose    = FALSE ;
 		graphicsG  = TRUE;
 		arg_count = 1 ;
-		if( *argv[1] == '-' ){
-			for( ptr = ++argv[1]; *ptr; ptr++ ){
+		if( *argv[1] == '-' ) {
+			for( ptr = ++argv[1]; *ptr; ptr++ ) {
 				switch( *ptr ){
 					case 'd':
 						debug = TRUE ;
@@ -153,14 +153,17 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 						syntax() ;
 				}
 			}
+			if(argc < 3) {
+				syntax();
+			}
 #ifdef NOGRAPHICS
 		graphicsG  = FALSE ;
 #endif /* NOGRAPHICS */
 			YdebugMemory( debug ) ;
 			YinitProgram( MASTER, VERSION, yaleIntro );
 
-			cktNameG = Ystrclone( argv[++arg_count] );
-			Ymessage_mode( verbose ) ;
+			cktNameG = Ystrclone(argv[++arg_count]);
+			Ymessage_mode(verbose );
 
 			/* now tell the user what he picked */
 			M(MSG,NULL,"Twflow switches:\n" ) ;
@@ -181,8 +184,7 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 				M(MSG,NULL,"\tTimberWolf mode on\n" ) ;
 			}
 			M(MSG,NULL,"\n" ) ;
-
-		} else if( argc <= 3 ){
+		} else if( argc <= 3 ) {
 			/* order is important here */
 			YdebugMemory( FALSE ) ;
 			cktNameG = Ystrclone( argv[arg_count] );
