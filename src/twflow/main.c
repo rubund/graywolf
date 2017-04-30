@@ -244,9 +244,9 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 		auto_flow(debug) ;
 	}
 
-	/*if( graphicsG ) {
+	if( graphicsG ) {
 		G( process_graphics() ) ;
-	}*/
+	}
 
 	/*G( TWcloseGraphics() ) ;*/
 

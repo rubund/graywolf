@@ -107,39 +107,39 @@ static char SccsGlobals_h[] = "@(#) globals.h (Yale) version 2.6 4/21/91" ;
 
 /********************** TYPEDEF STATEMENTS *********************/
 typedef struct dbox {        /* draw box to draw lines */
-    INT  x1, y1           ;  /* first point of line */
-    INT  x2, y2           ;  /* second point of line */
-    struct dbox *next     ;  /* next line to draw */
+	int  x1, y1           ;  /* first point of line */
+	int  x2, y2           ;  /* second point of line */
+	struct dbox *next     ;  /* next line to draw */
 } DBOX, *DPTR  ;
 
 typedef struct fbox {        /* file box to maintain file concurrency */
-    char *fname           ;  /* name of file suffix */
-    BOOL optional         ;  /* TRUE if an optional file */
-    struct fbox *next     ;  /* next file in list */
+	char *fname           ;  /* name of file suffix */
+	BOOL optional         ;  /* TRUE if an optional file */
+	struct fbox *next     ;  /* next file in list */
 } FBOX, *FPTR  ;
 
 typedef struct adjbox {
-    INT  node             ;  /* head of edge */
-    char **argv           ; /* argument vector - limited to MAXARGS */
-    INT  argc             ; /* argument count */
-    BOOL marked           ; /* whether edge has been executed */
-    FPTR ifiles           ; /* files program is dependent on */
-    FPTR ofiles           ; /* files this program generates */
-    DPTR geometry         ;  /* how to draw the edge */
-    struct adjbox *next   ;  /* next edge of this node */
+	int  node             ;  /* head of edge */
+	char **argv           ; /* argument vector - limited to MAXARGS */
+	int  argc             ; /* argument count */
+	BOOL marked           ; /* whether edge has been executed */
+	FPTR ifiles           ; /* files program is dependent on */
+	FPTR ofiles           ; /* files this program generates */
+	DPTR geometry         ;  /* how to draw the edge */
+	struct adjbox *next   ;  /* next edge of this node */
 } ADJBOX, *ADJPTR  ;
 
 typedef struct objectbox {
-    char *name            ; /* name of object */
-    char *path            ; /* pathname of object */
-    INT  node             ; /* self index */
-    INT  numedges         ; /* number of outgoing edges */
-    INT  l                ; /* the extent of the cell bounding box */
-    INT  r                ; /* global position */
-    INT  b                ;
-    INT  t                ;
-    ADJPTR adjF           ; /* the edges in the graph */
-    ADJPTR adjB           ;
+	char *name            ; /* name of object */
+	char *path            ; /* pathname of object */
+	int  node             ; /* self index */
+	int  numedges         ; /* number of outgoing edges */
+	int  l                ; /* the extent of the cell bounding box */
+	int  r                ; /* global position */
+	int  b                ;
+	int  t                ;
+	ADJPTR adjF           ; /* the edges in the graph */
+	ADJPTR adjB           ;
 } OBJECTBOX, *OBJECTPTR ;
 
 /* ******************** GLOBAL VARIABLES *********************** */
@@ -147,8 +147,8 @@ typedef struct objectbox {
 EXTERN OBJECTPTR *proGraphG ;    /* array of pointers to program nodes */
 
 /* the size of the data */
-EXTERN INT  numobjectsG ;        /* number of program objects */
-EXTERN char *cktNameG ;          /* name of the design */
+EXTERN int  numobjectsG ;        /* number of program objects */
+EXTERN char *cktNameG;          /* name of the design */
 EXTERN char *twdirG ;            /* name of the TimberWolf directory */
 EXTERN char *flow_dirG ;         /* name of user specified flow dir. */
 EXTERN BOOL graphicsG ;          /* whether graphics is requested */

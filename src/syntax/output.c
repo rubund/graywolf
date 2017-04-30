@@ -125,7 +125,7 @@ void addCell( int celltype, char *cellname )
 
 void addNet( char *signal )
 {
-	int *data ;
+	char *data ;
 
 	if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
 		impS++ ;
@@ -133,9 +133,9 @@ void addNet( char *signal )
 	}
 	if(!(Yhash_search( netTableS, signal, NULL, FIND ))){
 		/* else a new net load data holder */
-		data = (int *) Ysafe_malloc( sizeof(int) ) ;
+		data = Ysafe_malloc( sizeof(int) ) ;
 		*data = ++netS ;
-		if( Yhash_search( netTableS, signal, (char *)data, ENTER )){
+		if( Yhash_search( netTableS, signal, data, ENTER )){
 		sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
 			signal ) ;
 		M(ERRMSG,"addNet",YmsgG ) ;
@@ -202,7 +202,7 @@ void processCorners()
 			M(ERRMSG,"processCorners",YmsgG ) ;
 			return ;
 		}
-		while( bustptr = Ybuster() ){
+		while((bustptr = Ybuster())) {
 			l = (double) bustptr[1].x ;
 			r = (double) bustptr[3].x ;
 			b = (double) bustptr[1].y ;
@@ -254,10 +254,9 @@ void check_sideplace( char *side )
 	Ysafe_free( side ) ;
 } /* end check_sideplace */
 
-set_pinname( pinname )
-char *pinname ;
+void set_pinname( char *pinname )
 {
-    strcpy( cur_pinnameS, pinname ) ;
+	strcpy( cur_pinnameS, pinname ) ;
 } /* end set_pinname */
 
 void check_pos( int xpos, int ypos ) 
