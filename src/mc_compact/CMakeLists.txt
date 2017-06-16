@@ -7,4 +7,4 @@ target_link_libraries(mc_compact ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
-install(TARGETS mc_compact DESTINATION lib/graywolf/bin)
+install(TARGETS mc_compact DESTINATION ${CMAKE_INSTALL_LIBDIR}/graywolf/bin)

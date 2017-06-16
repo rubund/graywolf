@@ -12,4 +12,4 @@ set_target_properties(ycadgraywolf PROPERTIES VERSION 1.0.0 SOVERSION 1)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${X11_INCLUDE_DIR})
 
-install(TARGETS ycadgraywolf DESTINATION lib)
+install(TARGETS ycadgraywolf DESTINATION ${CMAKE_INSTALL_LIBDIR})
