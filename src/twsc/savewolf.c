@@ -69,7 +69,7 @@ static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
 #define INTSCANSTR "%d"
 #endif
 
-savewolf(flag)
+void savewolf(flag)
 INT flag ;
 {
 
@@ -140,7 +140,7 @@ rename(file1, file2);
 return ;
 }
 
-TW_oldin( fp )
+void TW_oldin( fp )
 FILE *fp ;
 {
 

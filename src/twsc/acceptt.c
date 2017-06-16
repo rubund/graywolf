@@ -57,7 +57,7 @@ static char SccsId[] = "@(#) acceptt.c version 4.7 4/2/92" ;
 
 static DOUBLE table1S[1024] , table2S[1024] , table3S[1024] ;
  
-init_table()
+void init_table()
 {
     INT i2 ;
     table1S[0] = 1.0 ;

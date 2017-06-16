@@ -305,7 +305,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readobjects_l.h" *******************/
 /* ********************* #include "readobjects_l.h" *******************/
 
-readobjects( fp, filename )
+void readobjects( fp, filename )
 FILE *fp ;
 char *filename ;
 { 
@@ -326,7 +326,7 @@ char *filename ;
 
 } /* end readobjects */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading:%s\n", filenameS );
@@ -337,7 +337,7 @@ char    *s;
     setErrorFlag() ;
 }
 
-yywrap()
+INT yywrap()
 {
     return(1);
 }                      

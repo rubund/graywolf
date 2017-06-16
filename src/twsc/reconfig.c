@@ -114,7 +114,7 @@ INT reconfig()
 } /* end reconfig */
 
 
-static configuref()
+static void configuref()
 {
     INT row ;
     INT cell ;
@@ -172,14 +172,14 @@ static configuref()
 
 } /* end configuref */
 
-read_feeds( fp )
+void read_feeds( fp )
 FILE *fp ;
 {
     fscanf( fp , INTSCANSTR , &feed_lengthS ) ;
     feed_length_setS = TRUE ;
 } /* end read_feeds */
 
-save_feeds( fp )
+void save_feeds( fp )
 FILE *fp ;
 {
     fprintf( fp, "%d\n", feed_lengthS ) ;

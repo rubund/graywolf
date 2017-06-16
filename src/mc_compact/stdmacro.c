@@ -96,7 +96,7 @@ static SELECTPTR *stackArrayS ; /* members of an invalid path */
 static int sortbydist();
 
 
-partition_compact()
+void partition_compact()
 {
     ERRORPTR  violations, buildXGraph() ;
     int i ;
@@ -374,7 +374,7 @@ BOOL depth_first_search()
 } /* end depth_first_search */
 
 /* perform the swap of two nodes */
-swap_nodes( node1, node2 )
+void swap_nodes( node1, node2 )
 int node1, node2 ;
 {
     COMPACTPTR tptr1 ;                 /* tile pointer */
@@ -413,7 +413,7 @@ int node1, node2 ;
 
 } /* end swap_nodes */
 
-remove_problem( source, sink )
+void remove_problem( source, sink )
 int source, sink ;
 {
     int i ;              /* temp counter */

@@ -241,7 +241,7 @@ ERRORPTR buildYGraph()
 
 } /* end buildYGraph */
 
-formyEdge( fromNode, toNode ) 
+void formyEdge( fromNode, toNode ) 
 int fromNode ;
 int toNode ;
 {
@@ -318,7 +318,7 @@ int toNode ;
 
 }
 
-inityPicket( ) 
+void inityPicket( ) 
 {
     COMPACTPTR source, sink, node ;
     int i ;
@@ -354,7 +354,7 @@ inityPicket( )
     
 
 
-update_ypicket( i, lowerLimit, upperLimit )
+void update_ypicket( i, lowerLimit, upperLimit )
 int i ;
 PICKETPTR lowerLimit, upperLimit ;
 {
@@ -501,7 +501,7 @@ PICKETPTR lowerLimit, upperLimit ;
 }/* end picket update */
 
 /* sort by y first then x */
-sortbyYX( tileA , tileB )
+int sortbyYX( tileA , tileB )
 COMPACTPTR *tileA , *tileB ;
 
 {
@@ -513,7 +513,7 @@ COMPACTPTR *tileA , *tileB ;
     }
 }
 
-static yforwardPath()
+static void yforwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -554,7 +554,7 @@ static yforwardPath()
 } /* end yforwardPath */
 
 
-static ybackwardPath()
+static void ybackwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -762,7 +762,7 @@ BOOL find_path ;
 } /* end longestyPath */
 
 
-dypick()
+void dypick()
 {
     PICKETPTR curPick ;
     printf("Bottom to top pickets:\n" ) ;

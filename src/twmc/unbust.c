@@ -95,10 +95,10 @@ static INT sortbyXY();
 static INT sortbyYX();
 static INT sortbyorder();
 static INT remove_redundant_points(); 
-static add_vpts();
-static chek_vpt();
-static add_hpts();
-static chek_hpt();
+static void add_vpts();
+static void chek_vpt();
+static void add_hpts();
+static void chek_hpt();
 
 
 
@@ -408,10 +408,11 @@ POINTPTR *next_pt ;
 	} /* end switch */
 
     } /* end going thru posibilities */
+    return 0;
 
 } /* end get_next_state */
 
-addPt( tile, x, y )
+void addPt( tile, x, y )
 INT tile, x, y ;
 {
     INT i ;                   /* counter */
@@ -445,7 +446,7 @@ INT tile, x, y ;
     return ;
 } /* end addPt */
 
-addPts( cell, l, r, b, t ) 
+void addPts( cell, l, r, b, t ) 
 INT cell, l, r, b, t ; 
 {
     addPt( cell, l, b ) ;
@@ -456,7 +457,7 @@ INT cell, l, r, b, t ;
 	    l, b, l, t, r, t, r, b ) ) ;
 } /* end addPts */
 
-initPts( addpoint_flag )
+void initPts( addpoint_flag )
 BOOL addpoint_flag ;
 {
     INT i ;     /* counter */
@@ -588,7 +589,7 @@ POINTPTR *pt_array ;
 
 } /* end remove_redundant_points */
 
-static add_vpts( numpts )
+static void add_vpts( numpts )
 INT numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
@@ -675,7 +676,7 @@ INT numpts ;
 
 } /* end add_vpts */
 
-static chek_vpt( tile1, tile2, tile3, tile4 )
+static void chek_vpt( tile1, tile2, tile3, tile4 )
 POINTPTR tile1, tile2, tile3, tile4 ;
 {
     /* four cases */
@@ -750,7 +751,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
 } /* end chek_vpt */
 
 
-static add_hpts( numpts )
+static void add_hpts( numpts )
 INT numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
@@ -837,7 +838,7 @@ INT numpts ;
     }
 } /* end add_hpts */
 
-static chek_hpt( tile1, tile2, tile3, tile4 )
+static void chek_hpt( tile1, tile2, tile3, tile4 )
 POINTPTR tile1, tile2, tile3, tile4 ;
 {
     /* four cases */
@@ -911,7 +912,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
     }
 } /* end chek_hpt */
 
- dump_pts( pt )
+void dump_pts( pt )
  POINTPTR *pt ;
  {
     INT i ;

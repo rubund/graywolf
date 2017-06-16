@@ -673,7 +673,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcell_l.h" *******************/
 /* ********************* #include "readcell_l.h" *******************/
 
-readcell( fp )
+void readcell( fp )
 FILE *fp ;
 { 
 #ifdef YYDEBUG
@@ -691,7 +691,7 @@ FILE *fp ;
     cleanup_readcells();
 } /* end readcell */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     if( rowsG > 0 ){
@@ -706,7 +706,7 @@ char    *s;
     set_error_flag() ;
 } /* end yyerror */
 
-yywrap()
+INT yywrap()
 {
     return(1);
 }                      

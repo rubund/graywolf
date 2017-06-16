@@ -61,7 +61,7 @@ static char SccsId[] = "@(#) reconfig.c version 3.6 5/5/91" ;
 
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 
-reconfigure( numbinX, numbinY, newCoreArea )
+void reconfigure( numbinX, numbinY, newCoreArea )
 INT numbinX ;
 INT numbinY ;
 DOUBLE newCoreArea ;
@@ -147,7 +147,7 @@ DOUBLE newCoreArea ;
 
 
 
-reorigin()
+void reorigin()
 {
 
     CELLBOXPTR cellptr ;

@@ -78,7 +78,7 @@ extern INT total_row_lengthG ;
 /* global variables */
 
 
-readblck( fp )
+void readblck( fp )
 FILE *fp ;
 
 {

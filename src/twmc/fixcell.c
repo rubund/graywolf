@@ -533,7 +533,7 @@ char *left_not_right, *bottom_not_top ;
     }
 } /* end determine_origin */
 
-delete_fix_constraint( cell )
+void delete_fix_constraint( cell )
 INT cell ;
 {
     CELLBOXPTR ptr ;

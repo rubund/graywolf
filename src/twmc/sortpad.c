@@ -60,12 +60,12 @@ static char SccsId[] = "@(#) sortpad.c version 3.6 3/12/91" ;
 
 static INT compare_pads();
 static INT sort_by_pos();
-static install_pad_groups();
-static permute_pads();
+static void install_pad_groups();
+static void permute_pads();
 
 
 
-sort_pads()
+void sort_pads()
 {
     INT i ;                /* pad counter */
     INT pos ;              /* position in place array */
@@ -185,7 +185,7 @@ PADBOXPTR *padptr1, *padptr2 ;
 } /* end sort_by_pos */
 /* ***************************************************************** */
 
-static install_pad_groups( pad, position )
+static void install_pad_groups( pad, position )
 PADBOXPTR pad ;
 INT *position ;
 {
@@ -222,7 +222,7 @@ INT *position ;
 } /* end install_pad_groups */
 /* ***************************************************************** */
 
-static permute_pads( pad )
+static void permute_pads( pad )
 PADBOXPTR pad ;
 {
     INT tmp ;                 /* used to reverse permutable pads */

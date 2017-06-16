@@ -67,10 +67,10 @@ REVISIONS:  Oct 6, 1988 - fixed sign mistake in INTEGER & FLOAT
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
 static INT screen() ;
-static INT check_line_count() ;
+static void check_line_count() ;
 
 # define YYNEWLINE 10
-yylex(){
+INT yylex(){
 int nstr; extern int yyprevious;
 while((nstr = yylook()) >= 0)
 yyfussy: switch(nstr){
@@ -197,7 +197,7 @@ static INT screen()
 		
 } /* end screen function */
 
-static INT check_line_count( s ) 
+static void check_line_count( s ) 
 char *s ;
 {
     if( s ){
@@ -684,14 +684,14 @@ yyinput(){
 #endif
 	return(input());
 	}
-yyoutput(c)
+void yyoutput(c)
   int c; {
 #ifdef linux
 	if (yyout == NULL) yyout = stdout;
 #endif
 	output(c);
 	}
-yyunput(c)
+void yyunput(c)
    int c; {
 	unput(c);
 	}

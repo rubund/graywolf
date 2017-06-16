@@ -247,7 +247,7 @@ for( ; ; ) {
 return ;
 }
 
-from_middle()
+void from_middle()
 {
 
     init_control(-1);		/* set move generation controller. */
@@ -265,7 +265,7 @@ from_middle()
 }
 
 
-from_beginning()
+void from_beginning()
 {
 
     init_uloop();
@@ -349,7 +349,7 @@ INT flag;
     return(n);
 }
 
-rm_overlapping_feeds()
+INT rm_overlapping_feeds()
 {
 
 INT row , cell , *rowptr , target ;
@@ -398,7 +398,7 @@ return( num_deleted ) ;
 
 
 
-route_only_critical_nets() 
+void route_only_critical_nets() 
 {
 
 GLISTPTR pptr ;       /* pointer to paths of a cell */
@@ -429,7 +429,7 @@ return ;
 
 
 
-elim_nets(print_flag)
+void elim_nets(print_flag)
 INT print_flag ;
 {
 
@@ -490,7 +490,7 @@ return ;
 
 
 
-refine_fixed_placement()
+INT refine_fixed_placement()
 {
 
 CBOXPTR cellptr , cellptr1 ;

@@ -102,14 +102,14 @@ static INT gridYS = INT_MIN ;
 
 
 
-static init_read_par();
-static readparam();
-static process_readpar();
-static err_msg();
+static void init_read_par();
+static void readparam();
+static void process_readpar();
+static void err_msg();
 
 
 
-readpar()
+void readpar()
 {
     init_read_par() ;
     readparam( TWMC ) ;
@@ -117,7 +117,7 @@ readpar()
     process_readpar() ;
 }
 
-static init_read_par()
+static void init_read_par()
 {
     /* set the default values */
     offsetG     = 0  ;
@@ -163,7 +163,7 @@ static init_read_par()
 
 
 
-static readparam( parfile )
+static void readparam( parfile )
 INT parfile ;
 {
 
@@ -483,7 +483,7 @@ INT parfile ;
     }
 } /* end readpar */
 
-static process_readpar()
+static void process_readpar()
 {
     char *layer ;             /* name of layer */
     INT i ;                   /* counter */
@@ -675,7 +675,7 @@ static process_readpar()
     return ;
 } /* end process_readpar */
 
-static err_msg( keyword ) 
+static void err_msg( keyword ) 
 char *keyword ;
 {
     OUT2("The value for %s was", keyword );

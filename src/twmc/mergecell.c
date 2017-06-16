@@ -58,7 +58,7 @@ static char SccsId[] = "@(#) mergecell.c version 3.3 9/5/90" ;
 
 /* mergeCells takes the contents of child and parent and merges them together */
 /* to form a new parent */
-mergeCells( cptr, pptr ) 
+void mergeCells( cptr, pptr ) 
 CELLBOXPTR cptr ;  /* pointer to child cell box */
 CELLBOXPTR pptr ;  /* pointer to parent cell box */
 {

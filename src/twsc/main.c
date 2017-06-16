@@ -473,6 +473,7 @@ closegraphics() ;
 
 YexitPgm(PGMOK);
 
+return 0;
 } /* end main */
 
 
@@ -1006,7 +1007,7 @@ return ;
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

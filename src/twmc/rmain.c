@@ -62,7 +62,7 @@ static char SccsId[] = "@(#) rmain.c version 3.6 2/23/91" ;
 #define GROUTEPATH      "../Mickey"
 
 
-rmain( constraint_flag )
+void rmain( constraint_flag )
 BOOL constraint_flag ;
 {
     INT closegraphics() ;

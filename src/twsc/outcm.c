@@ -62,7 +62,7 @@ static char SccsId[] = "@(#) outcm.c (Yale) version 4.3 9/7/90" ;
 #define INTSCANSTR "%d"
 #endif
 
-outcm()
+void outcm()
 {
 
 char filename[64] ;
@@ -123,7 +123,7 @@ return ;
 
 
 
-incm(fp)
+void incm(fp)
 FILE *fp ;
 {
 

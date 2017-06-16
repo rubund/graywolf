@@ -68,7 +68,7 @@ static YSETPTR  nodesetS ;   /* keep track of active nodes */
 /* ***************************************************************** 
     Initialize graph by adding creating memory for it.
    **************************************************************** */
-init_graph( numnodes, numedges )
+void init_graph( numnodes, numedges )
 INT numnodes ;
 INT numedges ;
 {
@@ -92,7 +92,7 @@ INT numedges ;
 /* ***************************************************************** 
    Build graph by first adding nodes and node information to it.
    **************************************************************** */
-addNode( node, xc, yc ) 
+void addNode( node, xc, yc ) 
 INT node, xc, yc ;
 {
     CHANBOXPTR nptr ;
@@ -107,7 +107,7 @@ INT node, xc, yc ;
 /* ***************************************************************** 
    Build channel adjacency list by forming undirected graph.
    **************************************************************** */
-addEdge( node1, node2, HnotV, cell_lb, cell_rt ) 
+void addEdge( node1, node2, HnotV, cell_lb, cell_rt ) 
 INT node1 ;
 INT node2 ;
 BOOL HnotV ;  /* TRUE if horizontal FALSE if vertical */
@@ -248,7 +248,7 @@ INFOPTR edge ;
 	*(edge->end), edge->HnotV ) ;
 } /* end print_edge */
 
-build_trees()
+void build_trees()
 {
     INT i ;
     INFOPTR eptr ;     /* current edge */
@@ -375,7 +375,7 @@ INT x, y ;
     return( closest_edge ) ;
 } /* end get_closest_edge */
 
-stretch_graph( stretch_edge, x, y )
+void stretch_graph( stretch_edge, x, y )
 INFOPTR stretch_edge ;
 INT x, y ;
 {
