@@ -115,11 +115,11 @@ static INT  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
 static INT  pinsizeS ;     /* size of the pin */
 
 
-static draw_fs();
+static void draw_fs();
 extern VOID draw_a_cell( INT );
 extern INT draw_the_data() ;
 
-initGraphics( argc, argv, windowId )
+void initGraphics( argc, argv, windowId )
 INT argc ;
 char *argv[] ;
 INT windowId ;
@@ -180,7 +180,7 @@ INT windowId ;
 
 } /* end initGraphics */
 
-init_heat_index()
+void init_heat_index()
 {
     GRAPHICSABORT ;
 
@@ -191,7 +191,7 @@ init_heat_index()
     initS = TRUE ;
 } /* end init_heat_index */
 
-expand_heat_index()
+void expand_heat_index()
 {
     INT oldnum, i;
 
@@ -209,7 +209,7 @@ expand_heat_index()
     }
 } /* end expand_heat_index */
 
-setGraphicWindow() 
+void setGraphicWindow() 
 {
     INT  expand ;
     INT  minx ;
@@ -247,7 +247,7 @@ setGraphicWindow()
 } /* end setGraphicWindow */
 
 /* heart of the graphic syskem processes user input */
-process_graphics()
+void process_graphics()
 {
 
     INT x, y ;           /* coordinates from pointer */
@@ -597,7 +597,7 @@ INT cell ;
 } /* end draw a cell */
 
 
-static draw_fs( cptr )
+static void draw_fs( cptr )
 CBOXPTR cptr ;
 {
     INT x[10], y[10] ;   /* only 10 points to an F */
@@ -638,7 +638,7 @@ CBOXPTR cptr ;
     TWdrawArb( 0, FCOLOR, NIL(char *) ) ;
 } /* end draw_fs */
 
-erase_a_cell( cell, x, y )
+void erase_a_cell( cell, x, y )
 INT cell ;
 INT x, y ;
 {
@@ -676,7 +676,7 @@ INT x, y ;
 
 
 /* dumps the data to a file for future study */
-graphics_dump() 
+void graphics_dump() 
 {
     /* now change mode to dump to file */
     TWsetMode(1) ;
@@ -687,7 +687,7 @@ graphics_dump()
 }
 
 /* see if uses wishes an interupt otherwise just draw the data */
-check_graphics( drawFlag )
+void check_graphics( drawFlag )
 BOOL drawFlag ;
 {
     if( doGraphicsG ){
@@ -700,7 +700,7 @@ BOOL drawFlag ;
     }
 } /* end check_graphics */
 
-graphics_cell_update( cell )
+void graphics_cell_update( cell )
 INT cell ;
 {
     GRAPHICSABORT ;
@@ -714,7 +714,7 @@ INT cell ;
     draw_a_cell( cell ) ;
 } /* end graphics_cell_update */
 
-graphics_cell_attempt( cell )
+void graphics_cell_attempt( cell )
 INT cell ;
 {
     GRAPHICSABORT ;
@@ -723,7 +723,7 @@ INT cell ;
     heat_attemptS[cell]++ ;
 } /* end graphics_cell_attempt */
 
-reset_heat_index()
+void reset_heat_index()
 {
     INT i ; /* counter */
 
@@ -734,7 +734,7 @@ reset_heat_index()
     }
 } /* end reset_heat_index */
 
-set_update( flag )
+void set_update( flag )
 BOOL flag ;
 {
     updateS = flag ;
@@ -743,7 +743,7 @@ BOOL flag ;
 #endif /* NOGRAPHICS */
 
 /* close graphics window on fault */
-closegraphics( )
+void closegraphics( )
 {
     if( doGraphicsG ){
 	G( TWcloseGraphics() ) ;

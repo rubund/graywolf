@@ -50,7 +50,7 @@ static char SccsId[] = "@(#) scrapnet.c version 3.3 9/5/90" ;
 #include <custom.h>
 #include <yalecad/debug.h>
 
-scrapnet()
+void scrapnet()
 {
 
     NETBOXPTR dimptr ;

@@ -83,13 +83,13 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 
 
 
-main( argc, argv )
+int main( argc, argv )
 int  argc ;
 char *argv[] ;
 {
 
     FILE *fp ;
-    int yaleIntro() ;
+    void yaleIntro() ;
     char filename[LRECL] ; /* used for input filename */
     char *ptr ;     /* used to parse command line */
     int  windowId ; /* window id */
@@ -276,10 +276,11 @@ char *argv[] ;
 
     YexitPgm( PGMOK ) ;
 
+    return 0;
 } /* end main */
 
 
-yaleIntro() 
+void yaleIntro() 
 {
 
     fprintf(stdout,"\n%s\n",YmsgG) ;
@@ -289,7 +290,7 @@ yaleIntro()
 } /* end yaleIntro */
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

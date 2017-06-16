@@ -95,12 +95,12 @@ static char SccsId[] = "@(#) placepads.c version 3.14 11/23/91" ;
 #define PADKEYWORD        "pad"
 
 /* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static find_optimum_locations( P1(void) ) ;
-static place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
-static place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
+static void find_optimum_locations( P1(void) ) ;
+static void place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
+static void place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
 static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
    BOOL spacing_restricted ) ) ;
-static find_core( P1(void) ) ;
+static void find_core( P1(void) ) ;
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static INT sumposS ; /* sum of the modified opt. pin pos. of pad pins */
@@ -119,7 +119,7 @@ static BOOL external_pad_programS = FALSE ;
  field to endsuper.
 ____________________________________________________________________*/
 
-placepads()
+void placepads()
 {
 
     if( padspacingG == EXACT_PADS ){
@@ -170,7 +170,7 @@ placepads()
 } /* end placepads */
 /* ***************************************************************** */
 
-static find_optimum_locations()
+static void find_optimum_locations()
 {
     INT i ;                  /* pad counter */
     INT side ;               /* loop thru valid sides */
@@ -418,7 +418,7 @@ BOOL spacing_restricted ;
  **** are set in those routines.  Otherwise set sumposS and sumtieS
  **** to their proper values.
  ***/
-static place_pad( pad, bestside )
+static void place_pad( pad, bestside )
 PADBOXPTR pad ;
 INT bestside ;
 {
@@ -454,7 +454,7 @@ INT bestside ;
 
 /**** RECURSIVELY SET THE PADSIDE OF ALL CHILDREN OF THE ROOT PAD TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL CXCENTER */
-static place_children( pad, side, lb, ub, spacing_restricted )
+static void place_children( pad, side, lb, ub, spacing_restricted )
 PADBOXPTR pad ;
 INT side ;
 DOUBLE lb, ub ;
@@ -536,7 +536,7 @@ BOOL spacing_restricted ;
 
 /* ***************************************************************** */
 #ifdef DEBUG
-print_pads( message, array, howmany )
+void print_pads( message, array, howmany )
 char *message ;
 PADBOXPTR *array ;
 INT howmany ;
@@ -568,7 +568,7 @@ INT howmany ;
 
 
 /* turn virtual core on and off */
-setVirtualCore( flag )
+void setVirtualCore( flag )
 BOOL flag ;
 {
     virtualCoreS = flag ;
@@ -576,7 +576,7 @@ BOOL flag ;
 
 /* function finds and returns core boundary region including cells */
 /* which overlap the core region */
-find_core_boundary( left, right, bottom, top )
+void find_core_boundary( left, right, bottom, top )
 INT *left, *right, *bottom, *top ;
 {
     BOOL rememberFlag ;
@@ -599,7 +599,7 @@ INT *left, *right, *bottom, *top ;
 
 
 /* given a cell it returns bounding box of cell in global coordinates */
-get_global_pos( cell, l, b, r, t )
+void get_global_pos( cell, l, b, r, t )
 INT cell ; 
 INT *l, *r, *b, *t ;
 {
@@ -624,7 +624,7 @@ INT *l, *r, *b, *t ;
 
 
 /* given a cell it returns bounding box of cell including routing area */
-get_routing_boundary( cell, ret_l, ret_b, ret_r, ret_t )
+void get_routing_boundary( cell, ret_l, ret_b, ret_r, ret_t )
 INT cell ; 
 INT *ret_l, *ret_r, *ret_b, *ret_t ; /* return quantities */
 {
@@ -712,7 +712,7 @@ INT cell ;
     return( 0 ) ;
 } /* end get_pad_routing */
 
-static find_core()
+static void find_core()
 {
     INT ominx, ominy ;
     INT omaxx, omaxy ;
@@ -812,7 +812,7 @@ static find_core()
 
 
 /* ***********************EXTERNAL ROUTINES ************************** */
-call_place_pads()
+void call_place_pads()
 {
     FILE *fp ;
     INT pad ;
@@ -950,7 +950,7 @@ INT find_numnets()
     return( numnets ) ;
 } /* end find_numnets */
 
-output_nets( fp, numnets )
+void output_nets( fp, numnets )
 FILE *fp ;
 {
     INT net ;

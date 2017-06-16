@@ -64,7 +64,7 @@ static INT **cedgebinS ;
 static INT cedge_binwidthS ;
 static INT num_edgebinS ;
 
-findrcost()
+void findrcost()
 {
 
 SEGBOXPTR segptr ;
@@ -136,7 +136,7 @@ for( chan = 1 ; chan <= numChansG ; chan++ ) {
 }
 }
 
-initial_tracks( segptr )
+void initial_tracks( segptr )
 SEGBOXPTR segptr ;
 {
 
@@ -200,7 +200,7 @@ for( ptr = ptr1 ; ptr != ptr2 ; ptr = ptr->nextgrd ) {
 /* the set_cedgebin() , reset_track , facing_cellheight() function
     would be used only when the cells are in uneven height */
 
-set_cedgebin()
+void set_cedgebin()
 {
 
 CBOXPTR cellptr ;
@@ -248,7 +248,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 
 
-reset_track()
+void reset_track()
 {
 
 CBOXPTR cellptr ;
@@ -292,7 +292,7 @@ for( ; cell <= lastpadG ; cell++ ) {
 }
 
 
-facing_cellheight( pin , row , pinloc , status )
+INT facing_cellheight( pin , row , pinloc , status )
 INT pin, row , pinloc , status ;
 {
 
@@ -360,7 +360,7 @@ if( 1 <= row  && row <= numRowsG ) {
 }
 }
 
-fcellheight( pin , fcell , status )
+INT fcellheight( pin , fcell , status )
 INT pin , *fcell , status ;
 {
 

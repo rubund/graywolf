@@ -146,14 +146,14 @@ static INT world2pix_x() ;
 static INT world2pix_y() ;
 static INT world2fonty() ;
 static INT pixlen() ;
-static set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
-static debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
-static check_cases( P3( TWDIALOGPTR fieldp, INT select, 
+static void set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
+static void debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
+static void check_cases( P3( TWDIALOGPTR fieldp, INT select, 
     			INT (*user_function)() )) ;
-static draw_fields( P1(TWDIALOGPTR fieldp) ) ;
-static TWfreeWindows() ;
-static find_font_boundary() ;
-static edit_field( P4( INT field, Window win, XEvent event,
+static void draw_fields( P1(TWDIALOGPTR fieldp) ) ;
+static void TWfreeWindows() ;
+static void find_font_boundary() ;
+static void edit_field( P4( INT field, Window win, XEvent event,
 		    INT (*user_function)() ) ) ;
 
 /* build a dialog box and get info */
@@ -553,7 +553,7 @@ INT font_change ;
 } /* end set_stipple_font */
 
 /* check the case fields and set all member of group to false */
-static check_cases( fieldp, select, user_function )
+static void check_cases( fieldp, select, user_function )
 TWDIALOGPTR fieldp ;
 INT select ;
 INT (*user_function)() ;
@@ -632,7 +632,7 @@ TWDIALOGPTR fieldp ;
 } /* end draw_fields */
 
 
-static TWfreeWindows()
+static void TWfreeWindows()
 {
     INT i, j ;              /* counters */
 
@@ -645,7 +645,7 @@ static TWfreeWindows()
 
 } /* end TWfreeWindows */
 
-static find_font_boundary() 
+static void find_font_boundary() 
 {
     fwidthS = fontinfoS->max_bounds.rbearing - 
 	fontinfoS->min_bounds.lbearing ;

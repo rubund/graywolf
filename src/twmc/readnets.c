@@ -337,7 +337,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readnets_l.h" *******************/
 /* ********************* #include "readnets_l.h" *******************/
 
-readnets( fp )
+void readnets( fp )
 FILE *fp ;
 { 
 #ifdef YYDEBUG
@@ -357,7 +357,7 @@ FILE *fp ;
 
 } /* end readnets */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     extern char *cktNameG ;
@@ -371,7 +371,7 @@ char    *s;
     set_net_error() ;
 }
 
-yywrap()
+INT yywrap()
 {
     return(1);
 }                      

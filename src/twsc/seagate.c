@@ -66,7 +66,7 @@ extern BOOL min_peak_densityG ;
 extern BOOL min_total_densityG ;
 extern BOOL stand_cell_as_gate_arrayG ;
 
-seagate_input()
+void seagate_input()
 {
 FILE *fp ;
 CBOXPTR cellptr ;

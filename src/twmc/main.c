@@ -123,7 +123,7 @@ static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 VOID syntax();
 INT closegraphics();
 
-main( argc , argv )
+INT main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -573,6 +573,7 @@ char *argv[] ;
     Ymessage_close() ;
     YexitPgm(OK) ;
 
+    return 0;
 } /* end main routine */
 
 INT yaleIntro() 
@@ -587,11 +588,12 @@ INT yaleIntro()
     fprintf(stdout,"         Dahe Chen, and Jimmy Lam\n"); 
     fprintf(stdout,"         Yale University\n");
 
+    return 0;
 } /* end yaleIntro */
 
 /* this routine takes information about run and write to history file */
 /* to accumulate data about runs */
-writeResults( wire, penal, rand )
+void writeResults( wire, penal, rand )
 INT wire, penal, rand ;
 {
     FILE *fpdebug ;
@@ -620,6 +622,7 @@ INT closegraphics( )
     if( doGraphicsG ){
 	G( TWcloseGraphics() ) ;
     }
+    return 0;
 } /* end closegraphics */
 
 /* give user correct syntax */
@@ -698,7 +701,7 @@ BOOL get_batch_mode()
     return( batchS ) ;
 } /* end get_batch_mode */
 
-set_wiring_reduction( reduction )
+void set_wiring_reduction( reduction )
 DOUBLE reduction ;
 {
     wire_red_ratioS = reduction ;

@@ -97,7 +97,7 @@ YHASHPTR  hashtable ;
     return(hashtable->size) ;
 }
 
-Yhash_table_delete(hashtable, userdelete )
+void Yhash_table_delete(hashtable, userdelete )
 YHASHPTR  hashtable ;
 INT  (*userdelete)() ;
 {

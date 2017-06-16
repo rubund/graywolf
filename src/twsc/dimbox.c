@@ -78,7 +78,7 @@ static INT validLS , validRS , validBS , validTS ;
 static INT kS ;
 static PINBOXPTR *memoptrS ;
 
-init_dimbox()
+void init_dimbox()
 {
     INT maxpin, get_max_pin() ;
 
@@ -89,7 +89,7 @@ init_dimbox()
 } /* end init_dimbox */
 
 
-new_dbox( antrmptr , costptr )
+void new_dbox( antrmptr , costptr )
 PINBOXPTR antrmptr ;
 INT *costptr ;
 {
@@ -137,7 +137,7 @@ for( termptr = antrmptr ; termptr ; termptr = termptr->nextpin ) {
 }
 
 
-new_dbox2( antrmptr , bntrmptr , costptr )
+void new_dbox2( antrmptr , bntrmptr , costptr )
 PINBOXPTR antrmptr , bntrmptr ;
 INT *costptr ;
 {
@@ -230,7 +230,7 @@ for( ; termptr ; termptr = nextptr ) {
 }
 
 
-wire_boundary1( dimptr )
+void wire_boundary1( dimptr )
 DBOXPTR dimptr ;
 {
 
@@ -269,7 +269,7 @@ for( netptr = netptr->next ; netptr; netptr = netptr->next ) {
 }
 }
 
-check_validbound( dimptr , termptr , nextptr )
+void check_validbound( dimptr , termptr , nextptr )
 DBOXPTR dimptr ;
 PINBOXPTR termptr , nextptr ;
 {
@@ -355,7 +355,7 @@ if( nextptr == PINNULL || curr_netS != nextptr->net ) {
 }
 }
 
-wire_boundary2( c , dimptr )
+void wire_boundary2( c , dimptr )
 DBOXPTR dimptr ;
 INT c ;
 {
@@ -751,7 +751,7 @@ for( netptr = netptr->next ; netptr; netptr = netptr->next ) {
 }
 }
 
-dbox_pos( antrmptr ) 
+void dbox_pos( antrmptr ) 
 PINBOXPTR antrmptr ;
 {
 
@@ -778,7 +778,7 @@ for( termptr = antrmptr ; termptr != PINNULL;termptr=termptr->nextpin ) {
 }
 
 
-dbox_pos_swap( antrmptr ) 
+void dbox_pos_swap( antrmptr ) 
 PINBOXPTR antrmptr ;
 {
 
@@ -803,7 +803,7 @@ for( termptr = antrmptr ; termptr != PINNULL;termptr=termptr->nextpin ) {
 }
 
 
-init_dbox_pos_swap( antrmptr ) 
+void init_dbox_pos_swap( antrmptr ) 
 PINBOXPTR antrmptr ;
 {
 

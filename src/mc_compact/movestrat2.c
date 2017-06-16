@@ -77,12 +77,12 @@ static INT lengthS ;
 static DOUBLE best_areaS = 1.0E30 ;
 
 
-static x_center();
-static calc_xslacks();
-static update_xslacks();
-static y_center();
-static calc_yslacks();
-static update_yslacks();
+static void x_center();
+static void calc_xslacks();
+static void update_xslacks();
+static void y_center();
+static void calc_yslacks();
+static void update_yslacks();
 static INT sortby_xslack();
 
 
@@ -93,7 +93,7 @@ static INT sortby_xslack();
         xSource = 0, xsink = numtilesG + 1, ysource = numtilesG + 2,
 	and ysink = numtilesG + 3 positions in the tileNode array.
     */
-BOOL move_compactx( length ) 
+void move_compactx( length ) 
 INT length ;
 {
     INT 	   i,
@@ -214,7 +214,7 @@ INT length ;
 
 } /* end move_compactx */
 
-static x_center()
+static void x_center()
 {
     INT            i,
 		   newX,
@@ -336,7 +336,7 @@ static x_center()
 
 } /* end center_x */
 
-static calc_xslacks( cur_cell )
+static void calc_xslacks( cur_cell )
 {
     INT i ; 			/* counter */
     INT xmin ;			/* max of all the minimums of a cell */
@@ -383,7 +383,7 @@ static calc_xslacks( cur_cell )
     }
 } /* end calc_xslacks */
 
-static update_xslacks( tptr ) 
+static void update_xslacks( tptr ) 
 COMPACTPTR tptr ;
 {
     INT j ;			/* current tile adjacent to node */
@@ -420,7 +420,7 @@ COMPACTPTR tptr ;
 
 } /* end update_xslacks */
 
-BOOL move_compacty( length ) 
+void move_compacty( length ) 
 int length ;
 {
     INT 	   i,
@@ -541,7 +541,7 @@ int length ;
 
 } /* end move_compacty */
 
-static y_center()
+static void y_center()
 {
     int            i,
 		   newY,
@@ -664,7 +664,7 @@ static y_center()
 
 } /* end y_center */
 
-static calc_yslacks( cur_cell )
+static void calc_yslacks( cur_cell )
 {
     INT i ; 			/* counter */
     INT ymin ;			/* max of all the minimums of a cell */
@@ -712,7 +712,7 @@ static calc_yslacks( cur_cell )
     }
 } /* end calc_yslacks */
 
-static update_yslacks( tptr ) 
+static void update_yslacks( tptr ) 
 COMPACTPTR tptr ;
 {
     INT j ;			/* current tile adjacent to node */

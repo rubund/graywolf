@@ -60,7 +60,7 @@ static char SccsId[] = "@(#) sortpin.c version 3.7 10/18/91" ;
 static INT comparePin() ;
 
 
-sortpins()
+void sortpins()
 {
 
     INT j , n , cell ;

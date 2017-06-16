@@ -91,4 +91,5 @@ if( date ){
 fprintf(fp,"#define DATE \"@\(#\) Yale compilation date:unknown\"\n") ;
 fclose(fp) ;
 
+return 0;
 } /* end main */

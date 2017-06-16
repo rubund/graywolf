@@ -104,21 +104,21 @@ static BOOL determine_sideS = TRUE ;   /* normally determine side */
 
 
 
-static output_corners();
-static output_class_orient();
-static output_pins();
-static output_side_n_space();
-static output_pad_groups();
-static output_fixed();
-static create_pl1();
-static print_four_corners();
-static create_pin();
+static void output_corners();
+static void output_class_orient();
+static void output_pins();
+static void output_side_n_space();
+static void output_pad_groups();
+static void output_fixed();
+static void create_pl1();
+static void print_four_corners();
+static void create_pin();
 
 
 
 
 
-output( fp )
+void output( fp )
 FILE *fp ;
 {
 
@@ -201,7 +201,7 @@ FILE *fp ;
 
 } /* end output */
 
-output_pads( fp )
+void output_pads( fp )
 FILE *fp ;
 {
 
@@ -248,14 +248,14 @@ FILE *fp ;
 
 } /* end output_pads */
 
-static output_corners( cellptr )
+static void output_corners( cellptr )
 CELLBOXPTR cellptr ;
 {
     fprintf( outS, "corners %d\n", cellptr->numsides ) ;
     output_vertices( outS, cellptr ) ;
 } /* end output_corners */
 
-static output_class_orient( cellptr )
+static void output_class_orient( cellptr )
 CELLBOXPTR cellptr ;
 {
     INT i ;
@@ -273,7 +273,7 @@ CELLBOXPTR cellptr ;
 } /* end output_class_orient */
 
 
-static output_pins( cellptr )
+static void output_pins( cellptr )
 CELLBOXPTR cellptr ;
 {
     INT i ;                  /* counter */
@@ -342,7 +342,7 @@ CELLBOXPTR cellptr ;
 	}
     }
 } /* end output_pins */
-static output_side_n_space( cellptr )
+static void output_side_n_space( cellptr )
 CELLBOXPTR cellptr ;
 {
     INT i ;           /* counter */
@@ -392,7 +392,7 @@ CELLBOXPTR cellptr ;
     }
 } /* end output_side_n_space */
 
-static output_pad_groups( cellptr )
+static void output_pad_groups( cellptr )
 CELLBOXPTR cellptr ;
 {
     INT i, child, padnum ;
@@ -416,7 +416,7 @@ CELLBOXPTR cellptr ;
     
 } /* end output_pad_groups */
 
-static output_fixed( cellptr )
+static void output_fixed( cellptr )
 CELLBOXPTR cellptr ;
 {
     FIXEDBOXPTR fixptr ;
@@ -461,13 +461,13 @@ CELLBOXPTR cellptr ;
     }
 } /* end output_fixed */
 
-set_determine_side( flag )
+void set_determine_side( flag )
 BOOL flag ;
 {
     determine_sideS = flag ;
 } /* end set_determine_side */
 
-output_vertices( fp, cellptr )
+void output_vertices( fp, cellptr )
 FILE *fp ;
 CELLBOXPTR cellptr ;
 {
@@ -573,7 +573,7 @@ CELLBOXPTR cellptr ;
 
 } /* end output_vertices */
 
-create_sc_output()
+void create_sc_output()
 {
     create_pl1() ;
     create_pin() ;
@@ -581,7 +581,7 @@ create_sc_output()
 
 /** by kroy July 1991 **/
 /* modified by WPS Aug 6, 1991 */
-static create_pl1()
+static void create_pl1()
 {
     FILE *fpp1 ;
     CELLBOXPTR cellptr ;
@@ -664,7 +664,7 @@ static create_pl1()
 
 } /* create_pl1 */
 
-static print_four_corners( fp, cellptr )
+static void print_four_corners( fp, cellptr )
 FILE *fp ;
 CELLBOXPTR cellptr ;
 {
@@ -690,7 +690,7 @@ CELLBOXPTR cellptr ;
 
 
 /* by WPS Aug 6, 1991 */
-static create_pin()
+static void create_pin()
 {
     FILE *fpp1 ;
     CELLBOXPTR cellptr ;

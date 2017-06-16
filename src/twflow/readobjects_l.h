@@ -58,10 +58,13 @@ REVISIONS:  Oct 6, 1988 - fixed sign mistake in INTEGER & FLOAT
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
 static INT screen() ;
-static INT check_line_count() ;
+static void check_line_count() ;
+
+static int yylook(void);
+static int yyback(int *p, int m);
 
 # define YYNEWLINE 10
-yylex(){
+int yylex(){
 int nstr; extern int yyprevious;
 while((nstr = yylook()) >= 0)
 yyfussy: switch(nstr){
@@ -163,7 +166,7 @@ static INT screen()
 		
 } /* end screen function */
 
-static INT check_line_count( s ) 
+static void check_line_count( s ) 
 char *s ;
 {
     if( s ){
@@ -501,7 +504,7 @@ char *yysptr = yysbuf;
 int *yyfnd;
 extern struct yysvf *yyestate;
 int yyprevious = YYNEWLINE;
-yylook(){
+static int yylook(){
 	register struct yysvf *yystate, **lsp;
 	register struct yywork *yyt;
 	struct yysvf *yyz;
@@ -651,7 +654,7 @@ yylook(){
 # endif
 		}
 	}
-yyback(p, m)
+static int yyback(p, m)
 	int *p;
 {
 if (p==0) return(0);
@@ -663,20 +666,20 @@ while (*p)
 return(0);
 }
 	/* the following are only used in the lex library */
-yyinput(){
+int yyinput(){
 #ifdef linux
 	if (yyin == NULL) yyin = stdin;
 #endif
 	return(input());
 	}
-yyoutput(c)
+void yyoutput(c)
   int c; {
 #ifdef linux
 	if (yyout == NULL) yyout = stdout;
 #endif
 	output(c);
 	}
-yyunput(c)
+void yyunput(c)
    int c; {
 	unput(c);
 	}
