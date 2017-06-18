@@ -60,6 +60,7 @@ static char SccsId[] = "@(#) hash.c version 3.11 12/15/91" ;
 #endif
 
 #include <stdio.h>
+#include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>

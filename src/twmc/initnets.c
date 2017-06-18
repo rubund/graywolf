@@ -52,6 +52,7 @@ static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
 
 #include <custom.h>
 #include <analog.h>
+#include <string.h>
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
 #include <readnets.h>  /* redefine yacc and lex globals */

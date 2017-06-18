@@ -76,6 +76,7 @@ static char SccsId[] = "@(#) readnets.y (Yale) version 4.12 4/21/91" ;
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include <yalecad/hash.h>
+#include <string.h>
 #include "readnets.h"  /* redefine yacc and lex globals */
 #include "standard.h"  
 #include "main.h"  
