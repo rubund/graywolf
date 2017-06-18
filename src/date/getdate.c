@@ -39,6 +39,8 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define LRECL 256
 #define EOS   '\0'

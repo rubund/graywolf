@@ -52,6 +52,7 @@ static char SccsId[] = "@(#) sortpin.c version 3.7 10/18/91" ;
 #endif
 
 #include <custom.h>
+#include <string.h>
 #include <yalecad/debug.h>
 #include <yalecad/message.h>
 

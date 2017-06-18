@@ -55,6 +55,7 @@ static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
 #endif
 #endif
 
+#include <string.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
