@@ -105,6 +105,8 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #include <yalecad/debug.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/file.h>
+#include <yalecad/system.h>
+#include "readpar.h"
 
 #define  VERSION            "v2.2"
 #define  EXPECTEDMEMORY     (1024 * 1024) 
@@ -117,6 +119,8 @@ static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
 static INT  windowIdS ;  /* the master window id if given */
 static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
+
+extern void make_movebox(void);
 
 /* Forward declarations */
 

@@ -84,6 +84,7 @@ static char SccsId[] = "@(#) readpar.c version 3.20 11/23/91" ;
 #include <yalecad/file.h>
 #include <yalecad/string.h>
 #include <yalecad/yreadpar.h>
+#include "readpar.h"
 
 #define DEFAULTLAMBDA 0.1
 #define INIT_ACCEPTANCE 0.99999

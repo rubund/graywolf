@@ -92,6 +92,7 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #include <yalecad/buster.h>
 #include <yalecad/rbtree.h>
 #include <globals.h>
+#include "genrows.h"
 
 #define NOTOUCH    0
 #define OVERLAP1   1

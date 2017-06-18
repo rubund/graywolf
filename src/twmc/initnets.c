@@ -56,6 +56,7 @@ static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
 #include <readnets.h>  /* redefine yacc and lex globals */
+#include <initnets.h>
 
 #define HOWMANY      0
 

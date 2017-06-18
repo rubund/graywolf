@@ -85,6 +85,9 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #define NULLWINDOW      0
 #define VERSION         "2.1" 
 
+/* Forward declarations */
+void syntax(void);
+
 INT main( argc , argv )
 INT argc ;
 char *argv[] ;
