@@ -1786,8 +1786,8 @@ INT numcorners ;
 	analogS->num_corners = numcorners ;
 	cornerCountS = 0 ;
     } else {
-	analogS->x_contour = NIL(INT) ;
-	analogS->y_contour = NIL(INT) ;
+	analogS->x_contour = NIL(INT *) ;
+	analogS->y_contour = NIL(INT *) ;
 	analogS->num_corners = 0 ;
     }
     analogS->current = INIT_CURRENT ;
