@@ -343,9 +343,9 @@ void add_common_pt()
     }
     commonS = aptrS->common_pts[pt-1] = 
 	(COMMONPTR) Ysafe_calloc( 1, sizeof(COMMONBOX) ) ;
-    commonS->common_set = NIL(INT) ;
-    commonS->cap_match = NIL(INT) ;
-    commonS->res_match = NIL(INT) ;
+    commonS->common_set = NIL(INT *) ;
+    commonS->cap_match = NIL(INT *) ;
+    commonS->res_match = NIL(INT *) ;
     commonS->num_pins = 0 ;
 
 } /* end common_pt */
