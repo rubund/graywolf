@@ -473,7 +473,7 @@ INT (*refresh_func)() ;
 	/* we are done for the dump_graphics mode */
 	initS = TRUE ;
 	TWsetMode( TWWRITEONLY ) ;  /* always enable both modes */
-	return ;
+	return initS;
     } else {
 	/* OTHERWISE INITIALIZE BOTH MODES */
 	TWsetMode( TWWRITENDRAW ) ;  /* always enable both modes */
