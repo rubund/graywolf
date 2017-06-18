@@ -1506,7 +1506,7 @@ TWDRETURNPTR answer ;  /* return from user */
     return( maxrows ) ;
 } /* end get_maxrows */
 
-static INT update_tile_data( answer, field )
+static void update_tile_data_wrap( answer, field )
 TWDRETURNPTR answer ;  /* return from user */
 INT field ;
 {
@@ -1586,6 +1586,12 @@ INT field ;
 	}
 	break ;
     } /* end switch */
+}
+
+static INT update_tile_data(TWDRETURNPTR answer, INT field )
+{
+    update_tile_data_wrap( answer, field );
+    return 0; // return value is ignored
 }
 
 static BOOL edit_tiles( tile )
@@ -1715,7 +1721,7 @@ TILE_BOX *tile ;
 	    /* means the user change the field */
 	    temp = get_row_height( answer ) ;
 	    if( temp <= 0 ){
-		return ;
+		return FALSE;
 	    }
 	    tile->actual_row_height = temp ;
 	}
@@ -1725,7 +1731,7 @@ TILE_BOX *tile ;
 	    if( rows < 0 ){ 
 		outm( ERRMSG, "edit_tile",
 		"Invalid number of rows.  Must be non-negative" ) ;
-		return ;
+		return FALSE;
 	    }
 	    /* now calculate the channel separation for this tile */
 	    height = tile->ury - tile->lly ;
@@ -1746,7 +1752,7 @@ TILE_BOX *tile ;
 	    if( rows < 0 ){ 
 		outm( ERRMSG, "edit_tile",
 		"Invalid number of rows.  Must be non-negative" ) ;
-		return ;
+		return FALSE;
 	    }
 	    /* now calculate the channel separation for this tile */
 	    height = tile->ury - tile->lly ;
@@ -1767,7 +1773,7 @@ TILE_BOX *tile ;
 	    if( temp <= 0 ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid minimum length.  Must be greater than zero" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->min_length = temp ;
 	}
@@ -1777,12 +1783,12 @@ TILE_BOX *tile ;
 	    if( temp < tile->llx  ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid end of row.  Must be greater than tile left" );
-		return ;
+		return FALSE;
 	    }
 	    if( temp > tile->urx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid end of row.  Must be less than tile right" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->max_length = temp - tile->llx - tile->row_start ;
 	}
@@ -1792,12 +1798,12 @@ TILE_BOX *tile ;
 	    if( temp < tile->llx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid start of row.  Must be greater than tile left") ;
-		return ;
+		return FALSE;
 	    }
 	    if( temp > tile->urx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid start of row.  Row must start before end of tile" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->row_start = temp - tile->llx ;
 	    /* now modify the width of the tile accordingly */
@@ -1819,7 +1825,7 @@ TILE_BOX *tile ;
 	    if( temp <= 0 ){
 		outm( ERRMSG, "edit_tile",
 		    "ERROR:Invalid class.  Must be greater than zero" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->class = temp ;
 	}
