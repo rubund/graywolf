@@ -87,6 +87,7 @@ static char SccsId[] = "@(#) draw.c (Yale) version 3.22 5/14/92" ;
 #include <yalecad/message.h>
 #include <yalecad/dialog.h>
 #include <yalecad/relpos.h>
+#include "genrows.h"
 
 #define FCOLOR   TWYELLOW
 
@@ -142,6 +143,9 @@ static void rotate_vertices();
 static void find_nearest_corner();
 static void highlight_corner();
 static void outm();
+
+/* forward declarations */
+void edit_row(ROW_BOX* rowptr );
 
 void initgraphics( argc, argv, windowId )
 INT argc, windowId ;

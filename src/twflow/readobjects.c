@@ -76,6 +76,7 @@ static char SccsId[] = "@(#) readobjects.y version 2.5 4/21/91" ;
 #include <yalecad/file.h>     /* file opening insert file. */
 #include <yalecad/debug.h>    /* use debug utilities. */
 #include <yalecad/string.h>
+#include "io.h"
 
 #undef REJECT          /* undefine TWMC macro for lex's version */ 
 

@@ -66,6 +66,9 @@ static char SccsId[] = "@(#) main.c version 1.6 2/23/91" ;
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.1"
 
+/* Forward declarations */
+void syntax(void);
+
 int main( argc , argv )
 int argc ;
 char *argv[] ;

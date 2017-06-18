@@ -61,6 +61,7 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 1.9 5/14/92" ;
 #include <yalecad/yreadpar.h>
 #include <yalecad/message.h>
 #include <globals.h>
+#include "readpar.h"
 
 #define COMMENT '#'
 
