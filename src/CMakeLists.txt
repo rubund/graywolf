@@ -1,7 +1,6 @@
 
 add_subdirectory(Ylib)
 add_subdirectory(syntax)
-add_subdirectory(date)
 add_subdirectory(genrows)
 add_subdirectory(mincut)
 add_subdirectory(twmc)
