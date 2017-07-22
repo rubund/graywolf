@@ -81,6 +81,8 @@ extern int yyget_lineno(void);
 %type<fval> FLOAT
 %type<sval> STRING
 
+%type<sval> string
+
 %start start_file
 %%
 start_file : core pads;
@@ -132,15 +134,15 @@ padcell : padname corners cur_orient restriction sidespace;
 padgroup : padgroupname padgrouplist restriction sidespace;
 cellgroup : supergroupname supergrouplist class orient;
 cellgroup : cellgroupname neighborhood cellgrouplist;
-hardcellname : HARDCELL INTEGER NAME STRING
+hardcellname : HARDCELL INTEGER NAME string
 {
 	addCell(HARDCELLTYPE, $4 ) ;
 };
-softname : SOFTCELL INTEGER NAME STRING
+softname : SOFTCELL INTEGER NAME string
 {
 	addCell(SOFTCELLTYPE, $4 ) ;
 };
-cellname : CELL INTEGER STRING
+cellname : CELL INTEGER string
 {
 	addCell(STDCELLTYPE, $3 );
 };
@@ -177,7 +179,7 @@ bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 };
 xloc : STRING;
 yloc : STRING;
-padname : PAD INTEGER NAME STRING
+padname : PAD INTEGER NAME string
 {
 	addCell(PADCELLTYPE, $4 ) ;
 };
@@ -312,9 +314,18 @@ keep_out_list : keep_out_list keep_out;
 keep_out : KEEPOUT LAYER INTEGER CORNERS keep_pts;
 keep_pts : INTEGER INTEGER;
 keep_pts : keep_pts INTEGER INTEGER;
-string : STRING;
-string : INTEGER;
-string : FLOAT;
+string : STRING
+{
+	sprintf( $$ ,"%s", $1 ) ;
+};
+string : INTEGER
+{
+	sprintf( $$ ,"%d", $1 ) ;
+};
+string : FLOAT
+{
+	sprintf( $$,"%f", $1 ) ;
+};
 %%
 
 int yyerror(char *s) {
@@ -324,7 +335,6 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
-	printf("syntax_\n");
 	yyin = fopen(filename,"r");
 	init();
 	/* parse input file using yacc */
