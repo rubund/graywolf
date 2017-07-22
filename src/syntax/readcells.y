@@ -339,6 +339,7 @@ int readcells(char *filename)
 	init();
 	/* parse input file using yacc */
 	yyparse();
+	fclose(yyin);
 } /* end readcells */
 
 int syntax_wrap(void) {return 1;}
