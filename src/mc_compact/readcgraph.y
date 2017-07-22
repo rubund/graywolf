@@ -1,4 +1,4 @@
-%define api.prefix {readcgraph_}
+%define api.prefix readcgraph_
 %glr-parser
 %{
 #define yyget_lineno readcgraph_get_lineno

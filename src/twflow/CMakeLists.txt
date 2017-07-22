@@ -3,10 +3,9 @@ INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
 bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c)
-#flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c COMPILE_FLAGS "-d") #debug
 flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c)
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99")
 
 add_executable(graywolf
 	autoflow.c
@@ -18,8 +17,6 @@ add_executable(graywolf
 	${BISON_twflowparser_OUTPUTS}
 	${FLEX_twflowparser_OUTPUTS}
 	)
-
-#readobjects.c
 
 target_link_libraries(graywolf ycadgraywolf)
 target_link_libraries(graywolf GraywolfMincut)

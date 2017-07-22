@@ -1,4 +1,4 @@
-%define api.prefix {syntax_}
+%define api.prefix syntax_
 %glr-parser
 %{
 #include <stdio.h>

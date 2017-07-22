@@ -2,11 +2,10 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99")
+
 bison_target(syntaxparser readcells.y ${CMAKE_BINARY_DIR}/src/syntax/readcells.c)
 flex_target(syntaxparser readcells.lex ${CMAKE_BINARY_DIR}/src/syntax/readcells.lex.c)
-# flex_target(syntaxparser readcells.lex ${CMAKE_BINARY_DIR}/src/syntax/readcells.lex.c COMPILE_FLAGS "-d") #debug
-
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
 add_library(GrayWolfSyntax SHARED
 	main.c
