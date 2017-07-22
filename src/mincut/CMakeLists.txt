@@ -14,7 +14,6 @@ add_library(GraywolfMincut SHARED
 	main.c
 	output.c
 	separate.c
-	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/mincut .)

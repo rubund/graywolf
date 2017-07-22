@@ -17,7 +17,6 @@ add_executable(graywolf
 	program.c
 	${BISON_twflowparser_OUTPUTS}
 	${FLEX_twflowparser_OUTPUTS}
-	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
 #readobjects.c

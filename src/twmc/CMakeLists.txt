@@ -80,7 +80,6 @@ add_library(TimberWolfMC SHARED
 	wirecosts.c
 	wireest.c
 	wireratio.c
-	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
 target_link_libraries(TimberWolfMC GrayWolfMCCompact)

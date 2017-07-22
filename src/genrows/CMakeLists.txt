@@ -7,7 +7,6 @@ add_library(GrayWolfGenRows SHARED
 	main.c
 	merge.c
 	readpar.c
-	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)

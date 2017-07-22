@@ -74,6 +74,11 @@ static char progDate[LRECL];
 
 void YdebugWrite() ;
 
+char *getCompileDate()
+{
+	return __DATE__;
+} /* end getCompileDate */
+
 /* ----------------------------------------------------------------- 
    Program control routines                    
    

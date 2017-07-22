@@ -30,7 +30,6 @@ add_library(GrayWolfMCCompact SHARED
 	grid.c
 	movestrat.c
 	ycompact.c
-	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)

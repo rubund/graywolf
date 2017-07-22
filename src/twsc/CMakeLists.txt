@@ -74,7 +74,6 @@ add_library(TimberWolfSC SHARED
 	sortpad.c
 	ucxx2.c
 	unlap.c
-	${CMAKE_SOURCE_DIR}/src/date/date.c
 	)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twsc .)
