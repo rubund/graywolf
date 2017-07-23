@@ -1,6 +1,7 @@
 %option prefix="syntax_"
 %{
 #include "readcells.h"
+#include "yalecad/string.h"
 #define yylval syntax_lval
 #define yyget_lineno syntax_get_lineno
 #define yytext syntax_text
@@ -73,5 +74,5 @@ unequiv             return UNEQUIV;
 {newline}+			{yylineno++;}
 {blanks}+			{};
 {integer}+			{yylval.ival = atoi(yytext); return INTEGER;};
-{string}+			{yylval.sval=Ystrclone(yytext); return STRING;}
+{string}+			{yylval.sval = Ystrclone(yytext); return STRING;}
 {float}+			{yylval.fval = atof(yytext); return FLOAT;}
