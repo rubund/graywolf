@@ -177,8 +177,8 @@ bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 {
 	set_bbox( $2, $4, $6, $8) ;
 };
-xloc : STRING;
-yloc : STRING;
+xloc : string;
+yloc : string;
 padname : PAD INTEGER NAME string
 {
 	addCell(PADCELLTYPE, $4 ) ;
@@ -224,7 +224,7 @@ softpin : softpin_info siderestriction;
 softpin : softpin_info siderestriction softequivs;
 softpin_info : SOFTPIN NAME string SIGNAL string opt_layer;
 pinrecord : required_pinfo contour current power no_layer_change;
-required_pinfo : PIN NAME STRING SIGNAL STRING layer
+required_pinfo : PIN NAME string SIGNAL string layer
 {
 	set_pinname( $3 ) ;
 	addNet( $5 ) ;
@@ -296,7 +296,7 @@ sidespace : SIDESPACE FLOAT FLOAT;
 layer : LAYER INTEGER;
 opt_layer :;
 opt_layer : LAYER INTEGER;
-sideplace : STRING;
+sideplace : string;
 restriction :;
 restriction : RESTRICT SIDE sideplace;
 padgrouplist : padset;
@@ -316,15 +316,15 @@ keep_pts : INTEGER INTEGER;
 keep_pts : keep_pts INTEGER INTEGER;
 string : STRING
 {
-	sprintf( $$ ,"%s", $1 ) ;
+	sprintf( $$ , "%s", $1 ) ;
 };
 string : INTEGER
 {
-	sprintf( $$ ,"%d", $1 ) ;
+	sprintf( $$ , "%d", $1 ) ;
 };
 string : FLOAT
 {
-	sprintf( $$,"%f", $1 ) ;
+	sprintf( $$, "%f", $1 ) ;
 };
 %%
 
