@@ -1,4 +1,4 @@
-%define api.prefix {twsc_readcell_}
+%define api.prefix twsc_readcell_
 %glr-parser
 %{
 #include <stdio.h>

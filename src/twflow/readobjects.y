@@ -1,4 +1,4 @@
-%define api.prefix {twflow_readobjects_}
+%define api.prefix twflow_readobjects_
 %glr-parser
 %{
 #include <stdio.h>

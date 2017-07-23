@@ -1,4 +1,4 @@
-%define api.prefix {twmc_readnets_}
+%define api.prefix twmc_readnets_
 %{
 #include <stdio.h>
 #define yyget_lineno twmc_readnets_get_lineno

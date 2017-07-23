@@ -1,4 +1,4 @@
-%define api.prefix {readtiles_}
+%define api.prefix readtiles_
 %glr-parser
 %{
 #include "compact.h"

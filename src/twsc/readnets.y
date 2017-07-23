@@ -1,4 +1,4 @@
-%define api.prefix {twsc_readnets_}
+%define api.prefix twsc_readnets_
 %glr-parser
 %{
 #include <stdio.h>

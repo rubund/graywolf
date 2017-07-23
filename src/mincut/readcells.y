@@ -1,4 +1,4 @@
-%define api.prefix {mincut_}
+%define api.prefix mincut_
 %glr-parser
 %{
 #include <stdio.h>
