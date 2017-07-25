@@ -35,6 +35,7 @@ extern int yyget_lineno(void);
 %type<ival> INTEGER
 %type<fval> FLOAT
 %type<sval> STRING
+
 %type<sval> string
 
 %start start_file
@@ -63,11 +64,10 @@ depend_list : depend_list INTEGER
 };
 
 path : PATH COLON;
-
-//path : PATH COLON string
-//{
-//	add_path( $3 );
-//};
+path : PATH COLON string
+{
+	add_path( $3 );
+};
 
 name : pname COLON depend_list;
 

@@ -30,7 +30,7 @@ relative         return RELATIVE;
 {newline}+			{yylineno++;}
 {blanks}+			{};
 {integer}+			{yylval.ival = atoi(yytext); return INTEGER;};
-{string}+			{yylval.sval=Ystrclone(yytext); return STRING;}
+{string}+			{yylval.sval = Ystrclone(yytext); return STRING;}
 {float}+			{yylval.fval = atof(yytext); return FLOAT;}
 {colon}+			{return COLON;}
 
