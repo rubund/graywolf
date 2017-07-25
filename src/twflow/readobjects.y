@@ -47,15 +47,6 @@ numobjects : NUMOBJECTS INTEGER
 	init( $2 );
 };
 
-object_list : object;
-object_list : object_list object;
-object : name path draw_obj list_of_edges;
-list_of_edges : edge;
-list_of_edges : list_of_edges edge;
-edge : edge_keyword ifiles ofiles args;
-edge : edge_keyword ifiles ofiles args draw_edges;
-name : pname COLON depend_list;
-
 pname : POBJECT string INTEGER
 {
 	add_object( $2, $3);
@@ -71,12 +62,27 @@ depend_list : depend_list INTEGER
 	add_pdependency($2);
 };
 
-path : PATH COLON string
-{
-	add_path( $3 );
-};
-
 path : PATH COLON;
+
+//path : PATH COLON string
+//{
+//	add_path( $3 );
+//};
+
+name : pname COLON depend_list;
+
+object : name path draw_obj list_of_edges;
+
+object_list : object;
+object_list : object_list object;
+
+edge_keyword : EDGE INTEGER COLON {start_edge($2);};
+
+edge : edge_keyword ifiles ofiles args;
+edge : edge_keyword ifiles ofiles args draw_edges;
+
+list_of_edges : edge;
+list_of_edges : list_of_edges edge;
 
 ifiles : ifiletype
 {
@@ -108,7 +114,7 @@ draw_obj : DRAWN COLON INTEGER INTEGER INTEGER INTEGER
 {
 	add_box( $3, $4,$5, $6 );
 };
-edge_keyword : EDGE INTEGER COLON {start_edge($2);};
+
 draw_edges : DRAWN COLON list_of_lines;
 list_of_lines : line;
 list_of_lines : list_of_lines line;
