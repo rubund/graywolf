@@ -3,6 +3,7 @@
 %{
 #include <stdio.h>
 #include <globals.h>
+#include "io.h"
 #define yyget_lineno twflow_readobjects_get_lineno
 #define yytext twflow_readobjects_text
 #define yyin twflow_readobjects_in

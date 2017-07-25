@@ -180,7 +180,7 @@ void add_pdependency( int fromNode )
 	to   = objS ;
 
 	/* create backward edge since we are given edges in dependency form */
-	if( temp = to->adjB ){
+	if((temp = to->adjB)){
 		/* add at end of the list */
 		for( ; temp->next ; temp = temp->next ) ;
 		newE = temp->next = (ADJPTR) Ysafe_malloc(sizeof(ADJBOX)) ;
