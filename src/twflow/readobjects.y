@@ -61,11 +61,6 @@ pname : POBJECT string INTEGER
 	add_object( $2, $3);
 };
 
-pname : POBJECT string string INTEGER
-{
-	add_object( $2, $4);
-};
-
 depend_list : INTEGER
 {
 	add_pdependency($1);
@@ -145,14 +140,8 @@ int yyerror(char *s) {
 int readobjects( char *filename )
 { 
 	extern FILE *yyin;
-	printf("Opening %s \n", filename);
 
 	yyin = fopen( filename, "r");
-	if(yyin) {
-		printf("Opened %s \n", filename);
-	} else {
-		printf("Error opening %s \n", filename);
-	}
 
 	/* parse input file using yacc */
 	yyparse();  
