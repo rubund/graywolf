@@ -2,7 +2,7 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c COMPILE_FLAGS "--debug --verbose")
+bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c COMPILE_FLAGS "--debug --verbose --token-table")
 flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c COMPILE_FLAGS "--debug")
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99")
@@ -27,6 +27,7 @@ target_link_libraries(graywolf GrayWolfGenRows)
 target_link_libraries(graywolf GrayWolfMCCompact)
 target_link_libraries(graywolf X11)
 target_link_libraries(graywolf m)
+target_link_libraries(graywolf gsl)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twflow .)
 
