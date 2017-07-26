@@ -4,8 +4,10 @@ INCLUDE(FindFLEX)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99 -Wdeprecated")
 
-bison_target(syntaxparser readcells.y ${CMAKE_BINARY_DIR}/src/syntax/readcells.c COMPILE_FLAGS "--debug --verbose")
-flex_target(syntaxparser readcells.lex ${CMAKE_BINARY_DIR}/src/syntax/readcells.lex.c COMPILE_FLAGS "--debug")
+#bison_target(syntaxparser readcells.y ${CMAKE_BINARY_DIR}/src/syntax/readcells.c COMPILE_FLAGS "--debug --verbose --token-table")
+bison_target(syntaxparser readcells.y ${CMAKE_BINARY_DIR}/src/syntax/readcells.c COMPILE_FLAGS "--token-table")
+#flex_target(syntaxparser readcells.lex ${CMAKE_BINARY_DIR}/src/syntax/readcells.lex.c COMPILE_FLAGS "--debug")
+flex_target(syntaxparser readcells.lex ${CMAKE_BINARY_DIR}/src/syntax/readcells.lex.c)
 
 add_library(GrayWolfSyntax SHARED
 	main.c
