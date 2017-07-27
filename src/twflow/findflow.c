@@ -149,22 +149,13 @@ int find_flow_file( BOOL general_mode, BOOL debug, char *filename )
 	}
 
 	sprintf( filename, "%s.%s", prefix, suffix ) ;
-	printf("Does file %s exist? \n", filename );
 	if(access( filename, F_OK ) == -1) {
-		printf("File %s doesn't exist \n", filename );
-
 		sprintf( filename, "%s/flow.noroute/%s.%s",twdirG,prefix,suffix ) ;
-		printf("Does file %s exist? \n", filename );
-		if(access( filename, F_OK ) == -1) {
-			printf("File %s doesn't exist \n", filename );
-			return 1;
-		}
-
-		printf("File %s exists \n", filename );
+		if(access( filename, F_OK ) == -1) return 1;
+		printf("Opening file %s\n", filename );
 		return 0;
 	}
-
-	printf("File %s exists \n", filename );
+	printf("Opening file %s\n", filename );
 	return 0;
 } /* end find_flow_file */
 
@@ -234,9 +225,9 @@ int find_design_type(BOOL debug)
 	sprintf( buffer, "%s.stat", cktNameG ) ;
 	fin = fopen( buffer,"r" ) ;
 
-	while( bufferptr = fgets( buffer, LRECL, fin ) ){
+	while((bufferptr = fgets( buffer, LRECL, fin ))){
 		tokens = Ystrparser( bufferptr, ":\t\n", &numtokens ) ;
-		if( numtokens != 2 ){
+		if((numtokens != 2)){
 			continue ;
 		}
 		if( strcmp( tokens[0], "num_stdcells" ) == STRINGEQ ){
