@@ -81,8 +81,6 @@ extern int yyget_lineno(void);
 %type<fval> FLOAT
 %type<sval> STRING
 
-%type<sval> string
-
 %start start_file
 %%
 start_file : core pads;
@@ -125,7 +123,7 @@ soft_instance_list : soft_instance_list instance soft_instance;
 soft_instance : corners aspect class orient softpins mc_pingroup;
 soft_instance : corners aspect class orient softpins;
 soft_instance : corners aspect class orient;
-instance : INSTANCE string
+instance : INSTANCE STRING
 {
 	add_instance();
 };
@@ -134,15 +132,15 @@ padcell : padname corners cur_orient restriction sidespace;
 padgroup : padgroupname padgrouplist restriction sidespace;
 cellgroup : supergroupname supergrouplist class orient;
 cellgroup : cellgroupname neighborhood cellgrouplist;
-hardcellname : HARDCELL INTEGER NAME string
+hardcellname : HARDCELL INTEGER NAME STRING
 {
 	addCell(HARDCELLTYPE, $4 ) ;
 };
-softname : SOFTCELL INTEGER NAME string
+softname : SOFTCELL INTEGER NAME STRING
 {
 	addCell(SOFTCELLTYPE, $4 ) ;
 };
-cellname : CELL INTEGER string
+cellname : CELL INTEGER STRING
 {
 	addCell(STDCELLTYPE, $3 );
 };
@@ -153,7 +151,7 @@ fixed : fixedcontext NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FR
 fixedcontext : FIXED;
 std_fixed :;
 std_fixed : initially fixed_type INTEGER FROM fixed_loc OF BLOCK INTEGER;
-swap_group : SWAPGROUP string;
+swap_group : SWAPGROUP STRING;
 celloffset : CELLOFFSET offset_list;
 offset_list : INTEGER;
 offset_list : offset_list INTEGER;
@@ -177,16 +175,16 @@ bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 {
 	set_bbox( $2, $4, $6, $8) ;
 };
-xloc : string;
-yloc : string;
-padname : PAD INTEGER NAME string
+xloc : STRING;
+yloc : STRING;
+padname : PAD INTEGER NAME STRING
 {
 	addCell(PADCELLTYPE, $4 ) ;
 };
-padgroupname : PADGROUP string PERMUTE;
-padgroupname : PADGROUP string NOPERMUTE;
-supergroupname : SUPERGROUP string NAME string;
-cellgroupname : CELLGROUP string NAME string;
+padgroupname : PADGROUP STRING PERMUTE;
+padgroupname : PADGROUP STRING NOPERMUTE;
+supergroupname : SUPERGROUP STRING NAME STRING;
+cellgroupname : CELLGROUP STRING NAME STRING;
 corners : CORNERS INTEGER cornerpts;
 cornerpts : INTEGER INTEGER;
 cornerpts : cornerpts INTEGER INTEGER;
@@ -222,9 +220,9 @@ pintype : pinrecord equiv_list;
 pingroup : PINGROUP stdpins ENDPINGROUP;
 softpin : softpin_info siderestriction;
 softpin : softpin_info siderestriction softequivs;
-softpin_info : SOFTPIN NAME string SIGNAL string opt_layer;
+softpin_info : SOFTPIN NAME STRING SIGNAL STRING opt_layer;
 pinrecord : required_pinfo contour current power no_layer_change;
-required_pinfo : PIN NAME string SIGNAL string layer
+required_pinfo : PIN NAME STRING SIGNAL STRING layer
 {
 	set_pinname( $3 ) ;
 	addNet( $5 ) ;
@@ -254,13 +252,13 @@ no_layer_change :;
 no_layer_change : NO_LAYER_CHANGE;
 equiv_list : equiv;
 equiv_list : equiv_list equiv;
-equiv : EQUIV NAME string layer contour
+equiv : EQUIV NAME STRING layer contour
 {
 	addEquiv() ;
 };
 unequiv_list : unequiv;
 unequiv_list : unequiv_list unequiv;
-unequiv : UNEQUIV NAME string layer contour
+unequiv : UNEQUIV NAME STRING layer contour
 {
 	addUnEquiv() ;
 };
@@ -275,17 +273,17 @@ addequiv : ADDEQUIV
 user_equiv_list : user_equiv;
 user_equiv_list : user_equiv_list user_equiv;
 user_equiv : equiv_name siderestriction connect;
-equiv_name : EQUIV NAME string opt_layer;
+equiv_name : EQUIV NAME STRING opt_layer;
 connect :;
 connect : CONNECT;
 mc_pingroup : pingroupname pingrouplist siderestriction;
 mc_pingroup : mc_pingroup pingroupname pingrouplist siderestriction;
-pingroupname : PINGROUP string PERMUTE;
-pingroupname : PINGROUP string NOPERMUTE;
+pingroupname : PINGROUP STRING PERMUTE;
+pingroupname : PINGROUP STRING NOPERMUTE;
 pingrouplist : pinset;
 pingrouplist : pingrouplist pinset;
-pinset : string FIXED;
-pinset : string NONFIXED;
+pinset : STRING FIXED;
+pinset : STRING NONFIXED;
 siderestriction :;
 siderestriction : RESTRICT SIDE side_list;
 side_list : INTEGER;
@@ -296,17 +294,17 @@ sidespace : SIDESPACE FLOAT FLOAT;
 layer : LAYER INTEGER;
 opt_layer :;
 opt_layer : LAYER INTEGER;
-sideplace : string;
+sideplace : STRING;
 restriction :;
 restriction : RESTRICT SIDE sideplace;
 padgrouplist : padset;
 padgrouplist : padgrouplist padset;
-padset : string FIXED;
-padset : string NONFIXED;
-supergrouplist : string;
-supergrouplist : supergrouplist string;
-cellgrouplist : string;
-cellgrouplist : cellgrouplist string;
+padset : STRING FIXED;
+padset : STRING NONFIXED;
+supergrouplist : STRING;
+supergrouplist : supergrouplist STRING;
+cellgrouplist : STRING;
+cellgrouplist : cellgrouplist STRING;
 keep_outs :;
 keep_outs : keep_out_list;
 keep_out_list : keep_out;
@@ -314,18 +312,6 @@ keep_out_list : keep_out_list keep_out;
 keep_out : KEEPOUT LAYER INTEGER CORNERS keep_pts;
 keep_pts : INTEGER INTEGER;
 keep_pts : keep_pts INTEGER INTEGER;
-string : STRING
-{
-	sprintf( $$ , "%s", $1 ) ;
-};
-string : INTEGER
-{
-	sprintf( $$ , "%d", $1 ) ;
-};
-string : FLOAT
-{
-	sprintf( $$, "%f", $1 ) ;
-};
 %%
 
 int yyerror(char *s) {
