@@ -37,8 +37,6 @@ extern int yyget_lineno(void);
 %type<fval> FLOAT
 %type<sval> STRING
 
-%type<sval> string
-
 %start start_file
 %%
 
@@ -49,7 +47,7 @@ numobjects : NUMOBJECTS INTEGER
 	init( $2 );
 };
 
-pname : POBJECT string INTEGER
+pname : POBJECT STRING INTEGER
 {
 	add_object( $2, $3);
 };
@@ -65,7 +63,7 @@ depend_list : depend_list INTEGER
 };
 
 path : PATH COLON;
-path : PATH COLON string
+path : PATH COLON STRING
 {
 	add_path( $3 );
 };
@@ -100,17 +98,17 @@ ofiles : ofiletype
 ofiles : ofiletype list_of_files;
 ifiletype : IFILES COLON;
 ofiletype : OFILES COLON;
-list_of_files : string
+list_of_files : STRING
 {
 	add_fdependency($1);
 };
-list_of_files : list_of_files string
+list_of_files : list_of_files STRING
 {
 	add_fdependency($2);
 };
 args : ARGS COLON list_of_args;
-list_of_args : string;
-list_of_args : list_of_args string;
+list_of_args : STRING;
+list_of_args : list_of_args STRING;
 draw_obj : DRAWN COLON INTEGER INTEGER INTEGER INTEGER
 {
 	add_box( $3, $4,$5, $6 );
@@ -123,19 +121,6 @@ list_of_lines : list_of_lines line;
 line : INTEGER INTEGER INTEGER INTEGER
 {
 	add_line($1, $2, $3, $4);
-};
-
-string : STRING
-{
-	sprintf( $$ ,"%s", $1 ) ;
-};
-string : INTEGER
-{
-	sprintf( $$ ,"%d", $1 ) ;
-};
-string : FLOAT
-{
-	sprintf( $$,"%f", $1 ) ;
 };
 
 %%
