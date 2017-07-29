@@ -1,14 +1,17 @@
 %option prefix="twflow_readobjects_"
+%option batch
 %option stack
 %option pointer
-%{
+%option debug
+%top{
+#include "yalecad/string.h"
 #include "readobjects.h"
 extern int yylineno;
 #define yylval twflow_readobjects_lval
 #define yyin twflow_readobjects_in
 #define yyget_lineno twflow_readobjects_get_lineno
 #define yytext twflow_readobjects_text
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+
