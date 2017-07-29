@@ -1,4 +1,6 @@
 %option prefix="twflow_readobjects_"
+%option stack
+%option pointer
 %{
 #include "readobjects.h"
 extern int yylineno;
