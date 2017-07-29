@@ -2,8 +2,8 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c COMPILE_FLAGS "--debug --verbose --token-table")
-flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c COMPILE_FLAGS "--debug --verbose --trace")
+bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c)
+flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c)
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99")
 
