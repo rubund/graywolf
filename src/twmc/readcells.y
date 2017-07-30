@@ -2,6 +2,7 @@
 %glr-parser
 %{
 #include <stdio.h>
+#include <yalecad/string.h>
 #include "main.h"
 #include "initialize.h"
 #define yyget_lineno twmc_readcells_get_lineno
@@ -372,7 +373,6 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
-	printf("twmc_readcells_\n");
 	yyin = fopen(filename,"r");
 	initCellInfo();
 	if(yyin) {

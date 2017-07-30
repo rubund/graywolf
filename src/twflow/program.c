@@ -59,7 +59,6 @@ static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
 #include <string.h>
 #include <yalecad/string.h>
 #include <yalecad/message.h>
-#include <yalecad/string.h>
 #include <yalecad/file.h>
 #include <yalecad/debug.h>
 #include <globals.h>
@@ -79,11 +78,6 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 
 	obj = proGraphG[adjptr->node] ;
 
-	printf("%s: Executing pointer obj %p obj->name %p\n",__FUNCTION__,obj,obj->name);
-	//printf("Executing %s", obj->name);
-	//sprintf( YmsgG, "Executing %s", obj->name)  ;
-	//G( TWmessage( YmsgG ) ) ;
-
 	/* build command to be executed */
 	command[0] = EOS ; /* clear character string */
 
@@ -95,7 +89,6 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 	/* now log the beginning time */
 	//Ylog_msg( YmsgG ) ;
 	status = 0;
-	//printf( "%s started with node %d \n", obj->name,  obj->node) ;
 
 	if(!strcmp("edit_twfiles",obj->name)) {
 		printf("It's edit_twfiles!\n");
