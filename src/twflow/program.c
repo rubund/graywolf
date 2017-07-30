@@ -82,8 +82,9 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 
 	obj = proGraphG[adjptr->node] ;
 
-	sprintf( YmsgG, "Executing %s", obj->name)  ;
-	G( TWmessage( YmsgG ) ) ;
+	printf("Executing %s", obj->name);
+	//sprintf( YmsgG, "Executing %s", obj->name)  ;
+	//G( TWmessage( YmsgG ) ) ;
 
 	/* build command to be executed */
 	command[0] = EOS ; /* clear character string */
