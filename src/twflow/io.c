@@ -83,6 +83,7 @@ static char SccsId[] = "@(#) io.c version 2.2 4/21/91" ;
 #include <globals.h>
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
+#include <yalecad/string.h>
 
 #define START     "start"
 #define OPTIONAL  '*'
@@ -122,6 +123,22 @@ setErrorFlag()
 }
 /* ***************** ERROR HANDLING ****************************** */
 
+/* create a new object */
+void add_object( char *pname, int node )
+{
+	ERRORABORT() ;
+	if( ++curObjS != node || node > numobjectsG ){
+		printf("curObjS: %d, pname: %s, numobjectsG: %d, node: %d \n", curObjS, objS->name, numobjectsG, objS->node );
+		setErrorFlag() ;
+		M(ERRMSG, "add_object", "Problem with cell number\n" ) ;
+		return ;
+	}
+	objS = proGraphG[curObjS] ;
+	objS->node  = node ;
+	objS->name  = Ystrclone(pname);
+	printf("curObjS: %d, pname: %s, numobjectsG: %d, node: %d \n", curObjS, objS->name, numobjectsG, objS->node );
+} /* end add_object */
+
 void init( int numobj )
 {
 	OBJECTPTR o ;
@@ -148,21 +165,6 @@ void init( int numobj )
 	curObjS = -1 ; /* initialize object counter */
 	add_object( START, 0 ) ;
 } /* end init */
-
-/* create a new object */
-void add_object( char *pname, int node )
-{
-	ERRORABORT() ;
-	if( ++curObjS != node || node > numobjectsG ){
-		printf("curObjS: %d, pname: %s, numobjectsG: %d, node: %d \n", curObjS, objS->name, numobjectsG, objS->node );
-		setErrorFlag() ;
-		M(ERRMSG, "add_object", "Problem with cell number\n" ) ;
-		return ;
-	}
-	objS = proGraphG[curObjS] ;
-	objS->node  = node ;
-	objS->name  = Ystrclone(pname);
-} /* end add_object */
 
 void add_pdependency( int fromNode )
 {
