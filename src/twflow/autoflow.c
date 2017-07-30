@@ -69,6 +69,8 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #include <yalecad/debug.h>
 #include <globals.h>
 
+BOOL executePgm( ADJPTR adjptr, int debug );
+
 #define STARTOBJECT  0          /* start of the graph */
 #define ERROR        -1         /* error from YgetFileTime() */
 static int objectS ;            /* the last program that was run */
