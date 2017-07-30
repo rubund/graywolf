@@ -1,5 +1,6 @@
 %option prefix="twsc_readcell_"
 %{
+#include <yalecad/string.h>
 #include "readcell.h"
 extern int yylineno;
 #define yylval twsc_readcell_lval
