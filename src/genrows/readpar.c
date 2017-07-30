@@ -61,15 +61,17 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 1.9 5/14/92" ;
 #include <yalecad/yreadpar.h>
 #include <yalecad/message.h>
 #include <globals.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#include "genrows.h"
 
 #define COMMENT '#'
 
 static BOOL abortS = FALSE ;
 
-static void err_msg(); 
-static void get_defaults();
-static int getnumRows();
+
 
 void readpar()
 {
@@ -81,7 +83,6 @@ void readpar()
 	BOOL wildcard ;
 	BOOL feed_percent_default ;
 	BOOL row_sep_default ;
-	char design[LRECL] ;
 	char **tokens ;
 	char *lineptr ;
 	double tempf ;

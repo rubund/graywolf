@@ -86,23 +86,19 @@ static POINTPTR *HptS ;       /* horizontal point array */
 static YBUSTBOXPTR resultS ;  /* result array */
 static BOOL addptS = FALSE ;  /* whether to add points to figures or not*/
 
-
-
 static INT find_next_state() ;
 static INT remove_redundant_points() ; 
 static INT find_next_state();
 static INT sortbyXY();
 static INT sortbyYX();
 static INT sortbyorder();
-static INT remove_redundant_points(); 
-static add_vpts();
-static chek_vpt();
-static add_hpts();
-static chek_hpt();
+static INT remove_redundant_points();
 
-
-
-
+void add_vpts();
+void chek_vpt();
+void add_hpts();
+void chek_hpt();
+void dump_pts(  POINTPTR *pt );
 
 static INT nextStateS[5][5] = 
 {
@@ -411,7 +407,7 @@ POINTPTR *next_pt ;
 
 } /* end get_next_state */
 
-addPt( tile, x, y )
+void addPt( tile, x, y )
 INT tile, x, y ;
 {
     INT i ;                   /* counter */
@@ -445,7 +441,7 @@ INT tile, x, y ;
     return ;
 } /* end addPt */
 
-addPts( cell, l, r, b, t ) 
+void addPts( cell, l, r, b, t ) 
 INT cell, l, r, b, t ; 
 {
     addPt( cell, l, b ) ;
@@ -456,7 +452,7 @@ INT cell, l, r, b, t ;
 	    l, b, l, t, r, t, r, b ) ) ;
 } /* end addPts */
 
-initPts( addpoint_flag )
+void initPts( addpoint_flag )
 BOOL addpoint_flag ;
 {
     INT i ;     /* counter */
@@ -588,7 +584,7 @@ POINTPTR *pt_array ;
 
 } /* end remove_redundant_points */
 
-static add_vpts( numpts )
+void add_vpts( numpts )
 INT numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
@@ -675,7 +671,7 @@ INT numpts ;
 
 } /* end add_vpts */
 
-static chek_vpt( tile1, tile2, tile3, tile4 )
+void chek_vpt( tile1, tile2, tile3, tile4 )
 POINTPTR tile1, tile2, tile3, tile4 ;
 {
     /* four cases */
@@ -750,7 +746,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
 } /* end chek_vpt */
 
 
-static add_hpts( numpts )
+void add_hpts( numpts )
 INT numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
@@ -837,7 +833,7 @@ INT numpts ;
     }
 } /* end add_hpts */
 
-static chek_hpt( tile1, tile2, tile3, tile4 )
+void chek_hpt( tile1, tile2, tile3, tile4 )
 POINTPTR tile1, tile2, tile3, tile4 ;
 {
     /* four cases */
@@ -911,8 +907,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
     }
 } /* end chek_hpt */
 
- dump_pts( pt )
- POINTPTR *pt ;
+ void dump_pts(  POINTPTR *pt )
  {
     INT i ;
     POINTPTR ptr ;

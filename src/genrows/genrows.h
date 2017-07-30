@@ -1,0 +1,17 @@
+static void err_msg(); 
+static void get_defaults();
+static int getnumRows();
+void set_row_separation( double channel_sep_relative, int channel_sep_absolute );
+void set_feed_length( double percent );
+void set_minimum_length( int length );
+void check_user_data();
+void set_spacing();
+void reset_tile_parameters();
+int compare_tiles();
+void find_core();
+void check_overlap();
+void update_tile_memory( BOOL free_flag );
+void free_structures( BOOL allpts );
+void init_vertex_list( int left, int bottom, int right, int top );
+void grid_rows();
+BOOL convert_tile_to_rows( TILE_BOX *tileptr, int add_no_more_than );
