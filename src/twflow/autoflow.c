@@ -78,7 +78,6 @@ void report_problem( ADJPTR adjptr );
 
 void auto_flow(int debug)
 {
-
 	ADJPTR     adjptr ;         /* current edge in graph */
 	ADJPTR     make_decision(); /* decides which way to travel */
 	OBJECTPTR  o ;              /* current object */

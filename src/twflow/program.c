@@ -72,17 +72,14 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 {
 	char *Yfixpath() ;               /* get full pathname */
 	char command[LRECL] ;
-	char window_name[LRECL] ;        /* the window name */
 	OBJECTPTR obj ;                  /* current object */
 	INT i ;                          /* arg counter */
 	INT status ;                     /* program return status */
-	char **argv ;                    /* argument vector */
 	BOOL stateSaved ;                /* whether graphics state was saved*/
-	extern int windowIdG;
 
 	obj = proGraphG[adjptr->node] ;
 
-	printf("Executing %s", obj->name);
+	//printf("Executing %s", obj->name);
 	//sprintf( YmsgG, "Executing %s", obj->name)  ;
 	//G( TWmessage( YmsgG ) ) ;
 
@@ -97,7 +94,7 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 	/* now log the beginning time */
 	//Ylog_msg( YmsgG ) ;
 	status = 0;
-	printf( "%s started with node %d \n", obj->name,  obj->node) ;
+	//printf( "%s started with node %d \n", obj->name,  obj->node) ;
 
 	if(!strcmp("edit_twfiles",obj->name)) {
 		printf("It's edit_twfiles!\n");
