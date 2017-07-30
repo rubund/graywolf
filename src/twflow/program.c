@@ -79,6 +79,7 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 
 	obj = proGraphG[adjptr->node] ;
 
+	printf("%s: Executing pointer obj %p obj->name %p\n",__FUNCTION__,obj,obj->name);
 	//printf("Executing %s", obj->name);
 	//sprintf( YmsgG, "Executing %s", obj->name)  ;
 	//G( TWmessage( YmsgG ) ) ;
