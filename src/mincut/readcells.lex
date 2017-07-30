@@ -4,6 +4,7 @@
 #include <globals.h>
 #include <yalecad/string.h>
 #include "readcells.h"
+#include "output.h"
 #define yylval mincut_lval
 #define yytext mincut_text
 #define yyin mincut_in

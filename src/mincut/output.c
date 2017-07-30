@@ -57,6 +57,8 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 #endif
 
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "globals.h"
 #include <yalecad/string.h>
 #include <yalecad/message.h>
@@ -90,7 +92,6 @@ YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 /* *************************************************************** */
 
 void write_softpins( FILE *fp );
-char *Ystrclone(char *);
 
 void init()
 {
@@ -154,7 +155,7 @@ void addNet( char *signal )
 				data->io_signal = FALSE ;
 				break ;
 		}
-		if( Yhash_search( netTableS, signal, (char *)data, ENTER )) {
+		if( Yhash_search( netTableS, signal, (VOIDPTR)data, ENTER )) {
 			sprintf( YmsgG, "Trouble adding signal:%s to hash table\n", signal ) ;
 			M(ERRMSG,"addNet",YmsgG ) ;
 		}

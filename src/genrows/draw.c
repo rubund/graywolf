@@ -75,6 +75,7 @@ static char SccsId[] = "@(#) draw.c (Yale) version 3.22 5/14/92" ;
 #include <string.h>
 #include <yalecad/string.h>
 #include <yalecad/debug.h>
+#include <yalecad/menus.h>
 #include <globals.h>
 
 #ifndef NOGRAPHICS

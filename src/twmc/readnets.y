@@ -1,6 +1,8 @@
 %define api.prefix twmc_readnets_
 %{
 #include <stdio.h>
+#include <yalecad/string.h>
+#include "initnets.h"
 #define yyget_lineno twmc_readnets_get_lineno
 #define yytext twmc_readnets_text
 #define yyin twmc_readnets_in
@@ -39,6 +41,7 @@ extern int yyget_lineno(void);
 %type<ival> INTEGER
 %type<fval> FLOAT
 %type<sval> STRING
+
 %start start_nets
 %%
 

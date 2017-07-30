@@ -79,13 +79,9 @@ static char SccsId[] = "@(#) paths.c version 3.9 4/21/91" ;
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 #include <yalecad/stat.h>
+#include "paths.h"
 
-/* Forward declarations */
-
-INT dcalc_min_path_len();
-INT dcalc_max_path_len();
-
-print_paths( ) 
+void print_paths( )
 {
 
     char filename[LRECL] ;
@@ -512,8 +508,7 @@ init_path_set()
 } /* end initset */
 
 /* add a path to the set if not already in set */
-add2path_set( path ) 
-INT  path ;
+void add2path_set( int path )
 {  
     PSETPTR temp, cpath ;
 
@@ -546,7 +541,7 @@ PSETPTR enum_path_set()
     return( path_set_listS ) ;
 }
 
-clear_path_set() 
+void clear_path_set() 
 {
     path_set_countS ++ ;
     path_set_listS = NULL ;

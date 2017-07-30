@@ -55,6 +55,8 @@ static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
 #include "readnets.h"  /* redefine yacc and lex globals */
+#include "initnets.h"
+#include "paths.h"
 
 #define HOWMANY      0
 
@@ -87,7 +89,7 @@ void init_nets()
 } /* end init_nets */
 
 /* cleanup after parsing nets */
-void cleanup_nets()
+int cleanup_nets()
 {
 	if( abortFlagS ){
 		return 1;

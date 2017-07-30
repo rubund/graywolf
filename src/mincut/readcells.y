@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <globals.h>
 #include <yalecad/string.h>
+#include "output.h"
 #define yyget_lineno mincut_get_lineno
 #define yytext mincut_text
 #define yyin mincut_in
