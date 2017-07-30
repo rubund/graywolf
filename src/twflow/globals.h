@@ -78,7 +78,7 @@ static char SccsGlobals_h[] = "@(#) globals.h (Yale) version 2.6 4/21/91" ;
 
 #endif /* NOGRAPHICS */
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/message.h>
 
 /********************** DEFINE STATEMENTS *********************/

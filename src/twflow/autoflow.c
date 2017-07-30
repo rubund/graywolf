@@ -64,7 +64,7 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #endif
 
 #include <string.h>
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include <globals.h>

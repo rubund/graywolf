@@ -85,7 +85,7 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #endif
 
 #include <stdio.h>
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/file.h>
 #include <yalecad/debug.h>
 #include <yalecad/message.h>

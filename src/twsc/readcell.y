@@ -2,7 +2,7 @@
 %glr-parser
 %{
 #include <stdio.h>
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include "parser_defines.h"
 
 #define yylval twsc_readcell_lval

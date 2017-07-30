@@ -56,7 +56,7 @@ REVISIONS:  Aug 16, 1989 - rewrote using new general algorithm.
 static char SccsId[] = "@(#) unbust.c version 3.7 1/20/91" ;
 #endif
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/buster.h>
 #include <yalecad/debug.h>
 #include <yalecad/message.h>

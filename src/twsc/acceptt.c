@@ -48,7 +48,7 @@ REVISIONS:
 static char SccsId[] = "@(#) acceptt.c version 4.7 4/2/92" ;
 #endif
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/debug.h>
 #include "main.h"
 #include "standard.h"

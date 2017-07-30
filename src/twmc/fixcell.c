@@ -82,7 +82,7 @@ static char SccsId[] = "@(#) fixcell.c version 3.9 11/23/91" ;
 
 #include <string.h>
 #include <custom.h>
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/debug.h>
 
 

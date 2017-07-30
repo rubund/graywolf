@@ -51,7 +51,7 @@ static char SccsId[] = "@(#) xpickint.c (Yale) version 4.4 9/7/90" ;
 #endif
 #endif
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 

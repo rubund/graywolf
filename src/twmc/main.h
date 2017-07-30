@@ -7,7 +7,7 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 	    Oct 27, 1988 - changed RAND to acm minimal standard generator
 	    Feb 13, 1989 - added graphics definitions.
 	    Feb 25, 1989 - removed redundant macro definitions and
-		added inclusion of yalecad/base.h
+		added inclusion of yalecad/string.h
 	    Feb 26, 1989 - added G suffix to all global variables.
 	    Mar 01, 1989 - added wait_for_user global and added
 		compile switch for program exit status.
@@ -65,7 +65,7 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 
 #endif /* NOGRAPHICS */
 /* ***********LEAVE THE BELOW UNCHANGED *************************** */
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 
 /* BASIC MACRO DEFINITIONS  */
 #define MAXSITES 50

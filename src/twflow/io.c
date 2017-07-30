@@ -136,7 +136,6 @@ void add_object( char *pname, int node )
 	objS = proGraphG[curObjS] ;
 	objS->node  = node ;
 	objS->name  = Ystrclone(pname);
-	printf("curObjS: %d, pname: %s, numobjectsG: %d, node: %d \n", curObjS, objS->name, numobjectsG, objS->node );
 } /* end add_object */
 
 void init( int numobj )

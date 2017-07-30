@@ -58,7 +58,7 @@ static char SccsId[] = "@(#) cdraw.c version 7.5 3/29/91" ;
 
 #ifndef NOGRAPHICS 
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/message.h>
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>

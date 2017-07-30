@@ -56,7 +56,7 @@ static char SccsId[] = "@(#) main.c version 1.6 2/23/91" ;
 
 #include <stdio.h>
 #include <signal.h>
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/file.h>
 #include <yalecad/message.h>

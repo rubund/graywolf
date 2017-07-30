@@ -1,5 +1,8 @@
 %option prefix="mincut_"
 %{
+#include <stdio.h>
+#include <globals.h>
+#include <yalecad/string.h>
 #include "readcells.h"
 #define yylval mincut_lval
 #define yytext mincut_text

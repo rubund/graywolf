@@ -50,7 +50,7 @@ REVISIONS:  Sun Dec 16 00:36:43 EST 1990 - Modified for Dahe's
 static char SccsId[] = "@(#) rmain.c version 3.6 2/23/91" ;
 #endif
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 #include <yalecad/string.h>

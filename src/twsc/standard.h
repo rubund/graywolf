@@ -24,7 +24,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
     stuff for VMS systems
     */
 
-#include <yalecad/base.h>
+#include <yalecad/string.h>
 
 
 #ifndef NO_FEED_INSTANCES
