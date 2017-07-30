@@ -1183,8 +1183,7 @@ void process_graphics()
 		shortRowG = FALSE ;
 		remakerows() ;
 		draw_the_data() ;
-		if (last_chanceG) (VOID)last_chance() ;
-
+		if (last_chanceG) last_chance();
 	}
 
 } /* end process_graphics */

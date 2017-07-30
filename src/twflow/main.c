@@ -87,10 +87,45 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 
 int windowIdG;
 
+void show_flows()
+{
+	DIR *dpdf;
+	struct dirent *epdf;
+
+	dpdf = opendir(twdirG);
+	if (dpdf != NULL) {
+		while ((epdf = readdir(dpdf))){
+			printf("Flow dir: %s\n",epdf->d_name);
+		}
+	}
+	closedir(dpdf);
+}
+
+/* give user correct syntax */
+void syntax()
+{
+	M(ERRMSG,NULL,"\n" ) ;
+	M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
+	sprintf( YmsgG, "\ngraywolf [-gpndw] designName [windowId] [flowdirectory]\n" );
+	M(MSG,NULL,YmsgG ) ;
+	M(MSG,NULL,"\twhose options are one or more of the following:\n");
+	M(MSG,NULL,"\t\tg - general mode - does not use TimberWolf system\n");
+	M(MSG,NULL,"\t\t    information.  Default is TimberWolf mode\n");
+	M(MSG,NULL,"\t\tp - pick mode - [graphics only] wait for user\n");
+	M(MSG,NULL,"\t\t    upon entering the program\n");
+	M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
+	M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
+	M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
+	M(MSG,NULL,"\t\t    error checking\n");
+
+	show_flows() ;
+
+	YexitPgm(MASTERFAIL);
+} /* end syntax */
+
 int
 __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 {
-
 	char        filename[LRECL] ;    /* buffer for filename */
 	char        *ptr ;               /* argument pointer */
 	char        *Ygetenv() ;         /* get environment variable */
@@ -112,7 +147,7 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 		YexitPgm(MASTERFAIL);
 	}
 
-	if( argc < 2 || argc > 5 ){
+	if( (argc < 2) || (argc > 5) ){
 		syntax();
 	} else {
 		debug      = FALSE ;
@@ -258,29 +293,6 @@ __attribute__((visibility("default"))) main( int argc , char *argv[]  )
 
 } /* end main */
 
-
-/* give user correct syntax */
-void syntax()
-{
-	M(ERRMSG,NULL,"\n" ) ; 
-	M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-	sprintf( YmsgG, "\ngraywolf [-gpndw] designName [windowId] [flowdirectory]\n" );
-	M(MSG,NULL,YmsgG ) ; 
-	M(MSG,NULL,"\twhose options are one or more of the following:\n");
-	M(MSG,NULL,"\t\tg - general mode - does not use TimberWolf system\n");
-	M(MSG,NULL,"\t\t    information.  Default is TimberWolf mode\n");
-	M(MSG,NULL,"\t\tp - pick mode - [graphics only] wait for user\n");
-	M(MSG,NULL,"\t\t    upon entering the program\n");
-	M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
-	M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
-	M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
-	M(MSG,NULL,"\t\t    error checking\n");
-
-	show_flows() ;
-
-	YexitPgm(MASTERFAIL);
-} /* end syntax */
-
 void yaleIntro()
 {
 	char message[LRECL] ;
@@ -290,17 +302,3 @@ void yaleIntro()
 	M(MSG,NULL,"         Yale University\n");
 
 } /* end yaleIntro */
-
-void show_flows()
-{
-	DIR *dpdf;
-	struct dirent *epdf;
-
-	dpdf = opendir(twdirG);
-	if (dpdf != NULL) {
-		while (epdf = readdir(dpdf)){
-			printf("Flow dir: %s\n",epdf->d_name);
-		}
-	} 
-	closedir(dpdf);
-}

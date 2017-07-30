@@ -2,7 +2,7 @@
 %option batch
 %option stack
 %option pointer
-%option debug
+/* %option debug */
 %top{
 #include "yalecad/string.h"
 #include "readobjects.h"
