@@ -3,6 +3,7 @@
 %{
 #include <stdio.h>
 #include "globals.h"
+#include "output.h"
 #include "yalecad/string.h"
 #define yylval syntax_lval
 #define yyget_lineno syntax_get_lineno

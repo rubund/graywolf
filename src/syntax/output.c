@@ -135,7 +135,7 @@ void addNet( char *signal )
 		/* else a new net load data holder */
 		data = Ysafe_malloc( sizeof(int) ) ;
 		*data = ++netS ;
-		if( Yhash_search( netTableS, signal, data, ENTER )){
+		if( Yhash_search( netTableS, signal, (VOIDPTR)data, ENTER )){
 		sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
 			signal ) ;
 		M(ERRMSG,"addNet",YmsgG ) ;
