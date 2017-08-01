@@ -59,12 +59,12 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "globals.h"
 #include <yalecad/string.h>
 #include <yalecad/message.h>
 #include <yalecad/hash.h>
 #include <yalecad/yreadpar.h>
-#include "../globals.h"
+#include <globals.h>
+#include "mincut.h"
 
 #define LSHAPE
 #define L2SHAPE

@@ -64,10 +64,8 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #endif
 
 #include <string.h>
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/debug.h>
 #include <globals.h>
+#include "twflow.h"
 
 BOOL executePgm( ADJPTR adjptr, int debug );
 
@@ -170,7 +168,7 @@ void exec_single_prog(int debug)
 		} else {
 			strcpy( filename, fdepend->fname ) ;
 		}
-		if(!(YfileExists( filename,TRUE )) && !(fdepend->optional) ){
+		if(!(YfileExists( filename )) && !(fdepend->optional) ){
 			sprintf( YmsgG, "ERROR:input file %s does not exist",
 					filename ) ;
 			G( TWmessage( YmsgG ) ) ;
@@ -236,7 +234,7 @@ BOOL check_dependencies( ADJPTR adjptr )
 	*  3. No given output files program is assumed to always be executed.
 	*  ************************************************************* */
 	/* first make check if no output files exist program is executed */
-	if( fdepend = adjptr->ofiles ){
+	if( (fdepend = adjptr->ofiles) ){
 		/* program may not need to be executed */
 		needtoExecute = FALSE ;
 	} else {

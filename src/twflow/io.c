@@ -81,9 +81,7 @@ static char SccsId[] = "@(#) io.c version 2.2 4/21/91" ;
 
 #include <string.h>
 #include <globals.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
+#include "twflow.h"
 
 #define START     "start"
 #define OPTIONAL  '*'

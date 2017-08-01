@@ -3,6 +3,7 @@
 %code top{
 #include <stdio.h>
 #include <globals.h>
+#include "twflow.h"
 #include "yalecad/string.h"
 #include "io.h"
 #define yyget_lineno twflow_readobjects_get_lineno

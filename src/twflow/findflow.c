@@ -54,14 +54,7 @@ static char SccsId[] = "@(#) findflow.c version 1.4 4/18/91" ;
 #include <unistd.h>
 
 #include <globals.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-
-#ifndef NOGRAPHICS
-#include <yalecad/draw.h>
-#include <yalecad/colors.h>
-#endif
+#include "twflow.h"
 
 int find_flow_file( BOOL general_mode, BOOL debug, char *filename )
 {

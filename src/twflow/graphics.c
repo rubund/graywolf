@@ -67,13 +67,8 @@ static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
 #endif
 
 #include <string.h>
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/draw.h>
-#include <yalecad/string.h>
-#include <yalecad/colors.h>
-#include <yalecad/debug.h>
 #include <globals.h>
+#include "twflow.h"
 
 #define SLEEPTIME     (unsigned) 2
 #define DATADIR       "./DATA"

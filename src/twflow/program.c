@@ -56,12 +56,8 @@ REVISIONS:  Jun 19, 1989 - shortened designName to $ for substitution.
 static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
 #endif
 
-#include <string.h>
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
-#include <yalecad/debug.h>
 #include <globals.h>
+#include "twflow.h"
 
 #define  DESIGNNAME   "$"
 #define  DSNLEN       1

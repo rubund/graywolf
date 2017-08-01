@@ -4,7 +4,8 @@
 %option pointer
 /* %option debug */
 %top{
-#include "yalecad/string.h"
+#include <globals.h>
+#include "twflow.h"
 #include "readobjects.h"
 extern int yylineno;
 #define yylval twflow_readobjects_lval

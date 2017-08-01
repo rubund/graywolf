@@ -93,6 +93,7 @@ static char SccsId[] = "@(#) parser.c (Yale) version 4.40 5/15/92" ;
 
 #define PARSER_VARS
 
+#include <globals.h>
 #include <string.h>
 #include "standard.h"
 #include "groute.h"
@@ -103,12 +104,6 @@ static char SccsId[] = "@(#) parser.c (Yale) version 4.40 5/15/92" ;
 #include "config.h"
 #include "feeds.h"
 #include "pads.h"
-#include <yalecad/hash.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/relpos.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
 
 /* global variables */
 int ECOs_existG = 0 ;
@@ -126,8 +121,6 @@ extern BOOL turn_off_checksG ;
 extern BOOL spacer_name_twfeedG ;
 extern BOOL rigidly_fixed_cellsG ;
 extern BOOL stand_cell_as_gate_arrayG ;
-
-#include "../globals.h"
 
 /* ERRORABORT is a macro which forces routines not to do any work */
 /* when we find a syntax error in the input routine. */

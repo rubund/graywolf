@@ -3,6 +3,7 @@
 %{
 #include <stdio.h>
 #include <globals.h>
+#include "mincut.h"
 #include <yalecad/string.h>
 #include "output.h"
 #define yyget_lineno mincut_get_lineno

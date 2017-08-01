@@ -80,6 +80,7 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 
 #define GLOBAL_DEFS
 #include <globals.h>
+#include "twflow.h"
 #include "config-build.h"
 
 #define VERSION         "2.1" 

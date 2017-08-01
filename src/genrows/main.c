@@ -70,6 +70,7 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 #include <yalecad/string.h>
 #include <yalecad/debug.h>
 #include <globals.h>
+#include "genrows.h"
 
 /* NOTE ****** macros cannot overlap !!! ****** */
 

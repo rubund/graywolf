@@ -1,7 +1,9 @@
 %option prefix="syntax_"
 %{
+#include <globals.h>
 #include "readcells.h"
 #include "output.h"
+#include "syntax.h"
 #include "yalecad/string.h"
 #define yylval syntax_lval
 #define yyget_lineno syntax_get_lineno

@@ -57,12 +57,8 @@ static char SccsId[] = "@(#) output.c version 1.8 7/24/91" ;
 #endif
 
 #include <string.h>
-#include "globals.h"
-#include "../globals.h"
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/hash.h>
-#include <yalecad/buster.h>
+#include <globals.h>
+#include "syntax.h"
 
 // YcurTime() is not declared in any of the above
 extern char *YcurTime( int * );

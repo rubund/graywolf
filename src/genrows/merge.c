@@ -54,6 +54,7 @@ static char SccsId[] = "@(#) merge.c (Yale) version 3.5 5/14/92" ;
 #include <yalecad/debug.h>
 #include <yalecad/message.h>
 #include <globals.h>
+#include "genrows.h"
 
 #include "merge.h"
 
