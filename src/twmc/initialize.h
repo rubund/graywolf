@@ -11,6 +11,6 @@ REVISIONS:  Wed Dec 19 19:38:46 EST 1990 - added analog pin type.
 #ifndef INITIALIZE_H
 #define INITIALIZE_H
 
-#include "../globals.h"
+#include <globals.h>
 
 #endif /* INITIALIZE_H */
