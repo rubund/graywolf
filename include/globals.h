@@ -1,5 +1,8 @@
 #include <string.h>
+#include <stdio.h>
+#include <signal.h>
 
+#include <yalecad/cleanup.h>
 #include <yalecad/buster.h>
 #include <yalecad/hash.h>
 #include <yalecad/file.h>

@@ -63,12 +63,6 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 #define GLOBAL_DEFS
 #define VERSION        "v1.0"
 
-#include <stdio.h>
-#include <yalecad/cleanup.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
 #include <globals.h>
 #include "genrows.h"
 
