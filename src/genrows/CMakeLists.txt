@@ -1,5 +1,5 @@
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99 -Wdeprecated")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fvisibility=hidden")
 
 add_library(GrayWolfGenRows SHARED
 	draw.c

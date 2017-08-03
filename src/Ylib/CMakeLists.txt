@@ -1,4 +1,6 @@
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+
 add_library(ycadgraywolf SHARED
 	assign.c
 	buster.c
@@ -50,8 +52,6 @@ add_library(ycadgraywolf SHARED
 set_target_properties(ycadgraywolf PROPERTIES VERSION 1.0.0 SOVERSION 1 C_STANDARD 99)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
-
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
 
 install(
 	TARGETS ycadgraywolf

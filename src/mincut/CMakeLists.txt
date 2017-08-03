@@ -2,10 +2,10 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fvisibility=hidden")
+
 bison_target(mincutparser readcells.y ${CMAKE_BINARY_DIR}/src/mincut/readcells.c)
 flex_target(mincutparser readcells.lex ${CMAKE_BINARY_DIR}/src/mincut/readcells.lex.c)
-
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99 -Wdeprecated")
 
 add_library(GraywolfMincut SHARED
 	${BISON_mincutparser_OUTPUTS}

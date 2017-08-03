@@ -2,13 +2,13 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fvisibility=hidden")
+
 bison_target(readcgraph readcgraph.y ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.c)
 flex_target(readcgraph readcgraph.lex ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.lex.c)
 
 bison_target(readtiles readtiles.y ${CMAKE_BINARY_DIR}/src/mc_compact/readtiles.c)
 flex_target(readtiles readtiles.lex ${CMAKE_BINARY_DIR}/src/mc_compact/readtiles.lex.c)
-
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden -std=c99 -Wdeprecated")
 
 add_library(GrayWolfMCCompact SHARED
 	${BISON_readcgraph_OUTPUTS}
