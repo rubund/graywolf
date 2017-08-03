@@ -65,11 +65,8 @@ REVISIONS:
 #define PADCELLTYPE   4
 
 /* compile switch for globals */
-#ifndef MAIN_VARS
+#ifndef EXTERN
 #define EXTERN extern
-
-#else
-#define EXTERN
 #endif
 
 EXTERN FILE *fpoG ;

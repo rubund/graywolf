@@ -51,8 +51,6 @@ static char SccsId[] = "@(#) merge.c (Yale) version 3.5 5/14/92" ;
 #endif
 
 #include <stdio.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
 #include <globals.h>
 #include "genrows.h"
 
@@ -99,7 +97,7 @@ void merge_upward( TILE_BOX *begin_tile )
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
+	if( YprojectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
 	    /* this tile may be merged with the bottom tile */
 	    if( begin_tile->ury < tileptr->ury ){
 		begin_tile->ury = tileptr->ury ;
@@ -401,7 +399,7 @@ void merge_right( TILE_BOX *begin_tile )
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
+	if( YprojectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
 	    /* this tile may be merged with the right tile */
 	    if( begin_tile->urx < tileptr->urx ){
 		begin_tile->urx = tileptr->urx ;

@@ -63,10 +63,7 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 static char SccsId[] = "@(#) buster.c version 3.8 12/15/91" ;
 #endif
 
-#include <yalecad/base.h>
-#include <yalecad/buster.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+#include <globals.h>
 
 #define EXPECTEDPTS  50
 /* detect problems with clockwise rotation pattern */
@@ -255,7 +252,7 @@ Ybuster_init()
 } /* end Ybuster_init */
 /* ***************************************************************** */
 
-Ybuster_free()
+void Ybuster_free()
 {
     /* free allocate memory */
     if(ptS){

@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <yalecad/string.h>
+#include <globals.h>
 
 int separate_cel_file(char *cktName)
 {

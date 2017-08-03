@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <globals.h>
 #include "mincut.h"
-#include <yalecad/string.h>
 #include "readcells.h"
 #include "output.h"
 #define yylval mincut_lval

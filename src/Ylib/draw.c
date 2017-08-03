@@ -177,24 +177,9 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 static char SccsId[] = "@(#) draw.c (Yale) version 3.41 3/10/92" ;
 #endif
 
+#include <globals.h>
+
 #ifndef NOGRAPHICS
-
-#include <stdio.h>
-#include <string.h>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-
-#include <yalecad/base.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/hash.h>
-#include <yalecad/string.h>
-#include <yalecad/draw.h>
-#include <yalecad/debug.h>
-#include <yalecad/buster.h>
-#include <yalecad/dbinary.h>
-#include <yalecad/project.h>
 
 #define YDRAW_VARS
 #include "info.h"
@@ -365,7 +350,7 @@ void TWsetMode( int mode )
 } /* end TWsetMode */
 
 /* start a new window system */
-BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
+BOOL TWinitGraphics(int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
 {
 	parasiteS = FALSE ;
 	radiansPerDegreeS = acos( (double) 0.0 ) / (double) 90.0 ;

@@ -72,24 +72,12 @@ REVISIONS:  Feb  7, 1990 - took total row length out of procedure calls.
 static char SccsId[] = "@(#) draw.c (Yale) version 3.22 5/14/92" ;
 #endif
 
-#include <string.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/menus.h>
 #include <globals.h>
 #include "genrows.h"
 
 #ifndef NOGRAPHICS
 
 #define MENUP   "genrows_menu"
-
-#include <yalecad/file.h>
-#include <yalecad/draw.h>
-#include <yalecad/colors.h>
-#include <yalecad/message.h>
-#include <yalecad/dialog.h>
-#include <yalecad/relpos.h>
-
 #define FCOLOR   TWYELLOW
 
 static BOOL auto_drawS=TRUE ;/* whether to draw immediately after exp.*/
@@ -1190,7 +1178,7 @@ void process_graphics()
 
 } /* end process_graphics */
 
-static last_chance()
+void last_chance()
 {
     int i ; /* counter */
 

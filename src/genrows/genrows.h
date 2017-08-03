@@ -55,17 +55,6 @@ REVISIONS:  Feb 28, 1990 - added new fields to tiles for graphics.
 #ifndef GENROWS_GLOBALS_H
 #define GENROWS_GLOBALS_H
 
-#ifndef lint
-static char SccsglobalsId[] = "@(#) globals.h (Yale) version 3.11 5/14/92" ;
-#endif
-
-#ifndef GLOBAL_DEFS
-#define EXTERN extern
-
-#else
-#define EXTERN
-#endif
-
 /* remove graphics lines of code if compile switch is on */
 #ifdef NOGRAPHICS
 #define G(x_xz) 

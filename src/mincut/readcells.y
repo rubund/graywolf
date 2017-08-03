@@ -1,10 +1,8 @@
 %define api.prefix mincut_
 %glr-parser
 %{
-#include <stdio.h>
 #include <globals.h>
 #include "mincut.h"
-#include <yalecad/string.h>
 #include "output.h"
 #define yyget_lineno mincut_get_lineno
 #define yytext mincut_text

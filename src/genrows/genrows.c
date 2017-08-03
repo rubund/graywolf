@@ -85,12 +85,6 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #endif
 
 #include <stdio.h>
-#include <yalecad/string.h>
-#include <yalecad/file.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/buster.h>
-#include <yalecad/rbtree.h>
 #include <globals.h>
 
 #include "genrows.h"
@@ -127,6 +121,8 @@ static YTREEPTR tile_memoryG ;
 #define INTSCANSTR "%d"
 #endif
 
+BOOL find_tile( int *llx , int *lly , int *urx , int *ury );
+
 void init_data_structures() 
 {
     /*static INT compare_tiles() ;*/
@@ -149,7 +145,7 @@ void set_feed_length( double percent )
     feed_lengthS = (INT) ( percent / 100.0 * (DOUBLE) stdcell_lengthS ) ;
 } /* end set_feed_length */
 
-process_tiles()
+void process_tiles()
 {
     TILE_BOX *tptr ;
     INT llx , lly , urx , ury ;
@@ -216,7 +212,7 @@ process_tiles()
 
 } /* end process_tiles */
 
-check_tiles()
+void check_tiles()
 {
 
     TILE_BOX *tile1 , *tile2 ;
@@ -453,8 +449,7 @@ void print_vertices()
     return ;
 } /* end print_vertices */
 
-BOOL find_tile( llx , lly , urx , ury )
-INT *llx , *lly , *urx , *ury ;
+BOOL find_tile( int *llx , int *lly , int *urx , int *ury )
 {
 
     VERTEX_BOX *vertex , *lvertex , *rvertex , *tvertex ;

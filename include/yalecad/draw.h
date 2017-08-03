@@ -17,10 +17,6 @@ REVISIONS:  Jan 27, 1989 - added frame num
 #ifndef DRAW_H
 #define DRAW_H
 
-#ifndef lint
-static char YdrawId[] = "@(#) draw.h (Yale) version 1.20 3/6/92" ;
-#endif
-
 #include <yalecad/base.h>  /* need for BOOL definitions used below */
 
 /****  THE MODES *******/
@@ -79,7 +75,7 @@ extern  void _TW3DdrawAxis( BOOL drawNotErase ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
-extern BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)()) ;
+//extern BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int *refresh_func) ;
 /* 
 Function:
     Initialization of graphics package.  Needs to be called first.

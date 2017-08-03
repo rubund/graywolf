@@ -16,17 +16,6 @@ REVISIONS:  Sep 23, 1989 - added color fields for TWtoggleColor()
 #ifndef INFO_H
 #define INFO_H
 
-#include <yalecad/base.h>
-
-#define GRAPHICS        "graywolf"  /* the name of prog in Xdefaults */
-#define MENUHEIGHT      20            /* give menu extra pixels in width */
-
-#ifdef YDRAW_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
 typedef struct {
     GC          *graphicContext ;  /* array of color contexts */
     Display     *dpy ;             /* the display */
