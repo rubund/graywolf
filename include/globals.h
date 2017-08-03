@@ -43,6 +43,7 @@
 #include <yalecad/system.h>
 #include <yalecad/tech.h>
 #include <yalecad/tree.h>
+#include <yalecad/time.h>
 #include <yalecad/wgraphics.h>
 #include <yalecad/yreadpar.h>
 #include <yalecad/menus.h>

@@ -29,7 +29,7 @@ typedef struct ybustbox {
 } YBUSTBOX , *YBUSTBOXPTR ;
 
 
-extern void Ybuster_init() ;
+void Ybuster_init() ;
 /* 
 Arguments:
     none
@@ -40,7 +40,7 @@ Function:
     into tiles.
 */
 
-extern void Ybuster_addpt( P2( INT x, INT y ) ) ;
+void Ybuster_addpt( P2( INT x, INT y ) ) ;
 /* 
 Arguments:
     INT x, y ;
@@ -48,7 +48,7 @@ Function:
     Add a point to the current arbitrary figure.
 */
 
-extern YBUSTBOXPTR Ybuster() ;
+YBUSTBOXPTR Ybuster() ;
 /* 
 Arguments:
     none
@@ -61,7 +61,7 @@ Function:
 	ptr[3].x, ptr[3].y if ptr is the returned pointer.
 */
 
-extern void Ybuster_free() ;
+void Ybuster_free() ;
 /* 
 Arguments:
     none
@@ -69,7 +69,7 @@ Function:
     Free up the memory associated with buster.
 */
 
-extern BOOL Ybuster_verify( P1(char *object_name) ) ;
+BOOL Ybuster_verify( P1(char *object_name) ) ;
 /* 
 Arguments:
     char *object_name
@@ -80,5 +80,7 @@ Function:
     on an error to describe the current object to be busted.
     This makes for better user messages.
 */
+
+BOOL Ybuster_check_rect( xx1, yy1, xx2, yy2 );
 
 #endif /* YBUSTER_H */
