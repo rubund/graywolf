@@ -321,8 +321,7 @@ Yplot( int dval, ... )
 
 }
 
-Yplot_flush( gName ) 
-char *gName ;
+void Yplot_flush(char *gName)
 {
     INT i ;
 

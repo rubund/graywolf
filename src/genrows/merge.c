@@ -247,7 +247,7 @@ void merge_downward( TILE_BOX *begin_tile )
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
+	if( YprojectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
 	    /* this tile may be merged with the bottom tile */
 	    if( begin_tile->lly > tileptr->lly ){
 		begin_tile->lly = tileptr->lly ;

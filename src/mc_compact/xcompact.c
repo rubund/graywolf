@@ -55,18 +55,14 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 	    May  3, 1989 - changed to Y prefixes.
 	    May  6, 1989 - added no graphics compile switch
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) xcompact.c version 7.2 11/10/90" ;
-#endif
-
 #include <compact.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+#include <globals.h>
 
+void formxEdge(int fromNode, int toNode);
 
 static PICKETPTR  botPickS ;
 
-buildXGraph()
+void buildXGraph()
 {
     int i ;                    /* counter */
     int overlapx ;             /* overlap conditions in x direction */
@@ -225,9 +221,7 @@ buildXGraph()
 
 } /* end buildXGraph */
 
-formxEdge( fromNode, toNode ) 
-int fromNode ;
-int toNode ;
+void formxEdge(int fromNode, int toNode) 
 {
     COMPACTPTR e1, e2 ;
     ECOMPBOXPTR temp, newE ;

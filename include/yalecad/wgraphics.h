@@ -17,8 +17,8 @@ static char YwgraphicsId[] = "@(#) wgraphics.h (Yale) version 1.7 8/12/91" ;
 #endif
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
-#define TWinitGraphics( argc, argv, numC, colors,menuPath,refresh_func) \
-    TWinitWGraphics( numC, colors ) 
+//#define TWinitGraphics( argc, argv, numC, colors,menuPath,refresh_func) \
+//    TWinitWGraphics( numC, colors ) 
 /* 
 Arguments:
     INT numC ;

@@ -99,10 +99,10 @@ static INT gOffsetYS = INT_MIN ;
 static INT gridXS = INT_MIN ;
 static INT gridYS = INT_MIN ;
 
-static void init_read_par();
-static void readparam();
-static void process_readpar();
-static void err_msg();
+void init_read_par();
+void readparam();
+void process_readpar();
+void err_msg(char* keyword);
 
 void readpar()
 {
@@ -112,7 +112,7 @@ void readpar()
 	process_readpar() ;
 }
 
-static void init_read_par()
+void init_read_par()
 {
 	/* set the default values */
 	offsetG     = 0  ;
@@ -156,7 +156,7 @@ static void init_read_par()
 	x_originG = 0 ; y_originG = 0 ;
 } /* end init_read_par */
 
-static void readparam( int parfile )
+void readparam( int parfile )
 {
 
 	INT test ;
@@ -475,7 +475,7 @@ static void readparam( int parfile )
 	}
 } /* end readpar */
 
-static void process_readpar()
+void process_readpar()
 {
 	char *layer ;             /* name of layer */
 	INT i ;                   /* counter */
@@ -669,8 +669,7 @@ static void process_readpar()
 	return ;
 } /* end process_readpar */
 
-static err_msg( keyword ) 
-char *keyword ;
+void err_msg(char *keyword)
 {
 	printf("The value for %s was", keyword );
 	printf(" not properly entered in the .mpar file\n");

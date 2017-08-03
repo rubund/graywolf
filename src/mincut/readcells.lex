@@ -1,6 +1,5 @@
 %option prefix="mincut_"
 %{
-#include <stdio.h>
 #include <globals.h>
 #include "mincut.h"
 #include "readcells.h"
@@ -8,6 +7,7 @@
 #define yylval mincut_lval
 #define yytext mincut_text
 #define yyin mincut_in
+int mincut_error(char *s);
 extern int yylineno;
 %}
 

@@ -16,7 +16,7 @@ REVISIONS:
 #define VIA2_3		"via2/3"
 
 
-extern Ytech_init( P1(char *designName ) ) ;
+void Ytech_init( P1(char *designName ) ) ;
 /*
 Function:
     Read a technology file for a given design.  Must be called 

@@ -141,7 +141,7 @@ void initgraphics(int windowId )
 	extern int draw_the_data() ;
 
 	if( !(graphicsG) ){
-		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE,MENU, draw_the_data ) ;
+		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE, menuS, draw_the_data ) ;
 		return ;
 	}
 

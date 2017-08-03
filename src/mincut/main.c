@@ -52,6 +52,7 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 
 #include <globals.h>
 #include "mincut.h"
+#include "output.h"
 #include "config-build.h"
 
 int

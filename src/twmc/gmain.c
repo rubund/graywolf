@@ -67,10 +67,7 @@ static char SccsId[] = "@(#) gmain.c version 3.8 5/1/91" ;
 #define GENGRAPHPROG      "gengraph"
 #define GENGRAPHPATH      "../gengraph"
 
-
-
-static free_routing_tiles();
-
+void free_routing_tiles();
 
 /* --------------------------------------------------------------------
     There are two ways to call the channel graph generator.
@@ -82,8 +79,7 @@ static free_routing_tiles();
 	from the global router and build the routing tiles.  We will
 	update the routing tiles in this file.
 -------------------------------------------------------------------- */
-gmain( updateNotChan )
-BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
+void gmain(BOOL updateNotChan) /* if true update routing tiles otherwise normal */
 {
     char filename[LRECL] ;
     char *Yrelpath() ;
@@ -224,7 +220,7 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
 	}
     }
     if( abort ){
-return 1;
+	return;
     }
     TWCLOSE( fp ) ;
     /* ********************** end routing tiles ********************** */
@@ -237,7 +233,7 @@ init_routing_tiles()
 	routingTilesG = NULL ;
 } /* end init_routing_tiles */
 
-static free_routing_tiles()
+void free_routing_tiles()
 {
     INT cell ;              /* cell counter */
     RTILEBOXPTR freeptr ;   /* free tile */

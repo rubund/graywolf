@@ -74,8 +74,7 @@ extern BOOL ignore_feedsG ;
 static INT *expect_row_rightS , *expect_row_lengthS ;
 static INT *cell_kickedS ;
 
-
-rowevener()
+void rowevener()
 {
 
 INT i , n , row , *addnum , add_to_this_row , total_remaining ;

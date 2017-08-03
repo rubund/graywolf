@@ -84,7 +84,6 @@ REVISIONS:  Sep 18, 1989 - added row gridding to algorithm.
 static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #endif
 
-#include <stdio.h>
 #include <globals.h>
 
 #include "genrows.h"

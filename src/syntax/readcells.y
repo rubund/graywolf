@@ -1,18 +1,16 @@
 %define api.prefix syntax_
 %glr-parser
-%{
-#include <stdio.h>
+%code top{
 #include <globals.h>
 #include "output.h"
 #include "syntax.h"
-#include "yalecad/string.h"
 #define yylval syntax_lval
 #define yyget_lineno syntax_get_lineno
 #define yytext syntax_text
 #define yyin syntax_in
 extern char *yytext;
 extern int yyget_lineno(void);
-%}
+}
 
 %union {
 	int ival;

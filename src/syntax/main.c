@@ -51,6 +51,9 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 
 #include <globals.h>
 #include "syntax.h"
+#include "output.h"
+
+int readcells(char *filename);
 
 int
 __attribute__((visibility("default")))
