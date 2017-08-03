@@ -66,6 +66,7 @@ Function:
     and black is 2.
     Label is optional - a label is attached to figure if non-null.
 */
+void TWdrawWRect( int ref_num, int x1, int y1, int x2, int y2, int color, char *label);
 
 #define TWdrawCell(ref_num, x1, y1, x2, y2, color, label )\
 TWdrawWRect(ref_num, x1, y1, x2, y2, color, label )

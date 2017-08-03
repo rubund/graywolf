@@ -306,10 +306,7 @@ char	*label;
 
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-TWdrawWRect( ref_num, x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2, color;
-char	*label;
+void TWdrawWRect( int ref_num, int x1, int y1, int x2, int y2, int color, char *label)
 {
     DATABOX record ;
     UNSIGNED_INT nitems ;
