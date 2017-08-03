@@ -1,11 +1,13 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 
 #ifndef NOGRAPHICS
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
+#include <X11/cursorfont.h>
 #endif
 
 #include <yalecad/assign.h>

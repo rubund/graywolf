@@ -59,10 +59,6 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 		for more extensive error checking.
 	    Thu Oct 17 11:08:18 EDT 1991 - added buster_chcek_rect.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) buster.c version 3.8 12/15/91" ;
-#endif
-
 #include <globals.h>
 
 #define EXPECTEDPTS  50

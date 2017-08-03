@@ -545,7 +545,7 @@ void merge_left( TILE_BOX *begin_tile )
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
+	if( YprojectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
 	    /* this tile may be merged with the right tile */
 	    if( begin_tile->llx > tileptr->llx ){
 		begin_tile->llx = tileptr->llx ;

@@ -41,7 +41,7 @@ extern void (*_TWdrawArb)( int ref_num, int color, char *label ) ;
 
 /* make calls easier for the user so he doesn't know that the */
 /* routines are switchable according to mode */
-#define TWdrawRect(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz )\
+/*#define TWdrawRect(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz )\
     (  (*_TWdrawRect)(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz) )
 #define TWdrawLine(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz )\
     (  (*_TWdrawLine)(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz) )
@@ -52,7 +52,7 @@ extern void (*_TWdrawArb)( int ref_num, int color, char *label ) ;
 #define TWdrawNet(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz )\
     (  (*_TWdrawLine)(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz) )
 #define TWdrawCell(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz )\
-    (  (*_TWdrawRect)(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz) )
+    (  (*_TWdrawRect)(a_xz, b_xz, c_xz, d_xz, e_xz, f_xz, g_xz) )*/
 
 /* new defines for 3D graphics */
 #define TW3DdrawAxis()                    _TW3DdrawAxis( TRUE )

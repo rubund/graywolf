@@ -84,6 +84,12 @@ REVISIONS:  Feb 28, 1990 - added new fields to tiles for graphics.
 #define MERGED_LEFT 3
 #define MERGED_RITE 4
 
+#define NOTOUCH    0
+#define OVERLAP1   1
+#define OVERLAP2   2
+#define OVERLAP3   3
+#define TOUCH      4
+
 typedef struct tile_box {
     INT name ;              /* index of the tile */
     INT llx ;

@@ -90,12 +90,6 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #include "genrows.h"
 #include "merge.h"
 
-#define NOTOUCH    0
-#define OVERLAP1   1
-#define OVERLAP2   2
-#define OVERLAP3   3
-#define TOUCH      4
-
 static ROW_BOX *set_of_rowsS , *last_rowptrS ;
 static VERTEX_BOX *vertex_listS , *last_vertexS ;
 

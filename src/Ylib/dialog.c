@@ -67,30 +67,9 @@ REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 	    Thu Jan 30 02:55:16 EST 1992 - added window manager hints
 		and now allow different font for dialog box.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) dialog.c version 3.15 3/6/92" ;
-#endif
 
 #ifndef NOGRAPHICS 
-
-#include <stdio.h>
-#include <string.h>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-#include <X11/cursorfont.h>
-
-/* #define  TURNOFFPRINTD */
-
-#include <yalecad/base.h>
-#include <yalecad/file.h>
-#include <yalecad/colors.h>
-#include <yalecad/message.h>
-#include <yalecad/hash.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/draw.h>
-#include <yalecad/dialog.h>
+#include <globals.h>
 #include "info.h"
 
 #define WHITE       1                /* white parent gc is one in array */
@@ -370,7 +349,7 @@ INT (*user_function)() ;
     while( TRUE ){
 	if( XCheckMaskEvent( dpyS, event_mask, &event ) ){
 	    D( "TWdialog/event",
-		printf( "Event:%d window:%d\n",
+		printf( "Event:%d window:%lu\n",
 		    event.type, event.xany.window ) ;
 	    ) ;
 	    switch( event.type ){
