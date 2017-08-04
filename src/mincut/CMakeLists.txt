@@ -2,7 +2,7 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(mincutparser readcells.y ${CMAKE_BINARY_DIR}/src/mincut/readcells.c)
+bison_target(mincutparser readcells.y ${CMAKE_BINARY_DIR}/src/mincut/readcells.y.c)
 flex_target(mincutparser readcells.lex ${CMAKE_BINARY_DIR}/src/mincut/readcells.lex.c)
 
 add_library(GraywolfMincut SHARED

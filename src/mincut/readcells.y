@@ -1,6 +1,6 @@
 %define api.prefix mincut_
 %glr-parser
-%{
+%code top{
 #include <globals.h>
 #include "mincut.h"
 #include "output.h"
@@ -9,7 +9,9 @@
 #define yyin mincut_in
 extern char *yytext;
 extern int yyget_lineno(void);
-%}
+int mincut_error(char *s);
+char *mincut_lex();
+}
 
 %union {
 	int ival;

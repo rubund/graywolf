@@ -1,15 +1,15 @@
 %option prefix="mincut_"
-%{
+%top {
 #include <globals.h>
 #include "mincut.h"
-#include "readcells.h"
+#include "readcells.y.h"
 #include "output.h"
 #define yylval mincut_lval
 #define yytext mincut_text
 #define yyin mincut_in
 int mincut_error(char *s);
 extern int yylineno;
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+
