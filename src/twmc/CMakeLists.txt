@@ -2,8 +2,6 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fvisibility=hidden")
-
 bison_target(twmcreadcells readcells.y ${CMAKE_BINARY_DIR}/src/twmc/readcells.c)
 flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c)
 

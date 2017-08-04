@@ -122,10 +122,6 @@ void YcleanupHandler(int status)
     } else if( status == SIGUSR1 ){ 
 	Ypmemerror( "ERROR[memory manager]" ) ;
 
-    } else {
-#ifndef SYS5
-	psignal( status, "ERROR[cleanup handler]" ) ;
-#endif
     }
 
     if( userFunction ){

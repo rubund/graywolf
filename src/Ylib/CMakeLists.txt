@@ -1,6 +1,4 @@
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
-
 add_library(ycadgraywolf SHARED
 	assign.c
 	buster.c

@@ -1,14 +1,14 @@
 %option prefix="syntax_"
 %top{
 #include <globals.h>
-#include "readcells.h"
+#include "readcells.y.h"
 #include "output.h"
 #include "syntax.h"
 #define yylval syntax_lval
 #define yyget_lineno syntax_get_lineno
 #define yytext syntax_text
 #define yyin syntax_in
-int syntax_error(char *s);
+int yyerror(char *s);
 extern int yylineno;
 }
 

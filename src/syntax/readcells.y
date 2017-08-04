@@ -2,6 +2,7 @@
 %glr-parser
 %code top{
 #include <globals.h>
+#include "readcells.y.h"
 #include "output.h"
 #include "syntax.h"
 #define yylval syntax_lval
@@ -10,6 +11,8 @@
 #define yyin syntax_in
 extern char *yytext;
 extern int yyget_lineno(void);
+int syntax_error(char *s);
+char *syntax_lex();
 }
 
 %union {

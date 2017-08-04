@@ -63,14 +63,9 @@ REVISIONS:  Oct  4, 1990 - added elaspse time for the mips machine.
 #define AVOID
 #endif
 
-#ifndef AVOID
-
-#endif  /* AVOID */
-
 /* print out the statistics of the program to the given file */
 void Yprint_stats( FILE *fout )
 {
-#ifndef AVOID
 	char	hostname[256]	;
 	char	*timestring ;
 	int text		;
@@ -164,15 +159,11 @@ void Yprint_stats( FILE *fout )
 
 	fprintf(fout, "Context switch (voluntary) = %d\n", rusage.ru_nvcsw) ;
 	fprintf(fout, "Context switch (involuntary) = %d\n", rusage.ru_nivcsw) ;
-#else 
-	fprintf(fout,"Usage statistics not available\n") ;
-#endif
 } /* end Yprint_stats */
 /* ==================================================================== */
 
-DOUBLE Ycpu_time()
+double Ycpu_time()
 {
-#ifndef AVOID
     struct rusage rusage;
     double user, systemTime;
 
@@ -180,9 +171,6 @@ DOUBLE Ycpu_time()
     user = rusage.ru_utime.tv_sec + rusage.ru_utime.tv_usec/1.0e6;
     systemTime = rusage.ru_stime.tv_sec + rusage.ru_stime.tv_usec/1.0e6;
     return( user+systemTime ) ;
-#else
-    return 0.0;
-#endif
 } /* end Ycpu_time */
 /* ==================================================================== */
 

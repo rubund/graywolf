@@ -52,17 +52,6 @@ REVISIONS:  May 24, 1989 - updated argument to YcurTime.
 	    Wed Jul 24 21:06:02 CDT 1991 - added a more
 		meaningful output error message.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
-#endif
-
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/hash.h>
-#include <yalecad/yreadpar.h>
 #include <globals.h>
 #include "mincut.h"
 

@@ -1,10 +1,8 @@
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <signal.h>
-#include <unistd.h>
+#define _DEFAULT_SOURCE	1
+#include <features.h>
 
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <sys/dir.h>
 #include <sys/file.h>
@@ -23,6 +21,13 @@
 #include <X11/Xutil.h>
 #include <X11/cursorfont.h>
 #endif
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <signal.h>
+#include <fcntl.h>           /* Definition of AT_* constants */
+#include <unistd.h>
 
 #include <yalecad/assign.h>
 #include <yalecad/base.h>

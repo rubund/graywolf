@@ -33,7 +33,7 @@ REVISIONS:  Mar  9, 1989 - modified conditional compiles so you can
 #ifdef linux
 void Ycleanup(int);
 #else
-void Ycleanup(int, int, struct sigcontext *);
+void Ycleanup(int a, int b, struct sigcontext *cont);
 #endif
 
 /* initialization cleanup macro */

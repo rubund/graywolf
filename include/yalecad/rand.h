@@ -1,0 +1,1 @@
+int Yacm_random();

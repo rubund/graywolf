@@ -2,11 +2,8 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fvisibility=hidden")
-
 bison_target(readcell readcell.y ${CMAKE_BINARY_DIR}/src/twsc/readcell.c)
 flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c)
-# flex_target(readcell readcell.lex ${CMAKE_BINARY_DIR}/src/twsc/readcell.lex.c COMPILE_FLAGS "-d") #debug
 
 bison_target(readnets readnets.y ${CMAKE_BINARY_DIR}/src/twsc/readnets.c)
 flex_target(readnets readnets.lex ${CMAKE_BINARY_DIR}/src/twsc/readnets.lex.c)

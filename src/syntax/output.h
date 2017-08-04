@@ -9,3 +9,4 @@ void add_pt( int x, int y );
 void addEquiv();
 void addUnEquiv();
 void output();
+void init();
