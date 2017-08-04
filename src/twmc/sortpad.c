@@ -48,25 +48,15 @@ REVISIONS:  Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 	    Tue Mar 12 17:05:03 CST 1991 - fixed initialization problem
 		with permutation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) sortpad.c version 3.6 3/12/91" ;
-#endif
+#include <allheaders.h>
 
-#include <custom.h>
-#include <pads.h>
-#include <yalecad/debug.h>
-
-static int compare_pads();
-static int sort_by_pos();
-static void install_pad_groups();
-static void permute_pads();
+int sort_by_pos_pad( PADBOXPTR *padptr1, PADBOXPTR *padptr2 );
 
 void sort_pads()
 {
 	int i ;                /* pad counter */
 	int pos ;              /* position in place array */
 	int compare_pads() ;   /* how to sort the pads initially */
-	int sort_by_pos() ;    /* how to sort the pads */
 	PADBOXPTR pad ;        /* current pad */
 
 	/* first perform an initial sort to order the pads by side, hierarchy, */
@@ -98,7 +88,7 @@ void sort_pads()
 	if(!(contiguousG)){
 		/* CASE II -  LEAVES ARE ALIGNED LIKE ORDINARY PADS IF THEY HAVE NO */
 		/* CONSTRAINTS SUCH AS ORDER OR PERMUTE.  **/
-		Yquicksort( &(placearrayG[1]), numpadsG, sizeof(PADBOXPTR), sort_by_pos ) ;
+		Yquicksort( &(placearrayG[1]), numpadsG, sizeof(PADBOXPTR), sort_by_pos_pad ) ;
 		D( "placepads/after_ncontsort",
 		print_pads("pads after noncontiguous sort\n",placearrayG,numpadsG);
 		) ;
@@ -108,8 +98,7 @@ void sort_pads()
 /* ***************************************************************** */
 
 /*** compare_pads() RETURNS TRUE IF ARG1 > ARG2 BY ITS OWN RULES **/
-static int compare_pads( padptr1, padptr2 )
-PADBOXPTR *padptr1, *padptr2 ;
+int compare_pads( PADBOXPTR *padptr1, PADBOXPTR *padptr2 )
 {
     PADBOXPTR pad1, pad2;
 
@@ -142,8 +131,7 @@ PADBOXPTR *padptr1, *padptr2 ;
 } /* end compare_pads */
 /* ***************************************************************** */
 
-static int sort_by_pos( padptr1, padptr2 )
-PADBOXPTR *padptr1, *padptr2 ;
+int sort_by_pos_pad( PADBOXPTR *padptr1, PADBOXPTR *padptr2 )
 {
     PADBOXPTR pad1, pad2;
     BOOL pad1fixed, pad2fixed ;
@@ -176,17 +164,15 @@ PADBOXPTR *padptr1, *padptr2 ;
 	return( pad1->position - pad2->position ) ;
     }
 
-} /* end sort_by_pos */
+} /* end sort_by_pos_pad */
 /* ***************************************************************** */
 
-static install_pad_groups( pad, position )
-PADBOXPTR pad ;
-int *position ;
+void install_pad_groups( PADBOXPTR pad, int *position )
 {
     int i ;                      /* pad counter */
     int howmany ;                /* number of pads in group */
     int initial_position ;       /* position of next open place in placearray */
-    int sort_by_pos() ;          /* how to sort the pads */
+    int sort_by_pos_pad() ;          /* how to sort the pads */
     PADBOXPTR child ;            /* current child */
     PADBOXPTR *temparray ;       /* temporary array to sort pads */
 
@@ -203,7 +189,7 @@ int *position ;
 	}
 	/* now sort the subroots or leaves to obey both order constraints */
 	/* and permutation constraints.  Otherwise try to sort by opt. pos.*/
-	Yquicksort( &(temparray[1]), howmany, sizeof(PADBOXPTR), sort_by_pos ) ;
+	Yquicksort( &(temparray[1]), howmany, sizeof(PADBOXPTR), sort_by_pos_pad ) ;
 
 	/* now that we have subroots or leaves in correct order */
 	/* look at next level down */
@@ -216,8 +202,7 @@ int *position ;
 } /* end install_pad_groups */
 /* ***************************************************************** */
 
-static permute_pads( pad )
-PADBOXPTR pad ;
+void permute_pads( PADBOXPTR pad )
 {
     int tmp ;                 /* used to reverse permutable pads */
     int j, k ;                /* used to reverse pads */

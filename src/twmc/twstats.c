@@ -45,12 +45,7 @@ CONTENTS:   twstats( )
 DATE:	    Feb 29, 1988 
 REVISIONS:  Jan 30, 1989 - added number of net info at beginning of run.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) twstats.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 
 #define MAXPININFO 100
 static int maxpinS = 0 ;
@@ -101,13 +96,12 @@ void twstats()
 
 static int printPinS = 0 ;
 
-set_print_pin( pin )
-int pin ;
+void set_print_pin( int pin )
 {
     printPinS = pin ;
 }
 
-prnt_netinfo() 
+void prnt_netinfo() 
 {
 
 SHORT numpins ;
@@ -168,7 +162,7 @@ printf( "The maximum number of pins on a single net is: %d\n", maxpinS ) ;
 
 } /* end prnt_netinfo */
 
-get_max_pin()
+int get_max_pin()
 {
     return( maxpinS ) ;
 } /* end get_max_pin */

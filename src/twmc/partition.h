@@ -32,4 +32,11 @@ typedef	struct b_record {
     struct d_field	*macro	;
 } BLOCK, *BLOCKPTR ;
 
+void read_stat_file();
+void build_mver_file( int left, int right, int bottom, int top );
+void config_rows();
+void read_stat_file();
+void output_partition();
+void build_mver_file( int left, int right, int bottom, int top );
+
 #endif /* PARTITION_H */

@@ -74,16 +74,7 @@ REVISIONS:  Mar  8, 1988 - added lambda and init_acc ;
 	    Fri Oct 18 00:15:59 EDT 1991 - now scale block when calling
 		TimberWolf recursively.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readpar.c version 3.20 11/23/91" ;
-#endif
-
-#include <string.h>
-#include <custom.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <yalecad/yreadpar.h>
+#include <allheaders.h>
 
 #define DEFAULTLAMBDA 0.1
 #define INIT_ACCEPTANCE 0.99999
@@ -98,11 +89,6 @@ static INT gOffsetXS = INT_MIN ;
 static INT gOffsetYS = INT_MIN ;
 static INT gridXS = INT_MIN ;
 static INT gridYS = INT_MIN ;
-
-void init_read_par();
-void readparam();
-void process_readpar();
-void err_msg(char* keyword);
 
 void readpar()
 {

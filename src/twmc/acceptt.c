@@ -44,18 +44,13 @@ CONTENTS:   acceptt( INT  )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) acceptt.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 
 #define MASK 0x3ff
 
-static DOUBLE table1S[1024] , table2S[1024] , table3S[1024] ;
+static double table1S[1024] , table2S[1024] , table3S[1024] ;
  
-init_table()
+void init_table()
 {
     INT i2 ;
     table1S[0] = 1.0 ;
@@ -67,8 +62,8 @@ init_table()
 	table3S[ i2 ] = exp( -(DOUBLE) i2 / 8388608.0 ) ;
     }
 }
-INT acceptt( delta_cost )
-INT delta_cost ;
+
+int acceptt(int delta_cost)
 {
 
 INT truth ;

@@ -36,13 +36,8 @@
  *   POSSIBILITY OF THE FOREGOING.
  *
  */
-
-#ifndef lint
-static char SccsId[] = "@(#) findloc.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include <allheaders.h>
 
 typedef struct flogbox {
     INT pin ;
@@ -52,8 +47,6 @@ typedef struct flogbox {
 }
 FBOX ,
 *FBOXPTR ;
-
-
 
 /*   
  *   We have here a little function which 

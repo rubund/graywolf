@@ -68,23 +68,24 @@ static char SccsId[] = "@(#) configpads.c version 4.12 11/7/91" ;
 #include <yalecad/message.h>
 
 /* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static BOOL check_overflow( P1(BOOL retain_pad_groups) ) ;
-static move_clockwise( P4(INT pad, INT side, INT cw_side, INT moveable_cw) ) ;
-static move_counterclockwise( P4(INT pad,INT side,INT ccw_side,INT m_ccw ) ) ;
-static update_pad_position( P3(PADBOXPTR pad,INT current_side, INT move_side) );
-static expand_core( P1(INT side) ) ;
-static INT compare_overflow( P2(INT *side1, INT *side2) ) ;
-static update_pad_groups( P1(void) ) ;
-static resort_place_array( P1(void) ) ;
-static child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
-static place_variable( P3(INT first,INT numpads,INT side) ) ;
+BOOL check_overflow( P1(BOOL retain_pad_groups) ) ;
+void move_clockwise( P4(INT pad, INT side, INT cw_side, INT moveable_cw) ) ;
+void move_counterclockwise( P4(INT pad,INT side,INT ccw_side,INT m_ccw ) ) ;
+void update_pad_position( P3(PADBOXPTR pad,INT current_side, INT move_side) );
+void expand_core( P1(INT side) ) ;
+int compare_overflow( P2(INT *side1, INT *side2) ) ;
+void update_pad_groups( P1(void) ) ;
+void resort_place_array( P1(void) ) ;
+void child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
+void place_variable( P3(INT first,INT numpads,INT side) ) ;
+void calc_constraints( PADBOXPTR pad, int side, double *lb, double *ub, BOOL *spacing_restricted, int *lowpos, int *uppos );
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT overflowS[5] ;          /* amount of overflow on each side */
-static INT side_lengthS[5] ;       /* sum of pad lengths on a side */
-static INT first_pad_on_sideS[5] ; /* index of first pad on side */
-static INT last_pad_on_sideS[5] ;  /* index of last pad on side */
-static INT pad_extraS ;            /* insure that sort works correctly */
+int overflowS[5] ;          /* amount of overflow on each side */
+int side_lengthS[5] ;       /* sum of pad lengths on a side */
+int first_pad_on_sideS[5] ; /* index of first pad on side */
+int last_pad_on_sideS[5] ;  /* index of last pad on side */
+int pad_extraS ;            /* insure that sort works correctly */
 
 align_pads()
 {
@@ -440,14 +441,14 @@ INT side ;
     perdimG[Y] = coreG[Y][MAXI] - coreG[Y][MINI] ;
 } /* end expand_core */
 
-static INT compare_overflow( side1, side2 )
+int compare_overflow( side1, side2 )
 INT *side1, *side2 ;
 {
     /* sort largest to smallest */
     return( overflowS[*side2] - overflowS[*side1] ) ;
 } /* end compare_overflow */
 
-static INT compare_placearray( padptr1, padptr2 )
+int compare_placearray( padptr1, padptr2 )
 PADBOXPTR *padptr1, *padptr2 ;
 {
     PADBOXPTR pad1, pad2;
@@ -531,12 +532,7 @@ BOOL spacing_restricted ;
 } /* end child_constraints */
 /* ***************************************************************** */
 
-calc_constraints( pad, side, lb, ub, spacing_restricted,lowpos, uppos )
-PADBOXPTR pad ;
-INT side ;
-DOUBLE *lb, *ub ;
-BOOL *spacing_restricted ;
-INT *lowpos, *uppos ;
+void calc_constraints( PADBOXPTR pad, int side, double *lb, double *ub, BOOL *spacing_restricted, int *lowpos, int *uppos )
 {
     DOUBLE lowbound, hibound ;
 

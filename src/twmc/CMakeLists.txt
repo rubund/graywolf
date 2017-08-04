@@ -2,10 +2,10 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(twmcreadcells readcells.y ${CMAKE_BINARY_DIR}/src/twmc/readcells.c)
+bison_target(twmcreadcells readcells.y ${CMAKE_BINARY_DIR}/src/twmc/readcells.y.c)
 flex_target(twmcreadcells readcells.lex ${CMAKE_BINARY_DIR}/src/twmc/readcells.lex.c)
 
-bison_target(twmcreadnets readnets.y ${CMAKE_BINARY_DIR}/src/twmc/readnets.c)
+bison_target(twmcreadnets readnets.y ${CMAKE_BINARY_DIR}/src/twmc/readnets.y.c)
 flex_target(twmcreadnets readnets.lex ${CMAKE_BINARY_DIR}/src/twmc/readnets.lex.c)
 
 add_library(TimberWolfMC SHARED

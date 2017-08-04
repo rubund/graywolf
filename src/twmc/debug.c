@@ -47,15 +47,7 @@ REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Mar 30, 1989 - changed tile datastructure.
 	    Apr 23, 1990 - moved graph routines to library.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-/* #include <stdarg.h> */
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
+#include <allheaders.h>
 
 #define CELLEST     0
 #define CELLBORDER  1
@@ -64,8 +56,7 @@ static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
 /* ***************************************************************** 
    DUMP CELL BIN LISTS
 */
-dcellList( cell )
-INT cell ;
+void dcellList( int cell )
 {
     INT binX, binY, limit ;
     INT *cellList, i ;
@@ -312,12 +303,12 @@ for( t=ptr->tiles;t;t=t->next ){
 } /* end for loop */
 } /* end dtile */
 
+int loadbins(BOOL wireAreaKnown);
 /* ***************************************************************** 
    RELOAD BINS same as loadbins make call because of dbx bug. 
    Also reinitializes nupenalty field 
 */
-dloadbins( flag )
-BOOL flag ;
+void dloadbins(BOOL flag)
 {
     INT x, y ;
 

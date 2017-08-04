@@ -1,13 +1,14 @@
 %define api.prefix twmc_readnets_
 %{
-#include <stdio.h>
-#include <yalecad/string.h>
-#include "initnets.h"
+#include <globals.h>
+#include <allheaders.h>
 #define yyget_lineno twmc_readnets_get_lineno
 #define yytext twmc_readnets_text
 #define yyin twmc_readnets_in
 extern char *yytext;
 extern int yyget_lineno(void);
+int twmc_readnets_error(char *s);
+char *twmc_readnets_lex();
 %}
 
 %union {

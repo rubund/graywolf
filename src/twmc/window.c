@@ -61,13 +61,7 @@ REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal
 	    Apr 09, 1989 - fixed bug in pick_position and 
 		pick_neighborhood so that cells can't jump outside region.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) window.c version 3.6 11/26/90" ;
-#endif
-
-#include <custom.h>
-#include <temp.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 
 #define AC0 0.90		/*** 0.75 ***/
 #define AC1 0.44		/*** 0.44 ***/
@@ -89,14 +83,13 @@ static char SccsId[] = "@(#) window.c version 3.6 11/26/90" ;
 #define RANDFACT (1.0 / INT_MAX)
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-static DOUBLE xadjustmentS,xalS,min_xalphaS,max_xalphaS;/** x control **/
-static DOUBLE yadjustmentS,yalS,min_yalphaS,max_yalphaS;/** y control **/
-static DOUBLE total_stepS;
-static DOUBLE log_tabS[TABLIMIT];
-static DOUBLE tauXS, tauYS ; /* exp. decay time constants for window */
+double xadjustmentS,xalS,min_xalphaS,max_xalphaS;/** x control **/
+double yadjustmentS,yalS,min_yalphaS,max_yalphaS;/** y control **/
+double total_stepS;
+double log_tabS[TABLIMIT];
+double tauXS, tauYS ; /* exp. decay time constants for window */
 
-DOUBLE eval_ratio( iteration )
-INT iteration ;
+double eval_ratio( int iteration )
 {
     if( iteration >= TURNOFFT ){
 	return( (DOUBLE) 1.0 ) ;
@@ -110,8 +103,7 @@ INT iteration ;
 /* ***************************************************************** 
    init_control - initialize range limiter.
 */
-init_control(first)
-BOOL first ;
+void init_control(BOOL first)
 {
     INT i;
     DOUBLE area ;
@@ -162,8 +154,7 @@ BOOL first ;
 /* ***************************************************************** 
    pick_positon - pick place to move within range limiter.
 */
-pick_position(x,y,ox,oy)
-INT *x,*y,ox,oy;
+void pick_position(int *x, int *y, int ox, int oy)
 {
     register INT i,m,n;
 
@@ -236,9 +227,7 @@ DONEX:  *x = n;
    pick_neighborhood - pick place to move within neighborhood while
    still using range limiter.
 */
-pick_neighborhood(x,y,ox,oy,fixptr)
-INT *x,*y,ox,oy;
-FIXEDBOXPTR fixptr ;
+void pick_neighborhood(int *x, int *y, int ox, int oy, FIXEDBOXPTR fixptr)
 {
     register INT i,m,n;
     INT xjump, yjump ;
@@ -327,8 +316,7 @@ FIXEDBOXPTR fixptr ;
     *y = n;
 } /* end pick_neighborhood */
 
-update_window_size( iteration )
-DOUBLE iteration ;
+void update_window_size( double iteration )
 {
     if( iteration <= HIGHTEMP ){
 	xalS = max_xalphaS ;
@@ -368,12 +356,11 @@ fix_window()
    save_window - save window parameters for restart
 */
 /* static declaration for restoring state for low temp anneal */
-static DOUBLE ws_xalS;
-static DOUBLE ws_yalS;
-static DOUBLE ws_ratioS ;
+double ws_xalS;
+double ws_yalS;
+double ws_ratioS ;
 
-save_window( fp )
-FILE *fp ;
+void save_window( FILE *fp )
 {
     if( fp ){  /* if a file pointer is given write to file */
 	fprintf(fp,"# window parameters:\n") ;
@@ -388,8 +375,7 @@ FILE *fp ;
 /* ***************************************************************** 
    read_window - read window parameters for restart
 */
-INT read_window( fp )
-FILE *fp ;
+int read_window(FILE *fp)
 {
     INT errors = 0 ;
     if( fp ){  /* if file pointer given restore from file */

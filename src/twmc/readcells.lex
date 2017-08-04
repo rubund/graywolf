@@ -1,14 +1,14 @@
 %option prefix="twmc_readcells_"
-%{
-#include <stdio.h>
-#include <yalecad/string.h>
-#include "readcells.h"
+%top{
+#include <globals.h>
+#include <allheaders.h>
+#include "readcells.y.h"
 extern int yylineno;
 #define yylval twmc_readcells_lval
 #define yyget_lineno twmc_readcells_get_lineno
 #define yytext twmc_readcells_text
 #define yyin twmc_readcells_in
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+

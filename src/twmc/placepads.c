@@ -76,17 +76,8 @@ REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 		options when only a fraction of the pins to pads have
 		connections to the core.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) placepads.c version 3.14 11/23/91" ;
-#endif
-
-#include <custom.h>
-#include <pads.h>
-#include <dens.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <yalecad/set.h>
+#include <allheaders.h>
+#include <placepads.h>
 
 #include "config-build.h"
 
@@ -94,31 +85,19 @@ static char SccsId[] = "@(#) placepads.c version 3.14 11/23/91" ;
 #define PLACEPADPATH      "../placepads"
 #define PADKEYWORD        "pad"
 
-/* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static find_optimum_locations( P1(void) ) ;
-static place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
-static place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
-static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
-   BOOL spacing_restricted ) ) ;
-static find_core( P1(void) ) ;
-
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT sumposS ; /* sum of the modified opt. pin pos. of pad pins */
-static INT sumtieS ; /* sum of all the opt. pin pos. of pad pins */
-static INT pin_countS ; /* number of pins found with valid connections */
+int sumposS ; /* sum of the modified opt. pin pos. of pad pins */
+int sumtieS ; /* sum of all the opt. pin pos. of pad pins */
+int pin_countS ; /* number of pins found with valid connections */
 static BOOL virtualCoreS = FALSE ;
 static YSETPTR pad_net_setS = NIL(YSETPTR) ;
 static BOOL external_pad_programS = FALSE ;
-
-
-
 
 /*-------------------------------------------------------------------
  placepads() now call placepads program or uses internal algorithm.
  If you convert from placepads program remember to change numterms
  field to endsuper.
 ____________________________________________________________________*/
-
 void placepads()
 {
 
@@ -169,8 +148,9 @@ void placepads()
 
 } /* end placepads */
 /* ***************************************************************** */
-
-static int find_optimum_locations()
+void place_children(PADBOXPTR pad, int side, double lb,double ub,BOOL spacing_restricted);
+int find_cost_for_a_side(PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted);
+int find_optimum_locations()
 {
 	int side ;               /* loop thru valid sides */
 	int cost ;               /* current cost */
@@ -193,8 +173,7 @@ static int find_optimum_locations()
 			bestcost = INT_MAX ;
 			for (side = 1; side <= 4; side++ ) {
 				if( pad->valid_side[ALL] || pad->valid_side[side] ){
-				cost = find_cost_for_a_side( pad,side,
-					(DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound,
+				cost = find_cost_for_a_side( pad,side, (DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound,
 					pad->fixed ) ;
 					if( cost < bestcost) {
 						bestcost = cost;
@@ -226,11 +205,7 @@ static int find_optimum_locations()
 } /* end find_optimum */
 
 /* ***************************************************************** */
-static INT find_cost_for_a_side(pad,side,lb,ub,spacing_restricted)
-PADBOXPTR pad;
-INT  side ;
-DOUBLE lb, ub ;
-BOOL spacing_restricted ;
+int find_cost_for_a_side(PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted)
 {
     INT i ;           /* children counter */
     INT pos ;         /* current pos. of current core pin constrained*/
@@ -412,9 +387,7 @@ BOOL spacing_restricted ;
  **** are set in those routines.  Otherwise set sumposS and sumtieS
  **** to their proper values.
  ***/
-static place_pad( pad, bestside )
-PADBOXPTR pad ;
-INT bestside ;
+void place_pad(PADBOXPTR pad, int bestside)
 {
 
     if( pin_countS == 0 ){
@@ -444,15 +417,9 @@ INT bestside ;
 } /* end place_pad */
 /* ***************************************************************** */
 
-
-
 /**** RECURSIVELY SET THE PADSIDE OF ALL CHILDREN OF THE ROOT PAD TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL CXCENTER */
-static place_children( pad, side, lb, ub, spacing_restricted )
-PADBOXPTR pad ;
-INT side ;
-DOUBLE lb, ub ;
-BOOL spacing_restricted ;
+void place_children(PADBOXPTR pad, int side, double lb,double ub,BOOL spacing_restricted)
 {
     INT i ;           /* pad counter */
     INT pos ;         /* position of last placed pad */
@@ -530,10 +497,7 @@ BOOL spacing_restricted ;
 
 /* ***************************************************************** */
 #ifdef DEBUG
-print_pads( message, array, howmany )
-char *message ;
-PADBOXPTR *array ;
-INT howmany ;
+void print_pads( char *message, PADBOXPTR *array, int howmany )
 {
     INT i ;
     PADBOXPTR ptr ;
@@ -562,16 +526,14 @@ INT howmany ;
 
 
 /* turn virtual core on and off */
-setVirtualCore( flag )
-BOOL flag ;
+void setVirtualCore( BOOL flag )
 {
     virtualCoreS = flag ;
 } /* end set Virtual core */
 
 /* function finds and returns core boundary region including cells */
 /* which overlap the core region */
-find_core_boundary( left, right, bottom, top )
-INT *left, *right, *bottom, *top ;
+void find_core_boundary( int *left, int *right, int *bottom, int *top )
 {
     BOOL rememberFlag ;
 
@@ -593,9 +555,7 @@ INT *left, *right, *bottom, *top ;
 
 
 /* given a cell it returns bounding box of cell in global coordinates */
-get_global_pos( cell, l, b, r, t )
-INT cell ; 
-INT *l, *r, *b, *t ;
+void get_global_pos( int cell, int *l, int *b, int *r, int *t )
 {
     INT orient ;
     BOUNBOXPTR bounptr ;
@@ -657,7 +617,7 @@ INT *ret_l, *ret_r, *ret_b, *ret_t ; /* return quantities */
 } /* end get_routing_boundary */
 
 
-static INT get_pad_routing( cell )
+int get_pad_routing( cell )
 INT cell ;
 {
 
@@ -706,7 +666,7 @@ INT cell ;
     return( 0 ) ;
 } /* end get_pad_routing */
 
-static find_core()
+void find_core()
 {
     INT ominx, ominy ;
     INT omaxx, omaxy ;
@@ -806,7 +766,7 @@ static find_core()
 
 
 /* ***********************EXTERNAL ROUTINES ************************** */
-call_place_pads()
+void call_place_pads()
 {
     FILE *fp ;
     INT pad ;
@@ -942,8 +902,7 @@ INT find_numnets()
     return( numnets ) ;
 } /* end find_numnets */
 
-output_nets( fp, numnets )
-FILE *fp ;
+void output_nets( FILE *fp, int numnets )
 {
     INT net ;
     INT pincount ;

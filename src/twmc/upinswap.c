@@ -45,19 +45,11 @@ CONTENTS:   BOOL upinswap( a )
 DATE:	    Mar 30, 1990 - new vertion of pinswap code.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) upinswap.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <initialize.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include <allheaders.h>
 
 #define CURVERTICES FALSE
 
-BOOL upinswap( a )
-INT a ;
+BOOL upinswap( int a )
 {
 
     CELLBOXPTR acellptr ;
@@ -115,9 +107,7 @@ INT a ;
     }
 } /* end upinswap */
 
-
-check_pin( a )
-INT a ;
+void check_pin( int a )
 {
     INT x, y, l, r, t, b;
     INT orient ;

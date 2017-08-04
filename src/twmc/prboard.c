@@ -46,14 +46,9 @@ REVISIONS:  Jul 30, 1988 - fixed output for softcells and added
 		gridding of cells for mighty interface.
 	    Mon Jan  7 18:31:00 CST 1991 - don't grid pads.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) prboard.c version 3.6 4/18/91" ;
-#endif
+#include <allheaders.h>
 
-#include <custom.h>
-#include <yalecad/debug.h>
-
-grid_cells()
+void grid_cells()
 {
 
 INT xcenter , ycenter, remainder ;

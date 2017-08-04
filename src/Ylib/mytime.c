@@ -51,12 +51,8 @@ REVISIONS:  Apr 27, 1989 - changed to Y prefix.
             Dec 09, 1991 - industrial users say gettimeofday is more
                            "universal" and improves portability (RAWeier)
 --------------------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) mytime.c version 3.8 12/15/91" ;
-#endif
-
- 
-#include <yalecad/base.h>
+#include <globals.h>
+#include <yalecad/mytime.h>
 
 /* NOTE to user on foreign machines: if below does not compile, you */
 /* may use the alternate random seed generator at some penalty for */

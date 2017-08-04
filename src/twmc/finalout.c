@@ -72,12 +72,7 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 	    Wed Jul 24 20:48:13 CDT 1991 - now always wait for
 		user at the end of annealing if requested.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 
 /* redefine flags for easier reading */
 #define VIOLATIONSONLY   FALSE
@@ -87,14 +82,9 @@ static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
 #define NOCONSTRAINTS    FALSE
 #define CONSTRAINTS      TRUE
 
-void Output( int cycle );
-void prnt_cost( char *out_string );
-void check_graphics();
-
 int finalout()
 {
 	int c ;
-	int bbtop, bbbottom, bbleft, bbright ;
 
 	/* dump the results of the placement to graphics file */
 	G( graphics_dump() ) ;
@@ -201,6 +191,7 @@ int finalout()
 	return ;
 } /* end finalout */
 
+void outpin();
 void Output( int cycle )
 {
 	if( cycle == 0 || cycle < doCompactionG / 2 ){

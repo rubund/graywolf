@@ -1,15 +1,15 @@
 %define api.prefix twmc_readcells_
 %glr-parser
 %{
-#include <stdio.h>
-#include <yalecad/string.h>
-#include "main.h"
-#include "initialize.h"
+#include <globals.h>
+#include <allheaders.h>
 #define yyget_lineno twmc_readcells_get_lineno
 #define yytext twmc_readcells_text
 #define yyin twmc_readcells_in
 extern char *yytext;
 extern int yyget_lineno(void);
+int twmc_readcells_error(char *s);
+char *twmc_readcells_lex();
 %}
 
 %union {

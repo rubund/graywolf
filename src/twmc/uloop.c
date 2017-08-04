@@ -106,14 +106,7 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 	    Sat Nov 23 21:21:49 EST 1991 - began working with automatically
 		setting move strategy.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uloop.c version 3.14 4/6/92" ;
-#endif
-
-#include <custom.h>
-#include <temp.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
+#include <allheaders.h>
 
 #define TMIN      1E-6
 #define HOWMANY   0
@@ -150,37 +143,27 @@ extern INT pick_position() ;
 #define CELL_INSTANCE_CHANGE                  9
 #define NUMBER_MOVES                         10
 
-
-static INT  move_cntS = 0 ;
-static INT  acc_cntS = 0 ;
-static INT  dumpRatioS = 1 ; /* update screen after each outerloop */
-static INT  dumpCountS = 0 ; /* count number of outer loops */
-static DOUBLE total_costS, a_ratioS = 1.0 ;
-static DOUBLE desired_ratioS = 1.0 ;
-static BOOL   controlOnS = TRUE ;
-static BOOL   firstTimeS = TRUE ;  /* for graphics control */
+int move_cntS = 0 ;
+int acc_cntS = 0 ;
+int dumpRatioS = 1 ; /* update screen after each outerloop */
+int dumpCountS = 0 ; /* count number of outer loops */
+double total_costS, a_ratioS = 1.0 ;
+double desired_ratioS = 1.0 ;
+BOOL controlOnS = TRUE ;
+BOOL firstTimeS = TRUE ;  /* for graphics control */
 /* statistic collection */
-static DOUBLE totalwireS ;
-static DOUBLE totalpenalS ;
-static DOUBLE num_dtimeS ;  /* number of delta time samples */
-static DOUBLE avg_dtimeS ;  /* average random delta time */
-static DOUBLE num_dfuncS ;  /* number of delta wirelength samples */
-static DOUBLE avg_dfuncS ;  /* average random delta wirelength */
-
-
-
-
-static output_move_table();
-
-
-
+double totalwireS ;
+double totalpenalS ;
+double num_dtimeS ;  /* number of delta time samples */
+double avg_dtimeS ;  /* average random delta time */
+double num_dfuncS ;  /* number of delta wirelength samples */
+double avg_dfuncS ;  /* average random delta wirelength */
 static INT TempSelectSoftS[11]  = {
     0,
     GROUP_MOVE, GROUP_MOVE, CELL_MOVE, CELL_MOVE,
     ASPECT_MOVE, ASPECT_MOVE, ROTATION_MOVE, PIN_MOVE,
     CELL_MOVE, CELL_MOVE
 } ;
-
 static INT TempSelectHardS[11]  = {
     0,
     GROUP_MOVE, GROUP_MOVE, CELL_MOVE, CELL_MOVE,
@@ -191,14 +174,11 @@ static INT TempSelectHardS[11]  = {
 /* ***************************************************************** 
    uloop - inner loop of simulated annealing algorithm.
 */
-uloop( limit )
-INT limit ;
+void uloop( int limit )
 {
 
 CELLBOXPTR acellptr , bcellptr ;
 DOUBLE range , newAspect ;
-DOUBLE calc_core_factor(), calc_lap_factor() ;
-DOUBLE calc_time_factor() ;
 DOUBLE percentDone ;
 DOUBLE coin_toss ;
 INT a , b ;
@@ -215,12 +195,11 @@ DOUBLE move_size[MOVE_ARRAY_SIZE] ;
 BOOL acc_move ;
 BOOL asp_move_possible ;
 FIXEDBOXPTR fixptr ;
-BOOL checkbinList() ;
 
 /* temperature control definitions */
 INT         m1 = 1, m2 = 1;
 DOUBLE      dCp = 0.0;
-DOUBLE      temp, eval_ratio() ;
+DOUBLE      temp;
 
 INT temp_timer, time_to_update ; /* keeps track of when to update T */
 DOUBLE iter_time, accept_deviation, calc_acceptance_ratio() ;
@@ -474,7 +453,7 @@ while( attempts < limit ) {
 	/* try a rotation of cell and move  */
 	new_apos0G->orient = newOrient( acellptr , 4 ) ;
 	if( new_apos0G->orient >= 0 ) {
-	    if( acc_move = usite1( /* old_apos, new_apos */ ) ) {
+	    if((acc_move = usite1( /* old_apos, new_apos */ ))) {
 		flipsG++ ;
 		flip[SINGLE_CELL_MOVE_AND_ROTATE]++ ;
 		acc_cntS++ ;
@@ -515,7 +494,7 @@ while( attempts < limit ) {
 	new_bpos0G->xcenter = acellptr->xcenter ;
 	new_bpos0G->ycenter = acellptr->ycenter ;
 	/* first try exchanging a and b positions */
-	if( acc_move = usite2( /*old_apos,new_apos,old_bpos,new_bpos*/ )) {
+	if((acc_move = usite2( /*old_apos,new_apos,old_bpos,new_bpos*/ ))) {
 	    acc_cntS++ ;
 	    flipsG++ ;
 	    flip[PAIRWISE_CELL_SWAP]++ ;
@@ -602,7 +581,7 @@ while( attempts < limit ) {
 	/* need to make sure we count right number of tiles */
 	/* see overlap.c - calc_wBins for details */
 	new_apos0G->numtiles = acellptr->numtiles ;
-	if( acc_move = uaspect( a , newAspect ) ) {
+	if((acc_move = uaspect( a , newAspect ))) {
 	    flipsG++ ; 
 	    acc_cntS++ ;
 	    flip[ASPECT_RATIO_CHANGE]++ ;
@@ -992,7 +971,7 @@ DOUBLE *totalWire, *totalPenalty, *avg_time, *avg_func ;
 		softcells only use old_aposG[1] and new_aposG[1]
 		    since they can have only one tile.
 */
-make_movebox() 
+void make_movebox() 
 {
     INT i ;
     INT maxtiles ;
@@ -1037,8 +1016,7 @@ make_movebox()
 /* ***************************************************************** 
    save_uloop - save uloop parameters for restart
 */
-save_uloop( fp )
-FILE *fp ;
+void save_uloop( FILE *fp )
 {
     fprintf(fp,"# uloop parameters:\n") ;
     fprintf(fp,"%d %d %d\n",iterationG,acc_cntS,move_cntS);
@@ -1048,8 +1026,7 @@ FILE *fp ;
 /* ***************************************************************** 
    read_uloop - read uloop parameters for restart
 */
-INT read_uloop( fp )
-FILE *fp ;
+int read_uloop(FILE *fp)
 {
     INT error = 0 ;
 
@@ -1081,15 +1058,12 @@ FILE *fp ;
 
 } /* end read_uloop */
 
-set_dump_ratio( count )
+void set_dump_ratio( int count )
 {
     dumpRatioS = count ;
 } /* end dump_ratio */
 
-
-static output_move_table( flip, att, move_size )
-INT *flip, *att ;
-DOUBLE *move_size ;
+void output_move_table(int *flip, int *att, double *move_size)
 {
     INT  i ;
     INT a[MOVE_ARRAY_SIZE] ;  /* attempts for the individual moves */

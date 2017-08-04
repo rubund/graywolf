@@ -51,12 +51,7 @@ REVISIONS:  Mar 29, 1989 - changed tileptr argument to pos.
 	    Thu Mar  7 01:49:31 EST 1991 - now save wireestimation
 		parameters.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wireest.c version 3.6 3/7/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 
 #ifdef MACRO 
 #define CHECK_ROUTING( routing )           \
@@ -74,29 +69,21 @@ static char SccsId[] = "@(#) wireest.c version 3.6 3/7/91" ;
     C0S + (C1S + C2S * x ) * x + (C3S + C4S * y ) * y + C5S * numpins
 
 /* static definitions */
-static DOUBLE C0S ;      /* constant       */
-static DOUBLE C1S ;      /* C1S * x        */
-static DOUBLE C2S ;      /* C2S * x * x    */
-static DOUBLE C3S ;      /* C3S * y        */
-static DOUBLE C4S ;      /* C4S * y * y    */
-static DOUBLE C5S ;      /* C5S * numpins  */
+DOUBLE C0S ;      /* constant       */
+DOUBLE C1S ;      /* C1S * x        */
+DOUBLE C2S ;      /* C2S * x * x    */
+DOUBLE C3S ;      /* C3S * y        */
+DOUBLE C4S ;      /* C4S * y * y    */
+DOUBLE C5S ;      /* C5S * numpins  */
 
-static DOUBLE blocklS ;      /* these are used to speed calculation */
-static DOUBLE blockbS ;
-static DOUBLE bdxlengthS ;
-static DOUBLE bdylengthS ;
-
-
-
-static check_routing();
-
-
+DOUBLE blocklS ;      /* these are used to speed calculation */
+DOUBLE blockbS ;
+DOUBLE bdxlengthS ;
+DOUBLE bdylengthS ;
 
 /*******************************************************************/
 
-wireestxy( pos, xc, yc ) 
-MOVEBOXPTR pos ;
-INT xc, yc ;
+void wireestxy( MOVEBOXPTR pos, int xc, int yc ) 
 {
 
     INT xs , xe , y ;
@@ -266,9 +253,7 @@ INT xc, yc ;
 } /* end wireestxy */
 /*********************************************************************/
 
-wireestxy2( pos, xc, yc ) 
-MOVEBOXPTR pos ;
-INT xc, yc ;
+void wireestxy2( MOVEBOXPTR pos, int xc, int yc )
 {
     DOUBLE l, r, b, t ;          /* four sides of the tile */
     DOUBLE xave, yave ;          /* average of a tile side */
@@ -319,8 +304,7 @@ INT xc, yc ;
 
 } /* end wireestxy2 */
 
-BOOL read_wire_est( fp )
-FILE *fp ;
+BOOL read_wire_est( FILE *fp )
 {
     INT max_pitch ;
 
@@ -346,7 +330,7 @@ FILE *fp ;
 
 } /* end read_wire_est */
 
-resize_wire_params()
+void resize_wire_params()
 {
     blocklS = (DOUBLE) blocklG ;
     blockbS = (DOUBLE) blockbG ;
@@ -355,8 +339,7 @@ resize_wire_params()
 } /* end resize_wire_params */
 
 
-static check_routing( routing )
-INT *routing ;
+void check_routing( int *routing )
 {
     if( *routing < 0 ){
 	/* 
@@ -370,8 +353,7 @@ INT *routing ;
 /* ***************************************************************** 
    save_wireest - save wireest parameters for restart
 */
-save_wireest( fp )
-FILE *fp ;
+void save_wireest( FILE *fp )
 {
     fprintf(fp,"# wireest parameters:\n") ;
     HPO( fp, C0S ) ;
@@ -385,8 +367,7 @@ FILE *fp ;
 /* ***************************************************************** 
    read_wireest - read wireest parameters for restart
 */
-INT read_wireest( fp )
-FILE *fp ;
+int read_wireest(FILE *fp)
 {
     INT error = 0 ;
 

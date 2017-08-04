@@ -46,11 +46,15 @@
 #include <yalecad/heap.h>
 #include <yalecad/linalg.h>
 #include <yalecad/list.h>
+#include <yalecad/log.h>
 #include <yalecad/mac.h>
 #include <yalecad/message.h>
+#include <yalecad/mst.h>
+#include <yalecad/mytime.h>
 #include <yalecad/okmalloc.h>
 #include <yalecad/program.h>
 #include <yalecad/project.h>
+#include <yalecad/plot.h>
 #include <yalecad/queue.h>
 #include <yalecad/quicksort.h>
 #include <yalecad/radixsort.h>
@@ -79,9 +83,9 @@
 /* user may change parameters if they wish. Subject to change */
 #define EXPECTEDNUMNETS 10000
 #define EXPECTEDNUMCELLS 10000
-#define EXPECTEDSWAPGROUPS  10
-#define EXPECTEDNUMPADS     10
-#define E                    0
+// #define EXPECTEDSWAPGROUPS  10
+// #define EXPECTEDNUMPADS     10
+// #define E                    0
 
 /* below is what we expect to be a large floorplanning input */
 /* user may change parameters if they wish. Subject to change */

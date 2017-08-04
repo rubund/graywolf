@@ -84,32 +84,10 @@ REVISIONS:  Aug 10, 1988 - add compile switch for Dahe.
 		groups.
 	    Mon Aug 12 16:57:04 CDT 1991 - create sc output files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) output.c version 3.16 3/6/92" ;
-#endif
+#include <allheaders.h>
 
-#include <custom.h>
-#include <pads.h>
-#include <initialize.h>
-#include <yalecad/buster.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-
-static FILE *outS ;                    /* the output file */
-static BOOL determine_sideS = TRUE ;   /* normally determine side */
-
-static void output_corners();
-static void output_class_orient();
-static int output_pins();
-static void output_side_n_space();
-static void output_pad_groups();
-static void output_fixed();
-static void create_pl1();
-static void print_four_corners();
-static void create_pin();
-void output_vertices( FILE *fp, CELLBOXPTR cellptr );
+FILE *outS ;                    /* the output file */
+BOOL determine_sideS = TRUE ;   /* normally determine side */
 
 void output( FILE * fp )
 {
@@ -231,13 +209,13 @@ void output_pads( FILE *fp )
 
 } /* end output_pads */
 
-static void output_corners( CELLBOXPTR cellptr )
+void output_corners( CELLBOXPTR cellptr )
 {
 	fprintf( outS, "corners %d\n", cellptr->numsides ) ;
 	output_vertices( outS, cellptr ) ;
 } /* end output_corners */
 
-static void output_class_orient( CELLBOXPTR cellptr )
+void output_class_orient( CELLBOXPTR cellptr )
 {
 	fprintf( outS, "class %d ", cellptr->class ) ;
 	fprintf( outS, "orientations " ) ;
@@ -251,7 +229,7 @@ static void output_class_orient( CELLBOXPTR cellptr )
 } /* end output_class_orient */
 
 
-static int output_pins( CELLBOXPTR cellptr )
+int output_pins( CELLBOXPTR cellptr )
 {
 	int i ;                  /* counter */
 	int x,  y ;              /* absolute coordinates */
@@ -323,7 +301,7 @@ static int output_pins( CELLBOXPTR cellptr )
 	return 0;
 } /* end output_pins */
 
-static void output_side_n_space( CELLBOXPTR cellptr )
+void output_side_n_space( CELLBOXPTR cellptr )
 {
 	PADBOXPTR pad ;
 
@@ -371,7 +349,7 @@ static void output_side_n_space( CELLBOXPTR cellptr )
 	}
 } /* end output_side_n_space */
 
-static void output_pad_groups( CELLBOXPTR cellptr )
+void output_pad_groups( CELLBOXPTR cellptr )
 {
 	int i, child, padnum ;
 	PADBOXPTR pad ;
@@ -394,7 +372,7 @@ static void output_pad_groups( CELLBOXPTR cellptr )
     
 } /* end output_pad_groups */
 
-static void output_fixed( CELLBOXPTR cellptr )
+void output_fixed( CELLBOXPTR cellptr )
 {
 	FIXEDBOXPTR fixptr ;
 
@@ -555,7 +533,7 @@ void create_sc_output()
 
 /** by kroy July 1991 **/
 /* modified by WPS Aug 6, 1991 */
-static void create_pl1()
+void create_pl1()
 {
 	FILE *fpp1 ;
 	CELLBOXPTR cellptr ;
@@ -638,7 +616,7 @@ static void create_pl1()
 
 } /* create_pl1 */
 
-static void print_four_corners( FILE *fp, CELLBOXPTR cellptr )
+void print_four_corners( FILE *fp, CELLBOXPTR cellptr )
 {
 	int xc , yc ;
 	BOUNBOXPTR bounptr ;         /* bounding box pointer */
@@ -662,7 +640,7 @@ static void print_four_corners( FILE *fp, CELLBOXPTR cellptr )
 
 
 /* by WPS Aug 6, 1991 */
-static void create_pin()
+void create_pin()
 {
 	FILE *fpp1 ;
 	CELLBOXPTR cellptr ;

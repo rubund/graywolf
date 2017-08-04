@@ -46,15 +46,10 @@ DATE:	    Dec 13, 1990
 REVISIONS:  Thu Dec 20 00:02:54 EST 1990 - made net cap and res.
 		matches work.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
-#endif
-
+#include <globals.h>
 #include <custom.h>
 #include <analog.h>
-#include <yalecad/hash.h>
-#include <yalecad/debug.h>
-#include "readnets.h"  /* redefine yacc and lex globals */
+#include "readnets.y.h"  /* redefine yacc and lex globals */
 #include "initnets.h"
 #include "paths.h"
 

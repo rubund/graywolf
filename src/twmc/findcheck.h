@@ -1,0 +1,2 @@
+void initcheck();
+void finalcheck();

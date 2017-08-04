@@ -62,8 +62,7 @@ REVISIONS:  Oct 21, 1989 - changed memoptrS to a pointer rather than
 static char SccsId[] = "@(#) unet.c (Yale) version 3.6 11/23/91" ;
 #endif
 
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 #define BREAK_PT 5
 static INT prev_netS , curr_netS , test_newnetS ;
 static INT validLS , validRS , validBS , validTS ;
@@ -84,8 +83,7 @@ void init_unet()
 } /* end init_unet */
 
 /* returns the incremental cost for a single cell */
-INT unet( antrmptr )
-PINBOXPTR antrmptr ;
+int unet( PINBOXPTR antrmptr )
 {
 
     register NETBOXPTR  netptr ;
@@ -174,8 +172,7 @@ PINBOXPTR antrmptr ;
     return( cost ) ;
 } /* end unet */
 
-INT unet2( antrmptr, bntrmptr )
-PINBOXPTR antrmptr , bntrmptr ;
+int unet2( PINBOXPTR antrmptr, PINBOXPTR bntrmptr )
 {
 
     NETBOXPTR  netptr   ;

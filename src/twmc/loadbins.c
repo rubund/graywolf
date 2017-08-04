@@ -49,12 +49,7 @@ REVISIONS:  Nov 3,  1988 - added routingFlag override for doPartitionG
 	    May 11, 1989 - eliminated routing Flag override.
 	    Mon Feb  4 02:11:27 EST 1991 - added new wire estimator function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) loadbins.c version 3.4 2/4/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <allheaders.h>
 
 static INT binAreaS ;
 
@@ -222,8 +217,7 @@ int loadbins(BOOL wireAreaKnown)
 /* ***************************************************************** 
    CALCULATE CELL AREAS
 */
-int calc_cellareas( routingFlag )
-BOOL routingFlag ;
+int calc_cellareas( BOOL routingFlag )
 {
 	int totArea, orient, cell, l, r, b, t, xc, yc ;
 	CELLBOXPTR  cellptr ;
@@ -286,7 +280,7 @@ BOOL routingFlag ;
    use static to make code more modular.  Only called a few times
    no problem with inefficiency.
 */
-INT get_bin_area() 
+int get_bin_area() 
 {
     return( binAreaS ) ;
 }

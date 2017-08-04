@@ -63,19 +63,11 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 		reorigin.
 	    Mon Sep 16 22:23:04 EDT 1991 - fixed for R6000.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) savewolf.c version 3.12 9/16/91" ;
-#endif
-
-#include <custom.h>
-#include <temp.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
+#include <allheaders.h>
 
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
-savewolf( forceSave )
-BOOL forceSave ; /* if true save parameters regardless of time */
+void savewolf( BOOL forceSave ) /* if true save parameters regardless of time */
 {
 
 	INT  m ;
@@ -162,10 +154,8 @@ FILE *fp ;
 	INT number_of_cells, inst ;
 	DOUBLE aspect , aspFactor , val ;
 	DOUBLE percentDone ;
-	DOUBLE eval_ratio( P1(INT iterationG) ) ;
 	CELLBOXPTR ptr ;
 	TILEBOXPTR tileptr1 ;
-	PINBOXPTR *sarray ; /* array of the current softpins */
 	PINBOXPTR term ;
 	INSTBOXPTR instptr ;
 	BOUNBOXPTR bounptr ;
@@ -331,7 +321,7 @@ FILE *fp ;
 	}
 } /* end TW_oldinput */
 
-void HPO(FILE *fp, double *d)
+void HPO(FILE *fp, double d)
 {
 	fprintf(fp,"%34.32le\n",d);
 } /* end HPO */

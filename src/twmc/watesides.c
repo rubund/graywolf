@@ -45,18 +45,11 @@ DATE:	    Mon Feb  4 02:25:16 EST 1991 - added header and new
 		wire estimator.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) watesides.c version 3.5 2/4/91" ;
-#endif
-
+#include <globals.h>
 #include <custom.h>
-#include <yalecad/debug.h>
 
-watesides( ptr, pSideArray )
-CELLBOXPTR ptr ;
-PSIDEBOX   *pSideArray ;
+void watesides(CELLBOXPTR ptr, PSIDEBOX *pSideArray)
 {
-
 TILEBOXPTR tileptr ;
 INT side , left , right , bottom , top ;
 

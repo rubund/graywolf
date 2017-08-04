@@ -68,15 +68,7 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 	    Sun May  5 14:19:53 EDT 1991 - pass gridding point to 
 		compactor.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) compact.c version 3.12 5/5/91" ;
-#endif
-
-#include <custom.h>
-#include <dens.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
+#include <allheaders.h>
 
 #include "config-build.h"
 

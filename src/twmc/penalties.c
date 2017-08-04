@@ -51,14 +51,7 @@ REVISIONS:  May 16, 1989 - removed most doPartitionG conditions.
 	    Thu Feb  7 00:20:00 EST 1991 - reworked graph data.
 	    Thu Apr 18 01:40:16 EDT 1991 - refit overlap parameters.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) penalties.c version 3.8 9/16/91" ;
-#endif
-
-#include <custom.h>
-#include <temp.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
+#include <allheaders.h>
 #define DEBUGLAPFACTOR
 
 #define DAMPFACTOR       0.015    /* damping factor on overlap penalty */
@@ -97,8 +90,7 @@ static  BOOL   firstTimeS = TRUE;/* 1st time calc_init_timeFactor called*/
 */
 
 /* **** overlap penalty controller **** */
-DOUBLE calc_lap_factor( percentDone ) 
-DOUBLE percentDone ;
+double calc_lap_factor(double percentDone) 
 {
 
     DOUBLE diff_lap, target_bin_penalty, bin_deviation ;
@@ -181,7 +173,7 @@ DOUBLE percentDone ;
 
     /* this is an override mechanism to setting parameters */
     sprintf( filename, "%s.lap", cktNameG ) ;
-    if( fp = TWOPEN( filename, "r", NOABORT )){
+    if((fp = TWOPEN( filename, "r", NOABORT))){
 	HPI( fp, &lapFactorG ) ;
 	TWCLOSE( fp ) ;
     }
@@ -189,8 +181,7 @@ DOUBLE percentDone ;
 
 } /* ********* end overlap penalty controller ******** */
 
-DOUBLE calc_time_factor( percentDone ) 
-DOUBLE percentDone ;
+double calc_time_factor( double percentDone ) 
 {
     /* **** timing penalty controller **** */
     /* don't change it from initial value */
@@ -208,8 +199,7 @@ DOUBLE percentDone ;
    the error measurement. That is why target_core_error and core_error
    in core_deviation calculation are reversed.
 */
-DOUBLE calc_core_factor( percentDone ) 
-DOUBLE percentDone ;
+double calc_core_factor(double percentDone) 
 {
     INT binArea, cellArea ;
     DOUBLE diff_core, target_core_error, core_deviation ;

@@ -52,14 +52,7 @@ REVISIONS:  Aug 16, 1989 - rewrote using new general algorithm.
 		of buster.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) unbust.c version 3.7 1/20/91" ;
-#endif
-
-#include <yalecad/string.h>
-#include <yalecad/buster.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+#include <allheaders.h>
 
 #define E 0
 #define T 1
@@ -68,16 +61,6 @@ static char SccsId[] = "@(#) unbust.c version 3.7 1/20/91" ;
 #define B 4
 #define HOWMANY  0
 #define EXPECTEDNUMPINS  4
-
-typedef struct {
-    INT tile ;    /* tile that point is attached */
-    INT x ;       /* x position of point */
-    INT y ;       /* y position of point */
-    INT Vnum ;    /* position in VPts array */
-    INT Hnum ;    /* position in HPts array */
-    INT order ;   /* order that points should be output - negative means invalid */
-    BOOL marked ; /* point has been used */
-} POINTBOX, *POINTPTR ;
 
 static INT numptS ;           /* number of total points for figure */
 static INT ptAllocS ;         /* number of space allocated for points */
@@ -407,8 +390,7 @@ POINTPTR *next_pt ;
 
 } /* end get_next_state */
 
-void addPt( tile, x, y )
-INT tile, x, y ;
+void addPt( int tile, int x, int y )
 {
     INT i ;                   /* counter */
     POINTPTR ptr ;            /* current point */
@@ -441,8 +423,7 @@ INT tile, x, y ;
     return ;
 } /* end addPt */
 
-void addPts( cell, l, r, b, t ) 
-INT cell, l, r, b, t ; 
+void addPts( int cell, int l, int r, int b, int t ) 
 {
     addPt( cell, l, b ) ;
     addPt( cell, l, t ) ;
@@ -452,8 +433,7 @@ INT cell, l, r, b, t ;
 	    l, b, l, t, r, t, r, b ) ) ;
 } /* end addPts */
 
-void initPts( addpoint_flag )
-BOOL addpoint_flag ;
+void initPts( BOOL addpoint_flag )
 {
     INT i ;     /* counter */
 
@@ -671,8 +651,7 @@ INT numpts ;
 
 } /* end add_vpts */
 
-void chek_vpt( tile1, tile2, tile3, tile4 )
-POINTPTR tile1, tile2, tile3, tile4 ;
+void chek_vpt( POINTPTR tile1, POINTPTR tile2, POINTPTR tile3, POINTPTR tile4 )
 {
     /* four cases */
     /* CASE 1  */
@@ -746,8 +725,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
 } /* end chek_vpt */
 
 
-void add_hpts( numpts )
-INT numpts ;
+void add_hpts( int numpts )
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
     POINTPTR tile2ptr ;         /* temp pointer to a point */
@@ -833,8 +811,7 @@ INT numpts ;
     }
 } /* end add_hpts */
 
-void chek_hpt( tile1, tile2, tile3, tile4 )
-POINTPTR tile1, tile2, tile3, tile4 ;
+void chek_hpt(POINTPTR tile1, POINTPTR tile2, POINTPTR tile3, POINTPTR tile4)
 {
     /* four cases */
     /* CASE 1  */

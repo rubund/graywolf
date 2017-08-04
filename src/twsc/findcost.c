@@ -999,13 +999,12 @@ Ysafe_free(  num_nets_of_size ) ;
 return ;
 }
 
-get_max_pin()
+int get_max_pin()
 {
     return( maxpinS ) ;
 } /* end get_max_pin */
 
-set_print_pin( pins )
-INT pins ;
+void set_print_pin( int pins )
 {
     print_pinS = pins ;
 } /* end print_one_pin_nets */

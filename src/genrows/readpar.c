@@ -59,8 +59,6 @@ REVISIONS:  Sat Feb 23 00:35:01 EST 1991 - added wildcarding.
 
 static BOOL abortS = FALSE ;
 
-
-
 void readpar()
 {
 	int line ;

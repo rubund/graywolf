@@ -46,24 +46,14 @@ DATE:	    Feb 28, 1990
 REVISIONS:  Sun Dec 16 00:36:43 EST 1990 - Modified for Dahe's
 		new version of the global router.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) rmain.c version 3.6 2/23/91" ;
-#endif
-
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <custom.h>
+#include <allheaders.h>
 
 #include "config-build.h"
 
 #define GROUTEPROG      "Mickey"
 #define GROUTEPATH      "../Mickey"
 
-
-rmain( constraint_flag )
-BOOL constraint_flag ;
+void rmain( BOOL constraint_flag )
 {
     char filename[LRECL] ;
     char *Yrelpath() ;

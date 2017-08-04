@@ -66,14 +66,7 @@ DATE:	    Oct 27, 1989
 REVISIONS:  Thu Apr 18 00:39:45 EDT 1991 - renamed functions so
 		that names were consistent.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) grid.c version 1.4 4/18/91" ;
-#endif
-
-#include <yalecad/base.h>
-
-void Ygridx( int *x );
-void Ygridy( int *y );
+#include <globals.h>
 
 static INT offsetxS = 0 ;  /* initially set offset to zero */
 static INT offsetyS = 0 ;  
@@ -103,7 +96,7 @@ void Ygridx( int *x )
 
 
 /* force coordinate to closest x grid position */
-void Ygridy( int *y )
+void Ygridy(int *y)
 {
 
     INT newy ;
@@ -117,11 +110,10 @@ void Ygridy( int *y )
 } /* end Ygridy */
 
 /* force coordinate to smallest x grid position */
-Ygridx_down( x )
-INT *x ;
+void Ygridx_down(int *x)
 {
 
-    INT newx ;
+    int newx ;
 
     newx = ( (*x - offsetxS) / xgridS ) * xgridS + offsetxS ;
     /* now return values */
@@ -129,11 +121,10 @@ INT *x ;
 } /* end Ygridx_down */
 
 /* force coordinate to smallest y grid position */
-Ygridy_down( y )
-INT *y ;
+void Ygridy_down(int *y)
 {
 
-    INT newy ;
+    int newy ;
     newy = ( (*y - offsetyS) / ygridS ) * ygridS + offsetyS ;
 
     /* now return values */
@@ -142,11 +133,10 @@ INT *y ;
 } /* end Ygridy_down */
 
 /* round coordinate to larger x grid position */
-Ygridx_up( x )
-INT *x ;
+void Ygridx_up(int *x)
 {
 
-    INT newx ;
+    int newx ;
 
     newx = ( (*x - offsetxS) / xgridS ) * xgridS + offsetxS ;
     if( ABS(newx - *x)) {
@@ -157,11 +147,10 @@ INT *x ;
 } /* end Ygridx_up */
 
 /* round coordinate to larger y grid position */
-Ygridy_up( y )
-INT *y ;
+void Ygridy_up(int *y)
 {
 
-    INT newy ;
+    int newy ;
     newy = ( (*y - offsetyS) / ygridS ) * ygridS + offsetyS ;
     if( ABS(newy - *y)) {
 	newy += ygridS ;
@@ -171,29 +160,25 @@ INT *y ;
 
 } /* end Ygridy_up */
 
-Ygrid_setx( x, offset )
-INT x, offset ;
+void Ygrid_setx(int x, int offset)
 {
     xgridS = x ;
     offsetxS = offset ;
 } /* end Ygrid_setx */
 
-Ygrid_sety( y, offset )
-INT y, offset ;
+void Ygrid_sety(int y, int offset)
 {
     ygridS = y ;
     offsetyS = offset ;
 } /* end Ygrid_sety */
 
-Ygrid_getx( x, offset )
-INT *x, *offset ;
+void Ygrid_getx( int *x, int *offset )
 {
     *x = xgridS ;
     *offset = offsetxS ;
 } /* end Ygrid_getx */
 
-Ygrid_gety( y, offset )
-INT *y, *offset ;
+void Ygrid_gety( int *y, int *offset )
 {
     *y = ygridS ;
     *offset = offsetyS ;

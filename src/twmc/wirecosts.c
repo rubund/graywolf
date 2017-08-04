@@ -48,15 +48,10 @@ CONTENTS:
 DATE:	    Apr  27, 1989 - added heading and added limitnets calc.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wirecosts.c version 3.3 9/5/90" ;
-#endif
-
+#include <globals.h>
 #include <custom.h>
-#include <yalecad/debug.h>
 
-
-wirecosts()
+void wirecosts()
 {
 
 NETBOXPTR dimptr ;

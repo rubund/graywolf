@@ -79,18 +79,10 @@ REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 	    Sun May  5 14:27:53 EDT 1991 - fixed problem with orienting
 		bounboxes.  Had used wrong translation function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) genorient.c (Yale) version 3.13 5/5/91" ;
-#endif
-
-#include <custom.h>
-#include <pads.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include <allheaders.h>
 
 /* genorient works on range [lowerBound..upperBound] inclusive */
-genorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+void genorient( int lowerBound, int upperBound)
 {
 
     INT i ;                         /* counter */
@@ -277,8 +269,7 @@ INT lowerBound, upperBound ;
 /* regenorient works on range [lowerBound..upperBound] inclusive */
 /* recalculates the bounding boxes and updates all the views */
 /* works in an incremental manner */
-regenorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+void regenorient(int lowerBound, int upperBound)
 {
 
     INT cell ;
@@ -325,8 +316,7 @@ INT lowerBound, upperBound ;
 
 
 /* trans_bbox - translate bounding box into 8 views */
-trans_bbox( ptr ) 
-CELLBOXPTR ptr ;
+void trans_bbox( CELLBOXPTR ptr )
 {
 
 INT orient ;
@@ -355,7 +345,7 @@ BOUNBOXPTR boun0, bounptr ;
 } /* end trans_bbox() */ 
 
 /* allocate space for and load termarray */
-loadTermArray()
+void loadTermArray()
 {
     INT net ;
     PINBOXPTR pinptr ;
@@ -368,8 +358,7 @@ loadTermArray()
     }
 } /* end loadTermArray */
 
-translate_numpins( ptr ) 
-CELLBOXPTR ptr ;
+void translate_numpins(CELLBOXPTR ptr) 
 {
     INT pt ;                        /* point counter */
     INT minx ;                      /* looking for lowest y pt */

@@ -48,20 +48,12 @@ CONTENTS:   Ylog_msg( message )
 DATE:	    May  7, 1989 - original coding.
 REVISIONS:  Aug  7, 1989 - Moved to libary.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) log.c version 1.2 8/28/90" ;
-#endif
-
-#include <string.h>
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
+#include <globals.h>
 
 static char cktNameS[LRECL] = " " ; 
 
 /* put a message in the log file */
-Ylog_msg( message )
-char *message ;
+void Ylog_msg( char *message )
 {
     INT timestamp ;           /* seconds since Jan 1, 1970 */
     char *time, *YcurTime() ; /* YcurTime returns ASCII time string */
@@ -75,9 +67,7 @@ char *message ;
     TWCLOSE( fp ) ;
 } /* end log */
 
-Ylog_start( design, message )
-char *design ;
-char *message ;
+void Ylog_start( char *design, char *message )
 {
     INT timestamp ;           /* seconds since Jan 1, 1970 */
     char *time, *YcurTime() ; /* YcurTime returns ASCII time string */

@@ -56,22 +56,14 @@ REVISIONS:  Apr 23, 1990 - added error checking for soft pins and
 		of T shaped cells. Now finds correct side.
 	    Wed Feb 13 23:35:07 EST 1991 - renamed set routines.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findside.c version 3.5 2/13/91" ;
-#endif
-
+#include <globals.h>
 #include <custom.h>
 #include <initialize.h>
-#include <yalecad/debug.h>
-#include <yalecad/set.h>
 
 #define HOWMANY 0
 
 /* returns which side a pin is located */
-INT findside( pSideArray, cellptr , x , y )
-PSIDEBOX  *pSideArray ;
-CELLBOXPTR cellptr ;
-INT x , y ;
+int findside( PSIDEBOX  *pSideArray, CELLBOXPTR cellptr , int x , int y )
 {
 
 INT k , min , kmin, dist, begin, end ;
@@ -123,10 +115,7 @@ return( kmin ) ;
 
 
 /* load the side with a pin count and add factor */
-loadside( pSideArray, side , factor )
-PSIDEBOX  *pSideArray ;
-INT side ;
-DOUBLE factor ;
+void loadside(PSIDEBOX  *pSideArray, int side, double factor)
 {
 
 pSideArray[side].pincount += factor ;
@@ -134,10 +123,7 @@ pSideArray[side].pincount += factor ;
 return ;
 } /* end loadside */
 
-
-load_soft_pins( ptr, pSideArray )
-CELLBOXPTR ptr ;
-PSIDEBOX *pSideArray ;
+void load_soft_pins( CELLBOXPTR ptr, PSIDEBOX *pSideArray )
 {
 
     INT i ;                        /* counter */

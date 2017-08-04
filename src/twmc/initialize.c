@@ -116,19 +116,7 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 	    Fri Oct 18 00:06:37 EDT 1991 - moved buster code to library
 		and updated for new NIL definition.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) initialize.c version 3.24 10/18/91" ;
-#endif
-
-#include <string.h>
-#include <custom.h>
-#include <pads.h>
-#include <analog.h>
-#include <initialize.h>
-#include <yalecad/buster.h>
-#include <yalecad/hash.h>
-#include <yalecad/debug.h>
-#include <yalecad/string.h>
+#include <allheaders.h>
 
 #define PIN   (BOOL)      TRUE       /* for pinFlag below */ 
 #define EQUIV (BOOL)      FALSE 
@@ -184,21 +172,6 @@ static SOFTBOXPTR spinptrS ;   /* current softpin record                */
 static INSTBOXPTR instS ;      /* pointer to current inst record        */
 PINBOXPTR findTerminal() ;
 /* ################## END STATIC definitions ########################## */
-
-static void check_pos(char *pinname, int xpos, int ypos);
-void endCell();
-void addCell( char *cellName, CELLTYPE cellType );
-void setpwates() ;
-void sortpins() ;
-void prnt_netinfo() ;   /* tell user net information */
-void genorient(int,int ) ;
-void updateFixedCells( int ) ;
-void loadTermArray() ;
-void build_active_array() ;
-void build_soft_array() ;
-void set_up_pinplace() ;   /* for soft cell pin placement */
-void update_pins(int) ;  /* initial pin placement */
-void updateFixedCells( int ) ;
 
 /* set processing switch to avoid work when an error is found */
 void setErrorFlag()
@@ -1065,7 +1038,7 @@ void set_pin_pos( int xpos, int ypos )
 } /* end set_pin_pos */
 /* ***************************************************************** */
 
-static void check_pos( char *pinname, int xpos, int ypos )
+void check_pos( char *pinname, int xpos, int ypos )
 {
 	if( xpos < minxS || xpos > maxxS || ypos < minyS || ypos > maxyS ){
 		sprintf( YmsgG, "Pin:%s cell:%s @(%d,%d) is outside cell boundary\n",

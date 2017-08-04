@@ -49,14 +49,7 @@ REVISIONS:  Oct 3, 1989 - fixed problem with overlap calculation.
 	    Sat Apr 27 01:10:04 EDT 1991 - fixed problem with
 		aspect ratio calculation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uinst.c version 3.9 11/23/91" ;
-#endif
-
-#include <custom.h>
-#include <initialize.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include <allheaders.h>
 
 #define NEWVERTICES TRUE
 #define HOWMANY     0

@@ -336,7 +336,7 @@ TWDRETURNPTR TWdialog( TWDIALOGPTR fieldp, char *dialogname, int (*user_function
 
     draw_fields( fieldp ) ;
     /* update time for slow machines */
-    (void) YcurTime( &lasttimeL ) ;
+    YcurTime( &lasttimeL ) ;
 
     /* now look for button press to end */
     event_mask = ButtonPressMask | KeyPressMask | EnterWindowMask |

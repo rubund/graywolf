@@ -1,12 +1,13 @@
 %option prefix="twmc_readnets_"
-%{
-#include <yalecad/string.h>
-#include "readnets.h"
+%top{
+#include <globals.h>
+#include <allheaders.h>
+#include "readnets.y.h"
 #include "initnets.h"
 extern int yylineno;
 #define yylval twmc_readnets_lval
 #define yyin twmc_readnets_in
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+

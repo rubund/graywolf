@@ -76,37 +76,21 @@ REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
 	    Wed Jul 24 20:43:22 CDT 1991 - added delete function 
 		for fixing cells.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) fixcell.c version 3.9 11/23/91" ;
-#endif
-
-#include <string.h>
-#include <custom.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-
+#include <globals.h>
+#include <allheaders.h>
 
 /* defined routes for error checking */
-VOID updateFixedCells( P1(BOOL initializeFlag) ) ;
-static VOID update_fixed_record( P3(CELLBOXPTR ptr,FIXEDBOXPTR fptr,
-				BOOL initFlag ) ) ;
-VOID init_fixcell( P4(INT left, INT bottom, INT right, INT top ) ) ;
-VOID build_active_array() ;
-VOID build_soft_array() ;
-VOID determine_origin( P4(INT *x, INT *y, 
-    char *left_not_right, char *bottom_not_top ) ) ;
+static int initialS = FALSE ;
+static int newxspanS ;
+static int newyspanS ;
+static int oldxspanS ;
+static int oldyspanS ;
 
-static INT initialS = FALSE ;
-static INT newxspanS ;
-static INT newyspanS ;
-static INT oldxspanS ;
-static INT oldyspanS ;
-
-VOID updateFixedCells( initializeFlag )
+void updateFixedCells( initializeFlag )
 BOOL initializeFlag ;
 {
 
-    INT i ;
+    int i ;
     CELLBOXPTR ptr ;
     FIXEDBOXPTR fptr ;
 
@@ -141,12 +125,9 @@ BOOL initializeFlag ;
 
 /* update all the variables in the fixed box record - that is the */
 /* the neighborhood and/or the center of the cell for a fixed point */
-static VOID update_fixed_record( ptr, fptr, initFlag ) 
-CELLBOXPTR ptr ;
-FIXEDBOXPTR fptr ;
-BOOL initFlag ;
+void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag ) 
 {
-    INT x1, x2, y1, y2 ;
+    int x1, x2, y1, y2 ;
     BOOL error_flag = FALSE ;
     DOUBLE temp ;
 
@@ -382,7 +363,7 @@ BOOL initFlag ;
     } /* end for loop */
 } /* end function update_fixed_record */
 
-VOID init_fixcell( left, bottom, right, top )
+void init_fixcell( left, bottom, right, top )
 INT left, bottom, right, top ;
 {
     initialS = TRUE ; 
@@ -399,10 +380,9 @@ INT left, bottom, right, top ;
 } /* end init_fixcell */
 
 /* build active cell list from cells that aren't fixed */
-VOID
-build_active_array()
+void build_active_array()
 {
-    INT i, cell ;
+    int i, cell ;
     CELLBOXPTR cptr ;
 
     /* first determine number of active cells */
@@ -461,15 +441,14 @@ build_active_array()
 /* build softPinArrayG so that soft pin moves are more efficient */
 /* softPinArray will contain the cellptrs of all softcells which */
 /* have pins that can move.  The zeroth element will contain howmany */
-VOID
-build_soft_array()
+void build_soft_array()
 {
 
 #define HOWMANY 0  /* this tells the size of the array */
 
-    INT i, cell ;
+    int i, cell ;
     CELLBOXPTR cptr ;
-    INT softPins ;
+    int softPins ;
 
     softPins = 0 ;
     if( numsoftG > 0 || numstdcellG > 0 ){
@@ -512,10 +491,7 @@ build_soft_array()
 /* In fixing a cell, determine which side of the core to reference */
 /* cell so that changes to the position of the cell due to core size */
 /* changes will be minimized. */
-VOID
-determine_origin( x, y, left_not_right, bottom_not_top )
-INT *x, *y ; /* point of reference */
-char *left_not_right, *bottom_not_top ;
+void determine_origin( int *x, int *y, char *left_not_right, char *bottom_not_top )
 {
     if( *x <= blockmxG ){
 	strcpy( left_not_right, "L" ) ;
@@ -533,8 +509,7 @@ char *left_not_right, *bottom_not_top ;
     }
 } /* end determine_origin */
 
-delete_fix_constraint( cell )
-INT cell ;
+void delete_fix_constraint( int cell )
 {
     CELLBOXPTR ptr ;
 

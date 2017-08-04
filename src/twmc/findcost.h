@@ -1,0 +1,2 @@
+void checkcost();
+int findcost();

@@ -52,21 +52,14 @@ REVISIONS:  Fri Jan 25 18:15:36 PST 1991 - added numpins to equations
 	    Wed May  1 19:18:55 EDT 1991 - added switchbox field 
 		so we can ignore these areas during wire estimation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wireratio.c version 3.9 3/10/92" ;
-#endif
-
-#include <custom.h> 
-#include <dens.h> 
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_linalg.h>
 
-gsl_matrix_disp( mptr, rows, cols )
-gsl_matrix *mptr ;
-int rows, cols;
+#define NO_PAD
+#include <allheaders.h>
+
+void gsl_matrix_disp( gsl_matrix *mptr, int rows, int cols )
 {
     INT i, j ;
 
@@ -79,11 +72,9 @@ int rows, cols;
     fprintf( stderr, "\n" ) ;
 } /* end gsl_matrix_disp */
 
-gsl_vector_disp( vptr, rows )
-gsl_vector *vptr ;
-int rows;
+void gsl_vector_disp( gsl_vector *vptr, int rows )
 {
-    INT i;
+    int i;
 
     for( i=0; i < rows; i++ ){
         fprintf( stderr, "% 4.4le ", gsl_vector_get(vptr, i)) ;
@@ -91,13 +82,7 @@ int rows;
     fprintf( stderr, "\n" ) ;
 } /* end gsl_vector_disp */
 
-static set_pins( A, center, loc, tile_side, sidepins, count )
-gsl_matrix *A ;              /* the matrix holding x y positions */
-INT    center ;
-INT    loc ;
-INT    tile_side ;
-INT    *sidepins ;
-INT    count ;
+void set_pins(gsl_matrix *A,int center, int loc, int tile_side, int *sidepins, int count )
 {
     INT side ;   /* the matching side for a given tile */
 
@@ -116,7 +101,7 @@ INT    count ;
     }
 } /* end  set_pins */
 
-adapt_wire_estimator()
+void adapt_wire_estimator()
 {
     INT i ;                 /* coefficient counter */
     INT cell ;              /* cell counter */
@@ -318,7 +303,8 @@ adapt_wire_estimator()
 	    dx = gsl_vector_get(Xret, c);
 	    for ( i = 0; i < 6; i++ ) {
 		d += gsl_matrix_get(A, c, i) * dx;
-	    gsl_set_vector(AX, c, d);
+	    }
+// 	    gsl_set_vector(AX, c, d);
 	}
 
 	/* Compute R = AX - B */

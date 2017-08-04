@@ -76,20 +76,7 @@ REVISIONS:  May 24, 1989 - added stdcell configuration code.
 	    Fri Oct 18 00:09:45 EDT 1991 - eliminated read_blk_file.
 		Instead, to find core we read it using read_gen_file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
-#endif
-
-#include <string.h>
-#include <custom.h>
-#include <partition.h>
-#include <pads.h>
-#include <yalecad/buster.h>
-#include <yalecad/file.h>
-#include <yalecad/relpos.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/yreadpar.h>
+#include <allheaders.h>
 
 #include "config-build.h"
 

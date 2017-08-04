@@ -78,5 +78,6 @@ Function:
 */
 
 BOOL Ybuster_check_rect(int xx1, int yy1, int xx2, int yy2 );
+void Ybuster_check_rect_init(char *user_string);
 
 #endif /* YBUSTER_H */

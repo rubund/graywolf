@@ -57,22 +57,14 @@ REVISIONS:  Feb 25, 1989 - allow negative iterations by setting
 	    Mon Feb  4 02:14:30 EST 1991 - reset the number of attempts
 		and added quickroute function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) newtemp.c version 3.4 2/4/91" ;
-#endif
+#include <allheaders.h>
 
-#include <custom.h>
-#include <temp.h>
-#undef DEBUG
-#include <yalecad/debug.h>
-
-
-static DOUBLE alphaS ;    /* exponential decay constant for high temp */
-static DOUBLE betaS ;     /* exponential decay constant for low temp */
-static DOUBLE speedS ;    /* multiply attempts per cell by this factor */
+double alphaS ;    /* exponential decay constant for high temp */
+double betaS ;     /* exponential decay constant for low temp */
+double speedS ;    /* multiply attempts per cell by this factor */
 
 /* calculate static exponential time constants */
-init_acceptance_rate()
+void init_acceptance_rate()
 {
     /* determine alpha */
     alphaS =  - log( CRITRATIO ) / HIGHTEMP ;
@@ -121,7 +113,7 @@ DOUBLE iteration ;
     return( desired_ratio ) ;
 } /* end calc_acceptance ratio */
 
-INT compute_attprcel() 
+int compute_attprcel() 
 {
     DOUBLE attempts ;
 
@@ -144,8 +136,7 @@ INT compute_attprcel()
 
 } /* end compute_attprcell */ 
 
-set_tw_speed( speed ) 
-DOUBLE speed ;
+void set_tw_speed( double speed ) 
 {
     speedS = speed ;
 } /* end set_tw_speed */

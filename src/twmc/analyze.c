@@ -46,14 +46,8 @@ CONTENTS:   analyze( )
 DATE:	    Apr  4, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) analyze.c version 3.7 4/18/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
-#include <yalecad/string.h>
-#include <yalecad/file.h>
+#include <globals.h>
+#include <allheaders.h>
 
 #define CURWT      1
 #define PRIORWT    1

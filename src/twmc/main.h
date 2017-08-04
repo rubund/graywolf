@@ -36,8 +36,7 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h> 
-#include <stdlib.h>
+#include <globals.h>
 
 #ifndef MATH_H
 #define MATH_H
@@ -64,14 +63,12 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 #define G(x_xz)   x_xz
 
 #endif /* NOGRAPHICS */
-/* ***********LEAVE THE BELOW UNCHANGED *************************** */
-#include <yalecad/string.h>
 
 /* BASIC MACRO DEFINITIONS  */
 #define MAXSITES 50
 
 /* cell types */
-typedef INT CELLTYPE ;
+typedef int CELLTYPE ;
 #define CUSTOMCELLTYPE 1
 #define PADCELLTYPE    2
 #define SOFTCELLTYPE   3
@@ -103,40 +100,31 @@ typedef INT CELLTYPE ;
 #define ADDEQUIVTYPE     6
 #define ANALOGPINTYPE    7
 
-/* I/O MACRO DEFINITIONS */
-#include <yalecad/message.h>
-
-/* compile switch for globals */
-#ifndef MAIN_DEFS
-#define EXTERN extern
-#else
-#define EXTERN
-#endif
-
-EXTERN char *cktNameG ;
-EXTERN char *argv0G ;     /* the pathname of the program */
-EXTERN int attpercellG ;
-EXTERN int scale_dataG ;  /* reduce the scale of the input data */
-EXTERN int track_spacingXG ;
-EXTERN int track_spacingYG ;
-EXTERN int defaultTracksG ;
+ char *cktNameG ;
+ char *argv0G ;     /* the pathname of the program */
+ int attpercellG ;
+ int scale_dataG ;  /* reduce the scale of the input data */
+ int track_spacingXG ;
+ int track_spacingYG ;
+ int defaultTracksG ;
 
 /* booleans for control of program */
-EXTERN BOOL cost_onlyG ;
-EXTERN BOOL doChannelGraphG ;
-EXTERN BOOL doGlobalRouteG ;
-EXTERN BOOL doCompactionG ;
-EXTERN BOOL doPartitionG ;
-EXTERN BOOL doGraphicsG ;
-EXTERN BOOL quickrouteG ;
-EXTERN BOOL new_wire_estG ;        /* use new wire estimation alg. */
-EXTERN BOOL restartG ;
-EXTERN BOOL wireEstimateOnlyG ;
-EXTERN BOOL wait_for_userG ;
-EXTERN BOOL verboseG ;
+ BOOL cost_onlyG ;
+ BOOL doChannelGraphG ;
+ BOOL doGlobalRouteG ;
+ BOOL doCompactionG ;
+ BOOL doPartitionG ;
+ BOOL doGraphicsG ;
+ BOOL quickrouteG ;
+ BOOL new_wire_estG ;        /* use new wire estimation alg. */
+ BOOL restartG ;
+ BOOL wireEstimateOnlyG ;
+ BOOL wait_for_userG ;
+ BOOL verboseG ;
 
-extern int readcells(char *filename);
+int readcells(char *filename);
 
-#undef EXTERN
+void writeResults( int wire, int penal, int rand );
+void set_wiring_reduction( double reduction );
 
 #endif /* MAIN_H */

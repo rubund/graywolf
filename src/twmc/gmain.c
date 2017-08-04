@@ -50,17 +50,9 @@ REVISIONS:  Thu Jan 17 00:49:52 PST 1991 - now read side information.
 	    Wed May  1 19:17:23 EDT 1991 - added switchbox keyword
 		so we can ignore these areas during wire estimation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) gmain.c version 3.8 5/1/91" ;
-#endif
-
 #define DENS_DEFS
 
-#include <custom.h>
-#include <dens.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
+#include <allheaders.h>
 
 #include "config-build.h"
 
@@ -227,8 +219,7 @@ void gmain(BOOL updateNotChan) /* if true update routing tiles otherwise normal 
 
 } /* end gmain */
 
-
-init_routing_tiles()
+void init_routing_tiles()
 {
 	routingTilesG = NULL ;
 } /* end init_routing_tiles */

@@ -80,30 +80,14 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 	    Thu Aug 22 22:10:09 CDT 1991 - fixed problem with
 		fixed cells moving during pairwise flips.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c (Yale) version 3.17 10/18/91" ;
-#endif
-
 #ifndef NOGRAPHICS
 
-#include <string.h>
-#include <custom.h>
-#include <dens.h>
-#include <analog.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
-#include <yalecad/colors.h>
-#include <yalecad/draw.h>
-#include <yalecad/dialog.h>
-#include <yalecad/system.h>
-#include <menus.h>
-
+#include <allheaders.h>
 
 #define CELLEST     0
 #define CELLBORDER  1
 #define TRUECELL    2
 #define INTRO       "Welcome to TimberWolfMC"
-
 
 #define CELLCOLOR          TWGREEN
 #define ORIGCOLOR          TWYELLOW
@@ -143,35 +127,24 @@ static TWDIALOGPTR dialogS ;
 /* ***************************************************************** 
    DUMP CURRENT MC CONFIGURATION.  USER INTERFACE
 */
-static BOOL avoidDump = FALSE ;
-static BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
-static BOOL drawBinS = FALSE ;   /* whether or not to draw bins */
-static BOOL drawLabelS = FALSE ;  /* whether to draw labels or not */
-static BOOL ignoreStdMacroS=FALSE;/* normally draw the standard cell macros */
-static int  selectCellS ;        /* the current selected cell  */
-static BOOL auto_drawS = TRUE ;/* whether to draw immediately after exp.*/
-static BOOL drawNeighborS = TRUE; /* whether to draw neighborhoods */
-static BOOL cleanFileS = FALSE ;   /* whether we need to delete old files */
-static int  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
-static BOOL drawBorderS = TRUE ; /* normal option - draw border otherwise cell tiles */
-static BOOL drawGlobeS = TRUE ; /* turn off global routing tiles */
-static BOOL drawGridS = TRUE ; /* draw the grid reference lines */
-static BOOL drawWireEstS ; /* whether to draw wire estimation */
-static int  pinsizeS ;     /* size of the pin */
-static BOOL movedCellS ;   /* lets us know whether we have to update cellbins */
-static BOOL single_cell_moveS = FALSE ;
-static BOOL drawFS = FALSE ;
-
-
-/* Forward references */
-
-int draw_the_data() ;
-static draw_fs();
-static edit_cell();
-static edit_field_string();
-static edit_field_case();
-static fix_the_cell();
-static fix_the_cell2();
+BOOL avoidDump = FALSE ;
+BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
+BOOL drawBinS = FALSE ;   /* whether or not to draw bins */
+BOOL drawLabelS = FALSE ;  /* whether to draw labels or not */
+BOOL ignoreStdMacroS=FALSE;/* normally draw the standard cell macros */
+int selectCellS ;        /* the current selected cell  */
+BOOL auto_drawS = TRUE ;/* whether to draw immediately after exp.*/
+BOOL drawNeighborS = TRUE; /* whether to draw neighborhoods */
+BOOL cleanFileS = FALSE ;   /* whether we need to delete old files */
+int drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
+BOOL drawBorderS = TRUE ; /* normal option - draw border otherwise cell tiles */
+BOOL drawGlobeS = TRUE ; /* turn off global routing tiles */
+BOOL drawGridS = TRUE ; /* draw the grid reference lines */
+BOOL drawWireEstS ; /* whether to draw wire estimation */
+int pinsizeS ;     /* size of the pin */
+BOOL movedCellS ;   /* lets us know whether we have to update cellbins */
+BOOL single_cell_moveS = FALSE ;
+BOOL drawFS = FALSE ;
 
 void initMCGraphics(int windowId)
 {
@@ -226,7 +199,7 @@ void initMCGraphics(int windowId)
 
 } /* end initMCGraphics */
 
-setGraphicWindow() 
+void setGraphicWindow() 
 {
     int  expand ;
     int  minx ;
@@ -264,8 +237,7 @@ setGraphicWindow()
 
 /* set what we are going to draw on a dump to the screen */
 /* placement data, compaction data , etc. are valid */
-set_graphic_context( context )
-int context ;
+void set_graphic_context( int context )
 {
     if( context == PARTITION_PLACEMENT ){
 	/* after placement ignore drawing the standard macros */
@@ -275,7 +247,7 @@ int context ;
 } /* end set_graphic_context */ 
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
@@ -289,9 +261,6 @@ process_graphics()
     char bottomNotTop[2] ; /* reference to bottom or top of core */
     char leftNotRight2[2]; /* reference to left or right side of core */
     char bottomNotTop2[2]; /* reference to bottom or top of core */
-    DOUBLE scale ;      /* scale wireestimation */
-    DOUBLE eval_ratio() ;/* returns a double */
-    DOUBLE calc_core_factor() ; /* calculate new core */
 
     if(!(doGraphicsG)){
 	return ;
@@ -884,7 +853,7 @@ int draw_the_data()
 
 } /* end draw_the_data */
 
-twmc_draw_a_cell( cell )
+void twmc_draw_a_cell( int cell )
 {
     int  pt ;
     int  xc, yc ;
@@ -1002,8 +971,7 @@ twmc_draw_a_cell( cell )
 
 } /* end TWdrawCell */
 
-static draw_fs( cptr )
-CELLBOXPTR cptr ;
+void draw_fs( CELLBOXPTR cptr )
 {
     int x[10], y[10] ;   /* only 10 points to an F */
     int l, b, r, t ;     /* bounding box points */
@@ -1044,8 +1012,7 @@ CELLBOXPTR cptr ;
 } /* end draw_fs */
 
 /* draw the neighborhood of a cell if it exists */
-draw_neighbors( cell )
-int cell ;
+void draw_neighbors( int cell )
 {
 
     CELLBOXPTR ptr ;
@@ -1098,7 +1065,7 @@ BOOL dgetDump()
 }
 
 /* dumps the data to a file for future study */
-graphics_dump() 
+void graphics_dump() 
 {
     /* now change mode to dump to file */
     TWsetMode(1) ;
@@ -1108,8 +1075,7 @@ graphics_dump()
     TWsetMode(0) ;
 } /* end graphics_dump() */
 
-static edit_cell( cell )
-int cell ;
+void edit_cell( int cell )
 {
 
 #define NAMEF         3
@@ -1256,20 +1222,13 @@ int cell ;
 
 } /* end edit_tiles */
 
-
-static edit_field_string( dialog, field, string )
-TWDIALOGPTR dialog;    /* dialog record */
-int field ;
-char *string ;
+void edit_field_string( TWDIALOGPTR dialog, int field, char *string ) /* dialog record */
 {
     dialog[field].string = string ;
 
 } /* end edit_field_string */
 
-static edit_field_case( dialog, field, initcase )
-TWDIALOGPTR dialog;    /* dialog record */
-int field ;
-int initcase ;
+void edit_field_case( TWDIALOGPTR dialog, int field, int initcase ) /* dialog record */
 {
     TWDIALOGPTR fptr;    /* current dialog record */
 
@@ -1277,8 +1236,7 @@ int initcase ;
 
 } /* end edit_field_case */
 
-set_graphics_wait_menu( menus )
-TWMENUBOX menus[] ;
+void set_graphics_wait_menu( TWMENUBOX menus[] )
 {
     int i ;   /* counter */
     for( i = 0; i < TWNUMMENUS; i++ ){
@@ -1297,8 +1255,7 @@ TWMENUBOX menus[] ;
     }
 }
 
-static fix_the_cell( cell )
-int cell ;
+void fix_the_cell( int cell )
 {
     int i ; /* counter */
 
@@ -1313,8 +1270,7 @@ int cell ;
     cellarrayG[cell]->orientList[HOWMANYORIENT] = 1 ;
 } /* end fix_the_cell */
 
-static fix_the_cell2( cell )
-int cell ;
+void fix_the_cell2( int cell )
 {
     int x1, y1 ;
     char leftNotRight[2] ; /* reference to left or right side of core */

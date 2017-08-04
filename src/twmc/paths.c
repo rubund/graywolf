@@ -71,15 +71,7 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Fri Jan 18 18:32:01 PST 1991 - updated output format.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) paths.c version 3.9 4/21/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/stat.h>
-#include "paths.h"
+#include <allheaders.h>
 
 void print_paths( )
 {
@@ -273,8 +265,7 @@ void print_paths( )
     in the penalty.
 ----------------------------------------------------------------- */
 /* calculate the timing cost incrementally */
-INT calc_incr_time( cell ) 
-INT cell ;
+int calc_incr_time( int cell ) 
 {
     INT newpenal ;        /* proposed move's timing penalty delta */
     INT oldpenal ;        /* the old penalty of the nets that move */
@@ -346,9 +337,7 @@ INT cell ;
 
 } /* end function calc_incr_time */
 
-
-update_time( cell ) 
-INT cell ;
+void update_time(int cell) 
 {
 
     INT path_num ;        /* name of path */
@@ -370,9 +359,7 @@ INT cell ;
 } /* end function update_time */
 
 /* calculate the timing cost incrementally for two cells */
-INT calc_incr_time2( cella, cellb ) 
-INT cella ;
-INT cellb ;
+int calc_incr_time2( int cella, int cellb )
 {
     INT newpenal ;        /* proposed move's timing penalty delta */
     INT oldpenal ;        /* the old penalty of the nets that move */
@@ -457,8 +444,7 @@ INT cellb ;
 
 } /* end function calc_incr_time2 */
 
-update_time2( cella, cellb ) 
-INT cella, cellb ;
+void update_time2( int cella, int cellb ) 
 {
     INT path_num ;        /* name of path */
     PATHPTR path ;
@@ -492,10 +478,10 @@ Note: PSETBOX, PSETPTR definitions are in custom.h
 ----------------------------------------------------------------- */
 static PSETPTR path_set_listS ;   /* list is beginning of set as a list */
 static PSETPTR *path_set_arrayS ; /* set is an array of path set boxes */
-static INT path_set_countS ;      /* current set count */
+int path_set_countS ;      /* current set count */
 
 /* initialize set */
-init_path_set() 
+void init_path_set()
 {   
     INT i ;
 
@@ -557,19 +543,18 @@ void clear_path_set()
    Since we don't need to enumerate set we only need array to implement
    this set.  
 ----------------------------------------------------------------- */
-static INT *net_set_array ; /* set is an array of net set boxes */
-static INT net_set_count ;      /* current set count */
+int *net_set_array ; /* set is an array of net set boxes */
+int net_set_count ;      /* current set count */
 
 /* initialize set */
-init_net_set() 
+void init_net_set() 
 {   
     net_set_array = (INT *) Ysafe_calloc((numnetsG+1), sizeof(INT) );
     net_set_count = 1 ;
 } /* end initset */
 
 /* add a net to the set if not already in set */
-add2net_set( net ) 
-INT  net ;
+void add2net_set( int net ) 
 {  
     if( net >= 1 || net <= numnetsG ){
 	/* current count make array member a valid member of set */
@@ -580,8 +565,7 @@ INT  net ;
     }
 } /* end add2net_set */
 
-BOOL member_net_set( net )
-/* test for membership */
+BOOL member_net_set( int net )
 {
     if( net_set_array[net] == net_set_count ){
 	return( TRUE ) ;
@@ -590,7 +574,7 @@ BOOL member_net_set( net )
     }
 } /* end member_net_set */
 
-clear_net_set() 
+void clear_net_set() 
 {
     /* to clear set we only need to increment net_set_count */
     /* we can use this set up to 2 Gig times without any problem */
@@ -598,7 +582,7 @@ clear_net_set()
 } /* end clear_path_set */
 
 /* debug function to make sure calculation is correct */
-INT dcalc_full_penalty()
+int dcalc_full_penalty()
 {
     INT timingpenal ;
     INT length ;          /* path length incremental */

@@ -53,20 +53,11 @@ REVISIONS:  Jul 22, 1988 - deleted aspect0 field in CELLBOX record.
 	    Sat Apr 27 01:09:01 EDT 1991 - fixed problem with aspect
 		ratio and added aspect ratio initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uaspect.c version 3.5 4/27/91" ;
-#endif
-
-#include <custom.h>
-#include <initialize.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include <allheaders.h>
 
 #define NEWVERTICES TRUE
 
-BOOL uaspect( a , newAspect )
-INT a ;
-DOUBLE newAspect ;
+BOOL uaspect( int a , double newAspect )
 {
 
 CELLBOXPTR acellptr ;
@@ -178,8 +169,7 @@ ASSERT( newtimepenal == dcalc_full_penalty(),"uaspect","Timing woes\n") ;
 /* scale new timing penalty */
 newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
 
-if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty
-    - newtimepenalty )){
+if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty - newtimepenalty )){
 
     /* update current terminal positions from original positions */
     for( pin = acellptr->pinptr ; pin ; pin = pin->nextpin ) {
@@ -234,9 +224,7 @@ if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty
 }
 } /* end uaspect */
 
-
-
-initialize_aspect_ratios()
+void initialize_aspect_ratios()
 {
     INT i ;                        /* counter */
     INT binX, binY ;               /* set initial bins */
