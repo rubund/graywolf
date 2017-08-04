@@ -7,3 +7,4 @@ void TWfreeMenuWindows();
 BOOL TWmouse_tracking_end();
 BOOL TWmouse_tracking_pt( int *x, int *y );
 void TWinforMenus( );
+BOOL TWinterupt();

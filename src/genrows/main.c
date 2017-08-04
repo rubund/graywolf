@@ -56,9 +56,10 @@ REVISIONS:  Feb  7, 1990 - took total_row_length out of procedure calls.
 		for debugging X.
 	    Sat Sep 21 15:48:12 EDT 1991 - added memory functionality.
 ----------------------------------------------------------------- */
-
 #include <globals.h>
 #include "genrows.h"
+#include "merge.h"
+#include "draw.h"
 
 /* NOTE ****** macros cannot overlap !!! ****** */
 

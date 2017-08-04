@@ -572,10 +572,7 @@ TOP:
     return(TRUE) ;
 } /* end find_tile */
 
-
-BOOL read_vertices(fp,initial)
-FILE *fp ;
-BOOL initial ;
+BOOL read_vertices(FILE *fp, BOOL initial)
 {
     /* format of input file: */
     /* stdcell_length [x]  */
@@ -731,8 +728,7 @@ BOOL initial ;
 
 } /* end read_vertices */
 
-BOOL restore_state( fp ) 
-FILE *fp ;
+BOOL restore_state( FILE *fp ) 
 {
     INT i ;
     INT numtiles ;
@@ -1671,8 +1667,7 @@ void update_tile_memory( BOOL free_flag )
     }
 } /* end update_tile_memory */
 
-void recalculate( freepts )
-BOOL freepts ;
+void recalculate( BOOL freepts )
 {
     BOOL previous_invalid_state ;
 

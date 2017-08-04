@@ -51,19 +51,7 @@ REVISIONS:  Sat Feb 23 00:35:01 EST 1991 - added wildcarding.
 	    Fri Sep  6 15:13:23 CDT 1991 - now read previous row
 		separation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readpar.c (Yale) version 1.9 5/14/92" ;
-#endif
-
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <yalecad/yreadpar.h>
-#include <yalecad/message.h>
 #include <globals.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include "genrows.h"
 

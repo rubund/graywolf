@@ -68,12 +68,9 @@ REVISIONS:  Feb  7, 1990 - took total row length out of procedure calls.
 		orientation and now follow control menu convention.
 	    Sat Sep 21 15:37:36 EDT 1991 - added memory capability.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) draw.c (Yale) version 3.22 5/14/92" ;
-#endif
-
 #include <globals.h>
 #include "genrows.h"
+#include "merge.h"
 
 #ifndef NOGRAPHICS
 
@@ -129,9 +126,11 @@ static BOOL edit_tiles();
 static void edit_macro();
 static void update_vertices();
 static void rotate_vertices();
-static void find_nearest_corner();
+void find_nearest_corner(int macro, int x, int y, int* x_ret, int* y_ret);
 static void highlight_corner();
-static int outm();
+int outm(int errtype, char *routine, char *string );
+void edit_row(ROW_BOX *rowptr);
+void get_global_pos( int macro, int *l, int *b, int *r, int *t );
 
 void initgraphics(int windowId )
 {
@@ -439,7 +438,7 @@ static void draw_fs( MACROPTR mptr )  /* current macro */
 } /* end draw_fs */
 
 /* set the size of the graphics window */
-setGraphicWindow() 
+void setGraphicWindow() 
 {
     int l, b, r, t ;
     int expand ;
@@ -940,7 +939,7 @@ void process_graphics()
 			}
 			
 		} while(!(ok)) ;
-		divide_tile( selected_tileS , y ) ; 
+		( selected_tileS , y ) ; 
 		renumber_tiles() ;
 		remakerows() ;
 		selected_tileS = NULL;
@@ -1195,13 +1194,12 @@ void last_chance()
     }
 } /* end last_chance */
 
-static no_move_message()
+void  no_move_message()
 {
     TWmessage("Macro moves/core changes not allowed in partitioning");
 }
 
-static save_for_do( save )
-int save ;
+void save_for_do( int save )
 {
     char filename[LRECL] ;
     FILE *fp ;
@@ -1216,7 +1214,7 @@ int save ;
     TWCLOSE( fp ) ;
 } /* end undo */
 
-static update_macro()
+void update_macro()
 {
     char filename[LRECL] ;
     FILE *fp ;
@@ -1241,7 +1239,7 @@ static update_macro()
 } /* update_macro */
 
 /* dumps the data to a file for future study */
-static graphics_dump() 
+void graphics_dump() 
 {
     /* now change mode to dump to file */
     TWsetMode(1) ;
@@ -1790,9 +1788,7 @@ TILE_BOX *tile ;
     }
 } /* end edit_tiles */
 
-
-edit_row( rowptr )
-ROW_BOX *rowptr ;
+void edit_row(ROW_BOX *rowptr)
 {
 
 #define LEFT_F         3
@@ -1875,9 +1871,7 @@ ROW_BOX *rowptr ;
 #define ORIENTF      13
 #define ORIENTBASE   14
 
-static int update_macro_data( answer, field )
-TWDRETURNPTR answer ;  /* return from user */
-int field ;
+static int update_macro_data( TWDRETURNPTR answer, int field )
 {
     int pos ;
     int deltax, deltay ;
@@ -1932,7 +1926,7 @@ int field ;
     }
 } /* end update_macro_data */
 
-static edit_macro( macro, xoff, yoff )
+void edit_macro( int macro, int xoff, int yoff )
 {
     TWDRETURNPTR answer ;  /* return from user */
     MACROPTR mptr ;        /* current macro information */
@@ -1997,10 +1991,7 @@ static edit_macro( macro, xoff, yoff )
 
 } /* end edit_macro */
 
-
-get_global_pos( macro, l, b, r, t )
-int macro ; 
-int *l, *r, *b, *t ;
+void get_global_pos( int macro, int *l, int *b, int *r, int *t )
 {
 
     MACROPTR mptr ;
@@ -2012,8 +2003,7 @@ int *l, *r, *b, *t ;
     *t = mptr->top + mptr->ycenter ;
 } /* end get_global_pos */
 
-static update_vertices( macro, newxcenter, newycenter )
-int macro, newxcenter, newycenter ;
+void update_vertices( int macro, int newxcenter, int newycenter )
 {
     int j ;
     int deltaX ;
@@ -2033,9 +2023,7 @@ int macro, newxcenter, newycenter ;
     mptr->ycenter = newycenter ;
 } /* end update_vertices */
 
-static rotate_vertices( mptr, orient )
-MACROPTR mptr ;
-int orient ;
+void rotate_vertices( MACROPTR mptr, int orient )
 {
     int j, p ;
     int x, y ;
@@ -2137,8 +2125,7 @@ int orient ;
 
 } /* end rotate_vertices */
 
-static find_nearest_corner( macro, x, y, x_ret, y_ret )
-int macro, x, y, *x_ret, *y_ret ;
+void find_nearest_corner( int macro, int x, int y, int *x_ret, int *y_ret )
 {
     int j ;
     int dist ;
@@ -2172,8 +2159,7 @@ int macro, x, y, *x_ret, *y_ret ;
 } /* end find_nearest_corner */
 
 
-static highlight_corner( macro, x, y )
-int macro, x, y ;
+void highlight_corner(int macro, int x, int y )
 {
     int l, b, r, t ;   /* the core */
     int xpand ;        /* blow up corner by this amount */
@@ -2190,10 +2176,7 @@ int macro, x, y ;
 
 } /* end highlight_corner */
 
-static outm( errtype, routine, string )
-int errtype ;
-char *routine ;
-char *string ;
+int outm(int errtype, char *routine, char *string )
 {
     char buffer[LRECL] ;
 

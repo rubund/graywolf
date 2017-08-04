@@ -47,22 +47,9 @@ REVISIONS:  Dec  7, 1990 - updated for new dialog procedure.
 	    Wed May  1 18:56:14 EDT 1991 - added toggle for arb fill.
 	    Sun Nov  3 12:52:21 EST 1991 - fixed gcc complaints.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) edcolors.c (Yale) version 1.8 12/15/91" ;
-#endif
-
 #ifndef NOGRAPHICS
 
-#include <stdio.h>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-
-#include <yalecad/base.h>
-#include <yalecad/dialog.h>
-#include <yalecad/colors.h>
-#include <yalecad/draw.h>
-#include <yalecad/string.h>
+#include <globals.h>
 #include "info.h"
 
 static TWDIALOGPTR fieldS ;
@@ -70,7 +57,7 @@ static init_field( P8(INT field, INT row, INT column, INT str_len, char *string,
 		    INT type, INT color, INT group ) ) ;
 
 /* be able to turn off individual colors */
-TWtoggleColors()
+void TWtoggleColors()
 {
     char **colors ;      /* the standard color array */
     INT  i ;             /* counter */

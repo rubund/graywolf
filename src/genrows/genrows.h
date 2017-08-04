@@ -88,7 +88,7 @@ REVISIONS:  Feb 28, 1990 - added new fields to tiles for graphics.
 #define OVERLAP1   1
 #define OVERLAP2   2
 #define OVERLAP3   3
-#define TOUCH      4
+#define TOUCH 4
 
 typedef struct tile_box {
     INT name ;              /* index of the tile */
@@ -202,3 +202,22 @@ void free_structures( BOOL allpts );
 void init_vertex_list( int left, int bottom, int right, int top );
 void grid_rows();
 BOOL convert_tile_to_rows( TILE_BOX *tileptr, int add_no_more_than );
+void init_data_structures();
+void readpar();
+BOOL read_vertices(FILE *fp, BOOL initial);
+void build_macros();
+void process_vertices();
+void print_vertices();
+void get_core( int *left, int *bottom, int *right, int *top, BOOL tileFlag );
+void process_tiles();
+void print_tiles();
+void remakerows();
+void check_tiles();
+void set_core( int left, int right, int bottom, int top );
+void calculate_numrows();
+void recalculate( BOOL freepts );
+void print_blk_file();
+void save_state(FILE *fp);
+BOOL restore_state( FILE *fp );
+void divide_tile( TILE_BOX *tile , int horiz_line ) ;
+void divide_tilelr( TILE_BOX *tile , int vert_line );

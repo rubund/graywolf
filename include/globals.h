@@ -35,12 +35,13 @@
 #include <yalecad/buster.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/dbinary.h>
-#include <yalecad/debug.h>
 #include <yalecad/deck.h>
 #include <yalecad/dialog.h>
 #include <yalecad/dset.h>
+#include <yalecad/edcolors.h>
 #include <yalecad/file.h>
 #include <yalecad/graph.h>
+#include <yalecad/grid.h>
 #include <yalecad/hash.h>
 #include <yalecad/heap.h>
 #include <yalecad/linalg.h>
@@ -67,6 +68,7 @@
 #include <yalecad/yreadpar.h>
 #include <yalecad/menus.h>
 #include <yalecad/rand.h>
+#include <yalecad/debug.h>
 
 #ifndef NOGRAPHICS
 #include <yalecad/draw.h>

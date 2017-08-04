@@ -21,6 +21,8 @@ REVISIONS:  Jan 24, 1989 - added selective turnoff of print debug
 #ifndef DEBUG_H
 #define DEBUG_H
 
+#include <yalecad/base.h>
+
 /* ---------------------------------------------------------------
    The assertions differ from the D macro in that the test is
    always executed in an assertion whereas the function part of
