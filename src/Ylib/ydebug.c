@@ -67,15 +67,7 @@ REVISIONS: Apr 10, 1990 - rewrote debug routines so that each individual
 	    Tue Feb  4 15:31:28 EST 1992 - added return_code variable to
 		Ydebug so you can switch it in the debugger if necessary.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) ydebug.c (Yale) version 3.15 2/7/92" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/string.h>
+#include <globals.h>
 
 #define DBGFILE "dbg"
 
@@ -137,7 +129,7 @@ BOOL YdebugAssert()
     return( debugFlagS ) ;
 } /* end YdebugAssert */
 
-YdebugWrite()
+void YdebugWrite()
 {
     ROUTINEPTR data ;              /* the data in the tree */
     FILE *fp ;                   /* write to the debug file */
@@ -160,8 +152,7 @@ YdebugWrite()
     }
 }
 
-YsetDebug( flag )
-BOOL flag ;
+void YsetDebug( BOOL flag )
 {
 
     char buffer[LRECL], *bufferptr ;
@@ -215,9 +206,7 @@ BOOL debugOn ;
     return( data ) ;
 } /* end make_data_debug */
 
-YfixDebug( ptr, type )
-char *ptr ;
-INT type ;
+void YfixDebug(char *ptr, int type)
 {
     switch( type ){
     case 0: /* integer */

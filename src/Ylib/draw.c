@@ -173,10 +173,6 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Thu Mar  5 17:01:09 EST 1992 - added clipping for faster draw
 		during zoom.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) draw.c (Yale) version 3.41 3/10/92" ;
-#endif
-
 #include <globals.h>
 
 #ifndef NOGRAPHICS
@@ -1635,7 +1631,8 @@ void _TW3DdrawAxis( BOOL drawNotErase )
 	TWdrawString( xstring, ystring, c, "z" ) ;
 } /* end _TW3DdrawAxis */
 
-VOID TW3DsetCamera()
+void TWmouse_tracking_start();
+void TW3DsetCamera()
 {
   int x, y ;
   int oldx, oldy ;

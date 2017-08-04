@@ -127,27 +127,9 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Wed Feb 26 03:54:12 EST 1992 - added persistent windows and
 		added dim features.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) menus.c (Yale) version 3.36 2/26/92" ;
-#endif
-
 #ifndef NOGRAPHICS 
 
-#include <stdio.h>
-#include <string.h>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-
-#include <yalecad/base.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/hash.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/draw.h>
-#include <yalecad/colors.h>
-#include <yalecad/menus.h>
+#include <globals.h>
 #include "info.h"
 
 #define DEFAULT_TIMEOUT      10 * 1000       /* 10 seconds to timeout on message window */
@@ -992,8 +974,7 @@ INT menu_item ;
     }
 } /* end TWdisableMenu() */
 
-TWenableMenu( menu_item )
-INT menu_item ;
+void TWenableMenu(int menu_item)
 {
     int      menu ;            /* counter */
     int      entry ;           /* counter */
@@ -1014,8 +995,7 @@ INT menu_item ;
     }
 } /* end TWenableMenu() */
 
-void TWgetPt( x, y )
-INT *x, *y ;
+void TWgetPt(int *x, int *y)
 {
     BOOL press ;            /* tells whether button has been pushed */
     XEvent event ;          /* describes button event */
@@ -1073,8 +1053,7 @@ char *message ;
 
 } /* end TWmessage */
 
-TWmessagePersistence(flag)
-BOOL flag ;
+void TWmessagePersistence(BOOL flag)
 {
     persistenceS = flag ;
     if( flag ){
@@ -1303,8 +1282,7 @@ void TWmouse_tracking_start()
 
 /* get the current mouse position */
 /* returns true if position has changed */
-BOOL TWmouse_tracking_pt( x, y )
-INT *x, *y ;
+BOOL TWmouse_tracking_pt( int *x, int *y )
 {
     XEvent event ;            /* describes event */
     int xtemp, ytemp ;        /* current position of pointer */

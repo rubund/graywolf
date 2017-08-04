@@ -28,14 +28,12 @@ REVISIONS:  Mar  9, 1989 - modified conditional compiles so you can
 #define YESDUMP 1
 #define MAYBEDUMP 2
 
-#ifdef CLEANUP_C
-#include <signal.h>
-#include <yalecad/base.h>
+#include <globals.h>
 
 #ifdef linux
-extern void Ycleanup(int);
+void Ycleanup(int);
 #else
-extern void Ycleanup(int, int, struct sigcontext *);
+void Ycleanup(int, int, struct sigcontext *);
 #endif
 
 /* initialization cleanup macro */
@@ -61,12 +59,7 @@ extern void Ycleanup(int, int, struct sigcontext *);
 /*---------------------------------------------------------
    initCleanup - sets static variables for cleanup handler.
   --------------------------------------------------------*/
-VOID YinitCleanup( P3(char *argv, BOOL (*function)(), int dump) );
+void YinitCleanup( P3(char *argv, BOOL (*function)(), int dump) );
+void YcleanupHandler(int status);
 
-#else
-
-/* no cleanup handler - null it out */
-#define YINITCLEANUP( argv, function, dumpFlag )
-
-#endif /* CLEANUP_C */
 #endif /* CLEANUP_H */

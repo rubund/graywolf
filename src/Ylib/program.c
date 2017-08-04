@@ -60,13 +60,7 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Fri Feb 22 23:39:39 EST 1991 - added newline character
 		at exit.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) program.c version 3.8 3/4/92" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/program.h>
+#include <globals.h>
  
 static char programName[LRECL];
 static char progVersion[LRECL];
@@ -112,7 +106,7 @@ char *YinitProgram(char *name,  char *version ,void (*introTextFunction)() )
 } /* end initProgram */
 
 /* exit program gracefully */
-int YexitPgm(int status)
+void YexitPgm(int status)
 {
 	int errorCount, warningCount, mode ;
 	char	message[LRECL] , *name ;
@@ -129,7 +123,7 @@ int YexitPgm(int status)
 		Ymessage_mode( M_VERBOSE ) ;
 	}
 
-	if( name = YgetProgName() ){
+	if((name = YgetProgName())){
 		if( errorCount ){
 			sprintf(message,"\n%s terminated abnormally with %d error[s] and %d warning[s]\n\n", name, errorCount, warningCount) ;
 		} else {

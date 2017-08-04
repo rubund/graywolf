@@ -61,8 +61,7 @@ static char SccsId[] = "@(#) time.c version 3.3 8/28/90" ;
 #define TIME_T long
 #endif
 
-char *YcurTime( time_in_sec )
-INT *time_in_sec ;
+char *YcurTime(int *time_in_sec)
 {
     /* get current time - return ASCII string with time and date */
     TIME_T t ;

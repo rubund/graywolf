@@ -15,32 +15,32 @@ REVISIONS:  Thu Apr 18 00:51:06 EDT 1991 - added lock routines.
 
 #include <yalecad/base.h>
 
-extern BOOL YfileExists(char *pathname) ;
+BOOL YfileExists(char *pathname) ;
 /*
 Function:
     Returns TRUE if the given file exists.  It returns FALSE otherwise.
 */
 
-extern BOOL YdirectoryExists( P1(char *pathname) ) ;
+BOOL YdirectoryExists( P1(char *pathname) ) ;
 /*
 Function:
     Returns TRUE if the given pathname is a directory and it exists.
     It returns FALSE otherwise.
 */
 
-extern FILE *Yfile_create_lock( P2(char *filename, BOOL readNotWrite ) ) ;
+FILE *Yfile_create_lock( P2(char *filename, BOOL readNotWrite ) ) ;
 /*
 Function:
     Creates a lock file ready for read or write 
 */
 
-extern BOOL Yfile_test_lock( P1( char *filename ) ) ; 
+BOOL Yfile_test_lock( P1( char *filename ) ) ; 
 /*
 Function:
     See if a file is locked.
 */
 
-extern char *Yfile_slink( P1( char *pathname ) ) ; 
+char *Yfile_slink( P1( char *pathname ) ) ; 
 /*
 Function:
     Return symbolic link of a file.

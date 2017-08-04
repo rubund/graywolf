@@ -2,6 +2,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <signal.h>
+#include <unistd.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/dir.h>
+#include <sys/file.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+
+#ifdef SYS5
+#include <sys/times.h>
+#else /* SYS5 */
+#include <sys/timeb.h>
+#endif /* SYS5 */
 
 #ifndef NOGRAPHICS
 #include <X11/Xlib.h>
@@ -47,6 +61,7 @@
 #include <yalecad/wgraphics.h>
 #include <yalecad/yreadpar.h>
 #include <yalecad/menus.h>
+#include <yalecad/rand.h>
 
 #ifndef NOGRAPHICS
 #include <yalecad/draw.h>

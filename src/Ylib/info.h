@@ -16,6 +16,9 @@ REVISIONS:  Sep 23, 1989 - added color fields for TWtoggleColor()
 #ifndef INFO_H
 #define INFO_H
 
+#define MENUHEIGHT 20
+#define GRAPHICS "graywolf"
+
 typedef struct {
     GC          *graphicContext ;  /* array of color contexts */
     Display     *dpy ;             /* the display */
@@ -42,14 +45,12 @@ typedef struct {
 
 /* ****************** GLOBALS ************************** */
 /* GLOBAL VARIABLES */
-EXTERN INT TWsafe_wait_timeG ;/* time to wait before redraw */
+INT TWsafe_wait_timeG ;/* time to wait before redraw */
 
 extern TWINFOPTR TWgetDrawInfo() ; /* TW library routines use this */
 extern void TWsetDrawInfo( P3( INT winheight, INT winwidth, Pixmap pixmap )) ;
 extern Window TWgetWindowId( P2(Display *dpy, Window backwindow) ) ;
 extern BOOL TWinitMenuWindow( P1(TWMENUPTR menu_fields) ) ;
 extern XFontStruct *TWgetfont( P2(char *fname, Font *font) ) ;
-
-#undef EXTERN
 
 #endif /* INFO_H */

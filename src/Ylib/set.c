@@ -77,8 +77,7 @@ static char SccsId[] = "@(#) set.c version 3.8 12/15/91" ;
 
 
 /* initialize set */
-YSETPTR Yset_init( lowerLimit, upperLimit ) 
-INT lowerLimit, upperLimit ;
+YSETPTR Yset_init( int lowerLimit, int upperLimit ) 
 {   
     INT i ;
     INT sizeSet ;

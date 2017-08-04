@@ -142,8 +142,8 @@ ELEMENTPTR ptr ;
 
 /*-----------------------
   -----------------------*/
-static ELEMENTPTR link( x, y )
-ELEMENTPTR x, y ;
+#if 0
+static ELEMENTPTR link(ELEMENTPTR x, ELEMENTPTR y)
 {
   if( x->rank > y->rank ){
     y->parent = x ;
@@ -161,6 +161,7 @@ ELEMENTPTR x, y ;
   }
   return(x->parent);
 } /* end link */
+#endif
 
 /*-----------------------
   -----------------------*/

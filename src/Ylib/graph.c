@@ -49,19 +49,7 @@
   1) instead of rebuilding priority heaps all the time,
   keep them around as part of graph structures.
   -----------------------------------------------------------------*/
-#ifndef lint
-static char SccsId[] = "@(#) graph.c version 1.35 4/2/92" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/colors.h>
-#include <yalecad/debug.h>
-#include <yalecad/deck.h>
-#include <yalecad/draw.h>
-#include <yalecad/dset.h>
-#include <yalecad/heap.h>
-#include <yalecad/message.h>
-#include <yalecad/rbtree.h>
+#include <globals.h>
 
 /* numbers are TWcolors to ease debugging */
 #define BLACK        TWBLACK
@@ -116,7 +104,6 @@ typedef struct graph_edge {
 } YEDGE, *YEDGEPTR ;
 
 #define GRAPH_DEFINED
-#include <yalecad/graph.h>
 
 /*---------------------------------------------------------
   Macros

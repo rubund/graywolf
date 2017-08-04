@@ -1,1 +1,3 @@
-char *YcurTime( time_in_sec );
+char *YcurTime(int *time_in_sec);
+void Ytimer_elapsed(int *time_elapsed);
+void Ytimer_start();

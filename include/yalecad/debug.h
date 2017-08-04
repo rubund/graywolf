@@ -117,7 +117,7 @@ REVISIONS:  Jan 24, 1989 - added selective turnoff of print debug
 	    M(ERRMSG,routine_xz,assertMsg_xz ) ;\
 	    sprintf( assertMsg_xz, "%s\n", userMsg_xz ) ;\
 	    M(MSG,NULL,assertMsg_xz) ;\
-	    YcleanupHandler( -1, NULL ) ; \
+	    YcleanupHandler( -1) ; \
     }}}
 
 

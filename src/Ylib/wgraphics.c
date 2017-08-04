@@ -65,22 +65,9 @@ REVISIONS:  Thu Jan 24 20:20:32 PST 1991 - added missing return.
 	    Mon Aug 12 15:57:17 CDT 1991 - fixed problem with routine
 		names.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wgraphics.c version 3.8 8/12/91" ;
-#endif
-
-#include <stdio.h>
-#include <string.h>
+#include <globals.h>
 
 #define  TWDRAWCODE
-#include <yalecad/base.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/debug.h>
-#include <yalecad/dbinary.h>
-#include <yalecad/wgraphics.h>
-#include <yalecad/string.h>
-
 #define NODIRECTORY     1
 #define NOINIT          2
 
@@ -96,11 +83,8 @@ static  INT  numCellS = 0 ; /* cell counter */
 static  INT  numNetS = 0 ;  /* net counter */
 static  INT  numCharS = 0 ; /* symbol table counter */
 
-BOOL TWinitWGraphics( numC, desiredColors)
-INT  numC ;
-char **desiredColors ;
+BOOL TWinitWGraphics( int numC, char **desiredColors)
 {
-
     char *Yfixpath() ;
     char *Ygetenv() ;
 
@@ -129,7 +113,7 @@ char **desiredColors ;
 } /* end function TWinitWGraphics */
 
 
-TWcloseWGraphics()
+void TWcloseWGraphics()
 {
 
     if(!(initS )){
@@ -145,7 +129,7 @@ TWcloseWGraphics()
 
 } /* end TWcloseGraphics */
 
-TWstartWFrame()
+void TWstartWFrame()
 {
     char filename[LRECL] ;
     char dummy[5] ;
@@ -191,7 +175,7 @@ TWstartWFrame()
 } /* end startWFrame */
 
 /* write size of data at end of files and close them if frames are open */
-TWflushWFrame()
+void TWflushWFrame()
 {
     char dummy[5] ;
     UNSIGNED_INT nitems ;
@@ -230,8 +214,7 @@ TWflushWFrame()
 
 } /* TWflushWFrame */
 
-TWsetWFrame( number )
-INT number ;
+void TWsetWFrame(int number)
 {
     char fileName[LRECL] ;
 
@@ -255,20 +238,14 @@ INT number ;
 /* *********  GENERIC WRITE ROUTINES **************  */
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-TWdrawWPin( ref_num, x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2, color;
-char	*label;
+void TWdrawWPin(int ref_num, int x1, int y1, int x2, int y2, int color, char *label)
 {
     TWdrawWRect( ref_num, x1,y1,x2,y2,color,label) ;
 } /* end drawWPin */
 
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
-TWdrawWLine( ref_num,x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2,color ;
-char	*label;
-{	
+void TWdrawWLine(int ref_num, int x1, int y1, int x2, int y2, int color,char *label)
+{
     DATABOX record ;
     UNSIGNED_INT nitems ;
     INT numw ; /* number written */

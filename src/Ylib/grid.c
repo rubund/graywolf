@@ -72,22 +72,23 @@ static char SccsId[] = "@(#) grid.c version 1.4 4/18/91" ;
 
 #include <yalecad/base.h>
 
+void Ygridx( int *x );
+void Ygridy( int *y );
+
 static INT offsetxS = 0 ;  /* initially set offset to zero */
 static INT offsetyS = 0 ;  
 static INT xgridS = 1 ;    /* default grid is one */
 static INT ygridS = 1 ;  
 /* ***************************************************************** */
 /* force coordinate to closest xy grid position */
-YforceGrid( x , y )
-INT *x , *y ;
+void YforceGrid( int *x , int *y )
 {
     Ygridx( x ) ;
     Ygridy( y ) ;
 } /* end forceGrid */
 
 /* force coordinate to closest x grid position */
-Ygridx( x )
-INT *x ;
+void Ygridx( int *x )
 {
 
     INT newx ;
@@ -102,8 +103,7 @@ INT *x ;
 
 
 /* force coordinate to closest x grid position */
-Ygridy( y )
-INT *y ;
+void Ygridy( int *y )
 {
 
     INT newy ;

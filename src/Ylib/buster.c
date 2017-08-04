@@ -215,8 +215,7 @@ YBUSTBOXPTR Ybuster()
 } /* end buster */
 /* ***************************************************************** */
 
-Ybuster_addpt( xpos, ypos )
-INT xpos, ypos ;
+void Ybuster_addpt(int xpos, int ypos )
 {
     if( xpos == ptS[cornerCountS].x && ypos == ptS[cornerCountS].y ){
 	/* avoid redundant points */
@@ -232,7 +231,7 @@ INT xpos, ypos ;
 } /* end add_arb_pt */
 /* ***************************************************************** */
 
-Ybuster_init()
+void Ybuster_init()
 {
     /* allocate memory if needed */
     if(!(ptS)){
@@ -308,8 +307,7 @@ char *user_string ;
 /* ***************************************************************** */
 /* detect problems with clockwise rotation pattern */
 
-BOOL Ybuster_check_rect( xx1, yy1, xx2, yy2 )
-INT xx1, yy1, xx2, yy2 ;
+BOOL Ybuster_check_rect(int xx1, int yy1, int xx2, int yy2 )
 {
     INT next_state ;           /* the next direction of the edge */
     static INT errorArrayL[6] =
@@ -357,8 +355,7 @@ INT xx1, yy1, xx2, yy2 ;
     return( FALSE ) ;
 } /* end Ybuster_check_rect */
 
-Ybuster_check_rect_init( user_string )
-char *user_string ;
+void Ybuster_check_rect_init(char *user_string)
 {
     cur_stateS = S_STATE ;
     user_messageS = user_string ;

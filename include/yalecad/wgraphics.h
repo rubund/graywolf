@@ -11,11 +11,6 @@ REVISIONS:  May 15, 1990 - added TWsetFrame to include file
 ----------------------------------------------------------------- */
 #ifndef WGRAPHICS_H
 #define WGRAPHICS_H
-
-#ifndef lint
-static char YwgraphicsId[] = "@(#) wgraphics.h (Yale) version 1.7 8/12/91" ;
-#endif
-
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
 //#define TWinitGraphics( argc, argv, numC, colors,menuPath,refresh_func) \
 //    TWinitWGraphics( numC, colors ) 
@@ -37,8 +32,9 @@ Function:
     TWnumcolors() for numC arg and use include file <yalecad/colors.h>.
     NOTE: In this use argc, argv, menuPath and refresh_func are ignored
 */
+void TWflushWFrame();
 
-#define TWcloseGraphics()  (TWcloseWGraphics())
+//#define TWcloseGraphics()  (TWcloseWGraphics())
 /* 
 Arguments: None
 Function:
@@ -47,8 +43,8 @@ Function:
 */
 
 
-#define TWdrawNet(ref_num, x1, y1, x2, y2, color, label ) \
-TWdrawWLine(ref_num, x1, y1, x2, y2, color, label )
+// #define TWdrawNet(ref_num, x1, y1, x2, y2, color, label ) \
+// TWdrawWLine(ref_num, x1, y1, x2, y2, color, label )
 
 #define TWdrawLine(ref_num, x1, y1, x2, y2, color, label ) \
 TWdrawWLine(ref_num, x1, y1, x2, y2, color, label )
@@ -104,7 +100,7 @@ Function:
 */
 /* copy pixmap to screen and flush screen output buffer */
 
-#define TWflushFrame()  TWflushWFrame()
+// #define TWflushFrame()  TWflushWFrame()
 /*
 Arguments: None.
 Function:
@@ -113,7 +109,7 @@ Function:
     after all TWdraws have performed.
 */
 
-#define TWstartFrame()  TWstartWFrame()
+//#define TWstartFrame()  TWstartWFrame()
 /*
 Arguments: None.
 Function:
@@ -122,7 +118,7 @@ Function:
     before any TWdraws are performed for a given frame.
 */
 
-#define TWsetFrame( frame_xz )  TWsetWFrame( frame_xz )
+//#define TWsetFrame( frame_xz )  TWsetWFrame( frame_xz )
 /*
 Arguments: 
     INT frame_x ;

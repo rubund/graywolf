@@ -73,29 +73,12 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Fri Jan 25 16:16:50 PST 1991 - fixed to run on HPUX.
 	    Mon Sep 16 22:20:09 EDT 1991 - fixed to run on R6000.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cleanup.c version 3.13 11/2/91" ;
-#endif
-
-#include <yalecad/cleanup.h>
+#include <globals.h>
 
 /* conditional compile switch is set in cleanup.h */
-#ifdef CLEANUP_C
-
-#include <stdio.h>
-#include <yalecad/base.h>
-
-#ifdef R6000
-#include <sys/types.h>
-#include <sys/context.h>
-#include <sys/signal.h>
-#endif /* R6000 */
-
-
 static INT dumpFlag ;
 static char programPath[LRECL] ;
 static BOOL  (*userFunction)() ;
-
 
 /* ***************************************************************** 
    initCleanup - sets static variables for cleanup handler.
@@ -114,17 +97,9 @@ int dump ;
    cleanup - the installed cleanup handler.
 */
 #ifdef linux	/* maybe others? */
-
-void
-Ycleanup(int sigNum)
-
+void Ycleanup(int sigNum)
 #else
-
-Ycleanup(sigNum, code, scp )
-int sigNum ;
-int code ;
-struct sigcontext *scp ;
-
+void Ycleanup(int sigNum, int code, struct sigcontext *scp )
 #endif /* linux */
 
 {
@@ -137,8 +112,7 @@ struct sigcontext *scp ;
 /* ***************************************************************** 
    YcleanupHandler - after system work process user information.
 */
-YcleanupHandler(status)
-INT status ;
+void YcleanupHandler(int status)
 {
 
     char responseBuf[LRECL], *response = responseBuf ;
@@ -178,4 +152,3 @@ INT status ;
     }
 
 }
-#endif /* CLEANUP_H */

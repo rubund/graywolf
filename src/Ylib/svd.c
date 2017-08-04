@@ -49,14 +49,7 @@ REVISIONS:  Tue Jan 15 22:26:57 PST 1991 - added TRUE return condition.
 	    Tue Mar 12 16:56:22 CST 1991 - got rid of unnecessary
 		assignment.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) svd.c version 1.7 12/15/91" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/debug.h>
-#include <yalecad/linalg.h>
+#include <globals.h>
 
 /* static definitions */
 static DOUBLE atS,btS,ctS;
@@ -69,6 +62,8 @@ static DOUBLE maxarg1S,maxarg2S;
         (maxarg1S) : (maxarg2S))
 #define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
 #define TOLERANCE 1e-6
+
+BOOL Ysvd_decompose( YMPTR A, YMPTR  *Uret, YMPTR  *Wret, YMPTR  *Vret );
 
 /* ---------------------------------------------------------------
     Procedure Ysvd_solve - solve a set of linear equations using SVD.
@@ -218,8 +213,7 @@ YMPTR A, B, *Xret ;
    Output: W - a n x 1 column vector.
    Output: V - a n x n column orthogonal matrix.
 ---------------------------------------------------------------- */
-BOOL Ysvd_decompose( A, Uret, Wret, Vret )
-YMPTR A, *Uret, *Wret, *Vret ;
+BOOL Ysvd_decompose( YMPTR A, YMPTR  *Uret, YMPTR  *Wret, YMPTR  *Vret )
 {
     INT m, n ;
     INT flag,i,its,j,jj,k,l,nm;
