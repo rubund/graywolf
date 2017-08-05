@@ -29,12 +29,12 @@ REVISIONS:  Mar  9, 1989 - modified conditional compiles so you can
 #define MAYBEDUMP 2
 
 #include <globals.h>
+#include <stdio.h>
+#include <signal.h>
+#include <execinfo.h>
 
-#ifdef linux
 void Ycleanup(int);
-#else
-void Ycleanup(int a, int b, struct sigcontext *cont);
-#endif
+void YcleanupHandler(int status);
 
 /* initialization cleanup macro */
 /* first  argument - argv[0] - program name */
@@ -60,6 +60,5 @@ void Ycleanup(int a, int b, struct sigcontext *cont);
    initCleanup - sets static variables for cleanup handler.
   --------------------------------------------------------*/
 void YinitCleanup( P3(char *argv, BOOL (*function)(), int dump) );
-void YcleanupHandler(int status);
 
 #endif /* CLEANUP_H */

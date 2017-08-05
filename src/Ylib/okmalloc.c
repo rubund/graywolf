@@ -125,16 +125,7 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Tue Jan  7 18:03:31 EST 1992 - fixed memory manager
 		on the MAC.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) okmalloc.c (Yale) version 3.24 3/6/92" ;
-#endif
-
-#include	<stdio.h>
-#include	<unistd.h>
-#include	<signal.h>
-#include	<errno.h>
-#include <yalecad/base.h>
-#include <yalecad/message.h>
+#include	<globals.h>
 
 /* memory errors */
 #define  heap_error_base   0x40060000
@@ -149,6 +140,7 @@ static char SccsId[] = "@(#) okmalloc.c (Yale) version 3.24 3/6/92" ;
 */
 
 /* use standard calls to malloc, calloc, etc */
+int errno;
 
 void Yvector_free( void* array, int lo, int size)
 {

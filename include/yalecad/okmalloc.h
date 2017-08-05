@@ -24,23 +24,24 @@ static char Yokmalloc_HId[] = "@(#) okmalloc.h version 1.1 3/5/92" ;
 #define YVECTOR_REALLOC(ar,lo,hi,els) (els *) Yvector_realloc( ar,lo,hi,sizeof(els))
 
 /* memory manager definitions - safety net between memory manager */
-extern void Ysafe_free( void *ptr ) ;
-extern void Ysafe_cfree( void *ptr ) ;
-extern char *Ysafe_malloc( int bytes ) ;
-extern char *Ysafe_calloc( int num_entries, int bytes ) ;
-extern char *Ysafe_realloc( void *ptr, int bytes ) ;
-extern char *Yvector_alloc( int lo, int hi, int size ) ;
-extern char *Yvector_calloc( int lo, int hi, int size ) ;
-extern char *Yvector_realloc( void* array,int lo,int hi,int size) ;
-extern void Yvector_free( void* array, int lo, int size ) ;
+void Ysafe_free( void *ptr ) ;
+void Ysafe_cfree( void *ptr ) ;
+char *Ysafe_malloc( int bytes ) ;
+char *Ysafe_calloc( int num_entries, int bytes ) ;
+char *Ysafe_realloc( void *ptr, int bytes ) ;
+char *Yvector_alloc( int lo, int hi, int size ) ;
+char *Yvector_calloc( int lo, int hi, int size ) ;
+char *Yvector_realloc( void* array,int lo,int hi,int size) ;
+void Yvector_free( void* array, int lo, int size ) ;
+int YgetListSize(char *ptr, char *offsetPtr);
 
 /* In both cases, define these */
-extern int YgetCurMemUse(void) ;
-extern int YgetMaxMemUse(void) ;
-extern int YcheckMemObj(char *ptr) ;
-extern void YdebugMemory(int flag) ;
-extern int YcheckDebug(void* where) ;
-extern void Ydump_mem(void) ;
-extern void Ypmemerror(char *message) ;
+int YgetCurMemUse(void) ;
+int YgetMaxMemUse(void) ;
+int YcheckMemObj(char *ptr) ;
+void YdebugMemory(int flag) ;
+int YcheckDebug(void* where) ;
+void Ydump_mem(void) ;
+void Ypmemerror(char *message) ;
 
 #endif /* YOKMALLOC_H */

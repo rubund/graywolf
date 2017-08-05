@@ -76,17 +76,14 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 #include <globals.h>
 
 /* conditional compile switch is set in cleanup.h */
-static INT dumpFlag ;
+static int dumpFlag ;
 static char programPath[LRECL] ;
 static BOOL  (*userFunction)() ;
 
 /* ***************************************************************** 
    initCleanup - sets static variables for cleanup handler.
 */
-VOID YinitCleanup( argv, function, dump )
-char *argv ;
-BOOL  (*function)() ;
-int dump ;
+void YinitCleanup( char *argv, BOOL  (*function)(), int dump )
 {
     sprintf( programPath, "%s", argv ) ;
     userFunction = function ;
@@ -96,12 +93,7 @@ int dump ;
 /* ***************************************************************** 
    cleanup - the installed cleanup handler.
 */
-#ifdef linux	/* maybe others? */
 void Ycleanup(int sigNum)
-#else
-void Ycleanup(int sigNum, int code, struct sigcontext *scp )
-#endif /* linux */
-
 {
     if( sigNum != SIGINT && sigNum != SIGQUIT && sigNum != SIGKILL ){
 	printf("\nSystem has detected an error!\n") ;
