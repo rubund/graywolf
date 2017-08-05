@@ -1,13 +1,18 @@
 %define api.prefix readcgraph_
 %glr-parser
-%{
+%code top{
+#include <globals.h>
+#include "changraph.h"
+#include "io.h"
 #define yyget_lineno readcgraph_get_lineno
 #define yytext readcgraph_text
 #define yyin readcgraph_in
 extern char *yytext;
 extern int yyget_lineno(void);
 static int nodeS ;          /* current node */
-%}
+int readcgraph_error(char *s);
+char *readcgraph_lex();
+}
 
 %union {
 	int ival;
@@ -74,7 +79,7 @@ int read_cgraph(char *filename)
 	printf("%s: opening %s \n",__FUNCTION__,filename);
 	yyin = fopen(filename,"r");
 	if(yyin) {
-		init();
+/* 		init(); */
 		/* parse input file using yacc */
 		yyparse();
 	}

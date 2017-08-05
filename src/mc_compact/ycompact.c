@@ -56,22 +56,23 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 	    May  3, 1989 - changed to Y prefixes.
 	    May  6, 1989 - added no graphics compile switch
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) ycompact.c version 7.1 11/10/90" ;
-#endif
-
-#include <compact.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "compact.h"
+#include "debug2.h"
+#include "xcompact.h"
+#include "ycompact.h"
+#include "compactor.h"
+#include "multi.h"
 
 static PICKETPTR  leftPickS ;
 
+int sortbyYX( COMPACTPTR *tileA , COMPACTPTR *tileB );
 
 ERRORPTR buildYGraph()
 {
     int i ;                    /* counter */
     int overlapx ;             /* overlap conditions in x direction */
     int overlapy ;             /* overlap conditions in y direction */
-    int sortbyYX() ;           /* sort the tiles Y then X */
     int left, right ;          /* coordinates of tiles */
     int bottom, top ;          /* coordinates of tiles */
     BOOL firstPick ;           /* TRUE if first picket which matches */
@@ -102,7 +103,7 @@ ERRORPTR buildYGraph()
     /* sort by ymin xmin of the bounding box */
     /* we give it two chances - second time we expand core if necessary */
     for( i=0; i <= 1 ; i++ ){
-	Yquicksort((char *)yGraphG,numtilesG+2,sizeof(COMPACTPTR),sortbyYX);
+	Yquicksort((char *)yGraphG,numtilesG+2,sizeof(COMPACTPTR), sortbyYX);
 	if( yGraphG[SOURCE]->cell == YSOURCEC && 
 	    yGraphG[SINK]->cell == YSINKC ){
 	    break ;
@@ -135,7 +136,7 @@ ERRORPTR buildYGraph()
 
 	/* search thru picket list for adjacencies */
 	for( curPick=leftPickS;curPick;curPick=curPick->next){
-	    overlapx = projectX( curPick->pt2.lft, curPick->pt1.rght,
+	    overlapx = YprojectX( curPick->pt2.lft, curPick->pt1.rght,
 			candidate->l, candidate->r) ;
 			
 	    if( overlapx > 0 ){  /* allow touching */
@@ -156,7 +157,7 @@ ERRORPTR buildYGraph()
 
 		/* check for errors */
 		overlapy = 
-		    projectY( t->b, t->t, candidate->b, candidate->t ) ;
+		    YprojectY( t->b, t->t, candidate->b, candidate->t ) ;
 		if( overlapx > 0 && overlapy > 0 ){
 		    /* save violations - add to violation list */
 		    if( lasterror ){
@@ -241,9 +242,7 @@ ERRORPTR buildYGraph()
 
 } /* end buildYGraph */
 
-formyEdge( fromNode, toNode ) 
-int fromNode ;
-int toNode ;
+void formyEdge( int fromNode, int toNode ) 
 {
     COMPACTPTR e1, e2 ;
     ECOMPBOXPTR temp, newE ;
@@ -318,7 +317,7 @@ int toNode ;
 
 }
 
-inityPicket( ) 
+void inityPicket( ) 
 {
     COMPACTPTR source, sink, node ;
     int i ;
@@ -352,11 +351,7 @@ inityPicket( )
     leftPickS->prev = NULL ;
 }
     
-
-
-update_ypicket( i, lowerLimit, upperLimit )
-int i ;
-PICKETPTR lowerLimit, upperLimit ;
+void update_ypicket( int i, PICKETPTR lowerLimit, PICKETPTR upperLimit )
 {
     PICKETPTR t, temp, curPick ;
     COMPACTPTR newtile ;        /* new tile to be added to picket */
@@ -501,9 +496,7 @@ PICKETPTR lowerLimit, upperLimit ;
 }/* end picket update */
 
 /* sort by y first then x */
-sortbyYX( tileA , tileB )
-COMPACTPTR *tileA , *tileB ;
-
+int sortbyYX( COMPACTPTR *tileA , COMPACTPTR *tileB )
 {
     if( (*tileA)->b != (*tileB)->b ){
 	return( (*tileA)->b - (*tileB)->b ) ;
@@ -513,7 +506,7 @@ COMPACTPTR *tileA , *tileB ;
     }
 }
 
-static yforwardPath()
+void yforwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -554,7 +547,7 @@ static yforwardPath()
 } /* end yforwardPath */
 
 
-static ybackwardPath()
+void ybackwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -595,9 +588,7 @@ static ybackwardPath()
     }
 } /* end ybackwardPath */
 
-
-INT longestyPath( find_path )
-BOOL find_path ;
+int longestyPath( BOOL find_path )
 {
 
     INT cell ;			/* current cell in question */
@@ -761,8 +752,7 @@ BOOL find_path ;
     return( length ) ;
 } /* end longestyPath */
 
-
-dypick()
+void dypick()
 {
     PICKETPTR curPick ;
     printf("Bottom to top pickets:\n" ) ;

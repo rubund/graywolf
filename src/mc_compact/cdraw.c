@@ -52,33 +52,19 @@ REVISIONS:  Apr 25, 1989 - added graphics loop to program.
 	    Fri Mar 29 14:13:22 EST 1991 - temp fix for 2D graphics
 		avoids arbitrary edge explosion.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cdraw.c version 7.5 3/29/91" ;
-#endif
-
 #ifndef NOGRAPHICS 
 
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/draw.h>
-#include <yalecad/colors.h>
-#include <yalecad/debug.h>
-#include <compact.h>
+#include <globals.h>
+#include "changraph.h"
+#include "io.h"
+#include "cdraw.h"
 
 #define SLEEPTIME     (unsigned) 2
 #define DATADIR       "./DATA"
 #define COMPACTMENU   "compact_menu"
-
-/* #define DEVELOPMENU */
-/* During development use TWread_menus in place of menuS */
-/* to create menu record, ie.  TWread_menus(COMPACTMENU) */
-#ifdef DEVELOPMENU
-#define MENU   TWread_menus(COMPACTMENU)
-#else
 #define MENU   menuS
-#endif
 
-#include <menus.h>
+#include "menus.h"
 
 static BOOL drawLabelS = FALSE ;
 static BOOL drawEdgeS  = FALSE ;
@@ -92,11 +78,12 @@ static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
 static INT  zspanS ;
 
+void draw_changraph();
+
 void init_graphics( int windowId )
 {
 	char *host, *Ygetenv() ;
 	int  xpandx, xpandy ;
-	INT draw_the_data() ;
 
 	/* we need to find host for display */
 	if(!(host = Ygetenv("DISPLAY"))) {
@@ -130,8 +117,7 @@ void init_graphics( int windowId )
 	}
 }
 
-set_draw_critical( flag ) 
-BOOL flag ;
+void set_draw_critical( BOOL flag ) 
 {
 
     if( YdebugAssert() ){
@@ -143,7 +129,7 @@ BOOL flag ;
 } /* end set_draw_critical */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+int draw_the_data()
 {
 
     INT  i ;
@@ -379,7 +365,7 @@ INT draw_the_data()
 } /* end draw_the_data */
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
@@ -550,7 +536,7 @@ process_graphics()
 
 
 /* how to draw the channel graph */
-draw_changraph()
+void draw_changraph()
 {
     INT i ;                        /* temp counter */
     INT color ;                    /* color of edge */

@@ -1,11 +1,12 @@
 %option prefix="readtiles_"
-%{
-#include "readtiles.h"
+%top{
+#include <globals.h>
+#include "readtiles.y.h"
 #define yylval readtiles_lval
 #define yytext readtiles_text
 #define yyin readtiles_in
 extern int yylineno;
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+

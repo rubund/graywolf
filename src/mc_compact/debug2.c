@@ -49,15 +49,11 @@ REVISIONS:  Jan 29, 1989 - changed msg to msgG and added \n's.
 	    Sun Nov  4 13:22:21 EST 1990 - added new debug function
 		for displaying cell slacks.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug2.c version 7.1 11/10/90" ;
-#endif
+#include <globals.h>
+#include "compact.h"
+#include "debug2.h"
 
-#include <compact.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-
-dumpxGraph()
+void dumpxGraph()
 {
     int  i ;
     ECOMPBOXPTR eptr ;
@@ -100,9 +96,7 @@ dumpxGraph()
     TWCLOSE( fp ) ;
 }
 
-BOOL dxancestors( numtiles, xGraph ) 
-int numtiles ;
-COMPACTPTR *xGraph ;
+BOOL dxancestors( int numtiles, COMPACTPTR *xGraph ) 
 {
     int i, fcount = 0, bcount = 0 ;
     int fanc = 0 , banc = 0 ;
@@ -135,7 +129,7 @@ COMPACTPTR *xGraph ;
 
 }
 
-dumpyGraph()
+void dumpyGraph()
 {
     int  i ;
     ECOMPBOXPTR eptr ;
@@ -199,10 +193,7 @@ dumpyGraph()
 
 }
 
-
-ECOMPBOXPTR find_edge( node1, node2, direction )
-int node1, node2 ;
-int direction ;
+ECOMPBOXPTR find_edge( int node1, int node2, int direction )
 {
     ECOMPBOXPTR eptr ;
     switch( direction ){
@@ -227,7 +218,7 @@ int direction ;
     return( NULL ) ;
 }
 
-dycons()
+void dycons()
 {
     int  i, bcons ;
     ECOMPBOXPTR eptr, eptr2 ;
@@ -273,11 +264,7 @@ dycons()
 
 }
 
-
-
-dsort( numtiles, XNotY )
-int numtiles ;
-BOOL XNotY ;
+void dsort( int numtiles, BOOL XNotY )
 {
     int i ;
     COMPACTPTR *ptr ;
@@ -311,7 +298,7 @@ BOOL XNotY ;
 
 }  /* end numtiles */
 
-dxancerr()
+void dxancerr()
 {
     int i ;
 
@@ -329,7 +316,7 @@ dxancerr()
     }
 }
 
-dump_anc()
+void dump_anc()
 {
     INT i ;
     INT last ;
@@ -341,10 +328,7 @@ dump_anc()
     }
 } /* dump_anc */
 
-dslack( XNotY, center, length )
-BOOL XNotY ;
-BOOL center ;
-INT length ;
+void dslack( BOOL XNotY, BOOL center, int length )
 {
     INT i ;
     INT count ;
@@ -417,10 +401,7 @@ INT length ;
     }
 } /* end dslack */
 
-dedges( cell, XnotY, forwardNotBack )
-INT cell ;
-BOOL XnotY ;
-BOOL forwardNotBack ;
+void dedges( int cell, BOOL XnotY, BOOL forwardNotBack )
 {
     NODEPTR nptr ;
     CELLBOXPTR cptr ;
@@ -463,7 +444,7 @@ BOOL forwardNotBack ;
     printf( "\n\n" ) ;
 }
 
-dyancerr()
+void dyancerr()
 {
     int i ;
 
@@ -481,8 +462,7 @@ dyancerr()
     }
 }
 
-
-check_xancestors()
+void check_xancestors()
 {
     INT i ;
     INT count ;
@@ -519,7 +499,7 @@ check_xancestors()
     }
 } /* end check_xancestors */
 
-check_yancestors()
+void check_yancestors()
 {
     INT i ;
     INT count ;

@@ -55,10 +55,12 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 	    May  3, 1989 - changed to Y prefixes.
 	    May  6, 1989 - added no graphics compile switch
 ----------------------------------------------------------------- */
-#include <compact.h>
 #include <globals.h>
-
-void formxEdge(int fromNode, int toNode);
+#include "compact.h"
+#include "compactor.h"
+#include "xcompact.h"
+#include "debug2.h"
+#include "multi.h"
 
 static PICKETPTR  botPickS ;
 
@@ -123,7 +125,7 @@ void buildXGraph()
 	/* search thru picket list for adjacencies */
 	for( curPick=botPickS;curPick;curPick=curPick->next){
 	    ASSERT( dcheckPicks(), "buildXGraph", "pickets are bad" ) ;
-	    overlapy = projectY( curPick->pt2.bot, curPick->pt1.top,
+	    overlapy = YprojectY( curPick->pt2.bot, curPick->pt1.top,
 		candidate->b, candidate->t) ;
 		
 	    if( overlapy > 0 ){ /* overlap positive means real overlap */
@@ -144,7 +146,7 @@ void buildXGraph()
 
 
 		/* now check for errors */
-		overlapx = projectX(t->l,t->r,candidate->l,candidate->r);
+		overlapx = YprojectX(t->l,t->r,candidate->l,candidate->r);
 		if( overlapy > 0 && overlapx > 0 ){
 		    D( "mc_compact/buildXGraph", sprintf( YmsgG, 
 			"Overlap detected: cell %d (tile:%d) and cell %d (tile:%d)\n",
@@ -292,7 +294,7 @@ void formxEdge(int fromNode, int toNode)
     ASSERT( newE->constraint >= 0, "formxEdge", YmsgG ) ;
 }
 
-initxPicket() 
+void initxPicket() 
 {
     COMPACTPTR sink, source, node ;
     int i ;
@@ -326,11 +328,7 @@ initxPicket()
 
 } /* end initxPicket */
     
-
-
-update_xpicket( i, lowerLimit, upperLimit )
-int i ;
-PICKETPTR lowerLimit, upperLimit ;
+void update_xpicket( int i, PICKETPTR lowerLimit, PICKETPTR upperLimit )
 {
     PICKETPTR t, temp, curPick ;
     COMPACTPTR newtile ;         /* new tile to be added to picket */
@@ -551,8 +549,7 @@ COMPACTPTR *tileA , *tileB ;
     }
 }
 
-load_ancestors( direction )
-INT direction ;
+void load_ancestors( int direction )
 {
     INT i ;			/* counter */
     INT last ;			/* last tile in tileNode array */
@@ -582,7 +579,7 @@ INT direction ;
     }
 }
 
-static xforwardPath()
+void xforwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -663,8 +660,7 @@ static xbackwardPath()
     }
 } /* end xbackwardPath */
 
-INT longestxPath( find_path )
-BOOL find_path ;
+int longestxPath( BOOL find_path )
 {
 
     INT cell ;			/* current cell in question */

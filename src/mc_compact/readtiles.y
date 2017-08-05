@@ -1,14 +1,18 @@
 %define api.prefix readtiles_
 %glr-parser
-%{
+%code top{
+#include <globals.h>
 #include "compact.h"
+#include "io.h"
 #define yyget_lineno readtiles_get_lineno
 #define yytext readtiles_text
 #define yyin readtiles_in
 extern char *yytext;
 extern int yyget_lineno(void);
 static int nodeS ;          /* current node */
-%}
+int readtiles_error(char *s);
+char *readtiles_lex();
+}
 
 %union {
 	int ival;
@@ -77,7 +81,7 @@ int readtiles(char *filename)
 	printf("%s: opening %s \n",__FUNCTION__,filename);
 	yyin = fopen(filename,"r");
 	if(yyin) {
-		init();
+		//init();
 		/* parse input file using yacc */
 		yyparse();
 	}

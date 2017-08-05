@@ -51,13 +51,10 @@ REVISIONS:  Apr 30, 1989 - added direction field for partitioning.
 	    Fri Nov  8 18:16:21 EST 1991 - removed INT_SMALL and INT_LARGE
 		definitions since gcc couldn't handle it.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) io.c version 7.5 5/21/92" ;
-#endif
-
-#include <compact.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
+#include <globals.h>
+#include "io.h"
+#include "multi.h"
+#include "compact.h"
 
 static int boxLS, boxRS, boxTS, boxBS ;  /* bounding box of tiles */
 static int celLS, celRS, celTS, celBS ;  /* bounding box of cur cell */

@@ -1,11 +1,14 @@
 %option prefix="readcgraph_"
-%{
-#include "readcgraph.h"
+%top{
+#include <globals.h>
+#include "changraph.h"
+#include "io.h"
+#include "readcgraph.y.h"
 #define yylval readcgraph_lval
 #define yytext readcgraph_text
 #define yyin readcgraph_in
 extern int yylineno;
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+

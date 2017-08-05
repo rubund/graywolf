@@ -55,12 +55,9 @@ REVISIONS:  Oct 24, 1988 - fixed +1 error.  Now check for graph
 		when cells completely cover each other.  We now always
 		return 0 for minslack in X and Y backward searches.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) movestrat.c version 7.2 2/17/91" ;
-#endif
-
-#include <compact.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "compact.h"
+#include "movestrat.h"
 
     /* -------------------------------------------------------------- 
         space requirements also include 2 sources and 2 sinks: 
@@ -73,9 +70,7 @@ static int find_bound();
 static int findxerror();
 static int findyerror();
 
-
-moveStrategy( violations ) 
-ERRORPTR violations ;
+void moveStrategy( ERRORPTR violations ) 
 {
     COMPACTPTR tileL, tileR, tileB, tileT ;
     ECOMPBOXPTR edge ;
@@ -277,8 +272,7 @@ ERRORPTR violations ;
 } /* end moveStrategy */
 
 /* HOW to update the tiles of the cells */
-update_cell_tiles( cell, deltax, deltay ) 
-int cell, deltax, deltay ;
+void update_cell_tiles( int cell, int deltax, int deltay ) 
 {
     CELLBOXPTR cellptr ;
     COMPACTPTR t ;
@@ -311,8 +305,7 @@ int cell, deltax, deltay ;
 
 } /* end update_cell_tiles */
 
-BOOL dcheck_pos( cell ) 
-int cell ;
+BOOL dcheck_pos( int cell ) 
 {
 
 #ifdef DEBUG
@@ -468,7 +461,7 @@ COMPACTPTR *tileL_addr, *tileR_addr ;
     cell2 = cellarrayG[tileR->cell] ;
 
     /* determine left and right cells */
-    overlap = projectX( cell1->l, cell1->r, cell2->l, cell2->r ) ;
+    overlap = YprojectX( cell1->l, cell1->r, cell2->l, cell2->r ) ;
     switch( overlap ){
     case OVERLAP1:
 	/* --------------------------------------------------------
@@ -530,7 +523,7 @@ COMPACTPTR *tileL_addr, *tileR_addr ;
 	for( edge=tileL->xadjF;edge;edge=edge->next ){
 	    tempTile = tileNodeG[ edge->node ] ;
 	    if( tempTile->cell == cell ){
-		overlap = projectY( tempTile->b, tempTile->t,
+		overlap = YprojectY( tempTile->b, tempTile->t,
 		    tileR->b, tileR->t ) ;
 		if( overlap > 0 ){
 		    slack = tempTile->r - tileL->r ;
@@ -552,7 +545,7 @@ COMPACTPTR *tileL_addr, *tileR_addr ;
 	for( edge=tileR->xadjB;edge;edge=edge->next ){
 	    tempTile = tileNodeG[ edge->node ] ;
 	    if( tempTile->cell == cell ){
-		overlap = projectY( tempTile->b, tempTile->t,
+		overlap = YprojectY( tempTile->b, tempTile->t,
 		    tileL->b, tileL->t ) ;
 		if( overlap ){
 		    slack = tileR->l - tempTile->l ;
@@ -606,7 +599,7 @@ COMPACTPTR *tileB_addr, *tileT_addr ;
     cell2 = cellarrayG[tileT->cell] ;
 
     /* determine bottom and top cells */
-    overlap = projectY( cell1->b, cell1->t, cell2->b, cell2->t ) ;
+    overlap = YprojectY( cell1->b, cell1->t, cell2->b, cell2->t ) ;
     /* see comments for findxerror */
     switch( overlap ){
     case OVERLAP1:
@@ -645,7 +638,7 @@ COMPACTPTR *tileB_addr, *tileT_addr ;
 	for( edge=tileB->yadjF;edge;edge=edge->next ){
 	    tempTile = tileNodeG[ edge->node ] ;
 	    if( tempTile->cell == cell ){
-		overlap = projectX( tempTile->l, tempTile->r,
+		overlap = YprojectX( tempTile->l, tempTile->r,
 		    tileT->l, tileT->r ) ;
 		if( overlap > 0 ){
 		    slack = tempTile->t - tileB->t ;
@@ -665,7 +658,7 @@ COMPACTPTR *tileB_addr, *tileT_addr ;
 	for( edge=tileT->yadjB;edge;edge=edge->next ){
 	    tempTile = tileNodeG[ edge->node ] ;
 	    if( tempTile->cell == cell ){
-		overlap = projectX( tempTile->l, tempTile->r,
+		overlap = YprojectX( tempTile->l, tempTile->r,
 		    tileB->l, tileB->r ) ;
 		if( overlap > 0 ){
 		    slack = tileT->b - tempTile->b ;

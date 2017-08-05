@@ -51,31 +51,26 @@ REVISIONS:  Apr 30, 1989 - modified program for new library and
 	    Fri Mar 29 14:17:51 EST 1991 - added DEBUGX switch and
 		added path deck initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
-#endif
-
-#include <stdio.h>
-#include <signal.h>
-#include <yalecad/cleanup.h>
-#include <yalecad/message.h>
-#include <yalecad/program.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
+#include <globals.h>
 
 #define COMPACT_DEFS
-#include <compact.h>
+#include "compact.h"
+#include "compactor.h"
+#include "cdraw.h"
+#include "changraph.h"
+#include "grid.h"
+#include "stdmacro.h"
+#include "io.h"
+
+int readtiles(char *filename);
+int read_cgraph(char *filename);
 
 int
 __attribute__((visibility("default")))
 mc_compact(int a, int d, int c, int n, int p, int v, char*cktName,int blockr, int blockt, int track_spacingX, int track_spacingY)
 {
-	char *ptr ;
+	char filename[LRECL] ;
 
-#ifdef DEBUGX
-	extern int _Xdebug ;
-	_Xdebug = TRUE ;
-#endif
 	graphicsG  = TRUE ;
 	alignG     = FALSE ;
 	compactG   = TRUE ; 
@@ -151,11 +146,12 @@ mc_compact(int a, int d, int c, int n, int p, int v, char*cktName,int blockr, in
 	blockmyG = blocktG / 2 ;
 
 	/* turn on the graphics if requested */
-	readtiles() ;
+	sprintf( filename, "%s.mvio", cktNameG ) ;
+	readtiles(filename) ;
 
 	if( constraintsG ){
 		/* read the channel graph */
-		read_cgraph() ;
+		read_cgraph(filename) ;
 		build_trees() ;
 		path_deckG = Ydeck_init() ;
 	}

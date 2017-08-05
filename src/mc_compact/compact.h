@@ -84,11 +84,7 @@ REVISIONS:  Oct 24, 1988 - added moved field to tilenode record for
 
 #endif /* NOGRAPHICS */
 
-#include <yalecad/string.h>
-#include <yalecad/message.h>
-#include <yalecad/set.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/deck.h>
+#include <globals.h>
 
 /********************** DEFINE STATEMENTS *********************/
 #define SOURCE        0                /* definitions in x and y graph */

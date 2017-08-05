@@ -45,42 +45,17 @@ CONTENTS:
 DATE:	    Jan 21, 1990 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) multi.c version 7.3 5/21/92" ;
-#endif
+#include <globals.h>
+#include "compact.h"
+#include "multi.h"
+#include "io.h"
+#include "xcompact.h"
+#include "ycompact.h"
 
-#include <compact.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+ERRORPTR multiS = NULL ;  /* list of multiple tile adjacencies */
+VERTEXPTR vertex_listS = NIL( VERTEX_BOX *) ;  /* head of the list */
 
-typedef struct vertex_box {
-    INT x ;
-    INT y ;
-    INT class ;
-    struct vertex_box *next ;
-} *VERTEXPTR, VERTEX_BOX ;
-
-#define START 1
-#define END 2
-#define NOTHING 3
-
-static ERRORPTR multiS = NULL ;  /* list of multiple tile adjacencies */
-static VERTEXPTR vertex_listS = NIL( VERTEX_BOX *) ;  /* head of the list */
-
-
-static preprocess_multi();
-static BOOL fix_tiles();
-static add_to_multi_list();
-static BOOL find_tile();
-static init_vertex_list();
-static add_extra_points();
-static swap();
-static add_pt();
-static free_vertex_list();
-
-
-
-multi_tiles()
+void multi_tiles()
 {
     preprocess_multi( TRUE ) ;
     final_tiles() ;
@@ -90,8 +65,7 @@ multi_tiles()
 /* remove overlap between tiles of a multi-tile cell */
 /* Since this operation is only done once, a reliable O(n2) algorithm */
 /* is reasonable here */
-static preprocess_multi( fixNotCheck )
-BOOL fixNotCheck ;
+void preprocess_multi( BOOL fixNotCheck )
 {
 
     int i ;               /* counter */
@@ -132,9 +106,9 @@ TOP:
 		}
 
 		/* now check for overlap */
-		if( projectY( tilea->b, tilea->t, tileb->b, tileb->t) ){
+		if( YprojectY( tilea->b, tilea->t, tileb->b, tileb->t) ){
 
-		    if( projectX( tilea->l,tilea->r,tileb->l,tileb->r )){
+		    if( YprojectX( tilea->l,tilea->r,tileb->l,tileb->r )){
 
 			if( fix_tiles( tilea, tileb ) ){
 			    /* a goto here makes logic easier to understand */
@@ -154,9 +128,7 @@ TOP:
 
 } /* end preprocess multi */
 
-static BOOL fix_tiles( tilea, tileb )
-COMPACTPTR tilea ;    /* info on tile a */
-COMPACTPTR tileb ;    /* info on tile b */
+BOOL fix_tiles( COMPACTPTR tilea, COMPACTPTR tileb )
 {
 
     INT count ;           /* count the number of tiles */
@@ -284,9 +256,7 @@ COMPACTPTR tileb ;    /* info on tile b */
 /* which are adjacent.  Since the tiles of a multi tile cell cannot */
 /* move relative to one another. We can precompute the edges in the */
 /* graphs.  Here we need only to save the node numbers */
-static add_to_multi_list( tilea, tileb )
-COMPACTPTR tilea ;    /* info on tile a */
-COMPACTPTR tileb ;    /* info on tile b */
+void add_to_multi_list( COMPACTPTR tilea, COMPACTPTR tileb )
 {
     ERRORPTR multi_tile ;  /* temp pointer */
 
@@ -307,7 +277,7 @@ COMPACTPTR tileb ;    /* info on tile b */
 } /* end add_to_multi_list */
 
 /* add the precomputed edges to the xgraph */
-add_mtiles_to_xgraph()
+void add_mtiles_to_xgraph()
 {
     ERRORPTR multi_tile ;  /* temp pointer */
     COMPACTPTR nodeI, nodeJ ;     /* two adjacent nodes */
@@ -332,7 +302,7 @@ add_mtiles_to_xgraph()
 } /* end add_mtiles_to_xgraph() */
 
 /* add the precomputed edges to the ygraph */
-add_mtiles_to_ygraph()
+void add_mtiles_to_ygraph()
 {
     ERRORPTR multi_tile ;         /* temp pointer */
     COMPACTPTR nodeI, nodeJ ;     /* two adjacent nodes */
@@ -357,8 +327,7 @@ add_mtiles_to_ygraph()
 } /* end add_mtiles_to_ygraph() */
 
 
-static BOOL find_tile( llx , lly , urx , ury )
-INT *llx , *lly , *urx , *ury ;
+BOOL find_tile( int *llx , int *lly , int *urx , int *ury )
 {
 
     VERTEX_BOX *vertex , *lvertex , *rvertex , *tvertex ;
@@ -498,8 +467,7 @@ TOP:
     return(TRUE) ;
 } /* end find_tile */
 
-static init_vertex_list( left, bottom, right, top )
-INT left, bottom, right, top ;
+void init_vertex_list( int left, int bottom, int right, int top )
 {
     /* add in inverse order so list will be in correct order */
     add_pt( right, bottom, END ) ;
@@ -508,7 +476,7 @@ INT left, bottom, right, top ;
     add_pt( left, bottom, START ) ;
 } /* end init_vertex_list */
 
-static add_extra_points()
+void add_extra_points()
 {
     INT xpt[9] ;
     INT ypt[9] ;
@@ -613,8 +581,7 @@ static add_extra_points()
     }
 }
 
-static swap( a, b )
-INT *a, *b ;
+void swap( int *a, int *b )
 {
     INT tmp ;
 
@@ -623,8 +590,7 @@ INT *a, *b ;
     *b = tmp ;
 } /* end swap */
 
-static add_pt( x, y, class )
-INT x, y, class ;
+void add_pt( int x, int y, int class )
 {
     VERTEXPTR temp ;  /* head of the list */
 
@@ -640,7 +606,7 @@ INT x, y, class ;
     vertex_listS->class = class ;
 } /* end add_pt */
 
-static free_vertex_list()
+void free_vertex_list()
 {
     VERTEXPTR next_vertex ;
 

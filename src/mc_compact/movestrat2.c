@@ -56,35 +56,33 @@ REVISIONS:  Dec  4, 1988 - added initialization for next compaction cycle.
 		graph constraint compaction.
 	    Mon May  6 22:37:01 EDT 1991 - make sure window is correct.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) movestrat2.c version 7.9 5/6/91" ;
-#endif
-
-#include <compact.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "changraph.h"
+#include "compact.h"
+#include "xcompact.h"
+#include "ycompact.h"
+#include "movestrat.h"
+#include "movestrat2.h"
 
 #define PICK_INT(l,u) (((l)<(u))?((acm_random() % ((u)-(l)+1))+(l)) : (l))
 #define  LEFT_EDGE       0
 #define  RIGHT_EDGE      1
 #define  CENTERED        2 
 
+int xlongestS = INT_MAX ;
+int ylongestS = INT_MAX ;
+int area_countS = 0 ;
+int compact_countS = 0 ;
+int lengthS ;
+double best_areaS = 1.0E30 ;
 
-static INT xlongestS = INT_MAX ;
-static INT ylongestS = INT_MAX ;
-static INT area_countS = 0 ;
-static INT compact_countS = 0 ;
-static INT lengthS ;
-static DOUBLE best_areaS = 1.0E30 ;
-
-
-static x_center();
-static calc_xslacks();
-static update_xslacks();
-static y_center();
-static calc_yslacks();
-static update_yslacks();
-static INT sortby_xslack();
-
+void x_center();
+void calc_xslacks();
+void update_xslacks();
+void y_center();
+void calc_yslacks();
+void update_yslacks();
+int sortby_xslack();
 
 #define HEURISTIC1
 
@@ -93,8 +91,7 @@ static INT sortby_xslack();
         xSource = 0, xsink = numtilesG + 1, ysource = numtilesG + 2,
 	and ysink = numtilesG + 3 positions in the tileNode array.
     */
-BOOL move_compactx( length ) 
-INT length ;
+BOOL move_compactx( int length ) 
 {
     INT 	   i,
 		   newX,
@@ -214,7 +211,7 @@ INT length ;
 
 } /* end move_compactx */
 
-static x_center()
+void x_center()
 {
     INT            i,
 		   newX,
@@ -336,7 +333,7 @@ static x_center()
 
 } /* end center_x */
 
-static calc_xslacks( cur_cell )
+void calc_xslacks( int cur_cell )
 {
     INT i ; 			/* counter */
     INT xmin ;			/* max of all the minimums of a cell */
@@ -383,8 +380,7 @@ static calc_xslacks( cur_cell )
     }
 } /* end calc_xslacks */
 
-static update_xslacks( tptr ) 
-COMPACTPTR tptr ;
+void update_xslacks( COMPACTPTR tptr ) 
 {
     INT j ;			/* current tile adjacent to node */
     INT node ;			/* current node popped from the queue */
@@ -420,8 +416,7 @@ COMPACTPTR tptr ;
 
 } /* end update_xslacks */
 
-BOOL move_compacty( length ) 
-int length ;
+BOOL move_compacty( int length ) 
 {
     INT 	   i,
 		   newY,
@@ -541,7 +536,7 @@ int length ;
 
 } /* end move_compacty */
 
-static y_center()
+void y_center()
 {
     int            i,
 		   newY,
@@ -664,7 +659,7 @@ static y_center()
 
 } /* end y_center */
 
-static calc_yslacks( cur_cell )
+void calc_yslacks( int cur_cell )
 {
     INT i ; 			/* counter */
     INT ymin ;			/* max of all the minimums of a cell */
@@ -712,8 +707,7 @@ static calc_yslacks( cur_cell )
     }
 } /* end calc_yslacks */
 
-static update_yslacks( tptr ) 
-COMPACTPTR tptr ;
+void update_yslacks( COMPACTPTR tptr )
 {
     INT j ;			/* current tile adjacent to node */
     INT node ;			/* current node popped from the queue */
@@ -752,7 +746,7 @@ COMPACTPTR tptr ;
 } /* end update_yslacks */
 
 /* sort by x first then y */
-static INT sortby_xslack( cellA , cellB )
+int sortby_xslack( cellA , cellB )
 CELLBOXPTR *cellA , *cellB ;
 {
     INT excess_slacka, excess_slackb ;

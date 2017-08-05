@@ -45,14 +45,11 @@ DATE:	    Apr 18, 1989 - origin prboard.c
 REVISIONS:  Apr 30, 1989 - removed unnecessary variables.
 	    Mon May  6 22:33:51 EDT 1991 - no longer grid cells.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) grid.c version 7.2 5/6/91" ;
-#endif
+#include <globals.h>
+#include "compact.h"
+#include "grid.h"
 
-#include <compact.h>
-#include <yalecad/debug.h>
-
-grid_data()
+void grid_data()
 {
 
     int xcenter , ycenter, remainder ;

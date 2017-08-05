@@ -36,27 +36,8 @@
  *   POSSIBILITY OF THE FOREGOING.
  *
  */
-
-/* ----------------------------------------------------------------- 
-FILE:	    changraph.c
-DESCRIPTION:
-CONTENTS:   
-DATE:	    Mon Feb 18 00:08:29 EST 1991
-REVISIONS:  Fri Mar 29 14:16:57 EST 1991 - added cell edge tree data
-		structure.
-	    Mon Aug 12 16:44:05 CDT 1991 - updated for new Yrbtree_init.
------------------------------------------------------------------ */
-#ifndef lint
-static char SccsId[] = "@(#) changraph.c (Yale) version 1.4 5/21/92" ;
-#endif
-
-#include <stdio.h>
-#include <yalecad/message.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/set.h>
-#include <compact.h>
+#include <globals.h>
+#include "changraph.h"
 
 static int horz_edgeS = 0 ;  /* number of distinct horizontal edges */
 static int vert_edgeS = 0 ;  /* number of distinct vertical edges */
@@ -238,7 +219,7 @@ INFOPTR edge ;
 	*(edge->end), edge->HnotV ) ;
 } /* end print_edge */
 
-build_trees()
+void build_trees()
 {
     int i ;
     INFOPTR eptr ;     /* current edge */
@@ -297,8 +278,7 @@ build_trees()
 } /* end build_trees */
 
 /* given an x and y find the closest edge to the right or top */
-INFOPTR get_closest_edge( x, y )
-int x, y ;
+INFOPTR get_closest_edge( int x, int y )
 {
 
     INFOBOX lo, hi ;              /* set the bounds for the search */
@@ -365,9 +345,7 @@ int x, y ;
     return( closest_edge ) ;
 } /* end get_closest_edge */
 
-stretch_graph( stretch_edge, x, y )
-INFOPTR stretch_edge ;
-int x, y ;
+void stretch_graph( INFOPTR stretch_edge, int x, int y )
 {
     INFOBOX lo, hi ;              /* set the bounds for the search */
     INFOPTR edge ;                /* the current pointer */

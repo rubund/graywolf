@@ -2,10 +2,10 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(readcgraph readcgraph.y ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.c)
+bison_target(readcgraph readcgraph.y ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.y.c)
 flex_target(readcgraph readcgraph.lex ${CMAKE_BINARY_DIR}/src/mc_compact/readcgraph.lex.c)
 
-bison_target(readtiles readtiles.y ${CMAKE_BINARY_DIR}/src/mc_compact/readtiles.c)
+bison_target(readtiles readtiles.y ${CMAKE_BINARY_DIR}/src/mc_compact/readtiles.y.c)
 flex_target(readtiles readtiles.lex ${CMAKE_BINARY_DIR}/src/mc_compact/readtiles.lex.c)
 
 add_library(GrayWolfMCCompact SHARED

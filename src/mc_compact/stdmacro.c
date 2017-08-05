@@ -49,38 +49,13 @@ REVISIONS:  May  3, 1989 - changed to Y prefixes.
 	    Jun 21, 1989 - changed swap to exchange only x positions.
 	    May  4, 1990 - updated the functionality of Yset_init.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) stdmacro.c version 7.3 2/15/91" ;
-#endif
-
-#include <compact.h>
-#include <yalecad/debug.h>
-#include <yalecad/set.h>
-
-/* --------------------------------------------------------------- 
-  state   input    valid   next state
-    H1     H        yes       H1
-    H1     S        yes       S1
-    S1     H        yes       H2
-    S1     S        yes       S1
-    H2     H        yes       H2
-    H2     S        no        --
---------------------------------------------------------------- */
-#define E  0
-#define H1 1
-#define S1 2
-#define H2 3
-
-typedef struct {
-    int         node ;           /* node number */
-    int         from_left ;      /* distance from left edge of bar */
-    int         from_right ;     /* distance from right edge of bar */
-    int         left_neighbor ;  /* left swapping neighbor */
-    int         right_neighbor ; /* right swapping neighbor */
-    BOOL        type ;           /* tile type */
-    BOOL        candidate ;      /* whether it is an exchange candidate */
-    COMPACTPTR  ptr ;            /* pointer to tile record */
-} SELECTBOX, *SELECTPTR ;
+#include <globals.h>
+#include "compact.h"
+#include "compactor.h"
+#include "cdraw.h"
+#include "xcompact.h"
+#include "movestrat.h"
+#include "stdmacro.h"
 
 static int nextStateS[4][2] = {
     { E,  E     },   /* error state */
@@ -91,12 +66,11 @@ static int nextStateS[4][2] = {
 static YSETPTR nodeSetS ; /* these two implement set of tile nodes */
 static SELECTPTR *stackArrayS ; /* members of an invalid path */
 
-
-
 static int sortbydist();
+BOOL depth_first_search();
+void remove_problem( int source, int sink );
 
-
-partition_compact()
+void partition_compact()
 {
     ERRORPTR  violations, buildXGraph() ;
     int i ;
@@ -147,7 +121,7 @@ partition_compact()
 	G( draw_the_data() ) ;
 
 	/* build the critical path in x direction */
-	longestxPath() ;
+	longestxPath(TRUE) ;
 	    
 	/* do depth first search removing violations */
 	/* returns true when no violations remain */
@@ -183,7 +157,7 @@ partition_compact()
 	G( draw_the_data() ) ;
 
 	/* build the critical path in x direction */
-	longestxPath() ;
+	longestxPath(TRUE) ;
 	    
 	/* do depth first search removing violations */
 	/* returns true when no violations remain */
@@ -413,8 +387,7 @@ int node1, node2 ;
 
 } /* end swap_nodes */
 
-remove_problem( source, sink )
-int source, sink ;
+void remove_problem( int source, int sink )
 {
     int i ;              /* temp counter */
     int node ;
