@@ -55,6 +55,8 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 #include "output.h"
 #include "config-build.h"
 
+YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+
 int readcells(char *filename);
 
 void yaleIntro()

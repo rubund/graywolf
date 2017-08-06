@@ -54,16 +54,12 @@ REVISIONS:  May 24, 1989 - updated argument to YcurTime.
 ----------------------------------------------------------------- */
 #include <globals.h>
 #include "mincut.h"
+#include "output.h"
 
 #define LSHAPE
 #define L2SHAPE
 #define TSHAPE
 #define USHAPE
-
-typedef struct {
-	BOOL io_signal ;
-	char *net ;
-} NETBOX, *NETPTR ;
 
 int objectS = 0 ;       /* number of objects read */
 int celltypeS ;         /* current cell type */
@@ -77,10 +73,6 @@ int row_sep_absS = 0;
 int total_std_cellS = 0 ;
 char current_cellS[LRECL] ; /* the current cell name */
 char cur_pinnameS[LRECL] ;  /* current pinname */
-YHASHPTR netTableS ;    /* hash table for cross referencing nets */
-/* *************************************************************** */
-
-void write_softpins( FILE *fp );
 
 void init()
 {
@@ -112,7 +104,7 @@ void addCell(int celltype, char *cellname)
 	}
 } /* end addCell */
 
-void addNet( char *signal )
+void addNet(char *signal )
 {
 	NETPTR data ;
 
@@ -270,7 +262,7 @@ void write_softpins( FILE *fp )
 	pin_count = 0 ;
 	for( thread=netTableS->thread;thread;thread=thread->threadNext){
 		net = (NETPTR) thread->data ;
-		if( net->io_signal ) {
+		if( (net->io_signal)&&(net->net) ) {
 			fprintf( fp, "softpin name pin%d signal %s\n", ++pin_count, net->net ) ;
 		}
 	}

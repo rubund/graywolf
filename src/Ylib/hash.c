@@ -112,32 +112,18 @@ void Yhash_table_delete(YHASHPTR hashtable, int (*userdelete()))
 /* returns true if conflict occured */
 char *Yhash_search(YHASHPTR hashtable, char *key, VOIDPTR data, int operation )
 {
-	#ifdef HASHFUNC1
-	int i, len;
-	#else
-	int shift ;
-	char *name ;
-	#endif
 	unsigned int hsum = 0 ;
-	YTABLEPTR   curPtr, temptr, curTable, tempThread ;
+	YTABLEPTR curPtr, temptr, curTable, tempThread ;
 
 	/* initialization */
-	table = hashtable->hash_table ;
-	tablesize = hashtable->size ;
+	if(!hashtable) return NULL;
+	table = hashtable->hash_table;
+	tablesize = hashtable->size;
 
-	#ifdef HASHFUNC1
-	len = strlen(key) ;
-	for( i = 0 ;i < len; i++ ) {
+	int len = key?strlen(key):0;
+	for( int i = 0 ; i < len; i++ ) {
 		hsum += ( unsigned int ) key[i] ;
 	}
-	#else
-	/*  FUNCTION hash_key */
-	name = key ;
-	for (shift=1 ;*name; name++) {
-		hsum = hsum + *name<<shift;
-		shift = (shift + 1) & 0x0007;
-	}
-	#endif
 	hsum %= tablesize ;
 
 	/* insert into table only if distinct number */
@@ -180,7 +166,7 @@ char *Yhash_search(YHASHPTR hashtable, char *key, VOIDPTR data, int operation )
 		curTable->key = (char *) Ystrclone( key ) ;
 		curTable->next = NULL ;
 		/* now fix thread which goes through hash table */
-		if( tempThread = hashtable->thread ){
+		if((tempThread = hashtable->thread)){
 			hashtable->thread = curTable ;
 			curTable->threadNext = tempThread ;
 		} else {

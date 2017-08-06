@@ -92,7 +92,6 @@ void addCell( int celltype, char *cellname )
 		sprintf( YmsgG, "Read %4d objects so far...\n", objectS ) ;
 		M( MSG, NULL, YmsgG ) ;
 	}
-
 	celltypeS = celltype ;   /* save for determining instances etc. */
 	switch( celltype ) {
 		case HARDCELLTYPE:

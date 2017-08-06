@@ -13,7 +13,7 @@ add_library(GraywolfMincut SHARED
 	separate.c
 	)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/mincut .)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR}/src/mincut)
 
 install(
 	TARGETS GraywolfMincut
