@@ -59,8 +59,6 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
 #include <math.h> 
 #endif
 
-
-
 /* -------------------------------------------------------
     Use typedefs to make the code more portable.  User 
     just changes size here and all of the code will be 
