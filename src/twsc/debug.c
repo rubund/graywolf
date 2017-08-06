@@ -57,18 +57,13 @@ CONTENTS:   cellbox_data( first_cell , last_cell )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) debug.c (Yale) version 4.5 9/7/90" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "pads.h"
+#include "debug.h"
 
-cellbox_data( first_cell , last_cell )
-INT first_cell , last_cell ;
+void cellbox_data( int first_cell , int last_cell )
 {
 
 FILE *fp ;
@@ -145,9 +140,7 @@ for( cell = first_cell ; cell <= last_cell ; cell++ ) {
 TWCLOSE( fp ) ;
 }
 
-
-dbx_terminal( first_net , last_net )
-INT first_net , last_net ;
+void dbx_terminal( int first_net , int last_net )
 {
 
 FILE *fp ;

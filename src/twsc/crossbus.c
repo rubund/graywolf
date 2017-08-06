@@ -46,23 +46,19 @@ CONTENTS:  handle_crossbuses()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) crossbus.c (Yale) version 4.5 10/14/90" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
 #include "pads.h"
+#include "crossbus.h"
 
 /* global definitions */
 extern INT left_row_boundaryG ;
 extern INT row_extentG ;
 extern BOOL exclude_noncrossbus_padsG ;
 
-handle_crossbuses()
+void handle_crossbuses()
 {
 
 PINBOXPTR netptr ;
@@ -484,10 +480,7 @@ Ysafe_free( bot_pins  ) ;
 return ;
 }
 
-
-
-
-check_violations()
+void check_violations()
 {
 
 FENCEBOXPTR fence ;

@@ -51,16 +51,14 @@ CONTENTS:   rowevener()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) rowevener.c (Yale) version 4.7 12/5/91" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
 #include "readpar.h"
+#include "rowevener.h"
+#include "findunlap.h"
+#include "coarseglb.h"
 
 /* global variables */
 INT exact_feedsG ;
@@ -127,8 +125,7 @@ decide_right_most_in_class() ;
 return ;
 }
 
-
-decide_right_most_in_class()
+void decide_right_most_in_class()
 {
 
 INT n , row , row_right ;

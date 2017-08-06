@@ -10,37 +10,33 @@ REVISIONS:  Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 #ifndef READPAR_H
 #define READPAR_H
 
-/* global variables defined for main */
-#ifdef READPAR_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
+BOOL addFeedsG ;
+BOOL connection_machineG ;
+BOOL costonlyG ;
+BOOL cswapsG ;
+BOOL doglobalG ; 
+BOOL doGraphicsG ;
+BOOL estimate_feedsG ;
+BOOL gate_arrayG ;
+BOOL gate_array_specialG ;
+BOOL intelG ;
+BOOL restartG  ;
+BOOL SGGRG ;
+BOOL try_not_to_add_explicit_feedsG ;
+BOOL Equal_Width_CellsG ;
+BOOL file_conversionG ;
+BOOL even_rows_maximallyG ;
 
+int feedLayerG ;
+int no_feeds_side_netsG ;
+int pin_layers_givenG ;
+int tw_fastG ;
+int tw_slowG ;
 
-EXTERN BOOL addFeedsG ;
-EXTERN BOOL connection_machineG ;
-EXTERN BOOL costonlyG ;
-EXTERN BOOL cswapsG ;
-EXTERN BOOL doglobalG ; 
-EXTERN BOOL doGraphicsG ;
-EXTERN BOOL estimate_feedsG ;
-EXTERN BOOL gate_arrayG ;
-EXTERN BOOL gate_array_specialG ;
-EXTERN BOOL intelG ;
-EXTERN BOOL restartG  ;
-EXTERN BOOL SGGRG ;
-EXTERN BOOL try_not_to_add_explicit_feedsG ;
-EXTERN BOOL Equal_Width_CellsG ;
-EXTERN BOOL file_conversionG ;
-EXTERN BOOL even_rows_maximallyG ;
-
-EXTERN INT feedLayerG ;
-EXTERN INT no_feeds_side_netsG ;
-EXTERN INT pin_layers_givenG ;
-EXTERN INT tw_fastG ;
-EXTERN INT tw_slowG ;
-
-#undef EXTERN
+void init_read_par();
+void readparam();
+void process_readpar();
+void err_msg();
+void readParFile();
 
 #endif /* READPAR_VARS */

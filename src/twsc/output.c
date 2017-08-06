@@ -55,29 +55,14 @@ REVISIONS:  July 15, 1989
 	    Tue Aug 13 12:47:54 CDT 1991 - fixed create new
 		cell file.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) output.c (Yale) version 4.14 9/23/91" ;
-#endif
-#endif
-
-/* #define DEC  */
-/* added on 06/01/90 Sury */
-/* #define NSC */
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "main.h"
 #include "readpar.h"
 #include "config.h"
 #include "pads.h"
-#include <string.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-
-/* external functions */
-char *strtok(); /* added 06/01/90 sury */
-INT comparex() ;
+#include "output.h"
 
 /* global variables */
 extern INT spacer_widthG ;
@@ -90,7 +75,7 @@ extern BOOL stand_cell_as_gate_arrayG ;
 /* static definitions */
 static char a_lineS[LRECL] ;
 
-output()
+void output()
 {
 
 FILE *fpp1 , *fpp2 ;
@@ -308,11 +293,7 @@ Ysafe_free( deleted_feeds ) ;
 return ;
 }
 
-
-
-
-
-final_free_up()
+void final_free_up()
 {
 INT i, j, k, row, pin, net, cell, chan, track ;
 CBOXPTR cellptr ;
@@ -436,10 +417,7 @@ Ysafe_free( netsegHeadG ) ;
 
 }
 
-
-
-
-create_cel_file()
+void create_cel_file()
 {
 
 
@@ -512,12 +490,7 @@ TWCLOSE(fp) ;
 TWCLOSE(fpoG2) ;
 }
 
-
-
-add_new_line( x_rel , block , fixed_ptr , fp )
-INT x_rel , block ;
-char *fixed_ptr ;
-FILE *fp ;
+void add_new_line( int x_rel , int block , char *fixed_ptr , FILE *fp )
 {
 
 fprintf(fp, "initially %s %d from left of block %d\n",
@@ -525,10 +498,7 @@ fprintf(fp, "initially %s %d from left of block %d\n",
 return ;
 }
 
-
-
-load_a_lineS(fp)
-FILE *fp ;
+int load_a_lineS(FILE *fp)
 {
 
 INT i ;
@@ -550,7 +520,7 @@ if( (int) (tmp = fgetc(fp)) != EOF ) {
 }
 
 /* ******************************************************************** */
-density()
+void density()
 {
     /* set all the cells at density */
     INT row ;

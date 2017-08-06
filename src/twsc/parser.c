@@ -85,17 +85,10 @@ REVISIONS:  Mon Nov 19 04:04:18 EST 1990 - added temperature
 	    Wed Sep 11 11:21:42 CDT 1991 - fixed for
 		new global router feed problem.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) parser.c (Yale) version 4.40 5/15/92" ;
-#endif
-
-/* #define MITLL */
-
 #define PARSER_VARS
 
 #include <globals.h>
-#include <string.h>
-#include "standard.h"
+#include "parser.h"
 #include "groute.h"
 #include "parser.h"
 #include "main.h"
@@ -104,6 +97,13 @@ static char SccsId[] = "@(#) parser.c (Yale) version 4.40 5/15/92" ;
 #include "config.h"
 #include "feeds.h"
 #include "pads.h"
+#include "graphics.h"
+#include "newtemp.h"
+#include "configure.h"
+
+#define	EXPECTEDSWAPGROUPS	10
+#define	EXPECTEDNUMPADS		10
+#define 	E							0
 
 /* global variables */
 int ECOs_existG = 0 ;
@@ -164,15 +164,6 @@ static int transTableS[5][8] = {  /* translate from old pad format */
     { 7, 4, 5, 6, 2, 1, 0, 3   },   /* PADR state */
     { 0, 1, 2, 3, 4, 5, 7, 6   }    /* PADB state */
 } ;
-
-static void layer_test();
-static void check_pin();
-void setPermutation( BOOL permuteFlag );
-void addCell( char *cellname, int celltype );
-void add_tile( int left, int bottom, int right, int top );
-void end_padgroup();
-void add_padside( char *padside );
-void add2padgroup( char *padName, BOOL ordered );
 
 /* ###################### END STATIC definitions ############################ */
 static void get_stat_hints()

@@ -63,20 +63,16 @@ REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to
 		call sortpin1 which is used during a gateswap.  Also
 		added new sortpin2 for gateswap between two cells.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) sortpin.c (Yale) version 4.3 9/7/90" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
+#include "sortpin.h"
 
 static PINBOXPTR *sortArrayS ;          /* the normal array for sorting */
 static PINBOXPTR *sortArraySwapS ;
 
-sortpin()
+void sortpin()
 {
 
     INT cell ;                      /* current cell */
@@ -123,8 +119,7 @@ sortpin()
 
 
 /* sort the pins of a single cell by net */
-sortpin1( cell )
-INT cell ;
+void sortpin1( int cell )
 {
 
     INT j , n ;
@@ -149,8 +144,7 @@ INT cell ;
     return ;
 } /* end sortpin1 */
 
-sortpin2( cella, cellb )
-INT cella, cellb ;
+void sortpin2( int cella, int cellb )
 {
 
     INT j ;                                /* counter */
@@ -204,9 +198,7 @@ INT cella, cellb ;
     return ;
 } /* end sortpin2 */
 
-shellsort( term , n )
-PINBOXPTR term[] ;
-INT n ;
+void shellsort( PINBOXPTR term[] , int n )
 {
 
 PINBOXPTR ptr ;

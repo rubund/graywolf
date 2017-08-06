@@ -50,14 +50,10 @@ REVISIONS:  Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 	    Tue Mar 12 17:09:30 CST 1991 - fixed initialization problem
 		with permute_pads.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) sortpad.c version 4.6 3/12/91" ;
-#endif
-
+#include <globals.h>
 #include <standard.h>
 #include <pads.h>
 #include <parser.h>
-#include <yalecad/debug.h>
 
 /* Forward declarations */
 
@@ -70,7 +66,7 @@ static void permute_pads( PADBOXPTR pad );
 			   PAD SORTING ROUTINES
 *******************************************************************************/
 
-sort_pads()
+void sort_pads()
 {
     INT i ;                /* pad counter */
     INT pos ;              /* position in place array */
@@ -79,9 +75,6 @@ sort_pads()
     /* first perform an initial sort to order the pads by side, hierarchy, */
     /* and position on the side. */
     Yquicksort( &(sortarrayG[1]), totalpadsG,sizeof(PADBOXPTR), compare_pads );
-    D( "placepads/after_sort", 
-	print_pads("pads after initial sort\n",sortarrayG, totalpadsG ) ;
-    ) ;
 
     /* Now make sure the pads are permuted correctly */
     for( i = 1; i <= totalpadsG;i++ ){
@@ -100,17 +93,11 @@ sort_pads()
 	    install_pad_groups( pad, &pos ) ;
 	}
     }
-    D( "placepads/after_install",
-	print_pads("pads after install\n",placearrayG,numpadsG);
-    ) ;
 
     if(!(contiguousG)){
 	/* CASE II -  LEAVES ARE ALIGNED LIKE ORDINARY PADS IF THEY HAVE NO */
 	/* CONSTRAINTS SUCH AS ORDER OR PERMUTE.  **/
 	Yquicksort( &(placearrayG[1]), numpadsG, sizeof(PADBOXPTR), sort_by_pos ) ;
-	D( "placepads/after_ncontsort",
-	    print_pads("pads after noncontiguous sort\n",placearrayG,numpadsG);
-	) ;
     }
 
 } /* end SortPads */

@@ -79,29 +79,18 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Fri Nov  8 01:08:41 EST 1991 - rewrote pad output file
 		for easier understanding.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) paths.c version 4.12 4/2/92" ;
-#endif
-
-/* #define ZERO_CHECK */
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "parser.h"
-#include <yalecad/debug.h>
-// #include "readnets.h"
-#include <yalecad/message.h>
-#include <yalecad/stat.h>
+#include "paths.h"
+#include "readnets_functions.h"
 
 /* global variables */
 extern  double avg_timeG ;/* average random time penalty */
 extern  double avg_funcG ;/* average random wirelength penalty */
 
 /* forward declarations */
-int dcalc_min_path_len() ;
-int dcalc_max_path_len() ;
-int dcalc_path_len(int, int);
-void add2path_set( int path ) ;
 
 static int errorboundS = 0 ;
 
@@ -304,8 +293,7 @@ void print_paths( )
     in the penalty.
 ----------------------------------------------------------------- */
 /* calculate the timing cost incrementally */
-int calc_incr_time( cell ) 
-int cell ;
+int calc_incr_time( int cell ) 
 {
     int newpenal ;        /* proposed move's timing penalty delta */
     int oldpenal ;        /* the old penalty of the nets that move */
@@ -376,9 +364,7 @@ int cell ;
 
 } /* end function calc_incr_time */
 
-
-update_time( cell ) 
-int cell ;
+void update_time( int cell ) 
 {
 
     int path_num ;        /* name of path */
@@ -485,7 +471,7 @@ int cellb ;
 
 } /* end function calc_incr_time2 */
 
-update_time2() 
+void update_time2() 
 {
     PATHPTR path ;
     PSETPTR pathlist, enum_path_set() ;
@@ -612,18 +598,16 @@ BOOL member_net_set( int net )
 	}
 } /* end member_net_set */
 
-clear_net_set() 
+void clear_net_set() 
 {
     /* to clear set we only need to increment net_set_count */
     /* we can use this set up to 2 Gig times without any problem */
     net_set_count ++ ;
 } /* end clear_path_set */
 
-#ifdef DEBUG
 /* *************** DEBUG FUNCTIONS *************************** */
 /* debug function to make sure calculation is correct */
-int dcalc_full_penalty( newtimepenal )
-int newtimepenal ;
+int dcalc_full_penalty( int newtimepenal )
 {
     int timingpenal ;
     int pathcount ;
@@ -724,10 +708,7 @@ int verify_length ;
     }
 }
 
-
-int dpath_len( net_num, old_not_new )
-int net_num ;
-BOOL old_not_new ;
+int dpath_len( int net_num, BOOL old_not_new )
 {
 
     int net ;             /* net of path */
@@ -851,10 +832,6 @@ dprint_net_set()
     printf( "\n" ) ;
 } /* end dprint_net_set() */
 
-#endif /* DEBUG */
-
-
-
 #define TIMEDAMPFACTOR   1.0     /* damping factor on time penalty */
 
 double calc_time_factor() 
@@ -874,9 +851,7 @@ double calc_time_factor()
 
 } /* end function calc_time_penalty */
 
-
-
-calc_init_timeFactor() 
+void calc_init_timeFactor() 
 {
 
 #ifdef ZERO_CHECK

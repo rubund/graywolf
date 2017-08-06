@@ -68,19 +68,13 @@ REVISIONS:  Apr  1, 1990 - added check_funccost() ;
 	    Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) debug2.c (Yale) version 4.7 12/15/90" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
 #include "pads.h"
-
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+#include "coarseglb.h"
+#include "debug2.h"
 
 /*
 extern FEED_SEG_PTR *worker ;
@@ -91,8 +85,6 @@ extern PINBOXPTR *steinerHead ;
 extern INT chan_node_no ;
 extern INT *min_feed , *FeedInRow ;
 */
-
-
 
 dbx_adj( net )
 INT net ;
@@ -478,9 +470,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-
-check_cost()
+void check_cost()
 {
 
     CBOXPTR ptr ;

@@ -1,14 +1,11 @@
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "parser_defines.h"
-#include "readnets.h"
-#include <string.h>
-#include <pads.h>
-#include <yalecad/buster.h>
-#include <yalecad/hash.h>
-#include <yalecad/debug.h>
-#include <yalecad/string.h>
-#include <yalecad/message.h>
+#include "readnets.y.h"
+#include "pads.h"
+#include "paths.h"
+#include "readnets_functions.h"
 
 static YHASHPTR net_hash_tableS ;
 static PATHPTR pathPtrS = NULL ;  /* start of path list */

@@ -49,15 +49,13 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) steiner.c (Yale) version 4.7 1/20/91" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
+#include "steiner.h"
+#include "feedest.h"
+#include "mergeseg.h"
 
 /* global variables */
 INT Max_numPinsG ;
@@ -73,7 +71,7 @@ SEGBOXPTR makeseg() ;
 static PINBOXPTR   *vertexS ;
 static INT **costS , *lowcostS , *closestS , *components , max_pinS ;
 
-steiner()
+void steiner()
 {
 
 
@@ -203,9 +201,7 @@ Ysafe_free( add_st_flagG ) ;
 
 }
 
-
-make_net_Tree( startptr )
-PINBOXPTR startptr ;
+void make_net_Tree( PINBOXPTR startptr )
 {
 
 PINBOXPTR netptr , iptr , jptr ;
@@ -345,7 +341,7 @@ for( i = 2 ; i <= n ; i++ ) {
 
 
 #ifdef EVEN_ROW
-redo_steiner()
+void redo_steiner()
 {
 
 INT net , i ;

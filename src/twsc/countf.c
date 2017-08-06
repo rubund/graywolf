@@ -51,12 +51,7 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) countf.c (Yale) version 4.10 2/23/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
@@ -65,7 +60,7 @@ static char SccsId[] = "@(#) countf.c (Yale) version 4.10 2/23/92" ;
 #include "readpar.h"
 #include "parser.h"
 #include "pads.h"
-
+#include "countf.h"
 
 /* global definitions */
 INT *xfeeds_in_rowG ;
@@ -76,6 +71,10 @@ static INT offsetS ;
 static INT est_final_feedS ;
 static INT **row_mapS ;
 static BOOL num_callS = FALSE ;
+
+void prep_feed_count();
+void prep_feed_count_1();
+int feed_situation( int row , int net );
 
 countf()
 {
@@ -117,8 +116,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 	row = netptr->row ;
 	row_mapS[ row ][ RITE_MOST ] = netptr->xpos ;
 	if( row_mapS[ row ][ FEED_FLAG ] == NOT_DONE ) {
-	    row_mapS[ row ][ FEED_FLAG ] = 
-				feed_situation( row , net ) ;
+	    row_mapS[ row ][ FEED_FLAG ] = feed_situation( row , net ) ;
 	}
     }
     botrow = 0 ;
@@ -262,9 +260,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 return( value * fdWidthG ) ;
 }
 
-
-
-prep_feed_count_1()
+void prep_feed_count_1()
 {
 
 INT row ;
@@ -287,8 +283,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 return ;
 }
 
-
-prep_feed_count()
+void prep_feed_count()
 {
 
 INT row ;
@@ -307,11 +302,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 return ;
 }
 
-
-
-
-insert_row( flag )
-INT flag ;
+void insert_row( int flag )
 {
 
 PINBOXPTR pinptr ;
@@ -381,11 +372,7 @@ if( flag == 0 ) {
 return ;
 }
 
-
-
-
-feed_situation( row , net )
-INT row , net ;
+int feed_situation( int row , int net )
 {
 
 PINBOXPTR nptr ;

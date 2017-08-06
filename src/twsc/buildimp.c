@@ -53,22 +53,17 @@ REVISIONS:  Aug 30, 1989 - removed lastimp error.
 		dynamic.
 	    Wed Jan 16 14:26:44 PST 1991 - removed re_buildimp
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) buildimp.c (Yale) version 4.9 11/7/91" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
+#include "buildimp.h"
+#include "sort.h"
 
 static INT max_impfeed_in_cellS ; /* max no. of feeds in a cell */
-INT comparetxpos() ;
 extern BOOL ignore_feedsG ;	/* Treat feedthroughs as width 0 */
 
-
-buildimp( )
+void buildimp( )
 {
 
 IPBOXPTR *impinptr , imptr ;
@@ -107,8 +102,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	if( count <= 1 ) {
 	    continue ;
 	}
-	Yquicksort( (char *)(impinptr+1) , count , sizeof(PINBOXPTR),
-	    comparetxpos ) ;
+	Yquicksort( (char *)(impinptr+1) , count , sizeof(PINBOXPTR), comparetxpos ) ;
 	if( cellptr->corient <= 1 ) {
 	    cellptr->imptr = impinptr[1] ;
 	    for( j = 1 ; j <= count - 1 ; j++ ) {
@@ -173,8 +167,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 Ysafe_free( feasible_feednum ) ;
 }
 
-
-link_imptr( )
+void link_imptr( )
 {
 INT i , row , *Aray ;
 CBOXPTR cellptr ;
@@ -195,8 +188,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 }
 
-
-decide_boundary( )
+void decide_boundary( )
 {
 
 INT row , fcx , fcl , lcx , lcr , lcl ;
@@ -235,8 +227,7 @@ gxstartG = xstart ;
 gxstopG  = xstop  ;
 }
 
-
-fixwolf( )
+void fixwolf( )
 {
 
 INT j , last_j ;
@@ -255,9 +246,7 @@ for( j = TotRegPinsG + 1 ; j <= last_j ; j++ ) {
 return ;
 }
 
-
-addfeed( row , pos , feednum ) 
-INT row , pos , feednum ;
+void addfeed( int row , int pos , int feednum ) 
 {
 CBOXPTR cellptr ;
 TIBOXPTR tileptr ;

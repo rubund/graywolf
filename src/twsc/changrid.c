@@ -47,16 +47,12 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Wed Aug 28 14:27:04 EDT 1991 - added more debug.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) changrid.c (Yale) version 4.5 8/29/91" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
+#include "changrid.h"
 
-changrid( )
+void changrid( )
 {
 
 CHANGRDPTR **gdptr , grdptr , cgdptr , ngdptr ;
@@ -220,7 +216,7 @@ Ysafe_free( PinInChan ) ;
 }
 
 
-pre_findrcost()
+void pre_findrcost()
 {
 
 SEGBOXPTR segptr ;

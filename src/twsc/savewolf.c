@@ -49,19 +49,17 @@ REVISIONS:  Wed Mar 13 13:48:30 CST 1991 - make sure the .blk
 		and the .res file are consistent.
 	    Thu Sep 19 16:36:02 EDT 1991 - added more error checking.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
 #include "feeds.h"
 #include "readpar.h"
 #include "parser.h"
-#include <yalecad/message.h>
+#include "reconfig.h"
+#include "uloop.h"
+#include "graphics.h"
+#include "savewolf.h"
 
 #if SIZEOF_VOID_P == 64
 #define INTSCANSTR "%ld"
@@ -69,8 +67,7 @@ static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
 #define INTSCANSTR "%d"
 #endif
 
-savewolf(flag)
-INT flag ;
+void savewolf(int flag)
 {
 
 FILE *fp ;
@@ -140,8 +137,7 @@ rename(file1, file2);
 return ;
 }
 
-TW_oldin( fp )
-FILE *fp ;
+void TW_oldin( FILE *fp )
 {
 
 INT cell , orient , numfds ;

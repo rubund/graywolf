@@ -1,9 +1,9 @@
 %define api.prefix twsc_readcell_
 %glr-parser
-%{
-#include <stdio.h>
-#include <yalecad/string.h>
-#include "parser_defines.h"
+%code top{
+#include <globals.h>
+#include "parser.h"
+#include "paths.h"
 
 #define yylval twsc_readcell_lval
 #define yyget_lineno twsc_readcell_get_lineno
@@ -11,7 +11,9 @@
 #define yyin twsc_readcell_in
 extern char *yytext;
 extern int yyget_lineno(void);
-%}
+int twsc_readcell_error(char *s);
+char twsc_readcell_lex();
+}
 
 %union {
 	int ival;

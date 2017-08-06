@@ -1,13 +1,14 @@
 %option prefix="twsc_readcell_"
-%{
-#include <yalecad/string.h>
-#include "readcell.h"
+%top{
+#include <globals.h>
+#include "parser.h"
+#include "readcell.y.h"
 extern int yylineno;
 #define yylval twsc_readcell_lval
 #define yyget_lineno twsc_readcell_get_lineno
 #define yytext twsc_readcell_text
 #define yyin twsc_readcell_in
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+

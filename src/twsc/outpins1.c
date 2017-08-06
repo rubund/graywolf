@@ -62,23 +62,16 @@ CONTENTS:   outpins()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outpins1.c (Yale) version 1.3 4/18/91" ;
-#endif
-#endif
-
-#include <string.h>
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "main.h"
 #include "readpar.h"
 #include "pads.h"
-#include <yalecad/debug.h>
+#include "outpins.h"
+#include "netgraph.h"
 
 /* #define NSC */
-
-char *strtok() ;
 
 /* global variables */
 extern INT *root_G ;

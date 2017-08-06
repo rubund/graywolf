@@ -60,26 +60,29 @@ REVISIONS:  Fri Jan 25 23:45:25 PST 1991 - added user meter.
 	    Thu Aug 22 22:27:18 CDT 1991 - Carl made changes
 		for rigidly fixed cells.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) utemp.c (Yale) version 4.19 4/5/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
 #include "ucxxglb.h"
 #include "readpar.h"
 #include "parser.h"
-
-#include <yalecad/message.h>
-#include <yalecad/debug.h>
+#include "paths.h"
+#include "utemp.h"
+#include "uloop.h"
+#include "savewolf.h"
+#include "graphics.h"
+#include "findunlap.h"
+#include "outcm.h"
+#include "upair.h"
+#include "output.h"
 
 /* global variables */
 int moveable_cellsG ;
 BOOL pairtestG;
 BOOL no_row_lengthsG ;
+
+void execute_global_router();
 
 /* global variable references */
 extern int attprcelG ;
@@ -94,14 +97,6 @@ extern BOOL rigidly_fixed_cellsG ;
 extern double finalRowControlG ;
 extern double initialRowControlG ;
 extern double ratioG;
-
-int comparex() ;
-int compute_attprcel() ;
-void from_middle();
-void from_beginning() ;
-void elim_nets(int) ;
-void init_control(int);
-void init_uloop();
 
 void utemp()
 {

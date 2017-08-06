@@ -1,0 +1,1 @@
+int urcost( SEGBOXPTR segptr );

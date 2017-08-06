@@ -57,28 +57,11 @@ REVISIONS:  Jan 29, 1989 - removed message about pad limited designs.
 	    Thu Aug 29 15:44:00 CDT 1991 - added overflow processing
 		code.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) configpads.c version 4.12 11/7/91" ;
-#endif
-
-#include <standard.h>
-#include <pads.h>
-#include <parser.h>
-#include <yalecad/relpos.h>
-#include <yalecad/message.h>
-
-/* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-BOOL check_overflow( P1(BOOL retain_pad_groups) ) ;
-void move_clockwise( P4(INT pad, INT side, INT cw_side, INT moveable_cw) ) ;
-void move_counterclockwise( P4(INT pad,INT side,INT ccw_side,INT m_ccw ) ) ;
-void update_pad_position( P3(PADBOXPTR pad,INT current_side, INT move_side) );
-void expand_core( P1(INT side) ) ;
-int compare_overflow( P2(INT *side1, INT *side2) ) ;
-void update_pad_groups( P1(void) ) ;
-void resort_place_array( P1(void) ) ;
-void child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
-void place_variable( P3(INT first,INT numpads,INT side) ) ;
-void calc_constraints( PADBOXPTR pad, int side, double *lb, double *ub, BOOL *spacing_restricted, int *lowpos, int *uppos );
+#include <globals.h>
+#include "standard.h"
+#include "pads.h"
+#include "parser.h"
+#include "configpads.h"
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 int overflowS[5] ;          /* amount of overflow on each side */
@@ -185,8 +168,7 @@ align_pads()
 } /* end align_pads */
 /* ***************************************************************** */
 
-static BOOL check_overflow( retain_pad_groups )
-BOOL retain_pad_groups ;
+BOOL check_overflow( BOOL retain_pad_groups )
 {
     INT i ;                        /* counter */
     INT pad ;                      /* counter */
@@ -341,8 +323,7 @@ BOOL retain_pad_groups ;
 
 } /* end check_overflow */
 
-static move_clockwise( pad, side, clockwise_side, moveable_cw )
-INT pad, side, clockwise_side, moveable_cw ; 
+void move_clockwise( int pad, int side, int clockwise_side, int moveable_cw )
 { 
     PADBOXPTR padptr ;             /* current pad info */
 
@@ -358,8 +339,7 @@ INT pad, side, clockwise_side, moveable_cw ;
 } /* end move_clockwise */
 
 
-static move_counterclockwise( pad, side, counterclockwise, moveable_ccw )
-INT pad, side, counterclockwise, moveable_ccw ; 
+void move_counterclockwise( int pad, int side, int counterclockwise, int moveable_ccw )
 { 
     PADBOXPTR padptr ;             /* current pad info */
 
@@ -374,10 +354,7 @@ INT pad, side, counterclockwise, moveable_ccw ;
 
 } /* end move_counterclockwise */
 
-static update_pad_position( padptr, current_side, move_side )
-PADBOXPTR padptr ;             /* current pad info */
-INT current_side ;
-INT move_side ;
+void update_pad_position( PADBOXPTR padptr, int current_side, int move_side )
 {
     INT dimension ;            /* the X or Y dimension */
 
@@ -398,8 +375,7 @@ INT move_side ;
     } /* end switch side ... */
 } /* end update_pad_position */
 
-static expand_core( side )
-INT side ;
+void expand_core( int side )
 {
     INT i ;                        /* counter */
     INT pad ;                      /* counter */
@@ -468,14 +444,14 @@ PADBOXPTR *padptr1, *padptr2 ;
     }
 } /* end compare_placearray */
 
-static resort_place_array()
+void resort_place_array()
 {
     Yquicksort( &(placearrayG[1]), numpadsG, sizeof(PADBOXPTR), compare_placearray );
 } /* end resort_place_array */
 /* ***************************************************************** */
 
 /* set the lo_pos and hi_pos fields for the pads */
-static update_pad_groups()
+void update_pad_groups()
 {
 
     INT i ;                   /* pad counter */
@@ -509,11 +485,7 @@ static update_pad_groups()
 } /* end update_pad_groups */
 
 /* this will set the constaints for pad groups and children of them */
-static child_constraints( pad, side, lb, ub, spacing_restricted )
-PADBOXPTR pad ;
-INT side ;
-DOUBLE lb, ub ;
-BOOL spacing_restricted ;
+void child_constraints( PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted  )
 {
     INT i ;            /* pad counter */
     INT howmany ;      /* number of children */
@@ -587,8 +559,7 @@ void calc_constraints( PADBOXPTR pad, int side, double *lb, double *ub, BOOL *sp
 } /* end calc_constraints */
 /* ***************************************************************** */
 
-static place_variable( first, numpads, side )
-INT first, numpads, side ;
+void place_variable( int first, int numpads, int side )
 {
     INT pad ;            /* counter */
     INT left_edge ;      /* current left edge of pad */

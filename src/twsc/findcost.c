@@ -58,24 +58,25 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findcost.c (Yale) version 4.18 4/2/92" ;
-#endif
-#endif
-
 #define EXTRA_BIN 0.50
 #define MAXNUMPINS    100		/* WPS */
 /* #define MITLL */
 
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "main.h"
 #include "config.h"
 #include "readpar.h"
 #include "parser.h"
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+#include "findcost.h"
+#include "savewolf.h"
+#include "outcm.h"
+#include "sortpin.h"
+#include "placepads.h"
+#include "findcostf.h"
+#include "dimbox.h"
+#include "countf.h"
 
 /* global variables */
 INT minxspanG ;
@@ -92,10 +93,8 @@ static INT iwireS ;
 static INT iwirexS ;
 static INT iwireyS ;
 static INT print_pinS = 0 ;
-static spread_equal_cells();
-static spread_cells();
 
-findcost()
+int findcost()
 {
 INT block , bin ;
 FILE *fp ;
@@ -713,7 +712,7 @@ feeds_in_rowG = (INT *) Ysafe_calloc( 1+numRowsG,sizeof(INT) );
 return( cost ) ;
 } /* end findcost */
 
-static spread_equal_cells()
+void spread_equal_cells()
 {
 
 FILE *tp ;
@@ -803,10 +802,7 @@ D( "equal_width_cells",
 
 } /* end spread_equal_cells */
 
-
-
-
-static spread_cells()
+void spread_cells()
 {
 
 INT bin, cell ;
@@ -859,10 +855,7 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 }
 } /* end spread_cells() */
 
-
-  
-
-create_cell( )
+void create_cell( )
 { 
 
 FILE *fpr ;
@@ -930,11 +923,7 @@ printf( "%s  has been established\n", nfilename ) ;
 exit( 0 ) ;
 }
 
-
-
-
-
-find_net_sizes()
+void find_net_sizes()
 {
 
 PINBOXPTR netptr ;

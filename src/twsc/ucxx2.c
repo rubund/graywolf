@@ -53,19 +53,18 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxx2.c (Yale) version 4.10 4/2/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "ucxxglb.h"
 #include "readpar.h"
-#include <yalecad/debug.h>
+#include "ucxx2.h"
+#include "graphics.h"
+#include "overlap.h"
+#include "paths.h"
+#include "dimbox.h"
 
-static INT anxcenterS , bnxcenterS ;
+int anxcenterS , bnxcenterS ;
 
-ucxx2( )
+int ucxx2( )
 {
 
 CBOXPTR acellptr , bcellptr ;
@@ -240,8 +239,7 @@ if( truth ) {
 }
 }
 
-
-find_new_pos()
+void find_new_pos()
 {
 
 INT newA_l , newA_r , newB_l , newB_r ;
@@ -312,10 +310,8 @@ if( (ablockG == bblockG) && (!( (newA_l >= newB_r) || (newB_l >= newA_r)))){
 }
 return ;
 }
- 
 
-add_cell( cellptr , c ) 
-INT **cellptr , c ;
+void add_cell(int **cellptr , int c) 
 {
 
 INT k ;

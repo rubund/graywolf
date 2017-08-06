@@ -52,19 +52,14 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 	    Wed Sep 11 11:18:19 CDT 1991 - modified
 		for new global routing algorith.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findcostf.c (Yale) version 4.18 4/2/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "config.h"
 #include "parser.h"
 #include "feeds.h"
 #include "main.h"
-#include <yalecad/debug.h>
+#include "findcostf.h"
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
@@ -77,12 +72,7 @@ static INT old_numBinS ;
 static INT cluster_norm_offsetS = 0 ;
 static INT **cluster_configS ;
 
-/* forward declarations */
-static void installf();
-INT recompute_wirecost() ;
-INT recompute_timecost() ;
-
-findcostf()
+int findcostf()
 {
 TIBOXPTR tileptr1 ;
 CBOXPTR cellptr1 ;
@@ -233,11 +223,7 @@ timingcostG = recompute_timecost() ;
 return( cost ) ;
 }
 
-
-
-
-
-static void installf()
+void installf()
 {
 
 int row , n , i , bin , diff , extra , stop , tmp ;
@@ -458,7 +444,7 @@ return ;
 }
 
 /* **************************************************************** */
-INT recompute_wirecost()
+int recompute_wirecost()
 {
     INT n ;
     INT x, y ;
@@ -547,7 +533,7 @@ INT recompute_wirecost()
 } /* end recompute_wirecost */
 
 
-INT recompute_timecost()
+int recompute_timecost()
 {
 
 INT pathcount ;

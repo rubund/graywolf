@@ -59,18 +59,13 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 	    Wed Sep 11 11:19:25 CDT 1991 - modified
 		for new global router.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findunlap.c (Yale) version 4.14 4/2/92" ;
-#endif
-#endif
-
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
 #include "feeds.h"
-#include <yalecad/debug.h>
+#include "findunlap.h"
+#include "unlap.h"
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
@@ -88,8 +83,7 @@ extern INT *feeds_in_rowG ;
 static INT *row_lengthS ;
 static BOOL first_passS = TRUE ;
 
-findunlap(flag)
-INT flag ;
+void findunlap(int flag)
 {
 
 CBOXPTR cellptr , ptr ;
@@ -368,13 +362,7 @@ Ysafe_free( blklen ) ;
 return ;
 }
 
-
-
-
-
-even_the_rows(flag,even_the_rows_max)
-INT flag ;
-BOOL even_the_rows_max ;
+void even_the_rows(int flag, BOOL even_the_rows_max)
 {
 
 INT cell1 , cell2 , cell3 , cell4 , cell5 , cell6 ;
@@ -806,11 +794,7 @@ Ysafe_free( set ) ;
 return ;
 }
 
-
-
-
-row_cost( long_row , short_row , width )
-INT long_row , short_row , width ;
+int row_cost( int long_row , int short_row , int width )
 {
 
 INT cost ;
@@ -819,12 +803,7 @@ cost = row_lengthS[short_row] + width - row_lengthS[long_row] ;
 return( cost ) ;
 }
 
-
-
-
-find_last_6_moveable_cells( row, cell1, cell2, cell3, cell4, cell5, cell6) 
-INT row ;
-INT *cell1 , *cell2 , *cell3 , *cell4 , *cell5 , *cell6 ;
+void find_last_6_moveable_cells( int row, int *cell1, int *cell2, int *cell3, int *cell4, int *cell5, int *cell6) 
 {
 
 INT i ;
@@ -937,33 +916,7 @@ do {
 return( row ) ;
 }
 
-
-
-/*
-find_shortest_row( long_row )
-INT long_row ;
-{
-INT row ;
-
-if( long_row + 1 <= numRowsG && long_row - 1 >= 1 ) {
-    if( row_lengthS[long_row + 1] <= row_lengthS[long_row - 1] ) {
-	row = long_row + 1 ;
-    } else {
-	row = long_row - 1 ;
-    }
-} else if( long_row + 1 <= numRowsG ) {
-    row = long_row + 1 ;
-} else {
-    row = long_row - 1 ;
-}
-
-return(row) ;
-}
-*/
-
-
-find_shortest_row( long_row )
-INT long_row ;
+int find_shortest_row( int long_row )
 {
 INT row ;
 INT short_row_length ;
@@ -990,9 +943,7 @@ for( row = min_row ; row <= max_row ; row ++ ){
 return(short_row) ;
 }
 
-
-determine_unequal_rows( short_row, long_row )
-INT *short_row, *long_row ;
+void determine_unequal_rows( int *short_row, int *long_row )
 {
     INT row ;
     INT short_row_length, long_row_length ;
@@ -1299,10 +1250,7 @@ if( gate_arrayG ) {
 }
 }
 
-
-
-
-findunlap2()
+void findunlap2()
 {
 
 CBOXPTR cellptr ;

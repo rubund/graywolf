@@ -57,24 +57,13 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Tue Jan 15 20:30:05 PST 1991 - changed frees to Ysafe_frees.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) netgraph.c (Yale) version 4.7 1/15/91" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "main.h"
-
-typedef struct graph_edge_cost {
-    SHORT node1 ;
-    SHORT node2 ;
-    int cost ;
-    int channel ;
-}
-*EDGE_COST ,
-EDGE_COST_BOX ;
+#include "netgraph.h"
+#include "dimbox.h"
+#include "debug.h"
 
 /* global variable definitions */
 int *count_G = NULL;
@@ -93,7 +82,7 @@ static int *first_indexS = NULL;
 static PINBOXPTR **z_S ;
 static EDGE_COST *edge_dataS ;
 
-netgraph_free_up()
+void netgraph_free_up()
 {
 
 Ysafe_free( count_G ) ; count_G = NULL ;
@@ -103,7 +92,7 @@ Ysafe_free( stack_G ) ; stack_G = NULL ;
 Ysafe_free( vertex_G ) ; vertex_G = NULL ;
 }
 
-postFeedAssgn()
+void postFeedAssgn()
 {
 
 int net , i , row , botrow , toprow , last_i ;
@@ -192,9 +181,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-rebuild_netgraph( net )
-int net ;
+void rebuild_netgraph( int net )
 {
 
 PINBOXPTR netptr ;
@@ -392,8 +379,7 @@ return ;
 *   pins such that there are only one edge incident on them          *
 *--------------------------------------------------------------------*/
 
-remove_unnecessary_feed( net , flag )
-int net , flag ;
+void remove_unnecessary_feed( int net , int flag )
 {
 
 DBOXPTR dimptr ;
@@ -794,7 +780,7 @@ void do_set_union( int i , int j )
 	count_G[large] += count_G[small] ;
 }
 
-switchable_or_not()
+void switchable_or_not()
 {
 
 SEGBOXPTR segptr ;
@@ -827,8 +813,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-free_z_memory()
+void free_z_memory()
 {
 
 int i , j , last_i ;
@@ -851,10 +836,7 @@ if ( edge_dataS != NULL ) {
 }
 }
 
-
-
-
-postFeedAssgn_carl()
+void postFeedAssgn_carl()
 {
 
 int net , i , row , botrow , toprow , last_i ;
@@ -949,10 +931,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-
-rebuild_netgraph_carl( net )
-int net ;
+void rebuild_netgraph_carl( int net )
 {
 
 PINBOXPTR netptr ;

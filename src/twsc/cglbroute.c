@@ -56,15 +56,13 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cglbroute.c (Yale) version 4.5 12/15/90" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
+#include "cglbroute.h"
+#include "coarseglb.h"
+
 #define OVERHEAD_INIT 100
 #define OVERHEAD_DELTA 20
 
@@ -83,7 +81,7 @@ static INT LswitchsegS , svalueS , evalueS ;
 static INT *crowdmaxS , glb_crowdmaxS , *node_rightS ;
 static DOUBLE  ctrackContS , factor_hereS , factor_oneS , factor_twoS ;
 
-cglb_initial()
+void cglb_initial()
 {
 
 INT i , j , net , x , tilted_seg ;
@@ -146,8 +144,7 @@ fprintf(fpoG," the number of net = %d\n", numnetsG ) ;
 fprintf(fpoG," the number of tilted segment = %d\n", tilted_seg ) ;
 }
 
-
-proj_tree_to_grid( )
+void proj_tree_to_grid( )
 {
 
 SEGBOXPTR segptr ;
@@ -293,8 +290,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-set_cbucket( )
+void set_cbucket( )
 {
 
 HCAPPTR hcaptr , headptr ;
@@ -365,8 +361,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-cglbroute()
+void cglbroute()
 {
 
 SEGBOXPTR segptr ;
@@ -693,8 +688,7 @@ while( ++trys < maxtrys ) {
 }
 }
 
-
-free_cglb_initial()
+void free_cglb_initial()
 {
 INT i , j , last_j , row ;
 
@@ -717,8 +711,7 @@ Ysafe_free( entryptS ) ;
 Ysafe_free( swLsegptrS ) ;
 }
 
-
-reinitial_Hdensity()
+void reinitial_Hdensity()
 {
 
 INT i , j ;
@@ -730,8 +723,7 @@ for( i = 1 ; i <= numRowsG ; i++ ) {
 }
 }
 
-
-update_switchvalue()
+void update_switchvalue()
 {
 
 INT net , x , tilted_seg ;
@@ -791,8 +783,7 @@ fprintf(fpoG," the number of tilted segment = %d\n", tilted_seg ) ;
 fprintf(fpoG," the number of switchable L segment = %d\n", LswitchsegS );
 }
 
-
-rebuild_cbucket()
+void rebuild_cbucket()
 {
 INT row , j , last_j ;
 HCAPPTR hcaptr , headptr ;

@@ -65,16 +65,11 @@ REVISIONS:  Nov 23, 1990 - now use new readpar library function.
 	    Fri Nov  8 01:13:18 EST 1991 - added even the rows
 		maximally.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
-#endif
-#endif
-
 #define READPAR_VARS
 #define NOTSPECIFIED -1
 #define COMMENT '#'
 
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "parser.h"
@@ -83,10 +78,9 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
 #include "feeds.h"
 #include "config.h"
 #include "pads.h"
-#include <yalecad/message.h>
-#include <yalecad/string.h>
-#include <yalecad/yreadpar.h>
-#include <string.h>
+#include "findcost.h"
+#include "graphics.h"
+#include "outpins.h"
 
 /* globals variable definitions */
 int attprcelG ;
@@ -140,11 +134,6 @@ extern BOOL doubleback_rows_start_at_oneG ;
 static BOOL abortS = FALSE ;
 static BOOL readparamS = FALSE ;
 
-static void init_read_par();
-static void readparam();
-static void process_readpar();
-static void err_msg();
-
 void readParFile()
 {
 	init_read_par() ;
@@ -153,7 +142,7 @@ void readParFile()
 	process_readpar() ;
 }
 
-static void init_read_par()
+void init_read_par()
 {
 	/* initialization of variables */
 	SGGRG = FALSE ;
@@ -179,7 +168,7 @@ static void init_read_par()
 	file_conversionG = FALSE ;
 } /* end init_read_par */
 
-static void readparam( int parfile )
+void readparam( int parfile )
 {
 
 	int test ;
@@ -688,7 +677,7 @@ static void readparam( int parfile )
 	}
 } /* end  readparam */
 
-static void process_readpar()
+void process_readpar()
 {
 
 	char *layer ;             /* name of layer */
@@ -868,7 +857,7 @@ void yaleIntro()
 
 } /* end yaleIntro */
 
-static void err_msg( char *keyword ) 
+void err_msg( char *keyword ) 
 {
 	printf("The value for %s was", keyword );
 	printf(" not properly entered in the .par file\n");

@@ -45,17 +45,15 @@ CONTENTS:   ucxxp( a , b , anxcenter , bnxcenter )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxxp.c (Yale) version 4.6 2/23/92" ;
-#endif
-#endif
-
+#include <globals.h>
+#include "dimbox.h"
+#include "overlap.h"
+#include "paths.h"
+#include "graphics.h"
 #include "ucxxglb.h"
-#include <yalecad/debug.h>
+#include "ucxxp.h"
 
-ucxxp( a , b , anxcenter , bnxcenter )
-INT a , b , anxcenter , bnxcenter ;
+int ucxxp( int a , int b , int anxcenter , int bnxcenter )
 {
 
 CBOXPTR acellptr , bcellptr ;

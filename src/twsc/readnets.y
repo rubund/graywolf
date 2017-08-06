@@ -1,8 +1,9 @@
 %define api.prefix twsc_readnets_
 %glr-parser
-%{
-#include <stdio.h>
-#include "parser_defines.h"
+%code top{
+#include <globals.h>
+#include "parser.h"
+#include "readnets_functions.h"
 
 #define yylval twsc_readnets_lval
 #define yyget_lineno twsc_readnets_get_lineno
@@ -10,7 +11,9 @@
 #define yyin twsc_readnets_in
 extern char *yytext;
 extern int yyget_lineno(void);
-%}
+int twsc_readnets_error(char *s);
+char twsc_readnets_lex();
+}
 
 %union {
 	int ival;

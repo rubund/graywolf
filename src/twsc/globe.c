@@ -81,23 +81,24 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue May 12 22:23:31 EDT 1992 - fixed problem with orientation
 		movement and added placement_improve switch.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) globe.c (Yale) version 4.24 5/12/92" ;
-#endif
-#endif
-
 #define GLOBE_VARS
 
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
+#include "globroute.h"
 #include "main.h"
 #include "parser.h"
+#include "paths.h"
 #include "feeds.h"
-#include <yalecad/assign.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
+#include "globe.h"
+#include "buildimp.h"
+#include "netgraph.h"
+#include "utemp.h"
+#include "findunlap.h"
+#include "rmoverlap.h"
+#include "findcostf.h"
+#include "readnets_functions.h"
 
 #define CARL_NEW
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
@@ -331,8 +332,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-free_static_in_globe()
+void free_static_in_globe()
 {
 
 int i ;
@@ -346,10 +346,7 @@ Ysafe_free( wk_headS ) ;
 Ysafe_free( total_feed_in_the_rowG ) ;
 }
 
-
-#ifdef CARL_NEW
-FeedAssgn( row )
-int row ;
+void FeedAssgn( int row )
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;
@@ -697,188 +694,8 @@ Ysafe_free( assigned_to_track ) ;
 
 return ;
 }
-#else
 
-FeedAssgn( row )
-int row ;
-{
-
-PINBOXPTR netptr , ptr1 , ptr2 ;
-SEGBOXPTR segptr , nextptr ;
-IPBOXPTR imptr , iptr , ipinptr[40] ;
-FEED_DATA *feedptr ;
-int net , impcount , firstnode , spacing ;
-int i , j , k , last_i , last_j ;
-int min_i , min_x , x , jog_num ;
-int comparenptr() ;
-
-wkS = 0 ;
-jog_num = 0 ;
-feedptr = feedpptr[row] ;
-for( net = 1 ; net <= numnetsG ; net++ ) {
-    for( netptr = steinerHead[net]->next ;
-	netptr ; netptr = netptr->next ) {
-	if( netptr->flag && netptr->row == row ) {
-	    row_seg_intersect( netptr , NULL , NULL ) ;
-	}
-    }
-    for( segptr = netsegHead[net]->next ; segptr ; segptr = nextptr ) {
-	nextptr = segptr->next ;
-	ptr1 = segptr->pin1ptr ;
-	ptr2 = segptr->pin2ptr ;
-	if( ptr1->row < row && ptr2->row > row ) {
-	    if( segptr->switchvalue == swL_down ) {
-		row_seg_intersect( ptr2 , ptr1 , segptr ) ;
-	    } else {
-		row_seg_intersect( ptr1 , ptr2 , segptr ) ;
-	    }
-	} else if( ptr1->row == row && ptr2->row == row ) {
-	    if( segptr->switchvalue == swL_down ) {
-		row_seg_intersect( ptr2 , ptr1 , segptr ) ;
-	    } else if( segptr->switchvalue == swL_up ) {
-		row_seg_intersect( ptr1 , ptr2 , segptr ) ;
-	    } else if( ABS( segptr->pin1ptr->pinloc - 
-			segptr->pin2ptr->pinloc ) > 1 ) {
-		row_seg_intersect( ptr1 , ptr2 , segptr ) ;
-	    }
-	} else if( ptr1->row == row ) {
-	    if( segptr->switchvalue == swL_down && !segptr->flag ) {
-		row_seg_intersect( ptr2 , ptr1 , segptr ) ;
-		if( ptr1->pinloc >= NEITHER ) {
-		    L_jogS[ ++jog_num ] = wkS ;
-		}
-	    } else if( (INT) ptr1->pinloc == BOTCELL ) {
-		if( segptr->switchvalue == swL_down ) {
-		    row_seg_intersect( ptr2 , ptr1 , segptr ) ;
-		} else {
-		    row_seg_intersect( ptr1 , ptr2 , segptr ) ;
-		}
-	    }
-	} else if( ptr2->row == row ) {
-	    if( segptr->switchvalue == swL_up && !segptr->flag ) {
-		row_seg_intersect( ptr1 , ptr2 , segptr ) ;
-		if( ptr2->pinloc <= NEITHER ) {
-		    L_jogS[ ++jog_num ] = wkS ;
-		}
-	    } else if( ptr2->pinloc == TOPCELL ) {
-		if( segptr->switchvalue == swL_down ) {
-		    row_seg_intersect( ptr2 , ptr1 , segptr ) ;
-		} else {
-		    row_seg_intersect( ptr1 , ptr2 , segptr ) ;
-		}
-	    }
-	} else if( ptr2->row < row ) {
-	    segptr->prev->next = nextptr ;
-	    if( nextptr != NULL ) {
-		nextptr->prev = segptr->prev ;
-	    }
-	    Ysafe_free( segptr ) ;
-	}
-    }
-}
-if( wkS == 0 ) {
-    return ;
-}
-
-while( wkS > total_feed_in_the_rowG[row] ) {
-    segptr = workerS[ L_jogS[1] ]->segptr ;
-    min_i = 1 ;
-    min_x = ABS( segptr->pin1ptr->xpos - segptr->pin2ptr->xpos ) ;
-    for( i = 2 ; i <= jog_num ; i++ ) {
-	segptr = workerS[ L_jogS[i] ]->segptr ;
-	x = ABS( segptr->pin1ptr->xpos - segptr->pin2ptr->xpos ) ;
-	if( x < min_x ) {
-	    min_i = i ;
-	    min_x = x ;
-	}
-    }
-    if( min_i == jog_num ) {
-	if( L_jogS[jog_num] < wkS ) {
-	    copy_workerS_field( workerS[ L_jogS[jog_num] ], workerS[wkS] ) ;
-	}
-    } else {
-	copy_workerS_field( workerS[ L_jogS[min_i] ], 
-			   workerS[ L_jogS[jog_num] ] ) ;
-	copy_workerS_field( workerS[ L_jogS[jog_num] ], workerS[wkS] ) ;
-    }
-    wkS-- ;
-    jog_num-- ;
-}
-
-
-imptr = impFeeds[row]->next ; 
-
-Yquicksort( (char *)(workerS+1) , wkS , sizeof(FEED_SEG_PTR),comparenptr );
-firstnode = set_node( workerS[1]->netptr->xpos ) ;
-i = 1 ;
-for( i = 1 ; i <= chan_node_no ; i++ ) {
-    feedptr[i]->needed = 0 ;
-}
-for( i = 1 ; i <= wkS ; i++ ) {
-    j = set_node( workerS[i]->netptr->xpos ) ;
-    if( feedptr[j]->needed == 0 ) {
-	wk_headS[j] = i ;
-    }
-    feedptr[j]->needed++ ;
-}
-
-/* assign the feedthru pin for the segment from count down to i */
-
-for( k = firstnode ; k <= chan_node_no ; k++ ) {
-    if( feedptr[k]->needed > feedptr[k]->actual ) {
-	local_Assgn( row , k ) ;
-    }
-}
-
-for( k = 1 ; k <= chan_node_no ; k++ ) {
-    if( feedptr[k]->actual == 0 || feedptr[k]->needed == 0 ) {
-	continue ;
-    } else if( feedptr[k]->needed == feedptr[k]->actual ) {
-	for( imptr = feedptr[k]->firstimp ;
-	  tearray[ imptr->terminal ] ; imptr = imptr->next );
-	last_i = wk_headS[k] + feedptr[k]->needed - 1 ;
-	for( i = wk_headS[k] ; i <= last_i ; i++ ) {
-	    assgn_impin( imptr , workerS[i] , row ) ;
-	    imptr = imptr->next ;
-	}
-    } else {
-	impcount = 0 ;
-	for( imptr = feedptr[k]->firstimp ;
-	  tearray[ imptr->terminal ] ; imptr = imptr->next );
-	for( ; tearray[ imptr->terminal ] == NULL ;
-				imptr = imptr->next ) {
-	    ipinptr[++impcount] = imptr ;
-	    if( impcount >= feedptr[k]->actual ) {
-		break ;
-	    }
-	}
-	last_j = wk_headS[k] + feedptr[k]->needed - 1 ;
-	for( j = wk_headS[k] ; j <= last_j ; j++ ) {
-	    spacing  = INT_MAX ;
-	    for( i = 1 ; i <= impcount ; i++ ) {
-		if( tearray[ ipinptr[i]->terminal ] ) {
-		    continue ;
-		}
-		if( ABS( ipinptr[i]->xpos - workerS[j]->netptr->xpos )
-							< spacing ) {
-		    iptr = ipinptr[i] ;
-		    spacing =
-			ABS( iptr->xpos - workerS[j]->netptr->xpos ) ;
-		}
-	    }
-	    assgn_impin( iptr , workerS[j] , row ) ;
-	}
-    }
-    feedptr[k]->actual -= feedptr[k]->needed ;
-    feedptr[k]->needed = 0 ;
-}
-}
-#endif
-
-
-row_seg_intersect( ptr1 , ptr2 , segptr )
-PINBOXPTR ptr1 , ptr2 ;
-SEGBOXPTR segptr ;
+void row_seg_intersect( PINBOXPTR ptr1 , PINBOXPTR ptr2 , SEGBOXPTR segptr )
 {
 
 int i ;
@@ -902,20 +719,14 @@ workerS[ wkS ]->refer  = ptr2 ;
 workerS[ wkS ]->segptr = segptr ;
 }
 
-
-copy_workerS_field( aptr, bptr )
-FEED_SEG_PTR aptr, bptr ;
+void copy_workerS_field( FEED_SEG_PTR aptr, FEED_SEG_PTR bptr )
 {
 aptr->netptr = bptr->netptr ;
 aptr->refer  = bptr->refer ;
 aptr->segptr = bptr->segptr ;
 }
 
-
-#ifdef CARL_NEW
-assgn_impin( imptr , fsptr , row )
-IPBOXPTR imptr ;
-FEED_SEG_PTR fsptr ;
+void assgn_impin( IPBOXPTR imptr , FEED_SEG_PTR fsptr , int row )
 {
 
 int net ;
@@ -982,171 +793,8 @@ if( strncmp( carrayG[netptr->cell]->cname, "twfeed", 6 ) == STRINGEQ ){
     carrayG[netptr->cell]->paths = netarrayG[netptr->net]->paths ;
 }
 }
-#else
-assgn_impin( imptr , fsptr , row )
-IPBOXPTR imptr ;
-FEED_SEG_PTR fsptr ;
-{
 
-int net ;
-PINBOXPTR netptr , ptr1 , ptr2 ;
-SEGBOXPTR segptr ;
-
-++implicit_pins_used ;
-if( fsptr->segptr ) {
-    netptr = ( PINBOXPTR )Ysafe_malloc( sizeof( PINBOX ) ) ;
-    netptr->adjptr = (ADJASEGPTR)Ysafe_calloc(
-			    1, sizeof(ADJASEG) ) ;
-    netptr->net  = net = fsptr->segptr->pin1ptr->net ;
-    netptr->row  = row ;
-    netptr->next = netarrayG[net]->pins ;
-    netarrayG[net]->pins = netptr ;
-    segptr = fsptr->segptr ;
-    segptr->pin1ptr = netptr ;
-    ptr1 = segptr->pin1ptr ;
-    ptr2 = segptr->pin2ptr ;
-    netptr->xpos = imptr->xpos ;
-    if( ptr2->row == ptr1->row ) {
-	segptr->switchvalue == nswLINE ;
-	segptr->flag = TRUE ;
-    } else if( add_Lcorner_feed &&
-	ABS( ptr1->xpos - ptr2->xpos ) >= average_feed_sep ) {
-	segptr->flag = FALSE ;
-    } else {
-	segptr->flag = TRUE ;
-    }
-} else { /* a steiner point */
-    netptr = fsptr->netptr ;
-    netptr->xpos = imptr->xpos ;
-}
-netptr->ypos = barrayG[row]->bycenter ;
-netptr->cell = imptr->cell ;
-netptr->pinloc = NEITHER   ;
-netptr->terminal = imptr->terminal ;
-netptr->pinname  = imptr->pinname  ;
-tearray[ netptr->terminal ] = netptr ;
-netptr->eqptr = ( EQ_NBOXPTR )Ysafe_calloc( 1, sizeof(EQ_NBOX) ) ;
-netptr->eqptr->typos = carrayG[ netptr->cell ]->tileptr->bottom ;
-netptr->eqptr->pinname = imptr->eqpinname ;
-}
-
-
-local_Assgn( row , node )
-int row , node ;
-{
-
-int next , back , head , end , LeftFlag , left_node , rite_node ;
-int i , n , k , t , diff , orig_feed_needed , feed_need ;
-int shift_left_start_index , shift_rite_start_index ;
-int left_start , rite_start ;
-FEED_DATA *feedptr ;
-IPBOXPTR imptr ;
-
-back = 0 ;
-next = 0 ;
-left_node = rite_node = node ;
-feedptr = feedpptr[row] ;
-orig_feed_needed = feedptr[node]->needed ;
-feed_need = feedptr[node]->needed - feedptr[node]->actual ;
-head = wk_headS[node] ;
-end  = head + orig_feed_needed - 1 ;
-shellsort_referx( workerS , head , orig_feed_needed ) ;
-LeftFlag = 0 ;
-while( feed_need > back + next ) {
-    if( left_node > 1 ) {
-	left_node-- ;
-	t = feedptr[left_node]->actual - feedptr[left_node]->needed ;
-	if( t > 0 ) {
-	    back += t ;
-	    if( back + next >= feed_need ) {
-		LeftFlag = 1 ;
-		break ;
-	    }
-	}
-    }
-    if( rite_node < chan_node_no ) {
-	rite_node++ ;
-	t = feedptr[rite_node]->actual - feedptr[rite_node]->needed ;
-	if( t > 0 ) {
-	    next += t ;
-	}
-    }
-}
-if( LeftFlag ) {
-    shift_left_start_index = head + feed_need - next - 1 ;
-} else {
-    shift_left_start_index = head + back - 1 ;
-}
-if( shift_left_start_index < head ) {
-    shift_rite_start_index = head + feedptr[node]->actual ;
-} else {
-    shift_rite_start_index = shift_left_start_index
-				+ feedptr[node]->actual + 1 ;
-}
-left_start = shift_left_start_index ;
-rite_start = shift_rite_start_index ;
-for( n = node - 1 ; n >= left_node ; n-- ) {
-    diff = feedptr[n]->actual - feedptr[n]->needed ;
-    if( diff <= 0 ) {
-	continue ;
-    }
-    for( imptr = feedptr[n]->lastimp ;
-	tearray[ imptr->terminal ] ; imptr = imptr->prev ) ;
-    k = 0 ;
-    for( i = 1 ; i <= diff ; i++ ) {
-	if( left_start >= head ) {
-	    assgn_impin( imptr , workerS[ left_start-- ] , row ) ;
-	    imptr = imptr->prev ;
-	    ++k ;
-	} else {
-	    break ;
-	}
-    }
-    feedptr[n]->actual -= k ;
-}
-for( n = node + 1 ; n <= rite_node ; n++ ) {
-    diff = feedptr[n]->actual - feedptr[n]->needed ;
-    if( diff <= 0 ) {
-	continue ;
-    }
-    for( imptr = feedptr[n]->firstimp ;
-	tearray[ imptr->terminal ] ; imptr = imptr->next ) ;
-    k = 0 ;
-    for( i = 1 ; i <= diff ; i++ ) {
-	if(  rite_start <= end ) {
-	    assgn_impin( imptr , workerS[ rite_start++ ] , row ) ;
-	    imptr = imptr->next ;
-	    ++k ;
-	} else {
-	    break ;
-	}
-    }
-    feedptr[n]->actual -= k ;
-}
-imptr = feedptr[node]->firstimp ;
-
-k = shift_rite_start_index - 1 ;
-if( shift_rite_start_index > end ) {
-    k = end ;
-}
-i = shift_left_start_index + 1 ;
-if( i < head ) {
-    i = head ;
-}
-for( ; i <= k ; i++ ) {
-    assgn_impin( imptr , workerS[i] , row ) ;
-    imptr = imptr->next ;
-}
-feedptr[node]->actual = 0 ;
-feedptr[node]->needed = 0 ;
-}
-
-
-#endif
-
-
-
-unequiv_pin_pre_processing()
+void unequiv_pin_pre_processing()
 {
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
@@ -1202,8 +850,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-relax_padPins_pinloc()
+void relax_padPins_pinloc()
 {
 int i ;
 PINBOXPTR pinptr ;
@@ -1219,8 +866,7 @@ for( i = lastpadG ; i > numcellsG ; i-- ) {
 }
 }
 
-
-relax_unequiv_pinloc()
+void relax_unequiv_pinloc()
 {
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
@@ -1241,8 +887,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 }
 
-
-check_unequiv_connectivity()
+int check_unequiv_connectivity()
 {
 int net, channel, correctness ;
 ADJASEG *adj ;
@@ -1390,10 +1035,7 @@ BOOL perim_flag ;
     return( global_wire_length ) ;
 } /* end swap_cost() */
 
-
-
-improve_place_sequential( row , index )
-int row , index ;
+int improve_place_sequential( int row , int index )
 {
 
 int cell1 , cell2 , shift1 , shift2 , swap ;
@@ -1605,9 +1247,7 @@ if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal,
 }
 }
 
-
-cell_rotate( row , index )
-int row , index ;
+int cell_rotate( int row , int index )
 {
 
 int cell, swap ;
@@ -1762,7 +1402,7 @@ if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal,
 }
 } /* end cell_rotate() */
 
-elim_unused_feedsSC()
+void elim_unused_feedsSC()
 {
 
 CBOXPTR ptr , cellptr , first_cptr , last_cptr ;
@@ -1857,8 +1497,8 @@ fprintf( fpoG, "\nlong intEST Row is:%d   Its length is:%d\n",
 Ysafe_free( row_len );
 return ;
 }
- 
-rebuild_nextpin()
+
+void rebuild_nextpin()
 {
     int net, cell ;
     PINBOXPTR netptr , cnetptr ;
@@ -1891,7 +1531,7 @@ rebuild_nextpin()
     }
 } /* end rebuild_nextpin */
 
-rebuild_cell_paths()
+void rebuild_cell_paths()
 {
     int i ;
     CBOXPTR ptr ;

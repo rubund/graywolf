@@ -62,18 +62,13 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue Mar 12 17:08:44 CST 1991 - added back missing
 		computation.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) feedest.c (Yale) version 4.9 3/12/91" ;
-#endif
-#endif
-
 #define FEEDS_VARS
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
 #include "main.h"
+#include "feedest.h"
 
 /* global definitions */
 INT *rowfeed_penaltyG ;
@@ -81,14 +76,15 @@ INT *rowfeed_penaltyG ;
 extern BOOL absolute_minimum_feedsG ;
 
 /* static definitions */
-static DOUBLE *fd_estimateS ;
-static INT *min_feedS ;
-static INT *row_flagS ;
-static INT chip_width_penaltyS ;
-static INT *est_min_ratioS ;
+static double *fd_estimateS ;
+static int *min_feedS ;
+static int *row_flagS ;
+static int chip_width_penaltyS ;
+static int *est_min_ratioS ;
 
+void estimate_pass_thru_penalty( int row1 , int row2 );
 
-feedest()
+void feedest()
 {
 
 DOUBLE ratio ;
@@ -246,7 +242,7 @@ estimate_pass_thru_penalty( 1 , numRowsG ) ;
 
 }
 
-re_estimate_feed_penalty()
+void re_estimate_feed_penalty()
 {
 
 INT i , n , row , row_rite , excess_fd , *old_penalty ;
@@ -316,38 +312,7 @@ out:
 Ysafe_free( old_penalty );
 }
 
-#ifdef Carl
-estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
-{
-
-INT row ;
-DOUBLE ratio ;
-if( row1 < 1 ) {
-    row1 = 1 ;
-}
-if( row2 > numRowsG ) {
-    row2 = numRowsG ;
-}
-ratio = (DOUBLE) implicit_feed_count / (DOUBLE) TotRegPins ;
-if( ratio > 0.0 ) {
-    ratio += 0.1 ;
-}
-if( ratio > 1.0 ) {
-    ratio = 1.0 ;
-}
-for( row = row1 ; row <= row2 ; row++ ) {
-    if( !absolute_minimum_feeds ) {
-	rowfeed_penaltyG[row] = (2.0 - ratio * 1.2) * rowHeightG ;
-    } else {
-	rowfeed_penaltyG[row] = chip_width_penaltyS ;
-    }
-}
-}
-#else
-
-estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
+void estimate_pass_thru_penalty( int row1 , int row2 )
 {
 
 INT row ;
@@ -385,11 +350,8 @@ for( row = row1 ; row <= row2 ; row++ ) {
     }
 }
 }
-#endif
 
-
-update_feedest( net )
-INT net ;
+void update_feedest( int net )
 {
 
 DBOXPTR dimptr ;
@@ -501,8 +463,7 @@ estimate_pass_thru_penalty( botrow , toprow ) ;
 
 }
 
-
-free_up_feedest_malloc()
+void free_up_feedest_malloc()
 {
 
 Ysafe_free( fd_estimateS ) ;
@@ -512,9 +473,7 @@ Ysafe_free( rowfeed_penaltyG ) ;
 Ysafe_free( est_min_ratioS ) ;
 }
 
-
-update_segment_data( segptr )
-SEGBOXPTR segptr ;
+void update_segment_data( SEGBOXPTR segptr )
 {
 PINBOXPTR ptr1 , ptr2 ;
 

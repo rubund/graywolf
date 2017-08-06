@@ -51,18 +51,13 @@ REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 	    Wed Sep 11 11:27:46 CDT 1991 - added user
 		output info for blocks.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) reconfig.c (Yale) version 4.11 4/2/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "readpar.h"
 #include "main.h"
-#include <yalecad/message.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
+#include "reconfig.h"
+#include "placepads.h"
+#include "findcostf.h"
 
 #if SIZEOF_VOID_P == 64
 #define INTSCANSTR "%ld"
@@ -85,7 +80,7 @@ static INT feed_lengthS ;             /* the current feed length */
 static INT old_feed_lengthS = 0 ; /* the feed length from the last iteration */
 static BOOL print_desiredS = TRUE ;
 
-INT reconfig()
+int reconfig()
 {
 
     INT block ;
@@ -172,15 +167,13 @@ static configuref()
 
 } /* end configuref */
 
-read_feeds( fp )
-FILE *fp ;
+void read_feeds( FILE *fp )
 {
     fscanf( fp , INTSCANSTR , &feed_lengthS ) ;
     feed_length_setS = TRUE ;
 } /* end read_feeds */
 
-save_feeds( fp )
-FILE *fp ;
+void save_feeds( FILE *fp )
 {
     fprintf( fp, "%d\n", feed_lengthS ) ;
 } /* end save_feeds */

@@ -9,12 +9,6 @@ REVISIONS:  Sun Feb 17 21:11:18 EST 1991 - moved numMacroG to pad.h
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#ifdef CONFIG_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
 typedef struct macrobox {
     INT mx ;
     INT my ;
@@ -29,24 +23,24 @@ typedef struct rowbox {
     INT desiredL ;
 } ROWBOX ;
 
-EXTERN MACROBOX *macroArrayG ;
-EXTERN ROWBOX *rowArrayG ;
+MACROBOX *macroArrayG ;
+ROWBOX *rowArrayG ;
 
-EXTERN INT max_blklengthG ;
-EXTERN INT route2actG;   /* added for placement adjusted for routing */
-EXTERN INT track_pitchG; /* used only if global routing is performed */
-EXTERN INT gridCellG;    /* used only if global routing is performed */
-EXTERN INT desiredLG ;
-EXTERN DOUBLE *macspaceG ;
+int max_blklengthG ;
+int route2actG;   /* added for placement adjusted for routing */
+int track_pitchG; /* used only if global routing is performed */
+int gridCellG;    /* used only if global routing is performed */
+int desiredLG ;
+double *macspaceG ;
 
-EXTERN INT *padArrayG ;
-EXTERN INT extraSpaceG ;
-EXTERN INT coreHeightG ;
-EXTERN INT coreWidthG ;
-EXTERN INT separationG ;
-EXTERN INT spaceG ;
-EXTERN INT maxHeight ;
-EXTERN INT lastG ;
+int *padArrayG ;
+int extraSpaceG ;
+int coreHeightG ;
+int coreWidthG ;
+int separationG ;
+int spaceG ;
+int maxHeight ;
+int lastG ;
 
 #undef EXTERN  
 

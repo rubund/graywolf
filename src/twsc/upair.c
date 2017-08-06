@@ -50,16 +50,16 @@ REVISIONS:  Fri Mar 22 16:23:46 CST 1991 - now avoid upair
 	    Fri Sep  6 15:20:48 CDT 1991 - now place pads during
 		pairwise swaps.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) upair.c (Yale) version 4.12 5/12/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
+#include "placepads.h"
+#include "findcostf.h"
+#include "ucxxp.h"
+#include "uc0.h"
+#include "debug2.h"
+#include "upair.h"
+
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global references */
@@ -67,7 +67,7 @@ extern INT **pairArrayG ;
 extern BOOL orientation_optimizationG ;
 extern BOOL placement_improveG ;
 
-upair()
+void upair()
 {
 
 CBOXPTR acellptr, bcellptr ; 
@@ -295,7 +295,7 @@ ort:if( ablckptr->borient == 1 ) {
     ) ;
 }
 sprintf( YmsgG, " %3d %6.3f %9d  %3d%s  %-8ld\n", iterationG+1, TG, funccostG,
-	(INT)( 100.0 * (DOUBLE)(flips) / (DOUBLE)(attmaxG) ) , "%" ,
+	(int)( 100.0 * (double)(flips)/(double)(attmaxG) ), "%" ,
 	timingcostG ) ;
 M( MSG, NULL, YmsgG ) ;
 return;

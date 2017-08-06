@@ -49,21 +49,16 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
 	    Tue Mar 19 16:27:35 CST 1991 - fixed calculation
 		problem with rowSep.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) configure.c (Yale) version 4.12 3/19/91" ;
-#endif
-#endif
-
 #define CONFIG_VARS
-
+#include <globals.h>
 #include "standard.h"
 #include "config.h"
 #include "parser.h"
 #include "pads.h"
 #include "main.h"
 #include "readpar.h"
-#include <yalecad/debug.h>
+#include "configure.h"
+#include "placepads.h"
 
 /*  
  *  Configure the rows of standard cells along with possibly
@@ -87,8 +82,6 @@ static int heightS ;
 static int widthS ;
 static int mttshiftS ;
 static int mbbshiftS ;
-
-void random_placement();
 
 void configure() 
 {

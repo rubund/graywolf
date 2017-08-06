@@ -79,27 +79,18 @@ REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 		options when only a fraction of the pins to pads have
 		connections to the core.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) placepads.c version 4.15 5/12/92" ;
-#endif
-
 #define PAD_VARS
 
-#include <standard.h>
-#include <pads.h>
-#include <config.h>
-#include <parser.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "standard.h"
+#include "pads.h"
+#include "config.h"
+#include "parser.h"
+#include "placepads.h"
+#include "configpads.h"
 
 /* global references */
 extern int **pairArrayG ;
-
-/* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static void find_optimum_locations( void ) ;
-static void place_pad( PADBOXPTR pad, int bestside ) ;
-static void place_children( PADBOXPTR pad, int side, double lb, double ub, BOOL sr);
-static int find_cost_for_a_side(PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted) ;
-static void find_core(void) ;
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static BOOL virtualCoreS = FALSE ;
@@ -135,7 +126,7 @@ void placepads()
 } /* end placepads */
 /* ***************************************************************** */
 
-static void find_optimum_locations()
+void find_optimum_locations()
 {
 	int i ;                  /* pad counter */
 	int side ;               /* loop thru valid sides */
@@ -195,7 +186,7 @@ static void find_optimum_locations()
 } /* end find_optimum */
 
 /* ***************************************************************** */
-static int find_cost_for_a_side(PADBOXPTR pad, int  side, double lb, double ub, BOOL spacing_restricted)
+int find_cost_for_a_side(PADBOXPTR pad, int  side, double lb, double ub, BOOL spacing_restricted)
 {
 	int i ;           /* children counter */
 	int pos ;         /* current pos. of current core pin constrained*/
@@ -380,7 +371,7 @@ static int find_cost_for_a_side(PADBOXPTR pad, int  side, double lb, double ub, 
  **** are set in those routines.  Otherwise set sumposS and sumtieS
  **** to their proper values.
  ***/
-static void place_pad( PADBOXPTR pad, int bestside )
+void place_pad( PADBOXPTR pad, int bestside )
 {
 	/* use the number of pins with valid connections */
 	/* pin_countS is set inf find_cost_for_a_side */
@@ -399,7 +390,7 @@ static void place_pad( PADBOXPTR pad, int bestside )
 
 /**** RECURSIVELY SET THE PADSIDE OF ALL CHILDREN OF THE ROOT PAD TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL CXCENTER */
-static void place_children( PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted )
+void place_children( PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted )
 {
 	int i; /* pad counter */
 	int pos; /* position of last placed pad */
@@ -480,7 +471,7 @@ static void place_children( PADBOXPTR pad, int side, double lb, double ub, BOOL 
 /* ***************************************************************** */
 /* ***************************************************************** */
 
-static void find_core()
+void find_core()
 {
 	int minx, maxx ;
 	int miny, maxy ;

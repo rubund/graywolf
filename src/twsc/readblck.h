@@ -9,12 +9,6 @@ REVISIONS:
 #ifndef READBLCK_H
 #define READBLCK_H
 
-#ifdef READBLCK_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
 typedef struct exceptbox {
     int row ;
     int ll_x ;
@@ -24,17 +18,18 @@ typedef struct exceptbox {
 } *EXCEPTPTR, EXCEPTBOX ;
 
 /* global variable definitions */
-EXTERN int num_exceptsG ;
-EXTERN int top_of_top_rowG ;
-EXTERN int bot_of_bot_rowG ;
-EXTERN int uniform_rowsG ;
-EXTERN int individual_rowSepsG ;
-EXTERN int total_except_widthG ;
-EXTERN double *rowSepsG ;
-EXTERN int *rowSepsAbsG ;
-EXTERN double *relativeLenG ;
-EXTERN EXCEPTBOX *exceptionsG ;
+int num_exceptsG ;
+int top_of_top_rowG ;
+int bot_of_bot_rowG ;
+int uniform_rowsG ;
+int individual_rowSepsG ;
+int total_except_widthG ;
+double *rowSepsG ;
+int *rowSepsAbsG ;
+double *relativeLenG ;
+EXCEPTBOX *exceptionsG ;
 
+void readblck(FILE *fp);
 
 #undef EXTERN  
 

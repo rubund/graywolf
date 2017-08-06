@@ -80,21 +80,25 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) uloop.c (Yale) version 4.14 3/23/92" ;
-#endif
-#endif
-
 #define UCXXGLB_VARS
 
+#include <globals.h>
 #include "standard.h"
 #include "ucxxglb.h"
 #include "main.h"
 #include "readpar.h"
 #include "parser.h"
-#include "yalecad/message.h"
-#include "yalecad/debug.h"
+#include "uloop.h"
+#include "ucxx1.h"
+#include "ucxxo1.h"
+#include "ucxx2.h"
+#include "ucxxo2.h"
+#include "uc0.h"
+#include "graphics.h"
+#include "reconfig.h"
+#include "gateswap.h"
+#include "debug2.h"
+#include "savewolf.h"
 
 #define INITRATIO 0.95
 #define AC0 0.90
@@ -183,15 +187,14 @@ static DOUBLE row_capS = 99.0 ;
 static DOUBLE a_ratioS;
 static DOUBLE total_costS;
 
-init_uloop()
+void init_uloop()
 {
     not_doneS = 1;
     acc_cntS = move_cntS ;
     ratioG = 1.0;
 } /* end init_uloop */
 
-
-uloop()
+void uloop()
 {
 
 FENCEBOXPTR fence ;
@@ -846,11 +849,7 @@ if( not_doneS || good_initial_placementG ) {
 return ;
 } /* end uloop */
 
-
-
-
-
-rowcon()
+void rowcon()
 {
 
 INT C , R , p_first , totalCells , cellsPerRow , temp_R ;
@@ -1224,11 +1223,7 @@ INT first;
     }
 }
 
-
-
-pick_fence_position(x,y,fence)
-INT *x, *y ;
-FENCEBOX *fence ;
+void pick_fence_position(int *x, int *y, FENCEBOX *fence)
 {
     register INT left,right;
     BBOXPTR bblckptr ;
@@ -1248,9 +1243,7 @@ FENCEBOX *fence ;
     return;
 }
 
-pick_position(x,y,ox,oy,scale)
-INT *x,*y,ox,oy;
-DOUBLE scale ;
+void pick_position(int *x, int *y, int ox, int oy,double scale)
 {
     register INT i,m,n,bleft,bright;
     DOUBLE tmp ;
@@ -1296,8 +1289,7 @@ DOUBLE scale ;
 }
 
 /* change range limiter according to iterationG number */
-update_window_size( iternum )
-DOUBLE iternum ;
+void update_window_size( double iternum )
 {
 
 /*
@@ -1351,8 +1343,7 @@ DOUBLE iternum ;
     */
 }
 
-save_control( fp )
-FILE *fp ;
+void save_control(FILE *fp)
 {
     fprintf(fp,"%d 0 %d\n",pairtestG,not_doneS);
     fprintf(fp,"%d %d %d %d\n",acc_cntS,move_cntS,first_fdsS,first_capS);
@@ -1362,8 +1353,7 @@ FILE *fp ;
     fprintf(fp,"%f %f %f\n",avg_timeG, avg_funcG, timeFactorG);
 }
 
-read_control( fp )
-FILE *fp ;
+void read_control( FILE *fp )
 {
     INT junk ;
 
@@ -1375,8 +1365,7 @@ FILE *fp ;
     fscanf(fp,"%lf %lf %lf\n",&avg_timeG, &avg_funcG, &timeFactorG);
 }
 
-tw_frozen( cost )
-INT cost ;
+int tw_frozen( int cost )
 {
 
 DOUBLE diff , avg_first_set , avg_second_set ;

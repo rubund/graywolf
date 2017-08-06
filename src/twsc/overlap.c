@@ -65,6 +65,7 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include "ucxxglb.h"
+#include "overlap.h"
 
 void new_old(int c)
 {
@@ -204,10 +205,7 @@ void new_assgnto_old1( int alobin , int ahibin , int anewlobin , int anewhibin )
 	} 
 }
 
-old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,
-		  b1lobin , b1hibin , b2lobin , b2hibin )
-INT a1lobin , a1hibin , a2lobin , a2hibin ;
-INT b1lobin , b1hibin , b2lobin , b2hibin ;
+void old_assgnto_new2( int a1lobin , int a1hibin , int a2lobin , int a2hibin , int b1lobin , int b1hibin , int b2lobin , int b2hibin )
 {
 
 INT clobin , chibin , dlobin , dhibin ;
@@ -235,12 +233,8 @@ if( ablockG == bblockG ) {
     }
 }
 }
-	 
 
-new_assgnto_old2( a1lobin , a1hibin , a2lobin , a2hibin ,
-		  b1lobin , b1hibin , b2lobin , b2hibin )
-INT a1lobin , a1hibin , a2lobin , a2hibin ;
-INT b1lobin , b1hibin , b2lobin , b2hibin ;
+void new_assgnto_old2( int a1lobin , int a1hibin , int a2lobin , int a2hibin , int b1lobin , int b1hibin , int b2lobin , int b2hibin )
 {
 
 INT clobin , chibin , dlobin , dhibin ;
@@ -270,8 +264,7 @@ if( ablockG == bblockG ) {
 }
 
 
-sub_penal( startx , endx , block , LoBin , HiBin )
-INT startx , endx , block , LoBin , HiBin ;
+void sub_penal( int startx , int endx , int block , int LoBin , int HiBin )
 {
 
 BINPTR bptr ;
@@ -303,8 +296,7 @@ if( LoBin == HiBin ) {
 }
 }
 
-add_penal( startx , endx , block , LoBin , HiBin )
-INT startx , endx , block , LoBin , HiBin ;
+void add_penal( int startx , int endx , int block , int LoBin , int HiBin )
 {
 
 BINPTR bptr ;
@@ -336,9 +328,7 @@ if( LoBin == HiBin ) {
 }
 
 
-term_newpos( antrmptr , xcenter , ycenter , newaor )
-PINBOXPTR antrmptr ;
-INT xcenter , ycenter , newaor ;
+void term_newpos( PINBOXPTR antrmptr  , int xcenter , int ycenter , int newaor )
 {
 
 register PINBOXPTR pinptr ;

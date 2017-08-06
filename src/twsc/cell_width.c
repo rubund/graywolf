@@ -46,41 +46,25 @@ CONTENTS:   calc_cell_width()
 	    
 DATE:	    July 26, 1991 
 ----------------------------------------------------------------- */
-
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
-#endif
-#endif
-
 #define PADKEYWORD          "pad"
 #define RELATIVE_TO_CURPOS  1
 
 /* #define MITLL */
 
-#include <string.h>
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "config.h"
 #include "readpar.h"
 #include "parser.h"
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/string.h>
+#include "cell_width.h"
 
 #define GREATER 1
 #define LESS -1 
 #define EQUAL 0
 #define MAX_CELL_LEN 10
 
-
 extern INT extra_cellsG ;
-
-static INT compare_cell_length();
-static read_pads(); 
-
-
 
 /*--------------------------------------------------------------------------*/
 /*------------ User defined print routine to print out the tree ------------*/
@@ -109,10 +93,7 @@ CBOXPTR c1;
 
 /*--------------------------------------------------------------------------*/
 
-
-
-
-calc_cells_width()
+void calc_cells_width()
 {
 
 FILE *fp;     /*--- file pointer to stdcell.comp ---*/
@@ -542,7 +523,7 @@ return;
 
 /***************************************************************************/
  
-static INT compare_cell_length(c1,c2)
+INT compare_cell_length(c1,c2)
 
 CBOXPTR c1;
 CBOXPTR c2;
@@ -560,8 +541,7 @@ return(EQUAL);
 /****************************************************************************/
 
 
-static read_pads( fp ) 
-FILE *fp ;
+void read_pads( FILE *fp ) 
 {
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing menu file */

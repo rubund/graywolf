@@ -54,28 +54,18 @@ REVISIONS:  Jun 21, 1990 - added graphics abort macro.
 	    Tue May  7 00:09:43 EDT 1991 - added TWsetFrame 
 		initialization and draw orientation markers.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c version 4.21 5/15/92" ;
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "main.h"
 #include "readpar.h"
 #include "pads.h"
+#include "graphics.h"
+#include "findcost.h"
 
 #ifndef NOGRAPHICS
 
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/colors.h>
-#include <yalecad/draw.h>
-#include <yalecad/relpos.h>
-
-#include <string.h>
-
 #define INTRO            "Welcome to TimberWolfSC"
 #define GRAPHICSABORT    if(!(doGraphicsG))  return ;
-
 
 #define NETCOLOR           TWRED
 #define PINCOLOR           TWBLACK

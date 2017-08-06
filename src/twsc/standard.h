@@ -39,12 +39,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 /* Pin list includes an embedded hash table */
 #include <yalecad/hash.h>
 
-#ifdef MAIN_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
 /* ***********LEAVE THE BELOW UNCHANGED *************************** */
 /* remove graphics lines of code if compile switch is on */
 #ifdef NOGRAPHICS
@@ -281,47 +275,45 @@ typedef struct swapbox {        /* list of list of pins to be swapped */
 
 /* ****************** GLOBALS ************************** */
 /* THE MAJOR PARTS OF THE DATA STRUCTURES */
-EXTERN CBOXPTR  *carrayG  ;
-EXTERN DBOXPTR   *netarrayG   ;
-EXTERN PINBOXPTR *tearrayG  ;
-EXTERN BBOXPTR *barrayG ;
-EXTERN BINBOX ***binptrG ;
-EXTERN PATHPTR *patharrayG ;  /* array of timing paths */
+CBOXPTR  *carrayG  ;
+DBOXPTR   *netarrayG   ;
+PINBOXPTR *tearrayG  ;
+BBOXPTR *barrayG ;
+BINBOX ***binptrG ;
+PATHPTR *patharrayG ;  /* array of timing paths */
 
-EXTERN double vertical_path_weightG ;
-EXTERN double horizontal_path_weightG ;
-EXTERN double vertical_wire_weightG ;
+double vertical_path_weightG ;
+double horizontal_path_weightG ;
+double vertical_wire_weightG ;
 
 /* the configuration */
-EXTERN int numcellsG ;
-EXTERN int numtermsG ;
-EXTERN int numnetsG ;
-EXTERN int numpadgrpsG ;
-EXTERN int lastpadG ;
-EXTERN int maxtermG ;
-EXTERN int numRowsG ;
-EXTERN int numChansG ;
-EXTERN int numpathsG ;
-EXTERN int numBinsG ;
-EXTERN int binWidthG ;
-EXTERN int binOffstG ;
-EXTERN int TotRegPinsG ;
-EXTERN int implicit_feed_countG ;
+int numcellsG ;
+int numtermsG ;
+int numnetsG ;
+int numpadgrpsG ;
+int lastpadG ;
+int maxtermG ;
+int numRowsG ;
+int numChansG ;
+int numpathsG ;
+int numBinsG ;
+int binWidthG ;
+int binOffstG ;
+int TotRegPinsG ;
+int implicit_feed_countG ;
 
 /* for the penalties */
-EXTERN int TrybinG   ;
-EXTERN int binpenalG ;
-EXTERN int funccostG ;
-EXTERN int newbinpenalG ;
-EXTERN int newrowpenalG ;
-EXTERN int penaltyG  ;
-EXTERN int rowpenalG ;
-EXTERN int timingcostG ;
-EXTERN double binpenConG ;
-EXTERN double roLenConG ;
-EXTERN double timeFactorG ;
-
-#undef EXTERN  
+int TrybinG   ;
+int binpenalG ;
+int funccostG ;
+int newbinpenalG ;
+int newrowpenalG ;
+int penaltyG  ;
+int rowpenalG ;
+int timingcostG ;
+double binpenConG ;
+double roLenConG ;
+double timeFactorG ;
 
 /* *********************** PROTOTYPES FOR TWSC ******************** */
 void init_table( void ) ;

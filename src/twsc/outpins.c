@@ -68,21 +68,14 @@ REVISIONS:  Thu Feb  7 00:10:27 EST 1991 - now also support old
 	    Thu Dec  5 21:58:34 EST 1991 - fixed problem with
 		macro cell output pins.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outpins.c (Yale) version 4.9 12/5/91" ;
-#endif
-#endif
-
-#include <string.h>
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
 #include "main.h"
 #include "readpar.h"
 #include "pads.h"
-
-#include <yalecad/debug.h>
-#include <yalecad/string.h>
+#include "outpins.h"
+#include "netgraph.h"
 
 /* #define NSC */
 
@@ -675,8 +668,7 @@ int *layer ;
 } /* end find_layer */
 
 
-set_pin_format( flag )
-BOOL flag ;
+void set_pin_format( BOOL flag )
 {
     old_formatS = flag ;
 } /* end set_pin_format */

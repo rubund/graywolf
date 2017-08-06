@@ -1,12 +1,15 @@
 %option prefix="twsc_readnets_"
-%{
-#include "readnets.h"
+%top{
+#include <globals.h>
+#include "parser.h"
+#include "readnets.y.h"
+
 extern int yylineno;
 #define yylval twsc_readnets_lval
 #define yyget_lineno twsc_readnets_get_lineno
 #define yytext twsc_readnets_text
 #define yyin twsc_readnets_in
-%}
+}
 
 blanks		[ \t]+
 newline		[\n]+

@@ -83,23 +83,30 @@ REVISIONS:  Oct 20, 1990 - fixed problem with graphics close.
 	    Thu Nov  7 23:03:57 EST 1991 - fixed problem with picking
 		best global route criteria and added new row evener.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c (Yale) version 4.38 5/15/92" ;
-#endif
-
 #define MAIN_VARS  
+#include <globals.h>
+
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
 #include "readpar.h"
+#include "readblck.h"
 #include "parser.h"
 #include "feeds.h"
+#include "findcost.h"
 #include "pads.h"
-
-#include <string.h>
-#include <signal.h>
-#include <yalecad/cleanup.h>
-#include <yalecad/message.h>
+#include "paths.h"
+#include "placepads.h"
+#include "graphics.h"
+#include "cell_width.h"
+#include "crossbus.h"
+#include "utemp.h"
+#include "globe.h"
+#include "countf.h"
+#include "findunlap.h"
+#include "coarseglb.h"
+#include "output.h"
+#include "outpins.h"
 
 #include "config-build.h"
 
@@ -143,9 +150,11 @@ static char *twdirS ;
 static int num_feeds_addedS ;/* number of feeds added on best iteration */
 static double ave_row_sepS ; /* the row separation for a run */
 
-void readParFile();
 void init_utemp();
 void install_swap_pass_thrus( PINBOXPTR netptr );
+void incorporate_ECOs();
+int readcell(char *filename);
+int readnets(char *filename);
 
 int
 __attribute__((visibility("default")))

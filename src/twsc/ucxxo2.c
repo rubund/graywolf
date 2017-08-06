@@ -49,18 +49,17 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxxo2.c (Yale) version 4.8 2/23/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "ucxxglb.h"
+#include "ucxx2.h"
 #include "readpar.h"
-#include <yalecad/debug.h>
+#include "overlap.h"
+#include "paths.h"
+#include "dimbox.h"
+#include "graphics.h"
+#include "ucxxo2.h"
 
-ucxxo2( newaor , newbor )
-INT newaor , newbor ;
+int ucxxo2( int newaor , int newbor )
 {
 
 CBOXPTR acellptr , bcellptr ;

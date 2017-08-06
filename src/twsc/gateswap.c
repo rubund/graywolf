@@ -48,21 +48,17 @@ REVISIONS:  Apr  1, 1990 - fixed gateswap routine by changing sortpins
 		txpos fields.  Needed to pass the beginning of
 		the cell pin listx instead of pina and pinb.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) gateswap.c (Yale) version 4.6 2/23/92" ;
-#endif
-#endif
-
+#include <globals.h>
 #include <string.h>
 #include "ucxxglb.h"
 #include "parser.h"
-#include <yalecad/debug.h>
-// #include "readnets.h"
+#include "paths.h"
+#include "dimbox.h"
+#include "sortpin.h"
+#include "xpickint.h"
+#include "gateswap.h"
 
-gate_swap( between_two_cells, sgidxa, sgidxb )
-INT between_two_cells ;
-INT sgidxa, sgidxb ; 
+int gate_swap( int between_two_cells, int sgidxa, int sgidxb )
 {
 
 CBOXPTR cell1ptr , cell2ptr ;
@@ -278,13 +274,7 @@ if( truth ) {
 }
 }
 
-
-
-
-
-
-adjust_paths_on_cell( cell )
-INT cell ;
+void adjust_paths_on_cell( int cell )
 {
 
 INT net_number ;

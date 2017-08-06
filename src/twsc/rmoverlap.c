@@ -66,14 +66,10 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) rmoverlap.c (Yale) version 4.4 12/15/90" ;
-#endif
-#endif
-
+#include <globals.h>
 #include "standard.h"
 #include "groute.h"
+#include "rmoverlap.h"
 
 /* global variable references */
 extern BOOL connectFlagG ;
@@ -83,7 +79,7 @@ PINBOXPTR depth_first_search() ;
 static INT *segcountS ;
 static SEGBOXPTR **chan_segS ;
 
-assgn_channel_to_seg()
+void assgn_channel_to_seg()
 {
 
 PINBOXPTR ptr1 , ptr2 ;
@@ -137,8 +133,7 @@ for( i = 1 ; i <= numChansG ; i++ ) {
 Ysafe_free( maxcount ) ;
 }
 
-
-free_chan_seg()
+void free_chan_seg()
 {
 INT i ;
 
@@ -150,8 +145,7 @@ Ysafe_free( segcountS ) ;
 
 }
 
-remove_overlap_segment( net )
-INT net ;
+void remove_overlap_segment( int net )
 {
 
 PINBOXPTR ptr ;
@@ -195,10 +189,7 @@ if( check_connectivity( net ) == 0 ) {
 }
 }
 
-
-rm_segm_overlap( checkseg , m )
-SEGBOXPTR *checkseg ;
-INT m ;
+void rm_segm_overlap( SEGBOXPTR *checkseg , int m )
 {
 
 SEGBOXPTR aseg , bseg , seg ;
@@ -371,9 +362,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 return( NULL ) ;
 }
 
-
-replace_seg( netptr, oldnode, newnode )
-PINBOXPTR netptr , oldnode , newnode ;
+void replace_seg( PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode )
 {
 ADJASEGPTR adj, tmpadj ;
 SEGBOXPTR segptr ;
@@ -408,10 +397,7 @@ if( netptr->row != newnode->row ) {
 }
 }
 
-
-add_adj( segptr, node )
-SEGBOXPTR segptr ;
-PINBOXPTR node ;
+void add_adj( SEGBOXPTR segptr, PINBOXPTR node )
 {
 ADJASEG *adjptr ;
 
@@ -421,9 +407,7 @@ adjptr->next = node->adjptr->next ;
 node->adjptr->next = adjptr ;
 }
 
-
-check_overlap_at_pin( ptr )
-PINBOXPTR ptr ;
+void check_overlap_at_pin( PINBOXPTR ptr )
 {
 
 PINBOXPTR aptr , bptr ;
@@ -531,9 +515,7 @@ for( adj = ptr->adjptr ; adj->next ; ) {
 }
 }
 
-
-check_connectivity( net )
-INT net ;
+int check_connectivity( int net )
 {
 INT correctness = 1 ;
 PINBOXPTR ptr , hdptr ;
@@ -558,9 +540,7 @@ for( ptr =  hdptr ; ptr ; ptr = ptr->next ) {
 return( correctness ) ;
 }
 
-depth_first_check( ptr , oldedge )
-PINBOXPTR ptr ;
-SEGBOXPTR oldedge ;
+void depth_first_check( PINBOXPTR ptr , SEGBOXPTR oldedge )
 {
 PINBOXPTR nextptr ;
 SEGBOXPTR segptr ;
