@@ -54,7 +54,19 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 #include "mincut.h"
 #include "output.h"
 #include "config-build.h"
+
 int readcells(char *filename);
+
+void yaleIntro()
+{
+    M( MSG, NULL, "\n") ;
+    M( MSG, NULL, YmsgG) ;
+    M( MSG, NULL, "\nTimberWolf System Floorplan Setup Program\n");
+    M( MSG, NULL, "Authors: Carl Sechen, Bill Swartz,\n");
+    M( MSG, NULL, "         Yale University\n");
+    M( MSG, NULL, "\n");
+
+} /* end yaleIntro */
 
 int
 __attribute__((visibility("default")))
@@ -62,13 +74,8 @@ Mincut( int debugON,  char *dName)
 {
 	char *YinitProgram(), *Ystrclone() ;
 	char filename[LRECL] ;
-	char command[LRECL] ;
-	char *ptr ;
-	int  arg_count ;
-	void yaleIntro() ;
 	int  debug ;
 	FILE *fp ;
-	char *twdir, *Ygetenv() ;
 
 	if(debugON) {
 		debug = TRUE;
@@ -110,15 +117,3 @@ Mincut( int debugON,  char *dName)
 	return 0;
 } /* end main */
 
-void yaleIntro()
-{
-    int i ;
-
-    M( MSG, NULL, "\n") ;
-    M( MSG, NULL, YmsgG) ;
-    M( MSG, NULL, "\nTimberWolf System Floorplan Setup Program\n");
-    M( MSG, NULL, "Authors: Carl Sechen, Bill Swartz,\n");
-    M( MSG, NULL, "         Yale University\n");
-    M( MSG, NULL, "\n");
-
-} /* end yaleIntro */
