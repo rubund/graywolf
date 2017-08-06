@@ -92,6 +92,8 @@
 #define EXPECTEDINSTANCES 1
 #define EXPECTEDPINGRP    1
 
+#define VERSION "2.0"
+
 #ifndef EXTERN
 #define EXTERN extern
 #endif

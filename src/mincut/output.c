@@ -279,7 +279,6 @@ void write_softpins( FILE *fp )
 
 void read_par()
 {
-	char input[LRECL] ;
 	char *bufferptr ;
 	char **tokens ;
 	int numtokens ;

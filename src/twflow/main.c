@@ -71,7 +71,6 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 #include "findflow.h"
 #include "autoflow.h"
 
-#define VERSION         "2.1" 
 #define WINDOWID "@WINDOWID"
 
 int readobjects( char *filename );

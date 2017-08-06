@@ -52,17 +52,10 @@ REVISIONS:  May 24, 1989 - updated argument to YcurTime.
 	    Wed Jul 24 21:06:02 CDT 1991 - added a more
 		meaningful output error message.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) output.c version 1.8 7/24/91" ;
-#endif
-
-#include <string.h>
 #include <globals.h>
 #include "syntax.h"
 
 // YcurTime() is not declared in any of the above
-extern char *YcurTime( int * );
-
 static int objectS = 0 ;       /* number of objects read */
 static int celltypeS ;         /* current cell type */
 static int stdcellS = 0 ;      /* number of standard cells */

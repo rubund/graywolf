@@ -314,7 +314,7 @@ int yyerror(char *s) {
 int readcells(char *filename)
 { 
 	extern FILE *yyin;
-	printf("mincut_readcells: Opening %s \n",filename);
+	printf("Opening %s \n",filename);
 	yyin = fopen(filename,"r");
 	if(yyin) {
 		init();
