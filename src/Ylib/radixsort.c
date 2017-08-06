@@ -26,13 +26,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-#ifndef lint
-static char SccsId[] = "@(#) radixsort.c (Yale) version 1.4 4/18/92" ;
-#endif
-
-#include <string.h>
-#include <yalecad/base.h>
+#include <globals.h>
 #define RADIX_PREFIX	4
 
 /* radixsort.c, radixsort.h: linear-per-byte in-memory string sort

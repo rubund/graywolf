@@ -12,7 +12,7 @@
 extern char *yytext;
 extern int yyget_lineno(void);
 int syntax_error(char *s);
-char *syntax_lex();
+int syntax_lex();
 }
 
 %union {

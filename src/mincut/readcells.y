@@ -10,7 +10,7 @@
 extern char *yytext;
 extern int yyget_lineno(void);
 int mincut_error(char *s);
-char *mincut_lex();
+int mincut_lex();
 }
 
 %union {

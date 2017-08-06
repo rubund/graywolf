@@ -2,7 +2,6 @@ int find_optimum_locations() ;
 void place_pad(PADBOXPTR pad,int bestside);
 void find_core();
 void align_pads();
-void print_pads( char *message, PADBOXPTR *array, int howmany );
 void placepads();
 void print_pads( char *message, PADBOXPTR *array, int howmany );
 void setVirtualCore( BOOL flag );

@@ -595,7 +595,7 @@ extern VOID Ygraph_drawRequired(P1(YGRAPHPTR graph));
     TW3DdrawLine(0,e->x1,e->y1,e->z1,e->x2,e->y2,e->z2,color,0);
   }
   ---------------------------------------------------------*/
-extern VOID Ygraph_drawPrime(P1(YGRAPHPTR graph));
+void Ygraph_drawPrime(YGRAPHPTR graph);
 
 /*---------------------------------------------------------
   Call the users drawing functions for all nodes and edges

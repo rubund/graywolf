@@ -11,7 +11,7 @@ extern char *yytext;
 extern int yyget_lineno(void);
 static int nodeS ;          /* current node */
 int readcgraph_error(char *s);
-char *readcgraph_lex();
+int readcgraph_lex();
 }
 
 %union {

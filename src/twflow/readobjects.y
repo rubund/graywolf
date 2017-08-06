@@ -10,7 +10,7 @@
 extern char *yytext;
 extern int yyget_lineno(void);
 int twflow_readobjects_error(char *s);
-char *twflow_readobjects_lex();
+int twflow_readobjects_lex();
 }
 
 %union {

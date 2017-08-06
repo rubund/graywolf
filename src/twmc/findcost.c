@@ -54,14 +54,9 @@ REVISIONS:  Oct 22, 1988 - now take square root of the penalty
 		using cost only.  Bin penalty doesn't matter.
 	    Apr 23, 1990 - added new debug code.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findcost.c version 3.7 11/23/91" ;
-#endif
-
-#include <custom.h>
-
-#include <yalecad/relpos.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "custom.h"
+#include "loadbins.h"
 
 int findcost()
 {
@@ -280,7 +275,6 @@ int findcost()
 
 } /* end findcost */
 
-#ifdef DEBUG
 void checkcost()
 {
 	INT incr_funccost, incr_penalty, incr_time ;
@@ -340,5 +334,3 @@ void checkcost()
 		}
 	) ;
 } /* end checkcost */
-
-#endif /* DEBUG */

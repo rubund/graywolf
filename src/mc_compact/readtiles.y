@@ -11,7 +11,7 @@ extern char *yytext;
 extern int yyget_lineno(void);
 static int nodeS ;          /* current node */
 int readtiles_error(char *s);
-char *readtiles_lex();
+int readtiles_lex();
 }
 
 %union {

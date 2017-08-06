@@ -9,7 +9,7 @@
 extern char *yytext;
 extern int yyget_lineno(void);
 int twmc_readcells_error(char *s);
-char *twmc_readcells_lex();
+int twmc_readcells_lex();
 %}
 
 %union {

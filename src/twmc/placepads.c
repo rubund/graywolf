@@ -496,7 +496,6 @@ void place_children(PADBOXPTR pad, int side, double lb,double ub,BOOL spacing_re
 /* ***************************************************************** */
 
 /* ***************************************************************** */
-#ifdef DEBUG
 void print_pads( char *message, PADBOXPTR *array, int howmany )
 {
     INT i ;
@@ -521,7 +520,6 @@ void print_pads( char *message, PADBOXPTR *array, int howmany )
 
 } /* end print_pads */
 
-#endif /* DEBUG */
 /* ***************************************************************** */
 
 

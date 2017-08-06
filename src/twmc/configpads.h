@@ -1,5 +1,4 @@
 void intcompare_overflow(int *side1, int *side2) ;
-void print_pads( char *message, PADBOXPTR *array, int howmany );
 void align_pads();
 void move_clockwise( int pad, int side, int clockwise_side, int moveable_cw );
 void move_counterclockwise( int pad, int side, int counterclockwise, int moveable_ccw );
@@ -21,6 +20,5 @@ void resort_place_array( P1(void) ) ;
 void child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
 void place_variable(int first,int numpads,int side);
 void calc_constraints( PADBOXPTR pad, int side, double *lb, double *ub, BOOL *spacing_restricted, int *lowpos, int *uppos);
-void print_pads( char *message, PADBOXPTR *array, int howmany );
 void dimension_pads();
 void orient_pads();

@@ -13,6 +13,13 @@ REVISIONS:  Sun Dec  8 23:30:16 EST 1991 - removed indirection
 
 #include <globals.h>
 
+typedef struct dset_element {
+  VOIDPTR data ;
+  INT rank ;
+  INT size;
+  struct dset_element *parent ;
+} ELEMENT, *ELEMENTPTR ;
+
 typedef struct ydsetrec {
     YTREEPTR dtree ;            /* rbtree holding sets */
     int (*compare_func)() ;	/* how to compare functions in rbtree */

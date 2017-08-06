@@ -66,6 +66,7 @@ REVISIONS:  Thu Jan 24 20:20:32 PST 1991 - added missing return.
 		names.
 ----------------------------------------------------------------- */
 #include <globals.h>
+#include <yalecad/wgraphics.h>
 
 #define  TWDRAWCODE
 #define NODIRECTORY     1

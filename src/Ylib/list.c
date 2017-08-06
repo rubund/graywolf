@@ -69,11 +69,7 @@ REVISIONS:  Oct  9, 1990 - rename routines for easier use.
 	    Sun Nov  3 12:54:08 EST 1991 - added to library.
             12/09/91 - cleanup for non-ANSI compilers  -R.A.Weier
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) list.c Yale Version 1.9 12/9/91" ;
-#endif
-
-#include <yalecad/list.h>
+#include <globals.h>
 
 /************************************************************************
  *  									*

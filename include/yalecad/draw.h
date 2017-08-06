@@ -506,4 +506,17 @@ Function:
 
 BOOL TWget_arb_fill();
 
+void drawDRect() ;
+void drawWRect() ;
+void drawDArb() ;
+void drawWArb() ;
+void drawDLine() ;
+void drawWLine() ;
+void initcolors(char **desiredColorArray,int numC) ;
+void closeFrame(void) ;
+void set_viewing_transformation() ;
+void TW3Dperspective( double x, double y, double z, double *pX, double *pY ) ;
+BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)()) ;
+void set_clip_window( P4(INT l, INT r, INT b, INT t) ) ;
+
 #endif /* DRAW_H */

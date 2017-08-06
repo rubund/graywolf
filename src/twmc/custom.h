@@ -62,13 +62,6 @@ REVISIONS:
 #include <main.h>
 #include <analog.h>
 
-#ifndef CUSTOM_DEFS
-#define EXTERN extern
-
-#else
-#define EXTERN
-#endif
-
 /* ----------------------------------------------------------------- 
    DEFINE STATEMENTS FOR PLACEMENT STAGE
 ----------------------------------------------------------------- */
@@ -387,43 +380,43 @@ typedef struct psetrec {
 /* ----------------------------------------------------------
    The global variable definitions 
 ---------------------------------------------------------- */
-EXTERN CELLBOXPTR *cellarrayG   ;
-EXTERN CELLBOXPTR *activeCellarrayG ; /* cells that are active */
-EXTERN CELLBOXPTR *softPinArrayG ;    /* softcells that have pins */
-EXTERN NETBOXPTR  *netarrayG     ;    /* array of nets */
-EXTERN PATHPTR    *patharrayG ;       /* array of paths */
-EXTERN PINBOXPTR  *termarrayG  ;      /* array of pins */
-EXTERN BINBOXPTR  **binptrG ;         /* overlap data structure */
-EXTERN int **net_cap_matchG ;         /* set of match nets */
-EXTERN int **net_res_matchG ;         /* set of match nets */
+CELLBOXPTR *cellarrayG   ;
+CELLBOXPTR *activeCellarrayG ; /* cells that are active */
+CELLBOXPTR *softPinArrayG ;    /* softcells that have pins */
+NETBOXPTR  *netarrayG     ;    /* array of nets */
+PATHPTR    *patharrayG ;       /* array of paths */
+PINBOXPTR  *termarrayG  ;      /* array of pins */
+BINBOXPTR  **binptrG ;         /* overlap data structure */
+int **net_cap_matchG ;         /* set of match nets */
+int **net_res_matchG ;         /* set of match nets */
 
 /* ----------------------------------------------------------
    The global variable definitions for Jimmy's controller.
 ---------------------------------------------------------- */
-EXTERN int d_costG;
-EXTERN double init_accG;
-EXTERN double ratioG ;
+int d_costG;
+double init_accG;
+double ratioG ;
 
 
 /* ----------------------------------------------------------
    global definitions for overlap calculations
 ---------------------------------------------------------- */
 /* move box array */
-EXTERN MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
+MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
 /* first element of move box array */
-EXTERN MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
-EXTERN BINBOXPTR  newbptrG; /* *** bin cell ptr *** */ 
-EXTERN int *newCellListG ;  /* *** bin cell list *** */ 
-EXTERN int TrybinG ;        /* used in setBin calculations */ 
+MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
+BINBOXPTR  newbptrG; /* *** bin cell ptr *** */ 
+int *newCellListG ;  /* *** bin cell list *** */ 
+int TrybinG ;        /* used in setBin calculations */ 
 
 /* ----------------------------------------------------------
    global definitions for configuration calculations
 ---------------------------------------------------------- */
-EXTERN int bdxlengthG , bdylengthG ;
-EXTERN int blocklG , blockrG , blocktG , blockbG ;
-EXTERN int blockmxG , blockmyG ;
-EXTERN int halfXspanG , halfYspanG ;
-EXTERN double chipaspectG ;
+int bdxlengthG , bdylengthG ;
+int blocklG , blockrG , blocktG , blockbG ;
+int blockmxG , blockmyG ;
+int halfXspanG , halfYspanG ;
+double chipaspectG ;
 
 /* ----------------------------------------------------------
     cells are arranged in cellarray in the following fashion:
@@ -441,99 +434,97 @@ EXTERN double chipaspectG ;
 	endpadgrps = numcells+numsupercells+numpads+numpadgroups ;
 	totalcells = numcells+numsupercells+numpads+numpadgroups+NUMPADMACROS ;
 ---------------------------------------------------------- */
-EXTERN int numcellsG  ;
-EXTERN int numpadsG   ;
-EXTERN int totalpadsG ;
-EXTERN int numsoftG   ;
-EXTERN int numstdcellG ;
-EXTERN int numpadgroupsG ;
-EXTERN int numinstancesG ;
-EXTERN int numsupercellsG  ;
-EXTERN int numpathsG  ;
-EXTERN int endpadsG ;
-EXTERN int endpadgrpsG ;
-EXTERN int endsuperG ;
-EXTERN int totalcellsG;
-EXTERN int activecellsG;  /* number of active cells not fixed or merged */
-EXTERN int numnetsG ;
-EXTERN int numpinsG ;
-EXTERN int maxBinXG   ;
-EXTERN int maxBinYG   ;
-EXTERN int binWidthXG ;
-EXTERN int binWidthYG ;
-EXTERN int binXOffstG ;
-EXTERN int binYOffstG ;
-EXTERN int maxWeightG ;
-EXTERN int baseWeightG;
-EXTERN double mean_cellAreaG ;
-EXTERN double dev_cellAreaG  ;
-EXTERN double slopeXG    ;
-EXTERN double slopeYG    ;
-EXTERN double basefactorG;
-EXTERN double aveChanWidG;
-EXTERN double wireFactorXG;
-EXTERN double wireFactorYG;
+int numcellsG  ;
+int numpadsG   ;
+int totalpadsG ;
+int numsoftG   ;
+int numstdcellG ;
+int numpadgroupsG ;
+int numinstancesG ;
+int numsupercellsG  ;
+int numpathsG  ;
+int endpadsG ;
+int endpadgrpsG ;
+int endsuperG ;
+int totalcellsG;
+int activecellsG;  /* number of active cells not fixed or merged */
+int numnetsG ;
+int numpinsG ;
+int maxBinXG   ;
+int maxBinYG   ;
+int binWidthXG ;
+int binWidthYG ;
+int binXOffstG ;
+int binYOffstG ;
+int maxWeightG ;
+int baseWeightG;
+double mean_cellAreaG ;
+double dev_cellAreaG  ;
+double slopeXG    ;
+double slopeYG    ;
+double basefactorG;
+double aveChanWidG;
+double wireFactorXG;
+double wireFactorYG;
 
 /* ----------------------------------------------------------
    global definitions for cost function
 ---------------------------------------------------------- */
-EXTERN int penaltyG   ;
-EXTERN int binpenalG  ;
-EXTERN int funccostG  ;
-EXTERN int offsetG    ;
-EXTERN int timingcostG ;
-EXTERN int timingpenalG ;
-EXTERN double coreFactorG ;
-EXTERN double lapFactorG ;
-EXTERN double timeFactorG ;
-EXTERN double vertical_wire_weightG ;
-EXTERN double vertical_path_weightG ;
+int penaltyG   ;
+int binpenalG  ;
+int funccostG  ;
+int offsetG    ;
+int timingcostG ;
+int timingpenalG ;
+double coreFactorG ;
+double lapFactorG ;
+double timeFactorG ;
+double vertical_wire_weightG ;
+double vertical_path_weightG ;
 
 /* annealing stuff */
-EXTERN double TG ;
-EXTERN FILE *fpoG ;
-EXTERN int randVarG ;
-EXTERN int attmaxG  ;
-EXTERN int iterationG ;
+double TG ;
+FILE *fpoG ;
+int randVarG ;
+int attmaxG  ;
+int iterationG ;
 
-EXTERN double pinsPerLenG ;
-EXTERN int layersFactorG ;
-EXTERN int unique_classG ;
+double pinsPerLenG ;
+int layersFactorG ;
+int unique_classG ;
 
 /* ----------------------------------------------------------
    global definitions for calculated statistics
 ---------------------------------------------------------- */
-EXTERN int perimG ;
-EXTERN int totChanLenG ;
-EXTERN int totNetLenG  ;
-EXTERN double aveCellSideG ;
-EXTERN double expandExtraG ;
+int perimG ;
+int totChanLenG ;
+int totNetLenG  ;
+double aveCellSideG ;
+double expandExtraG ;
 
-EXTERN int flipsG ;
-EXTERN double avg_funcG , avgsG ;
+int flipsG ;
+double avg_funcG , avgsG ;
 
-EXTERN int iwireG, iwirexG , iwireyG , icostG ;
-EXTERN int fwireG, fwirexG , fwireyG , fcostG ;
+int iwireG, iwirexG , iwireyG , icostG ;
+int fwireG, fwirexG , fwireyG , fcostG ;
 
 /* control for pad code */
-EXTERN int padspacingG ;  /* may be UNIFORM, VARIABLE, or ABUT */
-EXTERN BOOL contiguousG ;
-EXTERN BOOL external_pad_programG ; /* TRUE for calling placepads */
-EXTERN int min_pad_spacingG ;
-EXTERN int coreG[2][2] ;
-EXTERN int perdimG[2] ;
-EXTERN PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
-EXTERN PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
-EXTERN PADBOXPTR *placearrayG ; /* array where the pads will be placed */
+int padspacingG ;  /* may be UNIFORM, VARIABLE, or ABUT */
+BOOL contiguousG ;
+BOOL external_pad_programG ; /* TRUE for calling placepads */
+int min_pad_spacingG ;
+int coreG[2][2] ;
+int perdimG[2] ;
+PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
+PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
+PADBOXPTR *placearrayG ; /* array where the pads will be placed */
 
 /* control gridding of cells */
-EXTERN BOOL gridGivenG ;
-EXTERN BOOL gridCellsG ;
-EXTERN BOOL coreGivenG ;
-EXTERN int  x_originG, y_originG ;
-
+BOOL gridGivenG ;
+BOOL gridCellsG ;
+BOOL coreGivenG ;
+int  x_originG, y_originG ;
 
 #undef EXTERN
-
 
 #endif /* CUSTOM_H */

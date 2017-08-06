@@ -54,25 +54,8 @@ REVISIONS:  Original Version      -WS
 		problem with Ydset_enumerate_parents.
 	    Sun Dec 15 02:28:14 EST 1991 - added dset_dump_tree.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) dset.c version 1.13 2/3/92";
-#endif
-     
 #define  YDSET_DEFS
-#include <yalecad/base.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/dset.h>
-     
-/* ********************** STRUCTURE DEFINITIONS ******************* */
-typedef struct dset_element {
-  VOIDPTR data ;
-  INT rank ;
-  INT size;
-  struct dset_element *parent ;
-} ELEMENT, *ELEMENTPTR ;
-
+#include <globals.h>
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static YDSETPTR dsetS ;   /* current dset info */
@@ -468,9 +451,7 @@ VOIDPTR data ;
   Free all elements in the set and the set.
   This can now be used recursively.
   --------------------------------------------------------------*/
-VOID Ydset_free( dset , userDelete)
-YDSETPTR dset ;
-VOID (*userDelete)();
+void Ydset_free( YDSETPTR dset , void (*userDelete)() )
 {
   dsetS = dset ;
   dsetS->user_delete = userDelete ;
@@ -483,9 +464,7 @@ VOID (*userDelete)();
   Ydset_empty
   Free all elements in the set but leaves the set intact
   -------------------------------------------------------------*/
-VOID Ydset_empty( dset , userDelete)
-YDSETPTR dset ;
-VOID (*userDelete)();
+void Ydset_empty( YDSETPTR dset , void (*userDelete)())
 {
   dsetS = dset ;
   dsetS->user_delete = userDelete ;

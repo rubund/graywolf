@@ -1,3 +1,4 @@
+
 /*
  *   Copyright (C) 1988-1992 Yale University
  *
@@ -140,8 +141,6 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 */
 
 /* use standard calls to malloc, calloc, etc */
-int errno;
-
 void Yvector_free( void* array, int lo, int size)
 {
 	Ysafe_free( ((char *)array) + lo * size) ;

@@ -29,6 +29,7 @@
 #include <fcntl.h>           /* Definition of AT_* constants */
 #include <unistd.h>
 #include <dirent.h>
+#include <errno.h>
 
 #include <yalecad/assign.h>
 #include <yalecad/base.h>
@@ -69,7 +70,7 @@
 #include <yalecad/tech.h>
 #include <yalecad/tree.h>
 #include <yalecad/time.h>
-#include <yalecad/wgraphics.h>
+//#include <yalecad/wgraphics.h>
 #include <yalecad/yreadpar.h>
 #include <yalecad/menus.h>
 #include <yalecad/rand.h>

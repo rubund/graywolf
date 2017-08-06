@@ -80,7 +80,7 @@ CONTENTS:   BOOL TWcheckServer()
 	    TWtranslate()
 	    TWflushFrame()
 	    TWsync()
-	    static void initcolors( desiredColorArray, numC )
+	    void initcolors( desiredColorArray, numC )
 		char **desiredColorArray ;
 		INT  numC ;
 	    static startDFrame()
@@ -195,29 +195,10 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 #define DIV_2           >> 1
 
 /****  THE MODES AND CHOICES *******/
-static  INT        modeS ; /* determines which mode we are in */
-
-/* the global routines - seen by outside world */
-VOID (*_TWdrawRect)(P7( INT ref_num, INT x1, INT y1, INT x2, INT y2, INT color,
-		    char *label )) ;
-VOID (*_TWdrawLine)(P7( INT ref_num, INT x1, INT y1, INT x2, INT y2, INT color,
-		    char *label )) ;
-VOID (*_TWdrawArb)(P3( INT ref_num, INT color, char *label )) ;
-
+static  int        modeS ; /* determines which mode we are in */
 
 /* the local routines seen by the routines in this file only */
-static void drawDRect() ;
-static void drawWRect() ;
-static void drawDArb() ;
-static void drawWArb() ;
-static void drawDLine() ;
-static void drawWLine() ;
-static void initcolors(char **desiredColorArray,int numC) ;
-static void closeFrame(void) ;
-static void set_viewing_transformation() ;
-extern void TW3Dperspective( double x, double y, double z, double *pX, double *pY ) ;
-static BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)()) ;
-static void set_clip_window( P4(INT l, INT r, INT b, INT t) ) ;
+
 
 /********** THE CRT ROUTINE STATIC DEFINITIONS *************/
 static TWINFO      infoBoxS ;          /* information for other modules*/
@@ -361,7 +342,7 @@ BOOL TWinitParasite(int numC,char **colors, BOOL dumpOnly, TWMENUPTR menu, int (
 	return(TWinit(numC,colors,dumpOnly,menu,refresh_func));
 } /* end TWinitParasite */
 
-static BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
+BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
 {
 	XSetWindowAttributes attr;
 	XWindowAttributes wattr;
@@ -840,7 +821,7 @@ void TWsetwindow( int left, int bottom, int right, int top )
 
 } /* end TWsetwindow */
 
-static void set_clip_window( int left, int right, int bottom, int top ) 
+void set_clip_window( int left, int right, int bottom, int top ) 
 {
 	int xspan, yspan ;
 
@@ -917,7 +898,7 @@ void TWsync()
 	XSync( dpyS, 0 ) ;
 } /* end TWsync */
 
-static void initcolors( char **desiredColorArray, int numC )
+void initcolors( char **desiredColorArray, int numC )
 {
 	unsigned long backgrd;
 	unsigned long foregrd;
@@ -1152,11 +1133,7 @@ static startDFrame()
     XFlush( dpyS ) ;
 } /* end startDFrame */
 
-static VOID drawDLine(ref,x1,y1,x2,y2,color,label)
-/* draw a one pixel tall line segment from x1,y1 to x2,y2 */
-INT	ref, color ;
-register INT	x1,y1,x2,y2 ;
-char	*label ;
+void drawDLine(int ref, int x1, int y1, int x2, int y2, int color, char *label) /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
 {	
 
     /* check to make sure color is valid */
@@ -1205,13 +1182,10 @@ char	*label ;
     }
 } /* end drawDLine */
 
-static VOID drawDRect(ref,x1,y1,x2,y2,color,label)
+void drawDRect(int ref, int x1, int y1, int x2, int y2, int color, char *label)
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
 /* A border will be draw around the cell if specified black (default). */
-int ref, color ;
-register INT	x1,y1,x2,y2 ;
-char	*label ;
 {	
     unsigned int width, height ;
     int len ;
@@ -1342,7 +1316,7 @@ void TWarb_addpt( int xpos, int ypos )
 /* ***************************************************************** */
 
 
-static void drawDArb( int ref, int color, char *label )
+void drawDArb( int ref, int color, char *label )
 {
 	int    i ;           /* counter */
 	int    len ;         /* length of string if given */
@@ -1690,14 +1664,14 @@ void TW3DsetCamera()
 	    
 /*--------------------
   --------------------*/
-VOID TW3DperspectiveOn()
+void TW3DperspectiveOn()
 {
     perspectiveS = TRUE;
 } /* end TW3DperspectiveOn */
 
 /*--------------------
   --------------------*/
-VOID TW3DperspectiveOff()
+void TW3DperspectiveOff()
 {
     perspectiveS = FALSE;
 } /* end TW3DperspectiveOff */
@@ -1705,7 +1679,7 @@ VOID TW3DperspectiveOff()
 /*------------------
   Initialize the transformation matrices
   ------------------*/
-static VOID set_viewing_transformation()
+void set_viewing_transformation()
 {
   double  cosine_of_theta;
   double  sine_of_theta;
@@ -1742,10 +1716,7 @@ static VOID set_viewing_transformation()
 /*------------------
   Perform a 3D transformation.  
   ------------------*/
-VOID TW3Dperspective(x, y, z, pX, pY)
-double     x, y, z;
-double     *pX, *pY;
-     
+void TW3Dperspective(double x, double y, double z, double *pX, double *pY)
 {
   double  x_eye, y_eye, z_eye;
   
@@ -1773,7 +1744,7 @@ double     *pX, *pY;
 } /* end perspective */
 
 /* set the 3D translations to normal view */
-VOID TW3Dnormal_view()
+void TW3Dnormal_view()
 {
     /* Sperical coordinates ?                                 */
     /* rho   = distance to point                              */
@@ -1991,7 +1962,7 @@ TWstartFrame()
 } /* end startNewFrame */
 
 /* write size of data at end of files and close them if frames are open */
-static void closeFrame()
+void closeFrame()
 {
 	char dummy[5] ;
 	unsigned int nitems ;
@@ -2059,10 +2030,7 @@ void TWsetFrame( int number )
 /*   THE SPECIALIZED ROUTINES */
 /* *********  GENERIC WRITE ROUTINES **************  */
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
-static VOID drawWLine( ref_num,x1,y1,x2,y2,color,label)
-int ref_num ; /* reference number */
-int x1,y1,x2,y2,color ;
-char	*label;
+void drawWLine( int ref_num, int x1, int y1, int x2, int y2, int color, char *label)
 {	
     DATABOX record ;
     unsigned int nitems ;
@@ -2116,10 +2084,7 @@ char	*label;
 
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-static VOID drawWRect( ref_num, x1,y1,x2,y2,color,label)
-int ref_num ; /* reference number */
-int x1,y1,x2,y2, color;
-char	*label;
+void drawWRect( int ref_num, int x1, int y1, int x2, int y2, int color, char *label)
 {
     DATABOX record ;
     unsigned int nitems ;
@@ -2170,9 +2135,7 @@ char	*label;
 
 } /* end drawWRect */
 
-static VOID drawWArb( ref, color, label )
-INT	ref, color ;
-char	*label ;
+void drawWArb( int ref, int color, char *label )
 {
     YBUSTBOXPTR bustptr ;
 
