@@ -75,35 +75,21 @@ REVISIONS:  Jun 19, 1989 - added unmark_edges to insure auto_flow
 		be executed FIFO.
 	    Sun Apr 21 22:35:40 EDT 1991 - now allow optional files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) io.c version 2.2 4/21/91" ;
-#endif
-
-#include <string.h>
 #include <globals.h>
 #include "twflow.h"
+#include "graphics.h"
+#include "io.h"
 
 #define START     "start"
 #define OPTIONAL  '*'
 
-typedef struct ebox {
-	int from ;                           /* from node for edge */
-	int to ;                             /* to node for edge */
-	char **argv ;                        /* argument vector */
-	int  argc ;                          /* argument count */
-	FPTR ifiles ;                        /* list of files */
-	FPTR ofiles ;                        /* list of files */
-	DPTR dlist ;                         /* list of drawables */
-	struct ebox *next ;                  /* list of drawables */
-} EDGEBOX, *EDGEPTR ;
-
-static INT curObjS ;                     /* counts the current object */
-static INT boxLS, boxRS, boxTS, boxBS ;  /* bounding box of objects */
-static BOOL errorFlagS = FALSE ;         /* records fault condition */
-static BOOL inputNotOutputS ;            /* the current filetype */
-static OBJECTPTR objS ;                  /* pointer to current obj */
-static ADJPTR botEdgeS ;                 /* the current pointer */
-static EDGEPTR edgeListS = NULL ;        /* list of drawable edges */
+int curObjS ;                     /* counts the current object */
+int boxLS, boxRS, boxTS, boxBS ;  /* bounding box of objects */
+BOOL errorFlagS = FALSE ;         /* records fault condition */
+BOOL inputNotOutputS ;            /* the current filetype */
+OBJECTPTR objS ;                  /* pointer to current obj */
+ADJPTR botEdgeS ;                 /* the current pointer */
+EDGEPTR edgeListS = NULL ;        /* list of drawable edges */
 
 /* ***************** ERROR HANDLING ****************************** */
 /* ERRORABORT is a macro which forces routines not to do any work */
@@ -115,7 +101,7 @@ static EDGEPTR edgeListS = NULL ;        /* list of drawable edges */
     } \
 } \
 
-setErrorFlag()
+void setErrorFlag()
 {
 	errorFlagS = TRUE ;
 }
@@ -451,8 +437,6 @@ void unmark_edges()
 } /* end unmark_edges */
 
 #ifndef NOGRAPHICS
-
-#include <yalecad/draw.h>
 
 void set_window()
 {

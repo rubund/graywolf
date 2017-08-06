@@ -46,15 +46,24 @@ REVISIONS:  Sun Jan 20 21:31:36 PST 1991 - ported to AIX.
 	    Thu Apr 18 01:18:32 EDT 1991 - now changed where to 
 		look for the flow files.  User can override.
 ---------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findflow.c version 1.4 4/18/91" ;
-#endif
-
-#include <stdio.h>
-#include <unistd.h>
-
 #include <globals.h>
 #include "twflow.h"
+#include "autoflow.h"
+#include "findflow.h"
+
+void show_flows()
+{
+	DIR *dpdf;
+	struct dirent *epdf;
+
+	dpdf = opendir(twdirG);
+	if (dpdf != NULL) {
+		while ((epdf = readdir(dpdf))){
+			printf("Flow dir: %s\n",epdf->d_name);
+		}
+	}
+	closedir(dpdf);
+}
 
 int find_flow_file( BOOL general_mode, BOOL debug, char *filename )
 {

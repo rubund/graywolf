@@ -63,44 +63,20 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 		a flow directory.  Also added show_flows call.
 	    Sun Apr 21 22:36:29 EDT 1991 - now find the flow directory.
 ---------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
-#endif
-
-#include <stdio.h>
-#include <signal.h>
-#include <dirent.h>
-
-#include <yalecad/cleanup.h>
-#include <yalecad/message.h>
-#include <yalecad/program.h>
-#include <yalecad/string.h>
-#include <yalecad/file.h>
-#include <yalecad/debug.h>
-
 #define GLOBAL_DEFS
 #include <globals.h>
 #include "twflow.h"
 #include "config-build.h"
+#include "graphics.h"
+#include "findflow.h"
+#include "autoflow.h"
 
 #define VERSION         "2.1" 
 #define WINDOWID "@WINDOWID"
 
+int readobjects( char *filename );
+
 int windowIdG;
-
-void show_flows()
-{
-	DIR *dpdf;
-	struct dirent *epdf;
-
-	dpdf = opendir(twdirG);
-	if (dpdf != NULL) {
-		while ((epdf = readdir(dpdf))){
-			printf("Flow dir: %s\n",epdf->d_name);
-		}
-	}
-	closedir(dpdf);
-}
 
 /* give user correct syntax */
 void syntax()

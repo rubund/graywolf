@@ -6,7 +6,7 @@
 %top{
 #include <globals.h>
 #include "twflow.h"
-#include "readobjects.h"
+#include "readobjects.y.h"
 extern int yylineno;
 #define yylval twflow_readobjects_lval
 #define yyin twflow_readobjects_in

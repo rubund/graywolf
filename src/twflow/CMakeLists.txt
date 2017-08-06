@@ -2,7 +2,7 @@
 INCLUDE(FindBISON)
 INCLUDE(FindFLEX)
 
-bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.c)
+bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.y.c)
 flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c)
 
 add_executable(graywolf
@@ -25,9 +25,11 @@ target_link_libraries(graywolf GrayWolfGenRows)
 target_link_libraries(graywolf GrayWolfMCCompact)
 target_link_libraries(graywolf X11)
 target_link_libraries(graywolf m)
-target_link_libraries(graywolf gsl)
+target_link_libraries(graywolf ${GSL_LIBRARIES})
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twflow .)
+
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
 
 install(
 	TARGETS graywolf

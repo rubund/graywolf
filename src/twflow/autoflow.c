@@ -59,13 +59,11 @@ REVISIONS:  May 25, 1989 - added needtoExecute to handle case of no
 	    Fri Feb 22 23:55:29 EST 1991 - fixed new library rename.
 	    Sun Apr 21 22:33:53 EDT 1991 - now allow optional files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
-#endif
-
-#include <string.h>
 #include <globals.h>
 #include "twflow.h"
+#include "io.h"
+#include "graphics.h"
+#include "autoflow.h"
 
 BOOL executePgm( ADJPTR adjptr, int debug );
 
@@ -74,7 +72,7 @@ BOOL executePgm( ADJPTR adjptr, int debug );
 static int objectS ;            /* the last program that was run */
 void report_problem( ADJPTR adjptr );
 
-void auto_flow(int debug)
+void auto_flow(BOOL debug)
 {
 	ADJPTR     adjptr ;         /* current edge in graph */
 	ADJPTR     make_decision(); /* decides which way to travel */

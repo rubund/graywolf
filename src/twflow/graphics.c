@@ -62,13 +62,10 @@ REVISIONS:  Jun 19, 1989 - added return for no graphics case.
 	    Sat Feb 23 04:51:29 EST 1991 - added parasite mode.
 	    Sun Apr 21 22:35:09 EDT 1991 - updated to the convention.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
-#endif
-
-#include <string.h>
 #include <globals.h>
 #include "twflow.h"
+#include "autoflow.h"
+#include "graphics.h"
 
 #define SLEEPTIME     (unsigned) 2
 #define DATADIR       "./DATA"
@@ -96,8 +93,6 @@ static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 void init_graphics()
 {
-	int draw_the_data() ;
-
 	if( !(graphicsG) ){
 		return ;
 	}
@@ -239,14 +234,14 @@ void process_graphics()
 				break ;
 			case AUTOFLOW:
 				autoflowG = TRUE ; /* used to interupt auto flow */
-				auto_flow() ;
+				auto_flow(FALSE) ; // TODO: how can we set debugging??
 				break ;
 			case PICK_PGM:
 				selectedObjS = find_obj() ;
 				autoflow_set_object( selectedObjS ) ;
 				break ;
 			case EXECUTE_PGM:
-				exec_single_prog() ;
+				exec_single_prog(FALSE) ; // TODO: how can we set debugging??
 				break ;
 			case PROMPT_ON:
 				promptS = TRUE ;

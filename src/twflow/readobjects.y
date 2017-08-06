@@ -1,16 +1,16 @@
 %define api.prefix twflow_readobjects_
 %glr-parser
 %code top{
-#include <stdio.h>
 #include <globals.h>
 #include "twflow.h"
-#include "yalecad/string.h"
 #include "io.h"
 #define yyget_lineno twflow_readobjects_get_lineno
 #define yytext twflow_readobjects_text
 #define yyin twflow_readobjects_in
 extern char *yytext;
 extern int yyget_lineno(void);
+int twflow_readobjects_error(char *s);
+char *twflow_readobjects_lex();
 }
 
 %union {
