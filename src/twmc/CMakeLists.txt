@@ -78,11 +78,8 @@ add_library(TimberWolfMC SHARED
 	wireratio.c
 	)
 
-target_link_libraries(TimberWolfMC GrayWolfMCCompact)
-target_link_libraries(TimberWolfMC ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
-target_link_libraries(TimberWolfMC X11)
-target_link_libraries(TimberWolfMC m)
-target_link_libraries(TimberWolfMC ${GSL_LIBRARIES})
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twmc .)
 

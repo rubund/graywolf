@@ -75,6 +75,8 @@ add_library(TimberWolfSC SHARED
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twsc .)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
 install(
 	TARGETS TimberWolfSC
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}
