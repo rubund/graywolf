@@ -28,8 +28,6 @@
 #include <signal.h>
 #include <fcntl.h>           /* Definition of AT_* constants */
 #include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
 #include <dirent.h>
 
 #include <yalecad/assign.h>
