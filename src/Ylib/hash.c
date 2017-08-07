@@ -63,14 +63,12 @@ REVISIONS:  Nov  6, 1988 - added user defined hash delete function.
 #define  MINPRIMESIZE 23
 
 /* static global to this file only */
-static int tablesize ;
-static YTABLEPTR *table ;
-
+int tablesize ;
+YTABLEPTR *table ;
 
 YHASHPTR Yhash_table_create( int numentries )
 {
 	YHASHPTR  hashtable ;
-	INT Yhash_table_size() ;
 
 	hashtable = YMALLOC( 1, YHASHBOX ) ;
 	hashtable->size = tablesize = Yhash_table_size( numentries ) ;
@@ -222,7 +220,7 @@ char *Yhash_add( YHASHPTR hashtable, char *key, char *(*add_function)(), BOOL *n
 	hsum %= tablesize ;
 
 	/* insert into table only if distinct number */
-	if( temptr = table[hsum] ){
+	if((temptr = table[hsum])){
 		/* list started at this hash */
 		for(curPtr=temptr;curPtr;curPtr=curPtr->next ) {
 			if( strcmp(curPtr->key, key ) == STRINGEQ ){

@@ -100,4 +100,6 @@ Function:
 	...
     }
 */
+
+int Yhash_table_size( int minEntries );
 #endif /* HASH_H */

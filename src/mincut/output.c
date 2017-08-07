@@ -74,6 +74,8 @@ int total_std_cellS = 0 ;
 char current_cellS[LRECL] ; /* the current cell name */
 char cur_pinnameS[LRECL] ;  /* current pinname */
 
+YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+
 void init()
 {
 	/* get ready for parsing */
@@ -104,9 +106,10 @@ void addCell(int celltype, char *cellname)
 	}
 } /* end addCell */
 
-void addNet(char *signal )
+void addNet(char *netname )
 {
 	NETPTR data ;
+	char *signal = Ystrclone(netname);
 
 	if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
 		return ; /* not a net so return */
@@ -262,7 +265,7 @@ void write_softpins( FILE *fp )
 	pin_count = 0 ;
 	for( thread=netTableS->thread;thread;thread=thread->threadNext){
 		net = (NETPTR) thread->data ;
-		if( (net->io_signal)&&(net->net) ) {
+		if(net) if(net->io_signal) {
 			fprintf( fp, "softpin name pin%d signal %s\n", ++pin_count, net->net ) ;
 		}
 	}
