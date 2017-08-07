@@ -9,7 +9,7 @@
 #define yyin mincut_in
 extern char *yytext;
 extern int yyget_lineno(void);
-int mincut_error(char *s);
+int mincut_error(const char *s);
 int mincut_lex();
 }
 
@@ -172,7 +172,6 @@ fixed_loc : RIGHT;
 mirror : NOMIRROR;
 bbox : LEFT INTEGER RIGHT INTEGER BOTTOM INTEGER TOP INTEGER
 {
-	//set_bbox( int left, int right, int bottom, int top )
 	set_bbox( $2, $4, $6, $8 );
 };
 xloc : STRING;
@@ -307,7 +306,7 @@ keep_pts : keep_pts INTEGER INTEGER;
 
 %%
 
-int yyerror(char *s) {
+int yyerror(const char *s) {
 	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
 }
 

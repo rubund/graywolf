@@ -106,10 +106,9 @@ void addCell(int celltype, char *cellname)
 	}
 } /* end addCell */
 
-void addNet(char *netname )
+void addNet(char *signal )
 {
 	NETPTR data ;
-	char *signal = Ystrclone(netname);
 
 	if( strcmp( signal, "TW_PASS_THRU" ) == STRINGEQ ){
 		return ; /* not a net so return */
