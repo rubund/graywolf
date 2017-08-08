@@ -82,7 +82,7 @@ static YLIST allocate_list();
 static YLIST_EL allocate_list_el();
 void free_list(P1(YLIST));
 void free_list_el(P1(YLIST_EL));
-static INT def_comp(P2(VOIDPTR, VOIDPTR));
+int def_comp(P2(VOIDPTR, VOIDPTR));
 
 
 /************************************************************************
@@ -741,11 +741,9 @@ void free_list_el(el)
 
 **************************************************************************/
 
-static INT def_comp(d1, d2)
-     VOIDPTR d1;
-     VOIDPTR d2;
+int def_comp(VOIDPTR d1, VOIDPTR d2)
 {
-  return ( (INT) d1 - (INT) d2 ) ;
+  return (d1 - d2 ) ;
 }   /*  def_comp  */
 
 
@@ -860,7 +858,7 @@ void Yprint_list(list)
 
   printf("\t");
   Ylist_for_all(list, el) {
-    printf("%d  ", (INT) Ylist_data(el));
+    printf("%d  ", (int) Ylist_data(el));
   } Ylist_for_all_end;
   printf("\n");
 }   /*  print_list  */

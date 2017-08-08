@@ -58,12 +58,11 @@ typedef struct {
     BOOL  graphFlushed ;
 } YPLOTTYPE, *YPLOTPTR ;
 
-static YPLOTTYPE gfileS[MAXARGS] ;
-static INT gfilenoS = 0 ;
-static BOOL graphFilesS = TRUE ;
+YPLOTTYPE gfileS[MAXARGS] ;
+int gfilenoS = 0 ;
+BOOL graphFilesS = TRUE ;
 
-
-static INT findType();
+int findType();
 
 void Yplot_control( BOOL toggle )
 {
@@ -104,7 +103,7 @@ void Yplot_heading( int dval, ... )
     va_list ap ;
     char *gName, *varName ;
     YPLOTPTR gptr ;
-    INT i ;
+    int i ;
     FILE *fp ;
 
     va_start(ap, dval) ;
@@ -140,7 +139,7 @@ void Yplot_heading( int dval, ... )
 	}
     }
     gfileS[i].headPrintedAlready = TRUE ;
-    while( varName = va_arg( ap, char * ) ){
+    while((varName = va_arg( ap, char *))){
 	fprintf( fp, "%s\t", varName ) ;
     }
     fprintf( fp, "\n" ) ;
@@ -149,7 +148,7 @@ void Yplot_heading( int dval, ... )
 
 void Yplot_close()
 {
-    INT i ;
+    int i ;
 
     if( !(graphFilesS) ){
 	/* don't do anything if flag is not set */
@@ -162,7 +161,7 @@ void Yplot_close()
 }
 
 #define NULL_TYPE 0
-#define INT_TYPE  1
+#define int_TYPE  1
 #define CHAR_TYPE 2
 #define STRG_TYPE 3
 #define DOUB_TYPE 4
@@ -179,12 +178,12 @@ void Yplot( int dval, ... )
     char gchar ;
     char *gstr ;
     char **tokenBuf ;
-    INT gint ;
-    INT i , type, numtokens ;
+    int gint ;
+    int i , type, numtokens ;
     DOUBLE gdoub ;
     FILE *fp ;
     static char copyformatS[LRECL] ;
-    /* static INT findType();*/
+    /* int findType();*/
 
     va_start(ap, dval) ;
     if( !(graphFilesS) ){
@@ -232,8 +231,8 @@ void Yplot( int dval, ... )
     /* only print if graph has previously been flushed */
     /* now that we have type we can get third element */
     switch( type ){
-    case INT_TYPE:
-	gint = va_arg( ap, INT ) ;
+    case int_TYPE:
+	gint = va_arg( ap, int ) ;
 	if( gfileS[i].graphFlushed ){  
 	    fprintf( fp, tokenBuf[0], gint ) ;
 	    fprintf( fp, "\t" ) ;
@@ -284,8 +283,8 @@ void Yplot( int dval, ... )
 	    return ;
 	}
 	switch( type ){
-	    case INT_TYPE:
-		gint = va_arg( ap, INT ) ;
+	    case int_TYPE:
+		gint = va_arg( ap, int ) ;
 		fprintf( fp, tokenBuf[i], gint ) ;
 		break ;
 	    case CHAR_TYPE:
@@ -313,7 +312,7 @@ void Yplot( int dval, ... )
 
 void Yplot_flush(char *gName)
 {
-    INT i ;
+    int i ;
 
     if( !(graphFilesS) ){
 	/* don't do anything if flag is not set */
@@ -350,9 +349,9 @@ void Yplot_flush(char *gName)
 
 } /* end GRAPHFLUSH */
 
-static INT findType( control, number )
+int findType( control, number )
 char **control ;
-INT number ;
+int number ;
 {
     char *formatChar ;
     
@@ -360,7 +359,7 @@ INT number ;
     if( formatChar ){
 
 	if( strchr(formatChar,'d') ){
-	    return( INT_TYPE ) ;
+	    return( int_TYPE ) ;
 	} else if( strchr(formatChar,'f') ){
 	    return( DOUB_TYPE ) ;
 	} else if( strchr(formatChar,'e') ){
@@ -379,9 +378,9 @@ INT number ;
 
 main()
 {
-    INT i ;       /* counter */
+    int i ;       /* counter */
     DOUBLE f ;    /* function value */
-    INT y ;       /* integer function value */
+    int y ;       /* integer function value */
 
     /* first initialize two graphs */
     Yplot_init( 0, "graph1", "graph_kroy", NULL ) ;

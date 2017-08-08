@@ -44,10 +44,10 @@ DESCRIPTION:message processing routines
 	    in redirecting the output of messages to the screen as well
 	    as keeping track of program errors and warnings.
 CONTENTS:   Ymessage_print( messageType, routine, messageString )
-		INT messageType ;
+		int messageType ;
 		char *routine, *messageString ;
-	    INT Ymessage_get_warncount()
-	    INT Ymessage_get_errorcount()
+	    int Ymessage_get_warncount()
+	    int Ymessage_get_errorcount()
 	    Ymessage_warncount()
 	    Ymessage_errorcount()
 	    Ymessage_output( messageString )
@@ -55,7 +55,7 @@ CONTENTS:   Ymessage_print( messageType, routine, messageString )
 	    Ymessage_init( fileptr )
 		FILE *fileptr ;
 	    Ymessage_mode( mode )
-		INT mode ;
+		int mode ;
 	    Ymessage_flush()
 	    Ymessage_close()
 
@@ -74,32 +74,21 @@ REVISIONS:  Sep 30, 1988 - added incWarningCount & incErrorCount
 		system.  Modified names to make it easier.
 	    Thu Mar  7 01:27:48 EST 1991 - now always flush stdout.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) message.c version 3.6 3/7/91" ;
-#endif
+#include <globals.h>
 
-#include <stdio.h>
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
-
-static INT errorCountS = 0;
-static INT warningCountS = 0;
-static FILE *foutS = NULL ;         /* open output file */
-static FILE *outS = NULL ;          /* redirected out file */
-static BOOL verboseS = FALSE ;
-static BOOL modeS = M_NORMAL ;
-static char message_bufS[LRECL] ;
-static char typeS[8] ;
+int errorCountS = 0;
+int warningCountS = 0;
+FILE *foutS = NULL ;         /* open output file */
+FILE *outS = NULL ;          /* redirected out file */
+BOOL verboseS = FALSE ;
+BOOL modeS = M_NORMAL ;
+char message_bufS[LRECL] ;
+char typeS[8] ;
 
 /* global variable definition */
 char *YmsgG = message_bufS ;
 
-
-Ymessage_print( messageType, routine, messageString )
-INT messageType ;
-char *routine ;
-char *messageString ;
+void Ymessage_print( int messageType, char *routine, char *messageString )
 {
 
 	FILE *out ; /* where to output result if verbose */
@@ -144,31 +133,29 @@ char *messageString ;
 } /* end message_print */
 
 /* increment the static variable */
-Ymessage_warn_count()
+void Ymessage_warn_count()
 {
     warningCountS++ ;
 } /* end message_warn_count */
 
 /* increment the static variable */
-Ymessage_error_count()
+void Ymessage_error_count()
 {
     errorCountS++ ;
 }/* end Ymessage_error_count */
 
-INT Ymessage_get_warncount()
+int Ymessage_get_warncount()
 {
     return(warningCountS);
 } /*end Ymessage_get_warncount */
 
-INT Ymessage_get_errorcount()
+int Ymessage_get_errorcount()
 {
     return(errorCountS);
 } /*end Ymessage_get_errorcount */
 
-Ymessage_output( messageString )
-char *messageString ;
+void Ymessage_output(char *messageString)
 {
-
     if( verboseS ){
 	fprintf( outS, "%s", messageString ) ;
     }
@@ -178,14 +165,12 @@ char *messageString ;
 
 } /* end message_output */
 
-Ymessage_init( fileptr )
-FILE *fileptr ;
+void Ymessage_init( FILE *fileptr )
 {
      foutS = fileptr ;
 } /* end Ymessage_init */
 
-Ymessage_mode( mode )
-INT mode ;
+void Ymessage_mode( int mode )
 {
     if( mode == M_VERBOSE ){
 	verboseS = TRUE ;

@@ -52,9 +52,9 @@ REVISIONS:  Dec  7, 1990 - updated for new dialog procedure.
 #include <globals.h>
 #include "info.h"
 
-static TWDIALOGPTR fieldS ;
-static init_field( P8(INT field, INT row, INT column, INT str_len, char *string,
-		    INT type, INT color, INT group ) ) ;
+void init_field(int field, int row, int column, int str_len, char *string, int type, int color, int group );
+
+TWDIALOGPTR fieldS ;
 
 /* be able to turn off individual colors */
 void TWtoggleColors()
@@ -145,11 +145,7 @@ void TWtoggleColors()
     YFREE( fieldS ) ;
 } /* end TWtoggleColors */
 
-
-static init_field( field, row, column, str_len, string, 
-type, color, group )
-INT field, row, column, str_len, type, color, group ;
-char *string ;
+void init_field(int field, int row, int column, int str_len, char *string, int type, int color, int group )
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
 

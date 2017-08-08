@@ -507,7 +507,7 @@ VOIDPTR Ydset_find( YDSETPTR dset, VOIDPTR data )
 {
   ELEMENTPTR ptr ;
   
-  if( ptr = find( dset, data )){
+  if((ptr = find( dset, data))){
     return( ptr->data ) ;
   }
   return( NIL(VOIDPTR) ) ;
