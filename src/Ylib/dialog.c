@@ -134,7 +134,7 @@ void find_font_boundary() ;
 void edit_field(int field, Window win, XEvent event, int (*user_function)()) ;
 
 /* build a dialog box and get info */
-TWDRETURNPTR TWdialog( TWDIALOGPTR fieldp, char *dialogname, int (*user_function)())
+TWDRETURNPTR TWdialog( TWDIALOGPTR fieldp, char *dialogname, void (*user_function)())
 {
     UNSIGNED_INT white, black ;
     int i ;               /* counter */

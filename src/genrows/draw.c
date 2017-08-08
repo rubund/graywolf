@@ -1440,9 +1440,7 @@ TWDRETURNPTR answer ;  /* return from user */
     return( maxrows ) ;
 } /* end get_maxrows */
 
-static int update_tile_data( answer, field )
-TWDRETURNPTR answer ;  /* return from user */
-int field ;
+void update_tile_data( TWDRETURNPTR answer, int field )
 {
     int sep ;
     int rows ;
@@ -1545,15 +1543,7 @@ BOOL edit_tiles( TILE_BOX *tile )
     BOOL old_force ;       /* keep track of change */
     TWDRETURNPTR answer ;  /* return from user */
 
-    TWmessage( "Edit Tile" ) ;
-
-#ifdef DEVELOPDIALOG
-    dialogS = TWread_dialog( "genrows.dialog" ) ;
-    if( !(dialogS) ){
-	return ; /* avoid crashes */
-    }
-#endif
-
+    TWmessage( "Edit Tile" );
 
     /* now initialize the fields to user data */
     sprintf( tileName,  "Tile  : %d", tile->name ) ;
