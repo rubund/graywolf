@@ -44,38 +44,30 @@ DATE:	    Jan 26, 1990 - modified mighty code.
 REVISIONS:  Sun Nov  3 12:49:49 EST 1991 - made assign more
 		memory efficient by using YVECTOR routines.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) assign.c (Yale) version 1.4 4/16/92" ;
-#endif
+#include <globals.h>
 
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/program.h>
-#include <yalecad/assign.h>
-#include <yalecad/debug.h>
+static int **costS = (int **) NULL ;
+static int *capS = (int *) NULL ;
+static int *rowS = (int *) NULL ;
+static int *colS = (int *) NULL ;
+static int *nextS = (int *) NULL ;
+static int *h1S = (int *) NULL ;
+static int *h2S = (int *) NULL ;
+static int *h3S = (int *) NULL ;
+static int *h4S = (int *) NULL ;
+static int *h5S = (int *) NULL ;
+static int *h6S = (int *) NULL ;
 
-static INT **costS = (INT **) NULL ;
-static INT *capS = (INT *) NULL ;
-static INT *rowS = (INT *) NULL ;
-static INT *colS = (INT *) NULL ;
-static INT *nextS = (INT *) NULL ;
-static INT *h1S = (INT *) NULL ;
-static INT *h2S = (INT *) NULL ;
-static INT *h3S = (INT *) NULL ;
-static INT *h4S = (INT *) NULL ;
-static INT *h5S = (INT *) NULL ;
-static INT *h6S = (INT *) NULL ;
+void initassign();
+void shortestpath(int ys[], int yt[], int dplus[], int dminus[], int back[], int next[], int i, int *indexp, int *dp, int m, int n);
+void augmentation();
+void transformation(int ys[], int yt[], int dplus[], int dminus[], int d, int m, int n);
+int *allocatevector() ;
+int **allocatematrix() ;
 
-static void initassign();
-static void shortestpath();
-static void augmentation();
-static void transformation(int ys[], int yt[], int dplus[], int dminus[], int d, int m, int n);
-static INT *allocatevector() ;
-static INT **allocatematrix() ;
-
-INT *Yassign( cost_matrix, m, n )
-INT  **cost_matrix ;
-INT m, n;
+int *Yassign( cost_matrix, m, n )
+int  **cost_matrix ;
+int m, n;
 /*
  *  For bipatite graph with m source nodes ( i : rows )
  *  and n sink nodes ( j : cols ) connected by edges with costS[i][j] >=0
@@ -113,7 +105,7 @@ INT m, n;
  *	     capS[j] nodes with capacity 1 each.
  */
 {
-    INT i, j, k;
+    int i, j, k;
 /*
     static void initassign();
     static void shortestpath();
@@ -152,9 +144,7 @@ INT m, n;
 } /* end assign */
 
 
-static void initassign(ys, yt, m, n)
-INT ys[], yt[];
-INT m, n;
+void initassign(int ys[], int yt[], int m, int n)
 /*
  *  Initializes, checks feasibility and constructs an optimal assignment
  *  for a subset of rowSs and colSumns :
@@ -165,12 +155,12 @@ INT m, n;
  *  are made.
  */
 {
-    INT i,
+    int i,
 	j,
 	j0,
 	ui,
 	cij;
-    INT neff = 0;  /* total capacity */
+    int neff = 0;  /* total capacity */
 
     /*  initial assignment */
     for( j = 1; j <= n; j++ ) {
@@ -247,19 +237,7 @@ DONE :
     }
 } /* end initassign */
 
-     
-static void shortestpath( ys, yt, dplus, dminus, back, next, i, indexp, dp, m, n )
-INT ys[],
-    yt[],
-    dplus[],
-    dminus[],
-    back[],
-    next[];
-INT *indexp;
-INT *dp;
-INT i,
-    m,
-    n;
+void shortestpath(int ys[], int yt[], int dplus[], int dminus[], int back[], int next[], int i, int *indexp, int *dp, int m, int n)
 /*
  *  Finds a shortest path from starting node i to sink node index
  *  using Dijkstra's algorithm and modify costs.
@@ -268,7 +246,7 @@ INT i,
  *  back points back in the path.
  */
 {
-INT lastcand,
+    int lastcand,
     headcand,
     v,
     vgl,
@@ -330,15 +308,14 @@ INT lastcand,
     }
 } /* end shortest path */
 
-
-static void augmentation( int back[], int u, int ind )
+void augmentation( int back[], int u, int ind )
 /*
  *  tracing back the augmenting path from index back to u,
  *  assignments are updated accordingly.
  */
 {
-    INT oldind;
-    INT w = (INT)NULL;
+    int oldind;
+    int w = 0;
 
     (capS[ind])--;
 
@@ -359,12 +336,12 @@ static void augmentation( int back[], int u, int ind )
     }
 } /* end augmentation */
 
-static void transformation(int ys[], int yt[], int dplus[], int dminus[], int d, int m, int n)
+void transformation(int ys[], int yt[], int dplus[], int dminus[], int d, int m, int n)
 /*
  *  update ys and yt
  */
 {
-    INT i;
+    int i;
     
     for( i = 1; i <= m; i++ ) {
 	if( dplus[i] != ASSIGN_INF  ){
@@ -378,14 +355,14 @@ static void transformation(int ys[], int yt[], int dplus[], int dminus[], int d,
     }
 } /* end transformation */
 
-INT **Yassign_init(m, n)
-INT m, n ; 
+int **Yassign_init(m, n)
+int m, n ; 
 {
-    INT j ;
-    INT **cost_matrix ;
+    int j ;
+    int **cost_matrix ;
 /*
-    static INT *allocatevector() ;
-    static INT **allocatematrix() ;
+    static int *allocatevector() ;
+    static int **allocatematrix() ;
 */
 
     capS = allocatevector( n ) ;
@@ -395,7 +372,7 @@ INT m, n ;
     cost_matrix = allocatematrix( m, n );
     rowS = allocatevector( n );
 #if 1
-    colS = YVECTOR_CALLOC( 0, m, INT ) ;
+    colS = YVECTOR_CALLOC( 0, m, int ) ;
 #else 
     colS = allocatevector( m );
 #endif
@@ -410,13 +387,13 @@ INT m, n ;
 } /* end structure */
 
 void Yassign_reset(cost_matrix, m, n )
-INT m, n ;
-INT **cost_matrix ;
+int m, n ;
+int **cost_matrix ;
 /*
  *  reset to 0 all the entries, except capacities which are 1
  */
 {
-INT i,
+int i,
     j;
     for( j = 1; j <= n; j++ )
 	capS[j] = 1;
@@ -446,41 +423,38 @@ colS[0] = 0;
 	h6S[j] = 0;
 } /* end Yassign_reset */
 
-static INT **allocatematrix ( rows, cols )
-INT rows,		/* number of rows */
-    cols;		/* number of columns */
+int **allocatematrix ( int rows, int cols )
 {
-    INT i ;			/* loop counters */
-    INT ** matrix;		/* the allocated matrix */
+    int i ;			/* loop counters */
+    int ** matrix;		/* the allocated matrix */
 
     /*
      *  Allocate space for the matrix
      */
-    matrix = YVECTOR_MALLOC( 1, rows, INT * ) ;
+    matrix = YVECTOR_MALLOC( 1, rows, int * ) ;
     for (i = 1; i <= rows; i++){
-	matrix[i] = YVECTOR_CALLOC( 1, cols, INT ) ;
+	matrix[i] = YVECTOR_CALLOC( 1, cols, int ) ;
     }
     return( matrix );
 } /* end allocatematrix */
 
 
-static INT *allocatevector( cols )
-INT cols;		/* number of columns */
+int *allocatevector( int cols ) /* number of columns */
 {
-    INT * vector;		/* used to allocate the vector */
+    int * vector;		/* used to allocate the vector */
 
     /*
      *  Allocate space for the vector
      */
-    vector = YVECTOR_CALLOC( 1, cols, INT ) ;
+    vector = YVECTOR_CALLOC( 1, cols, int ) ;
     return( vector ) ;
 } /* end allocatevector */
 
 void Yassign_print( cost_matrix, m, n )
-INT m, n ;
-INT **cost_matrix ;
+int m, n ;
+int **cost_matrix ;
 {
-    INT i,
+    int i,
 	j,
 	sum = 0,
 	max = 0,
@@ -514,10 +488,10 @@ INT **cost_matrix ;
 } /* end Yassign_print */
 
 void Yassign_free( cost_matrix, m, n )
-INT **cost_matrix ;
-INT m, n ;
+int **cost_matrix ;
+int m, n ;
 {
-    INT i ;
+    int i ;
 
     for (i = 1; i <= m; i++){
 	YVECTOR_FREE( cost_matrix[i], 1 ) ;
@@ -525,11 +499,11 @@ INT m, n ;
     YVECTOR_FREE( cost_matrix, 1 ) ;
     if( capS ){
 	YVECTOR_FREE( capS, 1 ) ;
-	capS = (INT *) NULL ; 
+	capS = (int *) NULL ; 
     }
     if( rowS ){
 	YVECTOR_FREE( rowS, 1 ) ;
-	rowS = (INT *) NULL ; 
+	rowS = (int *) NULL ; 
     }
     if( colS ){
 #if 1
@@ -537,34 +511,34 @@ INT m, n ;
 #else
 	YVECTOR_FREE( colS, 1 ) ;
 #endif
-	colS = (INT *) NULL ; 
+	colS = (int *) NULL ; 
     }
     if( nextS ){
 	YVECTOR_FREE( nextS, 1 ) ;
-	nextS = (INT *) NULL ; 
+	nextS = (int *) NULL ; 
     }
     if( h1S ){
 	YVECTOR_FREE( h1S, 1 ) ;
-	h1S = (INT *) NULL ; 
+	h1S = (int *) NULL ; 
     }
     if( h2S ){
 	YVECTOR_FREE( h2S, 1 ) ;
-	h2S = (INT *) NULL ; 
+	h2S = (int *) NULL ; 
     }
     if( h3S ){
 	YVECTOR_FREE( h3S, 1 ) ;
-	h3S = (INT *) NULL ; 
+	h3S = (int *) NULL ; 
     }
     if( h4S ){
 	YVECTOR_FREE( h4S, 1 ) ;
-	h4S = (INT *) NULL ; 
+	h4S = (int *) NULL ; 
     }
     if( h5S ){
 	YVECTOR_FREE( h5S, 1 ) ;
-	h5S = (INT *) NULL ; 
+	h5S = (int *) NULL ; 
     }
     if( h6S ){
 	YVECTOR_FREE( h6S, 1 ) ;
-	h6S = (INT *) NULL ; 
+	h6S = (int *) NULL ; 
     }
 } /* end Yassign_free */

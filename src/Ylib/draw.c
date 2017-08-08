@@ -327,7 +327,7 @@ void TWsetMode( int mode )
 } /* end TWsetMode */
 
 /* start a new window system */
-BOOL TWinitGraphics(int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
+BOOL TWinitGraphics(int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)())
 {
 	parasiteS = FALSE ;
 	radiansPerDegreeS = acos( (double) 0.0 ) / (double) 90.0 ;
@@ -335,14 +335,14 @@ BOOL TWinitGraphics(int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int
 } /* end TWinitGraphics */
 
 /* TWinitParasite takes over windows that were already opened */
-BOOL TWinitParasite(int numC,char **colors, BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)(), int w)
+BOOL TWinitParasite(int numC,char **colors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)(), int w)
 {
 	parasiteS = TRUE ;
 	backS = (Window) w ;
 	return(TWinit(numC,colors,dumpOnly,menu,refresh_func));
 } /* end TWinitParasite */
 
-BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)())
+BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)())
 {
 	XSetWindowAttributes attr;
 	XWindowAttributes wattr;
@@ -355,7 +355,6 @@ BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, int (
 	BOOL saveflag ;
 	Window root;
 	XSizeHints hints ;	      /* setup hints for window manager */
-	char *Yfixpath() ;
 	char *winstr ; /* position of Xdefault window */
 	long event_mask ;  /* used to set input selection to window */
 	INT  m ;       /* mask for determining window position*/

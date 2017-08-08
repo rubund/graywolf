@@ -75,7 +75,7 @@ extern  void _TW3DdrawAxis( BOOL drawNotErase ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
-BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)());
+BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)());
 /* 
 Function:
     Initialization of graphics package.  Needs to be called first.
@@ -98,7 +98,7 @@ Function:
     for numC arg and use include file <yalecad/colors.h>.
 */
 
-BOOL TWinitParasite(int numC, char **colors, BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)(), int w);
+BOOL TWinitParasite(int numC, char **colors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)(), int w);
 /*
 Function:
     Take over the control of a window already created by
@@ -515,8 +515,8 @@ void drawWLine() ;
 void initcolors(char **desiredColorArray,int numC) ;
 void closeFrame(void) ;
 void set_viewing_transformation() ;
-void TW3Dperspective( double x, double y, double z, double *pX, double *pY ) ;
-BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)()) ;
-void set_clip_window( P4(INT l, INT r, INT b, INT t) ) ;
+void TW3Dperspective(double x, double y, double z, double *pX, double *pY ) ;
+BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)()) ;
+void set_clip_window(int l, int r, int b, int t) ;
 
 #endif /* DRAW_H */

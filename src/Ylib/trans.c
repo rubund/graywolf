@@ -52,20 +52,13 @@ REVISIONS:  Wed Jan 30 14:11:50 EST 1991 - added Ytrans_init and
 	    Sat Nov 23 21:07:47 EST 1991 - added boundary translation
 		functions.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) trans.c version 1.5 3/6/92" ;
-#endif
-
 #define  YTRANS_DEFS
-#include <yalecad/base.h>
-#include <yalecad/relpos.h>
-#include <yalecad/message.h>
+#include <globals.h>
 
 /* ***************************************************************** 
 translate rotation of cells
 ----------------------------------------------------------------- */
-VOID Ytranslate(l,b,r,t, orient) 
-INT *l, *b, *r, *t, orient ;
+void Ytranslate(int *l, int *b, int *r, int *t, int orient) 
 {
 
     INT temp ;
@@ -135,9 +128,7 @@ INT *l, *b, *r, *t, orient ;
 /* ***************************************************************** 
 translate rotation of DOUBLE (cell weights)
 ----------------------------------------------------------------- */
-VOID Ytranslatef(l,b,r,t, orient) 
-DOUBLE *l, *b, *r, *t ;
-INT orient ;
+void Ytranslatef(double *l, double *b, double *r, double *t, int orient) 
 {
 
     DOUBLE temp ;
@@ -205,8 +196,7 @@ INT orient ;
 
 /* given current cell bounding box and new orient - orient to change to */
 /* set the cell centering flags - cell will always be left justified */
-VOID Ytrans_init( cur_l,cur_b,cur_r,cur_t, new_orient ) 
-INT cur_l, cur_b, cur_r, cur_t, new_orient ;
+void Ytrans_init(int cur_l, int cur_b, int cur_r, int cur_t, int new_orient) 
 {
     INT height ;
     INT length ;
@@ -244,8 +234,7 @@ INT orient ;
 
 /* this translate performs translation but also centers the tile */
 /* so that the truncatated side is always to the left */
-VOID YtranslateC(l,b,r,t,orient) 
-INT *l, *b, *r, *t, orient ;
+void YtranslateC(int *l, int *b, int *r, int *t, int orient) 
 {
     Ytranslate( l, b, r, t, orient ) ;
     if( Ytrans_xflagG ){
@@ -260,8 +249,7 @@ INT *l, *b, *r, *t, orient ;
 
 /* this translate performs translation but also centers the tile */
 /* so that the truncatated side is always to the left */
-VOID YtranslateT(l,b,r,t, orient) 
-INT *l, *b, *r, *t, orient ;
+void YtranslateT(int *l, int *b, int *r, int *t, int orient) 
 {
 
     INT height ;
@@ -289,10 +277,7 @@ INT *l, *b, *r, *t, orient ;
     test - normally a macro defined in relpos.h is used for speed.
     Conditional compile switch is in relpos.h.
 ----------------------------------------------------------------- */
-VOID Ytrans_rel_pos( orient_R, globalX_R, globalY_R, relativeX_R, relativeY_R,
-    cellX_R, cellY_R )               
-INT orient_R, *globalX_R, *globalY_R, relativeX_R, relativeY_R,         
-    cellX_R, cellY_R ;               
+void Ytrans_rel_pos( int orient_R, int *globalX_R, int *globalY_R, int relativeX_R, int relativeY_R, int cellX_R, int cellY_R )               
 {
     switch(orient_R){
 	case 0: *globalX_R = cellX_R + relativeX_R ;
@@ -349,7 +334,7 @@ static INT countS ;		/* count during output */
 static INT pt_allocS ;		/* point allocation */
 #define EXPECTEDPTS	2
 
-VOID Ytrans_boun_init()
+void Ytrans_boun_init()
 {
     /* allocate the space for reoordering the points of the macro */
     num_ptS = 0 ;
@@ -361,8 +346,7 @@ VOID Ytrans_boun_init()
     }
 } /* end Ytrans_boun_init() */
 
-VOID Ytrans_boun_add( x, y )
-INT x, y ;
+void Ytrans_boun_add(int x, int y)
 {
     /* increase the space if necessary */
     if( ++num_ptS >= pt_allocS ){
@@ -374,9 +358,7 @@ INT x, y ;
     pt_yS[num_ptS] = y ;
 } /* end Ytrans_boun_add() */
 
-VOID Ytrans_boun( orient, new_xc, new_yc, use_new_orient )
-INT new_xc, new_yc, orient ;
-BOOL use_new_orient ;
+void Ytrans_boun( int orient, int new_xc, int new_yc, BOOL use_new_orient )
 {
 
     INT pt ;			/* counter */
@@ -496,7 +478,7 @@ INT *x_ret, *y_ret ;
 
 } /* end Ytrans_boun_pt() */
 
-VOID Ytrans_boun_free()
+void Ytrans_boun_free()
 {
     /* free allocate memory */
     if(pt_xS){
