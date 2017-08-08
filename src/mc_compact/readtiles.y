@@ -10,7 +10,7 @@
 extern char *yytext;
 extern int yyget_lineno(void);
 static int nodeS ;          /* current node */
-int readtiles_error(char *s);
+int readtiles_error(const char *s);
 int readtiles_lex();
 }
 
@@ -71,7 +71,7 @@ tile : L COLON INTEGER R COLON INTEGER B COLON INTEGER T COLON INTEGER
 
 %%
 
-int yyerror(char *s) {
+int yyerror(const char *s) {
 	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
 }
 

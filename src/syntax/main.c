@@ -54,6 +54,7 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 #include "output.h"
 
 int readcells(char *filename);
+void yaleIntro();
 
 int
 __attribute__((visibility("default")))
@@ -64,7 +65,6 @@ Syntax( BOOL d , char *cktName )
 	char filename2[LRECL] ;
 	char *ptr ;
 	int  arg_count ;
-	int  yaleIntro() ;
 	int  debug ;
 	FILE *fp ;
 
@@ -115,10 +115,8 @@ Syntax( BOOL d , char *cktName )
 	return 0;
 } /* end main */
 
-yaleIntro() 
+void yaleIntro() 
 {
-	int i ;
-
 	M( MSG, NULL, "\n") ;
 	M( MSG, NULL, YmsgG) ;
 	M( MSG, NULL, "\nTimberWolf System Syntax Checker\n");
@@ -126,7 +124,5 @@ yaleIntro()
 	M( MSG, NULL, "         Dahe Chen, and Jimmy Lam\n"); 
 	M( MSG, NULL, "         Yale University\n");
 	M( MSG, NULL, "\n");
-
 	fprintf(fpoG,"%s\n",YmsgG ) ; 
-
 } /* end yaleIntro */

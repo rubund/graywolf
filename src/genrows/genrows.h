@@ -88,6 +88,9 @@ REVISIONS:  Feb 28, 1990 - added new fields to tiles for graphics.
 #define OVERLAP1   1
 #define OVERLAP2   2
 #define OVERLAP3   3
+#ifdef TOUCH
+#undef TOUCH
+#endif
 #define TOUCH 4
 
 typedef struct tile_box {

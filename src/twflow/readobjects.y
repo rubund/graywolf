@@ -9,7 +9,7 @@
 #define yyin twflow_readobjects_in
 extern char *yytext;
 extern int yyget_lineno(void);
-int twflow_readobjects_error(char *s);
+int twflow_readobjects_error(const char *s);
 int twflow_readobjects_lex();
 }
 
@@ -127,7 +127,7 @@ line : INTEGER INTEGER INTEGER INTEGER
 
 %%
 
-int yyerror(char *s) {
+int yyerror(const char *s) {
 	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
 }
 

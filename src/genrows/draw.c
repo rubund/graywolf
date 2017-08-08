@@ -70,6 +70,7 @@ REVISIONS:  Feb  7, 1990 - took total row length out of procedure calls.
 ----------------------------------------------------------------- */
 #include <globals.h>
 #include "genrows.h"
+#include "draw.h"
 #include "merge.h"
 
 #ifndef NOGRAPHICS
@@ -111,33 +112,9 @@ static TWDIALOGPTR macro_dialogS ;
 
 #include <menus.h>
 
-static void draw_tile();
-static void draw_macro();
-static void draw_fs();
-static void last_chance();
-static void no_move_message();
-static void save_for_do();
-static void update_macro();
-static void graphics_dump();
-static int pick_macro();
-static TILE_BOX *pick_tile();
-static ROW_BOX *pick_row();
-static BOOL edit_tiles();
-static void edit_macro();
-static void update_vertices();
-static void rotate_vertices();
-void find_nearest_corner(int macro, int x, int y, int* x_ret, int* y_ret);
-static void highlight_corner();
-int outm(int errtype, char *routine, char *string );
-void edit_row(ROW_BOX *rowptr);
-void get_global_pos( int macro, int *l, int *b, int *r, int *t );
-
 void initgraphics(int windowId )
 {
-
 	char *host ;
-	char *Ygetenv() ;
-	extern int draw_the_data() ;
 
 	if( !(graphicsG) ){
 		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE, menuS, draw_the_data ) ;
@@ -166,7 +143,7 @@ void initgraphics(int windowId )
 
 
 /* how to draw the data */
-int draw_the_data()
+void draw_the_data()
 {
 	int      i ;            /* counter */
 	int      l, b, r, t ;   /* core dimensions */
@@ -322,7 +299,7 @@ int draw_the_data()
 } /* end draw_the_data */
 /* ***************************************************************** */
 
-static void draw_tile( TILE_BOX *tileptr )  /* current tile */
+void draw_tile( TILE_BOX *tileptr )  /* current tile */
 {
 	int      color ;        /* current color */
 	char     label[LRECL] ; /* make a label buffer */
@@ -345,7 +322,7 @@ static void draw_tile( TILE_BOX *tileptr )  /* current tile */
 	TWdrawCell( tileptr->name, tileptr->llx , tileptr->lly , tileptr->urx , tileptr->ury, color, labelptr ) ;
 } /* end draw_tile */
 
-static void draw_macro( int macro, int color )
+void draw_macro( int macro, int color )
 {
 	int i ;
 	char *labelptr ;        /* name of cell */
@@ -377,7 +354,7 @@ static void draw_macro( int macro, int color )
 	}
 } /* end draw_macro */
 
-static void draw_fs( MACROPTR mptr )  /* current macro */
+void draw_fs( MACROPTR mptr )  /* current macro */
 {
 	int i ;              /* counter */
 	int x[10], y[10] ;   /* only 10 points to an F */
@@ -1252,8 +1229,7 @@ void graphics_dump()
 
 
 /* find the macro in question */
-static int pick_macro( twmsg )
-char *twmsg ;
+int pick_macro( char *twmsg )
 {
 
     int i ;
@@ -1332,8 +1308,7 @@ char *twmsg ;
 
 } /* end pick_macro */
 
-static TILE_BOX *pick_tile( pmsg )
-char *pmsg ;
+TILE_BOX *pick_tile( char *pmsg )
 {
     int x, y ;            /* the user's pick points */
     TILE_BOX *tile ;      /* the current tile */
@@ -1357,7 +1332,7 @@ char *pmsg ;
 
 } /* end pick_tile */
 
-static ROW_BOX *pick_row()
+ROW_BOX *pick_row()
 {
     int x, y ;            /* the user's pick points */
     ROW_BOX  *rowptr  ;     /* current row being output */
@@ -1547,9 +1522,8 @@ int field ;
     } /* end switch */
 }
 
-static BOOL edit_tiles( tile )
-TILE_BOX *tile ;
- {
+BOOL edit_tiles( TILE_BOX *tile )
+{
     int  temp ;            /* temporary answer from user */
     int  sep ;             /* channel separation */
     int  rows ;            /* number of rows */
@@ -1647,7 +1621,7 @@ TILE_BOX *tile ;
 
     /* initialization complete */
 
-    if( answer = TWdialog( dialogS, "genrows", update_tile_data ) ){
+    if((answer = TWdialog( dialogS, "genrows", update_tile_data))){
 	/* must be the number of the case field */
 	if( answer[LEGALCASE].bool ){
 	    /* the tile is legal */

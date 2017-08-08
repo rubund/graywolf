@@ -10,7 +10,7 @@
 extern char *yytext;
 extern int yyget_lineno(void);
 static int nodeS ;          /* current node */
-int readcgraph_error(char *s);
+int readcgraph_error(const char *s);
 int readcgraph_lex();
 }
 
@@ -69,7 +69,7 @@ adjacent_node : ADJ NODE COLON INTEGER LEN COLON INTEGER CAP COLON INTEGER L COL
 
 %%
 
-int yyerror(char *s) {
+int yyerror(const char *s) {
 	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
 }
 
