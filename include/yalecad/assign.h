@@ -1,11 +1,6 @@
-/* ----------------------------------------------------------------- 
-FILE:	    assign.h                                       
-DESCRIPTION:include file for the linear assignment solver.
-DATE:	    May 15, 1990 - modified mighty code.
-REVISIONS:  
-            Wed Apr 15 16:40:01 EDT 1992
-	       - Replaced by new algorithms
------------------------------------------------------------------ */
+#ifndef H_ASSIGN_YALECAD
+#define H_ASSIGN_YALECAD
+
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
 #include <yalecad/message.h>
