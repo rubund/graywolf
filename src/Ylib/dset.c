@@ -86,8 +86,7 @@ ELEMENTPTR ptr;
 } /* end dset_free_element() */
 
 /* delete all the trees associated with set */
-static dset_free_trees( dset )
-YDSETPTR dset ;
+void dset_free_trees( YDSETPTR dset  )
 {
   if ( dset->superset_tree ) {
     Yrbtree_free(dset->superset_tree,NULL);

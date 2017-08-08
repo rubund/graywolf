@@ -226,9 +226,7 @@ void Ydeck_empty(deckPtr,userDelete)
 /*-----------------------------------------*/
 /* free the deck and all cards it contains */
 /*-----------------------------------------*/
-void Ydeck_free(deckPtr,userDelete)
-     YDECK *deckPtr;
-     void (*userDelete)();
+void Ydeck_free(YDECK *deckPtr,void (*userDelete)())
 {
   Ydeck_empty(deckPtr,userDelete);
   YFREE(deckPtr);
@@ -237,18 +235,15 @@ void Ydeck_free(deckPtr,userDelete)
 /*-------------------------------------------------*/
 /* debug function to dump the contents of the deck */
 /*-------------------------------------------------*/
-void Ydeck_dump( deckPtr, userPrint ) 
-     YDECK *deckPtr ;
-     void (*userPrint)();
+void Ydeck_dump( YDECK *deckPtr, void (*userPrint)() ) 
 {
-  
   printf("%d cards\n",deckPtr->size);
   printf("Deck top to bottom:" ) ;
   for ( Ydeck_top(deckPtr); Ydeck_notEnd(deckPtr); Ydeck_down(deckPtr) ) {
     if (userPrint) {
       (*userPrint)(Ydeck_getData(deckPtr));
     } else {
-      printf("%d ", (INT)Ydeck_getData(deckPtr) ) ;
+      printf("%d ", (int)Ydeck_getData(deckPtr) ) ;
     }
   }
   printf("\n" ) ;  
@@ -257,7 +252,7 @@ void Ydeck_dump( deckPtr, userPrint )
     if (userPrint) {
       (*userPrint)(Ydeck_getData(deckPtr));
     } else {
-      printf("%d ", (INT) Ydeck_getData(deckPtr) ) ;
+      printf("%d ", (int)Ydeck_getData(deckPtr) ) ;
     }
   }
   printf("\n" ) ;  

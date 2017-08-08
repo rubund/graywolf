@@ -402,7 +402,7 @@ BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void 
 		/* we are done for the dump_graphics mode */
 		initS = TRUE ;
 		TWsetMode( TWWRITEONLY ) ;  /* always enable both modes */
-		return ;
+		return FALSE;
 	} else {
 		/* OTHERWISE INITIALIZE BOTH MODES */
 		TWsetMode( TWWRITENDRAW ) ;  /* always enable both modes */
@@ -454,32 +454,32 @@ BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void 
 		}
 	}
 	/* see if we should turn on the stipple pattern */
-	if( reply = XGetDefault( dpyS, GRAPHICS, "stipple" )){
+	if((reply = XGetDefault( dpyS, GRAPHICS, "stipple"))){
 		if( strcmp( reply, "on" ) == STRINGEQ ){
 		stippleS = TRUE ;
 		}
 	}
 	/* see if we should turn on/off the rectangular fill */
-	if( reply = XGetDefault( dpyS, GRAPHICS, "rectangle_fill" )){
+	if((reply = XGetDefault( dpyS, GRAPHICS, "rectangle_fill"))){
 		if( strcmp( reply, "off" ) == STRINGEQ ){
 		rect_fillS = FALSE ; /* dont fill rectangles - default on */
 		} 
 	}
 	/* see if we should turn on/off the arbitrary fill */
-	if( reply = XGetDefault( dpyS, GRAPHICS, "arbitrary_fill" )){
+	if((reply = XGetDefault( dpyS, GRAPHICS, "arbitrary_fill"))){
 		if( strcmp( reply, "off" ) == STRINGEQ ){
 		fillArbS = FALSE ; /* dont fill arbs - default on */
 		} 
 	}
 	/* see if we should turn off the reverse video */
-	if( reply = XGetDefault( dpyS, GRAPHICS, "reverse" )){
+	if((reply = XGetDefault( dpyS, GRAPHICS, "reverse"))){
 		if( strcmp( reply, "on" ) == STRINGEQ ){
 		reverseS = TRUE ;
 		}
 	}
 
 	/* see if we need to reset the wait time to redraw */
-	if( reply = XGetDefault( dpyS, GRAPHICS, "wait_time" )){
+	if((reply = XGetDefault( dpyS, GRAPHICS, "wait_time"))){
 		TWsafe_wait_timeG = atoi( reply ) ;
 	} else {
 		TWsafe_wait_timeG = 2 ;
@@ -487,7 +487,7 @@ BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void 
 
 
 	/* initialize position */
-	if( winstr = XGetDefault( dpyS, GRAPHICS, "geometry" )){
+	if((winstr = XGetDefault( dpyS, GRAPHICS, "geometry"))){
 		m = XParseGeometry( winstr,&winxS,&winyS,&winwidthS,&winheightS) ;
 		if( m & XNegative ){
 		winxS = XDisplayWidth( dpyS, screenS ) + winxS ;
@@ -1095,9 +1095,7 @@ void initcolors( char **desiredColorArray, int numC )
     
 } /* end initcolor */
 
-TWcolorXOR( color, exorFlag )
-int color ;
-BOOL exorFlag ;
+void TWcolorXOR(int color, BOOL exorFlag)
 {
     /* check to make sure color is valid */
     if( color <= 0 || color > numColorS ){
@@ -1118,7 +1116,7 @@ BOOL exorFlag ;
 
 
 /* start a new slate */
-static startDFrame()
+void startDFrame()
 {
     XClearWindow( dpyS, drawS ) ;
     if( reverseS ){
@@ -1834,9 +1832,7 @@ char *label;
 } /* end TW3DdrawCube */
 
 /* returns string size in user coordinate system */
-TWstringSize( string, width, height )
-char *string ;
-int *width, *height ;
+void TWstringSize( char *string, int *width, int *height )
 {
     int len ;        /* length of string in characters */
     int pix_width ;  /* width of string in pixels */
@@ -1898,8 +1894,7 @@ static  int  numNetS = 0 ;  /* net counter */
 static  int  numPinS = 0 ;  /* pin counter */
 static  int  numCharS = 0 ; /* symbol table counter */
 
-
-TWstartFrame()
+void TWstartFrame()
 {
     char filename[LRECL] ;
     char dummy[5] ;

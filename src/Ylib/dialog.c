@@ -127,11 +127,11 @@ int world2fonty() ;
 int pixlen() ;
 void set_stipple_font(BOOL stippleOn, int font_change) ;
 void debug_dialog(TWDIALOGPTR fieldp) ;
-void check_cases(TWDIALOGPTR fieldp, int select, int (*user_function)() );
+void check_cases(TWDIALOGPTR fieldp, int select, void (*user_function)() );
 void draw_fields(TWDIALOGPTR fieldp) ;
 void TWfreeWindows() ;
 void find_font_boundary() ;
-void edit_field(int field, Window win, XEvent event, int (*user_function)()) ;
+void edit_field(int field, Window win, XEvent event, void (*user_function)()) ;
 
 /* build a dialog box and get info */
 TWDRETURNPTR TWdialog( TWDIALOGPTR fieldp, char *dialogname, void (*user_function)())
@@ -147,7 +147,6 @@ TWDRETURNPTR TWdialog( TWDIALOGPTR fieldp, char *dialogname, void (*user_functio
     int time ;            /* current time */
     TWDIALOGPTR fptr ;    /* current dialog field */
     TWDRETURNPTR dptr ;   /* current return field */
-    BOOL press ;          /* tells whether button has been pushed */
     BOOL bw ;             /* tells whether display is color or not */
     BOOL foundWindow ;    /* used in window search to find match */
     int lasttimeL; /* last time of exposure event */
@@ -525,7 +524,7 @@ void set_stipple_font(BOOL stippleOn , int font_change)
 } /* end set_stipple_font */
 
 /* check the case fields and set all member of group to false */
-void check_cases( TWDIALOGPTR fieldp, int select, int (*user_function)() )
+void check_cases( TWDIALOGPTR fieldp, int select, void (*user_function)() )
 {
     INT i ;               /* counter */
     INT group ;           /* case group */
@@ -645,7 +644,7 @@ int pixlen( int length )
     return( fwidthS * length ) ;
 } /* end pixlen */
 
-void edit_field(int field, Window win, XEvent event, int (*user_function)() ) /* describes the button event */
+void edit_field(int field, Window win, XEvent event, void (*user_function)() ) /* describes the button event */
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR dptr;   /* return field of dialog */
