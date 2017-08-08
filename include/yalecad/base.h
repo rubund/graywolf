@@ -188,11 +188,10 @@ typedef void VOID ;
 #define  P9( a,b,c,d,e,f,g,h,i )
 #define P10( a,b,c,d,e,f,g,h,i,j  )
 #define P15( a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)
-typedef INT *VOIDPTR ;
-#define VOID INT
+typedef int *VOIDPTR ;
+//#define VOID INT
 
 #endif /* end PROTOTYPE_OK */
-
 
 #ifdef VMS
 #define PGMOK 1
@@ -201,7 +200,6 @@ typedef INT *VOIDPTR ;
 #define PGMOK 0
 #define PGMFAIL -1
 #endif
-
 
 /* BASIC MACRO DEFINITIONS  */
 #undef  TRUE

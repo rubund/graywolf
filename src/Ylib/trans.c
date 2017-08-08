@@ -311,10 +311,7 @@ void Ytrans_rel_pos( int orient_R, int *globalX_R, int *globalY_R, int relativeX
     Ytrans_post - same as Ytrans_rel_pos except it does cell centering
     in addition.
 ----------------------------------------------------------------- */
-VOID Ytrans_rel_post( orient_R, globalX_R, globalY_R, relativeX_R, relativeY_R,
-    cellX_R, cellY_R )               
-INT orient_R, *globalX_R, *globalY_R, relativeX_R, relativeY_R,         
-    cellX_R, cellY_R ;               
+void Ytrans_rel_post(int orient_R, int *globalX_R, int *globalY_R, int relativeX_R, int relativeY_R, int cellX_R, int cellY_R )
 {
     Ytrans_rel_pos( orient_R, globalX_R, globalY_R, relativeX_R, 
 	relativeY_R, cellX_R, cellY_R ) ;

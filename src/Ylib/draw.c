@@ -429,7 +429,7 @@ BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void 
 	if( (colorS = XDisplayCells( dpyS, screenS )) > 2 ){ 
 		/* if color number of display cells > 0 */
 		colorS = TRUE ;
-		if( reply = XGetDefault( dpyS, GRAPHICS, "bw" )){
+		if((reply = XGetDefault( dpyS, GRAPHICS, "bw"))){
 			if( strcmp( reply, "on" ) == STRINGEQ ){
 				colorS = FALSE ;
 			}
@@ -440,7 +440,7 @@ BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void 
 
 
 	/* set font and get font info */
-	if(font = XGetDefault( dpyS, GRAPHICS, "font" )){
+	if((font = XGetDefault( dpyS, GRAPHICS, "font"))){
 		fontinfoS = TWgetfont( font, &fontS ) ;
 		infoBoxS.fontname = font ;  
 	} else {

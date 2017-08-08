@@ -1638,7 +1638,7 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    /* means the user change the field */
 	    temp = get_row_height( answer ) ;
 	    if( temp <= 0 ){
-		return ;
+		return FALSE;
 	    }
 	    tile->actual_row_height = temp ;
 	}
@@ -1648,7 +1648,7 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    if( rows < 0 ){ 
 		outm( ERRMSG, "edit_tile",
 		"Invalid number of rows.  Must be non-negative" ) ;
-		return ;
+		return FALSE;
 	    }
 	    /* now calculate the channel separation for this tile */
 	    height = tile->ury - tile->lly ;
@@ -1669,7 +1669,7 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    if( rows < 0 ){ 
 		outm( ERRMSG, "edit_tile",
 		"Invalid number of rows.  Must be non-negative" ) ;
-		return ;
+		return FALSE;
 	    }
 	    /* now calculate the channel separation for this tile */
 	    height = tile->ury - tile->lly ;
@@ -1690,7 +1690,7 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    if( temp <= 0 ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid minimum length.  Must be greater than zero" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->min_length = temp ;
 	}
@@ -1700,12 +1700,12 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    if( temp < tile->llx  ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid end of row.  Must be greater than tile left" );
-		return ;
+		return FALSE;
 	    }
 	    if( temp > tile->urx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid end of row.  Must be less than tile right" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->max_length = temp - tile->llx - tile->row_start ;
 	}
@@ -1715,12 +1715,12 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    if( temp < tile->llx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid start of row.  Must be greater than tile left") ;
-		return ;
+		return FALSE;
 	    }
 	    if( temp > tile->urx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid start of row.  Row must start before end of tile" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->row_start = temp - tile->llx ;
 	    /* now modify the width of the tile accordingly */
@@ -1742,7 +1742,7 @@ BOOL edit_tiles( TILE_BOX *tile )
 	    if( temp <= 0 ){
 		outm( ERRMSG, "edit_tile",
 		    "ERROR:Invalid class.  Must be greater than zero" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->class = temp ;
 	}
@@ -1835,7 +1835,7 @@ void edit_row(ROW_BOX *rowptr)
 #define ORIENTF      13
 #define ORIENTBASE   14
 
-static int update_macro_data( TWDRETURNPTR answer, int field )
+void update_macro_data( TWDRETURNPTR answer, int field )
 {
     int pos ;
     int deltax, deltay ;
@@ -1871,7 +1871,7 @@ static int update_macro_data( TWDRETURNPTR answer, int field )
     } /* end switch */
 
     if( deltax == 0 && deltay == 0 ){
-	return ; /* no work to do */
+	return FALSE; /* no work to do */
     }
     /* else update the cooridates positions */
     if( deltax != 0 ){
@@ -1928,7 +1928,7 @@ void edit_macro( int macro, int xoff, int yoff )
 
     old_orient = macroArrayG[selectMacroS]->orient ;
 
-    if( answer = TWdialog( macro_dialogS, "macro", update_macro_data )){
+    if((answer = TWdialog( macro_dialogS, "macro", update_macro_data))){
 	if( answer[XPOSF].bool ){
 	    /* means the user change the field */
 	    pos = atoi( answer[XPOSF].string ) ;

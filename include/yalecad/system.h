@@ -13,7 +13,7 @@ Function:
     Copy a file from the source to the destination name.
     Aborts pgm if a failure.
 */
-extern VOID YcopyFile( P2(char *sourcefile, char *destfile) ) ;
+void YcopyFile( P2(char *sourcefile, char *destfile) ) ;
 
 /*
 YmoveFile -
@@ -21,7 +21,7 @@ Function:
     Move a file from the source to the destination name.
     Aborts pgm if a failure.
 */
-extern VOID YmoveFile( P2(char *sourcefile, char *destfile) ) ;
+void YmoveFile( P2(char *sourcefile, char *destfile) ) ;
 
 /*
 Yrm_files -
@@ -30,7 +30,7 @@ Function:
     dependent however.
     Never aborts pgm if a failure.
 */
-extern VOID Yrm_files( P1(char *files) ) ;
+void Yrm_files( P1(char *files) ) ;
 
 /*
 Ygetenv -

@@ -211,8 +211,7 @@ INFOPTR edge1, edge2 ;
     }
 } /* end compare_edges */
 
-VOID print_edge( edge )
-INFOPTR edge ;
+void print_edge( INFOPTR edge )
 {
     printf( "edge %2d-%2d loc:%3d start:%3d end:%3d HnotV:%d\n",
 	edge->node1, edge->node2, *(edge->loc), *(edge->start), 

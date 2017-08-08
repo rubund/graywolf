@@ -260,7 +260,7 @@ void genorient( int lowerBound, int upperBound)
 	    padptr->length = bounptr->r - bounptr->l ;
 	    padptr->height = bounptr->t - bounptr->b ;
 	} else {
-	    (VOID) check_valid_orient( ptr ) ;
+	    check_valid_orient( ptr ) ;
 	}
     } /* end loop on cells */
 

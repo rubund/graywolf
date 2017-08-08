@@ -1069,7 +1069,6 @@ void build_macros()
 
 void makerows()
 {
-
     TILE_BOX *tileptr, *get_starting_tile() ;
     ROW_BOX *rowptr , *segment ;
     DOUBLE amount , total ;
@@ -1624,8 +1623,7 @@ void init_vertex_list( int left, int bottom, int right, int top )
     last_vertexS->next = NULL ;
 } /* end init_vertex_list */
 
-static VOID free_tile( tile )
-TILE_BOX *tile ;
+void free_tile( TILE_BOX *tile )
 {
     Ysafe_free( tile ) ;
 } /* end free_tile */

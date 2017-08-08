@@ -77,9 +77,6 @@ static BOOL promptS     = FALSE ;        /* whether to prompt for path */
 static int selectedObjS = 0 ;            /* current selected object */
 static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
-#ifndef NOGRAPHICS 
-
-
 /* #define DEVELOPMENU */
 /* During development use TWread_menus in place of menuS */
 /* to create menu record, ie.  TWread_menus(MENUP) */
@@ -108,7 +105,7 @@ void init_graphics()
 } /* end init_graphics */
 
 /* draw_the_data routine draws compaction graph */
-int draw_the_data()
+void draw_the_data()
 {
 	int  i ;
 	int  color ;
@@ -364,49 +361,6 @@ int find_obj()
 	}
 	return( obj ) ;
 } /* end find_obj */
-
-#else /* NOGRAPHICS case */
-
-/* get edge loops until it gets answer from user */
-ADJPTR get_edge_from_user( OBJECTPTR obj, BOOL direction )
-{
-	ADJPTR adjptr ;
-	ADJPTR findEdge() ;
-	int node1, node2 ;
-	char reply[LRECL] ;
-
-	while( TRUE ){ /* loop until user makes a selection */
-		if( direction == FORWARD ){
-			adjptr = obj->adjF ;
-		} else {
-			adjptr = obj->adjB ;
-		}
-		for( ; adjptr ; adjptr = adjptr->next ){
-			if( direction == FORWARD ){
-				node1 = obj->node ;
-				node2 = adjptr->node ;
-			} else {
-				node1 = adjptr->node ;
-				node2 = obj->node ;
-			}
-			/* tell the user the edge */
-
-			/* give directions */
-			fprintf( stdout,"%s-->%s", proGraphG[node1]->name, 
-				proGraphG[node2]->name ) ;
-			fprintf( stdout,"If execution path is correct, enter y[es]<cr>.\n") ;
-			fprintf( stdout,"Otherwise enter n<cr> for next edge.\n") ;
-			fscanf( stdout, "%s", reply ) ;
-			if( reply ) {
-				if( reply[0] == 'y' || reply[0] == 'Y' ){
-					return( adjptr ) ;
-				}
-			}
-		} /* end for loop */
-	} /* end while loop */
-} /* end get_edge_from_user */
-
-#endif /* NOGRAPHICS */
 
 /* make_decision asks the user for the next program to run */
 ADJPTR make_decision( OBJECTPTR obj, BOOL direction )

@@ -102,7 +102,7 @@ Example:
 /*--------------------------------------------------
   Ygraph_edgeDelete: free edges from data structure
   --------------------------------------------------*/
-extern VOID Ygraph_edgeDelete(P3(YGRAPHPTR graph,YEDGEPTR  edge,VOID (*userEdgeFree)()));
+void Ygraph_edgeDelete(P3(YGRAPHPTR graph,YEDGEPTR  edge,void (*userEdgeFree)()));
 
 /*-------------------------------------------------
   Ygraph_edgeInsert: insert an edge into the graph  
@@ -143,7 +143,7 @@ Example:
 /*---------------------------------------------
   empty all nodes and edge from the graph
   ---------------------------------------------*/
-VOID Ygraph_empty(P3(YGRAPHPTR graph,VOID (*nodeDelete)(),VOID (*edgeDelete)()));
+void Ygraph_empty(P3(YGRAPHPTR graph,void (*nodeDelete)(),void (*edgeDelete)()));
 
 /*-------------------------------------------------
   Ygraph_nodeCount
@@ -250,7 +250,7 @@ extern VOIDPTR Ygraph_nodeData( P1( YNODEPTR node));
 /*--------------------------------------------------
   free and empty the graph
   --------------------------------------------------*/
-extern VOID Ygraph_free(P3(YGRAPHPTR graph,VOID (*nodeDelete)(),VOID (*edgeDelete)()));
+void Ygraph_free(P3(YGRAPHPTR graph,void (*nodeDelete)(),void (*edgeDelete)()));
 
 /*-------------------------------------------------
   Ygraph_edgeEnumerate
@@ -260,12 +260,12 @@ extern YEDGEPTR Ygraph_edgeEnumerate(P2( YGRAPHPTR graph, BOOL startFlag));
 /*-------------------------------------------------
   Ygraph_edgeEnumeratePush
   -------------------------------------------------*/
-extern VOID Ygraph_edgeEnumeratePush(P1(YGRAPHPTR graph));
+void Ygraph_edgeEnumeratePush(P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_edgeEnumeratePop
   -------------------------------------------------*/
-extern VOID Ygraph_edgeEnumeratePop(P1(YGRAPHPTR graph));
+void Ygraph_edgeEnumeratePop(P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_edgeMin
@@ -295,12 +295,12 @@ extern  YNODEPTR Ygraph_nodeEnumerate(P2( YGRAPHPTR graph, BOOL startFlag));
 /*-------------------------------------------------
   Ygraph_nodeEnumeratePop
   -------------------------------------------------*/
-extern VOID Ygraph_nodeEnumeratePop( P1(YGRAPHPTR graph));
+void Ygraph_nodeEnumeratePop( P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_nodeEnumeratePush
   -------------------------------------------------*/
-extern VOID Ygraph_nodeEnumeratePush( P1(YGRAPHPTR graph));
+void Ygraph_nodeEnumeratePush( P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_nodeMin
@@ -330,12 +330,12 @@ extern YNODEPTR Ygraph_nodeInterval( P4(YGRAPHPTR graph, VOIDPTR loData, VOIDPTR
 /*-------------------------------------------------
   Ygraph_nodeIntervalPush
   -------------------------------------------------*/
-VOID Ygraph_nodeIntervalPush(P1(YGRAPHPTR graph));
+void Ygraph_nodeIntervalPush(P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_nodeIntervalPop
   -------------------------------------------------*/
-VOID Ygraph_nodeIntervalPop(P1(YGRAPHPTR graph));
+void Ygraph_nodeIntervalPop(P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_edgeInterval
@@ -345,18 +345,18 @@ extern YEDGEPTR Ygraph_edgeInterval( P4(YGRAPHPTR graph, VOIDPTR loData, VOIDPTR
 /*-------------------------------------------------
   Ygraph_edgeIntervalPush
   -------------------------------------------------*/
-VOID Ygraph_edgeIntervalPush(P1(YGRAPHPTR graph));
+void Ygraph_edgeIntervalPush(P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_edgeIntervalPop
   -------------------------------------------------*/
-VOID Ygraph_edgeIntervalPop(P1(YGRAPHPTR graph));
+void Ygraph_edgeIntervalPop(P1(YGRAPHPTR graph));
 
 /*--------------------------------------------------
   free_node: free node from data structure
   --------------------------------------------------*/
-extern VOID Ygraph_nodeDelete(P4(YGRAPHPTR graph,YNODEPTR node,
-                         VOID (*nodeFree)(),VOID (*edgeFree)()));
+void Ygraph_nodeDelete(P4(YGRAPHPTR graph,YNODEPTR node,
+                         void (*nodeFree)(),void (*edgeFree)()));
 
 /*-------------------------------------------------
   Ygraph_nodeVeriy: exercise node data structure
@@ -396,7 +396,7 @@ extern INT Ygraph_edgeWeights2Size( P1 (YGRAPHPTR graph) );
   Optionally, the user can provide a targetNode beyond
   which the search is terminated.
   ------------------------------------------------------------*/
-extern VOID Ygraph_bfs(P3(YGRAPHPTR graph,YNODEPTR source,YNODEPTR target));
+void Ygraph_bfs(P3(YGRAPHPTR graph,YNODEPTR source,YNODEPTR target));
 
 /*-----------------------------------------------------------
   Ygraph_path: returns a deck containing a path
@@ -427,7 +427,7 @@ extern YDECKPTR Ygraph_mst_prim(P2(YGRAPHPTR graph,YNODEPTR source));
 /*----------------------------------------------------------
   Ygraph_mst_dijkstra:  Find a shortest paths from source
   ----------------------------------------------------------*/
-extern VOID Ygraph_dijkstra(P2(YGRAPHPTR graph,YNODEPTR source));
+void Ygraph_dijkstra(P2(YGRAPHPTR graph,YNODEPTR source));
 
 /*----------------------------------------------------------
   Ygraph_bellman_ford: single source shortest path for 
@@ -449,7 +449,7 @@ extern YDECKPTR Ygraph_cycles(P1(YGRAPHPTR graph));
   Ygraph_clearRequired: clear all nodes which must
                        part of any steiner tree  
   -------------------------------------------------*/
-extern VOID Ygraph_clearRequired(P1(YGRAPHPTR graph));
+void Ygraph_clearRequired(P1(YGRAPHPTR graph));
 
 /*-------------------------------------------------
   Ygraph_nodeRequired: insert a node which must be
@@ -500,7 +500,7 @@ extern YGRAPHPTR Ygraph_steiner(P2(YGRAPHPTR graph,int maxImproves));
   The original graph must have its required
   nodes properly set.
   ----------------------------------------*/
-VOID Ygraph_steinerImprove(P3(YGRAPHPTR graph,YGRAPHPTR steinerGraph,
+void Ygraph_steinerImprove(P3(YGRAPHPTR graph,YGRAPHPTR steinerGraph,
      int maxIterations));
 
 /*---------------------------------------
@@ -521,12 +521,12 @@ extern int Ygraph_verify(P1(YGRAPHPTR graph));
 /*------------------------------------------------------------
   Ygraph_dump: print graph stats and call user print functions
   ------------------------------------------------------------*/
-extern VOID Ygraph_dump(P3(YGRAPHPTR graph,VOID (*printNode)(),VOID (*printEdge)()));
+void Ygraph_dump(P3(YGRAPHPTR graph,void (*printNode)(),void (*printEdge)()));
 
 /*---------------------------------------------------------
   Sets up the users draw functions for Ygraph_draw.
   ---------------------------------------------------------*/
-extern VOID Ygraph_drawFunctions(P3( YGRAPHPTR graph, VOID (*userNodeDraw)(), VOID (*userEdgeDraw)()));
+void Ygraph_drawFunctions(P3( YGRAPHPTR graph, void (*userNodeDraw)(), void (*userEdgeDraw)()));
 
 /*---------------------------------------------------------
   Get the current edge weight function
@@ -536,7 +536,7 @@ extern INT (*Ygraph_getEdgeWeightFunction(P1(YGRAPHPTR graph)))();
 /*---------------------------------------------------------
   Set the current edge weight function
   ---------------------------------------------------------*/
-extern VOID Ygraph_setEdgeWeightFunction(P2(YGRAPHPTR graph,
+void Ygraph_setEdgeWeightFunction(P2(YGRAPHPTR graph,
 					    INT (*userEdgeWeight)()));
 
 /*---------------------------------------------------------
@@ -547,7 +547,7 @@ extern VOID Ygraph_setEdgeWeightFunction(P2(YGRAPHPTR graph,
 
   Some sample edge and node draw function are below:
 
-  VOID drawNode(node,color)
+  void drawNode(node,color)
     YNODEPTR node;
     int color;
   {
@@ -556,7 +556,7 @@ extern VOID Ygraph_setEdgeWeightFunction(P2(YGRAPHPTR graph,
     TW3DdrawLine(0,n->x,n->y,n->z,n->x,n->y,n->z,color,0);
   }
 
-  VOID drawEdge(edge,color)
+  void drawEdge(edge,color)
     YEDGEPTR edge;
     int color;
   {
@@ -565,7 +565,7 @@ extern VOID Ygraph_setEdgeWeightFunction(P2(YGRAPHPTR graph,
     TW3DdrawLine(0,e->x1,e->y1,e->z1,e->x2,e->y2,e->z2,color,0);
   }
   ---------------------------------------------------------*/
-extern VOID Ygraph_drawRequired(P1(YGRAPHPTR graph));
+void Ygraph_drawRequired(P1(YGRAPHPTR graph));
 
 /*---------------------------------------------------------
   Call the users drawing functions for all primed edges
@@ -577,7 +577,7 @@ extern VOID Ygraph_drawRequired(P1(YGRAPHPTR graph));
 
   Some sample edge and node draw function are below:
 
-  VOID drawNode(node,color)
+  void drawNode(node,color)
     YNODEPTR node;
     int color;
   {
@@ -586,7 +586,7 @@ extern VOID Ygraph_drawRequired(P1(YGRAPHPTR graph));
     TW3DdrawLine(0,n->x,n->y,n->z,n->x,n->y,n->z,color,0);
   }
 
-  VOID drawEdge(edge,color)
+  void drawEdge(edge,color)
     YEDGEPTR edge;
     int color;
   {
@@ -607,7 +607,7 @@ void Ygraph_drawPrime(YGRAPHPTR graph);
 
   Some sample edge and node draw function are below:
 
-  VOID drawNode(node,color)
+  void drawNode(node,color)
     YNODEPTR node;
     int color;
   {
@@ -616,7 +616,7 @@ void Ygraph_drawPrime(YGRAPHPTR graph);
     TW3DdrawLine(0,n->x,n->y,n->z,n->x,n->y,n->z,color,0);
   }
 
-  VOID drawEdge(edge,color)
+  void drawEdge(edge,color)
     YEDGEPTR edge;
     int color;
   {
@@ -625,6 +625,6 @@ void Ygraph_drawPrime(YGRAPHPTR graph);
     TW3DdrawLine(0,e->x1,e->y1,e->z1,e->x2,e->y2,e->z2,color,0);
   }
   ---------------------------------------------------------*/
-extern VOID Ygraph_draw(P1(YGRAPHPTR graph));
+void Ygraph_draw(P1(YGRAPHPTR graph));
 
 #endif /* YGRAPH_H */

@@ -714,7 +714,7 @@ INT TWcheckMouse()
 		if( last_commandL != CANCEL ){
 		    TWmessage( "Repeating last command..." ) ;
 		    if( ++countL <= 3 ){
-			(VOID) sleep( (unsigned) 2 ) ;
+			sleep( 2 ) ;
 		    }
 		    return( last_commandL ) ;
 		}

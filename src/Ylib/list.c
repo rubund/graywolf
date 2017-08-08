@@ -80,8 +80,8 @@ static YLIST insort(P1(YLIST list));
 static YLIST quicksort(P1(YLIST list));
 static YLIST allocate_list();
 static YLIST_EL allocate_list_el();
-static VOID free_list(P1(YLIST));
-static VOID free_list_el(P1(YLIST_EL));
+void free_list(P1(YLIST));
+void free_list_el(P1(YLIST_EL));
 static INT def_comp(P2(VOIDPTR, VOIDPTR));
 
 
@@ -161,7 +161,7 @@ INT (*comp)();
 
 *****************************************************************************/
 
-VOID Ylist_enqueue(list, data)
+void Ylist_enqueue(list, data)
      YLIST list;
      VOIDPTR data;
 {
@@ -190,7 +190,7 @@ VOID Ylist_enqueue(list, data)
 
 *****************************************************************************/
 
-VOID Ylist_push(list, data)
+void Ylist_push(list, data)
      YLIST list;
      VOIDPTR data;
 {
@@ -220,7 +220,7 @@ VOID Ylist_push(list, data)
 
 **************************************************************************/
 
-VOID Ylist_insert_after(list, item, data)
+void Ylist_insert_after(list, item, data)
      YLIST list;
      YLIST_EL item;
      VOIDPTR data;
@@ -256,7 +256,7 @@ VOID Ylist_insert_after(list, item, data)
 
 **************************************************************************/
 
-VOID Ylist_insert_before(list, item, data)
+void Ylist_insert_before(list, item, data)
      YLIST list;
      YLIST_EL item;
      VOIDPTR data;
@@ -292,7 +292,7 @@ VOID Ylist_insert_before(list, item, data)
 
 **************************************************************************/
 
-VOID Ylist_insert_in_order(list, data)
+void Ylist_insert_in_order(list, data)
      YLIST list;
      VOIDPTR data;
 {
@@ -394,7 +394,7 @@ YLIST list;
 
 **************************************************************************/
 
-VOID Ylist_delete(list, el, user_delete)
+void Ylist_delete(list, el, user_delete)
      YLIST list;
      YLIST_EL el;
      INT (*user_delete)();
@@ -561,7 +561,7 @@ static YLIST quicksort(list)
 
 **************************************************************************/
 
-VOID Ylist_append( l1, l2)
+void Ylist_append( l1, l2)
      YLIST l1;
      YLIST l2;
 {
@@ -585,7 +585,7 @@ VOID Ylist_append( l1, l2)
 
 *****************************************************************************/
 
-VOID Ylist_clear(list)
+void Ylist_clear(list)
      YLIST list;
 {
   YLIST_EL el, el1;
@@ -610,7 +610,7 @@ VOID Ylist_clear(list)
 
 *****************************************************************************/
 
-VOID Ylist_free(list)
+void Ylist_free(list)
      YLIST list;
 {
   Ylist_clear(list);
@@ -703,7 +703,7 @@ static YLIST_EL allocate_list_el()
 
 *****************************************************************************/
 
-static VOID free_list(list)
+void free_list(list)
      YLIST list;
 {
   list->next = free_listS;
@@ -722,7 +722,7 @@ static VOID free_list(list)
 
 *****************************************************************************/
 
-static VOID free_list_el(el)
+void free_list_el(el)
      YLIST_EL el;
 {
   el->next = free_list_elS;
@@ -759,7 +759,7 @@ static INT def_comp(d1, d2)
 
 *****************************************************************************/
 
-VOID Ylist_check_mem()
+void Ylist_check_mem()
 {
   printf("\tlists_allocated = %d\n", lists_allocatedS);
   printf("\tlist_els_allocated = %d\n", list_els_allocatedS);
@@ -774,8 +774,8 @@ VOID Ylist_check_mem()
 /*  Local Functions						    */
 /*  								    */
 /********************************************************************/
-static VOID Yprint_list( P1(YLIST list) ) ;
-static VOID ph1();
+void Yprint_list( P1(YLIST list) ) ;
+void ph1();
 
 
 /****************************************************************************
@@ -853,7 +853,7 @@ INT main(argc, argv)
 
 *****************************************************************************/
 
-static VOID Yprint_list(list)
+void Yprint_list(list)
      YLIST list;
 {
   YLIST_EL el;

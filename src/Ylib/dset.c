@@ -74,7 +74,7 @@ ELEMENT *data1_p, *data2_p ;
 
 /*-----------------------
   -----------------------*/
-static VOID dset_free_element( ptr )
+void dset_free_element( ptr )
 ELEMENTPTR ptr;
 {
   /* first free the users data */
@@ -584,8 +584,7 @@ VOIDPTR data ;
 /*-----------------------
   Ydset_verify
   -----------------------*/
-INT Ydset_verify( dset )
-YDSETPTR dset ;
+INT Ydset_verify( YDSETPTR dset )
 {
   ELEMENTPTR ptr ;
   INT sizeIn;
@@ -630,9 +629,7 @@ YDSETPTR dset ;
 /*------------------------
   Ydset_dump
   ------------------------*/
-Ydset_dump(dset,printFunc)
-YDSETPTR dset;
-VOID (*printFunc)();
+void Ydset_dump(YDSETPTR dset,void (*printFunc)())
 {
   VOIDPTR ptr ;
   INT count = 1;
@@ -718,7 +715,7 @@ BOOL startFlag;
   ------------------------*/
 Ydset_dump_tree(dset,print_key)
 YDSETPTR dset;
-VOID (*print_key)();
+void (*print_key)();
 {
   VOIDPTR ptr ;
   INT count = 1;
@@ -760,13 +757,13 @@ INT num1, num2 ;
     }
 } /* end Ydset_compare_set */
 
-static VOID print_data( num )
+void print_data( num )
 INT num ;
 {
     printf( "  %d", num ) ;
 } /* end print_data() */
 
-static VOID my_delete( num )
+void my_delete( num )
 INT num ;
 {
     printf( "deleting %d\n", num ) ;

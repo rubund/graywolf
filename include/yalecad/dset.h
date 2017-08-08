@@ -23,7 +23,7 @@ typedef struct dset_element {
 typedef struct ydsetrec {
     YTREEPTR dtree ;            /* rbtree holding sets */
     int (*compare_func)() ;	/* how to compare functions in rbtree */
-    VOID (*user_delete)() ;	/* how to delete functions in rbtree */
+    void (*user_delete)() ;	/* how to delete functions in rbtree */
     YTREEPTR superset_tree ;	/* tree to store the superset */
     YTREEPTR subset_tree ;	/* tree to store the subsets */
     YTREEPTR parent_tree ;	/* tree to store the parents */
@@ -49,7 +49,7 @@ Function:
   Free all elements in the set but leaves the set intact
   This may be used recursively.
   ---------------------------------------*/
-void Ydset_empty( P2(YDSETPTR set,VOID (*userDelete)() ) );
+void Ydset_empty( P2(YDSETPTR set,void (*userDelete)() ) );
 /*
   free all elements of a superset.  Function userDelete is applied to user data.
 */
@@ -108,7 +108,7 @@ VOIDPTR Ydset_find_set( P2( YDSETPTR dset, VOIDPTR data ));
   Free all elements in the set and the set.
   This can be used recursively.
   ---------------------------------------*/
-void Ydset_free( P2(YDSETPTR set,VOID (*userDelete)() ) );
+void Ydset_free( P2(YDSETPTR set,void (*userDelete)() ) );
 /*
   free the entire superset.  Function userDelete is applied to user data.
 */
@@ -153,7 +153,7 @@ int Ydset_verify( P1(YDSETPTR set));
 /*------------------------
   Ydset_dump
   ------------------------*/
-void Ydset_dump(P2( YDSETPTR set, VOID (*printFunc)() ) );
+void Ydset_dump(P2( YDSETPTR set, void (*printFunc)() ) );
 
 #endif /* YDSET_H */
 
