@@ -87,12 +87,12 @@ char *str ;
 char **Ystrparser(str,dels,numtokens)
 char *str;
 char *dels ; /* delimiters */
-INT  *numtokens ; /* pass back number of tokens */
+int  *numtokens ; /* pass back number of tokens */
 {
 
     static char *tokenBuf[LRECL] ; /* impossible to have more tokens */
 				  /* than length of input line length */
-    INT  index = 0 ;
+    int  index = 0 ;
 
     /* use str_tok to strip away delimiters */
     /* first call to str_tok requires the string reference */

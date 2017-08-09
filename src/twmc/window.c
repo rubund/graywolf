@@ -40,14 +40,14 @@
 /* ----------------------------------------------------------------- 
 FILE:	    window.c                                       
 DESCRIPTION:new window limiter routines due to Jimmy Lamm
-CONTENTS:   DOUBLE eval_ratio(percentWindow)
-		DOUBLE *percentWindow ;
+CONTENTS:   double eval_ratio(percentWindow)
+		double *percentWindow ;
 	    init_control()
-	    pick_position(INT *, INT *, int, int)
+	    pick_position(int *, int *, int, int)
 	    update_control(a)
 	    fix_window()
 	    update_window_size( iteration )
-		DOUBLE iteration ;
+		double iteration ;
 DATE:	    Feb 29, 1988 
 REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal 
 	    Oct 21, 1988 - changed steps per cell and add graph func.
@@ -81,7 +81,7 @@ REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal
 #define TABMASK 0xfff
 #define TABOFFSET 0x40000
 #define RANDFACT (1.0 / INT_MAX)
-#define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
+#define PICK_int(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 double xadjustmentS,xalS,min_xalphaS,max_xalphaS;/** x control **/
 double yadjustmentS,yalS,min_yalphaS,max_yalphaS;/** y control **/
@@ -92,11 +92,11 @@ double tauXS, tauYS ; /* exp. decay time constants for window */
 double eval_ratio( int iteration )
 {
     if( iteration >= TURNOFFT ){
-	return( (DOUBLE) 1.0 ) ;
+	return( (double) 1.0 ) ;
     } else if( iteration < 0 ){
-	return( (DOUBLE) 0.0 ) ;
+	return( (double) 0.0 ) ;
     } else {
-	return( (DOUBLE) iteration / TURNOFFT ) ;
+	return( (double) iteration / TURNOFFT ) ;
     }
 }
 
@@ -105,8 +105,8 @@ double eval_ratio( int iteration )
 */
 void init_control(BOOL first)
 {
-    INT i;
-    DOUBLE area ;
+    int i;
+    double area ;
 
 #define FRACTION  0.10
 
@@ -118,8 +118,8 @@ void init_control(BOOL first)
     min_xalphaS = 0.5 * sqrt( area / chipaspectG ) ;
     min_yalphaS = 0.5 * sqrt( chipaspectG * area ) ;
 
-    min_xalphaS = MIN( min_xalphaS, FRACTION * (DOUBLE) bdxlengthG ) ;
-    min_yalphaS = MIN( min_yalphaS, FRACTION * (DOUBLE) bdylengthG ) ;
+    min_xalphaS = MIN( min_xalphaS, FRACTION * (double) bdxlengthG ) ;
+    min_yalphaS = MIN( min_yalphaS, FRACTION * (double) bdylengthG ) ;
     printf( "min_xalpha:%4.2lf\n", min_xalphaS ) ;
     printf( "min_yalpha:%4.2lf\n", min_yalphaS ) ;
 
@@ -156,7 +156,7 @@ void init_control(BOOL first)
 */
 void pick_position(int *x, int *y, int ox, int oy)
 {
-    register INT i,m,n;
+    register int i,m,n;
 
     /* get exponentially distributed random number around old x */
     for (i=0; i<2; i++) {
@@ -179,14 +179,14 @@ void pick_position(int *x, int *y, int ox, int oy)
 	} else if (ox < blocklG){
 	    ox = blocklG;
 	}
-	n = PICK_INT(blocklG,ox);
+	n = PICK_int(blocklG,ox);
     } else if (n > blockrG) {
 	if (ox < blocklG){
 	    ox = blocklG;
 	} else if (ox > blockrG){
 	    ox = blockrG;
 	}
-	n = PICK_INT(ox,blockrG);
+	n = PICK_int(ox,blockrG);
     }
 DONEX:  *x = n;
 
@@ -211,14 +211,14 @@ DONEX:  *x = n;
 	} else if (oy < blockbG){
 	    oy = blockbG;
 	}
-	n = PICK_INT(blockbG,oy);
+	n = PICK_int(blockbG,oy);
     } else if (n > blocktG) {
 	if (oy < blockbG){
 	    oy = blockbG;
 	} else if (oy > blocktG){
 	    oy = blocktG;
 	}
-	n = PICK_INT(oy,blocktG);
+	n = PICK_int(oy,blocktG);
     }
     *y = n;
 }
@@ -229,8 +229,8 @@ DONEX:  *x = n;
 */
 void pick_neighborhood(int *x, int *y, int ox, int oy, FIXEDBOXPTR fixptr)
 {
-    register INT i,m,n;
-    INT xjump, yjump ;
+    register int i,m,n;
+    int xjump, yjump ;
 
 #define DIV_2   >> 1 
 
@@ -264,14 +264,14 @@ void pick_neighborhood(int *x, int *y, int ox, int oy, FIXEDBOXPTR fixptr)
 	} else if (ox < fixptr->x1 ){
 	    ox = fixptr->x1 ;
 	}
-	n = PICK_INT(fixptr->x1 ,ox);
+	n = PICK_int(fixptr->x1 ,ox);
     } else if (n > fixptr->x2 ) {
 	if (ox < fixptr->x1 ){
 	    ox = fixptr->x1 ;
 	} else if (ox > fixptr->x2 ){
 	    ox = fixptr->x2 ;
 	}
-	n = PICK_INT(ox,fixptr->x2 );
+	n = PICK_int(ox,fixptr->x2 );
     }
     DONEX:  *x = n;
 
@@ -304,14 +304,14 @@ void pick_neighborhood(int *x, int *y, int ox, int oy, FIXEDBOXPTR fixptr)
 	} else if (oy < fixptr->y1){
 	    oy = fixptr->y1;
 	}
-	n = PICK_INT(fixptr->y1,oy);
+	n = PICK_int(fixptr->y1,oy);
     } else if (n > fixptr->y2) {
 	if (oy < fixptr->y1){
 	    oy = fixptr->y1;
 	} else if (oy > fixptr->y2){
 	    oy = fixptr->y2;
 	}
-	n = PICK_INT(oy,fixptr->y2);
+	n = PICK_int(oy,fixptr->y2);
     }
     *y = n;
 } /* end pick_neighborhood */
@@ -377,7 +377,7 @@ void save_window( FILE *fp )
 */
 int read_window(FILE *fp)
 {
-    INT errors = 0 ;
+    int errors = 0 ;
     if( fp ){  /* if file pointer given restore from file */
 	fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
 	fscanf(fp,"%lf %lf %lf\n",&xalS,&yalS,&ratioG);

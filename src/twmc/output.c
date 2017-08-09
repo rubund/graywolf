@@ -283,7 +283,7 @@ int output_pins( CELLBOXPTR cellptr )
 			howmany = 0;
 			if( spin ) {
 				if( spin->children ){
-					howmany = (INT) spin->children[HOWMANY] ;
+					howmany = (int) spin->children[HOWMANY] ;
 				}
 			}
 			for( i = 1; i <= howmany; i++ ){
@@ -456,8 +456,8 @@ void output_vertices( FILE *fp, CELLBOXPTR cellptr )
 			cellptr->orient ) ;
 
 	/* allocate the space for reoordering the points of the macro */
-	temp_x = (int *) Yvector_alloc( 1, numpts,sizeof(INT) ) ;
-	temp_y = (int *) Yvector_alloc( 1, numpts,sizeof(INT) ) ;
+	temp_x = (int *) Yvector_alloc( 1, numpts,sizeof(int) ) ;
+	temp_y = (int *) Yvector_alloc( 1, numpts,sizeof(int) ) ;
 	for( p = 1; p <= cellptr->numsides; p++ ){
 		/* rel position is a macro which calculates */
 		/* absolute pin loc - defined in relpos.h */
@@ -520,8 +520,8 @@ void output_vertices( FILE *fp, CELLBOXPTR cellptr )
 		"couldn't find clockwise direction for boundary\n" ) ;
 	}
 	fprintf( fp, "\n" ) ;
-	Yvector_free( temp_x, 1, sizeof(INT) ) ;
-	Yvector_free( temp_y, 1, sizeof(INT) ) ;
+	Yvector_free( temp_x, 1, sizeof(int) ) ;
+	Yvector_free( temp_y, 1, sizeof(int) ) ;
 
 } /* end output_vertices */
 

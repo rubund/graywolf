@@ -60,13 +60,13 @@ CONTENTS:   TWinforMenus( )
 	    static checkwindow_lights()
 	    int TWcheckMouse()
 	    TWgetPt( x, y )
-		INT *x, *y ;
+		int *x, *y ;
 	    TWmessage( message )
 		char *message ;
 	    char *TWgetString( directions )
 		char *directions ;
 	    BOOL TWgetPt2( x, y )
-		INT *x, *y ;
+		int *x, *y ;
 	    BOOL TWcheckExposure()
 	    BOOL TWinterupt()
 	    TWcheckReconfig()
@@ -167,8 +167,8 @@ static Window       messageS;        /* the message display window */
 static GC           menuGCS ;        /* graphics context for menus */
 static GC           menuRGCS ;       /* reverse gc for turning on menus */
 static int          screenS ;        /* the current screen */
-static UNSIGNED_INT backgrdS ;
-static UNSIGNED_INT foregrdS ;
+static unsigned int backgrdS ;
+static unsigned int foregrdS ;
 static int          winwidthS ;      /* window width */
 static MENUPTR      *menuArrayS ;    /* contains info about menus */
 static XFontStruct  *fontinfoS ;     /* font information */
@@ -661,7 +661,7 @@ static BOOL checkwindow_lights()
 
 /* check to see mouse button was click.  If true put up appropriate */
 /* menu and return value to user */
-INT TWcheckMouse()
+int TWcheckMouse()
 {
     BOOL foundWindow ;      /* used in window search to find match */
     XEvent event ;          /* describes button event */
@@ -684,7 +684,7 @@ INT TWcheckMouse()
     /* it take too much time*/
     Ytimer_elapsed( &cur_time ) ;
     if( cur_time - last_timeL > 10000 ){
-	sleep( (UNSIGNED_INT) 1 ) ;
+	sleep( (unsigned int) 1 ) ;
     }
 
     /* always set window lights on in this routine */
@@ -953,7 +953,7 @@ INT TWcheckMouse()
 } /* end TWcheckMouse */
 
 void TWdisableMenu( menu_item )
-INT menu_item ;
+int menu_item ;
 {
     int      menu ;            /* counter */
     int      entry ;           /* counter */
@@ -1025,8 +1025,8 @@ void TWgetPt(int *x, int *y)
 	    /* account for inversion of y axis */
 	    ytemp = infoS->winheight - ytemp ;
 	    /* now reverse scale of coordinates */
-	    xtemp = (INT) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
-	    ytemp = (INT) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
+	    xtemp = (int) ( (double) xtemp / infoS->scaleFactor ) ;
+	    ytemp = (int) ( (double) ytemp / infoS->scaleFactor ) ;
 	    /* now apply data offset */
 	    *x = xtemp - infoS->xoffset ;
 	    *y = ytemp - infoS->yoffset ;
@@ -1194,7 +1194,7 @@ char *directions ;
 /* or from the using the mouse */
 /* returns TRUE if entered from keyboard, false from mouse */
 BOOL TWgetPt2( x, y )
-INT *x, *y ;
+int *x, *y ;
 {
     BOOL press ;                /* tells whether button has been pushed */
     BOOL ok ;                     /* whether keyboard input is ok */
@@ -1310,8 +1310,8 @@ BOOL TWmouse_tracking_pt( int *x, int *y )
     /* account for inversion of y axis */
     ytemp = infoS->winheight - ytemp ;
     /* now reverse scale of coordinates */
-    xtemp = (INT) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
-    ytemp = (INT) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
+    xtemp = (int) ( (double) xtemp / infoS->scaleFactor ) ;
+    ytemp = (int) ( (double) ytemp / infoS->scaleFactor ) ;
     /* now apply data offset */
     *x = xtemp - infoS->xoffset ;
     *y = ytemp - infoS->yoffset ;

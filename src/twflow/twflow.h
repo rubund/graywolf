@@ -55,17 +55,6 @@ REVISIONS:  Jun 19, 1989 - added marked to ADJPTR record.
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#ifndef lint
-static char SccsGlobals_h[] = "@(#) globals.h (Yale) version 2.6 4/21/91" ;
-#endif
-
-#ifndef GLOBAL_DEFS
-#define EXTERN extern
-
-#else
-#define EXTERN
-#endif
-
 /* if not using makefile and debug is wanted add it here */
 /* #define DEBUG */
 
@@ -144,16 +133,16 @@ typedef struct objectbox {
 
 /* ******************** GLOBAL VARIABLES *********************** */
 /* the graph data structure */
-EXTERN OBJECTPTR *proGraphG ;    /* array of pointers to program nodes */
+OBJECTPTR *proGraphG ;    /* array of pointers to program nodes */
 
 /* the size of the data */
-EXTERN int  numobjectsG ;        /* number of program objects */
-EXTERN char *cktNameG;          /* name of the design */
-EXTERN char *twdirG ;            /* name of the TimberWolf directory */
-EXTERN char *flow_dirG ;         /* name of user specified flow dir. */
-EXTERN BOOL graphicsG ;          /* whether graphics is requested */
-EXTERN BOOL autoflowG ;          /* whether autoflow is enabled */
-EXTERN BOOL problemsG ;          /* whether problems were encountered */
-EXTERN BOOL tomusG ;             /* TRUE if called from partitioning */
+int  numobjectsG ;        /* number of program objects */
+char *cktNameG;          /* name of the design */
+char *twdirG ;            /* name of the TimberWolf directory */
+char *flow_dirG ;         /* name of user specified flow dir. */
+BOOL graphicsG ;          /* whether graphics is requested */
+BOOL autoflowG ;          /* whether autoflow is enabled */
+BOOL problemsG ;          /* whether problems were encountered */
+BOOL tomusG ;             /* TRUE if called from partitioning */
 
 #endif /* GLOBALS_H */

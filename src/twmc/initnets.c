@@ -317,9 +317,9 @@ void add_common_pt()
 			pt * sizeof(COMMONPTR) ) ;
 	}
 	commonS = aptrS->common_pts[pt-1] = (COMMONPTR) Ysafe_calloc( 1, sizeof(COMMONBOX) ) ;
-	commonS->common_set = NIL(INT) ;
-	commonS->cap_match = NIL(INT) ;
-	commonS->res_match = NIL(INT) ;
+	commonS->common_set = NIL(int) ;
+	commonS->cap_match = NIL(int) ;
+	commonS->res_match = NIL(int) ;
 	commonS->num_pins = 0 ;
 
 } /* end common_pt */
@@ -350,10 +350,10 @@ void add2common( char *cell, char *pin )
 	numpins = ++commonS->num_pins ;
 	if( numpins == 1 ){
 		/* first time */
-		commonS->common_set = (int *) Ysafe_malloc( sizeof(INT) ) ;
+		commonS->common_set = (int *) Ysafe_malloc( sizeof(int) ) ;
 	} else {
 		commonS->common_set = (int *) 
-		Ysafe_realloc( commonS->common_set, numpins*sizeof(INT) ) ;
+		Ysafe_realloc( commonS->common_set, numpins*sizeof(int) ) ;
 		/* now store the pin in the common pt */
 		/* check to see if pin is name more than once */
 		for( int i = 0 ; i < numpins - 1 ; i++ ){  /* counter for pins in common point */
@@ -377,12 +377,12 @@ void common_cap( char *cell, char *pin )
 		return ;
 	}
 	if(!(commonS->cap_match)){
-		commonS->cap_match = (int *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+		commonS->cap_match = (int *) Ysafe_malloc( 2 * sizeof(int) ) ;
 		commonS->cap_match[HOWMANY] = howmany = 1 ;
 	} else {
 		howmany = ++commonS->cap_match[HOWMANY] ;
 		commonS->cap_match = (int *) 
-		Ysafe_realloc( commonS->cap_match, (howmany+1)*sizeof(INT) ) ;
+		Ysafe_realloc( commonS->cap_match, (howmany+1)*sizeof(int) ) ;
 		/* check to see if pin is name more than once */
 		for( int i = 0 ; i < howmany - 1 ; i++ ){  /* counter for pins in cap match */
 			if( commonS->cap_match[i] == pinnum ){
@@ -404,12 +404,12 @@ void common_res( char *cell, char *pin )
 		return ;
 	}
 	if(!(commonS->res_match)){
-		commonS->res_match = (int *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+		commonS->res_match = (int *) Ysafe_malloc( 2 * sizeof(int) ) ;
 		commonS->res_match[HOWMANY] = howmany = 1 ;
 	} else {
 		howmany = ++commonS->res_match[HOWMANY] ;
 		commonS->res_match = (int *) 
-		Ysafe_realloc( commonS->res_match, (howmany+1)*sizeof(INT) ) ;
+		Ysafe_realloc( commonS->res_match, (howmany+1)*sizeof(int) ) ;
 		/* check to see if pin is name more than once */
 		for( int i = 0 ; i < howmany - 1 ; i++ ){  /* counter for pins in res match */
 			if( commonS->res_match[i] == pinnum ){
@@ -451,7 +451,7 @@ void add_net_capmatch( char *netname )
 		return ;
 	}
 	howmany = ++net_cap_matchG[numcapmatchS][HOWMANY] ;
-	net_cap_matchG[numcapmatchS] = (int *) Ysafe_realloc( net_cap_matchG[numcapmatchS], (howmany+1) * sizeof(INT) ) ;
+	net_cap_matchG[numcapmatchS] = (int *) Ysafe_realloc( net_cap_matchG[numcapmatchS], (howmany+1) * sizeof(int) ) ;
 	net_cap_matchG[numcapmatchS][howmany] = net ;
 } /* end add_netcapmatch */
 
@@ -465,9 +465,9 @@ void start_net_resmatch( char *netname )
 	if(!(net = find_net( netname ) )){
 		return ;
 	}
-	howmany = (INT) net_res_matchG[HOWMANY] ;
+	howmany = (int) net_res_matchG[HOWMANY] ;
 	net_res_matchG[HOWMANY] = (int *) ++howmany ;
-	match = net_res_matchG[++numresmatchS] = (int *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	match = net_res_matchG[++numresmatchS] = (int *) Ysafe_malloc( 2 * sizeof(int) ) ;
 	match[HOWMANY] = 1 ;
 	match[1] = net ;
 } /* end start_net_resmatch */
@@ -482,6 +482,6 @@ void add_net_resmatch( char *netname )
 		return ;
 	}
 	howmany = ++net_res_matchG[numresmatchS][HOWMANY] ;
-	net_res_matchG[numresmatchS] = (int *) Ysafe_realloc( net_res_matchG[numresmatchS], (howmany+1) * sizeof(INT) ) ;
+	net_res_matchG[numresmatchS] = (int *) Ysafe_realloc( net_res_matchG[numresmatchS], (howmany+1) * sizeof(int) ) ;
 	net_res_matchG[numresmatchS][howmany] = net ;
 } /* end add_netresmatch */

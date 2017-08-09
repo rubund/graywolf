@@ -43,7 +43,7 @@
 FILE:	    main.c                                       
 DESCRIPTION:TimberWolfSC's main function.
 CONTENTS:   main( argc , argv )
-		INT argc ;
+		int argc ;
 		char *argv[] ;
 	    initialize_global_router1()
 	    initialize_global_router()
@@ -234,7 +234,7 @@ TimberWolfSC(int n, int v, char *cktName)
 		}
 	}
 
-	Yset_random_seed( (INT) randomSeedG ) ; 
+	Yset_random_seed( (int) randomSeedG ) ; 
 	fprintf( fpoG, "\nThe random number generator seed is: %u\n\n\n", randomSeedG ) ;
 
 	/* 
@@ -738,9 +738,9 @@ void execute_global_router()
 void init_utemp()
 {
 	int row , bin ;
-	bin_configG = (INT **) Ysafe_malloc( (1 + numRowsG) * sizeof(INT *) ) ;
+	bin_configG = (int **) Ysafe_malloc( (1 + numRowsG) * sizeof(int *) ) ;
 	for( row = 1 ; row <= numRowsG ; row++ ) {
-		bin_configG[row] = (INT *) Ysafe_malloc( (1 + numBinsG) * sizeof(INT) );
+		bin_configG[row] = (int *) Ysafe_malloc( (1 + numBinsG) * sizeof(int) );
 		for( bin = 0 ; bin <= numBinsG ; bin++ ) {
 			bin_configG[row][bin] = 0 ;
 		}
@@ -754,7 +754,7 @@ void install_swap_pass_thrus( PINBOXPTR netptr )
 	CBOXPTR ptr ;
 	IPBOXPTR imptr ;
 	PINBOXPTR termptr ;
-	INT impxpos , impypos , cell ;
+	int impxpos , impypos , cell ;
 	char *pname ;
 
 	/*  code borrowed from readcell()  */
@@ -797,13 +797,13 @@ void incorporate_ECOs()
 {
 
 	PINBOXPTR termptr , netptr ;
-	INT *nets, xspot, yspot , i , net , cell , count, maxpins ;
-	INT orient , row , xmin, xmax, ymin, ymax , x , y ;
+	int *nets, xspot, yspot , i , net , cell , count, maxpins ;
+	int orient , row , xmin, xmax, ymin, ymax , x , y ;
 
 	xspot = 0 ;
 	yspot = 0 ;
 	maxpins = get_max_pin() ;
-	nets = (INT *) Ysafe_calloc( maxpins+1, sizeof(INT) ) ;
+	nets = (int *) Ysafe_calloc( maxpins+1, sizeof(int) ) ;
 	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 	if( carrayG[cell]->ECO_flag == 1 ) {
 		printf("ECO added cell being processed: <%s> ",

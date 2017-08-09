@@ -65,11 +65,11 @@ int findcost()
 	CELLBOXPTR ptr ;
 	BINBOXPTR bptr ;
 	GLISTPTR net_of_path ;
-	INT cell , net ;
-	INT x , y , cost ;
-	INT orient ;
-	INT length, pathcount ;
-	INT low_length, high_length ;
+	int cell , net ;
+	int x , y , cost ;
+	int orient ;
+	int length, pathcount ;
+	int low_length, high_length ;
 	PATHPTR path ;
 
 	cost = 0 ;
@@ -185,7 +185,7 @@ int findcost()
 	netptr->halfPy = netptr->newhalfPy = 
 		netptr->ymax - netptr->ymin ;
 
-	cost = cost + (INT)( vertical_wire_weightG * (DOUBLE) netptr->halfPy ) ;
+	cost = cost + (int)( vertical_wire_weightG * (double) netptr->halfPy ) ;
 
 	/* check to make sure calculation jives */
 	D( "findcost/netcalc",
@@ -228,13 +228,13 @@ int findcost()
 		net = net_of_path->p.net ;
 		netptr = netarrayG[net] ;
 		/* accumulate length of path */
-		length = netptr->halfPx + (INT)(vertical_path_weightG * 
-			(DOUBLE) netptr->halfPy) ;
+		length = netptr->halfPx + (int)(vertical_path_weightG * 
+			(double) netptr->halfPy) ;
 
-		low_length = low_length + (INT) 
+		low_length = low_length + (int) 
 			(netptr->max_driver * (float) length +
 				netptr->driveFactor ) ;
-		high_length = high_length + (INT) 
+		high_length = high_length + (int) 
 			(netptr->min_driver * (float) length +
 				netptr->driveFactor ) ;
 	}
@@ -254,7 +254,7 @@ int findcost()
 	}
 	}
 	/* scale timing penalty */
-	timingcostG = (INT) ( timeFactorG * (DOUBLE) timingpenalG ) ;
+	timingcostG = (int) ( timeFactorG * (double) timingpenalG ) ;
 
 	/* next the overlap penalty */
 	binpenalG = 0 ;
@@ -269,7 +269,7 @@ int findcost()
 	binpenalG = INT_MAX ;
 	}
 	/* scale penalty */
-	penaltyG = (INT) ( lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
+	penaltyG = (int) ( lapFactorG * sqrt( (double) binpenalG ) ) ;
 
 	return( cost ) ;
 
@@ -277,9 +277,9 @@ int findcost()
 
 void checkcost()
 {
-	INT incr_funccost, incr_penalty, incr_time ;
-	INT incr_overpenal, incr_timepen ;
-	INT x, y ;
+	int incr_funccost, incr_penalty, incr_time ;
+	int incr_overpenal, incr_timepen ;
+	int x, y ;
 	BOOL flag ;
 
 	/* verify incremental cost equals the true cost */

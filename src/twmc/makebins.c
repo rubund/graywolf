@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    makebins.c                                       
 DESCRIPTION:determines number of bins for overlap calculation
-CONTENTS:   makebins( INT )
+CONTENTS:   makebins( int )
 DATE:	    Feb 13, 1988 
 REVISIONS:
 	    Feb 27, 1988 - now called from config1 and calculates
@@ -55,16 +55,16 @@ void makebins( int numbins )
 {
 
 BINBOXPTR bptr ;
-DOUBLE xbins, ybins ;
-INT i, j ;
+double xbins, ybins ;
+int i, j ;
 
-ybins = sqrt( chipaspectG * (DOUBLE) numbins ) ;
+ybins = sqrt( chipaspectG * (double) numbins ) ;
 ybins = ceil( ybins ) ;
-xbins = sqrt( (DOUBLE) numbins / chipaspectG ) ;
+xbins = sqrt( (double) numbins / chipaspectG ) ;
 xbins = ceil( xbins ) ;
 
-maxBinXG = (INT) xbins ;
-maxBinYG = (INT) ybins ;
+maxBinXG = (int) xbins ;
+maxBinYG = (int) ybins ;
 
 /* take bins for border around chip into account */
 /* bins will be labeled [0..maxBinsXG] for a total of maxBinsXG+1 bins */
@@ -79,7 +79,7 @@ for( i = 0 ; i <= maxBinXG ; i++ ) {
     for( j = 0 ; j <= maxBinYG ; j++ ) {
 	bptr = binptrG[i][j] = (BINBOXPTR) Ysafe_malloc( sizeof(BINBOX));
 	bptr->cells = 
-	    (INT *) Ysafe_malloc( (EXPCELLPERBIN+1) * sizeof(INT));
+	    (int *) Ysafe_malloc( (EXPCELLPERBIN+1) * sizeof(int));
 	/* zero position holds current number cells in bin */
 	bptr->cells[0] = 0 ;
 	/* space holds current size of array */

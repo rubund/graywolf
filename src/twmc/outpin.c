@@ -41,13 +41,13 @@
 FILE:	    outpin.c                                       
 DESCRIPTION:Routine outputs the pin positions to the pin file.
 CONTENTS:   outpin()
-	    INT getPadMacroNum( side )
-		INT side ;
+	    int getPadMacroNum( side )
+		int side ;
 	    setPadMacroNum( side, cellnum )
-		INT side, cellnum ;
+		int side, cellnum ;
 	    PINBOXPTR findTerminal( pinName, cell ) 
 		char *pinName ;
-		INT cell ;
+		int cell ;
 DATE:	    Mar 16, 1988 - added description block and findTerminal.
 REVISIONS:  Apr 25, 1989 - ignore 1 pin nets - causes global router to 
 		crash.
@@ -140,7 +140,7 @@ static int output_pin( PINBOXPTR pinptr )
 	SOFTBOXPTR spin ;    /* current softpin */
 	CELLBOXPTR cellptr ; /* current cell info */
 	BOUNBOXPTR bounptr ; /* bounding box pointer */
-	/*static INT find_cell() ;*/ /* get cell number */
+	/*static int find_cell() ;*/ /* get cell number */
 
 	cell = find_cell( pinptr->cell ) ;
 	cellptr = cellarrayG[pinptr->cell] ;
@@ -223,7 +223,7 @@ static int output_pin( PINBOXPTR pinptr )
 		howmany = 0 ;
 		if( spin) {
 			if( spin->children ){
-				howmany = (INT) spin->children[HOWMANY] ;
+				howmany = (int) spin->children[HOWMANY] ;
 			}
 		}
 

@@ -94,20 +94,20 @@ REVISIONS:  Feb 28, 1990 - added new fields to tiles for graphics.
 #define TOUCH 4
 
 typedef struct tile_box {
-    INT name ;              /* index of the tile */
-    INT llx ;
-    INT lly ;
-    INT urx ;
-    INT ury ;
-    INT numrows ;
-    INT class ;
-    INT actual_row_height ;
-    INT add_no_more_than ; /* the xspan of the tile */
-    INT channel_separation ;
-    INT min_length ; /* the size of the minimum valid row */
-    INT max_length ; /* the maximum length of the block normally tile width - 2 */
-    INT row_start ;  /* offset from the beginning of the tile */
-    INT merged ;     /* direction of the merge */
+    int name ;              /* index of the tile */
+    int llx ;
+    int lly ;
+    int urx ;
+    int ury ;
+    int numrows ;
+    int class ;
+    int actual_row_height ;
+    int add_no_more_than ; /* the xspan of the tile */
+    int channel_separation ;
+    int min_length ; /* the size of the minimum valid row */
+    int max_length ; /* the maximum length of the block normally tile width - 2 */
+    int row_start ;  /* offset from the beginning of the tile */
+    int merged ;     /* direction of the merge */
     BOOL illegal ;   /* FALSE means a legal tile to use */
     BOOL force ;     /* force the number of rows */
     BOOL mirror ;    /* mirror rows ?? */
@@ -117,43 +117,43 @@ typedef struct tile_box {
 } TILE_BOX ;
 
 typedef struct macro_tile {
-    INT l ;
-    INT r ;
-    INT b ;
-    INT t ;
+    int l ;
+    int r ;
+    int b ;
+    int t ;
     struct macro_tile *next ;
 } MACRO_TILE ;
 
 typedef struct vertex_box {
-    INT x ;
-    INT y ;
-    INT class ;
-    INT macro ;
+    int x ;
+    int y ;
+    int class ;
+    int macro ;
     struct vertex_box *next ;
 } *VERTEXPTR, VERTEX_BOX ;
 
 typedef struct macro_rec {
     MACRO_TILE *tiles ;    /* the tiles of the macro */
-    INT num_vertices ;     /* number of vertices on macro */
+    int num_vertices ;     /* number of vertices on macro */
     VERTEXPTR *vertices ; /* the vertices of a macro */
-    INT xcenter ;
-    INT ycenter ;
-    INT xcenter_orig ;
-    INT ycenter_orig ;
-    INT left ;
-    INT right ;
-    INT bottom ;
-    INT top ;
-    INT orient ;
+    int xcenter ;
+    int ycenter ;
+    int xcenter_orig ;
+    int ycenter_orig ;
+    int left ;
+    int right ;
+    int bottom ;
+    int top ;
+    int orient ;
 } MACROBOX, *MACROPTR ;
 
 typedef struct row_box {
-    INT llx ;
-    INT lly ;
-    INT urx ;
-    INT ury ;
-    INT class ;
-    INT seg ;
+    int llx ;
+    int lly ;
+    int urx ;
+    int ury ;
+    int class ;
+    int seg ;
     BOOL mirror ;    /* mirror rows ?? */
     struct row_box *next_row ;
     struct row_box *next_segment ;

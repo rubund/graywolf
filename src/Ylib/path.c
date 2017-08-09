@@ -62,8 +62,8 @@ char *given_path;
 BOOL fileNotDir; /* tells whether path is file or directory */
 {
 
-    INT  i ;                  /* token counter */
-    INT  numtokens ;          /* number of tokens on line */
+    int  i ;                  /* token counter */
+    int  numtokens ;          /* number of tokens on line */
     char pathname[LRECL] ;    /* copy of given_path */
     char cur_dir[LRECL] ;     /* current working directory */
     char temp[LRECL] ;        /* temporary buffer */
@@ -178,7 +178,7 @@ register char *user;
 
 /* include date.o object for link */
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
     char *Yfixpath() ; /* fix a path to get rid of .. */

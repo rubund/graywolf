@@ -69,8 +69,8 @@ void merge_tiles()
 
 void merge_upward( TILE_BOX *begin_tile )
 {
-    INT left ;          /* left edge of merge tile */
-    INT right ;         /* right edge of merge tile */
+    int left ;          /* left edge of merge tile */
+    int right ;         /* right edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -219,8 +219,8 @@ void merge_upward( TILE_BOX *begin_tile )
 
 void merge_downward( TILE_BOX *begin_tile )
 {
-    INT left ;          /* left edge of merge tile */
-    INT right ;         /* right edge of merge tile */
+    int left ;          /* left edge of merge tile */
+    int right ;         /* right edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -371,8 +371,8 @@ void merge_downward( TILE_BOX *begin_tile )
 
 void merge_right( TILE_BOX *begin_tile )
 {
-    INT bottom ;        /* bottom edge of merge tile */
-    INT top ;           /* top edge of merge tile */
+    int bottom ;        /* bottom edge of merge tile */
+    int top ;           /* top edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -517,8 +517,8 @@ void merge_right( TILE_BOX *begin_tile )
 
 void merge_left( TILE_BOX *begin_tile )
 {
-    INT bottom ;        /* bottom edge of merge tile */
-    INT top ;           /* top edge of merge tile */
+    int bottom ;        /* bottom edge of merge tile */
+    int top ;           /* top edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -660,7 +660,7 @@ void merge_left( TILE_BOX *begin_tile )
 
 void check_max_length( TILE_BOX *tileptr )
 {
-    INT length ;              /* length of tile */
+    int length ;              /* length of tile */
 
     length = tileptr->urx - tileptr->llx - 2 * spacingG ;
     tileptr->max_length = length ;
@@ -669,7 +669,7 @@ void check_max_length( TILE_BOX *tileptr )
 
 void renumber_tiles()
 {
-    INT count ;              /* count the tiles */
+    int count ;              /* count the tiles */
     TILE_BOX *tileptr ;      /* current tile */
     count = 0 ;
     for( tileptr=tile_listG;tileptr;tileptr=tileptr->next ){

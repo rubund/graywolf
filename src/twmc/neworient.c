@@ -63,9 +63,9 @@ int newOrient( CELLBOXPTR cellptr , int range )
 		return( -1 ) ;
 	    }
 	    do {
-		incidence = (INT) ( (DOUBLE) count * 
-				  ( (DOUBLE) RAND / 
-				  (DOUBLE) 0x7fffffff ) ) + 1 ;
+		incidence = (int) ( (double) count * 
+				  ( (double) RAND / 
+				  (double) 0x7fffffff ) ) + 1 ;
 	    } while( incidence == count + 1 ) ;
 
 	    count = 0 ;
@@ -88,9 +88,9 @@ int newOrient( CELLBOXPTR cellptr , int range )
 		return( -1 ) ;
 	    }
 	    do {
-		incidence = (INT) ( (DOUBLE) count * 
-				 ( (DOUBLE) RAND / 
-				 (DOUBLE) 0x7fffffff ) ) + 1 ;
+		incidence = (int) ( (double) count * 
+				 ( (double) RAND / 
+				 (double) 0x7fffffff ) ) + 1 ;
 	    } while( incidence == count + 1 ) ;
 
 	    count = 0 ;
@@ -116,9 +116,9 @@ int newOrient( CELLBOXPTR cellptr , int range )
 	    return( -1 ) ;
 	}
 	do {
-	    incidence = (INT) ( (DOUBLE) count * 
-			      ( (DOUBLE) RAND / 
-			      (DOUBLE) 0x7fffffff ) ) + 1 ;
+	    incidence = (int) ( (double) count * 
+			      ( (double) RAND / 
+			      (double) 0x7fffffff ) ) + 1 ;
 	} while( incidence == count + 1 ) ;
 
 	count = 0 ;
@@ -144,7 +144,7 @@ int newOrient( CELLBOXPTR cellptr , int range )
 
 int check_valid_orient( CELLBOXPTR cptr )
 {
-    INT i ; /* view counter */
+    int i ; /* view counter */
    
     if( cptr->orientList[cptr->orient] ){
 	/* this is valid no problem */

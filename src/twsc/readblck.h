@@ -31,6 +31,4 @@ EXCEPTBOX *exceptionsG ;
 
 void readblck(FILE *fp);
 
-#undef EXTERN  
-
 #endif /* READBLCK_H */

@@ -62,51 +62,44 @@ REVISIONS:  Nov 23, 1990 - added fields for drawing rectilinear
 #define ROOT      3
 
 typedef struct pad_rec {
-    INT    cellnum          ;  /* index in carray */
-    INT    length           ;
-    INT    height           ;
-    INT    *xpoints         ;  /* xcoordinates of pad/macro */
-    INT    *ypoints         ;  /* xcoordinates of pad/macro */
-    INT    position         ;  /* linear placement position for a side */
-    INT    tiebreak         ;  /* ideal location to place the pad */
-    INT    numcorners       ;  /* number of corners */
-    INT    *children        ;  /* added for pad code */
-    INT    padside          ;  /* current side */
-    INT    padtype          ;  /* type of pad - pad or padgroup */
-    INT    hierarchy        ;  /* type of pad - root, lead, pad, etc */
-    INT    lo_pos           ;  /* low valid position -1 if every valid */
-    INT    hi_pos           ;  /* hi valid position PINFINITY if valid */
+    int    cellnum          ;  /* index in carray */
+    int    length           ;
+    int    height           ;
+    int    *xpoints         ;  /* xcoordinates of pad/macro */
+    int    *ypoints         ;  /* xcoordinates of pad/macro */
+    int    position         ;  /* linear placement position for a side */
+    int    tiebreak         ;  /* ideal location to place the pad */
+    int    numcorners       ;  /* number of corners */
+    int    *children        ;  /* added for pad code */
+    int    padside          ;  /* current side */
+    int    padtype          ;  /* type of pad - pad or padgroup */
+    int    hierarchy        ;  /* type of pad - root, lead, pad, etc */
+    int    lo_pos           ;  /* low valid position -1 if every valid */
+    int    hi_pos           ;  /* hi valid position PINFINITY if valid */
     BOOL   ordered          ;  /* whether a pad is ordered in a group */
     BOOL   oldformat        ;  /* true if old format */
     BOOL   permute          ;  /* whether rank is to be enforced */
     BOOL   macroNotPad      ;  /* true if macro false if pad */
     BOOL   fixed            ;  /* whether pad is fixed on a side */
     BOOL   valid_side[5]    ;  /* valid side a pad may be placed */
-    DOUBLE lowerbound       ;
-    DOUBLE upperbound       ;
+    double lowerbound       ;
+    double upperbound       ;
 } PADBOX, *PADBOXPTR ;
 
 /* ############# global variables defined for pad code ############## */
-#ifdef PAD_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
 
-EXTERN INT padspacingG ;
-EXTERN BOOL contiguousG ;
-EXTERN INT min_pad_spacingG ;
-EXTERN INT coreG[2][2] ;
-EXTERN INT perdimG[2] ;
-EXTERN INT numpadsG ;           /* number of leaf pads + simple pads */
-EXTERN INT numMacroG ;          /* total number of macros */
-EXTERN INT totalpadsG ;         /* pads + padgroups */
+int padspacingG ;
+BOOL contiguousG ;
+int min_pad_spacingG ;
+int coreG[2][2] ;
+int perdimG[2] ;
+int numpadsG ;           /* number of leaf pads + simple pads */
+int numMacroG ;          /* total number of macros */
+int totalpadsG ;         /* pads + padgroups */
 
 /* DATA GLOBAL VARIABLES */
-EXTERN PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
-EXTERN PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
-EXTERN PADBOXPTR *placearrayG ; /* array where the pads will be placed */
-
-#undef EXTERN
+PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
+PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
+PADBOXPTR *placearrayG ; /* array where the pads will be placed */
 
 #endif /* PADS_H */

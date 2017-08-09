@@ -46,34 +46,30 @@ REVISIONS:  Sun Nov  3 12:48:39 EST 1991 - made matrix memory
 		allocation more efficient using YVECTOR routines.
             12/09/91 - Add prototype macro for non ansi compiler  -R.A.Weier
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) matrix.c version 1.3 12/9/91" ;
-#endif
-
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include <yalecad/linalg.h>
 
-static DOUBLE find_det( P3(DOUBLE **a, INT rows, INT columns ) );
-static sign_cof( P2(INT row, INT column) ) ;
+double find_det( P3(double **a, int rows, int columns ) );
+double sign_cof( P2(int row, int column) ) ;
 
 /* ***************************************************************** 
     Allocate the space for the matrix.
    **************************************************************** */
 YMPTR Ymatrix_create( rows, columns )
-INT rows, columns ;
+int rows, columns ;
 {
     YMPTR mptr ;   /* pointer to matrix record */
-    DOUBLE **m ;  /* pointer to matrix space */
-    INT i ;
+    double **m ;  /* pointer to matrix space */
+    int i ;
 
     mptr = YMALLOC( 1, YMBOX ) ;
     /* now allocate memory for rows */
-    m = mptr->m = YVECTOR_MALLOC( 1, rows, DOUBLE * ) ;
+    m = mptr->m = YVECTOR_MALLOC( 1, rows, double * ) ;
     /* now allocate memory for columns */
     for( i = 1;i<= rows; i++ ){
-	m[i] = YVECTOR_CALLOC( 1, columns, DOUBLE ) ;
+	m[i] = YVECTOR_CALLOC( 1, columns, double ) ;
     }
     mptr->rows = rows ;
     mptr->columns = columns ;
@@ -86,9 +82,9 @@ INT rows, columns ;
 YMPTR Ymatrix_free( mptr )
 YMPTR mptr ;   /* pointer to matrix record */
 {
-    DOUBLE **m ;  /* pointer to matrix space */
-    INT i ;
-    INT rows ;
+    double **m ;  /* pointer to matrix space */
+    int i ;
+    int rows ;
 
     rows = mptr->rows ;
     m = mptr->m ;
@@ -103,9 +99,9 @@ YMPTR mptr ;   /* pointer to matrix record */
 YMPTR Ymatrix_transpose( mptr )
 YMPTR mptr ;
 {
-    INT i, j ;
-    DOUBLE **m ;
-    DOUBLE **b ;
+    int i, j ;
+    double **m ;
+    double **b ;
     YMPTR buf ;
 
     buf = Ymatrix_create( mptr->columns, mptr->rows ) ;
@@ -125,11 +121,11 @@ YMPTR mptr ;
 YMPTR Ymatrix_mult( aptr, bptr )
 YMPTR aptr, bptr ;
 {
-    INT i, j, k, n ;
-    DOUBLE **a ;
-    DOUBLE **b ;
-    DOUBLE **c ;
-    DOUBLE result ;
+    int i, j, k, n ;
+    double **a ;
+    double **b ;
+    double **c ;
+    double result ;
     YMPTR buf ;
 
     /* first perform error checking */
@@ -162,10 +158,10 @@ YMPTR aptr, bptr ;
 YMPTR Ymatrix_sub( aptr, bptr )
 YMPTR aptr, bptr ;
 {
-    INT i, j ;
-    DOUBLE **a, **b, **c ;
-    DOUBLE *fast_a, *fast_b, *fast_c ;
-    DOUBLE result ;
+    int i, j ;
+    double **a, **b, **c ;
+    double *fast_a, *fast_b, *fast_c ;
+    double result ;
     YMPTR buf ;
 
     /* first perform error checking */
@@ -196,8 +192,8 @@ YMPTR aptr, bptr ;
 Ymatrix_disp( mptr )
 YMPTR mptr ;
 {
-    DOUBLE **m ;
-    INT i, j ;
+    double **m ;
+    int i, j ;
     m = mptr->m ;
 
     for( i=1; i <= mptr->rows; i++ ){
@@ -210,11 +206,11 @@ YMPTR mptr ;
 } /* end Ymatrix_disp */
 
 YMPTR Ymatrix_eye( size )
-INT size ;
+int size ;
 {
-    INT i, j ;
-    DOUBLE **m ;
-    DOUBLE *fast ;
+    int i, j ;
+    double **m ;
+    double *fast ;
     YMPTR buf ;
 
     buf = Ymatrix_create( size, size ) ;
@@ -236,9 +232,9 @@ INT size ;
 Ymatrix_zero( matrix )
 YMPTR matrix ;
 {
-    INT r, c, i, j ;
-    DOUBLE *fast ;
-    DOUBLE **m ;
+    int r, c, i, j ;
+    double *fast ;
+    double **m ;
 
     m = matrix->m ;
     r = matrix->rows ;
@@ -255,9 +251,9 @@ YMPTR matrix ;
 YMPTR Ymatrix_copy( input )
 YMPTR input ;
 {
-    INT i, j ;
-    DOUBLE **in_mat, **copy_mat ;
-    DOUBLE *in_fast, *copy_fast ;
+    int i, j ;
+    double **in_mat, **copy_mat ;
+    double *in_fast, *copy_fast ;
     YMPTR copy ;
 
     copy = Ymatrix_create( input->rows, input->columns ) ;
@@ -276,11 +272,11 @@ YMPTR input ;
 YMPTR Ymatrix_linv( aptr )
 YMPTR aptr ;
 {
-    INT i, j, k, n ;
-    DOUBLE **a ;
-    DOUBLE **b ;
-    DOUBLE **c ;
-    DOUBLE det, recip_det ;
+    int i, j, k, n ;
+    double **a ;
+    double **b ;
+    double **c ;
+    double det, recip_det ;
     YMPTR cof ;
     YMPTR buf ;
 
@@ -316,11 +312,11 @@ YMPTR Ymatrix_cofactors( aptr )
 YMPTR aptr ;
 {
 
-    INT i, j, k, l ;
-    INT r, c ;
-    INT rows, columns ;
-    DOUBLE cofactor ;
-    DOUBLE **a, **b, **m ;
+    int i, j, k, l ;
+    int r, c ;
+    int rows, columns ;
+    double cofactor ;
+    double **a, **b, **m ;
     YMPTR buf ;
 
     buf = Ymatrix_create( aptr->rows, aptr->columns ) ;
@@ -330,10 +326,10 @@ YMPTR aptr ;
     b = buf->m ;  /* buf matrix */
 
     /* allocate space for a row - 1 x column - 1 clone of a matrix */
-    m = YVECTOR_MALLOC( 1, rows - 1, DOUBLE * ) ;
+    m = YVECTOR_MALLOC( 1, rows - 1, double * ) ;
     /* now allocate memory for columns */
     for( i = 1;i< rows; i++ ){
-	m[i] = YVECTOR_CALLOC( 1, columns-1, DOUBLE ) ;
+	m[i] = YVECTOR_CALLOC( 1, columns-1, double ) ;
     }
 
     /* process all cofactors */
@@ -374,15 +370,15 @@ YMPTR aptr ;
 
 /* find a determinant - works on the actual memory arrays - not user */
 /* records */
-static DOUBLE find_det( a, rows, columns )
-DOUBLE **a ;
-INT rows, columns ;
+double find_det( a, rows, columns )
+double **a ;
+int rows, columns ;
 {
-    DOUBLE result ;
-    DOUBLE cofactor ;
-    DOUBLE **m ;
-    INT i, j, k ;
-    INT r, c ;
+    double result ;
+    double cofactor ;
+    double **m ;
+    int i, j, k ;
+    int r, c ;
 
     if( rows == 1 && columns == 1 ){
 	result = a[1][1] ;
@@ -393,10 +389,10 @@ INT rows, columns ;
     } else {
 
 	/* allocate space for an row-1 x columns-1 matrix */
-	m = YVECTOR_MALLOC( 1, rows-1, DOUBLE * ) ;
+	m = YVECTOR_MALLOC( 1, rows-1, double * ) ;
 	/* now allocate memory for columns */
 	for( i = 1;i< rows; i++ ){
-	    m[i] = YVECTOR_MALLOC( 1, columns-1, DOUBLE ) ;
+	    m[i] = YVECTOR_MALLOC( 1, columns-1, double ) ;
 	}
 
 	/* do Laplace expansion along top row - all columns */
@@ -436,10 +432,10 @@ INT rows, columns ;
 
 } /* end find_det */
 
-static sign_cof( row, column )
-INT row, column ;
+double sign_cof( row, column )
+int row, column ;
 {
-    INT sum ;
+    int sum ;
 
     /* implements  (-1) ** (row + column) */
     sum = row + column ;

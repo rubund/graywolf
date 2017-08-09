@@ -41,7 +41,7 @@
 FILE:	    xpickint.c                                       
 DESCRIPTION:pick a random number.
 CONTENTS:   XPICK_INT( l , u , c )
-		INT l , u , c ;
+		int l , u , c ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
@@ -53,7 +53,7 @@ REVISIONS:
 int XPICK_INT( int l , int u , int c )
 {
 
-    INT d ;
+    int d ;
 
     if ( c < 0 ) {
 	return(-c) ;

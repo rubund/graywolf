@@ -9,12 +9,6 @@ REVISIONS:
 #ifndef FEEDS_H
 #define FEEDS_H
 
-#ifdef FEEDS_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
 typedef struct feed_assgn_box {
     PINBOXPTR netptr ;
     PINBOXPTR refer  ;
@@ -23,14 +17,11 @@ typedef struct feed_assgn_box {
 *FEED_SEG_PTR ,
 FEED_SEG ;
 
-EXTERN INT *feeds_in_rowG ;
-EXTERN INT *FeedInRowG ;
-EXTERN INT fdWidthG ;
-EXTERN INT *fdcel_addedG ;
-EXTERN INT **fdcel_needG ;
-EXTERN INT *total_feed_in_the_rowG ;
-
-
-#undef EXTERN  
+int *feeds_in_rowG ;
+int *FeedInRowG ;
+int fdWidthG ;
+int *fdcel_addedG ;
+int **fdcel_needG ;
+int *total_feed_in_the_rowG ;
 
 #endif /* FEEDS_H */

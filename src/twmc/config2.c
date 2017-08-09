@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    config2.c                                       
 DESCRIPTION:configures initial macro placement
-CONTENTS:   config2( INT, INT, double )
+CONTENTS:   config2( int, int, double )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 	    Feb 13, 1988 - passed modified number of bins to routine
@@ -49,7 +49,7 @@ REVISIONS:
 	    Mar 30, 1989 - changed tile datastructure.
 	    Apr 28, 1989 - changed arguments to config2.
 	    Jun 15, 1989 - now call reconfig for common code.
-	    Oct  3, 1989 - made totalArea a DOUBLE.
+	    Oct  3, 1989 - made totalArea a double.
 	    Oct 20, 1989 - now take average of track pitch in both
 		directions.
 	    Apr 23, 1990 - Now calculate total area based on all 
@@ -60,13 +60,13 @@ REVISIONS:
 void config2( int numbinX, int numbinY, double wire_red_ratio )
 {
 
-    INT inst ;                      /* counter */
-    INT numinst ;                   /* number of cell instances */
-    INT l, r, b, t, cell, tempint, side, soft_count ;
+    int inst ;                      /* counter */
+    int numinst ;                   /* number of cell instances */
+    int l, r, b, t, cell, tempint, side, soft_count ;
     CELLBOXPTR cellptr ;
     TILEBOXPTR tileptr ;
-    DOUBLE totalArea, temp ;
-    DOUBLE temp1, fraction ;
+    double totalArea, temp ;
+    double temp1, fraction ;
     INSTBOXPTR instptr ;
 
 
@@ -93,13 +93,13 @@ void config2( int numbinX, int numbinY, double wire_red_ratio )
 		r = tileptr->right  ;
 		b = tileptr->bottom ;
 		t = tileptr->top    ;
-		totalArea += (DOUBLE) (r - l) * (t - b) ;
+		totalArea += (double) (r - l) * (t - b) ;
 	    }
 	}
     }
 
     temp = avg_funcG / wire_red_ratio ;
-    totNetLenG = (INT) temp ;
+    totNetLenG = (int) temp ;
     /* calculate number of softiles */
     soft_count=0 ;
     for( cell = 1; cell <= numcellsG ; cell++ ) {
@@ -107,38 +107,38 @@ void config2( int numbinX, int numbinY, double wire_red_ratio )
 	    soft_count++ ;
 	}
     }
-    fraction = (DOUBLE) soft_count / (DOUBLE) numcellsG ;
-    temp1 = (DOUBLE) (totNetLenG) / 
-		(1.0 + (fraction / (sqrt( (DOUBLE) numcellsG )))) ;
-    totNetLenG = (INT) temp1 ;
+    fraction = (double) soft_count / (double) numcellsG ;
+    temp1 = (double) (totNetLenG) / 
+		(1.0 + (fraction / (sqrt( (double) numcellsG )))) ;
+    totNetLenG = (int) temp1 ;
 
     if( coreGivenG == 0 ) {
-	blockrG = blocktG = (INT) sqrt( totalArea ) ;
+	blockrG = blocktG = (int) sqrt( totalArea ) ;
 	totChanLenG = perimG / 2 - (blockrG + blocktG) ;
-	temp = ((DOUBLE) totNetLenG / (DOUBLE) totChanLenG) /
-		    ((DOUBLE) layersFactorG) ; 
+	temp = ((double) totNetLenG / (double) totChanLenG) /
+		    ((double) layersFactorG) ; 
     } else {
-	r = t = (INT) sqrt( totalArea ) ;
+	r = t = (int) sqrt( totalArea ) ;
 	totChanLenG = perimG / 2 - (r + t) ;
-	temp = ((DOUBLE) totNetLenG / (DOUBLE) totChanLenG) /
-		    ((DOUBLE) layersFactorG) ; 
+	temp = ((double) totNetLenG / (double) totChanLenG) /
+		    ((double) layersFactorG) ; 
     }
 
-    side = (INT)(sqrt(((DOUBLE) totalArea) / (DOUBLE) numcellsG))  ;
+    side = (int)(sqrt(((double) totalArea) / (double) numcellsG))  ;
     printf("\n\nAVERAGE CELL SIDE WITHOUT ROUTING AREA: %d\n\n",side );
 
-    tempint = (INT)( temp ) + 3 ; /* d+1 tracks + roundoff */
+    tempint = (int)( temp ) + 3 ; /* d+1 tracks + roundoff */
     tempint += defaultTracksG ;
     tempint *= (track_spacingXG + track_spacingYG) / 2 ;
 
-    aveChanWidG = ( (DOUBLE) tempint / 1.8) + 2.0 ;
+    aveChanWidG = ( (double) tempint / 1.8) + 2.0 ;
 
     printf("\n\nConfiguration Data\nInternal Channel Length:%d\n",
 							    totChanLenG ) ;
     printf("Average Channel Width (un-normalized):%f\n\n", temp ) ;
     printf("Average Channel Width:%f\n\n", aveChanWidG ) ;
 
-    reconfigure( numbinX, numbinY, (DOUBLE) totalArea ) ;
+    reconfigure( numbinX, numbinY, (double) totalArea ) ;
 
     return ;
 }

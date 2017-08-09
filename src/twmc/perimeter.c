@@ -41,7 +41,7 @@
 int perimeter( YBUSTBOXPTR A, int numcorners )
 {
 
-INT i , sum ;
+int i , sum ;
 
 sum = 0 ;
 for( i = 1 ; i <= numcorners ; i++ ) {

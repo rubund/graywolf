@@ -123,8 +123,8 @@ BOOL vertical_track_on_cell_edgeG ;
 BOOL route_padnets_outsideG ;
 BOOL prop_rigid_cellsG = FALSE ;
 BOOL even_rows_maximallyG = FALSE ;
-DOUBLE indentG ;
-DOUBLE metal2_pitchG ;
+double indentG ;
+double metal2_pitchG ;
 
 /* globals variable references */
 extern BOOL orientation_optimizationG ;
@@ -828,7 +828,7 @@ void yaleIntro()
 
 	fixarrayG = (int *) NULL ;
 	ffeedsG = 0 ;
-	macspaceG = (DOUBLE *) Ysafe_malloc( 24 * sizeof(DOUBLE) ) ;
+	macspaceG = (double *) Ysafe_malloc( 24 * sizeof(double) ) ;
 	for( i = 1 ; i <= 15 ; i++ ) {
 		macspaceG[i] = -1.0 ;
 	}

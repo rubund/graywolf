@@ -40,9 +40,9 @@
 /* ----------------------------------------------------------------- 
 FILE:	    uaspect.c                                       
 DESCRIPTION:change aspect ratio of cell
-CONTENTS:   BOOL uaspect( int, DOUBLE )
-		INT a ;
-		DOUBLE newAspect ;
+CONTENTS:   BOOL uaspect( int, double )
+		int a ;
+		double newAspect ;
 DATE:	    Jan 30, 1988 
 REVISIONS:  Jul 22, 1988 - deleted aspect0 field in CELLBOX record.
 	    Aug 25, 1988 - calls to ufixpin and usoftpin changed.
@@ -67,17 +67,17 @@ MOVEBOXPTR newtile ;
 BOUNBOXPTR bounptr ;
 VERTBOXPTR vert ;
 SOFTBOXPTR spin ;
-DOUBLE aspFactor , val ;
-INT cost, newpenalty, newbinpenal ;
-INT Hdiv2, Wdiv2 ;
-INT site, aorient ;
-INT i, inst ;
-INT oleft, obottom, oright, otop ;
-INT newtimepenalty, newtimepenal ;
-INT *xorig ;
-INT *xnew ;
-INT *yorig ;
-INT *ynew ;
+double aspFactor , val ;
+int cost, newpenalty, newbinpenal ;
+int Hdiv2, Wdiv2 ;
+int site, aorient ;
+int i, inst ;
+int oleft, obottom, oright, otop ;
+int newtimepenalty, newtimepenal ;
+int *xorig ;
+int *xnew ;
+int *yorig ;
+int *ynew ;
 
 
 acellptr = cellarrayG[ a ]    ;
@@ -94,9 +94,9 @@ oleft = bounptr->l ;
 obottom = bounptr->b ;
 oright = bounptr->r ;
 otop = bounptr->t ;
-val = (DOUBLE) (otop - obottom) * aspFactor ;
+val = (double) (otop - obottom) * aspFactor ;
 Hdiv2 = ROUND( val ) / 2 ;
-val = (DOUBLE) (oright - oleft) / aspFactor ;
+val = (double) (oright - oleft) / aspFactor ;
 Wdiv2 = ROUND( val ) / 2 ;
 
 
@@ -106,13 +106,13 @@ new_apos0G->numtiles = acellptr->numtiles ;
 new_apos0G->loaded_previously = TRUE ;
 for( atileptr = acellptr->tiles;atileptr;atileptr = atileptr->next ){
     newtile = new_aposG[i++] ;
-    val = (DOUBLE)(atileptr->orig_left - oleft) / aspFactor;
+    val = (double)(atileptr->orig_left - oleft) / aspFactor;
     newtile->l = ROUND( val ) - Wdiv2 ;
-    val = (DOUBLE)(atileptr->orig_right - oleft) / aspFactor;
+    val = (double)(atileptr->orig_right - oleft) / aspFactor;
     newtile->r = ROUND( val ) - Wdiv2 ;
-    val = (DOUBLE)(atileptr->orig_bottom - obottom) * aspFactor;
+    val = (double)(atileptr->orig_bottom - obottom) * aspFactor;
     newtile->b = ROUND( val ) - Hdiv2 ;
-    val = (DOUBLE)(atileptr->orig_top - obottom) * aspFactor;
+    val = (double)(atileptr->orig_top - obottom) * aspFactor;
     newtile->t = ROUND( val ) - Hdiv2 ;
 
     newtile->lw = atileptr->lweight ;
@@ -128,9 +128,9 @@ xnew = vert->x_new ;
 yorig = vert->y_orig ;
 ynew = vert->y_new ;
 for( i = 1; i <= acellptr->numsides; i++ ){
-    val = (DOUBLE)(xorig[i] - oleft) / aspFactor ;
+    val = (double)(xorig[i] - oleft) / aspFactor ;
     xnew[i] = ROUND( val ) - Wdiv2 ;
-    val = (DOUBLE)(yorig[i] - obottom) * aspFactor ;
+    val = (double)(yorig[i] - obottom) * aspFactor ;
     ynew[i] = ROUND( val ) - Hdiv2 ;
 }
 
@@ -140,16 +140,16 @@ newbinpenal = binpenalG ;
 newbinpenal += overlap( /* old_apos, new_apos */ ) ;
 
 /* scale new penalty for feedback circuit */
-newpenalty = (INT) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
+newpenalty = (int) ( lapFactorG * sqrt( (double) newbinpenal ) ) ;
 
 /* -------------- update the position of all pins --------------------- */
 /* update the positions of all the hardpins first */
 for( pin = acellptr->pinptr ; pin ; pin = pin->nextpin ) {
     
     if( pin->type == HARDPINTYPE ){
-	val = (DOUBLE)(pin->txpos_orig[inst] - oleft) / aspFactor ;
+	val = (double)(pin->txpos_orig[inst] - oleft) / aspFactor ;
 	pin->txpos_new = ROUND( val ) - Wdiv2 ;
-	val = (DOUBLE)(pin->typos_orig[inst] - obottom) * aspFactor ;
+	val = (double)(pin->typos_orig[inst] - obottom) * aspFactor ;
 	pin->typos_new = ROUND( val ) - Hdiv2 ;
     }
 }
@@ -167,7 +167,7 @@ newtimepenal += calc_incr_time( a ) ;
 ASSERT( newtimepenal == dcalc_full_penalty(),"uaspect","Timing woes\n") ;
 
 /* scale new timing penalty */
-newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+newtimepenalty = (int) ( timeFactorG * (double) newtimepenal ) ;
 
 if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty - newtimepenalty )){
 
@@ -185,13 +185,13 @@ if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty - newtimepen
 
     /* update the aspect ratio of softtile */
     for( atileptr = acellptr->tiles;atileptr;atileptr = atileptr->next ){
-	val = (DOUBLE)(atileptr->orig_left - oleft) / aspFactor;
+	val = (double)(atileptr->orig_left - oleft) / aspFactor;
 	atileptr->left = ROUND( val ) - Wdiv2 ;
-	val = (DOUBLE)(atileptr->orig_right - oleft) / aspFactor;
+	val = (double)(atileptr->orig_right - oleft) / aspFactor;
 	atileptr->right = ROUND( val ) - Wdiv2 ;
-	val = (DOUBLE)(atileptr->orig_bottom - obottom) * aspFactor;
+	val = (double)(atileptr->orig_bottom - obottom) * aspFactor;
 	atileptr->bottom = ROUND( val ) - Hdiv2 ;
-	val = (DOUBLE)(atileptr->orig_top - obottom) * aspFactor;
+	val = (double)(atileptr->orig_top - obottom) * aspFactor;
 	atileptr->top = ROUND( val ) - Hdiv2 ;
     } /* end calculation of new tiles */
 
@@ -226,8 +226,8 @@ if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty - newtimepen
 
 void initialize_aspect_ratios()
 {
-    INT i ;                        /* counter */
-    INT binX, binY ;               /* set initial bins */
+    int i ;                        /* counter */
+    int binX, binY ;               /* set initial bins */
     CELLBOXPTR cptr ;              /* current cell pointer */
 
     if( numsoftG > 0 || numstdcellG > 0 ){

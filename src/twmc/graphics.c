@@ -87,7 +87,7 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 #define CELLEST     0
 #define CELLBORDER  1
 #define TRUECELL    2
-#define INTRO       "Welcome to TimberWolfMC"
+#define intRO       "Welcome to TimberWolfMC"
 
 #define CELLCOLOR          TWGREEN
 #define ORIGCOLOR          TWYELLOW
@@ -125,7 +125,7 @@ static TWDIALOGPTR dialogS ;
 #endif /* DEVELOPDIALOG */
 
 /* ***************************************************************** 
-   DUMP CURRENT MC CONFIGURATION.  USER INTERFACE
+   DUMP CURRENT MC CONFIGURATION.  USER intERFACE
 */
 BOOL avoidDump = FALSE ;
 BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
@@ -187,7 +187,7 @@ void initMCGraphics(int windowId)
 	}
 	TWsetwindow( 0, 0, 10, 10 ) ;
 	TWsetFrame(0) ;
-	TWdrawCell( 0, 0,0,11,11, BINCOLOR, INTRO ) ;
+	TWdrawCell( 0, 0,0,11,11, BINCOLOR, intRO ) ;
 	TWmessage("To interupt program click on top menu window") ;
 	TWflushFrame() ;
 	selectCellS = 0 ; /* initialize to no selected cells */
@@ -229,7 +229,7 @@ void setGraphicWindow()
     }
 
     expand = MAX( maxy - miny, maxx - minx ) ;
-    expand = (INT) (0.1 * (DOUBLE) expand ) ;
+    expand = (int) (0.1 * (double) expand ) ;
     TWsetwindow( minx - expand, miny - expand, 
 	maxx + expand, maxy + expand ) ;
 } /* end setGraphicWindow */
@@ -677,7 +677,7 @@ int draw_the_data()
 	BINBOXPTR  bp ;
 	ANALOGPTR aptr ;
 	CELLBOXPTR cellptr ;
-	DOUBLE percent ;
+	double percent ;
 
 	if( avoidDump || !(doGraphicsG) ){
 		return( -1 ) ;
@@ -759,7 +759,7 @@ int draw_the_data()
 			labelptr = NULL ;
 			}
 			area = (bp->right - bp->left) * (bp->top - bp->bottom) ;
-			percent = (DOUBLE) bp->penalty / (DOUBLE) area ;
+			percent = (double) bp->penalty / (double) area ;
 			if( percent < -0.75 ){
 			TWdrawRect( x, bp->left, bp->bottom, bp->right,
 				bp->top, TWRED, labelptr ) ;
@@ -985,7 +985,7 @@ void draw_fs( CELLBOXPTR cptr )
     b = bounptr->b ;
     r = bounptr->r ;
     t = bounptr->t ;
-    wid = (INT) (0.25 * (DOUBLE)( t - b ) ) ;
+    wid = (int) (0.25 * (double)( t - b ) ) ;
     /* now set the points */
     x[0] = l ;         y[0] = b ;
     x[1] = l ;         y[1] = t ;

@@ -93,14 +93,14 @@ int sortby_xslack();
     */
 BOOL move_compactx( int length ) 
 {
-    INT 	   i,
+    int 	   i,
 		   newX,
 		   oldX,
 		   delta_move ;
-    INT            node ;
-    INT            cell ;
-    INT            dist ;
-    INT            span ;
+    int            node ;
+    int            cell ;
+    int            dist ;
+    int            span ;
     COMPACTPTR     boxptr ;
     COMPACTPTR     tile ;
     CELLBOXPTR     cptr ;
@@ -127,7 +127,7 @@ BOOL move_compactx( int length )
     if( constraintsG ){
 	for( Ydeck_top(path_deckG);
 	    Ydeck_notEnd(path_deckG);Ydeck_down(path_deckG) ) {
-	    node = (INT) Ydeck_getData( path_deckG ) ;
+	    node = (int) Ydeck_getData( path_deckG ) ;
 	    tile = tileNodeG[node] ;
 	    cell = tile->cell ;
 	    cptr = cellarrayG[cell] ;
@@ -213,7 +213,7 @@ BOOL move_compactx( int length )
 
 void x_center()
 {
-    INT            i,
+    int            i,
 		   newX,
 		   oldX,
 		   temp,
@@ -222,7 +222,7 @@ void x_center()
 		   min, max,
     		   sortby_xslack(),
 		   delta_move ;
-    INT            newpos ;
+    int            newpos ;
     COMPACTPTR     boxptr ;
     NODEPTR        nptr ;
     CELLBOXPTR     cptr ;
@@ -335,11 +335,11 @@ void x_center()
 
 void calc_xslacks( int cur_cell )
 {
-    INT i ; 			/* counter */
-    INT xmin ;			/* max of all the minimums of a cell */
-    INT xmax ;			/* min of all the maximums of a cell */
-    INT cent_min ;		/* min window of cell center relative */
-    INT cent_max ;		/* max window of cell center relative */
+    int i ; 			/* counter */
+    int xmin ;			/* max of all the minimums of a cell */
+    int xmax ;			/* min of all the maximums of a cell */
+    int cent_min ;		/* min window of cell center relative */
+    int cent_max ;		/* max window of cell center relative */
     NODEPTR nptr ;		/* current tile node of cell */
     CELLBOXPTR cptr ;		/* current cell */
     COMPACTPTR tptr ;		/* current tile of cell */
@@ -382,13 +382,13 @@ void calc_xslacks( int cur_cell )
 
 void update_xslacks( COMPACTPTR tptr ) 
 {
-    INT j ;			/* current tile adjacent to node */
-    INT node ;			/* current node popped from the queue */
-    INT tile ;			/* one of the tiles of the adj. cell */
-    INT length ;		/* length of longest path */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT currentValue ;		/* path value of node popped from queue */
-    INT siblingValue ;		/* the value of the path to sibling of adj node */
+    int j ;			/* current tile adjacent to node */
+    int node ;			/* current node popped from the queue */
+    int tile ;			/* one of the tiles of the adj. cell */
+    int length ;		/* length of longest path */
+    int setValue ;		/* the value of the path to this adj node */
+    int currentValue ;		/* path value of node popped from queue */
+    int siblingValue ;		/* the value of the path to sibling of adj node */
     BOOL first ;		/* used to setup the queue */
     NODEPTR nptr ;		/* used to traverse multi tiles */
     CELLBOXPTR cptr ;		/* the current cell */
@@ -418,14 +418,14 @@ void update_xslacks( COMPACTPTR tptr )
 
 BOOL move_compacty( int length ) 
 {
-    INT 	   i,
+    int 	   i,
 		   newY,
 		   oldY,
 		   delta_move ;
-    INT            node ;
-    INT            cell ;
-    INT            dist ;
-    INT            span ;
+    int            node ;
+    int            cell ;
+    int            dist ;
+    int            span ;
     COMPACTPTR     boxptr ;
     COMPACTPTR     tile ;
     CELLBOXPTR     cptr ;
@@ -452,7 +452,7 @@ BOOL move_compacty( int length )
     if( constraintsG ){
 	for( Ydeck_top(path_deckG);
 	    Ydeck_notEnd(path_deckG);Ydeck_down(path_deckG) ) {
-	    node = (INT) Ydeck_getData( path_deckG ) ;
+	    node = (int) Ydeck_getData( path_deckG ) ;
 	    tile = tileNodeG[node] ;
 	    cell = tile->cell ;
 	    cptr = cellarrayG[cell] ;
@@ -546,8 +546,8 @@ void y_center()
 		   min,   max,
 		   ymin,  ymax,
 		   delta_move ;
-    INT		   sortby_yslack();
-    INT            newpos ;
+    int		   sortby_yslack();
+    int            newpos ;
     COMPACTPTR     boxptr ;
     NODEPTR        nptr ;
     CELLBOXPTR     cptr ;
@@ -661,11 +661,11 @@ void y_center()
 
 void calc_yslacks( int cur_cell )
 {
-    INT i ; 			/* counter */
-    INT ymin ;			/* max of all the minimums of a cell */
-    INT ymax ;			/* min of all the maximums of a cell */
-    INT cent_min ;		/* min window of cell center relative */
-    INT cent_max ;		/* max window of cell center relative */
+    int i ; 			/* counter */
+    int ymin ;			/* max of all the minimums of a cell */
+    int ymax ;			/* min of all the maximums of a cell */
+    int cent_min ;		/* min window of cell center relative */
+    int cent_max ;		/* max window of cell center relative */
     NODEPTR nptr ;		/* current tile node of cell */
     CELLBOXPTR cptr ;		/* current cell */
     COMPACTPTR tptr ;		/* current tile of cell */
@@ -709,13 +709,13 @@ void calc_yslacks( int cur_cell )
 
 void update_yslacks( COMPACTPTR tptr )
 {
-    INT j ;			/* current tile adjacent to node */
-    INT node ;			/* current node popped from the queue */
-    INT tile ;			/* one of the tiles of the adj. cell */
-    INT length ;		/* length of longest path */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT currentValue ;		/* path value of node popped from queue */
-    INT siblingValue ;		/* the value of the path to sibling of adj node */
+    int j ;			/* current tile adjacent to node */
+    int node ;			/* current node popped from the queue */
+    int tile ;			/* one of the tiles of the adj. cell */
+    int length ;		/* length of longest path */
+    int setValue ;		/* the value of the path to this adj node */
+    int currentValue ;		/* path value of node popped from queue */
+    int siblingValue ;		/* the value of the path to sibling of adj node */
     BOOL first ;		/* used to setup the queue */
     NODEPTR nptr ;		/* used to traverse multi tiles */
     CELLBOXPTR cptr ;		/* the current cell */
@@ -749,7 +749,7 @@ void update_yslacks( COMPACTPTR tptr )
 int sortby_xslack( cellA , cellB )
 CELLBOXPTR *cellA , *cellB ;
 {
-    INT excess_slacka, excess_slackb ;
+    int excess_slacka, excess_slackb ;
     CELLBOXPTR  cptr ;
 
     cptr = *cellA ;
@@ -760,10 +760,10 @@ CELLBOXPTR *cellA , *cellB ;
 } /* sortby_xslack */
 
 /* sort by x first then y */
-INT sortby_yslack( cellA , cellB )
+int sortby_yslack( cellA , cellB )
 CELLBOXPTR *cellA , *cellB ;
 {
-    INT excess_slacka, excess_slackb ;
+    int excess_slacka, excess_slackb ;
     CELLBOXPTR  cptr ;
 
     cptr = *cellA ;
@@ -775,9 +775,9 @@ CELLBOXPTR *cellA , *cellB ;
 
 BOOL test_area()
 {
-    DOUBLE area ;
+    double area ;
 
-    area = (DOUBLE) xlongestS * (DOUBLE) ylongestS ;
+    area = (double) xlongestS * (double) ylongestS ;
 
     ++compact_countS ;
     if( area < best_areaS ){

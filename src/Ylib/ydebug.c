@@ -81,7 +81,7 @@ static BOOL firstTimeS = FALSE ;      /* first time we ran program */
 static YTREEPTR debug_treeS ;
 
 /* ********* STATIC DEFINITIONS ************ */
-static INT compare_routine( P2(ROUTINEPTR key1, ROUTINEPTR key2 ) ) ;
+int compare_routine( P2(ROUTINEPTR key1, ROUTINEPTR key2 ) ) ;
 static ROUTINEPTR make_data_debug( P2(char *string, BOOL debugOn ) ) ;
 
 BOOL Ydebug( routine ) 
@@ -157,8 +157,8 @@ void YsetDebug( BOOL flag )
 
     char buffer[LRECL], *bufferptr ;
     char **tokens ;         /* for parsing menu file */
-    INT  numtokens ;        /* number of tokens on the line */
-    INT  line ;             /* count lines in input file */
+    int  numtokens ;        /* number of tokens on the line */
+    int  line ;             /* count lines in input file */
     FILE *fp ;              /* open file pointer */
     ROUTINEPTR data ;       /* new data to be stored */
 
@@ -188,7 +188,7 @@ void YsetDebug( BOOL flag )
     debugFlagS = flag ;
 } /* end YsetDebug */
 
-static INT compare_routine( key1, key2 )
+int compare_routine( key1, key2 )
 ROUTINEPTR key1, key2 ;
 {
     return( strcmp( key1->routine, key2->routine ) ) ;
@@ -210,13 +210,13 @@ void YfixDebug(char *ptr, int type)
 {
     switch( type ){
     case 0: /* integer */
-	printf( "%d\n", (INT) ptr ) ;
+	printf( "%d\n", (int) ptr ) ;
 	break ;
     case 1: /* string */
 	printf( "%s\n", ptr ) ;
 	break ;
     case 2: /* hexidecimal */
-	printf( "%0x\n", (INT) ptr ) ;
+	printf( "%0x\n", (int) ptr ) ;
 	break ;
     }
 }

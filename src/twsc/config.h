@@ -10,17 +10,17 @@ REVISIONS:  Sun Feb 17 21:11:18 EST 1991 - moved numMacroG to pad.h
 #define CONFIG_H
 
 typedef struct macrobox {
-    INT mx ;
-    INT my ;
+    int mx ;
+    int my ;
 } MACROBOX ;
 
 typedef struct rowbox {
-    INT startx  ;
-    INT endx    ;
-    INT endx1   ;
-    INT startx2 ;
-    INT ypos    ;
-    INT desiredL ;
+    int startx  ;
+    int endx    ;
+    int endx1   ;
+    int startx2 ;
+    int ypos    ;
+    int desiredL ;
 } ROWBOX ;
 
 MACROBOX *macroArrayG ;
@@ -41,7 +41,5 @@ int separationG ;
 int spaceG ;
 int maxHeight ;
 int lastG ;
-
-#undef EXTERN  
 
 #endif /* CONFIG_H */

@@ -69,27 +69,27 @@ REVISIONS:  Mar 29, 1989 - changed tileptr argument to pos.
     C0S + (C1S + C2S * x ) * x + (C3S + C4S * y ) * y + C5S * numpins
 
 /* static definitions */
-DOUBLE C0S ;      /* constant       */
-DOUBLE C1S ;      /* C1S * x        */
-DOUBLE C2S ;      /* C2S * x * x    */
-DOUBLE C3S ;      /* C3S * y        */
-DOUBLE C4S ;      /* C4S * y * y    */
-DOUBLE C5S ;      /* C5S * numpins  */
+double C0S ;      /* constant       */
+double C1S ;      /* C1S * x        */
+double C2S ;      /* C2S * x * x    */
+double C3S ;      /* C3S * y        */
+double C4S ;      /* C4S * y * y    */
+double C5S ;      /* C5S * numpins  */
 
-DOUBLE blocklS ;      /* these are used to speed calculation */
-DOUBLE blockbS ;
-DOUBLE bdxlengthS ;
-DOUBLE bdylengthS ;
+double blocklS ;      /* these are used to speed calculation */
+double blockbS ;
+double bdxlengthS ;
+double bdylengthS ;
 
 /*******************************************************************/
 
 void wireestxy( MOVEBOXPTR pos, int xc, int yc ) 
 {
 
-    INT xs , xe , y ;
-    INT x , ys , ye ;
-    INT  left , right , bottom , top ;
-    DOUBLE factor ;
+    int xs , xe , y ;
+    int x , ys , ye ;
+    int  left , right , bottom , top ;
+    double factor ;
 
     right  = pos->r += xc ;
     left   = pos->l += xc ;
@@ -209,9 +209,9 @@ void wireestxy( MOVEBOXPTR pos, int xc, int yc )
     xe *= y ;
     ----------------------------------------------------------------- */
 
-    pos->l = pos->l - (INT) ( (DOUBLE) xs * (DOUBLE) y * 
+    pos->l = pos->l - (int) ( (double) xs * (double) y * 
 				    wireFactorXG * pos->lw );
-    pos->r = pos->r + (INT) ( (DOUBLE) xe * (DOUBLE) y * 
+    pos->r = pos->r + (int) ( (double) xe * (double) y * 
 				    wireFactorXG * pos->rw );
 
     if( right >= blockmxG && left <= blockmxG ) {
@@ -245,9 +245,9 @@ void wireestxy( MOVEBOXPTR pos, int xc, int yc )
     ye *= x ;
     ----------------------------------------------------------------- */
 
-    pos->b = pos->b - (INT) ( (DOUBLE) ys * (DOUBLE) x * 
+    pos->b = pos->b - (int) ( (double) ys * (double) x * 
 				wireFactorYG * pos->bw );
-    pos->t = pos->t + (INT) ( (DOUBLE) ye * (DOUBLE) x * 
+    pos->t = pos->t + (int) ( (double) ye * (double) x * 
 				wireFactorYG * pos->tw );
     return ;
 } /* end wireestxy */
@@ -255,9 +255,9 @@ void wireestxy( MOVEBOXPTR pos, int xc, int yc )
 
 void wireestxy2( MOVEBOXPTR pos, int xc, int yc )
 {
-    DOUBLE l, r, b, t ;          /* four sides of the tile */
-    DOUBLE xave, yave ;          /* average of a tile side */
-    INT    routing ;             /* amount of routing estimate for side */
+    double l, r, b, t ;          /* four sides of the tile */
+    double xave, yave ;          /* average of a tile side */
+    int    routing ;             /* amount of routing estimate for side */
 
     pos->r += xc ;
     pos->l += xc ;
@@ -270,35 +270,35 @@ void wireestxy2( MOVEBOXPTR pos, int xc, int yc )
 	return ; 
     }
 
-    l = ( (DOUBLE) pos->l - blocklS ) / bdxlengthS ;
+    l = ( (double) pos->l - blocklS ) / bdxlengthS ;
     if( l < 0.0 ) l = 0.0 ;
     if( l > 1.0 ) l = 1.0 ;
-    r = ( (DOUBLE) pos->r - blocklS ) / bdxlengthS ;
+    r = ( (double) pos->r - blocklS ) / bdxlengthS ;
     if( r < 0.0 ) r = 0.0 ;
     if( r > 1.0 ) r = 1.0 ;
-    b = ( (DOUBLE) pos->b - blockbS ) / bdylengthS ;
+    b = ( (double) pos->b - blockbS ) / bdylengthS ;
     if( b < 0.0 ) b = 0.0 ;
     if( b > 1.0 ) b = 1.0 ;
-    t = ( (DOUBLE) pos->t - blockbS ) / bdylengthS ;
+    t = ( (double) pos->t - blockbS ) / bdylengthS ;
     if( t < 0.0 ) t = 0.0 ;
     if( t > 1.0 ) t = 1.0 ;
     xave = (l + r) / 2.0 ;
     yave = (b + t) / 2.0 ;
 
     /* now add the routing to the tile */
-    routing = (INT) ROUTING( l, yave, pos->lw ) ;
+    routing = (int) ROUTING( l, yave, pos->lw ) ;
     CHECK_ROUTING( routing ) ;
     pos->l -= routing ;
 
-    routing = (INT) ROUTING( r, yave, pos->rw ) ;
+    routing = (int) ROUTING( r, yave, pos->rw ) ;
     CHECK_ROUTING( routing ) ;
     pos->r += routing ;
 
-    routing = (INT) ROUTING( xave, b, pos->bw ) ;
+    routing = (int) ROUTING( xave, b, pos->bw ) ;
     CHECK_ROUTING( routing ) ;
     pos->b -= routing ;
 
-    routing = (INT) ROUTING( xave, t, pos->tw ) ;
+    routing = (int) ROUTING( xave, t, pos->tw ) ;
     CHECK_ROUTING( routing ) ;
     pos->t += routing ;
 
@@ -306,7 +306,7 @@ void wireestxy2( MOVEBOXPTR pos, int xc, int yc )
 
 BOOL read_wire_est( FILE *fp )
 {
-    INT max_pitch ;
+    int max_pitch ;
 
     fprintf( fpoG, "\nSVD fit parameters found.  Using:\n" ) ;
     HPI( fp,  &C0S ) ;
@@ -323,7 +323,7 @@ BOOL read_wire_est( FILE *fp )
     HPO( fpoG, C5S ) ;
     /* now add the constant */
     max_pitch = MAX( track_spacingXG, track_spacingYG ) ;
-    C0S += (DOUBLE) max_pitch ;
+    C0S += (double) max_pitch ;
     fprintf( fpoG, "\nConstant modified to:\n" ) ;
     HPO( fpoG, C0S ) ;
     return( TRUE ) ;
@@ -332,10 +332,10 @@ BOOL read_wire_est( FILE *fp )
 
 void resize_wire_params()
 {
-    blocklS = (DOUBLE) blocklG ;
-    blockbS = (DOUBLE) blockbG ;
-    bdxlengthS = (DOUBLE) bdxlengthG ;
-    bdylengthS = (DOUBLE) bdylengthG ;
+    blocklS = (double) blocklG ;
+    blockbS = (double) blockbG ;
+    bdxlengthS = (double) bdxlengthG ;
+    bdylengthS = (double) bdylengthG ;
 } /* end resize_wire_params */
 
 
@@ -369,7 +369,7 @@ void save_wireest( FILE *fp )
 */
 int read_wireest(FILE *fp)
 {
-    INT error = 0 ;
+    int error = 0 ;
 
     fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
     HPI( fp,  &C0S ) ;

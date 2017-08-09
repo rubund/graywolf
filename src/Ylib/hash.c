@@ -86,7 +86,7 @@ int Yhash_table_get( YHASHPTR hashtable )
 
 void Yhash_table_delete(YHASHPTR hashtable, int (*userdelete()))
 {
-	INT i ;
+	int i ;
 	YTABLEPTR hptr , zapptr ;
 
 	table = hashtable->hash_table ;
@@ -191,7 +191,7 @@ char *Yhash_add( YHASHPTR hashtable, char *key, char *(*add_function)(), BOOL *n
 {
 
 	#ifdef HASHFUNC1
-	INT     i ,
+	int     i ,
 		len ;
 	#else
 	int     shift ;

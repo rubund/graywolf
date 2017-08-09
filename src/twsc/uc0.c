@@ -41,7 +41,7 @@
 FILE:	    uc0.c                                       
 DESCRIPTION:orientation change.
 CONTENTS:   uc0( a , newaor )
-		INT a , newaor ;
+		int a , newaor ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
@@ -60,8 +60,8 @@ void uc0( int a , int newaor )
 
 CBOXPTR acellptr ;
 PINBOXPTR antrmptr ;
-INT cost , truth ;
-INT newtimepenal ;
+int cost , truth ;
+int newtimepenal ;
 
 
 acellptr = carrayG[ a ]    ;

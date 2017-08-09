@@ -15,18 +15,18 @@ REVISIONS:
 
 /* the matrix itself */
 typedef struct {
-    INT    rows ;
-    INT    columns ;
-    DOUBLE **m ;  
+    int    rows ;
+    int    columns ;
+    double **m ;  
 } YMBOX, *YMPTR ;
 
-YMPTR Ymatrix_create( P2(INT rows, INT columns ) ) ;
+YMPTR Ymatrix_create( P2(int rows, int columns ) ) ;
 YMPTR Ymatrix_free( P1( YMPTR mptr ) ) ;
 YMPTR Ymatrix_transpose( P1( YMPTR mptr ) ) ;
 YMPTR Ymatrix_mult( P2(YMPTR aptr, YMPTR bptr ) ) ;
 YMPTR Ymatrix_sub( P2(YMPTR aptr, YMPTR bptr ) ) ;
 void Ymatrix_disp( P1(YMPTR mptr ) ) ;
-YMPTR Ymatrix_eye( P1(INT size ) ) ;
+YMPTR Ymatrix_eye( P1(int size ) ) ;
 void Ymatrix_zero( P1(YMPTR matrix ) ) ;
 YMPTR Ymatrix_copy( P1(YMPTR input ) ) ;
 YMPTR Ymatrix_linv( P1(YMPTR aptr ) ) ;

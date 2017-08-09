@@ -48,7 +48,7 @@ REVISIONS:  Apr 30, 1989 - added direction field for partitioning.
 		multiple tiles correctly.  We now look at cell
 		slack instead of tile slack.
 	    Mon May  6 22:34:31 EDT 1991 - added gridding reference.
-	    Fri Nov  8 18:16:21 EST 1991 - removed INT_SMALL and INT_LARGE
+	    Fri Nov  8 18:16:21 EST 1991 - removed int_SMALL and int_LARGE
 		definitions since gcc couldn't handle it.
 ----------------------------------------------------------------- */
 #include <globals.h>
@@ -156,7 +156,7 @@ void final_tiles()
 
 	/* allocate space for tileNode array */
 	newArray = (COMPACTPTR *) Ysafe_malloc( space * sizeof(COMPACTPTR) ); 
-	ancestorG = (int *) Ysafe_malloc( space * sizeof(INT) ) ;
+	ancestorG = (int *) Ysafe_malloc( space * sizeof(int) ) ;
 	count = 0 ;
 	for( i=1;i<=numcellsG;i++ ){
 		for( aptr = cellarrayG[i]->tiles;aptr; aptr = aptr->next ){
@@ -449,8 +449,8 @@ void addSourceNSink()
 	/* add source and sink nodes for x graph */
 	source = xGraphG[0] = tileNodeG[0] = (COMPACTPTR) Ysafe_malloc( sizeof(COMPACTBOX) ) ;
 	/* add 10% to make graph picture prettier */
-	source->l = boxLS - 0.5 * (DOUBLE) ABS(boxRS - boxLS) ;
-	source->r = boxLS - 0.5 * (DOUBLE) ABS(boxRS - boxLS) ;
+	source->l = boxLS - 0.5 * (double) ABS(boxRS - boxLS) ;
+	source->r = boxLS - 0.5 * (double) ABS(boxRS - boxLS) ;
 	source->b = int_smallS ;
 	source->t = int_largeS ;
 	source->l_rel = 0 ;
@@ -469,8 +469,8 @@ void addSourceNSink()
 
 	sink = xGraphG[last_tileG] = tileNodeG[last_tileG] = (COMPACTPTR) Ysafe_malloc( sizeof(COMPACTBOX) ) ;
 	/* add 10% to make graph picture prettier */
-	sink->l = boxRS + 0.5 * (DOUBLE) ABS(boxRS - boxLS) ; 
-	sink->r = boxRS + 0.5 * (DOUBLE) ABS(boxRS - boxLS) ;
+	sink->l = boxRS + 0.5 * (double) ABS(boxRS - boxLS) ; 
+	sink->r = boxRS + 0.5 * (double) ABS(boxRS - boxLS) ;
 	sink->b = int_smallS ;
 	sink->t = int_largeS ;
 	sink->l_rel = 0 ;
@@ -491,8 +491,8 @@ void addSourceNSink()
 	/* add source and sink nodes for y graph */
 	source = yGraphG[0] = tileNodeG[numtilesG+2] = (COMPACTPTR) Ysafe_malloc( sizeof(COMPACTBOX) ) ;
 	/* add 10% to make graph picture prettier */
-	source->b = boxBS - 0.5 * (DOUBLE) ABS(boxTS - boxBS) ;
-	source->t = boxBS - 0.5 * (DOUBLE) ABS(boxTS - boxBS) ;
+	source->b = boxBS - 0.5 * (double) ABS(boxTS - boxBS) ;
+	source->t = boxBS - 0.5 * (double) ABS(boxTS - boxBS) ;
 	source->l = int_smallS ;
 	source->r = int_largeS ;
 	source->b_rel = 0 ;
@@ -511,8 +511,8 @@ void addSourceNSink()
 
 	sink = yGraphG[last_tileG] = tileNodeG[numtilesG+3] = (COMPACTPTR) Ysafe_malloc( sizeof(COMPACTBOX) ) ;
 	/* add 10% to make graph picture prettier */
-	sink->b = boxTS + 0.5 * (DOUBLE) ABS(boxTS - boxBS) ; 
-	sink->t = boxTS + 0.5 * (DOUBLE) ABS(boxTS - boxBS) ;
+	sink->b = boxTS + 0.5 * (double) ABS(boxTS - boxBS) ; 
+	sink->t = boxTS + 0.5 * (double) ABS(boxTS - boxBS) ;
 	sink->l = int_smallS ;
 	sink->r = int_largeS ;
 	sink->b_rel = 0 ;

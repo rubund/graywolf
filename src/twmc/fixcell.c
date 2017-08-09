@@ -48,7 +48,7 @@ CONTENTS:   updateFixedCells( initializeFlag )
 	    build_active_array()
 	    build_soft_array()
 	    determine_origin( x, y, left_not_right, bottom_not_top )
-		INT *x, *y ;
+		int *x, *y ;
 		BOOL *left_non_right, *bottom_not_top ;
 DATE:	    Sept 28, 1988 
 REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
@@ -129,7 +129,7 @@ void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag )
 {
     int x1, x2, y1, y2 ;
     BOOL error_flag = FALSE ;
-    DOUBLE temp ;
+    double temp ;
 
     if( fptr ){
 	D( "update_fixed_record", 
@@ -150,43 +150,43 @@ void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag )
 	if( fptr->fixedType != POINTFLAG ){
 	    if( initialS ){
 		/* get two points of neighborhood */
-		/* POINT ONE */
-		temp = (DOUBLE) fptr->xloc1 / oldxspanS * newxspanS ;
+		/* POint ONE */
+		temp = (double) fptr->xloc1 / oldxspanS * newxspanS ;
 		if( fptr->leftNotRight ){
 		    /* from left edge  */
-		    x1 = blocklG + (INT) temp ;
+		    x1 = blocklG + (int) temp ;
 		} else {
 		    /* from right edge = blockx */
-		    x1 = blockrG - (INT) temp ;
+		    x1 = blockrG - (int) temp ;
 		}
-		temp = (DOUBLE) fptr->yloc1 / oldyspanS * newyspanS ;
+		temp = (double) fptr->yloc1 / oldyspanS * newyspanS ;
 		if( fptr->bottomNotTop ){
 		    /* from bottom edge = 0 */
-		    y1 = blockbG + (INT) temp ;
+		    y1 = blockbG + (int) temp ;
 		} else {
 		    /* from top edge = blocky */
-		    y1 = blocktG - (INT) temp ;
+		    y1 = blocktG - (int) temp ;
 		}
-		/* POINT TWO */
-		temp = (DOUBLE) fptr->xloc2 / oldxspanS * newxspanS ;
+		/* POint TWO */
+		temp = (double) fptr->xloc2 / oldxspanS * newxspanS ;
 		if( fptr->leftNotRight2 ){
 		    /* from left edge  */
-		    x2 = blocklG + (INT) temp ;
+		    x2 = blocklG + (int) temp ;
 		} else {
 		    /* from right edge = blockx */
-		    x2 = blockrG - (INT) temp ;
+		    x2 = blockrG - (int) temp ;
 		}
-		temp = (DOUBLE) fptr->yloc2 / oldyspanS * newyspanS ;
+		temp = (double) fptr->yloc2 / oldyspanS * newyspanS ;
 		if( fptr->bottomNotTop2 ){
 		    /* from bottom edge = 0 */
-		    y2 = blockbG + (INT) temp ;
+		    y2 = blockbG + (int) temp ;
 		} else {
 		    /* from top edge = blocky */
-		    y2 = blocktG - (INT) temp ;
+		    y2 = blocktG - (int) temp ;
 		}
 	    } else {
 		/* get two points of neighborhood */
-		/* POINT ONE */
+		/* POint ONE */
 		if( fptr->leftNotRight ){
 		    /* from left edge  */
 		    x1 = blocklG + fptr->xloc1 ;
@@ -201,7 +201,7 @@ void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag )
 		    /* from top edge = blocky */
 		    y1 = blocktG - fptr->yloc1 ;
 		}
-		/* POINT TWO */
+		/* POint TWO */
 		if( fptr->leftNotRight2 ){
 		    /* from left edge  */
 		    x2 = blocklG + fptr->xloc2 ;
@@ -288,13 +288,13 @@ void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag )
 
 	} else {  /* cell is fixed at a point */
 	    if( initialS ){
-		temp = (DOUBLE) fptr->xcenter / oldxspanS * newxspanS ;
+		temp = (double) fptr->xcenter / oldxspanS * newxspanS ;
 		if( fptr->leftNotRight ){
 		    /* from left edge  */
-		    ptr->xcenter = blocklG + (INT) temp ;
+		    ptr->xcenter = blocklG + (int) temp ;
 		} else {
 		    /* from right edge = blockx */
-		    ptr->xcenter = blockrG - (INT) temp ;
+		    ptr->xcenter = blockrG - (int) temp ;
 		}
 		if( fptr->bottomNotTop ){
 		    /* from bottom edge = 0 */
@@ -364,7 +364,7 @@ void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag )
 } /* end function update_fixed_record */
 
 void init_fixcell( left, bottom, right, top )
-INT left, bottom, right, top ;
+int left, bottom, right, top ;
 {
     initialS = TRUE ; 
     oldxspanS = right - left ;

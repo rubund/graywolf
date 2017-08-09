@@ -87,10 +87,10 @@ REVISIONS:
 ----------------------------------------------------------------- */
 typedef struct glistbox {  /* generic list */
     union {
-	INT net ;      /* make code easier to read */
-	INT path ;     
-	INT cell ;     
-	INT side ;     
+	int net ;      /* make code easier to read */
+	int path ;     
+	int cell ;     
+	int side ;     
     } p ; 
     struct glistbox *next ;
 } GLISTBOX , *GLISTPTR ;
@@ -221,7 +221,7 @@ typedef struct {
 } VERTBOX, *VERTBOXPTR ;
 
 typedef struct {
-    int  fixedType ;  /* POINT, NEIGHBORHOOD, GROUP, FIXEDGROUP */
+    int  fixedType ;  /* POint, NEIGHBORHOOD, GROUP, FIXEDGROUP */
     int   xcenter ;
     int   ycenter ;
     BOOL  leftNotRight ;
@@ -524,7 +524,5 @@ BOOL gridGivenG ;
 BOOL gridCellsG ;
 BOOL coreGivenG ;
 int  x_originG, y_originG ;
-
-#undef EXTERN
 
 #endif /* CUSTOM_H */

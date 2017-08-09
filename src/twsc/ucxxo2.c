@@ -41,7 +41,7 @@
 FILE:	    ucxxo2.c                                       
 DESCRIPTION:pairwise exchange with oriention change.
 CONTENTS:   ucxxo2( newaor , newbor )
-		INT newaor , newbor ;
+		int newaor , newbor ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
@@ -65,19 +65,19 @@ int ucxxo2( int newaor , int newbor )
 CBOXPTR acellptr , bcellptr ;
 TIBOXPTR atileptr , btileptr ;
 PINBOXPTR antrmptr , bntrmptr ;
-DOUBLE temp ;
-INT cost , error_light_is_on ;
-INT axcenter , aycenter , bxcenter , bycenter ;
-INT aleft , aright ;
-INT bleft , bright ;
-INT a1LoBin, a2LoBin, b1LoBin, b2LoBin ;
-INT a1HiBin, a2HiBin, b1HiBin, b2HiBin ;
-INT startxa1 , endxa1 , startxa2 , endxa2 ;
-INT startxb1 , endxb1 , startxb2 , endxb2 ;
-INT truth ;
-INT newtimepenal ;
-INT newpenal ;
-INT wire_chg ;
+double temp ;
+int cost , error_light_is_on ;
+int axcenter , aycenter , bxcenter , bycenter ;
+int aleft , aright ;
+int bleft , bright ;
+int a1LoBin, a2LoBin, b1LoBin, b2LoBin ;
+int a1HiBin, a2HiBin, b1HiBin, b2HiBin ;
+int startxa1 , endxa1 , startxa2 , endxa2 ;
+int startxb1 , endxb1 , startxb2 , endxb2 ;
+int truth ;
+int newtimepenal ;
+int newpenal ;
+int wire_chg ;
 
 acellptr = carrayG[ aG ]    ;
 axcenter = acellptr->cxcenter ;
@@ -119,8 +119,8 @@ if( Equal_Width_CellsG ){
     add_penal( startxa2 , endxa2 , bblockG , a2LoBin , a2HiBin ) ;
     add_penal( startxb2 , endxb2 , ablockG , b2LoBin , b2HiBin ) ;
 
-    newpenal = (INT)( roLenConG * (DOUBLE) newrowpenalG +
-				    binpenConG * (DOUBLE) newbinpenalG ) ;
+    newpenal = (int)( roLenConG * (double) newrowpenalG +
+				    binpenConG * (double) newbinpenalG ) ;
 
     error_light_is_on = 0 ;
     if( newpenal - penaltyG > P_limitG ) {
@@ -176,7 +176,7 @@ if( truth ) {
     }
 
     if( wire_chg < 0 ) {
-	temp = (DOUBLE) - wire_chg ;
+	temp = (double) - wire_chg ;
 	total_wire_chgG += temp ;
 	sigma_wire_chgG += (temp - mean_wire_chgG) * 
 					(temp - mean_wire_chgG) ;

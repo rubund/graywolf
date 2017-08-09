@@ -46,7 +46,7 @@ DATE:	    Apr  8, 1988
 REVISIONS:  Nov  5, 1988 - free violations and modified position of
 		sources and sinks.
 	    Dec  4, 1988 - corrected error in where to get data.
-	    Jan 15, 1989 - fixed constraINT problem for softcells
+	    Jan 15, 1989 - fixed constraint problem for softcells
 		by saving contents of tilebox and set orig_ fields 
 		correctly for compaction cycle for softcells.
 	    Jan 25, 1989 - removed incorrect force of box size to
@@ -307,9 +307,9 @@ int compact( BOOL compactFlag ) /* signals use of compaction */
 /* need accurate cell centers in density calculation */
 void get_cell_centers( int cell, int *xc, int *yc )
 {
-	INT last_core_cell ;
+	int last_core_cell ;
 
-	last_core_cell = (INT) routingTilesG[HOWMANY] - 4 ;
+	last_core_cell = (int) routingTilesG[HOWMANY] - 4 ;
 
 	if( cell <= last_core_cell ){
 		*xc = cellarrayG[cell]->xcenter ; 

@@ -36,26 +36,18 @@
  *   POSSIBILITY OF THE FOREGOING.
  *
  */
-
-#ifndef lint
-static char SccsId[] = "@(#) makesite.c version 3.3 9/5/90" ;
-#endif
-
 #include <custom.h>
 #include <yalecad/debug.h>
 
-DOUBLE val1 , val2 ;
+double val1 , val2 ;
 
-Vside( kArray, cellptr , x , yy1 , yy2 , flag )
-KBOXPTR kArray ;       
-CELLBOXPTR cellptr ;
-INT x , yy1 , yy2 , flag ;
+void Vside( KBOXPTR kArray, CELLBOXPTR cellptr , int x , int yy1 , int yy2 , int flag )
 {
 
-DOUBLE aspFactor , aspect , aspLB ;
-INT worstLen , pPinLocs , k , length , base ;
-INT TotSites ;
-DOUBLE siteSpace ;
+double aspFactor , aspect , aspLB ;
+int worstLen , pPinLocs , k , length , base ;
+int TotSites ;
+double siteSpace ;
 
 length = ABS(yy2 - yy1) ;
 aspect = cellptr->aspect ;
@@ -66,9 +58,9 @@ if( aspLB + 0.01 > cellptr->aspUB ) {
     aspFactor = sqrt( aspLB / aspect ) ;
 }
 
-worstLen = (INT) (aspFactor * (DOUBLE) length) ;
-if( (DOUBLE)(worstLen + 1) / aspFactor - (DOUBLE) length <
-		(DOUBLE) length - (DOUBLE) worstLen / aspFactor ) {
+worstLen = (int) (aspFactor * (double) length) ;
+if( (double)(worstLen + 1) / aspFactor - (double) length <
+		(double) length - (double) worstLen / aspFactor ) {
     worstLen++ ;
 }
 
@@ -111,7 +103,7 @@ if( pPinLocs <= MAXSITES ) {
 } else {
     TotSites = MAXSITES ;
 }
-siteSpace = (DOUBLE) length / (DOUBLE) (TotSites + 1) ;
+siteSpace = (double) length / (double) (TotSites + 1) ;
 
 /* 
     Suppose we encountered coordinates yy1 and yy2 for a given
@@ -160,13 +152,13 @@ return( TotSites ) ;
 Hside( kArray, cellptr , xx1 , xx2 , y , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
-INT xx1 , xx2 , y , flag ;
+int xx1 , xx2 , y , flag ;
 {
 
-DOUBLE aspFactor , aspect , aspUB ;
-INT worstLen , pPinLocs , k , length , base ;
-INT TotSites ;
-DOUBLE siteSpace ;
+double aspFactor , aspect , aspUB ;
+int worstLen , pPinLocs , k , length , base ;
+int TotSites ;
+double siteSpace ;
 
 length = ABS(xx2 - xx1) ;
 aspect = cellptr->aspect ;
@@ -176,9 +168,9 @@ if( cellptr->aspLB + 0.01 > aspUB ) {
 } else {
     aspFactor = sqrt( aspect / aspUB ) ;
 }
-worstLen = (INT) (aspFactor * (DOUBLE) length) ;
-if( (DOUBLE)(worstLen + 1) / aspFactor - (DOUBLE) length <
-		(DOUBLE) length - (DOUBLE) worstLen / aspFactor ) {
+worstLen = (int) (aspFactor * (double) length) ;
+if( (double)(worstLen + 1) / aspFactor - (double) length <
+		(double) length - (double) worstLen / aspFactor ) {
     worstLen++ ;
 }
 
@@ -221,7 +213,7 @@ if( pPinLocs <= MAXSITES ) {
 } else {
     TotSites = MAXSITES ;
 }
-siteSpace = (DOUBLE) length / (DOUBLE) (TotSites + 1) ;
+siteSpace = (double) length / (double) (TotSites + 1) ;
 
 /* 
    Suppose we encountered coordinates xx1 and xx2 for a given

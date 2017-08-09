@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    unet.c                                       
 DESCRIPTION:Incremental bounding box routines.
-CONTENTS:   INT unet( antrmptr )
+CONTENTS:   int unet( antrmptr )
 		PINBOXPTR antrmptr ;
 	    statice check_validbound( dimptr , termptr , nextptr )
 		DBOXPTR dimptr ;
@@ -49,7 +49,7 @@ CONTENTS:   INT unet( antrmptr )
 		NETBOXPTR netptr ;
 	    static wire_boundary2( c , netptr )
 		NETBOXPTR dimptr ;
-		INT c ;
+		int c ;
 	    init_unet() ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Oct 21, 1989 - changed memoptrS to a pointer rather than
@@ -58,23 +58,19 @@ REVISIONS:  Oct 21, 1989 - changed memoptrS to a pointer rather than
 	    Apr 23, 1990 - added assertion to make sure half perimeter
 		does not go negative.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) unet.c (Yale) version 3.6 11/23/91" ;
-#endif
-
 #include <allheaders.h>
 #define BREAK_PT 5
-static INT prev_netS , curr_netS , test_newnetS ;
-static INT validLS , validRS , validBS , validTS ;
+static int prev_netS , curr_netS , test_newnetS ;
+static int validLS , validRS , validBS , validTS ;
 static PINBOXPTR  *memoptrS ;
-static INT kS ;
+static int kS ;
 void check_validbound();
 void wire_boundary1();
 void wire_boundary2( int c , NETBOXPTR netptr );
 
 void init_unet()
 {
-    INT maxpin, get_max_pin() ;
+    int maxpin, get_max_pin() ;
 
     maxpin = get_max_pin() ;
     memoptrS = (PINBOXPTR *)
@@ -88,10 +84,10 @@ int unet( PINBOXPTR antrmptr )
 
     register NETBOXPTR  netptr ;
     register PINBOXPTR  pinptr ;
-    register INT x, y ;
+    register int x, y ;
     PINBOXPTR termptr , nextptr ;
-    INT cost ;
-    /*  INT test ;  */
+    int cost ;
+    /*  int test ;  */
 
     prev_netS = -1 ;
     cost = 0 ;
@@ -165,8 +161,8 @@ int unet( PINBOXPTR antrmptr )
 
 	/* new wire cost */
 	cost += ( netptr->newhalfPx - netptr->halfPx +
-	    (INT)(vertical_wire_weightG * (DOUBLE)netptr->newhalfPy) -
-	    (INT)(vertical_wire_weightG * (DOUBLE)netptr->halfPy) );
+	    (int)(vertical_wire_weightG * (double)netptr->newhalfPy) -
+	    (int)(vertical_wire_weightG * (double)netptr->halfPy) );
 
     }
     return( cost ) ;
@@ -177,11 +173,11 @@ int unet2( PINBOXPTR antrmptr, PINBOXPTR bntrmptr )
 
     NETBOXPTR  netptr   ;
     PINBOXPTR termptr , nextptr ;
-    INT anet , bnet ;
-    INT aflag ;
-    INT deltaP ; /* change in half perimeter bounding box */ 
-    INT cost ;
-    /*  INT test ;  */
+    int anet , bnet ;
+    int aflag ;
+    int deltaP ; /* change in half perimeter bounding box */ 
+    int cost ;
+    /*  int test ;  */
 
     if( !antrmptr ) {
 	return( unet( bntrmptr ) ) ;
@@ -262,8 +258,8 @@ int unet2( PINBOXPTR antrmptr, PINBOXPTR bntrmptr )
 
 	/* new wire cost */
 	cost += ( netptr->newhalfPx - netptr->halfPx +
-	    (INT)(vertical_wire_weightG * (DOUBLE)netptr->newhalfPy) -
-	    (INT)(vertical_wire_weightG * (DOUBLE)netptr->halfPy) );
+	    (int)(vertical_wire_weightG * (double)netptr->newhalfPy) -
+	    (int)(vertical_wire_weightG * (double)netptr->halfPy) );
     }
     return( cost ) ;
 } /* end unet2 */
@@ -271,7 +267,7 @@ int unet2( PINBOXPTR antrmptr, PINBOXPTR bntrmptr )
 void check_validbound(NETBOXPTR netptr, PINBOXPTR termptr, PINBOXPTR nextptr)
 {
 
-    INT nux , nuy , x , y ;
+    int nux , nuy , x , y ;
 
     nux = termptr->newx ;
     nuy = termptr->newy ;
@@ -356,7 +352,7 @@ void wire_boundary2( int c , NETBOXPTR netptr )
 {
 
     PINBOXPTR pinptr ;
-    INT x , y , i ;
+    int x , y , i ;
 
     if( c == 15 ) {
 	for( i = 0 ; i <= kS-1 ; i++ ) {
@@ -750,7 +746,7 @@ void wire_boundary1( NETBOXPTR netptr )
 {
 
     PINBOXPTR pinptr ;
-    INT x , y ;
+    int x , y ;
 
     if( pinptr = netptr->pins ) {
 	if( pinptr->flag == 1 ) {

@@ -56,25 +56,25 @@ void twstats()
 	double reduction ;
 	printf("\nInitial Wiring Cost: %d   Final Wiring Cost: %d\n", icostG , fcostG ) ;
 	if( icostG != 0 ) {
-		temp = 100 - (INT)( (double)fcostG / (double)icostG * 100.0 ) ;
+		temp = 100 - (int)( (double)fcostG / (double)icostG * 100.0 ) ;
 		printf("############ Percent Wire Cost Reduction: %d\n\n", temp ) ;
 	}
 
 	printf("\nInitial Wire Length: %d   Final Wire Length: %d\n", iwireG, fwireG ) ;
 	if( icostG != 0 ) {
-		temp = 100 - (INT)( (double) fwireG / (double) iwireG * 100.0 ) ;
+		temp = 100 - (int)( (double) fwireG / (double) iwireG * 100.0 ) ;
 		printf("*********** Percent Wire Length Reduction: %d\n\n", temp ) ;
 	}
 
 	printf("\nInitial Horiz. Wire: %d   Final Horiz. Wire: %d\n", iwirexG , fwirexG ) ;
 	if( iwirexG != 0 ) {
-		temp = 100 - (INT)( (double)fwirexG / (double)iwirexG * 100.0 ) ;
+		temp = 100 - (int)( (double)fwirexG / (double)iwirexG * 100.0 ) ;
 		printf("$$$$$$$$$ Percent H-Wire Length Reduction: %d\n\n", temp ) ;
 	}
 	printf("\nInitial Vert. Wire: %d   Final Vert. Wire: %d\n", iwireyG , fwireyG ) ;
 
 	if( iwireyG != 0 ) {
-		temp = 100 - (INT)( (double)fwireyG / (double)iwireyG * 100.0 ) ;
+		temp = 100 - (int)( (double)fwireyG / (double)iwireyG * 100.0 ) ;
 		printf("@@@@@@@@@ Percent V-Wire Length Reduction: %d\n\n", temp ) ;
 	}
 
@@ -104,7 +104,7 @@ void set_print_pin( int pin )
 void prnt_netinfo() 
 {
 
-SHORT numpins ;
+short numpins ;
 int net_pin_num[ MAXPININFO+1 ] ;
 int n, net, cell ;
 NETBOXPTR dimptr ;

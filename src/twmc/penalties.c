@@ -77,11 +77,11 @@ REVISIONS:  May 16, 1989 - removed most doPartitionG conditions.
    -------------------------------------------------------------- */
 #define INITRELLAP       0.40     /* overlap relative to funccost */
 
-static  DOUBLE coreAreaS ;        /* the area of the core */
-static  DOUBLE start_core_errorS ;/* the start and stop target */
-static  DOUBLE end_core_errorS ;  /* ratios for the various */
-static  DOUBLE start_overlapS ;   /* penalties. */
-static  DOUBLE end_overlapS ;
+static  double coreAreaS ;        /* the area of the core */
+static  double start_core_errorS ;/* the start and stop target */
+static  double end_core_errorS ;  /* ratios for the various */
+static  double start_overlapS ;   /* penalties. */
+static  double end_overlapS ;
 static  BOOL   firstLapS = TRUE; /* 1st time calc_init_lapFactor called */
 static  BOOL   firstTimeS = TRUE;/* 1st time calc_init_timeFactor called*/
 
@@ -93,9 +93,9 @@ static  BOOL   firstTimeS = TRUE;/* 1st time calc_init_timeFactor called*/
 double calc_lap_factor(double percentDone) 
 {
 
-    DOUBLE diff_lap, target_bin_penalty, bin_deviation ;
-    DOUBLE sqrtCoreArea, sqrtBinPenal, lapCap ;
-    INT iter ;
+    double diff_lap, target_bin_penalty, bin_deviation ;
+    double sqrtCoreArea, sqrtBinPenal, lapCap ;
+    int iter ;
     char filename[LRECL] ;
     FILE *fp ;
 
@@ -109,10 +109,10 @@ double calc_lap_factor(double percentDone)
     - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - */
 #   define NUMSAMPLE 15
 #   define RECIP_SAMPLE 0.06666666
-    static  DOUBLE avg_devS[NUMSAMPLE] = { 0.0 } ;
-    static  INT    avgCountS = 0 ;
-    DOUBLE  running_avg ;
-    INT     i ;
+    static  double avg_devS[NUMSAMPLE] = { 0.0 } ;
+    static  int    avgCountS = 0 ;
+    double  running_avg ;
+    int     i ;
 
 
     /* **** overlap penalty controller **** */
@@ -126,7 +126,7 @@ double calc_lap_factor(double percentDone)
 	diff_lap = 0.01 ;
     }
     target_bin_penalty = diff_lap * sqrt( coreAreaS ) ;
-    sqrtBinPenal = sqrt( (DOUBLE) binpenalG ) ;
+    sqrtBinPenal = sqrt( (double) binpenalG ) ;
 
     /* bin_deviation is percent error relative to target */
     bin_deviation = 
@@ -136,7 +136,7 @@ double calc_lap_factor(double percentDone)
 	    "coreArea","sqrtCore", "percent","sqrtpercent", 
 	    "target", "lapFactor", "bin_dev", NULL ) ;
     Yplot( 0, "graph_lap", "%d", iterationG, "%4.4le %4.4le %4.4le %4.4le", 
-	(DOUBLE) binpenalG, sqrtBinPenal, coreAreaS, sqrtCoreArea ) ;
+	(double) binpenalG, sqrtBinPenal, coreAreaS, sqrtCoreArea ) ;
 
     /* save running average of deviations */
     avg_devS[avgCountS++ % NUMSAMPLE] = bin_deviation ;
@@ -162,13 +162,13 @@ double calc_lap_factor(double percentDone)
     lapFactorG *= (1.0 + bin_deviation) ; 
     Yplot( "graph_lap", "%d", iterationG, 
 	"%4.4le %4.4le %4.4le %4.4le %4.4le", 
-	(DOUBLE) binpenalG / coreAreaS, 
+	(double) binpenalG / coreAreaS, 
 	sqrtBinPenal / sqrtCoreArea,
 	target_bin_penalty, lapFactorG, bin_deviation ) ;
     Yplot_flush( "graph_lap" ) ;
 
     lapFactorG = (lapFactorG > LAPMIN) ? lapFactorG : LAPMIN ; 
-    lapCap = LAPCAPFACTOR * (DOUBLE) funccostG / sqrtBinPenal ;
+    lapCap = LAPCAPFACTOR * (double) funccostG / sqrtBinPenal ;
     lapFactorG = (lapFactorG < lapCap) ? lapFactorG : lapCap ; 
 
     /* this is an override mechanism to setting parameters */
@@ -201,21 +201,21 @@ double calc_time_factor( double percentDone )
 */
 double calc_core_factor(double percentDone) 
 {
-    INT binArea, cellArea ;
-    DOUBLE diff_core, target_core_error, core_deviation ;
-    DOUBLE core_error ;
+    int binArea, cellArea ;
+    double diff_core, target_core_error, core_deviation ;
+    double core_error ;
 
     binArea = get_bin_area() ;
     cellArea = calc_cellareas( TRUE ) ;
     diff_core = start_core_errorS - end_core_errorS ;
-    core_error = (DOUBLE) (binArea - cellArea) / (DOUBLE) cellArea ;
+    core_error = (double) (binArea - cellArea) / (double) cellArea ;
     target_core_error = (start_core_errorS - diff_core * percentDone ) ; 
     core_deviation =
-	COREDAMPFACTOR * (DOUBLE) (target_core_error - core_error) ;
+	COREDAMPFACTOR * (double) (target_core_error - core_error) ;
     coreFactorG *= 1.0 + core_deviation ;
     coreFactorG = (coreFactorG > COREMIN ) ? coreFactorG : COREMIN ; 
     coreFactorG = (coreFactorG < CORECAP) ? coreFactorG : CORECAP ; 
-    coreAreaS = coreFactorG * (DOUBLE) cellArea ;
+    coreAreaS = coreFactorG * (double) cellArea ;
     /* reconfigure area and place pads */
     reconfigure( maxBinXG-1,maxBinYG-1, coreAreaS ) ;
     return( coreFactorG ) ;
@@ -228,13 +228,13 @@ double calc_core_factor(double percentDone)
    Currently, just set lapFactor initially to 40% of wirelength.  This
    could use move investigation in the future.
 */
-DOUBLE calc_init_lapFactor( totFunc, totPen ) 
-DOUBLE totFunc ;
-DOUBLE totPen ;
+double calc_init_lapFactor( totFunc, totPen ) 
+double totFunc ;
+double totPen ;
 {
-    DOUBLE factor ;
+    double factor ;
 #ifdef DEBUGLAPFACTOR
-    extern DOUBLE saveLapFactorG ;
+    extern double saveLapFactorG ;
 #endif
 
     /* first iteration, we set all factors to 1 */
@@ -272,9 +272,9 @@ DOUBLE totPen ;
    Currently, just set timeFactor initially to 40% of wirelength.  This
    could use move investigation in the future.
 */
-DOUBLE calc_init_timeFactor( avgdFunc, avgdTime ) 
-DOUBLE avgdFunc ;
-DOUBLE avgdTime ;
+double calc_init_timeFactor( avgdFunc, avgdTime ) 
+double avgdFunc ;
+double avgdTime ;
 {
     if( firstTimeS ){
 	firstTimeS = FALSE ;
@@ -289,7 +289,7 @@ DOUBLE avgdTime ;
 
 } /* end calc_init_timeFactor */
 
-DOUBLE calc_init_coreFactor( ) 
+double calc_init_coreFactor( ) 
 {
 
     /* -------------------------------------------------------------- 
@@ -297,8 +297,8 @@ DOUBLE calc_init_coreFactor( )
 	start_core_error*cellArea to end_core_error*cellArea
 	initialize coreFactor to binArea / cellarea.
        ----------------------------------------------------------- */
-    coreFactorG = (DOUBLE) get_bin_area() /
-		 (DOUBLE) calc_cellareas(TRUE ) ;
+    coreFactorG = (double) get_bin_area() /
+		 (double) calc_cellareas(TRUE ) ;
 
     start_core_errorS = STARTCORE ; end_core_errorS = ENDCORE ;
 

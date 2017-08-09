@@ -13,14 +13,14 @@
 #define		LAP_HUGE			200000000
 
 typedef struct {
-  INT	*xmate;    	/* match array for x's	*/
-  INT	*ymate;		/* match array for y's	*/
-  INT	*udual;   	/* dual array for u's	*/
-  INT	*vdual;		/* dual array for v's	*/
-  INT	*pred;	        /* predecessor array for shortest path	*/
-  INT	*unassigned;	/* unassigned rows			*/
-  INT	*shortlen;	/* shortest path lengths	*/
-  INT	*column;	/* array of columns		*/
+  int	*xmate;    	/* match array for x's	*/
+  int	*ymate;		/* match array for y's	*/
+  int	*udual;   	/* dual array for u's	*/
+  int	*vdual;		/* dual array for v's	*/
+  int	*pred;	        /* predecessor array for shortest path	*/
+  int	*unassigned;	/* unassigned rows			*/
+  int	*shortlen;	/* shortest path lengths	*/
+  int	*column;	/* array of columns		*/
 } LAPJV_block;
 
 /******** ASSIGNMENT FUNCTIONS *************/

@@ -42,12 +42,12 @@ FILE:	    io.c
 DESCRIPTION:This file contains routines for handling I/O.  The routines
 	    in this file build the graph.
 CONTENTS:   init( numobj )
-		INT numobj ;
+		int numobj ;
 	    add_object( pname, node )
 		char *pname ;
-		INT node ;
+		int node ;
 	    add_pdependency( fromNode ) 
-		INT fromNode ;
+		int fromNode ;
 	    add_path( pathname )
 		char *pathname ;
 	    set_file_type( type )
@@ -57,13 +57,13 @@ CONTENTS:   init( numobj )
 	    add_args( argument )
 		char *argument ;
 	    add_box( l, b, r, t )
-		INT l, b, r, t ;
+		int l, b, r, t ;
 	    start_edge( fromNode )
-		INT fromNode ;
+		int fromNode ;
 	    add_line( x1, y1, x2, y2 )
-		INT x1, y1, x2, y2 ;
+		int x1, y1, x2, y2 ;
 	    ADJPTR findEdge( from, to, direction )
-		INT from, to ;
+		int from, to ;
 		BOOL direction ;
 	    process_arcs()
 	    unmark_edges()
@@ -210,7 +210,7 @@ void set_file_type( BOOL type )
 
 void add_fdependency( char *file ) 
 {
-	INT len ;
+	int len ;
 	FPTR temp, newF ;
 
 	ERRORABORT() ;
@@ -440,8 +440,8 @@ void unmark_edges()
 
 void set_window()
 {
-	INT xpand ;   /* make output look nice */
-	INT min, max ; /* make into square */
+	int xpand ;   /* make output look nice */
+	int min, max ; /* make into square */
 
 	/* also set the drawing window */
 	/* take min max to make window centered */

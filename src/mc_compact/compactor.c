@@ -447,10 +447,10 @@ void find_core( int *l, int *r, int *b, int *t )
 		blockrG = MAX( blockrG, tile->r ) ;
 		blocktG = MAX( blocktG, tile->t ) ;
 	}
-	expand = (INT) ( 0.25 * (DOUBLE) ABS(blockrG - blocklG) ) ;
+	expand = (int) ( 0.25 * (double) ABS(blockrG - blocklG) ) ;
 	*l = blocklG -= expand ;
 	*r = blockrG += expand ;
-	expand = (INT) ( 0.25 * (DOUBLE) ABS(blocktG - blockbG) ) ;
+	expand = (int) ( 0.25 * (double) ABS(blocktG - blockbG) ) ;
 	*b = blockbG -= expand ;
 	*t = blocktG += expand ;
 } /* end find_core */

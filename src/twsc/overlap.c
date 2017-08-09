@@ -41,26 +41,26 @@
 FILE:	    clean.c                                       
 DESCRIPTION:overlap calculations.
 CONTENTS:   new_old( c )
-		INT c ;
+		int c ;
 	    old_assgnto_new1( alobin , ahibin , anewlobin , anewhibin )
-		INT alobin , ahibin , anewlobin , anewhibin ;
+		int alobin , ahibin , anewlobin , anewhibin ;
 	    new_assgnto_old1( alobin , ahibin , anewlobin , anewhibin )
-		INT alobin , ahibin , anewlobin , anewhibin ;
+		int alobin , ahibin , anewlobin , anewhibin ;
 	    old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,
 			      b1lobin , b1hibin , b2lobin , b2hibin )
-		INT a1lobin , a1hibin , a2lobin , a2hibin ;
-		INT b1lobin , b1hibin , b2lobin , b2hibin ;
+		int a1lobin , a1hibin , a2lobin , a2hibin ;
+		int b1lobin , b1hibin , b2lobin , b2hibin ;
 	    new_assgnto_old2( a1lobin , a1hibin , a2lobin , a2hibin ,
 			      b1lobin , b1hibin , b2lobin , b2hibin )
-		INT a1lobin , a1hibin , a2lobin , a2hibin ;
-		INT b1lobin , b1hibin , b2lobin , b2hibin ;
+		int a1lobin , a1hibin , a2lobin , a2hibin ;
+		int b1lobin , b1hibin , b2lobin , b2hibin ;
 	    sub_penal( startx , endx , block , LoBin , HiBin )
-		INT startx , endx , block , LoBin , HiBin ;
+		int startx , endx , block , LoBin , HiBin ;
 	    add_penal( startx , endx , block , LoBin , HiBin )
-		INT startx , endx , block , LoBin , HiBin ;
+		int startx , endx , block , LoBin , HiBin ;
 	    term_newpos( antrmptr , xcenter , ycenter , newaor )
 		TEBOXPTR antrmptr ;
-		INT xcenter , ycenter , newaor ;
+		int xcenter , ycenter , newaor ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
@@ -70,7 +70,7 @@ REVISIONS:
 void new_old(int c)
 {
 
-INT old, new ;
+int old, new ;
 
 if( ablockG != bblockG ) {
     barrayG[ablockG]->newsize = barrayG[ablockG]->oldsize + c ;
@@ -148,10 +148,10 @@ return ;
 
 /*
 new_old( c )
-INT c ;
+int c ;
 {
 
-INT old , new ;
+int old , new ;
 
 if( ablockG != bblockG ) {
     barrayG[ablockG]->newsize = barrayG[ablockG]->oldsize + c ;
@@ -208,8 +208,8 @@ void new_assgnto_old1( int alobin , int ahibin , int anewlobin , int anewhibin )
 void old_assgnto_new2( int a1lobin , int a1hibin , int a2lobin , int a2hibin , int b1lobin , int b1hibin , int b2lobin , int b2hibin )
 {
 
-INT clobin , chibin , dlobin , dhibin ;
-INT lobin , hibin , bin ;
+int clobin , chibin , dlobin , dhibin ;
+int lobin , hibin , bin ;
 
 clobin = ( a1lobin <= b2lobin ) ? a1lobin : b2lobin ;
 chibin = ( a1hibin >= b2hibin ) ? a1hibin : b2hibin ;
@@ -237,8 +237,8 @@ if( ablockG == bblockG ) {
 void new_assgnto_old2( int a1lobin , int a1hibin , int a2lobin , int a2hibin , int b1lobin , int b1hibin , int b2lobin , int b2hibin )
 {
 
-INT clobin , chibin , dlobin , dhibin ;
-INT lobin , hibin , bin ;
+int clobin , chibin , dlobin , dhibin ;
+int lobin , hibin , bin ;
 
 clobin = ( a1lobin <= b2lobin ) ? a1lobin : b2lobin ;
 chibin = ( a1hibin >= b2hibin ) ? a1hibin : b2hibin ;
@@ -268,7 +268,7 @@ void sub_penal( int startx , int endx , int block , int LoBin , int HiBin )
 {
 
 BINPTR bptr ;
-INT bin ;
+int bin ;
 
 
 if( LoBin == HiBin ) {
@@ -300,7 +300,7 @@ void add_penal( int startx , int endx , int block , int LoBin , int HiBin )
 {
 
 BINPTR bptr ;
-INT bin ;
+int bin ;
 
 if( LoBin == HiBin ) {
     bptr = binptrG[block][LoBin] ;
