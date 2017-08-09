@@ -14,6 +14,8 @@ add_library(GrayWolfSyntax SHARED
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/syntax .)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
 install(
 	TARGETS GrayWolfSyntax
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}

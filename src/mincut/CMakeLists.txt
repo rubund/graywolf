@@ -15,6 +15,8 @@ add_library(GraywolfMincut SHARED
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_SOURCE_DIR}/src/mincut)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
 install(
 	TARGETS GraywolfMincut
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}
