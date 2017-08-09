@@ -45,23 +45,14 @@ CONTENTS:
 DATE:	    May  8, 1989 - original coding.
 REVISIONS:  Apr 29, 1990 - added message.h
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) getftime.c version 1.3 8/28/90" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <globals.h>
 
 #define ERROR    -1             /* return code for error */
 
-INT YgetFileTime( filename )
-char *filename ;
+int YgetFileTime( char *filename )
 {
     struct stat info ;               /* info record */
-    INT    status    ;               /* return code from stat */
+    int    status    ;               /* return code from stat */
 
     if( filename ){
 	status = stat( filename, &info ) ;

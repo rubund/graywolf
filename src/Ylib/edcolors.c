@@ -53,20 +53,19 @@ REVISIONS:  Dec  7, 1990 - updated for new dialog procedure.
 #include "info.h"
 
 void init_field(int field, int row, int column, int str_len, char *string, int type, int color, int group );
-
 TWDIALOGPTR fieldS ;
 
 /* be able to turn off individual colors */
 void TWtoggleColors()
 {
     char **colors ;      /* the standard color array */
-    INT  i ;             /* counter */
-    INT  numfields ;     /* number of dialog fields */
-    INT  numcolors ;     /* the number of colors in color array */
-    INT  row ;           /* current row of dialog */
-    INT  group ;         /* current case group of dialog */
-    INT  color ;         /* current color processed */
-    INT  field ;         /* current field of dialog */
+    int  i ;             /* counter */
+    int  numfields ;     /* number of dialog fields */
+    int  numcolors ;     /* the number of colors in color array */
+    int  row ;           /* current row of dialog */
+    int  group ;         /* current case group of dialog */
+    int  color ;         /* current color processed */
+    int  field ;         /* current field of dialog */
     BOOL *colorOn ;      /* whether each color is on */
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR answer ; /* return from user */

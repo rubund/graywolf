@@ -10,46 +10,37 @@ REVISIONS:  Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 #ifndef MAIN_H
 #define MAIN_H
 
-/* global variables defined for main */
-#ifdef MAIN_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
+char *cktNameG ;
 
-EXTERN char *cktNameG ;
+int rowsG ;
+int attmaxG ;
+int maxCellOG ;
+int iterationG ;
 
-EXTERN int rowsG ;
-EXTERN int attmaxG ;
-EXTERN int maxCellOG ;
-EXTERN int iterationG ;
+int blkxspanG ;
+int blkyspanG ;
+int ffeedsG ;
+int lrtxspanG ;
+int lrtyspanG ;
+int ifrangeG ;
+int *fixarrayG ;
 
-EXTERN int blkxspanG ;
-EXTERN int blkyspanG ;
-EXTERN int ffeedsG ;
-EXTERN int lrtxspanG ;
-EXTERN int lrtyspanG ;
-EXTERN int ifrangeG ;
-EXTERN int *fixarrayG ;
+FILE *fpoG ;
 
-EXTERN FILE *fpoG ;
+int d_costG ;
+int resume_runG ;
+int implicit_pins_usedG ;
+int rowHeightG ;
+int fdthrusG ;
 
-EXTERN int d_costG ;
-EXTERN int resume_runG ;
-EXTERN int implicit_pins_usedG ;
-EXTERN int rowHeightG ;
-EXTERN int fdthrusG ;
+double TG ;
+double imprangeG ;
+double rowSepG ;
+int    rowSepAbsG ;
+double stopdegG ;
 
-EXTERN double TG ;
-EXTERN double imprangeG ;
-EXTERN double rowSepG ;
-EXTERN int    rowSepAbsG ;
-EXTERN double stopdegG ;
-
-EXTERN unsigned Yrandom_seed() ;
-EXTERN unsigned randomSeedG  ;
-EXTERN unsigned randomSeed2G ;
-
-#undef EXTERN
+unsigned Yrandom_seed() ;
+unsigned randomSeedG  ;
+unsigned randomSeed2G ;
 
 #endif /* MAIN_H */

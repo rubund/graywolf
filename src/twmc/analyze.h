@@ -1,1 +1,1 @@
-DOUBLE analyze();
+double analyze();

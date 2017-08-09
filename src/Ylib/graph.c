@@ -167,9 +167,7 @@ int compare_edge(YEDGEPTR p1, YEDGEPTR p2)
 /*-------------------------------------------------------
   compare_graph_size: compare graphs based on size field
   -------------------------------------------------------*/
-int compare_graph_size(p1,p2)
-     YGRAPHPTR p1;
-     YGRAPHPTR p2;
+int compare_graph_size(YGRAPHPTR p1, YGRAPHPTR p2)
 {
   return ( p1->size - p2->size );
 }

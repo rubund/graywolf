@@ -47,12 +47,12 @@ CONTENTS:   coarseglb()
 	    initialize_feed_need()
 	    feed_config( )
 	    set_node( x )
-		INT x ;
+		int x ;
 	    compute_feed_diff( iteration )
-	    INT iteration ;
+	    int iteration ;
 	    space_for_feed( )
 	    update_feed_config( iteration )
-		INT iteration ;
+		int iteration ;
 	    no_of_feedthru_cells()
 	    addin_feedcell()
 	    final_feed_config( )
@@ -80,24 +80,24 @@ REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 #include "graphics.h"
 
 /* static definitions */
-static INT *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;
-static INT *feed_shortS , half_hzsepS , right_Pads_left_edgeS ;
+int *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;
+int *feed_shortS , half_hzsepS , right_Pads_left_edgeS ;
 
 /* global definitions */
-INT longest_row_lengthG ;
+int longest_row_lengthG ;
 
 /* global references */
-extern INT add_Lcorner_feedG ;
-extern INT extra_cellsG ;
-extern INT actual_feed_thru_cells_addedG ;
+extern int add_Lcorner_feedG ;
+extern int extra_cellsG ;
+extern int actual_feed_thru_cells_addedG ;
 extern BOOL no_feed_at_endG ;
 extern BOOL ignore_feedsG ;
 
 void coarseglb() 
 {
 
-INT shift ;
-INT iteration = 0 ;
+int shift ;
+int iteration = 0 ;
 
 assign_row_to_pin() ;
 if( case_unequiv_pinG ) {
@@ -159,7 +159,7 @@ void assign_row_to_pin()
 
 CBOXPTR cellptr ;
 PINBOXPTR pinptr ;
-INT i , block ;
+int i , block ;
 
 for( i = 1 ; i <= numcellsG ; i++ ) {
     cellptr = carrayG[i] ;
@@ -173,14 +173,14 @@ for( i = 1 ; i <= numcellsG ; i++ ) {
 void set_up_grid( )
 {
 
-INT i , j , x , row_rite ;
-INT left, right, bottom, top ;
-INT row , cell , last_cell , class ;
-INT curr_row_rite , max_desire, prev_row_rite , padside ;
+int i , j , x , row_rite ;
+int left, right, bottom, top ;
+int row , cell , last_cell , class ;
+int curr_row_rite , max_desire, prev_row_rite , padside ;
 TIBOXPTR tptr ;
 
 numChansG = numRowsG + 1 ;
-accumulate_feedS = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
+accumulate_feedS = (int *)Ysafe_malloc( numChansG * sizeof(int) ) ;
 /* set up the grid points in each rows for coarse routing */
 
 if( average_pin_sepG <= 3.25 * average_pin_sepG ) {
@@ -232,19 +232,19 @@ for( i = 1 ; i <= numRowsG ; i++ ) {
 	feedpptrG[i][j] = (FEED_DATA)Ysafe_calloc( 1,sizeof(FEED_DBOX) ) ;
     }
 }
-diff_in_rowfeedS  = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
-feed_diffS = (INT *)Ysafe_calloc( chan_node_noG + 1, sizeof( INT )) ;
-fdcel_addedG  = (INT *)Ysafe_calloc( numChansG, sizeof( INT ) ) ;
-feed_shortS = (INT *)Ysafe_calloc( numChansG, sizeof( INT ) ) ;
-fdcel_needG  = (INT **)Ysafe_calloc( numChansG, sizeof(INT *) );
+diff_in_rowfeedS  = (int *)Ysafe_malloc( numChansG * sizeof(int) ) ;
+feed_diffS = (int *)Ysafe_calloc( chan_node_noG + 1, sizeof( int )) ;
+fdcel_addedG  = (int *)Ysafe_calloc( numChansG, sizeof( int ) ) ;
+feed_shortS = (int *)Ysafe_calloc( numChansG, sizeof( int ) ) ;
+fdcel_needG  = (int **)Ysafe_calloc( numChansG, sizeof(int *) );
 for( i = 1 ; i <= numRowsG ; i++ ) {
-    fdcel_needG[i]  = (INT *)Ysafe_calloc( chan_node_noG+1, sizeof(INT) ) ;
+    fdcel_needG[i]  = (int *)Ysafe_calloc( chan_node_noG+1, sizeof(int) ) ;
 }
 
 /* in order to take care of the circuits with 
 	    macros we need to do the following */
-row_rite_classG = (INT *) Ysafe_malloc( numChansG * sizeof(INT) ) ;
-right_most_in_classG = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
+row_rite_classG = (int *) Ysafe_malloc( numChansG * sizeof(int) ) ;
+right_most_in_classG = (int *)Ysafe_malloc( numChansG * sizeof(int) ) ;
 class = 0 ;
 prev_row_rite = -1 ;
 row_rite_classG[1] = class ;
@@ -267,7 +267,7 @@ for( cell = numcellsG + 1 ; cell <= lastpadG ; cell++ ) {
 	right = tptr->right ;
 	bottom = tptr->bottom ;
 	top = tptr->top ;
-	YtranslateT( &left, &bottom, &right, &top, (INT)carrayG[cell]->corient ) ;
+	YtranslateT( &left, &bottom, &right, &top, (int)carrayG[cell]->corient ) ;
 	x = carrayG[cell]->cxcenter + left ;
 	if( x < right_Pads_left_edgeS ) {
 	    right_Pads_left_edgeS = x ;
@@ -279,7 +279,7 @@ for( cell = numcellsG + 1 ; cell <= lastpadG ; cell++ ) {
 void initialize_feed_need()
 {
 
-INT i , row ;
+int i , row ;
 FEED_DATA *feedptr ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -296,7 +296,7 @@ feed_config() ;
 void feed_config( )
 {
 
-INT row , cell , cxcenter , k ;
+int row , cell , cxcenter , k ;
 CBOXPTR cellptr ;
 IPBOXPTR imptr ;
 
@@ -323,22 +323,22 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 int set_node( int x )
 {
 
-DOUBLE h ;
+double h ;
 
-h = (DOUBLE)( x - blk_most_leftG ) / (DOUBLE)hznode_sepG + 1.5 ;
+h = (double)( x - blk_most_leftG ) / (double)hznode_sepG + 1.5 ;
 if( h < 1 ) {
     return( 1 ) ;
 } else if( h > chan_node_noG ) {
     return( chan_node_noG ) ;
 } else {
-    return( (INT)h ) ;
+    return( (int)h ) ;
 }
 }
 
 void compute_feed_diff( int iteration )
 {
 
-INT i , j , k , range , left_node , rite_node ;
+int i , j , k , range , left_node , rite_node ;
 
 if( ignore_feedsG || try_not_to_add_explicit_feedsG ) {
     range = chan_node_noG ;
@@ -401,9 +401,9 @@ int space_for_feed( )
 
 PINBOXPTR pinptr ;
 CBOXPTR cellptr ;
-INT row , i , Flag , shiftFlag , *Aray ;
-INT nodex , node , shift , patch_shift ;
-INT locFdWidth = fdWidthG;
+int row , i , Flag , shiftFlag , *Aray ;
+int nodex , node , shift , patch_shift ;
+int locFdWidth = fdWidthG;
 
 // if ( ignore_feedsG ) locFdWidth = 0;
 
@@ -520,16 +520,16 @@ return( shiftFlag ) ;
 void update_feed_config( int iteration )
 {
 
-INT cell , padside , shift ;
-INT *Aray , i , k , row , row_left , row_rite ;
-INT last , orient , curr_rite , next_left , lastcell_rite ;
-INT feedx , last_feedx , first_cell_left ;
+int cell , padside , shift ;
+int *Aray , i , k , row , row_left , row_rite ;
+int last , orient , curr_rite , next_left , lastcell_rite ;
+int feedx , last_feedx , first_cell_left ;
 CBOXPTR cellptr , nextptr , currptr ;
 PINBOXPTR pin ;
 FEED_DATA *feedptr ;
 IPBOXPTR imptr ;
 
-INT locFdWidth = fdWidthG;
+int locFdWidth = fdWidthG;
 
 // if ( ignore_feedsG ) locFdWidth = 0;
 
@@ -647,11 +647,11 @@ if( rowsG == 0 && blk_most_riteG >= right_Pads_left_edgeS ) {
 int no_of_feedthru_cells()
 {
 
-INT i , row , n , difference , lastcell_rite , total_feedthrus ;
+int i , row , n , difference , lastcell_rite , total_feedthrus ;
 CBOXPTR cellptr ;
 FEED_DATA *feedptr ;
 
-INT locFdWidth = fdWidthG;
+int locFdWidth = fdWidthG;
 
 // if (ignore_feedsG) locFdWidth = 0;
 
@@ -688,12 +688,12 @@ return( total_feedthrus ) ;
 void addin_feedcell()
 {
 
-INT row , i , k , r , last , feednum , row_left ;
-INT curr_rite , next_left , half_fdWidthG , feedx , last_feedx ;
-INT *Aray , *nAray , last_rite_edge , first_cell_left ;
+int row , i , k , r , last , feednum , row_left ;
+int curr_rite , next_left , half_fdWidthG , feedx , last_feedx ;
+int *Aray , *nAray , last_rite_edge , first_cell_left ;
 CBOXPTR current , nextone , lastptr ;
 
-INT locFdWidth = fdWidthG;
+int locFdWidth = fdWidthG;
 
 // if ( ignore_feedsG ) locFdWidth = 0;
 
@@ -725,9 +725,9 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
     */
     if( fdcel_addedG[row] == 0 ) {
 	if( r > 1 ) {
-	    Aray = (INT *)Ysafe_realloc( Aray ,
+	    Aray = (int *)Ysafe_realloc( Aray ,
 	    (2 * ( r + Aray[0] + diff_in_rowfeedS[row] + 1 ) +
-	    (extra_cellsG / numRowsG) * 4) * sizeof(INT) ) ;
+	    (extra_cellsG / numRowsG) * 4) * sizeof(int) ) ;
 	    feedx = last_rite_edge + half_fdWidthG ;
 	    last_feedx = right_most_in_classG[ row_rite_classG[row] ]
 					    - ( locFdWidth + 1 ) / 2 ;
@@ -747,9 +747,9 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	continue ;
     }
 
-    nAray = (INT *)Ysafe_malloc( (2 * ( Aray[0] + fdcel_addedG[row] +
+    nAray = (int *)Ysafe_malloc( (2 * ( Aray[0] + fdcel_addedG[row] +
 		diff_in_rowfeedS[row] + r + 1 ) 
-		+ (extra_cellsG / numRowsG ) * 4 ) * sizeof( INT ) ) ;
+		+ (extra_cellsG / numRowsG ) * 4 ) * sizeof( int ) ) ;
     nAray[0] = 0 ;
 
     current = carrayG[ Aray[1] ] ;
@@ -815,8 +815,8 @@ void final_feed_config( )
 IPBOXPTR imptr ;
 FEED_DATA *feedptr ;
 CBOXPTR first_cptr , last_cptr ;
-INT i , row , longest_row , max_length , k , length , *Aray ;
-INT delta_row_len ;
+int i , row , longest_row , max_length , k , length , *Aray ;
+int delta_row_len ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
     Aray = pairArrayG[row] ;
@@ -833,7 +833,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	}
     }
 }
-total_feed_in_the_rowG = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
+total_feed_in_the_rowG = (int *)Ysafe_malloc( numChansG * sizeof(int) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     k = 0 ;
     feedptr = feedpptrG[row] ;
@@ -870,7 +870,7 @@ printf("\n  longest Row is:%d   Its length is:%d\n",
 void free_cglb_data()
 {
 
-INT i , net ;
+int i , net ;
 PINBOXPTR netptr ;
 ADJASEGPTR adjptr , saveptr ;
 

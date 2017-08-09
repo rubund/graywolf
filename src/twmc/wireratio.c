@@ -61,7 +61,7 @@ REVISIONS:  Fri Jan 25 18:15:36 PST 1991 - added numpins to equations
 
 void gsl_matrix_disp( gsl_matrix *mptr, int rows, int cols )
 {
-    INT i, j ;
+    int i, j ;
 
     for( i=0; i < rows; i++ ){
         for( j=0; j < cols; j++ ){
@@ -84,12 +84,12 @@ void gsl_vector_disp( gsl_vector *vptr, int rows )
 
 void set_pins(gsl_matrix *A,int center, int loc, int tile_side, int *sidepins, int count )
 {
-    INT side ;   /* the matching side for a given tile */
+    int side ;   /* the matching side for a given tile */
 
     if( sidepins ){
 	side = find_tile_side( center, loc, tile_side ) ;
 	if( side ){
-	    gsl_matrix_set(A, count, 5, (DOUBLE) sidepins[side]);
+	    gsl_matrix_set(A, count, 5, (double) sidepins[side]);
 	} else {
 	    M( ERRMSG, "adapt_wire_estimator", 
 		"Trouble finding pinside - defaulting to 0.\n" ) ;
@@ -103,23 +103,23 @@ void set_pins(gsl_matrix *A,int center, int loc, int tile_side, int *sidepins, i
 
 void adapt_wire_estimator()
 {
-    INT i ;                 /* coefficient counter */
-    INT cell ;              /* cell counter */
-    INT count ;             /* count number of tiles */
-    INT xc, yc ;            /* cell center */
-    INT *sidepins ;         /* array holding #pins for side */
-    INT    l, r, b, t ;     /* the global position of the rtiles */
-    INT solved ;	    /* status of gsl_linalg_SV_solve */
-    INT *find_pin_sides() ; /* find number of pins on all sides */
+    int i ;                 /* coefficient counter */
+    int cell ;              /* cell counter */
+    int count ;             /* count number of tiles */
+    int xc, yc ;            /* cell center */
+    int *sidepins ;         /* array holding #pins for side */
+    int    l, r, b, t ;     /* the global position of the rtiles */
+    int solved ;	    /* status of gsl_linalg_SV_solve */
+    int *find_pin_sides() ; /* find number of pins on all sides */
     char filename[LRECL] ;  /* output the results of the SVD fit */
     FILE  *fp ;             /* write out the results */
     gsl_matrix *A ;              /* the matrix holding x y positions */
     gsl_vector *B ;              /* the resulting global routing space*/
     gsl_vector *Xret ;           /* the solution to At*A*x = At*B */
-    DOUBLE x, y ;           /* cell placement */
-    DOUBLE lf, rf, bf, tf ; /* the global position of the rtiles */
-    DOUBLE xlength, ylength;/* length of side */
-    DOUBLE xrouting, yrouting;/* routing space */
+    double x, y ;           /* cell placement */
+    double lf, rf, bf, tf ; /* the global position of the rtiles */
+    double xlength, ylength;/* length of side */
+    double xrouting, yrouting;/* routing space */
     CELLBOXPTR cptr ;       /* current pointer to cell */
     RTILEBOXPTR rptr ;      /* traverse tiles */
 
@@ -158,8 +158,8 @@ void adapt_wire_estimator()
     /* we eventually want to solve AtA x = At B */
 
     /* now fill in the data in the matrices. */
-    xlength = (DOUBLE) (blockrG - blocklG) ;
-    ylength = (DOUBLE) (blocktG - blockbG) ;
+    xlength = (double) (blockrG - blocklG) ;
+    ylength = (double) (blocktG - blockbG) ;
     count = 0 ;
     for( cell = 1 ; cell <= numcellsG; cell++ ){
 	cptr = cellarrayG[ cell ] ;
@@ -176,14 +176,14 @@ void adapt_wire_estimator()
 	    r = xc + rptr->x2 ;
 	    b = yc + rptr->y1 ;
 	    t = yc + rptr->y2 ;
-	    xrouting = (DOUBLE)(r - l) ;
-	    yrouting = (DOUBLE)(t - b) ;
-	    lf = ( (DOUBLE)(l - blocklG ) ) / xlength ;
+	    xrouting = (double)(r - l) ;
+	    yrouting = (double)(t - b) ;
+	    lf = ( (double)(l - blocklG ) ) / xlength ;
 	    if( lf < 0.0 )   lf = 0.0 ;
-	    rf = ( (DOUBLE)(r - blocklG ) ) / xlength ;
-	    bf = ( (DOUBLE)(b - blockbG ) ) / ylength ;
+	    rf = ( (double)(r - blocklG ) ) / xlength ;
+	    bf = ( (double)(b - blockbG ) ) / ylength ;
 	    if( bf < 0.0 )   bf = 0.0 ;
-	    tf = ( (DOUBLE)(t - blockbG ) ) / ylength ;
+	    tf = ( (double)(t - blockbG ) ) / ylength ;
 	    switch( rptr->side ){
 	    case TILEL:
 		/* calculate x and y */
@@ -233,7 +233,7 @@ void adapt_wire_estimator()
 	    count++ ;
 	}
 	if( sidepins ){
-	    Yvector_free( sidepins, 1, sizeof(INT) ) ;
+	    Yvector_free( sidepins, 1, sizeof(int) ) ;
 	}
 
     } /* end loop on cells */
@@ -290,9 +290,9 @@ void adapt_wire_estimator()
 	gsl_vector *AX ; /* multiply the answer */
 	gsl_vector *R ;
 	gsl_matrix *Q ;
-	INT c ;
-	DOUBLE d ;
-	DOUBLE dx ;
+	int c ;
+	double d ;
+	double dx ;
 
 	AX = gsl_vector_alloc(count < 6 ? count : 6);
 	R =  gsl_vector_alloc(count < 6 ? count : 6);

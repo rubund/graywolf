@@ -42,25 +42,25 @@ FILE:	    debug2.c
 DESCRIPTION:Various debug functions.
 CONTENTS:   dbx_fdpen()
 	    dbx_adj( net )
-		INT net ;
+		int net ;
 	    dbx_netseg( net1 , net2 )
-		INT net1 , net2 ;
+		int net1 , net2 ;
 	    dbx_seg( segptr )
 		SEGBOXPTR segptr ;
 	    dbx_feed( row1 , row2 )
-		INT row1 , row2 ;
+		int row1 , row2 ;
 	    dbx_imp( row1 , row2 )
-		INT row1 , row2 ;
+		int row1 , row2 ;
 	    dbx_funcost()
 	    mst_graph( net1 , net2 )
-		INT net1 , net2 ;
+		int net1 , net2 ;
 	    pre_dbx_Lseg()
 	    dbx_Lseg( check_row )
-		INT check_row ;
+		int check_row ;
 	    dbx_proj( check_row )
-		INT check_row ;
+		int check_row ;
 	    dbx_fdasgn( row )
-		INT row ;
+		int row ;
 	    check_funccost()
 DATE:	    Mar 27, 1989 
 REVISIONS:  Apr  1, 1990 - added check_funccost() ;
@@ -82,12 +82,12 @@ extern FEED_DATA **feedpptr ;
 extern SEGBOX  **netsegHead ;
 extern IPBOXPTR *impFeeds ;
 extern PINBOXPTR *steinerHead ;
-extern INT chan_node_no ;
-extern INT *min_feed , *FeedInRow ;
+extern int chan_node_no ;
+extern int *min_feed , *FeedInRow ;
 */
 
 dbx_adj( net )
-INT net ;
+int net ;
 {
 
 FILE *fp ;
@@ -115,13 +115,13 @@ TWCLOSE(fp) ;
 }
 
 dbx_netseg( net1 , net2 )
-INT net1 , net2 ;
+int net1 , net2 ;
 {
 
 FILE *fp ;
 PINBOXPTR pin1ptr , pin2ptr ;
 SEGBOXPTR segptr ;
-INT net ;
+int net ;
 
 fp = TWOPEN("netseg.dat" , "w", ABORT ) ;
 for( net = net1 ; net <= net2 ; net++ ) {
@@ -162,13 +162,13 @@ TWCLOSE(fp) ;
 
 
 dbx_feed( row1 , row2 )
-INT row1 , row2 ;
+int row1 , row2 ;
 {
 
 FILE *fp ;
 FEED_DATA *feedptr ;
-INT i , q , r , t , j , node , row ;
-INT actual , needed , total_actual , total_needed ;
+int i , q , r , t , j , node , row ;
+int actual , needed , total_actual , total_needed ;
 
 total_actual = 0 ;
 total_needed = 0 ;
@@ -238,10 +238,10 @@ TWCLOSE(fp) ;
 
 
 dbx_imp( row1 , row2 )
-INT row1 , row2 ;
+int row1 , row2 ;
 {
 
-INT row , k ;
+int row , k ;
 char *s ;
 IPBOXPTR imptr ;
 FILE *fp ;
@@ -261,7 +261,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 	}
 	fprintf(fp," %4d %8d %6d  %6s %8s\n", k ,
 	    imptr->terminal , imptr->xpos ,
-	    (INT)tearrayG[imptr->terminal] , s ) ;
+	    (int)tearrayG[imptr->terminal] , s ) ;
     }
 }
 TWCLOSE(fp) ;
@@ -270,7 +270,7 @@ TWCLOSE(fp) ;
 dbx_funcost()
 {
 
-INT net , cost , minx , miny , maxx , maxy ;
+int net , cost , minx , miny , maxx , maxy ;
 DBOXPTR dimptr ;
 PINBOXPTR netptr ;
 
@@ -305,14 +305,14 @@ if( cost != funccostG ) {
 }
 
 mst_graph( net1 , net2 )
-INT net1 , net2 ;
+int net1 , net2 ;
 {
 
 FILE *fp ;
 PINBOXPTR pin1ptr , pin2ptr , netptr ;
 CBOXPTR cellptr1 , cellptr2 , cellptr ;
 SEGBOXPTR segptr ;
-INT net , x1 , x2 , y1 , y2 , row , cell ;
+int net , x1 , x2 , y1 , y2 , row , cell ;
 
 fp = TWOPEN("net.file" , "w", ABORT ) ;
 for( net = net1 ; net <= net2 ; net++ ) {
@@ -400,13 +400,13 @@ TWCLOSE(fp) ;
 
 
 dbx_fdasgn( row )
-INT row ;
+int row ;
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;
 SEGBOXPTR segptr , nextptr ;
 FEED_DATA *feedptr ;
-INT i, k , net ;
+int i, k , net ;
 
 feedptr = feedpptrG[row] ;
 for( i =1 ; i <= chan_node_noG ; i++ ) {
@@ -476,15 +476,15 @@ void check_cost()
     CBOXPTR ptr ;
     DBOXPTR dimptr ;
     PINBOXPTR netptr , termptr ;
-    INT corient ;
-    INT cell , net , block ;
-    INT x , y , cost ;
-    INT tmp ;
-    INT xmin, ymin, xmax, ymax ;
-    INT Ln, Bn, Rn, Tn ;
-    extern INT extra_cellsG ;
-    INT penal, rpenal ;
-    INT bin ;
+    int corient ;
+    int cell , net , block ;
+    int x , y , cost ;
+    int tmp ;
+    int xmin, ymin, xmax, ymax ;
+    int Ln, Bn, Rn, Tn ;
+    extern int extra_cellsG ;
+    int penal, rpenal ;
+    int bin ;
 
     for( cell = 1 ; cell <= numcellsG + numtermsG ; cell++ ) {
 	ptr = carrayG[ cell ] ;
@@ -565,7 +565,7 @@ void check_cost()
 	cost += dimptr->halfPx = dimptr->newhalfPx = 
 					     dimptr->xmax - dimptr->xmin ;
 	dimptr->halfPy = dimptr->newhalfPy = dimptr->ymax - dimptr->ymin ;
-	cost += (INT)( vertical_wire_weightG * (DOUBLE) dimptr->halfPy ) ;
+	cost += (int)( vertical_wire_weightG * (double) dimptr->halfPy ) ;
 
 	ASSERT( xmin == dimptr->xmin, NULL,"trouble\n" ) ;
 	ASSERT( xmax == dimptr->xmax, NULL,"trouble\n" ) ;

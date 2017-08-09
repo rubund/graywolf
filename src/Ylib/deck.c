@@ -196,7 +196,7 @@ VOIDPTR Ydeck_dequeue(deckPtr)
 /*--------------------------*/
 /* check status of the deck */
 /*--------------------------*/
-INT Ydeck_notEmpty( deckPtr ) 
+int Ydeck_notEmpty( deckPtr ) 
      YDECK *deckPtr ;
 {  
   return( deckPtr->size ) ;
@@ -274,8 +274,8 @@ int Ydeck_verify(YDECK *deck)
 {
   static char routineNameS[LRECL] = "Ydeck_verify";
   YCARDPTR saveCurrent;
-  INT count1 = 0;
-  INT count2 = 0;
+  int count1 = 0;
+  int count2 = 0;
   int rc = TRUE;
 
   /* save the decks current position */

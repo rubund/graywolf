@@ -67,7 +67,7 @@ REVISIONS:  Apr 19, 1990 - Added Yrbtree_dump()
 	    Thu Oct 10 17:28:21 EDT 1991 - added rbtree_resort and copy.
             Thu Oct 17 11:19:18 EDT 1991 - added rbtree_pred and
                rbtree_rev_list ( reverse list )
-	    10/18/91 - Changed startFlag from INT to BOOL for gcc -RAW 
+	    10/18/91 - Changed startFlag from int to BOOL for gcc -RAW 
 	    Tue Oct 29 15:00:58 EST 1991 - added two search routines
 		which keep track where you are in the tree.
 	    Mon Dec  9 15:34:09 EST 1991 - now deck datastructures are
@@ -108,8 +108,8 @@ typedef struct bin_tree {
 
 typedef struct tree {
     BINTREEPTR root ;                 /* the root of the tree */
-    INT        (*compare_func)() ;    /* how to compare two keys */
-    INT        size;                  /* current size of tree */
+    int        (*compare_func)() ;    /* how to compare two keys */
+    int        size;                  /* current size of tree */
     BINTREEPTR intervalPtr;           /* current position in interval search */
     BINTREEPTR searchPtr;             /* current position in search */
     BINTREEPTR enumeratePtr;          /* current position in enumeration */
@@ -121,7 +121,7 @@ typedef struct tree {
 #include <yalecad/rbtree.h>
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT          treeSizeS ;        /* the size of a tree */
+static int          treeSizeS ;        /* the size of a tree */
 static BINTREE      sentinelS ;        /* build a sentinel */
 static BINTREEPTR   nilS ;             /* pointer to sentinel */
 static BINTREE      recalc_sentinelS ; /* build a recalculate flag */
@@ -137,10 +137,10 @@ void tree_free( P1(BINTREEPTR ptr) ) ;
 void free_tree_and_data( P2(BINTREEPTR ptr, void (*userDelete)() ) ) ;
 void tree_delete( P3(YTREEPTR tree, BINTREEPTR z, void (*userDelete)() ) ) ;
 void tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
-    		    void (*print_key)(),INT printTab) ) ;
+    		    void (*print_key)(),int printTab) ) ;
 
 YTREEPTR Yrbtree_init( compare_func )
-INT (*compare_func)() ;  /* user specifies key function */
+int (*compare_func)() ;  /* user specifies key function */
 {
 
     YTREEPTR tree ;      /* the current tree being built */
@@ -172,9 +172,9 @@ static BINTREEPTR tree_search( tree, key )
 YTREEPTR tree ;
 char *key ;
 {
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
     BINTREEPTR ptr ;            /* current node in the tree */
-    INT k ;                   /* test condition [-1,0,1] */
+    int k ;                   /* test condition [-1,0,1] */
 
     ptr = tree->root ;
     comp_func = tree->compare_func ;
@@ -196,9 +196,9 @@ VOIDPTR Yrbtree_search( tree, key )
 YTREEPTR tree ;
 VOIDPTR key ;
 {
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
     BINTREEPTR ptr ;          /* current node in the tree */
-    INT k ;
+    int k ;
 
     ptr = tree->root ;
     comp_func = tree->compare_func ;
@@ -222,14 +222,14 @@ VOIDPTR key ;
 VOIDPTR Yrbtree_search_closest( tree, key, func )
 YTREEPTR tree ;
 VOIDPTR key ;
-INT func ;
+int func ;
 {
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
     BINTREEPTR ptr ;          /* current node in the tree */
     BINTREEPTR closest_ptr ;  /* current closest match in the tree */
     BINTREEPTR suc, pred ;    /* successor and predecessor for closest_ptr */
-    INT dist1, dist2 ;	      /* distance using predecessor functions */
-    INT k ;
+    int dist1, dist2 ;	      /* distance using predecessor functions */
+    int k ;
 
     ptr = tree->root ;
     comp_func = tree->compare_func ;
@@ -590,7 +590,7 @@ VOIDPTR data ;
     BINTREEPTR z ;          /* a temporary pointer */
     BINTREEPTR nil ;          /* a temporary pointer */
     BINTREEPTR ptr ;          /* a temporary pointer */
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
 
     if(!(data)){
 	M( ERRMSG, "Yrbtree_insert","No data given\n" ) ;
@@ -832,7 +832,7 @@ void (*userDelete)();
 
 void tree_dump( YTREEPTR tree, BINTREEPTR ptr, void (*print_key)(), int printTab )
 {
-    INT  i ;
+    int  i ;
 
     if( ptr != nilS ){
 	printTab+=4;
@@ -873,7 +873,7 @@ VOIDPTR low_key, high_key ;
 BOOL startFlag;
 {
     BINTREEPTR ptr ;                  /* remember where we are */
-    static INT (*comp_func)() ;       /* current compare function */
+    static int (*comp_func)() ;       /* current compare function */
     BINTREEPTR y ;                    /* remember where we are */
 
     comp_func = tree->compare_func ;
@@ -922,12 +922,12 @@ BOOL startFlag;
 } /* end Ytree_interval */
 
 
-INT Yrbtree_interval_size( tree, low_key, high_key )
+int Yrbtree_interval_size( tree, low_key, high_key )
 YTREEPTR tree ;
 VOIDPTR low_key, high_key ;
 {
-    static INT (*comp_func)() ;       /* current compare function */
-    INT size ;			      /* number of element in interval */
+    static int (*comp_func)() ;       /* current compare function */
+    int size ;			      /* number of element in interval */
     BINTREEPTR ptr ;                  /* remember where we are */
     BINTREEPTR y ;                    /* remember where we are */
 
@@ -1077,10 +1077,10 @@ void (*userDelete)();
 } /* end Yrbtree_empty() */
 
 
-INT Yrbtree_size( tree )
+int Yrbtree_size( tree )
 YTREEPTR tree ;
 {
-    INT size;
+    int size;
 
     if( tree ){
       if ( tree->size >= 0 ) {
@@ -1093,17 +1093,17 @@ YTREEPTR tree ;
     return (-1);
 } /* end Yrbtree_size */
 
-INT (*Yrbtree_get_compare( tree ))()
+int (*Yrbtree_get_compare( tree ))()
 YTREEPTR tree;
 {
   return ( tree->compare_func );
 }
 
-INT Yrbtree_verify(tree)
+int Yrbtree_verify(tree)
      YTREEPTR tree ;
 {
-  INT count;
-  INT rc;
+  int count;
+  int rc;
   BINTREEPTR ptr;
 
   /* exercise tree pointers */
@@ -1139,7 +1139,7 @@ INT Yrbtree_verify(tree)
 
 void Yrbtree_resort( tree, compare_func )
 YTREEPTR tree ;
-INT (*compare_func)() ;  /* user specifies key function */
+int (*compare_func)() ;  /* user specifies key function */
 {
     BINTREEPTR ptr ;          /* remember where we are */
     YTREEPTR new_tree ;       /* the new tree being built */
@@ -1174,7 +1174,7 @@ INT (*compare_func)() ;  /* user specifies key function */
 
 YTREEPTR Yrbtree_copy( tree, compare_func )
 YTREEPTR tree ;
-INT (*compare_func)() ;  /* user specifies key function */
+int (*compare_func)() ;  /* user specifies key function */
 {
     BINTREEPTR ptr ;          /* remember where we are */
     YTREEPTR new_tree ;       /* the new tree being built */
@@ -1201,7 +1201,7 @@ INT (*compare_func)() ;  /* user specifies key function */
                        TEST OF TREE ROUTINES 
    ################################################################## */
 typedef struct {
-    INT  str_len ;
+    int  str_len ;
     char *name ;
 } DATA, *DATAPTR ;
 
@@ -1249,7 +1249,7 @@ main()
     DATAPTR data ;
     static char buffer1[LRECL] ;
     static char buffer2[LRECL] ;
-    INT count ;
+    int count ;
     DATA key1, key2 ;
 
     key1.name = buffer1 ;

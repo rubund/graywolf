@@ -62,7 +62,7 @@ void upin_test( PINBOXPTR termptr, MOVEBOXPTR pos )
 {
 
     NETBOXPTR dimptr ;
-    INT targetx, targety, orient ;
+    int targetx, targety, orient ;
 
     /* get target position from Rotational record */
     targetx = pos->xcenter ;

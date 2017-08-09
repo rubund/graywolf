@@ -41,13 +41,13 @@
 FILE:	    findside.c
 DESCRIPTION:This file contains the routines to find what side the
 	    pins are located.
-CONTENTS:   INT findside( pSideArray, cellptr , x , y )
+CONTENTS:   int findside( pSideArray, cellptr , x , y )
 		PSIDEBOX  *pSideArray ;
 		CELLBOXPTR cellptr ;
-		INT x , y ;
+		int x , y ;
 	    loadside( pSideArray, side , factor )
 		PSIDEBOX  *pSideArray ;
-		INT side ;
+		int side ;
 		DOUBLE factor ;
 DATE:	    Aug  7, 1988 
 REVISIONS:  Apr 23, 1990 - added error checking for soft pins and
@@ -66,9 +66,9 @@ REVISIONS:  Apr 23, 1990 - added error checking for soft pins and
 int findside( PSIDEBOX  *pSideArray, CELLBOXPTR cellptr , int x , int y )
 {
 
-INT k , min , kmin, dist, begin, end ;
-INT xc, yc, b, e ;
-INT *yvert, *xvert ;
+int k , min , kmin, dist, begin, end ;
+int xc, yc, b, e ;
+int *yvert, *xvert ;
 
 min = INT_MAX ;
 kmin = 1 ; /* default side */
@@ -126,14 +126,14 @@ return ;
 void load_soft_pins( CELLBOXPTR ptr, PSIDEBOX *pSideArray )
 {
 
-    INT i ;                        /* counter */
-    INT j ;                        /* counter */
-    INT howmany ;                  /* number of softpins for cell */
-    INT restrict1 ;                 /* counter */
-    INT match ;                    /* count number of matching restricts*/
-    INT numsides ;                 /* number of side restrictions */
-    INT numrestricts ;             /* current # restricts for child */
-    INT parent_restricts ;         /* current # restricts for parent */
+    int i ;                        /* counter */
+    int j ;                        /* counter */
+    int howmany ;                  /* number of softpins for cell */
+    int restrict1 ;                 /* counter */
+    int match ;                    /* count number of matching restricts*/
+    int numsides ;                 /* number of side restrictions */
+    int numrestricts ;             /* current # restricts for child */
+    int parent_restricts ;         /* current # restricts for parent */
     BOOL abortPin ;                /* abort load if true */
     PINBOXPTR pin ;                /* current pin */
     PINBOXPTR parent ;             /* parent to current pin */
@@ -146,7 +146,7 @@ void load_soft_pins( CELLBOXPTR ptr, PSIDEBOX *pSideArray )
     }
 
     side_set = Yset_init( 1, ptr->numsides ) ;
-    howmany = (INT) ptr->softpins[HOWMANY] ;
+    howmany = (int) ptr->softpins[HOWMANY] ;
     for( i = 1 ; i <= howmany; i++ ){
 
 	/**** DETERMINE THE VALID SIDES FOR A SOFTPIN ****/

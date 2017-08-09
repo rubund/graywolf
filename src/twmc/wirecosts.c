@@ -57,9 +57,9 @@ void wirecosts()
 NETBOXPTR dimptr ;
 PINBOXPTR pinptr ;
 
-INT limitNets, withPads , withOutPads ;
-INT x , y , xmin , xmax , ymin , ymax , net ;
-INT cell, celltype, bbox ;
+int limitNets, withPads , withOutPads ;
+int x , y , xmin , xmax , ymin , ymax , net ;
+int cell, celltype, bbox ;
 
 withPads = 0 ;
 withOutPads = 0 ;

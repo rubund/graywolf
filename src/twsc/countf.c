@@ -44,9 +44,9 @@ CONTENTS:   countf()
 	    prep_feed_count_1()
 	    prep_feed_count()
 	    insert_row( flag )
-		INT flag ;
+		int flag ;
 	    feed_situation( row , net )
-		INT row , net ;
+		int row , net ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
@@ -63,13 +63,13 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #include "countf.h"
 
 /* global definitions */
-INT *xfeeds_in_rowG ;
-INT est_fdsG ;
+int *xfeeds_in_rowG ;
+int est_fdsG ;
 
 /* static variables */
-static INT offsetS ;
-static INT est_final_feedS ;
-static INT **row_mapS ;
+static int offsetS ;
+static int est_final_feedS ;
+static int **row_mapS ;
 static BOOL num_callS = FALSE ;
 
 void prep_feed_count();
@@ -80,22 +80,22 @@ countf()
 {
 
 PINBOXPTR netptr ;
-INT check , a , value ;
-INT net , i , row , toprow , botrow ;
-INT TOP_ROW_FOR_NET ;
-INT orig_toprow , orig_botrow ;
-DOUBLE fd_reduction = 0.0 ;   /* needed initialization WPS */
+int check , a , value ;
+int net , i , row , toprow , botrow ;
+int TOP_ROW_FOR_NET ;
+int orig_toprow , orig_botrow ;
+double fd_reduction = 0.0 ;   /* needed initialization WPS */
 
 
 if( num_callS == FALSE ) {
     num_callS = TRUE ;
 
     prep_feed_count_1() ;
-    row_mapS = ( INT ** ) Ysafe_malloc( (numRowsG + 2) * 
-					    sizeof(INT *));
+    row_mapS = ( int ** ) Ysafe_malloc( (numRowsG + 2) * 
+					    sizeof(int *));
     for( row = 0 ; row <= numRowsG + 1 ; row++ ) {
-	row_mapS[row] = (INT *) Ysafe_malloc( 3 *
- 				    sizeof( INT ) );
+	row_mapS[row] = (int *) Ysafe_malloc( 3 *
+ 				    sizeof( int ) );
     }
     insert_row( 0 ) ;
 } else {
@@ -220,8 +220,8 @@ if( iterationG == 3 ) {
 if( iterationG >= 3 ) {
     if( est_fdsG > 0 ) {
 	if( est_fdsG - offsetS > 0 ) {
-	    fd_reduction = ((DOUBLE) est_final_feedS - (DOUBLE) offsetS) / 
-				((DOUBLE) est_fdsG - (DOUBLE) offsetS);
+	    fd_reduction = ((double) est_final_feedS - (double) offsetS) / 
+				((double) est_fdsG - (double) offsetS);
 	} else {
 	    fd_reduction = 0.0 ;
 	}
@@ -245,7 +245,7 @@ if( iterationG >= 3 ) {
 fd_reduction *= 1.25 ;  /* we no longer add just min. feeds */
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    value = (INT)(fd_reduction * feeds_in_rowG[row]) ; 
+    value = (int)(fd_reduction * feeds_in_rowG[row]) ; 
     if( value > 0 && fdWidthG > 0 ) {
 	feeds_in_rowG[row] = 1 + value ;
     } else {
@@ -263,20 +263,20 @@ return( value * fdWidthG ) ;
 void prep_feed_count_1()
 {
 
-INT row ;
-DOUBLE total_row_len ;
+int row ;
+double total_row_len ;
 
 total_row_len = 0 ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    total_row_len += (DOUBLE) barrayG[row]->blength ;
+    total_row_len += (double) barrayG[row]->blength ;
 }
 
-xfeeds_in_rowG = (INT *) Ysafe_malloc( (1 + numRowsG) * sizeof(INT) );
+xfeeds_in_rowG = (int *) Ysafe_malloc( (1 + numRowsG) * sizeof(int) );
 
-offsetS = - (INT)((DOUBLE) implicit_feed_countG * 0.33) ;
+offsetS = - (int)((double) implicit_feed_countG * 0.33) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    feeds_in_rowG[row] = (INT)( (DOUBLE) offsetS *
-	    ((DOUBLE)(barrayG[row]->blength) / total_row_len) ) ;
+    feeds_in_rowG[row] = (int)( (double) offsetS *
+	    ((double)(barrayG[row]->blength) / total_row_len) ) ;
     xfeeds_in_rowG[row] = 0 ;
 }
 
@@ -286,16 +286,16 @@ return ;
 void prep_feed_count()
 {
 
-INT row ;
-DOUBLE total_row_len ;
+int row ;
+double total_row_len ;
 
 total_row_len = 0 ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    total_row_len += (DOUBLE) barrayG[row]->blength ;
+    total_row_len += (double) barrayG[row]->blength ;
 }
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    feeds_in_rowG[row] = (INT)( (DOUBLE) offsetS *
-	    ((DOUBLE)(barrayG[row]->blength) / total_row_len) ) ;
+    feeds_in_rowG[row] = (int)( (double) offsetS *
+	    ((double)(barrayG[row]->blength) / total_row_len) ) ;
     xfeeds_in_rowG[row] = 0 ;
 }
 
@@ -306,8 +306,8 @@ void insert_row( int flag )
 {
 
 PINBOXPTR pinptr ;
-INT row , cell , pad ;
-INT yc , yb , blk , xc ;
+int row , cell , pad ;
+int yc , yb , blk , xc ;
 
 
 for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
@@ -376,7 +376,7 @@ int feed_situation( int row , int net )
 {
 
 PINBOXPTR nptr ;
-INT pinup, pindown , pinloc ;
+int pinup, pindown , pinloc ;
 
 /*
  *   The following code is used for the return value:

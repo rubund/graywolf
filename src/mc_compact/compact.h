@@ -59,18 +59,11 @@ REVISIONS:  Oct 24, 1988 - added moved field to tilenode record for
 		box definition and added path_deck to definitions.
 	    Mon May  6 22:32:34 EDT 1991 - added gridding reference to
 		cell fields.
-	    Fri Nov  8 18:16:21 EST 1991 - removed INT_SMALL and INT_LARGE
+	    Fri Nov  8 18:16:21 EST 1991 - removed int_SMALL and int_LARGE
 		definitions since gcc couldn't handle it.
 ----------------------------------------------------------------- */
 #ifndef COMPACT_H
 #define COMPACT_H
-
-#ifndef COMPACT_DEFS
-#define EXTERN extern
-
-#else
-#define EXTERN
-#endif
 
 /* if not using makefile and debug is wanted add it here */
 /* #define DEBUG */
@@ -126,59 +119,59 @@ REVISIONS:  Oct 24, 1988 - added moved field to tilenode record for
 
 typedef struct picketbox { /* use for both x and y graph */
     union {
-	INT  top ;   /* xgraph */
-	INT  rght ;  /* ygraph */
+	int  top ;   /* xgraph */
+	int  rght ;  /* ygraph */
     } pt1 ;
     union {
-	INT  bot ;   /* xgraph */
-	INT  lft ;   /* ygraph */
+	int  bot ;   /* xgraph */
+	int  lft ;   /* ygraph */
     } pt2 ;
-    INT  node ;
+    int  node ;
     struct picketbox *next ;
     struct picketbox *prev ;
 } PICKETBOX, *PICKETPTR ;
 
 typedef struct errorbox {
-    INT  nodeI ;
-    INT  nodeJ ;
+    int  nodeI ;
+    int  nodeJ ;
     struct errorbox *next ;
 } ERRORBOX, *ERRORPTR ;
 
 typedef struct ecompbox {
-    INT  constraint       ;
-    INT  node             ;
+    int  constraint       ;
+    int  node             ;
     BOOL marked           ;
     struct ecompbox *next ;
 } ECOMPBOX, *ECOMPBOXPTR  ;
 
 typedef struct node {     /* the nodes or tiles of a cell */
-    INT  node       ;
+    int  node       ;
     struct node *next ;
 } NODEBOX, *NODEPTR  ;
 
 
 typedef struct cellbox {
-    INT  xcenter          ; /* the center of the cell */
-    INT  ycenter          ;
-    INT  l                ; /* the extent of the cell bounding box */
-    INT  r                ; /* global position */
-    INT  b                ;
-    INT  t                ;
-    INT  l_rel            ; /* the extent of the cell bounding box */
-    INT  r_rel            ; /* relative to center of cell */
-    INT  b_rel            ;
-    INT  t_rel            ;
-    INT  cellnum          ; /* TimberwolfMC cell number */
-    INT  xmin             ; /* the minimum x you can place the cell */
-    INT  xmax             ; /* the maximum x you can place the cell */
-    INT  ymin             ; /* the minimum y you can place the cell */
-    INT  ymax             ; /* the maximum y you can place the cell */
-    INT  xlo              ; /* one of the leftest nodes of the cell rel to l */
-    INT  xhi              ; /* one of the rightest nodes of the cell rel to l*/
-    INT  ylo              ; /* one of the lowest nodes of the cell rel to b */
-    INT  yhi              ; /* one of the highest nodes of the cell rel to b */
-    INT  xoffset          ; /* offset for cell gridding */
-    INT  yoffset          ; /* offset for cell gridding */
+    int  xcenter          ; /* the center of the cell */
+    int  ycenter          ;
+    int  l                ; /* the extent of the cell bounding box */
+    int  r                ; /* global position */
+    int  b                ;
+    int  t                ;
+    int  l_rel            ; /* the extent of the cell bounding box */
+    int  r_rel            ; /* relative to center of cell */
+    int  b_rel            ;
+    int  t_rel            ;
+    int  cellnum          ; /* TimberwolfMC cell number */
+    int  xmin             ; /* the minimum x you can place the cell */
+    int  xmax             ; /* the maximum x you can place the cell */
+    int  ymin             ; /* the minimum y you can place the cell */
+    int  ymax             ; /* the maximum y you can place the cell */
+    int  xlo              ; /* one of the leftest nodes of the cell rel to l */
+    int  xhi              ; /* one of the rightest nodes of the cell rel to l*/
+    int  ylo              ; /* one of the lowest nodes of the cell rel to b */
+    int  yhi              ; /* one of the highest nodes of the cell rel to b */
+    int  xoffset          ; /* offset for cell gridding */
+    int  yoffset          ; /* offset for cell gridding */
     BOOL children         ;
     BOOL type             ; /* whether a hard or soft cell */
     BOOL multi            ; /* whether cell has multiple tiles */
@@ -189,34 +182,34 @@ typedef struct cellbox {
 } CELLBOX, *CELLBOXPTR ;
 
 typedef struct compactbox {
-    INT  cell       ;
-    INT  node       ;
-    INT  l          ; /* global position  of tile */
-    INT  b          ;
-    INT  r          ;
-    INT  t          ;
-    INT  l_rel      ; /* relative postion of tile */
-    INT  b_rel      ;
-    INT  r_rel      ;
-    INT  t_rel      ;
-    INT  xspan      ; /* xpan of tile r_rel - l_rel */
-    INT  yspan      ; /* xpan of tile t_rel - b_rel */
+    int  cell       ;
+    int  node       ;
+    int  l          ; /* global position  of tile */
+    int  b          ;
+    int  r          ;
+    int  t          ;
+    int  l_rel      ; /* relative postion of tile */
+    int  b_rel      ;
+    int  r_rel      ;
+    int  t_rel      ;
+    int  xspan      ; /* xpan of tile r_rel - l_rel */
+    int  yspan      ; /* xpan of tile t_rel - b_rel */
     BOOL criticalX  ; /* on the critical list */
     BOOL criticalY  ;
     BOOL moved      ; /* whether cell has been moved in movestrategy */
-    INT  xvalueMin  ; /* for longest path calculations */
-    INT  xvalueMax  ;
-    INT  yvalueMin  ;
-    INT  yvalueMax  ;
-    INT  pathx      ;
-    INT  pathy      ;
+    int  xvalueMin  ; /* for longest path calculations */
+    int  xvalueMax  ;
+    int  yvalueMin  ;
+    int  yvalueMax  ;
+    int  pathx      ;
+    int  pathy      ;
     BOOL type       ; /* whether a hard or soft tile */
     BOOL multi      ; /* whether cell has multiple tiles */
-    INT  xancestrF  ;
-    INT  xancestrB  ;
-    INT  yancestrF  ;
-    INT  yancestrB  ;
-    INT  direction  ; /* current direction cell is moving */
+    int  xancestrF  ;
+    int  xancestrB  ;
+    int  yancestrF  ;
+    int  yancestrB  ;
+    int  direction  ; /* current direction cell is moving */
     ECOMPBOXPTR xadjF; /* the edges in the graph */
     ECOMPBOXPTR xadjB;
     ECOMPBOXPTR yadjF;
@@ -225,14 +218,14 @@ typedef struct compactbox {
 
 
 typedef struct  {  /* information for edge - store 1 per edge */
-    INT node1  ;      /* the two nodes of the edge */
-    INT node2  ;
-    INT cell_lb ;     /* cell on left/bottom if non-zero - cellnum ow */
-    INT cell_rt ;     /* cell on right/top if non-zero - cellnum o.w. */
+    int node1  ;      /* the two nodes of the edge */
+    int node2  ;
+    int cell_lb ;     /* cell on left/bottom if non-zero - cellnum ow */
+    int cell_rt ;     /* cell on right/top if non-zero - cellnum o.w. */
     BOOL HnotV ;      /* true if edge horizontal - false if vertical */
-    INT *loc ;        /* constant part of coordinate */
-    INT *start ;      /* start of edge */
-    INT *end ;        /* end coordinate of edge */
+    int *loc ;        /* constant part of coordinate */
+    int *start ;      /* start of edge */
+    int *end ;        /* end coordinate of edge */
     BOOL marked ;     /* whether this edge is marked */
 } INFOBOX, *INFOPTR ;
 
@@ -245,14 +238,14 @@ typedef struct adjptr { /* added adjacency list augmenting adj matrix */
 } ADJBOX, *ADJPTR ;
 
 typedef struct { /* a node of channel graph uses following data */
-    INT      node ;           /* self index */
-    INT      xc ;             /* center of node for channel graph  */
-    INT      yc ;
+    int      node ;           /* self index */
+    int      xc ;             /* center of node for channel graph  */
+    int      yc ;
     ADJPTR   adj ;            /* edges connecting to this node */
 } CHANBOX, *CHANBOXPTR ;
 
 typedef struct queue {
-    INT           data ;
+    int           data ;
     struct queue *next ;
 } QUEUEBOX, *QUEUEPTR  ;
 
@@ -294,45 +287,45 @@ typedef struct queue {
 
 /* ******************** GLOBAL VARIABLES *********************** */
 /* the graph data structure */
-EXTERN COMPACTPTR *tileNodeG ;        /* array of pointers to nodes */
-EXTERN COMPACTPTR *xGraphG ;          /* array of nodes to x node ptrs */
-EXTERN COMPACTPTR *yGraphG ;          /* array of yGraph node pointers */
-EXTERN YSETPTR    tileSetG ;          /* make set of tiles */
+COMPACTPTR *tileNodeG ;        /* array of pointers to nodes */
+COMPACTPTR *xGraphG ;          /* array of nodes to x node ptrs */
+COMPACTPTR *yGraphG ;          /* array of yGraph node pointers */
+YSETPTR    tileSetG ;          /* make set of tiles */
 
 /* the size of the data */
-EXTERN INT numcellsG ;             /* number of cells to be compacted   */
-EXTERN INT numtilesG ;             /* number of tiles to be compacted   */
-EXTERN INT last_tileG ;            /* last tile in x or y graph */
-EXTERN INT last_cellG ;            /* last cell including sources and sinks */
-EXTERN char *cktNameG ;            /* the name of the circuit           */
-EXTERN CELLBOXPTR *cellarrayG ;    /* the cell data */
-EXTERN CELLBOXPTR *slackG ;        /* array of cells sorted by slack */
-EXTERN INT blockbG ;               /* core bottom */
-EXTERN INT blocklG ;               /* core left */
-EXTERN INT blockrG ;               /* core right */
-EXTERN INT blocktG ;               /* core top */
-EXTERN INT blockmxG ;              /* core center */
-EXTERN INT blockmyG ;              /* core center */
-EXTERN INT *ancestorG ;            /* array of ancestor counts */
+int numcellsG ;             /* number of cells to be compacted   */
+int numtilesG ;             /* number of tiles to be compacted   */
+int last_tileG ;            /* last tile in x or y graph */
+int last_cellG ;            /* last cell including sources and sinks */
+char *cktNameG ;            /* the name of the circuit           */
+CELLBOXPTR *cellarrayG ;    /* the cell data */
+CELLBOXPTR *slackG ;        /* array of cells sorted by slack */
+int blockbG ;               /* core bottom */
+int blocklG ;               /* core left */
+int blockrG ;               /* core right */
+int blocktG ;               /* core top */
+int blockmxG ;              /* core center */
+int blockmyG ;              /* core center */
+int *ancestorG ;            /* array of ancestor counts */
 
 /* FOR THE CHANNEL GRAPH */
-EXTERN INT numnodesG ;      /* number of nodes in the channel graph */
-EXTERN INT numedgesG ;      /* number of edges in the channel graph */
-EXTERN CHANBOXPTR *changraphG ; /* array of nodes of channel graph  */
-EXTERN INFOPTR    *edgeArrayG ; /* array of edges of channel graph */
-EXTERN YDECKPTR path_deckG ;    /* list of nodes in critical path */
+int numnodesG ;      /* number of nodes in the channel graph */
+int numedgesG ;      /* number of edges in the channel graph */
+CHANBOXPTR *changraphG ; /* array of nodes of channel graph  */
+INFOPTR    *edgeArrayG ; /* array of edges of channel graph */
+YDECKPTR path_deckG ;    /* list of nodes in critical path */
 
 /* the user requests */
-EXTERN BOOL alignG     ;  /* TRUE if channel are to be aligned */
-EXTERN BOOL compactG   ;  /* TRUE if compaction is desired */
-EXTERN BOOL graphicsG  ;  /* TRUE if graphics are desired */
-EXTERN BOOL parasiteG  ;  /* TRUE if we want to inherit window */
-EXTERN BOOL partitionG ;  /* TRUE if partitioning is requested */
-EXTERN BOOL constraintsG; /* TRUE if constraint graph is present */
-EXTERN BOOL debugG ;      /* TRUE if debug is requested */
-EXTERN INT xgridG ;       /* force cells to given x grid */
-EXTERN INT ygridG ;       /* force cells to given y grid */
-EXTERN INT xspaceG ;      /* xspacing between tiles of different cells */
-EXTERN INT yspaceG ;      /* yspacing between tiles of different cells */
+BOOL alignG     ;  /* TRUE if channel are to be aligned */
+BOOL compactG   ;  /* TRUE if compaction is desired */
+BOOL graphicsG  ;  /* TRUE if graphics are desired */
+BOOL parasiteG  ;  /* TRUE if we want to inherit window */
+BOOL partitionG ;  /* TRUE if partitioning is requested */
+BOOL constraintsG; /* TRUE if constraint graph is present */
+BOOL debugG ;      /* TRUE if debug is requested */
+int xgridG ;       /* force cells to given x grid */
+int ygridG ;       /* force cells to given y grid */
+int xspaceG ;      /* xspacing between tiles of different cells */
+int yspaceG ;      /* yspacing between tiles of different cells */
 
 #endif /* COMPACT_H */

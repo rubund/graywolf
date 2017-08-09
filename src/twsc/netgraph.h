@@ -1,6 +1,6 @@
 typedef struct graph_edge_cost {
-    SHORT node1 ;
-    SHORT node2 ;
+    short node1 ;
+    short node2 ;
     int cost ;
     int channel ;
 }

@@ -1,7 +1,7 @@
 typedef struct vertex_box {
-    INT x ;
-    INT y ;
-    INT class ;
+    int x ;
+    int y ;
+    int class ;
     struct vertex_box *next ;
 } *VERTEXPTR, VERTEX_BOX ;
 

@@ -46,10 +46,6 @@ CONTENTS:  char *Yrelpath( known_path, rel_path )
 DATE:	    Apr 18, 1989 
 REVISIONS:  May  8, 1989 - updated to handle ../../ constructs.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) relpath.c version 3.2 8/28/90" ;
-#endif
-
 #include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/string.h>
@@ -62,7 +58,7 @@ char *known_path, *rel_path ; /* known path and relative path to it */
     char *ptr ;               /* used to replace obj with relative path */
     char *result ;            /* resulting path */
     char *Yfixpath(), *strrchr(), *strcat() ;
-    INT  up ;              /* keeps count of backtracking up dir tree */
+    int  up ;              /* keeps count of backtracking up dir tree */
 
     /* make a copy of path */
     strcpy( known_fpath, known_path ) ;

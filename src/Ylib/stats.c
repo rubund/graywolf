@@ -42,7 +42,7 @@ FILE:	    stats.c
 DESCRIPTION:Get runtime statistics in UNIX.
 CONTENTS:   Yprint_stats( fdat )
 		FILE fdat ;
-	    DOUBLE Ycpu_time()
+	    double Ycpu_time()
 DATE:	    May  5, 1990 
 REVISIONS:  Oct  4, 1990 - added elaspse time for the mips machine.
 	    Fri Jan 25 15:44:46 PST 1991 - added AVOID conditional
@@ -96,7 +96,7 @@ void Yprint_stats( FILE *fout )
 	* Get the brk() value
 	***********************************************************/
 	p = sbrk(0) ;
-	vm_used = ((INT) p) / 1024.0 + 0.5 ;
+	vm_used = ((int) p) / 1024.0 + 0.5 ;
 
 	/***********************************************************
 	* Get virtual memory limits
@@ -119,7 +119,7 @@ void Yprint_stats( FILE *fout )
 	/* now get elapsed time */
 	Ytimer_elapsed( &elapsed_time ) ;
 	/* time is in milliseconds */
-	run_time = ( (DOUBLE) elapsed_time) / 1000.0 ;
+	run_time = ( (double) elapsed_time) / 1000.0 ;
 
 	fprintf(fout, "\n\n") ;
 	fprintf(fout, "Runtime Statistics\n") ;

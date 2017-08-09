@@ -59,10 +59,10 @@ REVISIONS:  Dec 3, 1988 - added output info for timing.
 void utemp( int attempts, BOOL multi_cell_moves )
 {
 
-    INT i ;
+    int i ;
 
     /****************** main annealing loop ***************** */
-    while( iterationG < (INT) LASTTEMP ){
+    while( iterationG < (int) LASTTEMP ){
 	iterationG++ ; /* next iteration */
 	/* write iteration to the screen if not verbose */
 	if(!(verboseG )){
@@ -78,9 +78,9 @@ void utemp( int attempts, BOOL multi_cell_moves )
     }
 
     /* **** overlap penalty controller **** */
-    if( iterationG <= (INT) LASTTEMP ){
+    if( iterationG <= (int) LASTTEMP ){
 	iterationG++ ; /* next iteration */
-	lapFactorG = calc_lap_factor( (DOUBLE) 3.0 ) ;
+	lapFactorG = calc_lap_factor( (double) 3.0 ) ;
 	funccostG = findcost() ;
 	for( i = 1; i <= 3 ; i++ ){
 	    uloop( attmaxG ) ;

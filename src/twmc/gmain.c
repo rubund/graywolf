@@ -78,17 +78,17 @@ void gmain(BOOL updateNotChan) /* if true update routing tiles otherwise normal 
     char *pathname ;
     char *twdir ;       /* path of TimberWolf directory */
     char *getenv() ;    /* used to get TWDIR environment variable */
-    INT  windowId ;     /* windowId of current window */
+    int  windowId ;     /* windowId of current window */
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing file */
-    INT  numtokens, line ;
+    int  numtokens, line ;
     BOOL abort ; /* whether to abort program */
-    INT cell ;
-    INT xc, yc ;        /* xcenter and ycenter of cell */
-    INT side ;                    /* side that routing tile is on */
-    INT xcenter, ycenter ;        /* xcenter and ycenter of cell */
-    INT x1, x2, y1, y2 ;
-    INT ncells ;                   /* the number of cells in graph */
+    int cell ;
+    int xc, yc ;        /* xcenter and ycenter of cell */
+    int side ;                    /* side that routing tile is on */
+    int xcenter, ycenter ;        /* xcenter and ycenter of cell */
+    int x1, x2, y1, y2 ;
+    int ncells ;                   /* the number of cells in graph */
     CELLBOXPTR cptr ;
     RTILEBOXPTR tmp ;  /* current routing tile */
     RTILEBOXPTR tile ;  /* current routing tile */
@@ -226,7 +226,7 @@ void init_routing_tiles()
 
 void free_routing_tiles()
 {
-    INT cell ;              /* cell counter */
+    int cell ;              /* cell counter */
     RTILEBOXPTR freeptr ;   /* free tile */
     RTILEBOXPTR rptr ;      /* traverse tiles */
 

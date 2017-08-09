@@ -120,7 +120,7 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 #define TABSHIFT 19
 #define TABMASK 0xfff
 #define TABOFFSET 0x40000
-#define RANDFACT (1.0 / MAXINT)
+#define RANDFACT (1.0 / INT_MAX)
 #define CHANCE(n) (!(RAND % n))
 
 /* #define START_ITER 81  if you change this one, */
@@ -135,7 +135,7 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 #define LASTTEMP       155.00 /* last iterationG */
 #define NUMTUPDATES   400 /* maximum number of T updates per iterationG */
 
-#define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
+#define PICK_int(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global variables */
 BOOL fences_existG ;
@@ -291,7 +291,7 @@ gate_attempts = 0 ;
 while( attemptsG < attmaxG ) {
 
     /* ------------- pick up a number at random --------------- */
-    aG = PICK_INT( 1 , numcellsG - extra_cellsG ) ;
+    aG = PICK_int( 1 , numcellsG - extra_cellsG ) ;
 
     /* ------------- get the structure for cell# aG ------------- */
     acellptr = carrayG[ aG ] ;
@@ -305,7 +305,7 @@ while( attemptsG < attmaxG ) {
     if( acellptr->num_swap_group > 0 ) {
 	int sgroup;
 	SGLISTPTR sglistptr;
-	i = PICK_INT( 0 , acellptr->num_swap_group - 1 ) ;
+	i = PICK_int( 0 , acellptr->num_swap_group - 1 ) ;
 	sglistptr = acellptr->swapgroups + i;
 	sgroup = sglistptr->swap_group;
 	
@@ -330,7 +330,7 @@ while( attemptsG < attmaxG ) {
 		if( Equal_Width_CellsG ){
 		    BpostG = 1 ;
 		} else {
-		    BpostG = PICK_INT( 1 , *cellbptrG ) ;
+		    BpostG = PICK_int( 1 , *cellbptrG ) ;
 		}
 		bG = cellbptrG[ BpostG ] ;
 		bcellptr  = carrayG[bG] ;
@@ -428,7 +428,7 @@ while( attemptsG < attmaxG ) {
 		for( ; fence; fence = fence->next_fence){
 		    count++ ;
 		}
-		j = PICK_INT( 1 , count ) ;
+		j = PICK_int( 1 , count ) ;
 		count = 0 ;
 		fence = acellptr->fence ;
 		for( ; fence; fence = fence->next_fence ) {
@@ -473,7 +473,7 @@ while( attemptsG < attmaxG ) {
 get_b:  if( Equal_Width_CellsG ){
 	    BpostG = 1 ;
 	} else {
-	    BpostG = PICK_INT( 1 , *cellbptrG ) ;
+	    BpostG = PICK_int( 1 , *cellbptrG ) ;
 	}
 	bG = cellbptrG[ BpostG ] ;
 	if( aG == bG ) {
@@ -838,7 +838,7 @@ if( not_doneS || good_initial_placementG ) {
 	    }
 	}
 	roLenConG = (roLenConG > 1.0) ? roLenConG : 1.0 ;
-	penaltyG = (INT)( binpenConG * (double) binpenalG + 
+	penaltyG = (int)( binpenConG * (double) binpenalG + 
 				    roLenConG * (double) rowpenalG ) ;
     } /* end !Equal_Width_CellsG */
 
@@ -881,7 +881,7 @@ if( numcellsG > 5000 ) {
     rowControl = 0.0 ;
     do {
 	rowControl += 0.001 ;
-	C = (INT)( rowControl * (double) totalCells / 2.0 ) ;
+	C = (int)( rowControl * (double) totalCells / 2.0 ) ;
 	if( 2.0 * (double)(C+1) - rowControl * totalCells <=
 			rowControl * totalCells - 2.0 * (double) C ) {
 	    C++ ;
@@ -929,7 +929,7 @@ if( numcellsG > 5000 ) {
 		break ;
 	    }
 	}
-	C = (INT)( rowControl * (double) totalCells / 2.0 ) ;
+	C = (int)( rowControl * (double) totalCells / 2.0 ) ;
 	if( 2.0 * (double)(C+1) - rowControl * totalCells <=
 			rowControl * totalCells - 2.0 * (double) C ) {
 	    C++ ;
@@ -947,8 +947,7 @@ if( numcellsG > 5000 ) {
 return ;
 }
 
-double partition( C_initial , k_initial , p_initial , R_initial )
-int C_initial , k_initial , p_initial , R_initial ;
+double partition( int C_initial , int k_initial , int p_initial , int R_initial )
 {
 
 int R , C , k , p , k_limit , p_limit ;
@@ -974,8 +973,7 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 return( states ) ;
 }
 
-double expected_value( C_initial , k_initial , p_initial , R_initial )
-int C_initial , k_initial , p_initial , R_initial ;
+double expected_value( int C_initial , int k_initial , int p_initial , int R_initial )
 {
 
 int R , C , k , p , k_limit , p_limit ;
@@ -1001,8 +999,7 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 return( value ) ;
 }
 
-double expected_svalue( C_initial , k_initial , p_initial , R_initial )
-int C_initial , k_initial , p_initial , R_initial ;
+double expected_svalue( int C_initial , int k_initial , int p_initial , int R_initial )
 {
 
 int R , C , k , p , k_limit , p_limit ;
@@ -1219,7 +1216,7 @@ void pick_fence_position(int *x, int *y, FENCEBOX *fence)
     register int left,right;
     BBOXPTR bblckptr ;
 
-    *y = PICK_INT( fence->min_block , fence->max_block ) ;
+    *y = PICK_int( fence->min_block , fence->max_block ) ;
     bblckptr = barrayG[*y] ;
     
     left = fence->min_xpos ;
@@ -1230,7 +1227,7 @@ void pick_fence_position(int *x, int *y, FENCEBOX *fence)
     if( right > bblckptr->bxcenter + bblckptr->bright ) {
 	right = bblckptr->bxcenter + bblckptr->bright ;
     }
-    *x = PICK_INT( left , right ) ;
+    *x = PICK_int( left , right ) ;
     return;
 }
 
@@ -1248,8 +1245,8 @@ void pick_position(int *x, int *y, int ox, int oy,double scale)
     n = -tmp * log_tabS[(m >> TABSHIFT) & TABMASK] + 0.5;
     if (m & 0x10000) n = -n;
     n += oy;
-    if (n < 1) n = PICK_INT(1,oy);
-    else if (n > numRowsG) n = PICK_INT(oy,numRowsG);
+    if (n < 1) n = PICK_int(1,oy);
+    else if (n > numRowsG) n = PICK_int(oy,numRowsG);
     *y = n;
     bblckptr = barrayG[n] ;
     for (i=0; i<2; i++) {
@@ -1270,11 +1267,11 @@ void pick_position(int *x, int *y, int ox, int oy,double scale)
     if (n < bleft) {
 	if (ox > bright) ox = bright;
 	else if (ox < bleft) ox = bleft;
-	n = PICK_INT(bleft,ox);
+	n = PICK_int(bleft,ox);
     } else if (n > bright) {
 	if (ox < bleft) ox = bleft;
 	else if (ox > bright) ox = bright;
-	n = PICK_INT(ox,bright);
+	n = PICK_int(ox,bright);
     }
     *x = n;
 }

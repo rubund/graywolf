@@ -191,7 +191,7 @@ int id ;
 static int compare_rule( key1, key2 )
 RULEPTR key1, key2 ;
 {
-    return( (INT)strcmp( key1->rule, key2->rule ) ) ;
+    return( (int)strcmp( key1->rule, key2->rule ) ) ;
 } /* end compare */
 
 static BOOL check_layer( char *layer )
@@ -253,7 +253,7 @@ static char *make_data( char *rule, char *value, char type )
 		}
 		break ;
 	case LAYER_T:
-		data->value.ivalue = (INT) value ;
+		data->value.ivalue = (int) value ;
 		break ;
 	case WIDTH_T:
 		/* now calculate value */
@@ -786,7 +786,7 @@ char *object ;
     RULEPTR data ;
     RULEBOX data_buffer ;
 
-    ERROR_CHECK(INT) ;
+    ERROR_CHECK(int) ;
     /* first build the key */
     sprintf( key, "%s:%c", object, LAYER_T ) ;
     data_buffer.rule = key ;

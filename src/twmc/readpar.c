@@ -85,10 +85,10 @@ static BOOL readparamS = FALSE ;
 static BOOL graphFileS ;
 static BOOL originGivenS = FALSE ;
 static BOOL sc_outputS = FALSE ;
-static INT gOffsetXS = INT_MIN ;
-static INT gOffsetYS = INT_MIN ;
-static INT gridXS = INT_MIN ;
-static INT gridYS = INT_MIN ;
+static int gOffsetXS = INT_MIN ;
+static int gOffsetYS = INT_MIN ;
+static int gridXS = INT_MIN ;
+static int gridYS = INT_MIN ;
 
 void readpar()
 {
@@ -145,12 +145,12 @@ void init_read_par()
 void readparam( int parfile )
 {
 
-	INT test ;
-	INT speed ;
-	INT pins ;
-	INT line ;
-	INT length ;
-	INT numtokens ;
+	int test ;
+	int speed ;
+	int pins ;
+	int line ;
+	int length ;
+	int numtokens ;
 	BOOL onNotOff ;
 	BOOL wildcard ;
 	char design[LRECL] ;
@@ -366,7 +366,7 @@ void readparam( int parfile )
 			if( speed == 0 ){
 				err_msg("fast") ;
 			} else {
-				set_tw_speed( 1.0 / (DOUBLE) speed ) ;
+				set_tw_speed( 1.0 / (double) speed ) ;
 			}
 		} else if( strcmp( tokens[0], "slow" ) == STRINGEQ ){
 			if( numtokens == 2 ) {
@@ -378,7 +378,7 @@ void readparam( int parfile )
 			if( speed == 0 ){
 				err_msg("slow") ;
 			} else {
-				set_tw_speed( (DOUBLE) speed ) ;
+				set_tw_speed( (double) speed ) ;
 			}
 
 		} else if( strcmp( tokens[0], "init_acc" ) == STRINGEQ ){
@@ -464,11 +464,11 @@ void readparam( int parfile )
 void process_readpar()
 {
 	char *layer ;             /* name of layer */
-	INT i ;                   /* counter */
-	INT pitch ;               /* the pitch of the layer */
-	INT numv_layers ;         /* number of vertical   layers */
-	INT numh_layers ;         /* number of horizontal layers */
-	INT num_layers ;          /* total number of layers */
+	int i ;                   /* counter */
+	int pitch ;               /* the pitch of the layer */
+	int numv_layers ;         /* number of vertical   layers */
+	int numh_layers ;         /* number of horizontal layers */
+	int num_layers ;          /* total number of layers */
 
 	if( !(readparamS)){
 		M( ERRMSG, "process_readpar", "No parameter files found.  Must exit\n\n" ) ;
@@ -511,8 +511,8 @@ void process_readpar()
 			track_spacingXG == 1 ;
 		}
 		if( scale_dataG ){
-			track_spacingXG = ceil( (DOUBLE) track_spacingXG /
-					(DOUBLE)scale_dataG ) ;
+			track_spacingXG = ceil( (double) track_spacingXG /
+					(double)scale_dataG ) ;
 		}
 	}
 	if( numh_layers > 0 ){
@@ -522,8 +522,8 @@ void process_readpar()
 			track_spacingYG == 1 ;
 		}
 		if( scale_dataG ){
-			track_spacingYG = ceil( (DOUBLE) track_spacingYG /
-					(DOUBLE)scale_dataG ) ;
+			track_spacingYG = ceil( (double) track_spacingYG /
+					(double)scale_dataG ) ;
 		}
 	}
 

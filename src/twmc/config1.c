@@ -54,7 +54,7 @@ REVISIONS:
 	    Aug 16, 1988 - fixed sqrt domain error by add temp variables.
 		var changed to double because wraparound problem.
 	    Aug 26, 1988 - fixed sqrt domain error correctly by adding
-		DOUBLE temp variables.
+		double temp variables.
 	    Jan 29, 1989 - fixed \n problem with message macros.
 	    Mar 02, 1989 - moved calcLapFactor and calcPinFactor 
 		to penalties.c
@@ -83,25 +83,25 @@ void resize_wire_params();
 void config1() {
 	CELLBOXPTR cellptr ;
 	TILEBOXPTR tileptr ;
-	INT l , r , b , t , cell ;
-	INT numbins, numbinX, numbinY ;
-	INT window ;
+	int l , r , b , t , cell ;
+	int numbins, numbinX, numbinY ;
+	int window ;
 	char resfile[LRECL] ;
 	char savfile[LRECL] ;
 	BOOL parasite ;
-	DOUBLE tileArea ;
-	DOUBLE softArea ;
-	DOUBLE totalArea ;
-	DOUBLE coreArea ;
-	DOUBLE cellArea ;
-	DOUBLE varpercell ;
-	DOUBLE deltaArea, deltaShort ;
-	DOUBLE shortvarpercell ;
-	DOUBLE var = 0.0 ;
-	DOUBLE temp ;
-	DOUBLE var_short = 0.0 ;
-	DOUBLE shortSide, total_shortSide, mean_shortSide, dev_shortSide ;
-	DOUBLE length, height, max_shortSide ;
+	double tileArea ;
+	double softArea ;
+	double totalArea ;
+	double coreArea ;
+	double cellArea ;
+	double varpercell ;
+	double deltaArea, deltaShort ;
+	double shortvarpercell ;
+	double var = 0.0 ;
+	double temp ;
+	double var_short = 0.0 ;
+	double shortSide, total_shortSide, mean_shortSide, dev_shortSide ;
+	double length, height, max_shortSide ;
 
 
 	/*
@@ -118,7 +118,7 @@ void config1() {
 		b = tileptr->bottom ;
 		t = tileptr->top    ;
 		printf("left %d right %d bottom %d top %d \n",l,r,b,t);
-		tileArea = (DOUBLE) (r - l) * (DOUBLE) (t - b) ;
+		tileArea = (double) (r - l) * (double) (t - b) ;
 		totalArea += tileArea ; 
 		if( cellptr->celltype == STDCELLTYPE ) {
 			softArea += tileArea ;
@@ -126,20 +126,20 @@ void config1() {
 		/* calculate mean of smallest size of tile */
 		length = ABS( r - l ) ;
 		height = ABS( t - b ) ;
-		total_shortSide += (DOUBLE) MIN( length , height ) ;
+		total_shortSide += (double) MIN( length , height ) ;
 	}
 	}
 	printf("numcellsG: %d\n",numcellsG);
 	printf("totalArea: %f\n",totalArea);
 
-	mean_cellAreaG = (totalArea / (DOUBLE) numcellsG) ;
+	mean_cellAreaG = (totalArea / (double) numcellsG) ;
 	mean_shortSide = total_shortSide / numcellsG ;
 	/*
 	*   Find the variance in the size of the cells.
 	*   Find the variance in the shortest side of the tiles.
 	*   Find the largest short side for configuring partition case.
 	*/
-	max_shortSide = (DOUBLE) INT_MIN ;
+	max_shortSide = (double) INT_MIN ;
 	for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 		cellptr = cellarrayG[cell] ;
 		/* get total area for one cell */
@@ -151,7 +151,7 @@ void config1() {
 			t = tileptr->top    ;
 			length = ABS( r - l ) ;
 			height = ABS( t - b ) ;
-			cellArea += (DOUBLE) length * (DOUBLE) height ;
+			cellArea += (double) length * (double) height ;
 			/* calculate variance of smallest size of tile */
 			shortSide = MIN( length , height ) ;
 
@@ -167,9 +167,9 @@ void config1() {
 		deltaArea = cellArea - mean_cellAreaG  ;
 		var += deltaArea * deltaArea ;
 	}
-	varpercell = var / (DOUBLE) numcellsG ;
+	varpercell = var / (double) numcellsG ;
 	dev_cellAreaG = sqrt( varpercell ) ;
-	shortvarpercell = var_short / (DOUBLE) numcellsG ;
+	shortvarpercell = var_short / (double) numcellsG ;
 	dev_shortSide = sqrt( shortvarpercell ) ;
 
 	printf("\nTotal cell area : %4.2le\n", totalArea ) ;
@@ -177,33 +177,33 @@ void config1() {
 	printf("mean short side : %4.2le      std deviation short side : %4.2le\n", mean_shortSide, dev_shortSide ) ;
 
 	if( coreGivenG == 0 ) {
-		blockrG = blocktG = (INT) sqrt( (DOUBLE) totalArea ) + 1 ;
+		blockrG = blocktG = (int) sqrt( (double) totalArea ) + 1 ;
 		/* 
 		*    Take into account the aspect ratio requested by the user
 		*/
-		blocktG = (INT)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
-		blockrG = (INT)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
+		blocktG = (int)( sqrt(chipaspectG) * (double) blocktG ) + 1 ;
+		blockrG = (int)( 1.0 / sqrt(chipaspectG) * (double) blockrG ) + 1;
 		blocklG = blockbG = 0 ;
 		totChanLenG = perimG / 2 - (blockrG + blocktG) ;
 		aveChanWidG = 0.0 ;
 	} else {
-		r = t = (INT) sqrt( totalArea ) + 1 ;
+		r = t = (int) sqrt( totalArea ) + 1 ;
 		totChanLenG = perimG / 2 - (r + t) ;
 		aveChanWidG = 0.0 ;
 	}
 
-	slopeXG = (DOUBLE)(maxWeightG - baseWeightG) / ((DOUBLE) blockrG * 0.5 ) ;
-	slopeYG = (DOUBLE)(maxWeightG - baseWeightG) / ((DOUBLE) blocktG * 0.5 ) ;
-	basefactorG = (DOUBLE) baseWeightG ;
+	slopeXG = (double)(maxWeightG - baseWeightG) / ((double) blockrG * 0.5 ) ;
+	slopeYG = (double)(maxWeightG - baseWeightG) / ((double) blocktG * 0.5 ) ;
+	basefactorG = (double) baseWeightG ;
 	wireFactorXG = wireFactorYG = 0.0 ;
 
 	/* DETERMINE NUMBER OF BINS */
-	cellArea = (DOUBLE) (mean_shortSide + 0 * dev_shortSide ) ;
+	cellArea = (double) (mean_shortSide + 0 * dev_shortSide ) ;
 	cellArea *= cellArea ;
-	coreArea = ((DOUBLE) blocktG - blockbG) * ((DOUBLE) blockrG - blocklG) ;
+	coreArea = ((double) blocktG - blockbG) * ((double) blockrG - blocklG) ;
 
-	if( 5.0 * coreArea > (DOUBLE) INT_MAX && !(cost_onlyG) ){
-		scale_dataG = (INT) sqrt( (10.0 * coreArea / (DOUBLE) INT_MAX)) ;
+	if( 5.0 * coreArea > (double) INT_MAX && !(cost_onlyG) ){
+		scale_dataG = (int) sqrt( (10.0 * coreArea / (double) INT_MAX)) ;
 		scale_dataG++ ; /* round up always */
 		M( MSG,"config1", "Design is too large for integer operations\n");
 		sprintf(YmsgG, "Calling TimberWolfMC recursively to scale data by %d\n", scale_dataG ) ;
@@ -226,7 +226,7 @@ void config1() {
 		scale_dataG = 1 ;
 	}
 
-	numbins = (INT) ((DOUBLE) NUMBINSPERCELL * coreArea / (DOUBLE) cellArea ) ;
+	numbins = (int) ((double) NUMBINSPERCELL * coreArea / (double) cellArea ) ;
 
 	if( numbins <= 1 ) {
 		M(ERRMSG,"config1","number of bins calculated is <= 1. Must exit.\n");

@@ -318,8 +318,8 @@ void dxancerr()
 
 void dump_anc()
 {
-    INT i ;
-    INT last ;
+    int i ;
+    int last ;
 
     last = YSINK ;
     printf( "The ancestors for the tiles:\n" ) ;
@@ -330,9 +330,9 @@ void dump_anc()
 
 void dslack( BOOL XNotY, BOOL center, int length )
 {
-    INT i ;
-    INT count ;
-    INT value ;
+    int i ;
+    int count ;
+    int value ;
     NODEPTR nptr ;
     CELLBOXPTR cptr ;
     COMPACTPTR tptr ;
@@ -464,8 +464,8 @@ void dyancerr()
 
 void check_xancestors()
 {
-    INT i ;
-    INT count ;
+    int i ;
+    int count ;
     COMPACTPTR tptr ;
     ECOMPBOXPTR eptr ;
 
@@ -501,8 +501,8 @@ void check_xancestors()
 
 void check_yancestors()
 {
-    INT i ;
-    INT count ;
+    int i ;
+    int count ;
     COMPACTPTR tptr ;
     ECOMPBOXPTR eptr ;
 

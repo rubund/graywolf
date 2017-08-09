@@ -36,7 +36,7 @@ typedef struct Ydeck_info {
 } YCARD, *YCARDPTR  ;
 
 typedef struct {
-    INT       size ;            /* size of list */
+    int       size ;            /* size of list */
     YCARDPTR  top ;
     YCARDPTR  bottom ;
     YCARDPTR  current ;

@@ -41,37 +41,37 @@
 FILE:	    grid.c                                       
 DESCRIPTION:These routines grid data to the specified grid.
 CONTENTS:   YforceGrid( x , y )
-		INT *x , *y ;
+		int *x , *y ;
 	    Ygridx( x )
-		INT *x ;
+		int *x ;
 	    Ygridx( x )
-		INT *x ;
+		int *x ;
 	    Ygridx_down( x )
-		INT *x ;
+		int *x ;
 	    Ygridy_down( y )
-		INT *y ;
+		int *y ;
 	    Ygridx_up( x )
-		INT *x ;
+		int *x ;
 	    Ygridy_up( y )
-		INT *y ;
+		int *y ;
 	    Ygrid_setx( x, offset )
-		INT x, offset ;
+		int x, offset ;
 	    Ygrid_sety( y, offset )
-		INT y, offset ;
+		int y, offset ;
 	    Ygrid_getx( x, offset )
-		INT *x, *offset ;
+		int *x, *offset ;
 	    Ygrid_gety( y, offset )
-		INT *y, *offset ;
+		int *y, *offset ;
 DATE:	    Oct 27, 1989 
 REVISIONS:  Thu Apr 18 00:39:45 EDT 1991 - renamed functions so
 		that names were consistent.
 ----------------------------------------------------------------- */
 #include <globals.h>
 
-static INT offsetxS = 0 ;  /* initially set offset to zero */
-static INT offsetyS = 0 ;  
-static INT xgridS = 1 ;    /* default grid is one */
-static INT ygridS = 1 ;  
+int offsetxS = 0 ;  /* initially set offset to zero */
+int offsetyS = 0 ;  
+int xgridS = 1 ;    /* default grid is one */
+int ygridS = 1 ;  
 /* ***************************************************************** */
 /* force coordinate to closest xy grid position */
 void YforceGrid( int *x , int *y )
@@ -84,7 +84,7 @@ void YforceGrid( int *x , int *y )
 void Ygridx( int *x )
 {
 
-    INT newx ;
+    int newx ;
 
     newx = ( (*x - offsetxS) / xgridS ) * xgridS + offsetxS ;
     if( ABS(newx + xgridS - *x) < ABS(newx - *x) ) {
@@ -99,7 +99,7 @@ void Ygridx( int *x )
 void Ygridy(int *y)
 {
 
-    INT newy ;
+    int newy ;
 
     newy = ( (*y - offsetyS) / ygridS ) * ygridS + offsetyS ;
     if( ABS(newy + ygridS - *y) < ABS(newy - *y) ) {

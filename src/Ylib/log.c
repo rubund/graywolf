@@ -55,7 +55,7 @@ static char cktNameS[LRECL] = " " ;
 /* put a message in the log file */
 void Ylog_msg( char *message )
 {
-    INT timestamp ;           /* seconds since Jan 1, 1970 */
+    int timestamp ;           /* seconds since Jan 1, 1970 */
     char *time, *YcurTime() ; /* YcurTime returns ASCII time string */
     char filename[LRECL] ;    /* log file name */
     FILE *fp ;                /* logfile */
@@ -69,7 +69,7 @@ void Ylog_msg( char *message )
 
 void Ylog_start( char *design, char *message )
 {
-    INT timestamp ;           /* seconds since Jan 1, 1970 */
+    int timestamp ;           /* seconds since Jan 1, 1970 */
     char *time, *YcurTime() ; /* YcurTime returns ASCII time string */
     char filename[LRECL] ;    /* log file name */
     FILE *fp ;                /* logfile */

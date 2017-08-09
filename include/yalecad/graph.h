@@ -38,13 +38,13 @@ typedef struct graph_edge *YEDGEPTR;
 extern YGRAPHPTR Ygraph_init(P4(INT(*compare_node)(),
                                 INT(*compare_edge)(),
                                 INT(*user_edge_weight)(),
-                                INT flags));
+                                int flags));
 /*
 Arguments:
-INT (*compare_node)() - users node data comparison function
-INT (*compare_edge)() - users edge data comparicson function
-INT (*user_edge_weight)() - users edge weight function
-INT flags - the bits in the field allow for things like directed edges
+int (*compare_node)() - users node data comparison function
+int (*compare_edge)() - users edge data comparicson function
+int (*user_edge_weight)() - users edge weight function
+int flags - the bits in the field allow for things like directed edges
             and redundant edges.
 
 Function:  
@@ -73,7 +73,7 @@ Example:
   Set flags for graph operation.
   Use YGRAPH_DIRECTED, YGRAPH_NONDIRECTED
   -------------------------------------------------*/
-INT Ygraph_flagsSet( P2(YGRAPHPTR graph, INT flag) );
+int Ygraph_flagsSet( P2(YGRAPHPTR graph, int flag) );
 
 /*-------------------------------------------------
   Ygraph_nodeInsert: insert a node into the graph  
@@ -85,7 +85,7 @@ extern YNODEPTR Ygraph_nodeInsert( P2(YGRAPHPTR graph,
 /*
 Arguments:
   YGRAPHPTR graph - the graph created with Ygraph_init();
-  INT node - identification of node
+  int node - identification of node
   VOIDPTR nodeData - users optional node Data
     
 Function:
@@ -112,16 +112,16 @@ void Ygraph_edgeDelete(P3(YGRAPHPTR graph,YEDGEPTR  edge,void (*userEdgeFree)())
   -------------------------------------------------*/
 extern YEDGEPTR Ygraph_edgeInsert( P5(YGRAPHPTR graph,
 			     VOIDPTR   edgeData,
-			     INT       edgeWeight,
+			     int       edgeWeight,
 			     VOIDPTR   nodeData1,
 			     VOIDPTR   nodeData2
 			     ));
 /*
 Arguments
 YGRAPHPTR graph - the graph created with Ygraph_init();
-INT node1 - identification of first node in edge;
-INT node2 - identification of second node in edge;
-INT edgeWeight - weight of the edge
+int node1 - identification of first node in edge;
+int node2 - identification of second node in edge;
+int edgeWeight - weight of the edge
 VOIDPTR edgeData - users optional edge Data
 
 Function:
@@ -148,24 +148,24 @@ void Ygraph_empty(P3(YGRAPHPTR graph,void (*nodeDelete)(),void (*edgeDelete)()))
 /*-------------------------------------------------
   Ygraph_nodeCount
   -------------------------------------------------*/
-extern INT Ygraph_nodeCount( P1(  YGRAPHPTR graph ));
+extern int Ygraph_nodeCount( P1(  YGRAPHPTR graph ));
 
 /*-------------------------------------------------
   Ygraph_edgeCount
   -------------------------------------------------*/
-extern INT Ygraph_edgeCount( P1(  YGRAPHPTR graph ));
+extern int Ygraph_edgeCount( P1(  YGRAPHPTR graph ));
 
 /*-------------------------------------------------
   Ygraph_edgeWeight
    Returns the weigh of an edge
   -------------------------------------------------*/
-INT Ygraph_edgeWeight( P1 (YEDGEPTR edge) );
+int Ygraph_edgeWeight( P1 (YEDGEPTR edge) );
 
 /*-------------------------------------------------
   Ygraph_edgeWeightSet
   Sets the edge weight to weight
   -------------------------------------------------*/
-INT Ygraph_edgeWeightSet( P2 (YEDGEPTR edge, INT weight) );
+int Ygraph_edgeWeightSet( P2 (YEDGEPTR edge, int weight) );
 
 /*-------------------------------------------------
   Ygraph_edgeNode1Data
@@ -175,7 +175,7 @@ int Ygraph_edgeType( P1 (YEDGEPTR edge) );
 /*-------------------------------------------------
   Ygraph_nodeDegree
   -------------------------------------------------*/
-extern INT Ygraph_nodeDegree(P1(YNODEPTR node));
+extern int Ygraph_nodeDegree(P1(YNODEPTR node));
 
 /*-------------------------------------------------
   Ygraph_nodeFind
@@ -187,7 +187,7 @@ extern YNODEPTR Ygraph_nodeFind(P2(YGRAPHPTR graph,VOIDPTR nodeData));
   Use same functions as rbtree_search_closest.
   -------------------------------------------------*/
 extern YNODEPTR Ygraph_nodeFindClosest(P3(YGRAPHPTR graph,
-    VOIDPTR nodeData,INT function));
+    VOIDPTR nodeData,int function));
 
 /*-------------------------------------------------
   Ygraph_nodeSuc
@@ -280,12 +280,12 @@ extern YEDGEPTR Ygraph_edgeMax(P1(YGRAPHPTR graph));
 /*-------------------------------------------------
   Ygraph_listAdjEdges
   -------------------------------------------------*/
-extern YEDGEPTR Ygraph_listAdjEdges(P2(YNODEPTR node, INT listNum));
+extern YEDGEPTR Ygraph_listAdjEdges(P2(YNODEPTR node, int listNum));
      
 /*-------------------------------------------------
   Ygraph_listBackEdges
   -------------------------------------------------*/
-extern YEDGEPTR Ygraph_listBackEdges(P2(YNODEPTR node, INT listNum));
+extern YEDGEPTR Ygraph_listBackEdges(P2(YNODEPTR node, int listNum));
      
 /*-------------------------------------------------
   Ygraph_nodeEnumerate
@@ -315,12 +315,12 @@ extern YNODEPTR Ygraph_nodeMax(P1(YGRAPHPTR graph));
 /*-------------------------------------------------
   Ygraph_listAdjNodes
   -------------------------------------------------*/
-extern YNODEPTR Ygraph_listAdjNodes(P2(YNODEPTR node,INT listNum));
+extern YNODEPTR Ygraph_listAdjNodes(P2(YNODEPTR node,int listNum));
 
 /*-------------------------------------------------
   Ygraph_listBackNodes
   -------------------------------------------------*/
-extern YNODEPTR Ygraph_listBackNodes(P2(YNODEPTR node,INT listNum));
+extern YNODEPTR Ygraph_listBackNodes(P2(YNODEPTR node,int listNum));
 
 /*-------------------------------------------------
   Ygraph_nodeInterval
@@ -381,14 +381,14 @@ extern YGRAPHPTR Ygraph_copy(P1(YGRAPHPTR graph));
   Also, Ygraph_edgeWeights2Size() can be called to
   add up all of the edge weights into a single size.
   -------------------------------------------------*/
-extern INT Ygraph_size( P1 (YGRAPHPTR graph) );
+extern int Ygraph_size( P1 (YGRAPHPTR graph) );
 
 /*-------------------------------------------------
   Ygraph_edgeWeights2Size
   Sum all of the edge weights, and put into the
   graph size field.
   -------------------------------------------------*/
-extern INT Ygraph_edgeWeights2Size( P1 (YGRAPHPTR graph) );
+extern int Ygraph_edgeWeights2Size( P1 (YGRAPHPTR graph) );
 
 /*------------------------------------------------------------
   Ygraph_bfs()
@@ -462,7 +462,7 @@ extern YNODEPTR Ygraph_nodeRequired(P3(YGRAPHPTR graph,YNODEPTR node,YNODEPTR eq
   Returns the number of nodes in the required node
   set.
   -------------------------------------------------*/
-INT Ygraph_nodeRequiredCount( P1(YGRAPHPTR graph) );
+int Ygraph_nodeRequiredCount( P1(YGRAPHPTR graph) );
 
 /*-------------------------------------------------
   Ygraph_enumerateRequired: enumerates all nodes which
@@ -482,7 +482,7 @@ extern YDECKPTR Ygraph_requiredPath(P1(YGRAPHPTR graph));
 /*--------------------------------------------------
   Return size of last required path
   --------------------------------------------------*/
-extern INT Ygraph_requiredPathSize(P1(YGRAPHPTR graph));
+extern int Ygraph_requiredPathSize(P1(YGRAPHPTR graph));
 
 /*----------------------------------------------------------
   Ygraph_steiner:  Find the mst for a set of nodes.
@@ -531,13 +531,13 @@ void Ygraph_drawFunctions(P3( YGRAPHPTR graph, void (*userNodeDraw)(), void (*us
 /*---------------------------------------------------------
   Get the current edge weight function
   ---------------------------------------------------------*/
-extern INT (*Ygraph_getEdgeWeightFunction(P1(YGRAPHPTR graph)))();
+extern int (*Ygraph_getEdgeWeightFunction(P1(YGRAPHPTR graph)))();
 
 /*---------------------------------------------------------
   Set the current edge weight function
   ---------------------------------------------------------*/
 void Ygraph_setEdgeWeightFunction(P2(YGRAPHPTR graph,
-					    INT (*userEdgeWeight)()));
+					    int (*userEdgeWeight)()));
 
 /*---------------------------------------------------------
   Call the users drawing functions for all required nodes 

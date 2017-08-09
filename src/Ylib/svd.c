@@ -52,8 +52,8 @@ REVISIONS:  Tue Jan 15 22:26:57 PST 1991 - added TRUE return condition.
 #include <globals.h>
 
 /* static definitions */
-static DOUBLE atS,btS,ctS;
-static DOUBLE maxarg1S,maxarg2S;
+static double atS,btS,ctS;
+static double maxarg1S,maxarg2S;
 
 #undef MAX
 #define PYTHAG(a,b) ((atS=fabs(a)) > (btS=fabs(b)) ? \
@@ -74,11 +74,11 @@ BOOL Ysvd_decompose( YMPTR A, YMPTR  *Uret, YMPTR  *Wret, YMPTR  *Vret );
 BOOL Ysvd_solve( A, B, Xret )
 YMPTR A, B, *Xret ;
 {
-    INT i, j, jj, k, m, n, t ;
+    int i, j, jj, k, m, n, t ;
     YMPTR U, W, V ;
-    DOUBLE wmax, threshold, sum ;
-    DOUBLE **b, **u, **v, **w, **x ;
-    DOUBLE *tmp ;
+    double wmax, threshold, sum ;
+    double **b, **u, **v, **w, **x ;
+    double *tmp ;
 
     m = A->rows ;
     n = A->columns ;
@@ -149,7 +149,7 @@ YMPTR A, B, *Xret ;
 	YMPTR WUtb ;
 	YMPTR Xver ;
 	YMPTR Wprime ;
-	DOUBLE **wp ;
+	double **wp ;
 
 	Ut = Ymatrix_transpose( U ) ;
 	Utb = Ymatrix_mult( Ut, B ) ;
@@ -173,7 +173,7 @@ YMPTR A, B, *Xret ;
     u = U->m ;
     v = V->m ;
     b = B->m ;
-    tmp = YVECTOR_MALLOC(1,n,DOUBLE) ;
+    tmp = YVECTOR_MALLOC(1,n,double) ;
     for( t = 1; t <= k ; t++ ){
 	/* first calculate Ut * b */
         for (j=1;j<=n;j++) {
@@ -215,12 +215,12 @@ YMPTR A, B, *Xret ;
 ---------------------------------------------------------------- */
 BOOL Ysvd_decompose( YMPTR A, YMPTR  *Uret, YMPTR  *Wret, YMPTR  *Vret )
 {
-    INT m, n ;
-    INT flag,i,its,j,jj,k,l,nm;
-    DOUBLE c,f,h,s,x,y,z;
-    DOUBLE anorm=0.0,g=0.0,scale=0.0;
-    DOUBLE *rv1;
-    DOUBLE **a,*w,**v, **wfast ;
+    int m, n ;
+    int flag,i,its,j,jj,k,l,nm;
+    double c,f,h,s,x,y,z;
+    double anorm=0.0,g=0.0,scale=0.0;
+    double *rv1;
+    double **a,*w,**v, **wfast ;
 
     m = A->rows ;
     n = A->columns ;
@@ -238,8 +238,8 @@ BOOL Ysvd_decompose( YMPTR A, YMPTR  *Uret, YMPTR  *Wret, YMPTR  *Vret )
     *Wret = Ymatrix_eye( n ) ;
     *Vret = Ymatrix_create( n, n ) ;
     v = (*Vret)->m ;
-    w = YVECTOR_MALLOC(1,n,DOUBLE);
-    rv1 = YVECTOR_MALLOC(1,n,DOUBLE);
+    w = YVECTOR_MALLOC(1,n,double);
+    rv1 = YVECTOR_MALLOC(1,n,double);
 
     /* Householder reduction to bidiagonal form */
     for (i=1;i<=n;i++) {

@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
+#include <limits.h>
 
 #include <yalecad/assign.h>
 #include <yalecad/base.h>
@@ -93,7 +94,3 @@
 #define EXPECTEDPINGRP    1
 
 #define VERSION "2.0"
-
-#ifndef EXTERN
-#define EXTERN extern
-#endif

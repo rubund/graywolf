@@ -35,7 +35,7 @@ static char YHeap_SccsId[] = "@(#) heap.h version 1.3 7/11/91";
 *****************************************************************************/
 
 typedef struct heap {
-  INT (*heap_cmp)();
+  int (*heap_cmp)();
   struct heap_el *top;
 } YHEAP, *YHEAPPTR;
 
@@ -60,16 +60,16 @@ typedef struct heap {
  ************************************************************************/
 
 extern YHEAPPTR Yheap_init();
-extern YHEAPPTR Yheap_init_with_parms(P1(INT (*fn)()));
+extern YHEAPPTR Yheap_init_with_parms(P1(int (*fn)()));
 void Yheap_empty(P1(YHEAPPTR));
 void Yheap_free(P1(YHEAPPTR));
 void Yheap_insert(P2(YHEAPPTR, VOIDPTR));
 extern VOIDPTR Yheap_delete_min(P1(YHEAPPTR));
 extern VOIDPTR Yheap_top(P1(YHEAPPTR));
 extern YHEAPPTR Yheap_meld(P2(YHEAPPTR, YHEAPPTR));
-extern INT Yheap_cmp_num(P2(INT, INT));
-extern INT Yheap_cmp_ptr(P2(VOIDPTR, VOIDPTR));
+extern int Yheap_cmp_num(P2(INT, INT));
+extern int Yheap_cmp_ptr(P2(VOIDPTR, VOIDPTR));
 void Yheap_check_mem();
-extern INT Yheap_verify(P1(YHEAPPTR));
+extern int Yheap_verify(P1(YHEAPPTR));
 
 #endif

@@ -734,7 +734,7 @@ void add_pin( char *pin_name, char *signal, int layer, int xpos, int ypos )
 	pinptrS->newx     = 0    ;
 	pinptrS->newy     = 0    ;
 	pinptrS->flag     = 0    ;
-	pinptrS->row     = (SHORT) 0 ;
+	pinptrS->row     = (short) 0 ;
 	pinptrS->cell = totalCellS ;
 	pinptrS->eqptr    = NULL ;
 	pinptrS->adjptr   = (ADJASEGPTR)Ysafe_calloc( 1, sizeof(ADJASEG) ) ;
@@ -1182,10 +1182,10 @@ static void trans_tile( CBOXPTR ptr, int orient )
 	b = (int) tptr->bottom ;
 	t = (int) tptr->top ;
 	YtranslateT( &l, &b, &r, &t, orient ) ;
-	tptr->left   = (SHORT) l ;
-	tptr->right  = (SHORT) r ;
-	tptr->bottom = (SHORT) b ;
-	tptr->top    = (SHORT) t ;
+	tptr->left   = (short) l ;
+	tptr->right  = (short) r ;
+	tptr->bottom = (short) b ;
+	tptr->top    = (short) t ;
 	ptr->clength = r - l ;
 	ptr->cheight = t - b ;
 } /* end trans_tile */

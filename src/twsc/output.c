@@ -65,8 +65,8 @@ REVISIONS:  July 15, 1989
 #include "output.h"
 
 /* global variables */
-extern INT spacer_widthG ;
-extern INT actual_feed_thru_cells_addedG ;
+extern int spacer_widthG ;
+extern int actual_feed_thru_cells_addedG ;
 extern BOOL output_at_densityG ;
 extern BOOL create_new_cel_fileG ;
 extern BOOL unused_feed_name_twspacerG ;
@@ -79,25 +79,25 @@ void output()
 {
 
 FILE *fpp1 , *fpp2 ;
-INT locx , locy , height , width ;
-INT xloc , i , cell , block , orient ;
-INT num ;
-INT xloc2 , yloc2 , yloc ;
-INT *array , desire , k , limit ;
-INT left , right , bottom , top , end ;
-INT *deleted_feeds ;
-INT eliminated_feeds ;
+int locx , locy , height , width ;
+int xloc , i , cell , block , orient ;
+int num ;
+int xloc2 , yloc2 , yloc ;
+int *array , desire , k , limit ;
+int left , right , bottom , top , end ;
+int *deleted_feeds ;
+int eliminated_feeds ;
 char filename[LRECL] , ctmp[32] ;
 CBOXPTR cellptr ;
 TIBOXPTR tptr ;
 PADBOXPTR pptr ;
 /* added on 06/01/90 Sury */
-INT length;
-INT row ;
+int length;
+int row ;
 char instance_name[LRECL], tmp_name[LRECL], *tmp_string;
 
 
-deleted_feeds = (INT *) Ysafe_malloc( numcellsG * sizeof(INT) ) ;
+deleted_feeds = (int *) Ysafe_malloc( numcellsG * sizeof(int) ) ;
 eliminated_feeds = 0 ;
 
 sprintf( filename , "%s.pl1" , cktNameG ) ;
@@ -295,7 +295,7 @@ return ;
 
 void final_free_up()
 {
-INT i, j, k, row, pin, net, cell, chan, track ;
+int i, j, k, row, pin, net, cell, chan, track ;
 CBOXPTR cellptr ;
 DBOXPTR dimptr ;
 PINBOXPTR ptr, nextptr ;
@@ -424,7 +424,7 @@ void create_cel_file()
 FILE *fpoG2 , *fp ;
 char *token , fixed_string[32] , filename[256] ;
 char cell_name[32] ;
-INT ignore_line , block , offset , test , carrayG_index , is_a_cell ;
+int ignore_line , block , offset , test , carrayG_index , is_a_cell ;
 
 
 if( rowsG > 0 ) {
@@ -501,7 +501,7 @@ return ;
 int load_a_lineS(FILE *fp)
 {
 
-INT i ;
+int i ;
 char tmp ;
 
 if( (int) (tmp = fgetc(fp)) != EOF ) {
@@ -523,12 +523,12 @@ if( (int) (tmp = fgetc(fp)) != EOF ) {
 void density()
 {
     /* set all the cells at density */
-    INT row ;
-    INT cell ;
-    INT block ;
-    INT rowtop ;
-    INT corient ;
-    INT rowcenter ;
+    int row ;
+    int cell ;
+    int block ;
+    int rowtop ;
+    int corient ;
+    int rowcenter ;
     CBOXPTR cellptr ;
     PINBOXPTR pin ;
 

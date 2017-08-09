@@ -43,24 +43,20 @@ DESCRIPTION:ignore a net during annealing if it has too many connections
 DATE:	    Feb  7, 1990 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) scrapnet.c version 3.3 9/5/90" ;
-#endif
-
 #include <custom.h>
 #include <yalecad/debug.h>
 
-scrapnet()
+void scrapnet()
 {
 
     NETBOXPTR dimptr ;
     PINBOXPTR netptr ;
-    INT *vector , criticalMass , count , temp , net , cell ;
-    INT average_cells_per_net ;
-    INT num_cell_for_net ;
+    int *vector , criticalMass , count , temp , net , cell ;
+    int average_cells_per_net ;
+    int num_cell_for_net ;
 
-    vector = (INT *) Ysafe_malloc( (1 + totalcellsG) * sizeof(INT) ) ;
-    temp = (INT) ( 0.70 * (DOUBLE) numcellsG ) ;
+    vector = (int *) Ysafe_malloc( (1 + totalcellsG) * sizeof(int) ) ;
+    temp = (int) ( 0.70 * (double) numcellsG ) ;
     criticalMass = ( temp > 8 ) ? temp : 8 ;
 
     /* first calculate the average number of cells net is connected */
@@ -83,7 +79,7 @@ scrapnet()
     }
 
     average_cells_per_net = 
-	(INT) ceil( (DOUBLE)num_cell_for_net / (DOUBLE) numnetsG ) ;
+	(int) ceil( (double)num_cell_for_net / (double) numnetsG ) ;
 
     /* critical mass must at least be the average */
     criticalMass = MAX( criticalMass, average_cells_per_net ) ;

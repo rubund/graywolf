@@ -41,7 +41,7 @@
 FILE:	    loadins.c                                       
 DESCRIPTION:initializes bins for overlap calculation
 CONTENTS:   loadbins( )
-	    INT calc_cellareas( BOOL ) - returns total cell area.
+	    int calc_cellareas( BOOL ) - returns total cell area.
 DATE:	    Feb 13, 1988 
 REVISIONS:  Nov 3,  1988 - added routingFlag override for doPartitionG
 		in calc_cell_areas and turned wire estimator off for
@@ -51,21 +51,21 @@ REVISIONS:  Nov 3,  1988 - added routingFlag override for doPartitionG
 ----------------------------------------------------------------- */
 #include <allheaders.h>
 
-static INT binAreaS ;
+int binAreaS ;
 
 /* conditional compile for bintest */
 /* if defined the binpenalty should always remain equal to cell area */
-/* #define BINTEST */
+/* #define BintEST */
 
 int loadbins(BOOL wireAreaKnown)
 {
 
 	CELLBOXPTR ptr ;
 	BINBOXPTR bptr;
-	INT cell ;
-	INT x, y ;
-	INT binX, binY, array_limit ;
-	INT *cellList ;
+	int cell ;
+	int x, y ;
+	int binX, binY, array_limit ;
+	int *cellList ;
 
 
 	/* belows set up the initial bin-penalty */
@@ -147,7 +147,7 @@ int loadbins(BOOL wireAreaKnown)
 	}
 	}
 
-	#ifdef BINTEST
+	#ifdef BintEST
 	/* ----------------------------------------------------------------- 
 	This code test whether overlap code is performing correctly. 
 	Initialize all bins to full (0) and overlap penalty should be
@@ -167,7 +167,7 @@ int loadbins(BOOL wireAreaKnown)
 	} else {
 	turn_wireest_on(TRUE) ;
 	}
-	#ifdef BINTEST
+	#ifdef BintEST
 	turn_wireest_on(FALSE) ;
 	#endif 
 
@@ -191,8 +191,8 @@ int loadbins(BOOL wireAreaKnown)
 	array_limit = ++cellList[0] ;
 	if( array_limit >= bptr->space ) {
 		bptr->space += EXPCELLPERBIN ;
-		cellList = bptr->cells = (INT *) Ysafe_realloc( bptr->cells,
-		bptr->space * sizeof(INT) ) ; 
+		cellList = bptr->cells = (int *) Ysafe_realloc( bptr->cells,
+		bptr->space * sizeof(int) ) ; 
 	}
 	cellList[array_limit] = cell ;
 
@@ -208,7 +208,7 @@ int loadbins(BOOL wireAreaKnown)
 	}
 	}
 	/* scale penalty */
-	penaltyG = (INT) ( lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
+	penaltyG = (int) ( lapFactorG * sqrt( (double) binpenalG ) ) ;
 
 	return ;
 } /* end loadbins */

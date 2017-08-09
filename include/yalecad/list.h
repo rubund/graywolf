@@ -8,10 +8,6 @@ REVISIONS:  Sun Nov  3 12:56:37 EST 1991 - modified from Ted.
 #ifndef YLIST_H
 #define YLIST_H
 
-#ifndef lint
-static char Ylist_h_SID[] = "@(#) list.h Yale Version 1.7 12/9/91" ;
-#endif
-
 #include <yalecad/base.h>
 
 /****************************************************************************
@@ -25,8 +21,8 @@ static char Ylist_h_SID[] = "@(#) list.h Yale Version 1.7 12/9/91" ;
 *****************************************************************************/
 
 typedef struct ylist {
-  INT (*comp)();
-  INT size;
+  int (*comp)();
+  int size;
   struct ylist_el *first, *last;
   struct ylist *next;
 } YLIST_STRUCT, *YLIST;
@@ -226,7 +222,7 @@ typedef struct ylist_el {
  *  									*
  ************************************************************************/
 extern YLIST Ylist_create();
-extern YLIST Ylist_create_with_parms(P1(INT (*comp)()));
+extern YLIST Ylist_create_with_parms(P1(int (*comp)()));
 void Ylist_enqueue(P2(YLIST list, VOIDPTR data));
 void Ylist_push(P2(YLIST list, VOIDPTR data));
 void Ylist_insert_after(P3(YLIST list, YLIST_EL item, VOIDPTR data));
@@ -234,8 +230,8 @@ void Ylist_insert_before(P3(YLIST list, YLIST_EL item, VOIDPTR data));
 void Ylist_insert_in_order(P2(YLIST list, VOIDPTR data));
 extern VOIDPTR  Ylist_dequeue(P1(YLIST));
 extern VOIDPTR  Ylist_pop(P1(YLIST));
-void Ylist_delete(P3(YLIST, YLIST_EL, INT (*user_delete)() ));
-extern BOOL Ylist_find_and_delete(P3(YLIST list,VOIDPTR data,INT (*user_delete)()));
+void Ylist_delete(P3(YLIST, YLIST_EL, int (*user_delete)() ));
+extern BOOL Ylist_find_and_delete(P3(YLIST list,VOIDPTR data,int (*user_delete)()));
 extern YLIST Ylist_sort(P1(YLIST list));
 void Ylist_append(P2(YLIST l1, YLIST l2));
 void Ylist_clear(P1(YLIST list));

@@ -19,7 +19,7 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
 	    Thu Jan 24 20:15:03 PST 1991 - added more vector routines.
 	    Mon Jan 28 01:34:49 EST 1991 - added P15
 	    Wed Feb  6 23:33:12 EST 1991 - modified VOIDPTR to be
-		of type INT *.
+		of type int *.
 	    Fri Mar 22 15:13:51 CST 1991 - added SHORT_LONG typedef
 		for large designs.
 	    Sun Apr 28 13:46:49 EDT 1991 - added YALLOCATE, and
@@ -66,47 +66,9 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
     instead of typedefs. Typedefs are better for 
     errorchecking by the compiler.
 ---------------------------------------------------------- */
-#ifndef lint
-
-/* Somewhat more rigorous 64-bit compatibility added by Tim, May 2, 2011 */
-#ifndef SIZEOF_VOID_P
-#define SIZEOF_VOID_P 32
-#endif
-
-#if SIZEOF_VOID_P == 32
-typedef int INT ;
-#elif SIZEOF_VOID_P == 64
-typedef long INT ;
-#else
-ERROR: Cannot compile without knowing the size of a pointer.  See Ylib/include/base.h
-#endif
 
 typedef int  TBOOL ;
 typedef int  BOOL ;
-typedef unsigned long UNSIGNED_INT ;
-typedef short SHORT ;
-typedef long LONG ;
-/* typedef double to have ability to change to float */
-/* some machines float will be natural size.            */
-typedef double DOUBLE ;
-/* this allows the user to pick longs if large designs are present */
-#ifdef S_LONG
-typedef short SHORT_LONG ;
-#else /* S_LONG */
-typedef long SHORT_LONG ;
-#endif
-
-#else  /* the lint case */
-
-#define TBOOL int
-#define BOOL  int
-#define INT   int
-#define UNSIGNED_INT unsigned int
-#define SHORT short
-#define FLOAT float
-#define DOUBLE double
-
-#endif /* lint */
 
 /* used to find when we didn't use the PORTABLE version */
 #ifdef FIND_GARBAGE
@@ -116,45 +78,9 @@ typedef long SHORT_LONG ;
 #define double garbage
 #endif /* FIND_GARBAGE */
 
-#if defined(THINK_C)	/* Mac */
-
 #include <yalecad/mac.h>
-
-#elif defined(linux) || defined(ultrix)
-
-#ifndef	_LIMITS_H_
 #include <limits.h>
-#endif  /* _LIMITS_H_ */
-
-#ifndef DBL_MIN
-#define DBL_MIN -1.0E38
-#endif /* test on DBL_MIN */
-
-#ifndef DBL_MAX
-#define DBL_MAX 1.0E38
-#endif /* test on DBL_MAX */
-
-#else /* not ultrix or linux; i.e., doesn't have limits.h (?) */
-
-/* for foreign machines - conservative numbers */
-#ifndef R6000
-#undef SHRT_MIN /* -32768 	*/
-#undef SHRT_MAX /* 32767	*/
-#undef INT_MIN /* -2147483648	*/
-#undef INT_MAX /*  2147483647	*/
-#undef DBL_MAX /*  1.0E38	*/
-#undef DBL_MIN /* -1.0E38	*/
-
-#define SHRT_MIN -32768
-#define SHRT_MAX 32767
-#define INT_MAX  2147483647
-#define INT_MIN -2147483648
-#define INT_MAX  2147483647
-#define DBL_MAX  1.0E38
-#define DBL_MIN -1.0E38
-#endif /* R6000 */
-
-#endif /* ultrix, linux */
+#include <float.h>
 
 #if defined(THINK_C) || defined(linux)
 #define PROTOTYPES_OK
@@ -189,7 +115,7 @@ typedef void VOID ;
 #define P10( a,b,c,d,e,f,g,h,i,j  )
 #define P15( a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)
 typedef int *VOIDPTR ;
-//#define VOID INT
+//#define VOID int
 
 #endif /* end PROTOTYPE_OK */
 
@@ -221,13 +147,13 @@ typedef int *VOIDPTR ;
 #define MAX(a,b)        ( (a) < (b) ? (b) : (a) )
 #define MIN(a,b)        ( (a) > (b) ? (b) : (a) )
 #define SWAP(a,b,type_t)  { type_t temp ; temp = a ; a = b ; b = temp ; } 
-/* random number [0...INT_MAX] */
+/* random number [0...int_MAX] */
 #define RAND            (Yacm_random() )
 /* random number [0...limit] */
 #define RANDOM(limit)   (Yacm_random() % (limit))
-#define ROLL_THE_DICE() ((DOUBLE) RAND / (DOUBLE)0x7fffffff ) 
+#define ROLL_THE_DICE() ((double) RAND / (double)0x7fffffff ) 
 #define LINE printf(" file : %s  line # %d\n", __FILE__,__LINE__);
-#define ROUND(value)  ( (INT)(value + 0.5)) 
+#define ROUND(value)  ( (int)(value + 0.5)) 
 
 /* Always include memory defintions */
 #include <yalecad/okmalloc.h>

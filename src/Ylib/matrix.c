@@ -48,8 +48,8 @@ REVISIONS:  Sun Nov  3 12:48:39 EST 1991 - made matrix memory
 ----------------------------------------------------------------- */
 #include <globals.h>
 
-double find_det( P3(double **a, int rows, int columns ) );
-float sign_cof( P2(int row, int column) ) ;
+double find_det(double **a, int rows, int columns);
+double sign_cof( int row, int column) ;
 
 /* ***************************************************************** 
     Allocate the space for the matrix.
@@ -425,7 +425,7 @@ double find_det(double **a, int rows, int columns)
 
 } /* end find_det */
 
-float sign_cof( int row, int column )
+double sign_cof( int row, int column )
 {
     int sum ;
 

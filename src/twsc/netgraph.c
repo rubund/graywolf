@@ -129,7 +129,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 Ysafe_free( steinerHeadG ) ;
 
 maxpin_numberS = 0 ;
-pins_at_rowS = (int *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
+pins_at_rowS = (int *)Ysafe_calloc( numChansG + 1, sizeof(int) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     if( netarrayG[net]->numpins <= 2 ) {
 	continue ;
@@ -862,7 +862,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 maxpin_numberS = 0 ;
 Ysafe_free( pins_at_rowS );
-pins_at_rowS = (int *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
+pins_at_rowS = (int *)Ysafe_calloc( numChansG + 1, sizeof(int) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     if( netarrayG[net]->numpins <= 2 ) {
 	continue ;

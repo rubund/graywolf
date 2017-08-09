@@ -86,7 +86,7 @@
 
 typedef struct heap_el {
   VOIDPTR data;
-  INT rank;
+  int rank;
   struct heap_el *left, *rite;
 } HEAP_EL_STRUCT, *HEAP_EL;
 
@@ -111,8 +111,8 @@ typedef struct heap_el {
  *  									*
  ************************************************************************/
 void free_all_els(P1(HEAP_EL));
-static HEAP_EL meld(P3(HEAP_EL, HEAP_EL, INT (*cmp)()));
-static HEAP_EL mesh(P3(HEAP_EL, HEAP_EL, INT (*cmp)()));
+static HEAP_EL meld(P3(HEAP_EL, HEAP_EL, int (*cmp)()));
+static HEAP_EL mesh(P3(HEAP_EL, HEAP_EL, int (*cmp)()));
 static YHEAPPTR allocate_heap();
 static HEAP_EL allocate_heap_el();
 void free_heap(P1(YHEAPPTR));
@@ -171,7 +171,7 @@ static long heap_els_allocated = 0L;
   *****************************************************************************/
 
 extern YHEAPPTR Yheap_init_with_parms(fn)
-     INT (*fn)();
+     int (*fn)();
 {
   YHEAPPTR tmp;
   
@@ -338,7 +338,7 @@ void free_all_els(HEAP_EL el)
 static HEAP_EL meld(e1,e2,fn)
      HEAP_EL e1;
      HEAP_EL e2;
-     INT (*fn)();
+     int (*fn)();
 {
   if ( ! e1)
     return e2;
@@ -362,7 +362,7 @@ static HEAP_EL meld(e1,e2,fn)
 static HEAP_EL mesh(e1,e2,fn)
      HEAP_EL e1;
      HEAP_EL e2;
-     INT (*fn)();
+     int (*fn)();
 {
   HEAP_EL tmp;
   
@@ -395,9 +395,9 @@ static HEAP_EL mesh(e1,e2,fn)
   
  *****************************************************************************/
 
-INT extern Yheap_cmp_num(x, y)
-     INT x;
-     INT y;
+int extern Yheap_cmp_num(x, y)
+     int x;
+     int y;
 {
   return x - y;
 }   /*  heap_cmp_num  */
@@ -413,11 +413,11 @@ INT extern Yheap_cmp_num(x, y)
   
  *****************************************************************************/
 
-INT extern Yheap_cmp_ptr( x, y)
+int extern Yheap_cmp_ptr( x, y)
      VOIDPTR x;
      VOIDPTR y;
 {
-  return (INT) ((long) x - (long) y);
+  return (int) ((long) x - (long) y);
 }   /*  heap_cmp_ptr  */
 
 
@@ -525,10 +525,10 @@ void Yheap_check_mem()
   Yheap_verify:
   Verify heap data structures
   --------------------------------*/
-extern INT Yheap_verify(heap)
+extern int Yheap_verify(heap)
   YHEAPPTR heap;
 {
-  INT rc = TRUE;
+  int rc = TRUE;
 
   if ( YcheckDebug(heap) < sizeof(YHEAP) ) {
     printf("tile memory corrupt\n");

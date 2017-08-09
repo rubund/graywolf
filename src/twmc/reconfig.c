@@ -42,7 +42,7 @@ FILE:	    reconfig.c
 DESCRIPTION:reconfigures the core area during simulated annealing
 	    run.  It is called from uloop by the core area controller.
 CONTENTS:   reconfigure( numbinX, numbinY, newCoreArea )
-		INT numbinX, numbinY, newCoreArea ;
+		int numbinX, numbinY, newCoreArea ;
 DATE:	    Sept 13, 1988 
 REVISIONS:  Jan  20, 1989 - added findcost call to update new wirelength
 		after reconfiguration.
@@ -59,28 +59,28 @@ REVISIONS:  Jan  20, 1989 - added findcost call to update new wirelength
 void reconfigure( int numbinX, int numbinY, double newCoreArea )
 {
 
-    DOUBLE factor ;
-    INT xlength, ylength ;
+    double factor ;
+    int xlength, ylength ;
 
     if( coreGivenG == FALSE ) {
 	
-	blockrG = blocktG = (INT)( sqrt( newCoreArea ) ) + 1 ;
+	blockrG = blocktG = (int)( sqrt( newCoreArea ) ) + 1 ;
 	/* 
 	 *    Take into account the aspect ratio requested by the user
 	 */
-	blocktG = (INT)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
-	blockrG = (INT)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
+	blocktG = (int)( sqrt(chipaspectG) * (double) blocktG ) + 1 ;
+	blockrG = (int)( 1.0 / sqrt(chipaspectG) * (double) blockrG ) + 1;
     }
 
     xlength = blockrG - blocklG ;
     ylength = blocktG - blockbG ;
 
-    slopeXG = (DOUBLE)(maxWeightG - baseWeightG) / 
-		( (DOUBLE) xlength * 0.5 ) ;
-    slopeYG = (DOUBLE)(maxWeightG - baseWeightG) / 
-		( (DOUBLE) ylength * 0.5 ) ;
-    basefactorG = (DOUBLE) baseWeightG ;
-    factor = 0.5 * aveChanWidG /(DOUBLE)xlength / (DOUBLE) ylength ; 
+    slopeXG = (double)(maxWeightG - baseWeightG) / 
+		( (double) xlength * 0.5 ) ;
+    slopeYG = (double)(maxWeightG - baseWeightG) / 
+		( (double) ylength * 0.5 ) ;
+    basefactorG = (double) baseWeightG ;
+    factor = 0.5 * aveChanWidG /(double)xlength / (double) ylength ; 
     /* now calculate factor for x and y directions taking wiring */
     /* into account */
     wireFactorXG = factor * 2 * track_spacingXG /
@@ -142,11 +142,11 @@ void reorigin()
 
     CELLBOXPTR cellptr ;
     TILEBOXPTR tileptr ;
-    INT l, r, b, t, cell ;
-    INT xcenter, ycenter ;
-    INT xorigin, yorigin ;
-    INT xmax, ymax ;
-    INT deltax, deltay ;
+    int l, r, b, t, cell ;
+    int xcenter, ycenter ;
+    int xorigin, yorigin ;
+    int xmax, ymax ;
+    int deltax, deltay ;
 
     /* find bounding box of all core cells */
     xorigin = INT_MAX ;

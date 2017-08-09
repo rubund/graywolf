@@ -59,16 +59,16 @@ void (*_TWdrawArb)( int ref_num, int color, char *label ) ;
 #define TW3Darb_init()                    TWarb_init()
 #define TW3DdrawArb( ref, color, label )  TWdrawArb( ref, color, label )
 #define TW3Darb_addpt( x1, y1, z1 )            \
-{   DOUBLE X1, Y1 ; \
-    TW3Dperspective( (DOUBLE)x1, (DOUBLE)y1, (DOUBLE)z1, &X1, &Y1 ); \
-    TWarb_addpt( (INT)X1, (INT)Y1 ); \
+{   double X1, Y1 ; \
+    TW3Dperspective( (double)x1, (double)y1, (double)z1, &X1, &Y1 ); \
+    TWarb_addpt( (int)X1, (int)Y1 ); \
 }
 
 #define TW3DdrawLine( ref_num, x1, y1, z1, x2, y2, z2, color, label) \
-{   DOUBLE X1, Y1, X2, Y2 ;  \
-    TW3Dperspective( (DOUBLE)x1, (DOUBLE)y1, (DOUBLE)z1, &X1, &Y1 ); \
-    TW3Dperspective( (DOUBLE)x2, (DOUBLE)y2, (DOUBLE)z2, &X2, &Y2 ); \
-    TWdrawLine(ref_num,(INT)X1,(INT)Y1,(INT)X2,(INT)Y2,color, label) ; \
+{   double X1, Y1, X2, Y2 ;  \
+    TW3Dperspective( (double)x1, (double)y1, (double)z1, &X1, &Y1 ); \
+    TW3Dperspective( (double)x2, (double)y2, (double)z2, &X2, &Y2 ); \
+    TWdrawLine(ref_num,(int)X1,(int)Y1,(int)X2,(int)Y2,color, label) ; \
 }
 
 extern  void _TW3DdrawAxis( BOOL drawNotErase ) ;
@@ -135,7 +135,7 @@ Function:
 /* TWdrawRect(ref_num, x1, y1, x2, y2, color, label ) */
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a rectangle to screen and/or file.  
@@ -150,7 +150,7 @@ Function:
 /* TWdrawLine(ref_num, x1, y1, x2, y2, color, label ) */
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a line to screen and/or file.  
@@ -165,7 +165,7 @@ Function:
 /* TWdrawNet(ref_num, x1, y1, x2, y2, color, label ) */
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a net to screen and/or file.  
@@ -180,7 +180,7 @@ Function:
 /* TWdrawCell(ref_num, x1, y1, x2, y2, color, label ) */
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a cell to screen and/or file.  
@@ -304,7 +304,7 @@ Function:
     internally in the graphics module.
 */
 
-void TWmoveRect( P6( INT *x1, INT *y1, INT *x2, INT *y2, INT ptx, INT pty )) ;
+void TWmoveRect( P6( int *x1, int *y1, int *x2, int *y2, int ptx, int pty )) ;
 /*
 Function:
     Draw ghost figure of rectangle as the user moves it on the screen.
@@ -421,7 +421,7 @@ Function:
     exposure events.
 */
 
-void TWdrawString( INT x, INT y, INT color, char *label) ;
+void TWdrawString( int x, int y, int color, char *label) ;
 /* 
 Function:
     Draw a string left justified from the given location.
@@ -466,8 +466,8 @@ Function:
     Turns off the 3D perspective.
 */
 
-/* TW3DdrawLine( INT ref_num, INT x1, INT y1, INT z1, 
-		 INT x2, INT y2, INT z2, INT color, char *label) */
+/* TW3DdrawLine( int ref_num, int x1, int y1, int z1, 
+		 int x2, int y2, int z2, int color, char *label) */
 /*
 Function:
     Draws a line in 3 dimensions.
@@ -491,7 +491,7 @@ Function:
     Adds another point to current arbitrary figure in 3D.
 */
 
-/* TW3DdrawArb( INT ref, INT color, char *label )  */
+/* TW3DdrawArb( int ref, int color, char *label )  */
 /*
 Function:
     Finished arbitrary point and draws it to the screen.

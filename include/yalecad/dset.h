@@ -15,8 +15,8 @@ REVISIONS:  Sun Dec  8 23:30:16 EST 1991 - removed indirection
 
 typedef struct dset_element {
   VOIDPTR data ;
-  INT rank ;
-  INT size;
+  int rank ;
+  int size;
   struct dset_element *parent ;
 } ELEMENT, *ELEMENTPTR ;
 

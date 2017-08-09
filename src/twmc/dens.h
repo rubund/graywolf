@@ -12,31 +12,22 @@ REVISIONS:  Thu Jan 17 00:46:38 PST 1991 - added side to RTILEBOX
 #ifndef DENS_H
 #define DENS_H
 
-#undef EXTERN 
-#ifndef DENS_DEFS
-#define EXTERN extern
-
-#else
-#define EXTERN
-#endif
-
 #define TILEL      1
 #define TILET      2
 #define TILER      3
 #define TILEB      4
 
 typedef struct rtilebox {
-    INT x1 ;
-    INT y1 ;
-    INT x2 ;
-    INT y2 ;
-    INT side ;
+    int x1 ;
+    int y1 ;
+    int x2 ;
+    int y2 ;
+    int side ;
     BOOL switchbox ;
     struct rtilebox *next ;
 } RTILEBOX, *RTILEBOXPTR ;
 
-
 /* list of tiles to be added to each cell to accommodate routing */
-EXTERN RTILEBOXPTR *routingTilesG ;
+RTILEBOXPTR *routingTilesG ;
 
 #endif /* DENS_H */

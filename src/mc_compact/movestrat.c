@@ -406,13 +406,13 @@ int direction ;
     if( minslack == INT_MAX ){
 	switch( direction ){
 	    case XFORWARD:
-		minslack = (INT) ( 0.25 * (DOUBLE) ABS(blockrG-blocklG)) ;
+		minslack = (int) ( 0.25 * (double) ABS(blockrG-blocklG)) ;
 		break ;
 	    case XBACKWARD:
 		minslack = 0 ;
 		break ;
 	    case YFORWARD:
-		minslack = (INT) ( 0.25 * (DOUBLE) ABS(blocktG-blockbG)) ;
+		minslack = (int) ( 0.25 * (double) ABS(blocktG-blockbG)) ;
 		break ;
 	    case YBACKWARD:
 		minslack = 0 ;

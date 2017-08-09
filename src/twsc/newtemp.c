@@ -40,8 +40,8 @@
 /* ----------------------------------------------------------------- 
 FILE:	    newtemp.c                                       
 DESCRIPTION:update temparature of the simulated annealing algorithm.
-CONTENTS:  DOUBLE calc_acceptance_ratio( iternum )
-		DOUBLE iternum ;
+CONTENTS:  double calc_acceptance_ratio( iternum )
+		double iternum ;
 	    init_acceptance_rate()
 DATE:	    Dec 19, 1988 
 REVISIONS:  
@@ -66,8 +66,8 @@ REVISIONS:
 #define CRITRATIO        0.44 /* critical ratio */
 #define LOWRATIO         0.06 /* temperature for controler turn off */
 
-static DOUBLE alphaS ;    /* exponential decay constant for high temp */
-static DOUBLE betaS ;     /* exponential decay constant for low temp */
+static double alphaS ;    /* exponential decay constant for high temp */
+static double betaS ;     /* exponential decay constant for low temp */
 
 /* calculate static exponential time constants */
 void init_acceptance_rate()
@@ -80,10 +80,10 @@ void init_acceptance_rate()
 } /* end init_acceptance_rate */
 
 /* given an iteration number return desired acceptance rate */
-DOUBLE calc_acceptance_ratio( iternum )
-DOUBLE iternum ;
+double calc_acceptance_ratio( iternum )
+double iternum ;
 {
-    DOUBLE desired_ratio ;
+    double desired_ratio ;
 
     if( iternum <= HIGHTEMP ){
 	/* -------------------------------------------------------- 
@@ -124,12 +124,12 @@ main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
-    DOUBLE d_ratio, calc_acceptance_rate() ;
+    double d_ratio, calc_acceptance_rate() ;
     INT i ;
 
     init_acceptance_rate() ;
     for( i= 0; i<= 150; i++ ){
-	d_ratio = calc_acceptance_ratio( (DOUBLE) i ) ;
+	d_ratio = calc_acceptance_ratio( (double) i ) ;
 	printf( "%4.2le\n" , d_ratio ) ;
     }
 

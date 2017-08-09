@@ -9,7 +9,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Thu Dec 20 00:05:40 EST 1990 - made timing values doubles
 		for more accuracy.
 	    Thu Jan 24 16:34:51 PST 1991 - added user initialization.
-	    Fri Mar 22 15:20:24 CST 1991 - added SHORT_LONG
+	    Fri Mar 22 15:20:24 CST 1991 - added short
 		definitions for large designs.
 	    Tue Mar 26 11:33:47 EST 1991 - added NO_FEED_INSTANCES
 		conditional compile.
@@ -106,8 +106,8 @@ typedef struct blockbox {
     int bbottom   ;
     int btop      ;
     int bheight   ;
-    SHORT bclass    ;
-    SHORT borient   ;
+    short bclass    ;
+    short borient   ;
 } *BBOXPTR, BBOX ;
 
 typedef struct glistbox {  /* generic list */
@@ -124,7 +124,7 @@ typedef struct equiv_box {
     char *pinname ;
     char unequiv ;
     char txoff ;
-    SHORT_LONG typos ;
+    short typos ;
 }
 EQ_NBOX ,
 *EQ_NBOXPTR ;
@@ -138,11 +138,11 @@ typedef struct pinbox {
     int ypos     ;
     int newx     ;
     int newy     ;
-    SHORT_LONG txpos[2] ;          /* cell relative position */
-    SHORT_LONG typos[2] ;          /* cell relative position */
+    short txpos[2] ;          /* cell relative position */
+    short typos[2] ;          /* cell relative position */
     int cell ;
     int net ;
-    SHORT row  ;
+    short row  ;
     char pinloc   ;
     char flag     ;
     struct adjacent_seg *adjptr ;
@@ -161,10 +161,10 @@ typedef struct pathbox {
 
 
 typedef struct tilebox { 
-    SHORT_LONG left     ;
-    SHORT_LONG right    ;
-    SHORT_LONG bottom   ;
-    SHORT_LONG top      ;
+    short left     ;
+    short right    ;
+    short bottom   ;
+    short top      ;
 } *TIBOXPTR, TIBOX ;
 
 // Each cell defines any number of swap groups.
@@ -181,8 +181,8 @@ typedef struct tilebox {
 // group(s).
 
 typedef struct swapgrouplist {
-    SHORT swap_group ;
-    SHORT num_pin_group ;
+    short swap_group ;
+    short num_pin_group ;
 } *SGLISTPTR, SGLIST ;
 
 typedef struct cellbox { 
@@ -194,12 +194,12 @@ typedef struct cellbox {
     int cycenter          ;
     int border            ;
     int cclass            ;
-    UNSIGNED_INT cbclass[8] ;
-    SHORT_LONG cheight    ;
-    SHORT_LONG clength    ;
-    SHORT cblock      ;
-    SHORT numterms    ;
-    SHORT num_swap_group  ;
+    unsigned int cbclass[8] ;
+    short cheight    ;
+    short clength    ;
+    short cblock      ;
+    short numterms    ;
+    short num_swap_group  ;
     SGLISTPTR swapgroups ;
     GLISTPTR paths        ;  /* timing paths of a cell */
     struct pad_rec *padptr;
@@ -231,15 +231,15 @@ typedef struct dimbox {
     int newymin  ;
     int ymax     ;
     int newymax  ;
-    SHORT Lnum     ;
-    SHORT newLnum  ;
-    SHORT Rnum     ;
-    SHORT newRnum  ;
-    SHORT Bnum     ;
-    SHORT newBnum  ;
-    SHORT Tnum     ;
-    SHORT newTnum  ;
-    SHORT numpins  ;
+    short Lnum     ;
+    short newLnum  ;
+    short Rnum     ;
+    short newRnum  ;
+    short Bnum     ;
+    short newBnum  ;
+    short Tnum     ;
+    short newTnum  ;
+    short numpins  ;
     GLISTPTR paths ;     /* paths which this net belongs */
     int newhalfPx ;     /* new half perimeter bounding box */
     int newhalfPy ;     /* new half perimeter: y portion */

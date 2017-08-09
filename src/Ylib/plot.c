@@ -180,10 +180,10 @@ void Yplot( int dval, ... )
     char **tokenBuf ;
     int gint ;
     int i , type, numtokens ;
-    DOUBLE gdoub ;
+    double gdoub ;
     FILE *fp ;
     static char copyformatS[LRECL] ;
-    /* int findType();*/
+    /* static int findType();*/
 
     va_start(ap, dval) ;
     if( !(graphFilesS) ){
@@ -257,7 +257,7 @@ void Yplot( int dval, ... )
 	}
 	break ;
     case DOUB_TYPE:
-	gdoub = va_arg( ap, DOUBLE ) ;
+	gdoub = va_arg( ap, double ) ;
 	if( gfileS[i].graphFlushed ){  
 	    fprintf( fp, tokenBuf[0], gdoub ) ;
 	    fprintf( fp, "\t" ) ;
@@ -300,7 +300,7 @@ void Yplot( int dval, ... )
 		fprintf( fp, tokenBuf[i], gstr ) ;
 		break ;
 	    case DOUB_TYPE:
-		gdoub = va_arg( ap, DOUBLE ) ;
+		gdoub = va_arg( ap, double ) ;
 		fprintf( fp, tokenBuf[i], gdoub ) ;
 		break ;
 	}
@@ -349,9 +349,7 @@ void Yplot_flush(char *gName)
 
 } /* end GRAPHFLUSH */
 
-int findType( control, number )
-char **control ;
-int number ;
+int findType( char **control, int number )
 {
     char *formatChar ;
     
@@ -379,7 +377,7 @@ int number ;
 main()
 {
     int i ;       /* counter */
-    DOUBLE f ;    /* function value */
+    double f ;    /* function value */
     int y ;       /* integer function value */
 
     /* first initialize two graphs */
@@ -398,7 +396,7 @@ main()
 	   Ygraph has the following format:
 	   Ygraph( filename, x format, x varible, y format, y variables...
 	------------------------------------------------------------- */
-	f = (DOUBLE) i ;
+	f = (double) i ;
 	y = i * i ;
 	Yplot( 0, "graph1", "%d", i, "%4.2le %d", f, y ) ;
 	/* now after each graph has been finished flush data */
@@ -406,7 +404,7 @@ main()
 
 	/* now output another graph */
 	Yplot_heading( 0, "graph_kroy", "iter", "Temperature", NULL ) ;
-	Yplot( 0, "graph_kroy", "%4.2le", (DOUBLE) i, "%d", 3 * i ) ;
+	Yplot( 0, "graph_kroy", "%4.2le", (double) i, "%d", 3 * i ) ;
 	Yplot_flush( "graph_kroy" ) ;
     }
 

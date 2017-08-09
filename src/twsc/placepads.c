@@ -564,7 +564,7 @@ void get_global_pos( int cell, int *l, int *r, int *b, int *t )
 	*r = ptr->tileptr->right ;
 	*b = ptr->tileptr->bottom ;
 	*t = ptr->tileptr->top ;
-	YtranslateT( l, b, r, t, (INT) ptr->corient ) ;
+	YtranslateT( l, b, r, t, (int) ptr->corient ) ;
 
 	/* now add xcenter ycenter to get global position */
 	*l += ptr->cxcenter ;

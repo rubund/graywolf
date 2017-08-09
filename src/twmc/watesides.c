@@ -51,7 +51,7 @@ REVISIONS:
 void watesides(CELLBOXPTR ptr, PSIDEBOX *pSideArray)
 {
 TILEBOXPTR tileptr ;
-INT side , left , right , bottom , top ;
+int side , left , right , bottom , top ;
 
 for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
     left = ptr->xcenter + tileptr->left ;
@@ -66,7 +66,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    }
 		} else {
 		    tileptr->lweight = pSideArray[side].pincount / 
-			(DOUBLE) pSideArray[side].length ; 
+			(double) pSideArray[side].length ; 
 		}
 		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
@@ -85,7 +85,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    }
 		} else {
 		    tileptr->rweight = pSideArray[side].pincount / 
-			(DOUBLE) pSideArray[side].length ; 
+			(double) pSideArray[side].length ; 
 		}
 		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
@@ -104,7 +104,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    }
 		} else {
 		    tileptr->bweight = pSideArray[side].pincount / 
-			(DOUBLE) pSideArray[side].length ; 
+			(double) pSideArray[side].length ; 
 		}
 		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;
@@ -123,7 +123,7 @@ for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
 		    }
 		} else {
 		    tileptr->tweight = pSideArray[side].pincount / 
-			(DOUBLE) pSideArray[side].length ; 
+			(double) pSideArray[side].length ; 
 		}
 		ptr->vertices->numpins[side] = (float)
 		    pSideArray[side].pincount;

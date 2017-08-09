@@ -39,9 +39,9 @@
 
 /* ----------------------------------------------------------------- 
 FILE:	    savewolf.c                                       
-DESCRIPTION:checkpoINT file routines.
+DESCRIPTION:checkpoint file routines.
 CONTENTS:   savewolf(flag)
-		INT flag ;
+		int flag ;
 	    TW_oldin( fp )
 		FILE *fp ;
 DATE:	    Mar 27, 1989 
@@ -61,28 +61,24 @@ REVISIONS:  Wed Mar 13 13:48:30 CST 1991 - make sure the .blk
 #include "graphics.h"
 #include "savewolf.h"
 
-#if SIZEOF_VOID_P == 64
-#define INTSCANSTR "%ld"
-#else
 #define INTSCANSTR "%d"
-#endif
 
 void savewolf(int flag)
 {
 
 FILE *fp ;
-INT xcenter , ycenter ;
-INT cell , block , orient ;
+int xcenter , ycenter ;
+int cell , block , orient ;
 char filename[64] ;
 char file1[1024], file2[1024];
 CBOXPTR cellptr ;
-DOUBLE Ycpu_time();
-DOUBLE current_time;
-static DOUBLE last_time = 0.0;
+double Ycpu_time();
+double current_time;
+static double last_time = 0.0;
 
 if( !flag ) {
 #ifndef VMS
-    /* make sure another checkpoINT is worthwhile !! */
+    /* make sure another checkpoint is worthwhile !! */
     current_time = Ycpu_time();
     if ((current_time - last_time) < 900.0 ) {
         return;
@@ -140,11 +136,11 @@ return ;
 void TW_oldin( FILE *fp )
 {
 
-INT cell , orient , numfds ;
-INT block , xcenter , ycenter , dummy ;
-INT last_cell ;
-INT number_of_core_cells ;
-DOUBLE cost_scale_factor ;
+int cell , orient , numfds ;
+int block , xcenter , ycenter , dummy ;
+int last_cell ;
+int number_of_core_cells ;
+double cost_scale_factor ;
 CBOXPTR ptr ;
 PINBOXPTR pinptr ;
 

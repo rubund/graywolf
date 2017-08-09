@@ -64,14 +64,6 @@ REVISIONS:
 #define STDCELLTYPE   3
 #define PADCELLTYPE   4
 
-/* compile switch for globals */
-#ifndef MAIN_VARS
-#define EXTERN extern
-
-#else
-#define EXTERN
-#endif
-
-EXTERN char *cktNameG ;
+char *cktNameG ;
 
 #endif /* GLOBALS_H */

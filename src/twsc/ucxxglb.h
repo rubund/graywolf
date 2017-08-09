@@ -35,6 +35,4 @@ double mean_wire_chgG ;
 int wire_chgsG ;
 double fraction_doneG ;
 
-#undef EXTERN  
-
 #endif /* UCXXGLB_H */

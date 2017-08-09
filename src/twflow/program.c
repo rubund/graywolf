@@ -68,8 +68,8 @@ BOOL executePgm( ADJPTR adjptr, int debug )
 	char *Yfixpath() ;               /* get full pathname */
 	char command[LRECL] ;
 	OBJECTPTR obj ;                  /* current object */
-	INT i ;                          /* arg counter */
-	INT status ;                     /* program return status */
+	int i ;                          /* arg counter */
+	int status ;                     /* program return status */
 	BOOL stateSaved ;                /* whether graphics state was saved*/
 
 	obj = proGraphG[adjptr->node] ;

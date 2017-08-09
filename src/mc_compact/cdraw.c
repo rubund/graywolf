@@ -76,7 +76,7 @@ static BOOL draw3DS = FALSE ;
 static BOOL drawCriticalS = FALSE ;
 static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
-static INT  zspanS ;
+int zspanS ;
 
 void draw_changraph();
 
@@ -132,9 +132,9 @@ void set_draw_critical( BOOL flag )
 int draw_the_data()
 {
 
-    INT  i ;
-    INT  toX, toY, fromX, fromY, sinkTile ;
-    INT  color ;
+    int  i ;
+    int  toX, toY, fromX, fromY, sinkTile ;
+    int  color ;
     static BOOL firstL = TRUE ;
     unsigned sleep() ;
     char label[LRECL] ;
@@ -147,7 +147,7 @@ int draw_the_data()
 	return ;
     }
     if( firstL && numcellsG ){
-	zspanS = ROUND( (DOUBLE) zspanS / (DOUBLE) numcellsG / 10.0 ) ;
+	zspanS = ROUND( (double) zspanS / (double) numcellsG / 10.0 ) ;
 	firstL = FALSE ;
     }
 
@@ -369,7 +369,7 @@ void process_graphics()
 {
 
     int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
-    INT x, y ;           /* coordinates from pointer */
+    int x, y ;           /* coordinates from pointer */
     int i ;            /* temp variable */
     int selection ;     /* the users pick */
     char *reply ;       /* user reply to a querry */
@@ -538,15 +538,15 @@ void process_graphics()
 /* how to draw the channel graph */
 void draw_changraph()
 {
-    INT i ;                        /* temp counter */
-    INT color ;                    /* color of edge */
+    int i ;                        /* temp counter */
+    int color ;                    /* color of edge */
     CHANBOXPTR nptr ;              /* pointer to channel graph */
     CHANBOXPTR node1 ;             /* pointer to channel graph */
     CHANBOXPTR node2 ;             /* pointer to channel graph */
     INFOPTR eptr ;                 /* current edge */
     char label_buf[LRECL] ;        /* buffer for labels */
     char *label ;                  /* label pointer */
-    INT x1, x2, y1, y2 ;           /* points of trace line */
+    int x1, x2, y1, y2 ;           /* points of trace line */
 
     /* first draw the nodes */
     for( i = 1; i <= numnodesG; i++ ){

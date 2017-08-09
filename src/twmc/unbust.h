@@ -1,12 +1,12 @@
 #include <globals.h>
 
 typedef struct {
-    INT tile ;    /* tile that point is attached */
-    INT x ;       /* x position of point */
-    INT y ;       /* y position of point */
-    INT Vnum ;    /* position in VPts array */
-    INT Hnum ;    /* position in HPts array */
-    INT order ;   /* order that points should be output - negative means invalid */
+    int tile ;    /* tile that point is attached */
+    int x ;       /* x position of point */
+    int y ;       /* y position of point */
+    int Vnum ;    /* position in VPts array */
+    int Hnum ;    /* position in HPts array */
+    int order ;   /* order that points should be output - negative means invalid */
     BOOL marked ; /* point has been used */
 } POINTBOX, *POINTPTR ;
 

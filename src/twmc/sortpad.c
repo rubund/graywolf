@@ -215,7 +215,7 @@ void permute_pads( PADBOXPTR pad )
     int proposed_fpos ;       /* proposed uniformly spaced pos in forward order */
     int proposed_bpos ;       /* proposed uniformly spaced pos in bakward order */
     int *array ;              /* sort the children */
-    DOUBLE spacing ;          /* spacing if we place pads in pg uniformly */
+    double spacing ;          /* spacing if we place pads in pg uniformly */
     PADBOXPTR child ;         /* current child */
 
     if( pad->permute ){
@@ -232,7 +232,7 @@ void permute_pads( PADBOXPTR pad )
 	    max_pos = MAX( child->position, max_pos ) ;
 	}
 	/* now find the cost if we evenly space the pads over that region */
-	spacing = (DOUBLE) (max_pos - min_pos) / (DOUBLE) (howmany - 1) ;
+	spacing = (double) (max_pos - min_pos) / (double) (howmany - 1) ;
 	forward_cost = 0 ;
 	bakward_cost = 0 ;
 	for( i = 1; i <= howmany ; i++ ){

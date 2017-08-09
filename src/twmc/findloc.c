@@ -40,10 +40,10 @@
 #include <allheaders.h>
 
 typedef struct flogbox {
-    INT pin ;
-    INT placed ;
-    INT finalx ;
-    INT finaly ;
+    int pin ;
+    int placed ;
+    int finalx ;
+    int finaly ;
 }
 FBOX ,
 *FBOXPTR ;
@@ -57,12 +57,12 @@ FBOX ,
 findLoc( pinptr, lArray, nPinLocs, HorV ) 
 PINBOXPTR pinptr ;
 BOOL HorV ;
-INT nPinLocs ;
+int nPinLocs ;
 FBOXPTR lArray ;
 {
 
-INT bigoX , bigoY , litoX , litoY ;
-INT aPin, bestPos , meanx , meany , distant , i ;
+int bigoX , bigoY , litoX , litoY ;
+int aPin, bestPos , meanx , meany , distant , i ;
 
 bigoX = INT_MIN ;
 bigoY = INT_MIN ;

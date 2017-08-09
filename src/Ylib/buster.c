@@ -42,11 +42,11 @@ FILE:	    buster.c
 DESCRIPTION:This file contains the utility routine to break a 
 	    rectilinear cell up into tiles.
 CONTENTS:   YBUSTBOXPTR Ybuster()
-	    INT Ybuster_init() ;
-	    INT Ybuster_addpt( x, y ) ;
+	    int Ybuster_init() ;
+	    int Ybuster_addpt( x, y ) ;
 	    void Ybuster_free() ;
 	    void Ybuster_clear() ;
-		INT x, y ;
+		int x, y ;
 DATE:	    Aug  7, 1988 - rewrote to match new parser.
 REVISIONS:  May  1, 1990 - made sure we cannot match the 0 
 		record in the redundancy check for points.
@@ -71,20 +71,20 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 #define S_STATE 5  /* start state */
 
 /* ####################### STATIC definitions ######################### */
-static INT  cornerCountS ;     /* current number of corners             */
-static INT  ptAllocS = 0 ;     /* current allocation for pts            */
+int  cornerCountS ;     /* current number of corners             */
+int  ptAllocS = 0 ;     /* current allocation for pts            */
 static YBUSTBOXPTR ptS = NIL(YBUSTBOXPTR) ;/* array of pts for boundary */
 static YBUSTBOXPTR resultS;    /* the array of pts to break into tiles  */
-static INT cur_stateS ;        /* current state direction of edge */
+int cur_stateS ;        /* current state direction of edge */
 static char *user_messageS;    /* output message on error */
 /* ################## END STATIC definitions ########################## */
-static BOOL check_rect( P4(INT xx1, INT yy1, INT xx2, INT yy2 ) ) ;
+static BOOL check_rect( P4(int xx1, int yy1, int xx2, int yy2 ) ) ;
 
 YBUSTBOXPTR Ybuster()
 {
 
-    INT k , Pk[2] , Pl[2] , Pm[2]  ;
-    INT xmin , ymin , kmin , found ;
+    int k , Pk[2] , Pl[2] , Pm[2]  ;
+    int xmin , ymin , kmin , found ;
 
     if( cornerCountS <= 0 ){
 	return( NIL(YBUSTBOXPTR) ) ;
@@ -267,7 +267,7 @@ void Ybuster_free()
 BOOL Ybuster_verify( user_string )
 char *user_string ;
 {
-  INT l;
+  int l;
 
   cur_stateS = S_STATE ;
   user_messageS = user_string ;
@@ -309,8 +309,8 @@ char *user_string ;
 
 BOOL Ybuster_check_rect(int xx1, int yy1, int xx2, int yy2 )
 {
-    INT next_state ;           /* the next direction of the edge */
-    static INT errorArrayL[6] =
+    int next_state ;           /* the next direction of the edge */
+    int errorArrayL[6] =
     {
 	/* E   -    U   -    L   -    R   -    D  -     S   */
 	E_STATE, D_STATE, R_STATE, L_STATE, U_STATE, R_STATE

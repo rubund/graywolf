@@ -64,27 +64,27 @@ DATE:	    July 26, 1991
 #define EQUAL 0
 #define MAX_CELL_LEN 10
 
-extern INT extra_cellsG ;
+int  extra_cellsG ;
 
 /*--------------------------------------------------------------------------*/
 /*------------ User defined print routine to print out the tree ------------*/
 /*--------------------------------------------------------------------------*/
 
-INT print_cell_name(c1)
+int print_cell_name(c1)
 CBOXPTR c1;
 {
  return;
 }
 
 
-INT print_cell_length(c1)
+int print_cell_length(c1)
 CBOXPTR c1;
 {
   return;
 }
 
 
-INT print_cell_pins(c1)
+int print_cell_pins(c1)
 CBOXPTR c1;
 {
   return ;
@@ -97,10 +97,10 @@ void calc_cells_width()
 {
 
 FILE *fp;     /*--- file pointer to stdcell.comp ---*/
-INT cell, std_length, cell_length = 0 ;
-INT Ratio, sect, xpost,xminus, ypost, yminus, corient;
-INT alength, lower, upper, counter, longest_cell, cell_count, pp;
-DOUBLE avg_cell_length, deviation, percent, ratio, part_pin;
+int cell, std_length, cell_length = 0 ;
+int Ratio, sect, xpost,xminus, ypost, yminus, corient;
+int alength, lower, upper, counter, longest_cell, cell_count, pp;
+double avg_cell_length, deviation, percent, ratio, part_pin;
 
 YTREEPTR CellTree; 
 CBOXPTR acellptr, dummy_box, Low_Key, Hi_Key, TestTree;
@@ -109,7 +109,7 @@ EQ_NBOXPTR eptr;
 DBOXPTR dptr;
 char *aptr, *bptr, *cptr, *nptr;
 char *add_ptr = "-XTRA", *add_fptr = "-1";
-INT xx , yy, zzz, r_term, last_term, pin_diff ;
+int xx , yy, zzz, r_term, last_term, pin_diff ;
 char layer;
 
 //system("clear");
@@ -192,7 +192,7 @@ Hi_Key->clength = avg_cell_length ;
    
   while(percent < 0.6){
 
-    Hi_Key->clength += (INT) deviation / 20 ; 
+    Hi_Key->clength += (int) deviation / 20 ; 
     upper = Hi_Key->clength ; 
 
     counter = 0;
@@ -357,7 +357,7 @@ for(TestTree = (CBOXPTR)Yrbtree_interval(CellTree,Low_Key,Hi_Key,TRUE);
 
 if ( upper > std_length){
    ratio = (float) TestTree->clength / std_length ;
-   Ratio = (INT) ratio ;
+   Ratio = (int) ratio ;
    if((ratio - Ratio) > 0){
    Ratio++ ;
    }
@@ -368,7 +368,7 @@ if ( upper > std_length){
  part_pin = lower / (float) Ratio ; /*--calculate the pins per partition--*/   
 
 
- pp   = (INT) part_pin ;
+ pp   = (int) part_pin ;
  if ((part_pin - pp) > 0){
    pp++ ;
  } 
@@ -523,7 +523,7 @@ return;
 
 /***************************************************************************/
  
-INT compare_cell_length(c1,c2)
+int compare_cell_length(c1,c2)
 
 CBOXPTR c1;
 CBOXPTR c2;
@@ -546,7 +546,7 @@ void read_pads( FILE *fp )
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing menu file */
     char copyBuf[LRECL] ;
-    INT  numtokens ;
+    int  numtokens ;
     int  delta ;
     int  error ;
     int lineG ;

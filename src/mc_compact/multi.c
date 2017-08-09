@@ -130,15 +130,14 @@ TOP:
 
 BOOL fix_tiles( COMPACTPTR tilea, COMPACTPTR tileb )
 {
-
-    INT count ;           /* count the number of tiles */
-    INT xerror ;          /* error in x direction */
-    INT xerror_plus ;     /* error in plus configuration */
-    INT yerror ;          /* error in y direction */
-    INT yerror_plus ;     /* error in plus configuration */
-    INT xc, yc ;          /* center of the given cell */
-    INT llx,lly,urx,ury ; /* bounds of the tile */
-    INT tile ;            /* tile added by add_tile */
+    int count ;           /* count the number of tiles */
+    int xerror ;          /* error in x direction */
+    int xerror_plus ;     /* error in plus configuration */
+    int yerror ;          /* error in y direction */
+    int yerror_plus ;     /* error in plus configuration */
+    int xc, yc ;          /* center of the given cell */
+    int llx,lly,urx,ury ; /* bounds of the tile */
+    int tile ;            /* tile added by add_tile */
     COMPACTPTR tileL ;    /* left tile*/
     COMPACTPTR tileR ;    /* right tile */
     COMPACTPTR tileB ;    /* bottom tile */
@@ -331,8 +330,8 @@ BOOL find_tile( int *llx , int *lly , int *urx , int *ury )
 {
 
     VERTEX_BOX *vertex , *lvertex , *rvertex , *tvertex ;
-    INT lowest , left_edge , right_edge , top_edge ;
-    INT x, y ;
+    int lowest , left_edge , right_edge , top_edge ;
+    int x, y ;
     BOOL found ; 
 
     /* find the leftmost of the lowest START vertices */
@@ -478,12 +477,12 @@ void init_vertex_list( int left, int bottom, int right, int top )
 
 void add_extra_points()
 {
-    INT xpt[9] ;
-    INT ypt[9] ;
-    INT count ;
-    INT i, j ;
-    INT x1, x2, x3, x4 ;
-    INT y1, y2, y3, y4 ;
+    int xpt[9] ;
+    int ypt[9] ;
+    int count ;
+    int i, j ;
+    int x1, x2, x3, x4 ;
+    int y1, y2, y3, y4 ;
     VERTEXPTR vertex ;
 
     /* first load arrays */
@@ -583,7 +582,7 @@ void add_extra_points()
 
 void swap( int *a, int *b )
 {
-    INT tmp ;
+    int tmp ;
 
     tmp = *a ;
     *a = *b ;

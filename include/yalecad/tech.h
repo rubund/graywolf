@@ -24,21 +24,21 @@ Function:
 */
 
 
-extern INT Ytech_spacing( P2(char *object1, char *object2 ) ) ;
+int Ytech_spacing( P2(char *object1, char *object2 ) ) ;
 /*
 Function:
     Returns the spacing between the two given objects.
     If it does not exist it defaults to zero.
 */
 
-extern INT Ytech_width( P1(char *object) ) ;
+int Ytech_width( P1(char *object) ) ;
 /*
 Function:
     Returns the width of the given object.
     If it does not exist it defaults to zero.
 */
 
-extern INT Ytech_pitch( P1(char *object) ) ;
+int Ytech_pitch( P1(char *object) ) ;
 /*
 Function:
     Convenience function that returns the pitch of a given object.

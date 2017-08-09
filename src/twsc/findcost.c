@@ -79,24 +79,24 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 #include "countf.h"
 
 /* global variables */
-INT minxspanG ;
+int minxspanG ;
 
-extern INT extra_cellsG ;
-extern INT spacer_widthG ;
-extern INT approximately_fixed_factorG ;
+extern int extra_cellsG ;
+extern int spacer_widthG ;
+extern int approximately_fixed_factorG ;
 extern BOOL rigidly_fixed_cellsG ;
-extern INT *feeds_in_rowG ;
+extern int *feeds_in_rowG ;
 
 /* static variables */
-static INT maxpinS = 0 ;
-static INT iwireS ;
-static INT iwirexS ;
-static INT iwireyS ;
-static INT print_pinS = 0 ;
+static int maxpinS = 0 ;
+static int iwireS ;
+static int iwirexS ;
+static int iwireyS ;
+static int print_pinS = 0 ;
 
 int findcost()
 {
-INT block , bin ;
+int block , bin ;
 FILE *fp ;
 TIBOXPTR tile , tileptr1 ;
 CBOXPTR cellptr1 , ptr ;
@@ -104,17 +104,17 @@ DBOXPTR dimptr ;
 PINBOXPTR netptr , termptr ;
 BINPTR bptr ;
 char filename[256] ;
-INT left , right , corient , val ;
-INT LoBin , HiBin ;
-INT cell , net , blk ;
-INT startx , endx ;
-INT x , y , t , cost=0 ;
-INT temp , n , k , cbin ;
-INT sum, npins ;
-INT net_pin_num[ MAXNUMPINS + 1 ] , *adjust_left ;
-DOUBLE deviation ;
-INT pathcount , shortest_cell , count, length ;
-INT layer ;
+int left , right , corient , val ;
+int LoBin , HiBin ;
+int cell , net , blk ;
+int startx , endx ;
+int x , y , t , cost=0 ;
+int temp , n , k , cbin ;
+int sum, npins ;
+int net_pin_num[ MAXNUMPINS + 1 ] , *adjust_left ;
+double deviation ;
+int pathcount , shortest_cell , count, length ;
+int layer ;
 PATHPTR path ;
 GLISTPTR net_of_path ;
 extern char *find_layer() ;
@@ -122,7 +122,7 @@ char *pinname ;
 
 blkleftG = INT_MAX ;
 blkriteG = INT_MIN ;
-adjust_left = (INT *)Ysafe_malloc( ( numRowsG + 1 ) * sizeof(INT) ) ;
+adjust_left = (int *)Ysafe_malloc( ( numRowsG + 1 ) * sizeof(int) ) ;
 for( block = 1 ; block <= numRowsG ; block++ ) {
 /* ------------- finding the absolute left (blkleftG) and -----------
    ------------- the absolute right (blkriteG) positions  ----------- */
@@ -217,7 +217,7 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 }
 deviation = sqrt( deviation / (numcellsG - extra_cellsG) ) ;
 
-binWidthG  = ( INT ) ( mean_widthG ) ;
+binWidthG  = ( int ) ( mean_widthG ) ;
 
 if(!(Equal_Width_CellsG)){
     while (1) {
@@ -225,8 +225,8 @@ if(!(Equal_Width_CellsG)){
 	if( ( blkriteG - binOffstG ) > ( numBinsG * binWidthG ) ) {
 	    numBinsG++ ;
 	}
-	if( (DOUBLE) (numBinsG * numRowsG - (numcellsG - extra_cellsG) ) / 
-			    (DOUBLE)(numcellsG - extra_cellsG) > EXTRA_BIN)
+	if( (double) (numBinsG * numRowsG - (numcellsG - extra_cellsG) ) / 
+			    (double)(numcellsG - extra_cellsG) > EXTRA_BIN)
 	    break;
 	binWidthG --;
     }
@@ -251,26 +251,26 @@ if( gate_arrayG ) {
 } else {
     num_clustersG = 0 ;
 }
-minxspanG = (INT)(mean_widthG + 3.0 * deviation) ;
+minxspanG = (int)(mean_widthG + 3.0 * deviation) ;
 
 #ifdef OLD_WAY
 if( gate_arrayG ) {
-    minxspanG = (INT)(mean_widthG + 4.0 * deviation) ;
+    minxspanG = (int)(mean_widthG + 4.0 * deviation) ;
     /*
     factor = 0.0 ;
     for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 	if( carrayG[cell]->cclass < 0 ) {
-	    factor += (DOUBLE) carrayG[cell]->clength ;
+	    factor += (double) carrayG[cell]->clength ;
 	}
     }
-    factor += (DOUBLE)(num_clusters * cluster_width) ;
-    if( total_row_length > (INT) factor ) {
-	factor = (DOUBLE) total_row_length / 
-				((DOUBLE) total_row_length - factor) ;
-	factor = (DOUBLE) minxspanG * factor ;
+    factor += (double)(num_clusters * cluster_width) ;
+    if( total_row_length > (int) factor ) {
+	factor = (double) total_row_length / 
+				((double) total_row_length - factor) ;
+	factor = (double) minxspanG * factor ;
 	fprintf(fpoG,"\nminxspanG INCREASED from %d to %d\n",
-						minxspanG,(INT)factor);
-	minxspanG = (INT) factor ;
+						minxspanG,(int)factor);
+	minxspanG = (int) factor ;
     } else {
 	fprintf(fpoG,"\nSTRANGE COMPUTATION OF MINXSPAN IN FINDCOST\n");
 	minxspanG *= 3 ;
@@ -366,7 +366,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     cost += dimptr->halfPx = dimptr->newhalfPx = 
 					 dimptr->xmax - dimptr->xmin ;
     dimptr->halfPy = dimptr->newhalfPy = dimptr->ymax - dimptr->ymin ;
-    cost = cost + (INT)( vertical_wire_weightG * (DOUBLE) dimptr->halfPy ) ;
+    cost = cost + (int)( vertical_wire_weightG * (double) dimptr->halfPy ) ;
 
     iwirexS += dimptr->xmax - dimptr->xmin ;
     iwireyS += dimptr->ymax - dimptr->ymin ;
@@ -484,7 +484,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     cost += dimptr->halfPx = dimptr->newhalfPx = 
 					 dimptr->xmax - dimptr->xmin ;
     dimptr->halfPy = dimptr->newhalfPy = dimptr->ymax - dimptr->ymin ;
-    cost = cost + (INT)( vertical_wire_weightG * (DOUBLE) dimptr->halfPy ) ;
+    cost = cost + (int)( vertical_wire_weightG * (double) dimptr->halfPy ) ;
     D( "twsc/findcost",
 	fprintf( fpoG, "net:%5d cum cost:%10d\n", net, cost ) ;
 	fflush( fpoG ) ;
@@ -556,7 +556,7 @@ for( n = 1 ; n < MAXNUMPINS ; n++ ) {
 fprintf( fpoG, "The number of nets with %d pins or more is %d\n",
 	    MAXNUMPINS, net_pin_num[ MAXNUMPINS ] ) ;
 fprintf( fpoG, "Average number of pins per net = %f\n",
-	    (DOUBLE) sum / (DOUBLE) npins ) ;
+	    (double) sum / (double) npins ) ;
 fprintf( fpoG, "The maximum number of pins on a single net is:%d\n",
 	    maxpinS ) ;
 
@@ -585,8 +585,8 @@ for( block = 1 ; block <= numRowsG ; block++ ) {
     for( bin = 0 ; bin <= numBinsG ; bin++ ) {
 	binptrG[block][bin] = (BINBOX *) Ysafe_malloc( 
 					    sizeof(BINBOX) ) ; 
-	binptrG[block][bin]->cell = (INT *)Ysafe_malloc( 
-					    10 * sizeof(INT) );
+	binptrG[block][bin]->cell = (int *)Ysafe_malloc( 
+					    10 * sizeof(int) );
 
 /* ------------------------------------------------------------------
    This structure is a little tricky to understand. The structure can
@@ -649,8 +649,8 @@ if( Equal_Width_CellsG ){
 
 } /* end else Equal_Width_CellsG */
 
-penaltyG = (INT)( binpenConG * (DOUBLE) binpenalG + 
-				roLenConG * (DOUBLE) rowpenalG ) ;
+penaltyG = (int)( binpenConG * (double) binpenalG + 
+				roLenConG * (double) rowpenalG ) ;
 
 /* ************** place the pads ****************** */
 placepads() ;
@@ -676,10 +676,10 @@ for( pathcount = 1 ; pathcount <= numpathsG ; pathcount++ ) {
 	net = net_of_path->p.net ;
 	dimptr = netarrayG[net] ;
 	/* accumulate length of path */
-	length = length + (INT) 
-	    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx);
-	length = length + (INT)
-	    (vertical_path_weightG * (DOUBLE) dimptr->halfPy ) ;
+	length = length + (int) 
+	    (horizontal_path_weightG * (double) dimptr->halfPx);
+	length = length + (int)
+	    (vertical_path_weightG * (double) dimptr->halfPy ) ;
     }
     /* save result */
     path->path_len = path->new_path_len = length ;
@@ -707,7 +707,7 @@ if( connection_machineG == 2 ) {
 insert_row(0) ;
 
 /* allocate space for counting feed thrus in the rows */
-feeds_in_rowG = (INT *) Ysafe_calloc( 1+numRowsG,sizeof(INT) );
+feeds_in_rowG = (int *) Ysafe_calloc( 1+numRowsG,sizeof(int) );
 
 return( cost ) ;
 } /* end findcost */
@@ -718,11 +718,11 @@ void spread_equal_cells()
 FILE *tp ;
 CBOXPTR cellptr1 ;
 TIBOXPTR tileptr1 ;
-INT bin, cell ;
-INT startx , endx ;
-INT kk , k , cbin ;
-INT LoBin , HiBin ;
-INT block, x_cxcenter ;
+int bin, cell ;
+int startx , endx ;
+int kk , k , cbin ;
+int LoBin , HiBin ;
+int block, x_cxcenter ;
 BOOL BIN_FOUND ;
 
 D( "equal_width_cells",
@@ -758,7 +758,7 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
       /*---- cell[k] contains the cell number in "cbin" ----*/
       ++(binptrG[block][cbin]->cell[0])  ;
       binptrG[block][cbin]->cell[++k] = cell ;
-      cellptr1->cxcenter = (INT) ((binptrG[block][cbin]->right + binptrG[block][cbin]->left) / (float) 2) ;  /*-- hash the cell to the bin --*/
+      cellptr1->cxcenter = (int) ((binptrG[block][cbin]->right + binptrG[block][cbin]->left) / (float) 2) ;  /*-- hash the cell to the bin --*/
       D( "equal_width_cells",
 	fprintf(tp,
 	    "\nCell#=%3d -- Block#=%d adjusted into Bin#=%2d x_cxenter=%4d  cxcenter=%4d",
@@ -774,7 +774,7 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 	     if (kk == 0) {
                 ++(binptrG[block][bin]->cell[0])  ;	     
 	         binptrG[block][bin]->cell[++kk] = cell  ;
-                 cellptr1->cxcenter = (INT) ((binptrG[block][cbin]->right + binptrG[block][bin]->left) / 2) ;  /*-- hash the cell to the bin --*/
+                 cellptr1->cxcenter = (int) ((binptrG[block][cbin]->right + binptrG[block][bin]->left) / 2) ;  /*-- hash the cell to the bin --*/
 		 D( "equal_width_cells",
 		    fprintf(tp,
 		    "\nCell#=%3d -- Block#=%d placed into Bin#=%2d x_cxenter=%4d  cxcenter=%4d",
@@ -805,11 +805,11 @@ D( "equal_width_cells",
 void spread_cells()
 {
 
-INT bin, cell ;
-INT startx , endx ;
-INT k , cbin ;
-INT LoBin , HiBin ;
-INT block ;
+int bin, cell ;
+int startx , endx ;
+int k , cbin ;
+int LoBin , HiBin ;
+int block ;
 CBOXPTR cellptr1 ;
 BINPTR bptr ;
 TIBOXPTR tileptr1 ;
@@ -833,8 +833,8 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 
     k = ++(binptrG[block][cbin]->cell[0]) ;
     if( k % 10 == 0 ) {
-	binptrG[block][cbin]->cell = (INT *) Ysafe_realloc(
-	      binptrG[block][cbin]->cell, (k + 10) * sizeof( INT ) ) ;
+	binptrG[block][cbin]->cell = (int *) Ysafe_realloc(
+	      binptrG[block][cbin]->cell, (k + 10) * sizeof( int ) ) ;
     }
     binptrG[block][cbin]->cell[k] = cell ;
     if( LoBin == HiBin ) {
@@ -860,10 +860,10 @@ void create_cell( )
 
 FILE *fpr ;
 char nfilename[128] ;
-INT pinsep , pin_pos ;
-INT count , n , j ;
-INT distance , cellwidth ;
-INT cell , block ;
+int pinsep , pin_pos ;
+int count , n , j ;
+int distance , cellwidth ;
+int cell , block ;
 TIBOXPTR tile ;
 CBOXPTR ptr ;
 PINBOXPTR pin  ;
@@ -873,7 +873,7 @@ fpr = TWOPEN ( nfilename , "w", ABORT ) ;
 block = 1 ;
 count = 0 ;
 j = 0 ;
-cellwidth = (INT)( mean_widthG ) ;
+cellwidth = (int)( mean_widthG ) ;
 if( cellwidth != cellwidth / 2 * 2 ) {
     cellwidth++ ;
 }
@@ -928,13 +928,13 @@ void find_net_sizes()
 
 PINBOXPTR netptr ;
 DBOXPTR dimptr ;
-INT i , net , *net_size , limit , *num_nets_of_size , num_nets ;
-INT j , total , cell ;
+int i , net , *net_size , limit , *num_nets_of_size , num_nets ;
+int j , total , cell ;
 
 limit = 6 ;
 num_nets = 0 ;
-net_size = (INT *) Ysafe_malloc( (limit + 2) * sizeof(INT) ) ;
-num_nets_of_size = (INT *) Ysafe_malloc( (limit + 1) * sizeof(INT) ) ;
+net_size = (int *) Ysafe_malloc( (limit + 2) * sizeof(int) ) ;
+num_nets_of_size = (int *) Ysafe_malloc( (limit + 1) * sizeof(int) ) ;
 for( i = 0 ; i <= limit ; i++ ) {
     num_nets_of_size[i] = 0 ;
 }
@@ -977,7 +977,7 @@ for( i = 2 ; i <= limit ; i++ ) {
     }
     fprintf(fpoG,
 	"Percentage of Nets Connecting to at least %d cells:%4.2f\n",
-			    i , (DOUBLE) total / (DOUBLE) num_nets ) ;
+			    i , (double) total / (double) num_nets ) ;
 }
 fprintf(fpoG,"\n");
 fflush(fpoG) ;

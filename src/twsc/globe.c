@@ -101,7 +101,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #include "readnets_functions.h"
 
 #define CARL_NEW
-#define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
+#define PICK_int(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global variables */
 BOOL connectFlagG ;
@@ -187,7 +187,7 @@ int globe()
 			swaps = 0 ;
 			check = 0 ;
 			for( i = 1 ; i <= j ; i++ ) {
-			row = PICK_INT( 1 , numRowsG ) ;
+			row = PICK_int( 1 , numRowsG ) ;
 
 			/* added by Carl 12/7/91 */
 			if( pairArrayG[row][0] <= 1 ) {
@@ -196,7 +196,7 @@ int globe()
 			} /* added by Carl 12/7/91 */
 
 			last_index = pairArrayG[row][0] ;
-			index = PICK_INT( 1 , last_index ) ;
+			index = PICK_int( 1 , last_index ) ;
 			if( index < last_index ){
 				if( carrayG[pairArrayG[row][index]]->cclass < 0 || carrayG[pairArrayG[row][index+1]]->cclass < 0 ) {
 					i-- ;
@@ -232,11 +232,11 @@ int globe()
 		sprintf(YmsgG,"final total time penalty:\t%d\n", timingcostG ) ;
 		M( MSG, NULL, YmsgG ) ;
 		sprintf(YmsgG,"\nTotal global wire reduced by:\t%5.3f%%\n",
-		100.0 * (1.0 - (DOUBLE) global_wire_lengthS / (DOUBLE) initial_wire ) ) ;
+		100.0 * (1.0 - (double) global_wire_lengthS / (double) initial_wire ) ) ;
 		M( MSG, NULL, YmsgG ) ;
 		if( initial_time ){
 			sprintf(YmsgG,"Total time penalty reduced by:\t%5.3f%%\n",
-			100.0 * (1.0 - (DOUBLE) timingcostG / (DOUBLE) initial_time ) ) ;
+			100.0 * (1.0 - (double) timingcostG / (double) initial_time ) ) ;
 			M( MSG, NULL, YmsgG ) ;
 		}
 
@@ -306,8 +306,8 @@ SEGBOXPTR segptr , nextptr ;
 int i , net ;
 
 max_feed_in_a_rowS = 3 * TotRegPinsG / numRowsG ;
-wk_headS = (int *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(INT) ) ;
-L_jogS = (int *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(INT) ) ;
+wk_headS = (int *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(int) ) ;
+L_jogS = (int *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(int) ) ;
 workerS = (FEED_SEG_PTR *)Ysafe_malloc(
 	    ( max_feed_in_a_rowS + 1 ) * sizeof(FEED_SEG_PTR) ) ;
 for( i = 1 ; i <= max_feed_in_a_rowS ; i++ ) {
@@ -400,7 +400,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 		if( ptr1->pinloc >= NEITHER ) {
 		    L_jogS[ ++jog_num ] = wkS ;
 		}
-	    } else if( (INT) ptr1->pinloc == BOTCELL ) {
+	    } else if( (int) ptr1->pinloc == BOTCELL ) {
 		if( segptr->switchvalue == swL_down ) {
 		    row_seg_intersect( ptr2 , ptr1 , segptr ) ;
 		} else {
@@ -479,7 +479,7 @@ for( imptr = impFeedsG[row]->next ; imptr ; imptr = imptr->next ) {
 
 #ifdef CARL_NEW
 
-assigned_to_track = (int *) Ysafe_calloc( (1+v_tracks) , sizeof(INT) ) ;
+assigned_to_track = (int *) Ysafe_calloc( (1+v_tracks) , sizeof(int) ) ;
 
 num_parts = v_tracks / 400 ;
 /* if remainder >= 100 or num_parts == 0 ) */
@@ -704,9 +704,9 @@ if( ++wkS > max_feed_in_a_rowS ) {
     max_feed_in_a_rowS = max_feed_in_a_rowS + 100 ;
 
     wk_headS = (int *) Ysafe_realloc( wk_headS , 
-	max_feed_in_a_rowS * sizeof(INT) ) ;
+	max_feed_in_a_rowS * sizeof(int) ) ;
     L_jogS = (int *) Ysafe_realloc( L_jogS , 
-	max_feed_in_a_rowS * sizeof(INT) ) ;
+	max_feed_in_a_rowS * sizeof(int) ) ;
     workerS = (FEED_SEG_PTR *)Ysafe_realloc( workerS ,
 		( max_feed_in_a_rowS + 1 ) * sizeof(FEED_SEG_PTR) ) ;
     for( i = wkS ; i <= max_feed_in_a_rowS ; i++ ) {
@@ -1197,12 +1197,12 @@ D( "twsc/cell_swap_opt",
 ) ;
 
 
-// (global_wire - new_global_wire) is assumed to not exceed size INT
+// (global_wire - new_global_wire) is assumed to not exceed size int
 // although each termin is size long int
 
-if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
+if( accept_greedy( (int)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
 
-    swap = (INT)(new_global_wire - global_wire) ;
+    swap = (int)(new_global_wire - global_wire) ;
     global_wire_lengthS += (long int)swap ;
     swap += newtimepenal - timingcostG ;
     if( numpathsG ){
@@ -1354,8 +1354,8 @@ D( "twsc/cell_swap_opt",
     }
 ) ;
 
-if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
-    swap = (INT)(new_global_wire - global_wire );
+if( accept_greedy( (int)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
+    swap = (int)(new_global_wire - global_wire );
     global_wire_lengthS += (long int)swap ;
     swap += newtimepenal - timingcostG ;
     if( numpathsG ){
@@ -1411,7 +1411,7 @@ int row, feed_count, i , last , cell_left , length , max_length ;
 int j , k , elim , cell , limit , left_edge , corient ;
 int *Aray , longest_row , shift , *row_len , total_elim ;
 
-row_len = (int *) Ysafe_calloc( (1+numRowsG) , sizeof(INT) ) ;
+row_len = (int *) Ysafe_calloc( (1+numRowsG) , sizeof(int) ) ;
 for( i = 1 ; i <= numRowsG ; i++ ) {
     Aray = pairArrayG[i] ;
     first_cptr = carrayG[ Aray[1] ] ;

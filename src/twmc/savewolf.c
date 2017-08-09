@@ -70,20 +70,20 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 void savewolf( BOOL forceSave ) /* if true save parameters regardless of time */
 {
 
-	INT  m ;
+	int  m ;
 	FILE *fp ;
 	char filename[LRECL] ;
 	char file1[LRECL] ;
 	char file2[LRECL] ;
-	INT cell , terminal ;
-	INT count ;
+	int cell , terminal ;
+	int count ;
 	CELLBOXPTR cellptr ;
 	PINBOXPTR  *sarray ;
 	PINBOXPTR  pin ;
 
-	DOUBLE Ycpu_time();
-	DOUBLE current_time;
-	static DOUBLE last_time = 0.0;
+	double Ycpu_time();
+	double current_time;
+	static double last_time = 0.0;
 
 	sprintf( filename , "%s.msav" , cktNameG ) ;
 	fp = TWOPEN( filename , "w", ABORT ) ;
@@ -148,23 +148,23 @@ void savewolf( BOOL forceSave ) /* if true save parameters regardless of time */
 BOOL TW_oldinput( fp )
 FILE *fp ;
 {
-	INT i, cell, orient, site, terminal;
-	INT xcenter , ycenter, error ;
-	INT oleft , oright , obottom , otop , Hdiv2 , Wdiv2 ;
-	INT number_of_cells, inst ;
-	DOUBLE aspect , aspFactor , val ;
-	DOUBLE percentDone ;
+	int i, cell, orient, site, terminal;
+	int xcenter , ycenter, error ;
+	int oleft , oright , obottom , otop , Hdiv2 , Wdiv2 ;
+	int number_of_cells, inst ;
+	double aspect , aspFactor , val ;
+	double percentDone ;
 	CELLBOXPTR ptr ;
 	TILEBOXPTR tileptr1 ;
 	PINBOXPTR term ;
 	INSTBOXPTR instptr ;
 	BOUNBOXPTR bounptr ;
 	VERTBOXPTR vert ;
-	INT *xorig ;
-	INT *xnew ;
-	INT *yorig ;
-	INT *ynew ;
-	INT howmany ;
+	int *xorig ;
+	int *xnew ;
+	int *yorig ;
+	int *ynew ;
+	int howmany ;
 
 	error = 0 ;
 	error += read_uloop( fp ) ;
@@ -226,7 +226,7 @@ FILE *fp ;
 				term->typos_orig[inst] = term->typos ;
 			}
 
-			howmany = (INT) ptr->softpins[HOWMANY] ;
+			howmany = (int) ptr->softpins[HOWMANY] ;
 			/* set each pin's correct instance */
 			for( i = 1 ; i <= howmany; i++ ){
 				term = ptr->softpins[i] ;
@@ -244,9 +244,9 @@ FILE *fp ;
 			obottom = bounptr->b ;
 			oright = bounptr->r ;
 			otop = bounptr->t ;
-			val = (DOUBLE) (otop - obottom) * aspFactor ;
+			val = (double) (otop - obottom) * aspFactor ;
 			Hdiv2 = ROUND( val ) / 2 ;
-			val = (DOUBLE) (oright - oleft) / aspFactor ;
+			val = (double) (oright - oleft) / aspFactor ;
 			Wdiv2 = ROUND( val ) / 2 ;
 
 
@@ -258,13 +258,13 @@ FILE *fp ;
 			 */
 
 			for( tileptr1 = ptr->tiles;tileptr1;tileptr1 = tileptr1->next ){
-				val = (DOUBLE)(tileptr1->orig_left - oleft) / aspFactor ;
+				val = (double)(tileptr1->orig_left - oleft) / aspFactor ;
 				tileptr1->left   = ROUND( val ) - Wdiv2 ;
-				val = (DOUBLE)(tileptr1->orig_right - oleft) / aspFactor ;
+				val = (double)(tileptr1->orig_right - oleft) / aspFactor ;
 				tileptr1->right  = ROUND( val ) - Wdiv2 ;
-				val = (DOUBLE)(tileptr1->orig_bottom - obottom) * aspFactor;
+				val = (double)(tileptr1->orig_bottom - obottom) * aspFactor;
 				tileptr1->bottom = ROUND( val ) - Hdiv2 ;
-				val = (DOUBLE)(tileptr1->orig_top - obottom) * aspFactor ;
+				val = (double)(tileptr1->orig_top - obottom) * aspFactor ;
 				tileptr1->top    = ROUND( val ) - Hdiv2 ;
 			}
 			/* modify the vertices of the cell for the softpin moves */
@@ -274,9 +274,9 @@ FILE *fp ;
 			yorig = vert->y_orig ;
 			ynew = vert->y ;
 			for( i = 1; i <= ptr->numsides; i++ ){
-				val = (DOUBLE)(xorig[i] - oleft) / aspFactor ;
+				val = (double)(xorig[i] - oleft) / aspFactor ;
 				xnew[i] = ROUND( val ) - Wdiv2 ;
-				val = (DOUBLE)(yorig[i] - obottom) * aspFactor ;
+				val = (double)(yorig[i] - obottom) * aspFactor ;
 				ynew[i] = ROUND( val ) - Hdiv2 ;
 			}
 		}
@@ -328,9 +328,9 @@ void HPO(FILE *fp, double d)
 
 int HPI(FILE *fp, double *d)
 {
-	INT numread ;
+	int numread ;
 
-	numread = (INT) fscanf(fp,"%s\n",YmsgG);
+	numread = (int) fscanf(fp,"%s\n",YmsgG);
 	if( numread != 1 ){
 		M( ERRMSG, "HPI", "Could not read data.  FATAL must abort\n" ) ;
 		return 1;

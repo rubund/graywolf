@@ -229,7 +229,7 @@ void prnt_cost( char *out_string )
 	yspan = blocktG - blockbG ;
 	printf( "   xspan     = %d\n", xspan ) ;
 	printf( "   yspan     = %d\n", yspan ) ;
-	printf( "   core area = %4.2le\n\n",  (DOUBLE) xspan * (DOUBLE) yspan );
+	printf( "   core area = %4.2le\n\n",  (double) xspan * (double) yspan );
 	printf("-------------------------------------\n" ) ; 
 	Ymessage_flush() ;
 

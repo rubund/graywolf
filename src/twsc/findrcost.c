@@ -46,7 +46,7 @@ CONTENTS:   findrcost()
 	    set_cedgebin()
 	    reset_track()
 	    facing_cellheight( pin , row , pinloc , status )
-		INT pin, row , pinloc , status ;
+		int pin, row , pinloc , status ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
@@ -57,9 +57,9 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #include "findrcost.h"
 #include "globroute.h"
 
-static INT **cedgebinS ;
-static INT cedge_binwidthS ;
-static INT num_edgebinS ;
+int **cedgebinS ;
+int cedge_binwidthS ;
+int num_edgebinS ;
 
 void findrcost()
 {
@@ -67,9 +67,9 @@ void findrcost()
 SEGBOXPTR segptr ;
 CHANGRDPTR gdptr ;
 DENSITYPTR *hdptr , headptr , dptr ;
-INT chan ;
-INT trackG , max_trk , k ;
-INT net ;
+int chan ;
+int trackG , max_trk , k ;
+int net ;
 
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
@@ -84,8 +84,8 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 DboxHeadG  = ( DENSITYPTR ** )Ysafe_calloc( numChansG + 1,
 				sizeof( DENSITYPTR * ) ) ;
-maxTrackG  = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( INT ) ) ;
-nmaxTrackG = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( INT ) ) ;
+maxTrackG  = (int *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( int ) ) ;
+nmaxTrackG = (int *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( int ) ) ;
 max_tdensityG = 0 ;
 tracksG   = 0 ;
 if( uneven_cell_heightG ) {
@@ -136,7 +136,7 @@ for( chan = 1 ; chan <= numChansG ; chan++ ) {
 void initial_tracks( SEGBOXPTR segptr )
 {
 
-INT x1 , x2 , pin1 , pin2 ;
+int x1 , x2 , pin1 , pin2 ;
 PINBOXPTR netptr1 , netptr2 ;
 CHANGRDPTR ptr1 , ptr2 , ptr ;
 
@@ -200,11 +200,11 @@ void set_cedgebin()
 {
 
 CBOXPTR cellptr ;
-INT channel , row , bin , bin_rite_edge , crite ;
-INT most_left , most_rite , rite , i ;
+int channel , row , bin , bin_rite_edge , crite ;
+int most_left , most_rite , rite , i ;
 
-cedgebinS = (INT **)Ysafe_malloc( ( numChansG + 1 ) * sizeof(INT *) ) ;
-cedge_binwidthS = (INT)( 2.0 * mean_widthG ) ;
+cedgebinS = (int **)Ysafe_malloc( ( numChansG + 1 ) * sizeof(int *) ) ;
+cedge_binwidthS = (int)( 2.0 * mean_widthG ) ;
 cellptr = carrayG[ pairArrayG[1][ pairArrayG[1][0] ] ] ;
 most_rite = cellptr->cxcenter + cellptr->tileptr->right ;
 for( row = 2 ; row <= numRowsG ; row++ ) {
@@ -216,8 +216,8 @@ for( row = 2 ; row <= numRowsG ; row++ ) {
 }
 num_edgebinS = ( most_rite - blkleftG ) / cedge_binwidthS + 1 ;
 for( channel = 1 ; channel <= numChansG ; channel++ ) {
-    cedgebinS[ channel ] = (INT *)Ysafe_malloc(
-		( num_edgebinS + 1 ) * sizeof( INT ) ) ;
+    cedgebinS[ channel ] = (int *)Ysafe_malloc(
+		( num_edgebinS + 1 ) * sizeof( int ) ) ;
 }
 
 
@@ -249,7 +249,7 @@ void reset_track()
 CBOXPTR cellptr ;
 TIBOXPTR tileptr ;
 PINBOXPTR termptr ;
-INT cell , pin , pinloc , row , top , bottom ;
+int cell , pin , pinloc , row , top , bottom ;
 
 for( cell = 1 ; cell <= numcellsG ; cell++ ) {
     cellptr = carrayG[cell] ;
@@ -290,8 +290,8 @@ int facing_cellheight( int pin , int row , int pinloc , int status )
 {
 
 CBOXPTR cellptr ;
-INT bin , i , *Aray , most_left , most_rite ;
-INT nrow , pin_x , crite ;
+int bin , i , *Aray , most_left , most_rite ;
+int nrow , pin_x , crite ;
 
 if( 1 <= row  && row <= numRowsG ) {
     nrow = row + pinloc - PINLOC_OFFSET ;
@@ -354,12 +354,12 @@ if( 1 <= row  && row <= numRowsG ) {
 }
 
 fcellheight( pin , fcell , status )
-INT pin , *fcell , status ;
+int pin , *fcell , status ;
 {
 
 CBOXPTR cellptr ;
-INT bin , i , *Aray , most_left , most_rite ;
-INT nrow , pin_x , crite , row , pinloc ;
+int bin , i , *Aray , most_left , most_rite ;
+int nrow , pin_x , crite , row , pinloc ;
 
 row = tearrayG[pin]->row ;
 pinloc = tearrayG[pin]->pinloc ;
