@@ -9,4 +9,5 @@ void re_estimate_feed_penalty();
 void free_up_feedest_malloc();
 void update_segment_data( SEGBOXPTR segptr );
 SEGBOXPTR makeseg( PINBOXPTR lowptr, PINBOXPTR highptr );
+PINBOXPTR makeSTpt( int net , PINBOXPTR ptr1 , PINBOXPTR ptr2 );
 #endif

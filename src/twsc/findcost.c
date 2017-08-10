@@ -72,6 +72,10 @@ int fdWidthG ;
 int average_pin_sepG ;
 int average_feed_sepG ;
 int *feeds_in_rowG ;
+int penaltyG;
+int max_blklengthG;
+int rowpenalG ;
+
 double mean_widthG ;
 
 /* static variables */
@@ -238,33 +242,6 @@ if( gate_arrayG ) {
     num_clustersG = 0 ;
 }
 minxspanG = (int)(mean_widthG + 3.0 * deviation) ;
-
-#ifdef OLD_WAY
-if( gate_arrayG ) {
-    minxspanG = (int)(mean_widthG + 4.0 * deviation) ;
-    /*
-    factor = 0.0 ;
-    for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
-	if( carrayG[cell]->cclass < 0 ) {
-	    factor += (double) carrayG[cell]->clength ;
-	}
-    }
-    factor += (double)(num_clusters * cluster_width) ;
-    if( total_row_length > (int) factor ) {
-	factor = (double) total_row_length / 
-				((double) total_row_length - factor) ;
-	factor = (double) minxspanG * factor ;
-	fprintf(fpoG,"\nminxspanG INCREASED from %d to %d\n",
-						minxspanG,(int)factor);
-	minxspanG = (int) factor ;
-    } else {
-	fprintf(fpoG,"\nSTRANGE COMPUTATION OF MINXSPAN IN FINDCOST\n");
-	minxspanG *= 3 ;
-    }
-    */
-}
-#endif /* OLD_WAY */
-
 
 /*********************************************************** */
 

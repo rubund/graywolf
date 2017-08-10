@@ -67,9 +67,6 @@ int *root_G = NULL;
 int *stack_G = NULL;
 PINBOXPTR *vertex_G = NULL;
 
-/* global variable references */
-extern int Max_numPinsG ;
-
 /* static definitions */
 static int maxpin_numberS ;
 static int *pins_at_rowS = NULL;

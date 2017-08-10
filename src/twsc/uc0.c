@@ -48,12 +48,7 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		debug mode.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "dimbox.h"
-#include "overlap.h"
-#include "paths.h"
-#include "graphics.h"
-#include "uc0.h"
+#include "allheaders.h"
 
 void uc0( int a , int newaor )
 {

@@ -60,10 +60,24 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
  */
 #define MAXMACRO 50 
 
-int totalRG ;
 BOOL doubleback_rows_start_at_oneG ;
-int rowHeightG ;
+int totalRG ;
+int rowHeightG;
+int maxHeight;
 int numMacroG ; 
+int spaceG ;
+int coreHeightG ;
+int coreWidthG ;
+int lastG ;
+int *padArrayG ;
+int extraSpaceG ;
+int separationG ;
+int desiredLG ;
+
+double *macspaceG ;
+
+MACROBOX *macroArrayG ;
+ROWBOX *rowArrayG ;
 
 /* static definitions */
 static int heightS ;

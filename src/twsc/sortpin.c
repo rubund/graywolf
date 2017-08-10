@@ -64,10 +64,7 @@ REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to
 		added new sortpin2 for gateswap between two cells.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "sortpin.h"
+#include "allheaders.h"
 
 static PINBOXPTR *sortArrayS ;          /* the normal array for sorting */
 static PINBOXPTR *sortArraySwapS ;

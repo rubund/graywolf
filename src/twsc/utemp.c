@@ -65,6 +65,7 @@ REVISIONS:  Fri Jan 25 23:45:25 PST 1991 - added user meter.
 
 /* global variables */
 int moveable_cellsG ;
+double fraction_doneG ;
 BOOL pairtestG;
 
 void utemp()

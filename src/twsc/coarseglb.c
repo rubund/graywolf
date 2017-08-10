@@ -62,24 +62,7 @@ REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 		enough room for pads.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "feeds.h"
-#include "parser.h"
-#include "pads.h"
-#include "readpar.h"
-#include "buildimp.h"
-#include "coarseglb.h"
-#include "globe.h"
-#include "feedest.h"
-#include "steiner.h"
-#include "cglbroute.h"
-#include "seagate.h"
-#include "rowevener.h"
-#include "graphics.h"
-#include "findcost.h"
-#include "readblck.h"
+#include "allheaders.h"
 
 /* static definitions */
 int *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;

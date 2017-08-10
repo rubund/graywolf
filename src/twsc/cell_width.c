@@ -52,40 +52,28 @@ DATE:	    July 26, 1991
 /* #define MITLL */
 
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "config.h"
-#include "readpar.h"
-#include "parser.h"
-#include "cell_width.h"
+#include "allheaders.h"
 
 #define GREATER 1
 #define LESS -1 
 #define EQUAL 0
 #define MAX_CELL_LEN 10
 
-int  extra_cellsG ;
-
 /*--------------------------------------------------------------------------*/
 /*------------ User defined print routine to print out the tree ------------*/
 /*--------------------------------------------------------------------------*/
 
-int print_cell_name(c1)
-CBOXPTR c1;
+void print_cell_name(CBOXPTR c1)
 {
- return;
+	return;
 }
 
-
-int print_cell_length(c1)
-CBOXPTR c1;
+void print_cell_length(CBOXPTR c1)
 {
-  return;
+	return;
 }
 
-
-int print_cell_pins(c1)
-CBOXPTR c1;
+void print_cell_pins(CBOXPTR c1)
 {
   return ;
 }

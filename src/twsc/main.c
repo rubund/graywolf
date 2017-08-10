@@ -95,9 +95,43 @@ int **bin_configG ;
 int left_row_boundaryG ;
 int save_abs_min_flagG ;
 int actual_feed_thru_cells_addedG = 0 ;
+int TrybinG;
+int timingcostG ;
+
 BOOL orientation_optimizationG = FALSE ;
-int tracksG ;
 BOOL no_row_lengthsG ;
+int tracksG ;
+int numcellsG ;
+int numtermsG ;
+int numnetsG ;
+int numpadgrpsG ;
+int lastpadG ;
+int maxtermG ;
+int numRowsG ;
+int numChansG ;
+int numpathsG ;
+int numBinsG ;
+int binWidthG ;
+int binOffstG ;
+int TotRegPinsG ;
+int implicit_feed_countG ;
+int iterationG;
+int blkxspanG ;
+int blkyspanG ;
+int lrtxspanG ;
+int lrtyspanG ;
+int ifrangeG ;
+int funccostG ;
+
+double binpenConG ;
+double roLenConG ;
+
+char *cktNameG; /* the name of the circuit           */
+
+BOOL doGraphicsG ;
+BOOL costonlyG ;
+
+FILE *fpoG ;
 
 /* global variable references */
 CBOXPTR  *carrayG  ;
@@ -119,34 +153,6 @@ static int *save_orig_desireS ;
 static char *twdirS ; 
 static int num_feeds_addedS ;/* number of feeds added on best iteration */
 static double ave_row_sepS ; /* the row separation for a run */
-
-int numcellsG ;
-int numtermsG ;
-int numnetsG ;
-int numpadgrpsG ;
-int lastpadG ;
-int maxtermG ;
-int numRowsG ;
-int numChansG ;
-int numpathsG ;
-int numBinsG ;
-int binWidthG ;
-int binOffstG ;
-int TotRegPinsG ;
-int implicit_feed_countG ;
-int iterationG;
-int blkxspanG ;
-int blkyspanG ;
-int lrtxspanG ;
-int lrtyspanG ;
-int ifrangeG ;
-
-char *cktNameG; /* the name of the circuit           */
-
-BOOL doGraphicsG ;
-BOOL costonlyG ;
-
-FILE *fpoG ;
 
 void init_utemp();
 void install_swap_pass_thrus( PINBOXPTR netptr );

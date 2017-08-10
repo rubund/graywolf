@@ -48,13 +48,17 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		debug mode.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "ucxxglb.h"
-#include "overlap.h"
-#include "paths.h"
-#include "dimbox.h"
-#include "ucxx1.h"
-#include "ucxx2.h"
-#include "graphics.h"
+#include "allheaders.h"
+
+int newrowpenalG ;
+int earlyRejG , Rej_errorG ;
+int newbinpenalG ;
+int ApostG , BpostG ;
+int potential_errorsG , error_countG , P_limitG ;
+int binpenalG ;
+int ablockG , bblockG ;
+int aG , bG ;
+int axcenterG , aycenterG , bxcenterG , bycenterG ;
 
 int ucxx1( int bxcenter, int bycenter )
 {

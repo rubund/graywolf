@@ -69,14 +69,7 @@ REVISIONS:  Apr  1, 1990 - added check_funccost() ;
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "pads.h"
-#include "coarseglb.h"
-#include "debug2.h"
-#include "steiner.h"
-#include "buildimp.h"
+#include "allheaders.h"
 
 void dbx_adj( int net )
 {
@@ -459,7 +452,6 @@ void check_cost()
     int tmp ;
     int xmin, ymin, xmax, ymax ;
     int Ln, Bn, Rn, Tn ;
-    extern int extra_cellsG ;
     int penal, rpenal ;
     int bin ;
 

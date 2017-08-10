@@ -48,15 +48,7 @@ REVISIONS:  Apr  1, 1990 - fixed gateswap routine by changing sortpins
 		txpos fields.  Needed to pass the beginning of
 		the cell pin listx instead of pina and pinb.
 ----------------------------------------------------------------- */
-#include <globals.h>
-#include <string.h>
-#include "ucxxglb.h"
-#include "parser.h"
-#include "paths.h"
-#include "dimbox.h"
-#include "sortpin.h"
-#include "xpickint.h"
-#include "gateswap.h"
+#include "allheaders.h"
 
 int gate_swap( int between_two_cells, int sgidxa, int sgidxb )
 {

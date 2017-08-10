@@ -52,22 +52,10 @@ REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 		output info for blocks.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "readpar.h"
-#include "main.h"
-#include "reconfig.h"
-#include "placepads.h"
-#include "findcostf.h"
+#include "allheaders.h"
 
 #define intSCANSTR "%d"
 #define MIN_FEED_RATIO     0.66
-
-/* global definitions */
-extern BOOL no_feed_estG ;
-extern int fdWidthG ;
-extern int totalRG ;
-extern int extra_cellsG ;
-extern int *feeds_in_rowG ;
 
 /* static definitions */
 static BOOL feed_length_setS = TRUE ;
@@ -104,7 +92,7 @@ int reconfig()
 } /* end reconfig */
 
 
-static configuref()
+void configuref()
 {
     int row ;
     int cell ;

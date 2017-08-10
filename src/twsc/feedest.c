@@ -510,10 +510,7 @@ if( ptr1->row < ptr2->row ) {
 }
 }
 
-
-PINBOXPTR makeSTpt( net , ptr1 , ptr2 )
-int net ;
-PINBOXPTR ptr1 , ptr2 ;
+PINBOXPTR makeSTpt( int net , PINBOXPTR ptr1 , PINBOXPTR ptr2 )
 {
 
 PINBOXPTR ptr ;

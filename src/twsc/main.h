@@ -26,6 +26,8 @@ extern int lrtxspanG ;
 extern int lrtyspanG ;
 extern int ifrangeG ;
 extern int row_extentG ;
+extern int numcellsG ;
+extern int funccostG ;
 
 extern char *cktNameG;
 

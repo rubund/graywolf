@@ -124,6 +124,9 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 #define PICK_int(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global variables */
+int wire_chgsG ;
+int *cellaptrG , *cellbptrG ;
+int attemptsG;
 BOOL fences_existG ;
 double avg_timeG ; /* average random time penalty */
 double avg_funcG ; /* average random wirelength penalty */
@@ -132,6 +135,9 @@ double end_timeG ;  /* final target value for the time penalty - obviously zero 
 double ratioG = 1.0 ;
 double finalRowControlG ;
 double initialRowControlG ;
+double total_wire_chgG ;
+double sigma_wire_chgG ;
+double mean_wire_chgG ;
 
 /* function calls */
 double expected_svalue() ;

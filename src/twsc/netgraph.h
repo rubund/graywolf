@@ -1,5 +1,6 @@
 #ifndef H_NETGRAPH
 #define H_NETGRAPH
+
 typedef struct graph_edge_cost {
     short node1 ;
     short node2 ;

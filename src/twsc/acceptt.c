@@ -66,28 +66,6 @@ void init_table()
     }
 }
 
-#ifdef DEBUG_CODE
-static FILE *fpS = NULL ;
-BOOL acceptt( d_wire, d_time, d_penal )
-int d_wire, d_time, d_penal ;
-{
-    BOOL truth ;
-    int time ;
-    extern int aG ;
-
-    time = d_time ;
-    truth = acceptt2( d_wire, d_time, d_penal ) ;
-    if(!fpS){
-	fpS = fopen( "newcost.dat", "w" ) ;
-    }
-    fprintf( fpS, "delta_cost:%10d w:%10d t:%10d p:%10d accept:%d cell:%d\n", 
-	d_costG, d_wire, time, d_penal, truth, aG ) ;
-    fflush( fpS ) ;
-    return( truth ) ;
-    
-}
-#endif /* DEBUG_CODE */
-
 /* -----------------------------------------------------------------
     Acceptance function for the annealing algorithm.  We expect all
     deltas to be of the form (old_cost - new_cost). If new_cost is

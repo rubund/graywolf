@@ -64,109 +64,79 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "sort.h"
+#include "allheaders.h"
 
-typedef struct graph_edge_cost {
-    short node1 ;
-    short node2 ;
-    int cost ;
-    int channel ;
-}
-*EDGE_COST ,
-EDGE_COST_BOX ;
-
-compare_cost( a , b )
-EDGE_COST *a , *b ;
+int compare_cost( EDGE_COST *a , EDGE_COST *b )
 {
-return( (*a)->cost - (*b)->cost ) ;
+	return( (*a)->cost - (*b)->cost ) ;
 }
 
 
-int comparegdx( a , b )
-CHANGRDPTR *a , *b ;
+int comparegdx( CHANGRDPTR *a , CHANGRDPTR *b )
 {
-return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
+	return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
 }
 
 int comparetxpos( IPBOXPTR *a , IPBOXPTR *b )
 {
-return( (*a)->txpos - (*b)->txpos ) ;
+	return( (*a)->txpos - (*b)->txpos ) ;
 }
 
-int comparenptr( a , b )
-FEED_SEG_PTR *a , *b ;
+int comparenptr( FEED_SEG_PTR *a , FEED_SEG_PTR *b )
 {
-return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
+	return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
 }
 
-comparepinx( a , b )
-PINBOXPTR *a , *b ;
+int comparepinx( PINBOXPTR *a , PINBOXPTR *b )
 {
-return( (*a)->xpos - (*b)->xpos ) ;
+	return( (*a)->xpos - (*b)->xpos ) ;
 }
 
-int comparex( a , b )
-int *a , *b ;
-
+int comparex( int *a , int *b )
 {
     return( carrayG[ *a ]->cxcenter - carrayG[ *b ]->cxcenter ) ;
 }
 
-
-int cmpr_sx( aptr, bptr )
-PINBOXPTR *aptr, *bptr ;
+int cmpr_sx( PINBOXPTR *aptr, PINBOXPTR *bptr )
 {
-
-if( (*aptr)->xpos > (*bptr)->xpos ) {
-    return(1) ;
-} else if( (*aptr)->xpos < (*bptr)->xpos ) {
-    return(-1) ;
-} else {
-    return(0) ;
+	if( (*aptr)->xpos > (*bptr)->xpos ) {
+		return(1) ;
+	} else if( (*aptr)->xpos < (*bptr)->xpos ) {
+		return(-1) ;
+	} else {
+		return(0) ;
+	}
 }
-}
 
-
-int cmpr_lx( aptr, bptr )
-PINBOXPTR *aptr, *bptr ;
+int cmpr_lx( PINBOXPTR *aptr, PINBOXPTR *bptr )
 {
-
-if( (*aptr)->xpos > (*bptr)->xpos ) {
-    return(-1) ;
-} else if( (*aptr)->xpos < (*bptr)->xpos ) {
-    return(1) ;
-} else {
-    return(0) ;
+	if( (*aptr)->xpos > (*bptr)->xpos ) {
+		return(-1) ;
+	} else if( (*aptr)->xpos < (*bptr)->xpos ) {
+		return(1) ;
+	} else {
+		return(0) ;
+	}
 }
-}
 
-
-int cmpr_sy( aptr, bptr )
-PINBOXPTR *aptr, *bptr ;
+int cmpr_sy( PINBOXPTR *aptr, PINBOXPTR *bptr )
 {
-
-if( (*aptr)->newy > (*bptr)->newy ) {
-    return(1) ;
-} else if( (*aptr)->newy < (*bptr)->newy ) {
-    return(-1) ;
-} else {
-    return(0) ;
+	if( (*aptr)->newy > (*bptr)->newy ) {
+		return(1) ;
+	} else if( (*aptr)->newy < (*bptr)->newy ) {
+		return(-1) ;
+	} else {
+		return(0) ;
+	}
 }
-}
 
-
-int cmpr_ly( aptr, bptr )
-PINBOXPTR *aptr, *bptr ;
+int cmpr_ly( PINBOXPTR *aptr, PINBOXPTR *bptr )
 {
-
-if( (*aptr)->newy > (*bptr)->newy ) {
-    return(-1) ;
-} else if( (*aptr)->newy < (*bptr)->newy ) {
-    return(1) ;
-} else {
-    return(0) ;
-}
+	if( (*aptr)->newy > (*bptr)->newy ) {
+		return(-1) ;
+	} else if( (*aptr)->newy < (*bptr)->newy ) {
+		return(1) ;
+	} else {
+		return(0) ;
+	}
 }

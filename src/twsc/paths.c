@@ -80,17 +80,9 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 		for easier understanding.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "parser.h"
-#include "paths.h"
-#include "readnets_functions.h"
+#include "allheaders.h"
 
-/* global variables */
-extern  double avg_timeG ;/* average random time penalty */
-extern  double avg_funcG ;/* average random wirelength penalty */
-
-/* forward declarations */
+double timeFactorG ;
 
 static int errorboundS = 0 ;
 

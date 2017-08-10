@@ -68,18 +68,12 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #define WEST  3
 #define EAST  4
 
-/* global variables */
-extern int *add_st_flagG ;
-
-/* external routines */
-extern int cmpr_sx(), cmpr_lx(), cmpr_sy(), cmpr_ly() ;
-extern SEGBOX *makeseg() ;
-extern PINBOXPTR makeSTpt() , xmedianfun(), ymedianfun() ;
-
 /* static definitions */
 static PINBOXPTR nthptrS[30], sthptrS[30], wstptrS[30], estptrS[30] ;
 static int nthS, sthS, wstS, estS ;
 
+PINBOXPTR xmedianfun( PINBOXPTR aptr, PINBOXPTR bptr, PINBOXPTR cptr );
+PINBOXPTR ymedianfun( PINBOXPTR aptr, PINBOXPTR bptr, PINBOXPTR cptr );
 void mergedge( PINBOXPTR netptr, int direction );
 
 /*------------------------------------------------------------------* 
@@ -319,9 +313,7 @@ if( hiptr->row > stptr->row ) {
 }
 }
 
-
-PINBOXPTR xmedianfun( aptr, bptr, cptr )
-PINBOXPTR aptr, bptr, cptr ;
+PINBOXPTR xmedianfun( PINBOXPTR aptr, PINBOXPTR bptr, PINBOXPTR cptr )
 {
 
 if( aptr->xpos <= bptr->xpos &&
@@ -347,9 +339,7 @@ if( aptr->xpos <= bptr->xpos &&
 }
 }
 
-
-PINBOXPTR ymedianfun( aptr, bptr, cptr )
-PINBOXPTR aptr, bptr, cptr ;
+PINBOXPTR ymedianfun( PINBOXPTR aptr, PINBOXPTR bptr, PINBOXPTR cptr )
 {
 
 if( aptr->newy <= bptr->newy &&

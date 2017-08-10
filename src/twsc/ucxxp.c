@@ -46,12 +46,7 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "dimbox.h"
-#include "overlap.h"
-#include "paths.h"
-#include "graphics.h"
-#include "ucxxglb.h"
-#include "ucxxp.h"
+#include "allheaders.h"
 
 int ucxxp( int a , int b , int anxcenter , int bnxcenter )
 {

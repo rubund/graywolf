@@ -48,13 +48,7 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		debug mode.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "ucxxglb.h"
-#include "ucxx2.h"
-#include "overlap.h"
-#include "paths.h"
-#include "dimbox.h"
-#include "graphics.h"
-#include "ucxxo1.h"
+#include "allheaders.h"
 
 /*
 int potential_errors , error_count , P_limit ;

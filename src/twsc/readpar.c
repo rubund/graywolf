@@ -99,6 +99,7 @@ int *fixarrayG ;
 int numSegsG ;
 int no_feeds_side_netsG ;
 int min_pad_spacingG ;
+int route2actG; 
 
 BOOL try_not_to_add_explicit_feedsG = FALSE;
 BOOL no_feed_estG = TRUE ;
@@ -143,10 +144,6 @@ double metal2_pitchG ;
 double rowSepG ;
 
 unsigned randomSeedG  ;
-
-/* globals variable references */
-extern BOOL orientation_optimizationG ;
-extern BOOL doubleback_rows_start_at_oneG ;
 
 /* static variables */
 static BOOL abortS = FALSE ;

@@ -88,9 +88,7 @@ TWCLOSE( fp ) ;
 
 }
 
-
-cellterm_data( first_cell , last_cell )
-int first_cell , last_cell ;
+void cellterm_data( int first_cell , int last_cell )
 {
 
 FILE *fp ;
@@ -160,9 +158,7 @@ for( net = first_net ; net <= last_net ; net++ ) {
 TWCLOSE( fp ) ;
 }
 
-
-dbx_grd( ptr1 , ptr2 )
-CHANGRDPTR ptr1 , ptr2 ;
+void dbx_grd( CHANGRDPTR ptr1 , CHANGRDPTR ptr2 )
 {
 
 CHANGRDPTR ptr ;
@@ -190,7 +186,6 @@ TIBOXPTR tileptr ;
 int row , i , *Aray , cell ;
 int most_left , most_rite , n ;
 int curr_cell_left , curr_cell_rite , prev_cell_rite ;
-extern int fdWidthG ;
 
 fp = TWOPEN( "row.dat" , "w", ABORT ) ;
 /*
@@ -226,11 +221,7 @@ for( row = first_row ; row <= last_row ; row++ ) {
 TWCLOSE( fp ) ;
 }
 
-
-
-
-dbx_track( start_chan , end_chan )
-int start_chan , end_chan ;
+void dbx_track( int start_chan , int end_chan )
 {
 int chan ;
 FILE *fp ;

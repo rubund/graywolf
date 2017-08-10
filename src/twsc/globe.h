@@ -1,6 +1,7 @@
 #ifndef H_GLOBE
 #define H_GLOBE
 extern int implicit_pins_usedG ;
+extern BOOL connectFlagG ;
 
 void unequiv_pin_pre_processing();
 void rebuild_nextpin();

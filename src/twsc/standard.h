@@ -267,7 +267,6 @@ double horizontal_path_weightG ;
 double vertical_wire_weightG ;
 
 /* the configuration */
-extern int numcellsG ;
 extern int numtermsG ;
 extern int numnetsG ;
 extern int numpadgrpsG ;
@@ -283,17 +282,16 @@ extern int TotRegPinsG ;
 extern int implicit_feed_countG ;
 
 /* for the penalties */
-int TrybinG   ;
-int binpenalG ;
-int funccostG ;
-int newbinpenalG ;
-int newrowpenalG ;
-int penaltyG  ;
-int rowpenalG ;
-int timingcostG ;
-double binpenConG ;
-double roLenConG ;
-double timeFactorG ;
+extern int TrybinG   ;
+extern int binpenalG ;
+extern int newbinpenalG ;
+extern int newrowpenalG ;
+extern int penaltyG  ;
+extern int rowpenalG ;
+extern int timingcostG ;
+extern double binpenConG ;
+extern double roLenConG ;
+extern double timeFactorG ;
 
 /* *********************** PROTOTYPES FOR TWSC ******************** */
 void init_table( void ) ;

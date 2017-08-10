@@ -81,8 +81,6 @@ REVISIONS:  Jun 21, 1990 - added graphics abort macro.
 
 #include <menus.h>
 
-
-extern int actual_feed_thru_cells_addedG ;
 /* ***************************************************************** */
 static BOOL avoidDump = FALSE ;
 static BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
@@ -101,20 +99,15 @@ static int  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
 static int  pinsizeS ;     /* size of the pin */
 
 static void draw_fs();
-extern void draw_a_cell( int );
-extern int draw_the_data() ;
 void setGraphicWindow();
 void closegraphics( );
+void draw_the_data();
+void draw_a_cell( int cell );
 
 void initGraphics( int windowId )
 {
 	char *host ;
-	char *Ygetenv() ;
-	extern int horizontal_track_pitchG ;
-	extern int vertical_track_pitchG ;
 
-	GRAPHICSABORT ;
-		
 	/* we need to find host for display */
 	if(!(host = Ygetenv("DISPLAY"))) {
 		M(WARNMSG,"initGraphics","Can't get environment variable ");
@@ -398,9 +391,8 @@ void process_graphics()
 
 /* the graphics program can draw the results at each desired */
 /* timestep. */
-int draw_the_data()
+void draw_the_data()
 {
-
     int  i ;
     int  x ;
     int  y ;
@@ -411,7 +403,7 @@ int draw_the_data()
     char *pinname, *find_layer( /* pinname, layer */ ) ;
 
     if( avoidDump || !(doGraphicsG) || !(initS) ){
-	return 0;
+	return;
     }
     TWstartFrame() ;
     TWmessage( "Drawing the data...Please wait" ) ;
