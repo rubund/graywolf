@@ -1,3 +1,5 @@
+#ifndef H_CONFIG_PADS
+#define H_CONFIG_PADS
 BOOL check_overflow( P1(BOOL retain_pad_groups) ) ;
 void move_clockwise( P4(INT pad, INT side, INT cw_side, INT moveable_cw) ) ;
 void move_counterclockwise( P4(INT pad,INT side,INT ccw_side,INT m_ccw ) ) ;
@@ -9,3 +11,4 @@ void resort_place_array( P1(void) ) ;
 void child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
 void place_variable( P3(INT first,INT numpads,INT side) ) ;
 void calc_constraints( PADBOXPTR pad, int side, double *lb, double *ub, BOOL *spacing_restricted, int *lowpos, int *uppos );
+#endif

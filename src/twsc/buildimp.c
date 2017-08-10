@@ -54,14 +54,14 @@ REVISIONS:  Aug 30, 1989 - removed lastimp error.
 	    Wed Jan 16 14:26:44 PST 1991 - removed re_buildimp
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "buildimp.h"
-#include "sort.h"
+#include "allheaders.h"
+
+IPBOXPTR *impFeedsG ;
+int *FeedInRowG ;
+int gxstartG ;
+int gxstopG ;
 
 static int max_impfeed_in_cellS ; /* max no. of feeds in a cell */
-extern BOOL ignore_feedsG ;	/* Treat feedthroughs as width 0 */
 
 void buildimp( )
 {

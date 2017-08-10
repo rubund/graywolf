@@ -48,9 +48,11 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Wed Aug 28 14:27:04 EDT 1991 - added more debug.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "changrid.h"
+#include "allheaders.h"
+
+TGRIDPTR *TgridG ;
+CHANGRDPTR *BeginG ;
+CHANGRDPTR *EndG ;
 
 void changrid( )
 {

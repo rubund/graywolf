@@ -67,9 +67,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "rmoverlap.h"
+#include "allheaders.h"
 
 /* global variable references */
 extern BOOL connectFlagG ;

@@ -50,25 +50,18 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "steiner.h"
-#include "feedest.h"
-#include "mergeseg.h"
+#include "allheaders.h"
 
 /* global variables */
 int Max_numPinsG ;
 int *add_st_flagG ;
 int enough_built_in_feedG ;
 
-/* global references */
-extern int *rowfeed_penaltyG ;
-extern BOOL absolute_minimum_feedsG ;
-SEGBOXPTR makeseg() ;
+SEGBOXPTR *netsegHeadG ;
 
 /* static definitions */
 static PINBOXPTR   *vertexS ;
+PINBOXPTR *steinerHeadG ;
 static int **costS , *lowcostS , *closestS , *components , max_pinS ;
 
 void steiner()

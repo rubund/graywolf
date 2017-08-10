@@ -58,10 +58,8 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
+#include "allheaders.h"
 #include "pads.h"
-#include "debug.h"
 
 void cellbox_data( int first_cell , int last_cell )
 {
@@ -183,8 +181,7 @@ if( flag == 1 ) {
 }
 }
 
-pairCheck( first_row , last_row )
-int first_row , last_row ;
+void pairCheck(int  first_row , int last_row )
 {
 
 FILE *fp ;

@@ -47,9 +47,7 @@ REVISIONS:  Tue Mar 19 16:22:56 CST 1991 - fixed crash when
 		there are no routing tracks in a channel.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "urcost.h"
+#include "allheaders.h"
 
 int urcost( SEGBOXPTR segptr )
 {

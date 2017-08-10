@@ -1,3 +1,5 @@
+#ifndef H_PATHS
+#define H_PATHS
 int dcalc_min_path_len() ;
 int dcalc_max_path_len() ;
 int dcalc_path_len(int, int);
@@ -16,3 +18,4 @@ void print_paths();
 BOOL member_net_set( int net );
 int dprint_error();
 int dpath_len( int net_num, BOOL old_not_new );
+#endif

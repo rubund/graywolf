@@ -60,28 +60,14 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 		for new global router.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "feeds.h"
-#include "findunlap.h"
-#include "unlap.h"
+#include "allheaders.h"
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-/* globals */
-int largest_delta_row_lenG ;
-int **pairArrayG ;
-int exact_feedsG ;
-int extra_cellsG ;
-int actual_feed_thru_cells_addedG ;
-extern BOOL gate_arrayG ;
-extern BOOL no_row_lengthsG ;
-extern double mean_widthG ;
-int *feeds_in_rowG ;
-
 static int *row_lengthS ;
 static BOOL first_passS = TRUE ;
+
+int largest_delta_row_lenG ;
 
 void findunlap(int flag)
 {

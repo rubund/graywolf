@@ -88,18 +88,7 @@ REVISIONS:  Mon Nov 19 04:04:18 EST 1990 - added temperature
 #define PARSER_VARS
 
 #include <globals.h>
-#include "parser.h"
-#include "groute.h"
-#include "parser.h"
-#include "main.h"
-#include "readblck.h"
-#include "readpar.h"
-#include "config.h"
-#include "feeds.h"
-#include "pads.h"
-#include "graphics.h"
-#include "newtemp.h"
-#include "configure.h"
+#include "allheaders.h"
 
 #define	EXPECTEDSWAPGROUPS	10
 #define	EXPECTEDNUMPADS		10
@@ -109,18 +98,21 @@ REVISIONS:  Mon Nov 19 04:04:18 EST 1990 - added temperature
 int ECOs_existG = 0 ;
 int orig_max_row_lengthG ;
 
-extern int totalRG ;
-extern int spacer_widthG ;
-extern int *spacer_feedsG ;
-extern int uniform_rowsG ;
-extern int total_row_lengthG ;
-extern int total_except_widthG ;
-extern int approximately_fixed_factorG ;
-extern BOOL fences_existG ;
-extern BOOL turn_off_checksG ;
-extern BOOL spacer_name_twfeedG ;
-extern BOOL rigidly_fixed_cellsG ;
-extern BOOL stand_cell_as_gate_arrayG ;
+SWAPBOX *swap_group_listG ;
+BOOL one_pin_feedthruG ;
+int maxCellOG ;
+int case_unequiv_pinG ;
+int celllenG ;
+int cells_per_clusterG ;
+int cluster_widthG ;
+int extra_cellsG ;
+int *fixLRBTG ;
+int last_pin_numberG ;
+int num_clustersG ;
+BOOL swappable_gates_existG ;
+int swap_netG ;
+int totallenG ;
+double *padspaceG ;
 
 /* ERRORABORT is a macro which forces routines not to do any work */
 /* when we find a syntax error in the input routine. */

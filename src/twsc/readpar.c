@@ -70,19 +70,10 @@ REVISIONS:  Nov 23, 1990 - now use new readpar library function.
 #define COMMENT '#'
 
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "parser.h"
-#include "readpar.h"
-#include "groute.h"
-#include "feeds.h"
-#include "config.h"
-#include "pads.h"
-#include "findcost.h"
-#include "graphics.h"
-#include "outpins.h"
+#include "allheaders.h"
 
 /* globals variable definitions */
+int fdWidthG ;
 int attprcelG ;
 int core_widthG ;
 int core_heightG ;
@@ -96,6 +87,19 @@ int vertical_track_pitchG = 0 ;
 int horizontal_track_pitchG = 0 ;
 int approximately_fixed_factorG = 1 ;
 int global_routing_iterationsG = 0 ;
+int uneven_cell_heightG ;
+int pin_layers_givenG ;
+int ffeedsG , track_pitchG;
+int rowSepAbsG ;
+int tw_fastG ;
+int tw_slowG ;
+int resume_runG ;
+int feedLayerG ;
+int *fixarrayG ;
+int numSegsG ;
+int no_feeds_side_netsG ;
+
+BOOL try_not_to_add_explicit_feedsG = FALSE;
 BOOL no_feed_estG = TRUE ;
 BOOL placement_improveG = TRUE ;
 BOOL intel_debugG = FALSE ;
@@ -123,8 +127,20 @@ BOOL vertical_track_on_cell_edgeG ;
 BOOL route_padnets_outsideG ;
 BOOL prop_rigid_cellsG = FALSE ;
 BOOL even_rows_maximallyG = FALSE ;
+BOOL SGGRG;
+BOOL gate_arrayG ;
+BOOL estimate_feedsG ;
+BOOL Equal_Width_CellsG ;
+BOOL intelG ;
+BOOL file_conversionG ;
+BOOL connection_machineG ;
+BOOL doglobalG ;
+
 double indentG ;
 double metal2_pitchG ;
+double rowSepG ;
+
+unsigned randomSeedG  ;
 
 /* globals variable references */
 extern BOOL orientation_optimizationG ;

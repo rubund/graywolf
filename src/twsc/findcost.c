@@ -63,29 +63,16 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 /* #define MITLL */
 
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "config.h"
-#include "readpar.h"
-#include "parser.h"
-#include "findcost.h"
-#include "savewolf.h"
-#include "outcm.h"
-#include "sortpin.h"
-#include "placepads.h"
-#include "findcostf.h"
-#include "dimbox.h"
-#include "countf.h"
+#include "allheaders.h"
 
 /* global variables */
 int minxspanG ;
-
-extern int extra_cellsG ;
-extern int spacer_widthG ;
-extern int approximately_fixed_factorG ;
-extern BOOL rigidly_fixed_cellsG ;
-extern int *feeds_in_rowG ;
+int *total_feed_in_the_rowG ;
+int fdWidthG ;
+int average_pin_sepG ;
+int average_feed_sepG ;
+int *feeds_in_rowG ;
+double mean_widthG ;
 
 /* static variables */
 static int maxpinS = 0 ;
@@ -117,7 +104,6 @@ int pathcount , shortest_cell , count, length ;
 int layer ;
 PATHPTR path ;
 GLISTPTR net_of_path ;
-extern char *find_layer() ;
 char *pinname ;
 
 blkleftG = INT_MAX ;

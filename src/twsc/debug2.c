@@ -75,19 +75,10 @@ REVISIONS:  Apr  1, 1990 - added check_funccost() ;
 #include "pads.h"
 #include "coarseglb.h"
 #include "debug2.h"
+#include "steiner.h"
+#include "buildimp.h"
 
-/*
-extern FEED_SEG_PTR *worker ;
-extern FEED_DATA **feedpptr ;
-extern SEGBOX  **netsegHead ;
-extern IPBOXPTR *impFeeds ;
-extern PINBOXPTR *steinerHead ;
-extern int chan_node_no ;
-extern int *min_feed , *FeedInRow ;
-*/
-
-dbx_adj( net )
-int net ;
+void dbx_adj( int net )
 {
 
 FILE *fp ;
@@ -114,10 +105,8 @@ for( netptr = netarrayG[net]->pins; netptr ;netptr = netptr->next ) {
 TWCLOSE(fp) ;
 }
 
-dbx_netseg( net1 , net2 )
-int net1 , net2 ;
+void dbx_netseg( int net1 , int net2 )
 {
-
 FILE *fp ;
 PINBOXPTR pin1ptr , pin2ptr ;
 SEGBOXPTR segptr ;
@@ -141,10 +130,8 @@ for( net = net1 ; net <= net2 ; net++ ) {
 TWCLOSE(fp) ;
 }
 
-dbx_seg( segptr )
-SEGBOXPTR segptr ;
+void dbx_seg( SEGBOXPTR segptr )
 {
-
 FILE *fp ;
 PINBOXPTR pin1ptr , pin2ptr ;
 
@@ -160,9 +147,7 @@ fprintf(fp,"  %5d %5d  %5d %5d  %4d %4d  %2d %4d %4d\n",
 TWCLOSE(fp) ;
 }
 
-
-dbx_feed( row1 , row2 )
-int row1 , row2 ;
+void dbx_feed( int row1 , int row2 )
 {
 
 FILE *fp ;
@@ -237,8 +222,7 @@ TWCLOSE(fp) ;
 }
 
 
-dbx_imp( row1 , row2 )
-int row1 , row2 ;
+void dbx_imp( int row1, int row2 )
 {
 
 int row , k ;
@@ -267,7 +251,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 TWCLOSE(fp) ;
 }
 
-dbx_funcost()
+void dbx_funcost()
 {
 
 int net , cost , minx , miny , maxx , maxy ;
@@ -304,10 +288,8 @@ if( cost != funccostG ) {
 }
 }
 
-mst_graph( net1 , net2 )
-int net1 , net2 ;
+void mst_graph( int net1, int net2 )
 {
-
 FILE *fp ;
 PINBOXPTR pin1ptr , pin2ptr , netptr ;
 CBOXPTR cellptr1 , cellptr2 , cellptr ;
@@ -395,12 +377,7 @@ for( cell = numcellsG + 1 ; cell <= numcellsG + numtermsG ; cell++ ) {
 TWCLOSE(fp) ;
 }
 
-
-
-
-
-dbx_fdasgn( row )
-int row ;
+void dbx_fdasgn( int row )
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;

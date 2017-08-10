@@ -52,15 +52,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "main.h"
-#include "ucxxglb.h"
-#include "readpar.h"
-#include "parser.h"
-#include "pads.h"
-#include "countf.h"
+#include "allheaders.h"
 
 /* global definitions */
 int *xfeeds_in_rowG ;

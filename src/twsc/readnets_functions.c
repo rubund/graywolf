@@ -1,11 +1,6 @@
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "parser_defines.h"
 #include "readnets.y.h"
-#include "pads.h"
-#include "paths.h"
-#include "readnets_functions.h"
+#include "allheaders.h"
 
 static YHASHPTR net_hash_tableS ;
 static PATHPTR pathPtrS = NULL ;  /* start of path list */

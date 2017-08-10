@@ -46,18 +46,10 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "unlap.h"
+#include "allheaders.h"
 
 /* global variables */
 BOOL noPairsG ;
-
-/* global references */
-extern int actual_feed_thru_cells_addedG ;
-extern int extra_cellsG ;
-extern BOOL no_feed_at_endG ;
-extern BOOL rigidly_fixed_cellsG ;
 
 void unlap(int flag)
 {

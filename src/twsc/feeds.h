@@ -17,11 +17,4 @@ typedef struct feed_assgn_box {
 *FEED_SEG_PTR ,
 FEED_SEG ;
 
-int *feeds_in_rowG ;
-int *FeedInRowG ;
-int fdWidthG ;
-int *fdcel_addedG ;
-int **fdcel_needG ;
-int *total_feed_in_the_rowG ;
-
 #endif /* FEEDS_H */

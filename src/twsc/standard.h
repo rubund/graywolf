@@ -17,27 +17,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #ifndef YSTANDARD_H 
 #define YSTANDARD_H 
 
-#ifdef VMS
-#define lINT 
-#endif
-/*  a cheap way of avoiding the inclusions of the sccs
-    stuff for VMS systems
-    */
-
-#include <yalecad/string.h>
-
-
-#ifndef NO_FEED_INSTANCES
-#define FEED_INSTANCES  /* ---selection of this keyword will cause  */
-/*                            each feed-through cell to have        */
-/*                            a distinct (instance) name            */
-#endif /* NO_FEED_INSTANCES */
-
-/* I/O macros */
-#include <yalecad/file.h>
-
-/* Pin list includes an embedded hash table */
-#include <yalecad/hash.h>
+#include <globals.h>
 
 /* ***********LEAVE THE BELOW UNCHANGED *************************** */
 /* remove graphics lines of code if compile switch is on */
@@ -275,32 +255,32 @@ typedef struct swapbox {        /* list of list of pins to be swapped */
 
 /* ****************** GLOBALS ************************** */
 /* THE MAJOR PARTS OF THE DATA STRUCTURES */
-CBOXPTR  *carrayG  ;
-DBOXPTR   *netarrayG   ;
-PINBOXPTR *tearrayG  ;
-BBOXPTR *barrayG ;
-BINBOX ***binptrG ;
-PATHPTR *patharrayG ;  /* array of timing paths */
+extern CBOXPTR  *carrayG  ;
+extern DBOXPTR   *netarrayG   ;
+extern PINBOXPTR *tearrayG  ;
+extern BBOXPTR *barrayG ;
+extern BINBOX ***binptrG ;
+extern PATHPTR *patharrayG ;  /* array of timing paths */
 
 double vertical_path_weightG ;
 double horizontal_path_weightG ;
 double vertical_wire_weightG ;
 
 /* the configuration */
-int numcellsG ;
-int numtermsG ;
-int numnetsG ;
-int numpadgrpsG ;
-int lastpadG ;
-int maxtermG ;
-int numRowsG ;
-int numChansG ;
-int numpathsG ;
-int numBinsG ;
-int binWidthG ;
-int binOffstG ;
-int TotRegPinsG ;
-int implicit_feed_countG ;
+extern int numcellsG ;
+extern int numtermsG ;
+extern int numnetsG ;
+extern int numpadgrpsG ;
+extern int lastpadG ;
+extern int maxtermG ;
+extern int numRowsG ;
+extern int numChansG ;
+extern int numpathsG ;
+extern int numBinsG ;
+extern int binWidthG ;
+extern int binOffstG ;
+extern int TotRegPinsG ;
+extern int implicit_feed_countG ;
 
 /* for the penalties */
 int TrybinG   ;

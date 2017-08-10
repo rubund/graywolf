@@ -51,25 +51,21 @@ REVISIONS:  Wed Jan  2 10:55:01 CST 1991 - moved DEC code to parser.c
 ----------------------------------------------------------------- */
 #define READBLCK_VARS
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "parser.h"
-#include "readpar.h"
-#include "config.h"
-#include "readblck.h"
+#include "allheaders.h"
 
-/* global variable references */
-extern int spacer_widthG ;
-extern int vertical_pitchG ;
-extern int total_row_lengthG ;
-
-#if SIZEOF_VOID_P == 64
-#define INTSCANSTR "%ld"
-#else
 #define INTSCANSTR "%d"
-#endif
 
 /* global variables */
+int *rowSepsAbsG ;
+int individual_rowSepsG ;
+int num_exceptsG ;
+EXCEPTBOX *exceptionsG ;
+double *rowSepsG ;
+int uniform_rowsG ;
+int total_except_widthG ;
+int bot_of_bot_rowG ;
+double *relativeLenG ;
+int top_of_top_rowG ;
 
 void readblck(FILE *fp)
 {

@@ -7,6 +7,12 @@ typedef struct graph_edge_cost {
 *EDGE_COST ,
 EDGE_COST_BOX ;
 
+extern int *count_G;
+extern int *father_G;
+extern int *root_G;
+
+extern PINBOXPTR *vertex_G;
+
 void do_set_union( int i , int j );
 void postFeedAssgn();
 void postFeedAssgn_carl();

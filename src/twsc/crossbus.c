@@ -47,16 +47,9 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "pads.h"
-#include "crossbus.h"
+#include "allheaders.h"
 
-/* global definitions */
-extern int left_row_boundaryG ;
-extern int row_extentG ;
-extern BOOL exclude_noncrossbus_padsG ;
+int left_row_boundaryG ;
 
 void handle_crossbuses()
 {

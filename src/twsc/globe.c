@@ -84,31 +84,14 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #define GLOBE_VARS
 
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "globroute.h"
-#include "main.h"
-#include "parser.h"
-#include "paths.h"
-#include "feeds.h"
-#include "globe.h"
-#include "buildimp.h"
-#include "netgraph.h"
-#include "utemp.h"
-#include "findunlap.h"
-#include "rmoverlap.h"
-#include "findcostf.h"
-#include "readnets_functions.h"
+#include "allheaders.h"
 
 #define CARL_NEW
 #define PICK_int(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global variables */
 BOOL connectFlagG ;
-
-/* external references */
-extern BOOL rigidly_fixed_cellsG ;
-extern BOOL placement_improveG ;
+int implicit_pins_usedG ;
 
 static long int swap_cost(BOOL perim_flag) ;
 

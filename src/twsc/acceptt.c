@@ -45,13 +45,14 @@ DATE:	    Jan 30, 1988
 REVISIONS:
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "main.h"
-#include "standard.h"
+#include "allheaders.h"
 
 #define MASK 0x3ff
 
 static double table1S[1024] , table2S[1024] , table3S[1024] ;
- 
+
+int d_costG ;
+
 void init_table()
 {
     int i2 ;

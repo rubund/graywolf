@@ -85,28 +85,7 @@ REVISIONS:  Oct 20, 1990 - fixed problem with graphics close.
 ----------------------------------------------------------------- */
 #define MAIN_VARS  
 #include <globals.h>
-
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "readpar.h"
-#include "readblck.h"
-#include "parser.h"
-#include "feeds.h"
-#include "findcost.h"
-#include "pads.h"
-#include "paths.h"
-#include "placepads.h"
-#include "graphics.h"
-#include "cell_width.h"
-#include "crossbus.h"
-#include "utemp.h"
-#include "globe.h"
-#include "countf.h"
-#include "findunlap.h"
-#include "coarseglb.h"
-#include "output.h"
-#include "outpins.h"
+#include "allheaders.h"
 
 #include "config-build.h"
 
@@ -117,25 +96,16 @@ int left_row_boundaryG ;
 int save_abs_min_flagG ;
 int actual_feed_thru_cells_addedG = 0 ;
 BOOL orientation_optimizationG = FALSE ;
+int tracksG ;
+BOOL no_row_lengthsG ;
 
 /* global variable references */
-extern BOOL do_fast_globalG ;
-extern BOOL no_row_lengthsG ;
-extern BOOL do_not_even_rowsG ;
-extern BOOL ignore_crossbusesG ;
-extern BOOL output_at_densityG ;
-extern BOOL absolute_minimum_feedsG ;
-extern BOOL glob_route_only_crit_netsG ;
-extern BOOL vertical_track_on_cell_edgeG ;
-extern BOOL route_padnets_outsideG ;
-extern BOOL call_row_evenerG ;
-extern BOOL placement_improveG ;
-extern BOOL ignore_feedsG ;
-extern int ECOs_existG ;
-extern int spacer_widthG ;
-extern int longest_row_lengthG ;
-extern int largest_delta_row_lenG ;
-extern int total_row_lengthG ;
+CBOXPTR  *carrayG  ;
+DBOXPTR   *netarrayG   ;
+PINBOXPTR *tearrayG  ;
+BBOXPTR *barrayG ;
+BINBOX ***binptrG ;
+PATHPTR *patharrayG ;  /* array of timing paths */
 
 /* static variables */
 static int routing_loopS ;
@@ -149,6 +119,34 @@ static int *save_orig_desireS ;
 static char *twdirS ; 
 static int num_feeds_addedS ;/* number of feeds added on best iteration */
 static double ave_row_sepS ; /* the row separation for a run */
+
+int numcellsG ;
+int numtermsG ;
+int numnetsG ;
+int numpadgrpsG ;
+int lastpadG ;
+int maxtermG ;
+int numRowsG ;
+int numChansG ;
+int numpathsG ;
+int numBinsG ;
+int binWidthG ;
+int binOffstG ;
+int TotRegPinsG ;
+int implicit_feed_countG ;
+int iterationG;
+int blkxspanG ;
+int blkyspanG ;
+int lrtxspanG ;
+int lrtyspanG ;
+int ifrangeG ;
+
+char *cktNameG; /* the name of the circuit           */
+
+BOOL doGraphicsG ;
+BOOL costonlyG ;
+
+FILE *fpoG ;
 
 void init_utemp();
 void install_swap_pass_thrus( PINBOXPTR netptr );
@@ -166,14 +164,9 @@ TimberWolfSC(int n, int v, char *cktName)
 	int ll, rr, bb, tt ;
 	int bdxlen , bdylen ;
 	int block ;
-	int yaleIntro() ;
 	int cx, cy, cl, cr, cb, ct, cell ;
-	char *ptr ;
-	char *Ystrclone() ;
 	BOOL debug ;
 	BOOL verbose ;
-	int arg_count ;
-	char *Ygetenv() ;
 
 	/* ********************** start initialization *********************** */
 	/* start up cleanup handler */
@@ -913,7 +906,7 @@ void incorporate_ECOs()
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

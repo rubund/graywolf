@@ -1,3 +1,5 @@
+#ifndef H_PLACEPADS
+#define H_PLACEPADS
 #include "pads.h"
 void find_optimum_locations( void ) ;
 void place_pad( PADBOXPTR pad, int bestside ) ;
@@ -7,3 +9,4 @@ void find_core(void) ;
 void setVirtualCore( BOOL flag );
 void placepads();
 void placepads_retain_side( BOOL flag );
+#endif

@@ -83,22 +83,8 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 #define UCXXGLB_VARS
 
 #include <globals.h>
-#include "standard.h"
-#include "ucxxglb.h"
-#include "main.h"
-#include "readpar.h"
-#include "parser.h"
-#include "uloop.h"
-#include "ucxx1.h"
-#include "ucxxo1.h"
-#include "ucxx2.h"
-#include "ucxxo2.h"
-#include "uc0.h"
-#include "graphics.h"
-#include "reconfig.h"
-#include "gateswap.h"
-#include "debug2.h"
-#include "savewolf.h"
+#define NO_PAD
+#include "allheaders.h"
 
 #define INITRATIO 0.95
 #define AC0 0.90
@@ -147,13 +133,6 @@ double ratioG = 1.0 ;
 double finalRowControlG ;
 double initialRowControlG ;
 
-/* global references */
-extern int totalRG ;
-extern int minxspanG ;
-extern BOOL pairtestG ;
-extern BOOL no_feed_estG ;
-extern BOOL good_initial_placementG ;
-
 /* function calls */
 double expected_svalue() ;
 double expected_value() ;
@@ -186,6 +165,7 @@ static double bin_capS = 99.0 ;
 static double row_capS = 99.0 ;
 static double a_ratioS;
 static double total_costS;
+double TG ;
 
 void init_uloop()
 {
@@ -1025,11 +1005,8 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 return( value ) ;
 }
 
-
-double compute_and_combination( C , k , p , R )
-int C , k , p , R ;
+double compute_and_combination( int C , int k , int p , int R )
 {
-
 int numerator , denom1 , denom2 , temp ;
 double states ;
 

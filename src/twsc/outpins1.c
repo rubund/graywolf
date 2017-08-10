@@ -63,13 +63,7 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "readpar.h"
-#include "pads.h"
-#include "outpins.h"
-#include "netgraph.h"
+#include "allheaders.h"
 
 /* #define NSC */
 

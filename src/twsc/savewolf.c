@@ -50,16 +50,7 @@ REVISIONS:  Wed Mar 13 13:48:30 CST 1991 - make sure the .blk
 	    Thu Sep 19 16:36:02 EDT 1991 - added more error checking.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "feeds.h"
-#include "readpar.h"
-#include "parser.h"
-#include "reconfig.h"
-#include "uloop.h"
-#include "graphics.h"
-#include "savewolf.h"
+#include "allheaders.h"
 
 #define INTSCANSTR "%d"
 
@@ -77,29 +68,16 @@ double current_time;
 static double last_time = 0.0;
 
 if( !flag ) {
-#ifndef VMS
     /* make sure another checkpoint is worthwhile !! */
     current_time = Ycpu_time();
     if ((current_time - last_time) < 900.0 ) {
         return;
     }
     last_time = current_time;
-#else
-    if( iterationG % 10 != 0 ) {
-        return ;
-    }
-#endif
 }
 
-#ifdef VMS
-sprintf( filename , "%s.sav" , cktNameG ) ;
-fp = TWOPEN( filename , "w", ABORT ) ;
-sprintf( filename , "%s.sav;-2" , cktNameG ) ;
-delete( filename ) ;
-#else
 sprintf( filename , "%s.tmp" , cktNameG ) ;
 fp = TWOPEN( filename , "w", ABORT ) ;
-#endif
 
 fprintf( fp, "%f\n", TG ) ;
 fprintf( fp, "%d\n", iterationG ) ;

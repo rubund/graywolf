@@ -64,16 +64,11 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 ----------------------------------------------------------------- */
 #define FEEDS_VARS
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "main.h"
-#include "feedest.h"
+#include "allheaders.h"
 
 /* global definitions */
 int *rowfeed_penaltyG ;
-
-extern BOOL absolute_minimum_feedsG ;
+int add_Lcorner_feedG ;
 
 /* static definitions */
 static double *fd_estimateS ;
@@ -544,9 +539,7 @@ steinerHeadG[net]->next = ptr ;
 return( ptr ) ;
 }
 
-
-SEGBOXPTR makeseg( lowptr , highptr )
-PINBOXPTR lowptr , highptr ;
+SEGBOXPTR makeseg( PINBOXPTR lowptr, PINBOXPTR highptr )
 {
 ADJASEG *adj1, *adj2 ;
 SEGBOXPTR segptr ;

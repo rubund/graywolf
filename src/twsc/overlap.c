@@ -64,8 +64,7 @@ CONTENTS:   new_old( c )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#include "ucxxglb.h"
-#include "overlap.h"
+#include "allheaders.h"
 
 void new_old(int c)
 {
@@ -81,89 +80,9 @@ if( ablockG != bblockG ) {
 	   ABS(barrayG[bblockG]->newsize - barrayG[bblockG]->desire) ;
     newrowpenalG += (new - old) ;
 
-    /*
-    old = new = 0 ;
-    if( ABS( ablockG - bblockG ) >= 3 ) {
-	for( block = ablockG - 2 ; block <= ablockG ; block++ ) {
-	    if( block < 1 || block > numblock - 2 ) {
-		continue ;
-	    }
-	    old_size = new_size = desired = 0 ;
-	    for( blk = block ; blk <= block + 2 ; blk++ ) {
-		old_size += barrayG[blk]->oldsize ;
-		desired  += barrayG[blk]->desire  ;
-		if( blk == ablockG || blk == bblockG ) {
-		    new_size += barrayG[blk]->newsize ;
-		} else {
-		    new_size += barrayG[blk]->oldsize ;
-		}
-	    }
-	    old += ABS(old_size - desired) ;
-	    new += ABS(new_size - desired) ;
-	}
-	for( block = bblockG - 2 ; block <= bblockG ; block++ ) {
-	    if( block < 1 || block > numblock - 2 ) {
-		continue ;
-	    }
-	    old_size = new_size = desired = 0 ;
-	    for( blk = block ; blk <= block + 2 ; blk++ ) {
-		old_size += barrayG[blk]->oldsize ;
-		desired  += barrayG[blk]->desire  ;
-		if( blk == ablockG || blk == bblockG ) {
-		    new_size += barrayG[blk]->newsize ;
-		} else {
-		    new_size += barrayG[blk]->oldsize ;
-		}
-	    }
-	    old += ABS(old_size - desired) ;
-	    new += ABS(new_size - desired) ;
-	}
-    } else {
-	mini = (ablockG < bblockG) ? ablockG - 2 : bblockG - 2 ;
-	maxi = (ablockG > bblockG) ? ablockG : bblockG ;
-	for( block = mini ; block <= maxi ; block++ ) {
-	    if( block < 1 || block > numblock - 2 ) {
-		continue ;
-	    }
-	    old_size = new_size = desired = 0 ;
-	    for( blk = block ; blk <= block + 2 ; blk++ ) {
-		old_size += barrayG[blk]->oldsize ;
-		desired  += barrayG[blk]->desire  ;
-		if( blk == ablockG || blk == bblockG ) {
-		    new_size += barrayG[blk]->newsize ;
-		} else {
-		    new_size += barrayG[blk]->oldsize ;
-		}
-	    }
-	    old += ABS(old_size - desired) ;
-	    new += ABS(new_size - desired) ;
-	}
-    }
-    newrowpenalG += (new - old) ;
-    */
 }
 return ;
 }
-
-
-/*
-new_old( c )
-int c ;
-{
-
-int old , new ;
-
-if( ablockG != bblockG ) {
-    barrayG[ablockG]->newsize = barrayG[ablockG]->oldsize + c ;
-    barrayG[bblockG]->newsize = barrayG[bblockG]->oldsize - c ;
-    old  = ABS(barrayG[ablockG]->oldsize - barrayG[ablockG]->desire) +
-	   ABS(barrayG[bblockG]->oldsize - barrayG[bblockG]->desire) ;
-    new  = ABS(barrayG[ablockG]->newsize - barrayG[ablockG]->desire) +
-	   ABS(barrayG[bblockG]->newsize - barrayG[bblockG]->desire) ;
-    newrowpenalG += (new - old) ;
-}
-}
-*/
 
 void old_assgnto_new1( int alobin , int ahibin , int anewlobin , int anewhibin )
 {

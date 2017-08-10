@@ -52,21 +52,10 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "readpar.h"
-#include "rowevener.h"
-#include "findunlap.h"
-#include "coarseglb.h"
+#include "allheaders.h"
 
 /* global variables */
 int exact_feedsG ;
-
-/* global references */
-extern BOOL do_not_even_rowsG ;
-extern BOOL no_row_lengthsG ;
-extern BOOL ignore_feedsG ;
 
 /* static definitions */
 static int *expect_row_rightS , *expect_row_lengthS ;

@@ -78,6 +78,8 @@ REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 #include "seagate.h"
 #include "rowevener.h"
 #include "graphics.h"
+#include "findcost.h"
+#include "readblck.h"
 
 /* static definitions */
 int *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;
@@ -85,13 +87,21 @@ int *feed_shortS , half_hzsepS , right_Pads_left_edgeS ;
 
 /* global definitions */
 int longest_row_lengthG ;
+int *right_most_in_classG ;
+int *row_rite_classG ;
+int **fdcel_needG;
+int *fdcel_addedG;
+int hznode_sepG ;
+int **pairArrayG ;
+int blk_most_leftG ;
+int fdthrusG ; 
+int chan_node_noG ;
+int blk_most_riteG ;
+int *total_feed_in_the_rowG ;
+int actual_feed_thru_cells_addedG ;
+int rowsG ;
 
-/* global references */
-extern int add_Lcorner_feedG ;
-extern int extra_cellsG ;
-extern int actual_feed_thru_cells_addedG ;
-extern BOOL no_feed_at_endG ;
-extern BOOL ignore_feedsG ;
+FEED_DATA **feedpptrG ;
 
 void coarseglb() 
 {

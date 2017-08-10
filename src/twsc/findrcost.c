@@ -52,14 +52,16 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "findrcost.h"
-#include "globroute.h"
+#include "allheaders.h"
 
 int **cedgebinS ;
 int cedge_binwidthS ;
 int num_edgebinS ;
+int *maxTrackG ;
+int *nmaxTrackG ;
+int max_tdensityG ;
+
+DENSITYPTR **DboxHeadG ;
 
 void findrcost()
 {

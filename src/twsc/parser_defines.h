@@ -1,4 +1,5 @@
-
+#ifndef H_PARSER_DEFS
+#define H_PARSER_DEFS
 typedef struct psetrec {
 	int  member; /* integer for determining membership */
 	int  path ;  /* data */
@@ -18,3 +19,4 @@ typedef struct psetrec {
 #define PINTYPE           1
 #define PASS_THRU         2
 #define SWAP_PASS         3
+#endif

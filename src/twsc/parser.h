@@ -13,23 +13,35 @@ REVISIONS:
 #include "parser_defines.h"
 #include "standard.h"
 
-SWAPBOX *swap_group_listG ;
-BOOL one_pin_feedthruG ;
+extern SWAPBOX *swap_group_listG ;
 
-int maxCellOG ;
-int case_unequiv_pinG ;
-int celllenG ;
-int cells_per_clusterG ;
-int cluster_widthG ;
-int extra_cellsG ;
-int *fixLRBTG ;
-int last_pin_numberG ;
-int num_clustersG ;
-BOOL swappable_gates_existG ;
+extern int maxCellOG ;
+extern int case_unequiv_pinG ;
+extern int celllenG ;
+extern int cells_per_clusterG ;
+extern int cluster_widthG ;
+extern int extra_cellsG ;
+extern int *fixLRBTG ;
+extern int last_pin_numberG ;
+extern int num_clustersG ;
+extern int swap_netG ;
+extern int totallenG ;
+extern double *padspaceG ;
+extern int totalRG ;
+extern int spacer_widthG ;
+extern int *spacer_feedsG ;
+extern int total_row_lengthG ;
+extern int approximately_fixed_factorG ;
+extern int ECOs_existG;
+extern int orig_max_row_lengthG ;
 
-int swap_netG ;
-int totallenG ;
-double *padspaceG ;
+extern BOOL fences_existG ;
+extern BOOL turn_off_checksG ;
+extern BOOL spacer_name_twfeedG ;
+extern BOOL rigidly_fixed_cellsG ;
+extern BOOL stand_cell_as_gate_arrayG ;
+extern BOOL one_pin_feedthruG ;
+extern BOOL swappable_gates_existG ;
 
 void add_legal_blocks( int block_class );
 void addCell( char *cellname, int celltype );

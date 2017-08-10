@@ -1,3 +1,7 @@
+#ifndef H_GLOBE
+#define H_GLOBE
+extern int implicit_pins_usedG ;
+
 void unequiv_pin_pre_processing();
 void rebuild_nextpin();
 int globe();
@@ -15,3 +19,4 @@ int check_unequiv_connectivity();
 void row_seg_intersect( PINBOXPTR ptr1 , PINBOXPTR ptr2 , SEGBOXPTR segptr );
 void copy_workerS_field( FEED_SEG_PTR aptr, FEED_SEG_PTR bptr );
 void assgn_impin( IPBOXPTR imptr , FEED_SEG_PTR fsptr , int row );
+#endif

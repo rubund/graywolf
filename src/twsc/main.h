@@ -10,37 +10,25 @@ REVISIONS:  Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 #ifndef MAIN_H
 #define MAIN_H
 
-char *cktNameG ;
+extern FILE *fpoG ;
 
-int rowsG ;
-int attmaxG ;
-int maxCellOG ;
-int iterationG ;
+extern BOOL orientation_optimizationG;
+extern BOOL doGraphicsG ;
+extern BOOL no_row_lengthsG ;
+extern BOOL costonlyG ;
 
-int blkxspanG ;
-int blkyspanG ;
-int ffeedsG ;
-int lrtxspanG ;
-int lrtyspanG ;
-int ifrangeG ;
-int *fixarrayG ;
+extern int **bin_configG ;
+extern int tracksG ;
+extern int iterationG;
+extern int blkxspanG ;
+extern int blkyspanG ;
+extern int lrtxspanG ;
+extern int lrtyspanG ;
+extern int ifrangeG ;
+extern int row_extentG ;
 
-FILE *fpoG ;
+extern char *cktNameG;
 
-int d_costG ;
-int resume_runG ;
-int implicit_pins_usedG ;
-int rowHeightG ;
-int fdthrusG ;
-
-double TG ;
-double imprangeG ;
-double rowSepG ;
-int    rowSepAbsG ;
-double stopdegG ;
-
-unsigned Yrandom_seed() ;
-unsigned randomSeedG  ;
-unsigned randomSeed2G ;
+void execute_global_router();
 
 #endif /* MAIN_H */

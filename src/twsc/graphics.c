@@ -55,12 +55,7 @@ REVISIONS:  Jun 21, 1990 - added graphics abort macro.
 		initialization and draw orientation markers.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "readpar.h"
-#include "pads.h"
-#include "graphics.h"
-#include "findcost.h"
+#include "allheaders.h"
 
 #ifndef NOGRAPHICS
 

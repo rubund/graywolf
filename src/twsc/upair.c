@@ -51,21 +51,12 @@ REVISIONS:  Fri Mar 22 16:23:46 CST 1991 - now avoid upair
 		pairwise swaps.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
+#include "allheaders.h"
 #include "placepads.h"
-#include "findcostf.h"
-#include "ucxxp.h"
-#include "uc0.h"
-#include "debug2.h"
-#include "upair.h"
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-/* global references */
-extern int **pairArrayG ;
-extern BOOL orientation_optimizationG ;
-extern BOOL placement_improveG ;
+int attmaxG ;
 
 void upair()
 {

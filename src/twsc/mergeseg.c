@@ -61,12 +61,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "mergeseg.h"
-#include "rmoverlap.h"
-#include "feedest.h"
-#include "netgraph.h"
+#include "allheaders.h"
 
 #define NORTH 1
 #define SOUTH 2

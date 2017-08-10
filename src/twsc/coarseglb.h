@@ -12,3 +12,19 @@ void final_feed_config( );
 void free_cglb_data();
 void assign_row_to_pin();
 void coarseglb();
+
+extern int longest_row_lengthG ;
+extern int *right_most_in_classG ;
+extern int *row_rite_classG ;
+extern int **fdcel_needG;
+extern int *fdcel_addedG;
+extern int hznode_sepG ;
+extern int **pairArrayG ;
+extern int blk_most_leftG ;
+extern int fdthrusG ; 
+extern int chan_node_noG ;
+extern int blk_most_riteG ;
+extern int *total_feed_in_the_rowG ;
+extern int actual_feed_thru_cells_addedG ;
+
+extern FEED_DATA **feedpptrG ;

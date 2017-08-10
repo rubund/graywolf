@@ -58,12 +58,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue Jan 15 20:30:05 PST 1991 - changed frees to Ysafe_frees.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "netgraph.h"
-#include "dimbox.h"
-#include "debug.h"
+#include "allheaders.h"
 
 /* global variable definitions */
 int *count_G = NULL;

@@ -45,13 +45,7 @@ DATE:	    Apr  7, 1990
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "readpar.h"
-#include "pads.h"
-#include "seagate.h"
-#include "buildimp.h"
+#include "allheaders.h"
 
 int vertical_track_pitchG ;
 int horizontal_track_pitchG ;

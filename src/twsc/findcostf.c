@@ -53,19 +53,11 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 		for new global routing algorith.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "config.h"
-#include "parser.h"
-#include "feeds.h"
-#include "main.h"
-#include "findcostf.h"
+#include "allheaders.h"
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-/* global variables */
-extern int **bin_configG ;
-extern BOOL gate_arrayG ;
+int blkleftG , blkriteG ;
 
 /* static variables */
 static int old_numBinS ;

@@ -9,8 +9,8 @@ REVISIONS:  Fri Jan 25 23:47:24 PST 1991 - removed redundant variables.
 		int since it wasn't saving space and could
 		be a problem for large designs.
 ----------------------------------------------------------------- */
-#ifndef GLOBE_H
-#define GLOBE_H
+#ifndef GROUTE_H
+#define GROUTE_H
 
 #ifdef INFINITY
 #undef INFINITY
@@ -92,48 +92,8 @@ typedef struct feedcountbox {
     struct imp_box *lastimp  ;
 } FEED_DBOX ,
 *FEED_DATA ;
- 
 
 #define GRDNULL ( ( CHANGRDPTR ) NULL ) 
 #define DENSENULL ( ( DENSITYPTR ) NULL ) 
 
-CHANGRDPTR *BeginG ;
-CHANGRDPTR *EndG ;
-DENSITYPTR **DenseboxG ;
-DENSITYPTR **DboxHeadG ;
-TGRIDPTR *TgridG ;
-SEGBOXPTR *netsegHeadG ;
-SEGBOXPTR *netsegTailG ;
-double mean_widthG ;
-int **pairArrayG ;
-int numnetsG ;
-int numSegsG ;
-int numSwSegsG ;
-int tracksG ;
-int *maxTrackG ;
-int *nmaxTrackG ;
-int max_tdensityG ;
-int gxstartG ;
-int gxstopG ;
-int blkleftG , blkriteG ;
-int gtopChanG , gbotChanG ;
-int uneven_cell_heightG ;
-int ffeedsG , track_pitchG ;
-
-int fdthrusG ; 
-int chan_node_noG ;
-int enough_built_in_feedG ;
-int *FeedInRowG ;
-int blk_most_leftG ;
-int blk_most_riteG ;
-int *row_rite_classG ;
-int *right_most_in_classG ;
-int hznode_sepG ;
-int add_Lcorner_feedG ;
-int average_feed_sepG ;
-int average_pin_sepG ;
-PINBOXPTR *steinerHeadG ;
-FEED_DATA **feedpptrG ;
-IPBOXPTR *impFeedsG ;
-
-#endif /* GLOBE_H */
+#endif /* GROUTE_H */

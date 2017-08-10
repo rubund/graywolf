@@ -50,17 +50,9 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "globroute.h"
-#include "changrid.h"
-#include "findrcost.h"
-#include "urcost.h"
+#include "allheaders.h"
 
 /* global variables */
-extern int Max_numPinsG ;
-
 #define TOP 1
 #define BOT 0
 

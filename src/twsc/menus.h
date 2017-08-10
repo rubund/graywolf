@@ -1,3 +1,7 @@
+#ifndef H_MENU_S
+#define H_MENU_S
+
+#include <globals.h>
 
 /* TWmenu definitions */  
 #define TWNUMMENUS		23
@@ -31,8 +35,6 @@
 #define DRAW_SINGLE_CELL_MOVES	31
 #define IGNORE_SINGLE_MOVES	32
 
-#ifndef DEVELOPMENU
-
 static TWMENUBOX menuS[24] = {
     "CONTROL",0,0,1,0,0,
     "Auto Redraw On","Auto Redraw Off",1,0,1,2,
@@ -60,8 +62,4 @@ static TWMENUBOX menuS[24] = {
     0,0,0,0,0,0
 } ;
 
-#else  /* DEVELOPMENU */
-
-static TWMENUBOX *menuS ;
-
-#endif  /* DEVELOPMENU */
+#endif

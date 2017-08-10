@@ -51,14 +51,7 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
 ----------------------------------------------------------------- */
 #define CONFIG_VARS
 #include <globals.h>
-#include "standard.h"
-#include "config.h"
-#include "parser.h"
-#include "pads.h"
-#include "main.h"
-#include "readpar.h"
-#include "configure.h"
-#include "placepads.h"
+#include "allheaders.h"
 
 /*  
  *  Configure the rows of standard cells along with possibly
@@ -69,13 +62,7 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
 
 int totalRG ;
 BOOL doubleback_rows_start_at_oneG ;
-
-extern int individual_rowSepsG ;
-extern int total_row_lengthG ;
-extern double indentG ;
-extern double *relativeLenG ;
-extern double *rowSepsG ;
-extern int *rowSepsAbsG ;
+int rowHeightG ;
 
 /* static definitions */
 static int heightS ;

@@ -69,24 +69,9 @@ REVISIONS:  Thu Feb  7 00:10:27 EST 1991 - now also support old
 		macro cell output pins.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "readpar.h"
-#include "pads.h"
-#include "outpins.h"
-#include "netgraph.h"
+#include "allheaders.h"
 
 /* #define NSC */
-
-/* global variables */
-extern int *root_G ;
-extern int *count_G ;
-extern int *stack_G ;
-extern int *father_G ;
-extern int Max_numPinsG ;
-extern BOOL new_row_formatG ;
-extern PINBOXPTR *vertex_G ;
 
 /* static definitions */
 static int vtxS ;
@@ -641,9 +626,7 @@ static void do_top_channel( PINBOXPTR ptr )
 	}
 }
 
-char *find_layer( pinname, layer )
-char *pinname ;
-int *layer ;
+char *find_layer( char *pinname, int *layer  )
 {
     static char pinbufL[LRECL] ;
     char layer_buffer[2] ;

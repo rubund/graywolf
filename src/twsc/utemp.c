@@ -61,42 +61,11 @@ REVISIONS:  Fri Jan 25 23:45:25 PST 1991 - added user meter.
 		for rigidly fixed cells.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "ucxxglb.h"
-#include "readpar.h"
-#include "parser.h"
-#include "paths.h"
-#include "utemp.h"
-#include "uloop.h"
-#include "savewolf.h"
-#include "graphics.h"
-#include "findunlap.h"
-#include "outcm.h"
-#include "upair.h"
-#include "output.h"
+#include "allheaders.h"
 
 /* global variables */
 int moveable_cellsG ;
 BOOL pairtestG;
-BOOL no_row_lengthsG ;
-
-void execute_global_router();
-
-/* global variable references */
-extern int attprcelG ;
-extern int spacer_widthG ;
-extern int orig_max_row_lengthG ;
-extern BOOL noPairsG ;
-extern BOOL good_initial_placementG ;
-extern BOOL orientation_optimizationG ;
-extern BOOL stand_cell_as_gate_arrayG ;
-extern BOOL prop_rigid_cellsG ;
-extern BOOL rigidly_fixed_cellsG ;
-extern double finalRowControlG ;
-extern double initialRowControlG ;
-extern double ratioG;
 
 void utemp()
 {

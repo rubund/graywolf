@@ -50,14 +50,8 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		capability.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "ucxxglb.h"
-#include "ucxx2.h"
-#include "readpar.h"
+#include "allheaders.h"
 #include "overlap.h"
-#include "paths.h"
-#include "dimbox.h"
-#include "graphics.h"
-#include "ucxxo2.h"
 
 int ucxxo2( int newaor , int newbor )
 {

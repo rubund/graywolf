@@ -47,10 +47,7 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "outcm.h"
+#include "allheaders.h"
 
 #if SIZEOF_VOID_P == 64
 #define intSCANSTR "%ld"

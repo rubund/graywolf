@@ -56,21 +56,10 @@ REVISIONS:  July 15, 1989
 		cell file.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "readpar.h"
-#include "config.h"
-#include "pads.h"
-#include "output.h"
+#include "allheaders.h"
 
 /* global variables */
-extern int spacer_widthG ;
-extern int actual_feed_thru_cells_addedG ;
-extern BOOL output_at_densityG ;
-extern BOOL create_new_cel_fileG ;
-extern BOOL unused_feed_name_twspacerG ;
-extern BOOL stand_cell_as_gate_arrayG ;
+BOOL restartG;
 
 /* static definitions */
 static char a_lineS[LRECL] ;
@@ -176,27 +165,10 @@ for( block = 1 ; block <= numRowsG ; block++ ) {
 	yloc2 = cellptr->tileptr->top - 
 		cellptr->tileptr->bottom ; 
 
-/* The following code was added on 06/01/90 Sury */
-#ifdef NSC
-	strcpy( tmp_name , cellptr->cname ) ;
-	length = strcspn( tmp_name , ":" ) ;
-	if( length < strlen( tmp_name ) ) {
-	    tmp_string = strtok( tmp_name , ":" ) ;
-	    tmp_string = strtok( NULL , ":" ) ;
-	    sprintf( instance_name, "%s" , tmp_string ) ;
-	} else {
-	    sprintf( instance_name , "%s" , tmp_name ) ;
-	}
-	fprintf(fpp1,"%s %d %d  %d %d  %d %d\n",
-			instance_name,
-			xloc, yloc, xloc + xloc2,
-			yloc + yloc2, orient, block ) ;
-#else
 	fprintf(fpp1,"%s %d %d  %d %d  %d %d\n",
 			cellptr->cname ,
 			xloc, yloc, xloc + xloc2,
 			yloc + yloc2, orient, block ) ;
-#endif
     }
 }
 
@@ -242,44 +214,12 @@ for( i = numcellsG + 1 ; i <= lastpadG ; i++ ) {
 	}
     }
 
-
-#ifndef DEC
-/* The following code was added on 06/01/90 Sury */
-#ifdef NSC
-	strcpy( tmp_name , cellptr->cname ) ;
-	length = strcspn( tmp_name , ":" ) ;
-	if( length < strlen( tmp_name ) ) {
-	    tmp_string = strtok( tmp_name , ":" ) ;
-	    tmp_string = strtok( NULL , ":" ) ;
-	    sprintf( instance_name, "%s" , tmp_string ) ;
-	} else {
-	sprintf( instance_name , "%s" , tmp_name ) ;
-	}
-    fprintf(fpp1,"%s %d %d  %d %d  %d %d\n", instance_name,
-				locx, locy, locx + width,
-				locy + height, orient, row ) ;
-    fprintf(fpp2,"%s %d %d  %d %d  %d %d\n", instance_name,
-				locx, locy, locx + width,
-				locy + height, orient, row ) ;
-#else
-    /* normal case */
     fprintf(fpp1,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
 				locx, locy, locx + width,
 				locy + height, orient, row ) ;
     fprintf(fpp2,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
 				locx, locy, locx + width,
 				locy + height, orient, row ) ;
-#endif
-#else
-    /* DEC case */
-    fprintf(fpp1,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
-		    locx, locy, locx + width,
-		    locy + height, orient, -cellptr->padside ) ;
-    fprintf(fpp2,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
-		    locx, locy, locx + width,
-		    locy + height, orient, -cellptr->padside ) ;
-#endif
-
 }
 TWCLOSE( fpp1 ) ;
 TWCLOSE( fpp2 ) ;
