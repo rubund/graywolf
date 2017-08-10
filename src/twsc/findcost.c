@@ -98,7 +98,6 @@ char filename[256] ;
 int left , right , corient , val ;
 int LoBin , HiBin ;
 int cell , net , blk ;
-int startx , endx ;
 int x , y , t , cost=0 ;
 int temp , n , k , cbin ;
 int sum, npins ;

@@ -101,7 +101,7 @@ int timingcostG ;
 BOOL orientation_optimizationG = FALSE ;
 BOOL no_row_lengthsG ;
 int tracksG ;
-int numcellsG ;
+int numcellsG = 0;
 int numtermsG ;
 int numnetsG ;
 int numpadgrpsG ;

@@ -235,11 +235,8 @@ int j , last_j ;
 maxtermG = implicit_feed_countG + fdthrusG + TotRegPinsG ;
 last_j = maxtermG + 2 * numRowsG + 2 ;
 
-carrayG = (CBOXPTR *)Ysafe_realloc( carrayG, (1 + numcellsG + numtermsG + 
-			    2 * numRowsG + fdthrusG) * sizeof(CBOXPTR) );
-
-tearrayG = ( PINBOXPTR * ) Ysafe_realloc( tearrayG , ( last_j + 1 )
-					    * sizeof(PINBOXPTR) );
+carrayG = (CBOXPTR *)Ysafe_realloc( carrayG, (1 + numcellsG + numtermsG + 2 * numRowsG + fdthrusG) * sizeof(CBOXPTR) );
+tearrayG = ( PINBOXPTR * ) Ysafe_realloc( tearrayG , ( last_j + 1 ) * sizeof(PINBOXPTR) );
 for( j = TotRegPinsG + 1 ; j <= last_j ; j++ ) {
     tearrayG[j] = PINNULL ;
 }
