@@ -36,6 +36,7 @@ extern int feedLayerG ;
 extern int *fixarrayG ;
 extern int numSegsG ;
 extern int no_feeds_side_netsG ;
+extern int min_pad_spacingG ;
 
 extern BOOL no_feed_estG;
 extern BOOL placement_improveG;

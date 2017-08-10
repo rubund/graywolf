@@ -1,3 +1,5 @@
+#ifndef H_DIMBOX
+#define H_DIMBOX
 #include "standard.h"
 void new_dbox( PINBOXPTR antrmptr , int *costptr );
 void dbox_pos( PINBOXPTR antrmptr  ) ;
@@ -8,3 +10,4 @@ void wire_boundary2( int c , DBOXPTR dimptr );
 void init_dbox_pos_swap( PINBOXPTR antrmptr );
 void dbox_pos_swap( PINBOXPTR antrmptr  ) ;
 int init_dimbox();
+#endif

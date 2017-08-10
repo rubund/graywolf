@@ -58,10 +58,10 @@ REVISIONS:  Jan 29, 1989 - removed message about pad limited designs.
 		code.
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include "standard.h"
-#include "pads.h"
-#include "parser.h"
-#include "configpads.h"
+#include "allheaders.h"
+
+int numpadsG ;
+int coreG[2][2] ;
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 int overflowS[5] ;          /* amount of overflow on each side */
@@ -612,7 +612,7 @@ void place_variable( int first, int numpads, int side )
 } /* end place_variable */
 /* ***************************************************************** */
 
-dimension_pads()
+void dimension_pads()
 {
     int i ;           /* pad counter */
     PADBOXPTR pad ;   /* current pad */

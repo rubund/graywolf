@@ -95,11 +95,14 @@ REVISIONS:  Mon Nov 19 04:04:18 EST 1990 - added temperature
 #define 	E							0
 
 /* global variables */
-int ECOs_existG = 0 ;
-int orig_max_row_lengthG ;
-
 SWAPBOX *swap_group_listG ;
+PADBOXPTR *placearrayG ;
+PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
+PADBOXPTR *sortarrayG ;
+
 BOOL one_pin_feedthruG ;
+BOOL swappable_gates_existG ;
+
 int maxCellOG ;
 int case_unequiv_pinG ;
 int celllenG ;
@@ -109,9 +112,13 @@ int extra_cellsG ;
 int *fixLRBTG ;
 int last_pin_numberG ;
 int num_clustersG ;
-BOOL swappable_gates_existG ;
 int swap_netG ;
 int totallenG ;
+int padspacingG ;
+int ECOs_existG = 0 ;
+int orig_max_row_lengthG ;
+int totalpadsG ;         /* pads + padgroups */
+
 double *padspaceG ;
 
 /* ERRORABORT is a macro which forces routines not to do any work */

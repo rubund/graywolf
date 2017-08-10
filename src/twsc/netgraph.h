@@ -1,3 +1,5 @@
+#ifndef H_NETGRAPH
+#define H_NETGRAPH
 typedef struct graph_edge_cost {
     short node1 ;
     short node2 ;
@@ -23,3 +25,4 @@ void netgraph_free_up();
 void rebuild_netgraph( int net );
 int find_set_name( int v );
 void rebuild_netgraph_carl( int net );
+#endif

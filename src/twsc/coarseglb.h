@@ -1,3 +1,5 @@
+#ifndef H_COARSEGLB
+#define H_COARSEGLB
 void assign_row_to_pin();
 void set_up_grid( );
 void feed_config( );
@@ -28,3 +30,5 @@ extern int *total_feed_in_the_rowG ;
 extern int actual_feed_thru_cells_addedG ;
 
 extern FEED_DATA **feedpptrG ;
+
+#endif

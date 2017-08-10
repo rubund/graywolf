@@ -88,18 +88,16 @@ typedef struct pad_rec {
 
 /* ############# global variables defined for pad code ############## */
 
-int padspacingG ;
-BOOL contiguousG ;
-int min_pad_spacingG ;
-int coreG[2][2] ;
-int perdimG[2] ;
-int numpadsG ;           /* number of leaf pads + simple pads */
-int numMacroG ;          /* total number of macros */
-int totalpadsG ;         /* pads + padgroups */
+extern int padspacingG ;
+extern BOOL contiguousG ;
+extern int coreG[2][2] ;
+extern int perdimG[2] ;
+extern int numpadsG ;           /* number of leaf pads + simple pads */
+extern int totalpadsG ;         /* pads + padgroups */
 
 /* DATA GLOBAL VARIABLES */
-PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
-PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
-PADBOXPTR *placearrayG ; /* array where the pads will be placed */
+extern PADBOXPTR *padarrayG ;   /* array of all the pads and padgroups */
+extern PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
+extern PADBOXPTR *placearrayG ; /* array where the pads will be placed */
 
 #endif /* PADS_H */

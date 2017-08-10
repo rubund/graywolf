@@ -82,15 +82,9 @@ REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 #define PAD_VARS
 
 #include <globals.h>
-#include "standard.h"
-#include "pads.h"
-#include "config.h"
-#include "parser.h"
-#include "placepads.h"
-#include "configpads.h"
+#include "allheaders.h"
 
-/* global references */
-extern int **pairArrayG ;
+int perdimG[2] ;
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static BOOL virtualCoreS = FALSE ;

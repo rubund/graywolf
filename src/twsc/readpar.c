@@ -98,6 +98,7 @@ int feedLayerG ;
 int *fixarrayG ;
 int numSegsG ;
 int no_feeds_side_netsG ;
+int min_pad_spacingG ;
 
 BOOL try_not_to_add_explicit_feedsG = FALSE;
 BOOL no_feed_estG = TRUE ;
@@ -135,6 +136,7 @@ BOOL intelG ;
 BOOL file_conversionG ;
 BOOL connection_machineG ;
 BOOL doglobalG ;
+BOOL contiguousG ;
 
 double indentG ;
 double metal2_pitchG ;

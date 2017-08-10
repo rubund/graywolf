@@ -63,6 +63,7 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
 int totalRG ;
 BOOL doubleback_rows_start_at_oneG ;
 int rowHeightG ;
+int numMacroG ; 
 
 /* static definitions */
 static int heightS ;
