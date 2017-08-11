@@ -92,6 +92,9 @@ typedef int CELLTYPE ;
 
 extern char *cktNameG ;
 extern char *argv0G ;     /* the pathname of the program */
+
+extern double saveLapFactorG;
+
 extern int attpercellG ;
 extern int scale_dataG ;  /* reduce the scale of the input data */
 extern int defaultTracksG ;

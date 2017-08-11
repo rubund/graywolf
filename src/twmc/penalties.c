@@ -233,10 +233,6 @@ double totFunc ;
 double totPen ;
 {
     double factor ;
-#ifdef DEBUGLAPFACTOR
-    extern double saveLapFactorG ;
-#endif
-
     /* first iteration, we set all factors to 1 */
     /* since every move is acceptted */
     if( firstLapS ){
