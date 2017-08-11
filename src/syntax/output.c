@@ -54,8 +54,10 @@ REVISIONS:  May 24, 1989 - updated argument to YcurTime.
 ----------------------------------------------------------------- */
 #include <globals.h>
 #include "syntax.h"
+#include "output.h"
 
-// YcurTime() is not declared in any of the above
+char *cktNameG ;
+
 static int objectS = 0 ;       /* number of objects read */
 static int celltypeS ;         /* current cell type */
 static int stdcellS = 0 ;      /* number of standard cells */

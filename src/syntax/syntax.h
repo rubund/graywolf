@@ -44,15 +44,11 @@ CONTENTS:   definitions for globals structures and variables
 DATE:	    Apr 24, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef H_SYNTAX
+#define H_SYNTAX
 
-#include <stdio.h> 
+#include <globals.h>
 
-#ifndef MATH_H
-#define MATH_H
-#include <math.h>
-#endif   /* MATH_H */
 
 /* if not using makefile and debug is wanted add it here */
 /* #define DEBUG */
@@ -64,7 +60,6 @@ REVISIONS:
 #define STDCELLTYPE   3
 #define PADCELLTYPE   4
 
-FILE *fpoG ;
-char *cktNameG ;
+extern FILE *fpoG ;
 
 #endif /* GLOBALS_H */
