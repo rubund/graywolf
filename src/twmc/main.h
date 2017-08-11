@@ -100,27 +100,27 @@ typedef int CELLTYPE ;
 #define ADDEQUIVTYPE     6
 #define ANALOGPINTYPE    7
 
- char *cktNameG ;
- char *argv0G ;     /* the pathname of the program */
- int attpercellG ;
- int scale_dataG ;  /* reduce the scale of the input data */
- int track_spacingXG ;
- int track_spacingYG ;
- int defaultTracksG ;
+extern char *cktNameG ;
+extern char *argv0G ;     /* the pathname of the program */
+extern int attpercellG ;
+extern int scale_dataG ;  /* reduce the scale of the input data */
+extern int track_spacingXG ;
+extern int track_spacingYG ;
+extern int defaultTracksG ;
 
 /* booleans for control of program */
- BOOL cost_onlyG ;
- BOOL doChannelGraphG ;
- BOOL doGlobalRouteG ;
- BOOL doCompactionG ;
- BOOL doPartitionG ;
- BOOL doGraphicsG ;
- BOOL quickrouteG ;
- BOOL new_wire_estG ;        /* use new wire estimation alg. */
- BOOL restartG ;
- BOOL wireEstimateOnlyG ;
- BOOL wait_for_userG ;
- BOOL verboseG ;
+extern BOOL cost_onlyG ;
+extern BOOL doChannelGraphG ;
+extern BOOL doGlobalRouteG ;
+extern BOOL doCompactionG ;
+extern BOOL doPartitionG ;
+extern BOOL doGraphicsG ;
+extern BOOL quickrouteG ;
+extern BOOL new_wire_estG ;        /* use new wire estimation alg. */
+extern BOOL restartG ;
+extern BOOL wireEstimateOnlyG ;
+extern BOOL wait_for_userG ;
+extern BOOL verboseG ;
 
 int readcells(char *filename);
 

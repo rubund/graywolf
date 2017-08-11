@@ -90,6 +90,10 @@ static int gOffsetYS = INT_MIN ;
 static int gridXS = INT_MIN ;
 static int gridYS = INT_MIN ;
 
+BOOL gridCellsG ;
+BOOL gridGivenG ;
+BOOL contiguousG ;
+
 void readpar()
 {
 	init_read_par() ;

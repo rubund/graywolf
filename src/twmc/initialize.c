@@ -132,6 +132,10 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
     } \
 } \
 
+// globals:
+int numpadgroupsG ;
+int numpadsG   ;
+
 /* ######################  STATIC definitions ######################### */
 static int  curCellTypeS ;  /* current cell type - ie, softcell,pad etc.*/
 static int  cellinstanceS ; /* number of instances of current cell      */
@@ -170,7 +174,7 @@ static PINBOXPTR pingroupS ;   /* current pin group record              */
 static ANALOGPTR analogS ;     /* current analog record                 */
 static SOFTBOXPTR spinptrS ;   /* current softpin record                */
 static INSTBOXPTR instS ;      /* pointer to current inst record        */
-PINBOXPTR findTerminal() ;
+
 /* ################## END STATIC definitions ########################## */
 
 /* set processing switch to avoid work when an error is found */
