@@ -93,6 +93,7 @@ static int gridYS = INT_MIN ;
 BOOL gridCellsG ;
 BOOL gridGivenG ;
 BOOL contiguousG ;
+BOOL external_pad_programG ;
 
 void readpar()
 {

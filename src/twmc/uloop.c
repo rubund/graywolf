@@ -111,13 +111,13 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 #define TMIN      1E-6
 #define HOWMANY   0
 
-extern int pick_position() ;
 /* ----------------------------------------------------------------- 
    important global definitions - defined in custom.h 
-   MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
-   MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
    usite routines use these globals - used arguments are commented.
 */
+
+MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
+MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
 
 /* define the cell moves */
 #define NUMSELECT                            16

@@ -51,6 +51,8 @@ REVISIONS:  Nov 3,  1988 - added routingFlag override for doPartitionG
 ----------------------------------------------------------------- */
 #include <allheaders.h>
 
+int penaltyG ;
+
 int binAreaS ;
 
 /* conditional compile for bintest */

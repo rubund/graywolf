@@ -75,10 +75,7 @@ REVISIONS:
 #define WIREAREAUNKNOWN 0   /* at this time we don't know wire area */
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 
-void makebins( int numbins );
-int loadbins(BOOL wireAreaKnown);
-void placepads();
-void resize_wire_params();
+int blocklG , blockrG , blocktG , blockbG ;
 
 void config1() {
 	CELLBOXPTR cellptr ;

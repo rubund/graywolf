@@ -79,6 +79,8 @@ REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
 #include <globals.h>
 #include <allheaders.h>
 
+CELLBOXPTR *activeCellarrayG ; /* cells that are active */
+
 /* defined routes for error checking */
 static int initialS = FALSE ;
 static int newxspanS ;
