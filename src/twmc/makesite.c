@@ -36,8 +36,7 @@
  *   POSSIBILITY OF THE FOREGOING.
  *
  */
-#include <custom.h>
-#include <yalecad/debug.h>
+#include "allheaders.h"
 
 double val1 , val2 ;
 

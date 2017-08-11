@@ -68,18 +68,32 @@ REVISIONS:
 		after each configuration change.
 	    Thu Oct 17 11:47:32 EDT 1991 - added initialization.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define NUMBINSPERCELL  4   /* we want average cell to be in 4 bins
 				for accuracy */
 #define WIREAREAUNKNOWN 0   /* at this time we don't know wire area */
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
+					
+BOOL cost_onlyG ;
 
-int blocklG , blockrG , blocktG , blockbG ;
-int binYOffstG ;
+int blocklG , blockrG , blocktG , blockbG;
+int binYOffstG;
+int binXOffstG;
+int totChanLenG;
+int halfXspanG , halfYspanG;
+int binWidthXG;
+int binWidthYG;
+int blockmxG, blockmyG;
 
+double wireFactorXG;
+double dev_cellAreaG;
+double slopeXG;
+double slopeYG;
+double basefactorG;
 double aveChanWidG;
-double mean_cellAreaG ;
+double mean_cellAreaG;
+double wireFactorYG;
 
 void config1() {
 	CELLBOXPTR cellptr ;

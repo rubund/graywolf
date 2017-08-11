@@ -47,7 +47,7 @@ DATE:	    Apr  4, 1988
 REVISIONS:  
 ----------------------------------------------------------------- */
 #include <globals.h>
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define CURWT      1
 #define PRIORWT    1
@@ -55,7 +55,6 @@ REVISIONS:
 #define EXPECTEDWIRERATIO   2.0
 
 int *howmanyS ;
-extern double wireratio() ;
 
 double analyze()
 {

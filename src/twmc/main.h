@@ -38,19 +38,9 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 
 #include <globals.h>
 
-#ifndef MATH_H
-#define MATH_H
-#include <math.h>
-#endif   /* MATH_H */
-
 /* program exit status is different in VMS */
-#ifdef VMS
-#define OK 1
-#define FAIL 0
-#else /* not VMS */
 #define OK 0
 #define FAIL 1
-#endif /* VMS */
 
 /* if not using makefile and debug is wanted add it here */
 /* #define DEBUG */
@@ -104,8 +94,6 @@ extern char *cktNameG ;
 extern char *argv0G ;     /* the pathname of the program */
 extern int attpercellG ;
 extern int scale_dataG ;  /* reduce the scale of the input data */
-extern int track_spacingXG ;
-extern int track_spacingYG ;
 extern int defaultTracksG ;
 
 /* booleans for control of program */
@@ -113,16 +101,16 @@ extern BOOL cost_onlyG ;
 extern BOOL doChannelGraphG ;
 extern BOOL doGlobalRouteG ;
 extern BOOL doCompactionG ;
-extern BOOL doPartitionG ;
 extern BOOL doGraphicsG ;
 extern BOOL quickrouteG ;
 extern BOOL new_wire_estG ;        /* use new wire estimation alg. */
-extern BOOL restartG ;
 extern BOOL wireEstimateOnlyG ;
 extern BOOL wait_for_userG ;
 extern BOOL verboseG ;
 
 int readcells(char *filename);
+
+BOOL get_batch_mode();
 
 void writeResults( int wire, int penal, int rand );
 void set_wiring_reduction( double reduction );

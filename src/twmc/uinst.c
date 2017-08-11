@@ -49,7 +49,7 @@ REVISIONS:  Oct 3, 1989 - fixed problem with overlap calculation.
 	    Sat Apr 27 01:10:04 EDT 1991 - fixed problem with
 		aspect ratio calculation.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define NEWVERTICES TRUE
 #define HOWMANY     0

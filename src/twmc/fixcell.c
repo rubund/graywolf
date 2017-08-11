@@ -76,10 +76,12 @@ REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
 	    Wed Jul 24 20:43:22 CDT 1991 - added delete function 
 		for fixing cells.
 ----------------------------------------------------------------- */
-#include <globals.h>
-#include <allheaders.h>
+#include "allheaders.h"
 
 CELLBOXPTR *activeCellarrayG ; /* cells that are active */
+CELLBOXPTR *softPinArrayG ;    /* softcells that have pins */
+
+int activecellsG;  /* number of active cells not fixed or merged */
 
 /* defined routes for error checking */
 static int initialS = FALSE ;

@@ -54,9 +54,9 @@ REVISIONS:  Oct 22, 1988 - now take square root of the penalty
 		using cost only.  Bin penalty doesn't matter.
 	    Apr 23, 1990 - added new debug code.
 ----------------------------------------------------------------- */
-#include <globals.h>
-#include "custom.h"
-#include "loadbins.h"
+#include "allheaders.h"
+
+int timingpenalG;
 
 int findcost()
 {

@@ -116,7 +116,7 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 	    Fri Oct 18 00:06:37 EDT 1991 - moved buster code to library
 		and updated for new NIL definition.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define PIN   (BOOL)      TRUE       /* for pinFlag below */ 
 #define EQUIV (BOOL)      FALSE 
@@ -133,11 +133,34 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 } \
 
 // globals:
-int numpadgroupsG ;
-int numpadsG   ;
-int numinstancesG ;
-int **net_res_matchG ;         /* set of match nets */
-PADBOXPTR *placearrayG ; /* array where the pads will be placed */
+int numpadgroupsG;
+int numpadsG;
+int numnetsG;
+int numpinsG;
+int numinstancesG;
+int numcellsG;
+int numstdcellG;
+int numsoftG;
+int funccostG;
+int endpadgrpsG;
+int totalpadsG;
+int numsupercellsG;
+int unique_classG;
+int totalcellsG;
+int endpadsG;
+int endsuperG;
+int perimG = 0;
+
+int **net_res_matchG;    /* set of match nets */
+
+PADBOXPTR *placearrayG;  /* array where the pads will be placed */
+PADBOXPTR *padarrayG;    /* array of all the pads and padgroups */
+PADBOXPTR *sortarrayG ;  /* the sorted array of pads */
+NETBOXPTR *netarrayG;    /* array of nets */
+PINBOXPTR *termarrayG;   /* array of pins */
+CELLBOXPTR *cellarrayG;
+
+double pinsPerLenG;
 
 /* ######################  STATIC definitions ######################### */
 static int  curCellTypeS ;  /* current cell type - ie, softcell,pad etc.*/

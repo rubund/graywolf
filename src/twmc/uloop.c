@@ -106,10 +106,7 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 	    Sat Nov 23 21:21:49 EST 1991 - began working with automatically
 		setting move strategy.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
-
-BINBOXPTR  newbptrG; /* *** bin cell ptr *** */ 
-int *newCellListG ;  /* *** bin cell list *** */ 
+#include "allheaders.h"
 
 #define TMIN      1E-6
 #define HOWMANY   0
@@ -121,7 +118,16 @@ int *newCellListG ;  /* *** bin cell list *** */
 
 MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
 MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
+BINBOXPTR  newbptrG; /* *** bin cell ptr *** */ 
+
+int *newCellListG ;  /* *** bin cell list *** */ 
+int iterationG=0;
+int timingcostG ;
+int flipsG;
+
+double lapFactorG;
 double avg_funcG , avgsG ;
+double coreFactorG;
 
 /* define the cell moves */
 #define NUMSELECT                            16

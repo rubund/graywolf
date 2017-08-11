@@ -44,12 +44,13 @@ CONTENTS:   acceptt( int  )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define MASK 0x3ff
+int d_costG;
 
 static double table1S[1024] , table2S[1024] , table3S[1024] ;
- 
+
 void init_table()
 {
     int i2 ;

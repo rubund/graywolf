@@ -76,7 +76,7 @@ REVISIONS:  May 24, 1989 - added stdcell configuration code.
 	    Fri Oct 18 00:09:45 EDT 1991 - eliminated read_blk_file.
 		Instead, to find core we read it using read_gen_file.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #include "config-build.h"
 
@@ -95,27 +95,18 @@ static int *ubS ;	              /* upper bound of cell class length */
 static float rowSepS ;               /* row separation, relative */
 static int rowSepAbsS ;            /* row separation, absolute */
 
-static BOOL dataValidS = FALSE ;      /* used to avoid invalid request */
-
 static int num_macroS ;               /* number of macros output */
 
 /* Forward declaration */
 int read_gen_file();
 void read_stat_file();
 void build_mver_file( int left, int right, int bottom, int top );
+double read_par_file();
 
 void config_rows()
 {
-	double read_par_file() ;     /* get default from user */
 	int left, right, bottom, top;/* core area */
-	char *Yrelpath() ;
-	char *pathname ;
-	char *twdir ;       /* path of TimberWolf directory */
-	char *getenv() ;    /* used to get TWDIR environment variable */
-	char filename[LRECL] ;
 	BOOL stateSaved = FALSE ; /* whether need to restore state */
-	BOOL get_batch_mode() ;   /* find out whether we are in batch mode */
-	extern int windowIdG;
 
 	read_stat_file() ;
 	(void) read_par_file() ;

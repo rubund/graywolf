@@ -74,7 +74,7 @@ REVISIONS:  Mar  8, 1988 - added lambda and init_acc ;
 	    Fri Oct 18 00:15:59 EDT 1991 - now scale block when calling
 		TimberWolf recursively.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define DEFAULTLAMBDA 0.1
 #define INIT_ACCEPTANCE 0.99999
@@ -90,15 +90,36 @@ static int gOffsetYS = INT_MIN ;
 static int gridXS = INT_MIN ;
 static int gridYS = INT_MIN ;
 
-BOOL gridCellsG ;
-BOOL gridGivenG ;
-BOOL contiguousG ;
-BOOL doChannelGraphG ;
-BOOL external_pad_programG ;
-BOOL wireEstimateOnlyG ;
-int x_originG, y_originG ;
-int randVarG ;
-double vertical_wire_weightG ;
+BOOL doGlobalRouteG;
+BOOL gridCellsG;
+BOOL gridGivenG;
+BOOL contiguousG;
+BOOL doChannelGraphG;
+BOOL external_pad_programG;
+BOOL wireEstimateOnlyG;
+BOOL restartG;
+BOOL coreGivenG;
+BOOL doCompactionG;
+BOOL doPartitionG;
+
+int min_pad_spacingG;
+int x_originG, y_originG;
+int randVarG;
+int maxWeightG;
+int defaultTracksG;
+int layersFactorG;
+int baseWeightG;
+int padspacingG;  /* may be UNIFORM, VARIABLE, or ABUT */
+int track_spacingXG;
+int track_spacingYG;
+int totNetLenG;
+int offsetG;
+
+double timeFactorG;
+double vertical_path_weightG;
+double vertical_wire_weightG;
+double chipaspectG;
+double init_accG;
 
 void readpar()
 {

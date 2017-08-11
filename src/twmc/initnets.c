@@ -46,14 +46,14 @@ DATE:	    Dec 13, 1990
 REVISIONS:  Thu Dec 20 00:02:54 EST 1990 - made net cap and res.
 		matches work.
 ----------------------------------------------------------------- */
-#include <globals.h>
-#include <custom.h>
-#include <analog.h>
+#include "allheaders.h"
 #include "readnets.y.h"  /* redefine yacc and lex globals */
-#include "initnets.h"
-#include "paths.h"
 
 #define HOWMANY      0
+
+PATHPTR    *patharrayG ;       /* array of paths */
+int **net_cap_matchG ;         /* set of match nets */
+int numpathsG;
 
 static YHASHPTR netTableS ;
 static BOOL abortFlagS = FALSE ;

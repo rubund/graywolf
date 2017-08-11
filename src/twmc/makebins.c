@@ -48,8 +48,12 @@ REVISIONS:
 	    Mar  1, 1988 - added variance.
 	    Nov 20, 1988 - fixed aspect ratio.
 ----------------------------------------------------------------- */
-#include <custom.h>
-#include <globals.h>
+#include "allheaders.h"
+
+int maxBinXG;
+int maxBinYG;
+
+BINBOXPTR  **binptrG ;         /* overlap data structure */
 
 void makebins( int numbins )
 {

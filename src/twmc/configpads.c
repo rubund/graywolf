@@ -53,7 +53,9 @@ REVISIONS:  Jan 29, 1989 - removed message about pad limited designs.
 	    Thu Aug 29 15:44:00 CDT 1991 - added overflow processing
 		code.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
+
+int perdimG[2];
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 int overflowS[5] ;          /* amount of overflow on each side */

@@ -53,7 +53,9 @@ REVISIONS:  Jul 22, 1988 - deleted aspect0 field in CELLBOX record.
 	    Sat Apr 27 01:09:01 EDT 1991 - fixed problem with aspect
 		ratio and added aspect ratio initialization.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
+
+double TG;
 
 #define NEWVERTICES TRUE
 

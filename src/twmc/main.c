@@ -91,7 +91,7 @@ REVISIONS:  Sep  7, 1988 - fixed argument mismatch to utemp.
 	    Wed Jun  5 16:28:05 CDT 1991 - added condition for
 		initializing aspect ratios.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 /* turn on condition compile for globals */
 #define  MAIN_DEFS
@@ -99,16 +99,30 @@ REVISIONS:  Sep  7, 1988 - fixed argument mismatch to utemp.
 
 #define  NOREDUCTION        -1000000.0 ; 
 
-FILE *fpoG ;
-double saveLapFactorG ;
-int bdxlengthG , bdylengthG ;
+FILE *fpoG;
+
+char *argv0G;
+
+double saveLapFactorG;
+
+int bdxlengthG , bdylengthG;
+int scale_dataG; 
+int attmaxG;
+int TrybinG;        /* used in setBin calculations */
+int coreG[2][2];
+
+BOOL doGraphicsG;
+BOOL quickrouteG;
+BOOL new_wire_estG;
+BOOL verboseG;
 
 static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
-static double  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
+static double wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 
 int readnets(char *filename);
+int yaleIntro();
 
 int
 __attribute__((visibility("default")))
@@ -117,26 +131,11 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 	printf("Running TimberWolfMC\n");
 
 	FILE *fp ;
+	char filename[LRECL];
 
-	char
-		filename[LRECL],
-		*Ystrclone() ;
-
-	int
-		yaleIntro(),
-		rememberWire, /* variables for writing history of run */
+	int	rememberWire, /* variables for writing history of run */
 		rememberPenal,
 		rememberRand ;
-
-	double
-		calc_init_lapFactor() ,
-		calc_init_timeFactor() ,
-		calc_init_coreFactor() ,
-		analyze() ,
-		totFunc,
-		totPen,
-		avgdTime,
-		avgdFunc ;
 
 	/* ********************** start initialization *********************** */
 	/* start up cleanup handler */
