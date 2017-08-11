@@ -76,16 +76,18 @@ REVISIONS:
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 
 int blocklG , blockrG , blocktG , blockbG ;
+int binYOffstG ;
+
+double aveChanWidG;
+double mean_cellAreaG ;
 
 void config1() {
 	CELLBOXPTR cellptr ;
 	TILEBOXPTR tileptr ;
 	int l , r , b , t , cell ;
 	int numbins, numbinX, numbinY ;
-	int window ;
 	char resfile[LRECL] ;
 	char savfile[LRECL] ;
-	BOOL parasite ;
 	double tileArea ;
 	double softArea ;
 	double totalArea ;
@@ -95,7 +97,6 @@ void config1() {
 	double deltaArea, deltaShort ;
 	double shortvarpercell ;
 	double var = 0.0 ;
-	double temp ;
 	double var_short = 0.0 ;
 	double shortSide, total_shortSide, mean_shortSide, dev_shortSide ;
 	double length, height, max_shortSide ;

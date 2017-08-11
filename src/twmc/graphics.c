@@ -105,24 +105,8 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 /* #define DEVELOPMENU */
 /* During development use TWread_menus in place of menuS */
 /* to create menu record, ie.  TWread_menus(MENUP) */
-#ifdef DEVELOPMENU
-#define MENU   (TWMENUPTR ) TWread_menus(MENUP)
-#else
+#include "dialog.h"
 #define MENU   menuS
-#endif
-
-/* #define DEVELOPDIALOG */
-#ifndef DEVELOPDIALOG
-
-#ifdef TI
-#include <tidialog.h>
-#else
-#include <dialog.h>
-#endif
-
-#else /* DEVELOPDIALOG */
-static TWDIALOGPTR dialogS ;
-#endif /* DEVELOPDIALOG */
 
 /* ***************************************************************** 
    DUMP CURRENT MC CONFIGURATION.  USER intERFACE
@@ -146,14 +130,14 @@ BOOL movedCellS ;   /* lets us know whether we have to update cellbins */
 BOOL single_cell_moveS = FALSE ;
 BOOL drawFS = FALSE ;
 
+BOOL wait_for_userG ;
+
 void initMCGraphics(int windowId)
 {
 
 	char *host ;
 
-#ifndef DEVELOPMENU
 	set_graphics_wait_menu( MENU ) ;
-#endif
 
 	if( !(doGraphicsG) ){
 		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE,MENU, draw_the_data ) ;

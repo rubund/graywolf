@@ -108,6 +108,9 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 ----------------------------------------------------------------- */
 #include <allheaders.h>
 
+BINBOXPTR  newbptrG; /* *** bin cell ptr *** */ 
+int *newCellListG ;  /* *** bin cell list *** */ 
+
 #define TMIN      1E-6
 #define HOWMANY   0
 
@@ -118,6 +121,7 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 
 MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
 MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
+double avg_funcG , avgsG ;
 
 /* define the cell moves */
 #define NUMSELECT                            16

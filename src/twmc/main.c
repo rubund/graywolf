@@ -99,7 +99,10 @@ REVISIONS:  Sep  7, 1988 - fixed argument mismatch to utemp.
 
 #define  NOREDUCTION        -1000000.0 ; 
 
+FILE *fpoG ;
 double saveLapFactorG ;
+int bdxlengthG , bdylengthG ;
+
 static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */

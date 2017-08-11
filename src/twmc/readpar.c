@@ -93,7 +93,12 @@ static int gridYS = INT_MIN ;
 BOOL gridCellsG ;
 BOOL gridGivenG ;
 BOOL contiguousG ;
+BOOL doChannelGraphG ;
 BOOL external_pad_programG ;
+BOOL wireEstimateOnlyG ;
+int x_originG, y_originG ;
+int randVarG ;
+double vertical_wire_weightG ;
 
 void readpar()
 {

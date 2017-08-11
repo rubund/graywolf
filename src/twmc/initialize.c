@@ -135,6 +135,9 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 // globals:
 int numpadgroupsG ;
 int numpadsG   ;
+int numinstancesG ;
+int **net_res_matchG ;         /* set of match nets */
+PADBOXPTR *placearrayG ; /* array where the pads will be placed */
 
 /* ######################  STATIC definitions ######################### */
 static int  curCellTypeS ;  /* current cell type - ie, softcell,pad etc.*/

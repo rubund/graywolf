@@ -63,6 +63,8 @@ REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal
 ----------------------------------------------------------------- */
 #include <allheaders.h>
 
+double ratioG ;
+
 #define AC0 0.90		/*** 0.75 ***/
 #define AC1 0.44		/*** 0.44 ***/
 #define AC2 0.06		/*** 0.08 ***/

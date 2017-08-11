@@ -49,6 +49,7 @@ REVISIONS:  Jul 21, 1988 - fixed softcell code.
 #include <allheaders.h>
 
 int fwireG, fwirexG , fwireyG , fcostG ;
+int iwireG, iwirexG , iwireyG , icostG ;
 
 void finalcheck()
 {
