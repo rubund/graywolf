@@ -1,3 +1,5 @@
+#ifndef STDMACROS_H
+#define STDMACROS_H
 /* --------------------------------------------------------------- 
   state   input    valid   next state
     H1     H        yes       H1
@@ -24,3 +26,4 @@ typedef struct {
 } SELECTBOX, *SELECTPTR ;
 
 void partition_compact();
+#endif

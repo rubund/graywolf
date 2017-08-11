@@ -1,3 +1,5 @@
+#ifndef MULTI_H
+#define MULTI_H
 typedef struct vertex_box {
     int x ;
     int y ;
@@ -21,3 +23,5 @@ void add_pt();
 void free_vertex_list();
 void add_mtiles_to_xgraph();
 void add_mtiles_to_ygraph();
+
+#endif

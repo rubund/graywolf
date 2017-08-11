@@ -287,45 +287,45 @@ typedef struct queue {
 
 /* ******************** GLOBAL VARIABLES *********************** */
 /* the graph data structure */
-COMPACTPTR *tileNodeG ;        /* array of pointers to nodes */
-COMPACTPTR *xGraphG ;          /* array of nodes to x node ptrs */
-COMPACTPTR *yGraphG ;          /* array of yGraph node pointers */
-YSETPTR    tileSetG ;          /* make set of tiles */
+extern COMPACTPTR *tileNodeG ;        /* array of pointers to nodes */
+extern COMPACTPTR *xGraphG ;          /* array of nodes to x node ptrs */
+extern COMPACTPTR *yGraphG ;          /* array of yGraph node pointers */
+extern YSETPTR    tileSetG ;          /* make set of tiles */
 
 /* the size of the data */
-int numcellsG ;             /* number of cells to be compacted   */
-int numtilesG ;             /* number of tiles to be compacted   */
-int last_tileG ;            /* last tile in x or y graph */
-int last_cellG ;            /* last cell including sources and sinks */
-char *cktNameG ;            /* the name of the circuit           */
-CELLBOXPTR *cellarrayG ;    /* the cell data */
-CELLBOXPTR *slackG ;        /* array of cells sorted by slack */
-int blockbG ;               /* core bottom */
-int blocklG ;               /* core left */
-int blockrG ;               /* core right */
-int blocktG ;               /* core top */
-int blockmxG ;              /* core center */
-int blockmyG ;              /* core center */
-int *ancestorG ;            /* array of ancestor counts */
+extern int numcellsG ;             /* number of cells to be compacted   */
+extern int numtilesG ;             /* number of tiles to be compacted   */
+extern int last_tileG ;            /* last tile in x or y graph */
+extern int last_cellG ;            /* last cell including sources and sinks */
+extern char *cktNameG ;            /* the name of the circuit           */
+extern CELLBOXPTR *cellarrayG ;    /* the cell data */
+extern CELLBOXPTR *slackG ;        /* array of cells sorted by slack */
+extern int blockbG ;               /* core bottom */
+extern int blocklG ;               /* core left */
+extern int blockrG ;               /* core right */
+extern int blocktG ;               /* core top */
+extern int blockmxG ;              /* core center */
+extern int blockmyG ;              /* core center */
+extern int *ancestorG ;            /* array of ancestor counts */
 
 /* FOR THE CHANNEL GRAPH */
-int numnodesG ;      /* number of nodes in the channel graph */
-int numedgesG ;      /* number of edges in the channel graph */
-CHANBOXPTR *changraphG ; /* array of nodes of channel graph  */
-INFOPTR    *edgeArrayG ; /* array of edges of channel graph */
-YDECKPTR path_deckG ;    /* list of nodes in critical path */
+extern int numnodesG ;      /* number of nodes in the channel graph */
+extern int numedgesG ;      /* number of edges in the channel graph */
+extern CHANBOXPTR *changraphG ; /* array of nodes of channel graph  */
+extern INFOPTR    *edgeArrayG ; /* array of edges of channel graph */
+extern YDECKPTR path_deckG ;    /* list of nodes in critical path */
 
 /* the user requests */
-BOOL alignG     ;  /* TRUE if channel are to be aligned */
-BOOL compactG   ;  /* TRUE if compaction is desired */
-BOOL graphicsG  ;  /* TRUE if graphics are desired */
-BOOL parasiteG  ;  /* TRUE if we want to inherit window */
-BOOL partitionG ;  /* TRUE if partitioning is requested */
-BOOL constraintsG; /* TRUE if constraint graph is present */
-BOOL debugG ;      /* TRUE if debug is requested */
-int xgridG ;       /* force cells to given x grid */
-int ygridG ;       /* force cells to given y grid */
-int xspaceG ;      /* xspacing between tiles of different cells */
-int yspaceG ;      /* yspacing between tiles of different cells */
+extern BOOL alignG     ;  /* TRUE if channel are to be aligned */
+extern BOOL compactG   ;  /* TRUE if compaction is desired */
+extern BOOL graphicsG  ;  /* TRUE if graphics are desired */
+extern BOOL parasiteG  ;  /* TRUE if we want to inherit window */
+extern BOOL partitionG ;  /* TRUE if partitioning is requested */
+extern BOOL constraintsG; /* TRUE if constraint graph is present */
+extern BOOL debugG ;      /* TRUE if debug is requested */
+extern int xgridG ;       /* force cells to given x grid */
+extern int ygridG ;       /* force cells to given y grid */
+extern int xspaceG ;      /* xspacing between tiles of different cells */
+extern int yspaceG ;      /* yspacing between tiles of different cells */
 
 #endif /* COMPACT_H */

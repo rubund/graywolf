@@ -72,6 +72,48 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 #include "ycompact.h"
 #include "grid.h"
 
+/* the graph data structure */
+COMPACTPTR *tileNodeG ;        /* array of pointers to nodes */
+COMPACTPTR *xGraphG ;          /* array of nodes to x node ptrs */
+COMPACTPTR *yGraphG ;          /* array of yGraph node pointers */
+YSETPTR    tileSetG ;          /* make set of tiles */
+
+/* the size of the data */
+int numcellsG ;             /* number of cells to be compacted   */
+int numtilesG ;             /* number of tiles to be compacted   */
+int last_tileG ;            /* last tile in x or y graph */
+int last_cellG ;            /* last cell including sources and sinks */
+char *cktNameG ;            /* the name of the circuit           */
+CELLBOXPTR *cellarrayG ;    /* the cell data */
+CELLBOXPTR *slackG ;        /* array of cells sorted by slack */
+int blockbG ;               /* core bottom */
+int blocklG ;               /* core left */
+int blockrG ;               /* core right */
+int blocktG ;               /* core top */
+int blockmxG ;              /* core center */
+int blockmyG ;              /* core center */
+int *ancestorG ;            /* array of ancestor counts */
+
+/* FOR THE CHANNEL GRAPH */
+int numnodesG ;      /* number of nodes in the channel graph */
+int numedgesG ;      /* number of edges in the channel graph */
+CHANBOXPTR *changraphG ; /* array of nodes of channel graph  */
+INFOPTR    *edgeArrayG ; /* array of edges of channel graph */
+YDECKPTR path_deckG ;    /* list of nodes in critical path */
+
+/* the user requests */
+BOOL alignG     ;  /* TRUE if channel are to be aligned */
+BOOL compactG   ;  /* TRUE if compaction is desired */
+BOOL graphicsG  ;  /* TRUE if graphics are desired */
+BOOL parasiteG  ;  /* TRUE if we want to inherit window */
+BOOL partitionG ;  /* TRUE if partitioning is requested */
+BOOL constraintsG; /* TRUE if constraint graph is present */
+BOOL debugG ;      /* TRUE if debug is requested */
+int xgridG ;       /* force cells to given x grid */
+int ygridG ;       /* force cells to given y grid */
+int xspaceG ;      /* xspacing between tiles of different cells */
+int yspaceG ;      /* yspacing between tiles of different cells */
+
 void remove_violations()
 {
 	ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
