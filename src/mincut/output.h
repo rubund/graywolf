@@ -1,3 +1,5 @@
+#ifndef H_OUTPUT
+#define H_OUTPUT
 void addCell(int celltype, char *cellname);
 void set_bbox( int left, int right, int bottom, int top );
 void addNet(char *signal );
@@ -13,3 +15,5 @@ typedef struct {
 } NETBOX, *NETPTR ;
 
 extern YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+extern char *cktNameG ;
+#endif

@@ -75,6 +75,7 @@ char current_cellS[LRECL] ; /* the current cell name */
 char cur_pinnameS[LRECL] ;  /* current pinname */
 
 YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+char *cktNameG ;
 
 void init()
 {

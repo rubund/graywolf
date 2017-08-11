@@ -47,12 +47,7 @@ REVISIONS:
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <stdio.h> 
-
-#ifndef MATH_H
-#define MATH_H
-#include <math.h>
-#endif   /* MATH_H */
+#include <globals.h>
 
 /* if not using makefile and debug is wanted add it here */
 /* #define DEBUG */
@@ -63,7 +58,5 @@ REVISIONS:
 #define SOFTCELLTYPE  2
 #define STDCELLTYPE   3
 #define PADCELLTYPE   4
-
-char *cktNameG ;
 
 #endif /* GLOBALS_H */
