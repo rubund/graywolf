@@ -31,6 +31,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <limits.h>
+#include <math.h>
 
 #include <yalecad/assign.h>
 #include <yalecad/base.h>
