@@ -46,7 +46,6 @@ CONTENTS:   analyze( )
 DATE:	    Apr  4, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#include <globals.h>
 #include "allheaders.h"
 
 #define CURWT      1

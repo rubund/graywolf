@@ -54,7 +54,7 @@ REVISIONS:  Jun 30, 1988 - added rel_pos for test.
 	    Aug 13, 1990 - moved relpos to yalecad/relpos.h
 	    Wed Jan 30 14:15:02 EST 1991 - removed relpos.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define BREAK_PT2   6
 

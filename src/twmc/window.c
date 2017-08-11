@@ -61,7 +61,7 @@ REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal
 	    Apr 09, 1989 - fixed bug in pick_position and 
 		pick_neighborhood so that cells can't jump outside region.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 double ratioG ;
 

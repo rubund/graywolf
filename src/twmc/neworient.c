@@ -43,7 +43,7 @@ DESCRIPTION:pick a new orientation.
 DATE:	    Jan 29, 1988 
 REVISIONS:  Thu Apr 18 01:37:39 EDT 1991 - added check_valid_orientation.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 int newOrient( CELLBOXPTR cellptr , int range )
 {

@@ -47,7 +47,7 @@ REVISIONS:  May  2, 1990 - added verify_pad_pins as an error checking
 		channel graph.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void sortpins()
 {

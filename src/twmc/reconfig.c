@@ -52,7 +52,7 @@ REVISIONS:  Jan  20, 1989 - added findcost call to update new wirelength
 	    Sun May  5 14:23:51 EDT 1991 - added reorigin and now
 		allow user to set origin.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 

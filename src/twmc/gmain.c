@@ -52,7 +52,7 @@ REVISIONS:  Thu Jan 17 00:49:52 PST 1991 - now read side information.
 ----------------------------------------------------------------- */
 #define DENS_DEFS
 
-#include <allheaders.h>
+#include "allheaders.h"
 
 #include "config-build.h"
 

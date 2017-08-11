@@ -82,7 +82,7 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 ----------------------------------------------------------------- */
 #ifndef NOGRAPHICS
 
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define CELLEST     0
 #define CELLBORDER  1

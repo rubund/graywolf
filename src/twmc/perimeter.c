@@ -36,7 +36,7 @@
  *   POSSIBILITY OF THE FOREGOING.
  *
  */
-#include <allheaders.h>
+#include "allheaders.h"
 
 int perimeter( YBUSTBOXPTR A, int numcorners )
 {

@@ -45,7 +45,7 @@ CONTENTS:   twstats( )
 DATE:	    Feb 29, 1988 
 REVISIONS:  Jan 30, 1989 - added number of net info at beginning of run.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define MAXPININFO 100
 static int maxpinS = 0 ;

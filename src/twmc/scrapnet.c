@@ -43,8 +43,7 @@ DESCRIPTION:ignore a net during annealing if it has too many connections
 DATE:	    Feb  7, 1990 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#include <custom.h>
-#include <yalecad/debug.h>
+#include "allheaders.h"
 
 void scrapnet()
 {

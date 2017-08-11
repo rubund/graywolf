@@ -46,7 +46,7 @@ REVISIONS:  Jul 21, 1988 - fixed softcell code.
 	    Oct 25, 1988 - remove weights from funccost
 	    Mar 30, 1989 - changed tile datastructure.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 int fwireG, fwirexG , fwireyG , fcostG ;
 int iwireG, iwirexG , iwireyG , icostG ;

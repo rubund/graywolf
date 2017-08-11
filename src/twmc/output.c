@@ -84,7 +84,7 @@ REVISIONS:  Aug 10, 1988 - add compile switch for Dahe.
 		groups.
 	    Mon Aug 12 16:57:04 CDT 1991 - create sc output files.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 FILE *outS ;                    /* the output file */
 BOOL determine_sideS = TRUE ;   /* normally determine side */

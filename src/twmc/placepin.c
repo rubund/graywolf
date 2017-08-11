@@ -1,3 +1,4 @@
+
 /*
  *   Copyright (C) 1989-1991 Yale University
  *
@@ -70,8 +71,8 @@ REVISIONS:  Apr 23, 1990 - working version of softpin placement for
 	    Wed Jun  5 15:43:33 CDT 1991 - changed REL_POS to REL_POST
 		for accuracy.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
-#include <placepin.h>
+#include "allheaders.h"
+#include "placepin.h"
 
 #undef  NONE
 #define NONE      0
@@ -1722,7 +1723,7 @@ int cell ;
     return( pins_on_a_side ) ;
 } /* end find_pinsides() */
 
-#include <dens.h>
+#include "dens.h"
 /* given a routing tile edge find matching side */
 int find_tile_side( int center, int loc, int direction )
 {

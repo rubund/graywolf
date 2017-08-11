@@ -66,7 +66,7 @@ REVISIONS:  Jul 30, 1988 - made compile switch for blocking pads.
 		buster.
 	    Wed Jun  5 16:30:30 CDT 1991 - eliminated unbust.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void outgeo()
 {

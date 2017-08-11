@@ -50,7 +50,7 @@ REVISIONS:  Feb  5, 1988 - changed old_apos, new_apos, old_bpos,
 	    Nov 25, 1988 - added timing driven code.
 	    May  3, 1989 - added unet2 for two cell swaps.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 static int acellS, bcellS, mod_cellS ;
 static CELLBOXPTR acellptrS ,    bcellptrS ;

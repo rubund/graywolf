@@ -46,7 +46,7 @@ DATE:	    Feb 28, 1990
 REVISIONS:  Sun Dec 16 00:36:43 EST 1990 - Modified for Dahe's
 		new version of the global router.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #include "config-build.h"
 

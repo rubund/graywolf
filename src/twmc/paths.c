@@ -71,7 +71,7 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Fri Jan 18 18:32:01 PST 1991 - updated output format.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void print_paths( )
 {

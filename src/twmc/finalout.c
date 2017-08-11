@@ -72,7 +72,7 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 	    Wed Jul 24 20:48:13 CDT 1991 - now always wait for
 		user at the end of annealing if requested.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 /* redefine flags for easier reading */
 #define VIOLATIONSONLY   FALSE

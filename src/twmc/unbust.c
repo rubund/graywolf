@@ -52,7 +52,7 @@ REVISIONS:  Aug 16, 1989 - rewrote using new general algorithm.
 		of buster.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define E 0
 #define T 1

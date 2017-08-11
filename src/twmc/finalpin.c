@@ -44,22 +44,15 @@ DATE:	    Jan 29, 1988
 REVISIONS:  Feb  7, 1990 - complete rewrite of finalpin. Now uses
 		low temperature anneal.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) finalpin.c version 3.6 4/3/92" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include "allheaders.h"
 
 #define HOWMANY 0
 #define EXPECTEDNUMSITES  500
 
-
-finalpin()
+void finalpin()
 {
 
 }
-
 
 #ifdef LATER
 

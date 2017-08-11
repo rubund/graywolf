@@ -45,7 +45,7 @@ CONTENTS:   BOOL upinswap( a )
 DATE:	    Mar 30, 1990 - new vertion of pinswap code.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define CURVERTICES FALSE
 

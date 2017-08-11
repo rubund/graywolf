@@ -46,7 +46,7 @@ REVISIONS:  May 14, 1989 - set weights to zero for stdcell case.
 	    Mon Feb  4 02:20:39 EST 1991 - updated for new wire estimator
 	    NOTE that standard cell weights are -2 as a flag.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void setpwates()
 {

@@ -51,7 +51,7 @@ REVISIONS:  May 16, 1989 - removed most doPartitionG conditions.
 	    Thu Feb  7 00:20:00 EST 1991 - reworked graph data.
 	    Thu Apr 18 01:40:16 EDT 1991 - refit overlap parameters.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 #define DEBUGLAPFACTOR
 
 #define DAMPFACTOR       0.015    /* damping factor on overlap penalty */

@@ -54,7 +54,7 @@ REVISIONS:  Dec 3, 1988 - added output info for timing.
 	    Oct 14,1990 - added overlap iterations.
 	    Fri Jan 25 18:09:20 PST 1991 - removed unnecessary globals.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void utemp( int attempts, BOOL multi_cell_moves )
 {

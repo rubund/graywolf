@@ -68,7 +68,7 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 	    Sun May  5 14:19:53 EDT 1991 - pass gridding point to 
 		compactor.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #include "config-build.h"
 

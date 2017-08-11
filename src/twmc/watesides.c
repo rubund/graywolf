@@ -45,8 +45,7 @@ DATE:	    Mon Feb  4 02:25:16 EST 1991 - added header and new
 		wire estimator.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#include <globals.h>
-#include <custom.h>
+#include "allheaders.h"
 
 void watesides(CELLBOXPTR ptr, PSIDEBOX *pSideArray)
 {

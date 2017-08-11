@@ -63,7 +63,7 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 		reorigin.
 	    Mon Sep 16 22:23:04 EDT 1991 - fixed for R6000.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 

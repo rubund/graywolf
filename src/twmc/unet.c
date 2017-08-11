@@ -58,7 +58,7 @@ REVISIONS:  Oct 21, 1989 - changed memoptrS to a pointer rather than
 	    Apr 23, 1990 - added assertion to make sure half perimeter
 		does not go negative.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 #define BREAK_PT 5
 static int prev_netS , curr_netS , test_newnetS ;
 static int validLS , validRS , validBS , validTS ;

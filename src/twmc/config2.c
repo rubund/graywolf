@@ -55,7 +55,7 @@ REVISIONS:
 	    Apr 23, 1990 - Now calculate total area based on all 
 		instances so that the wire estimation will be correct.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void config2( int numbinX, int numbinY, double wire_red_ratio )
 {

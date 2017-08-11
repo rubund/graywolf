@@ -51,7 +51,7 @@ REVISIONS:  Mar 29, 1989 - changed tileptr argument to pos.
 	    Thu Mar  7 01:49:31 EST 1991 - now save wireestimation
 		parameters.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #ifdef MACRO 
 #define CHECK_ROUTING( routing )           \

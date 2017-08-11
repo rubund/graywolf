@@ -57,7 +57,7 @@ REVISIONS:  Fri Jan 25 18:15:36 PST 1991 - added numpins to equations
 #include <gsl/gsl_linalg.h>
 
 #define NO_PAD
-#include <allheaders.h>
+#include "allheaders.h"
 
 void gsl_matrix_disp( gsl_matrix *mptr, int rows, int cols )
 {

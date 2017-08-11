@@ -79,7 +79,7 @@ REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 	    Sun May  5 14:27:53 EDT 1991 - fixed problem with orienting
 		bounboxes.  Had used wrong translation function.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 /* genorient works on range [lowerBound..upperBound] inclusive */
 void genorient( int lowerBound, int upperBound)

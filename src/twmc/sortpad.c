@@ -48,7 +48,7 @@ REVISIONS:  Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 	    Tue Mar 12 17:05:03 CST 1991 - fixed initialization problem
 		with permutation.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 int sort_by_pos_pad( PADBOXPTR *padptr1, PADBOXPTR *padptr2 );
 

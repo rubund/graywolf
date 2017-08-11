@@ -48,8 +48,7 @@ CONTENTS:
 DATE:	    Apr  27, 1989 - added heading and added limitnets calc.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#include <globals.h>
-#include <custom.h>
+#include "allheaders.h"
 
 void wirecosts()
 {

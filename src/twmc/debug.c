@@ -47,7 +47,7 @@ REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Mar 30, 1989 - changed tile datastructure.
 	    Apr 23, 1990 - moved graph routines to library.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 #define CELLEST     0
 #define CELLBORDER  1

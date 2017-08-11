@@ -46,7 +46,7 @@ REVISIONS:  Jul 30, 1988 - fixed output for softcells and added
 		gridding of cells for mighty interface.
 	    Mon Jan  7 18:31:00 CST 1991 - don't grid pads.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 void grid_cells()
 {

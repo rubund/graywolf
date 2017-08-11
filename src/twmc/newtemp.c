@@ -57,7 +57,7 @@ REVISIONS:  Feb 25, 1989 - allow negative iterations by setting
 	    Mon Feb  4 02:14:30 EST 1991 - reset the number of attempts
 		and added quickroute function.
 ----------------------------------------------------------------- */
-#include <allheaders.h>
+#include "allheaders.h"
 
 double alphaS ;    /* exponential decay constant for high temp */
 double betaS ;     /* exponential decay constant for low temp */
