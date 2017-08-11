@@ -1,3 +1,5 @@
+#ifndef H_DIALOG3
+#define H_DIALOG3
 static TWDIALOGBOX macro_dialogS[29] = {
     1,5,8," ACCEPT ",2,6,0,
     1,25,8," CANCEL ",2,3,0,
@@ -92,3 +94,5 @@ INT orient;
 } /* end ice2tw */
 
 #endif /* TI */
+
+#endif

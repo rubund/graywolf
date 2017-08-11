@@ -52,10 +52,13 @@ REVISIONS:  Sat Feb 23 00:35:01 EST 1991 - added wildcarding.
 		separation.
 ----------------------------------------------------------------- */
 #include <globals.h>
-
 #include "genrows.h"
 
 #define COMMENT '#'
+
+BOOL wait_for_userG = FALSE;  /* normally wait for user */
+BOOL last_chanceG;    /* "last chance" timeout */
+int num_rowsG ;      /* user specified the number of rows */
 
 static BOOL abortS = FALSE ;
 

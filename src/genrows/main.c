@@ -61,6 +61,9 @@ REVISIONS:  Feb  7, 1990 - took total_row_length out of procedure calls.
 #include "merge.h"
 #include "draw.h"
 
+char *cktNameG;
+BOOL graphicsG;           /* TRUE if graphics are requested */
+
 /* NOTE ****** macros cannot overlap !!! ****** */
 
 

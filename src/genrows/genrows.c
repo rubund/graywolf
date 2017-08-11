@@ -85,6 +85,24 @@ REVISIONS:  Sep 18, 1989 - added row gridding to algorithm.
 #include "genrows.h"
 #include "merge.h"
 
+TILE_BOX *tile_listG ;    /* head of list of tiles */
+TILE_BOX *last_tileG ;    /* end of list of tiles */
+TILE_BOX *start_tileG;    /* current start of tiles */
+MACROPTR *macroArrayG ;
+MACROPTR *mergeArrayG ;   /* tiles that the user merged */
+
+int num_macrosG = 0;
+int feeds_per_segG ; /* feed length per segment */
+int flip_alternateG; /* flip alternate rows beginning at 1 or 2 */ 
+int spacingG ;       /* spacing to macros */
+
+BOOL limitMergeG = FALSE;
+BOOL shortRowG ; /* whether to keep short row */
+BOOL noMacroMoveG ;   /* when TRUE macros may not move */
+BOOL invalidG ;      /* whether configuration is ok */
+BOOL no_outputG ;     /* when TRUE no .blk file */
+BOOL memoryG ;        /* try to remember last state */
+
 static ROW_BOX *set_of_rowsS , *last_rowptrS ;
 static VERTEX_BOX *vertex_listS , *last_vertexS ;
 
@@ -104,11 +122,7 @@ int feed_lengthS = 0 ;       /* length of feeds */
 
 static YTREEPTR tile_memoryG ;
 
-#if SIZEOF_VOID_P == 64
-#define intSCANSTR "%ld"
-#else
-#define intSCANSTR "%d"
-#endif
+#define INTSCANSTR "%d"
 
 BOOL find_tile( int *llx , int *lly , int *urx , int *ury );
 
@@ -594,7 +608,7 @@ BOOL read_vertices(FILE *fp, BOOL initial)
 
     /* I will assume that the input data is syntactically correct */
     fscanf(fp,"%s", string ) ; /* "total_row_length" */
-    fscanf(fp, intSCANSTR, &row_length ) ;
+    fscanf(fp, INTSCANSTR, &row_length ) ;
     if( initial ){
 	stdcell_lengthS = row_length ;
     } else {
@@ -619,18 +633,18 @@ BOOL read_vertices(FILE *fp, BOOL initial)
     free_structures( TRUE ) ; /* free all points */
 
     fscanf(fp,"%s", string ) ; /* "actual_row_height" */
-    fscanf(fp, intSCANSTR, &actual_row_heightS ) ;
+    fscanf(fp, INTSCANSTR, &actual_row_heightS ) ;
     fscanf(fp,"%s", string ) ; /* "channel_separation" */
-    fscanf(fp, intSCANSTR, &channel_separationS ) ;
+    fscanf(fp, INTSCANSTR, &channel_separationS ) ;
     fscanf(fp,"%s", string ) ; /* "min_length" */
-    fscanf(fp, intSCANSTR, &min_lengthS ) ;
+    fscanf(fp, INTSCANSTR, &min_lengthS ) ;
     fscanf(fp,"%s", string ) ; /* "core" */
-    fscanf(fp, intSCANSTR " " intSCANSTR, &cx1S , &cy1S ) ;
-    fscanf(fp, intSCANSTR " " intSCANSTR, &cx2S , &cy2S ) ;
+    fscanf(fp, INTSCANSTR " " INTSCANSTR, &cx1S , &cy1S ) ;
+    fscanf(fp, INTSCANSTR " " INTSCANSTR, &cx2S , &cy2S ) ;
     fscanf(fp,"%s", string ) ; /* "grid" */
-    fscanf(fp, intSCANSTR " " intSCANSTR, &xgrid , &ygrid ) ;
+    fscanf(fp, INTSCANSTR " " INTSCANSTR, &xgrid , &ygrid ) ;
     fscanf(fp,"%s", string ) ; /* "num_macros" */
-    fscanf(fp, intSCANSTR, &num_macrosG ) ;
+    fscanf(fp, INTSCANSTR, &num_macrosG ) ;
 
     if( stdcell_lengthS <= 0 ){
 	M( ERRMSG, "genrow", "No standard cells were found.\n" ) ;
@@ -666,8 +680,8 @@ BOOL read_vertices(FILE *fp, BOOL initial)
 	/* now initialize vertices array */
 	mptr = macroArrayG[++macro] ;
 	fscanf(fp,"%s", string ) ;  /* orient */
-	fscanf(fp, intSCANSTR, &(mptr->orient) ) ;
-	fscanf(fp, intSCANSTR, &num_vertices ) ;
+	fscanf(fp, INTSCANSTR, &(mptr->orient) ) ;
+	fscanf(fp, INTSCANSTR, &num_vertices ) ;
 	fscanf(fp,"%s", string ) ; /* "vertices" */
 	mptr->vertices = (VERTEXPTR *) Ysafe_malloc( num_vertices * sizeof(VERTEXPTR));
 	mptr->num_vertices = num_vertices ;
@@ -677,7 +691,7 @@ BOOL read_vertices(FILE *fp, BOOL initial)
 	b = INT_MAX ;
 	t = INT_MIN ;
 	for( i = 0 ; i < num_vertices ; i++ ) {
-	    fscanf(fp, intSCANSTR " " intSCANSTR, &x , &y ) ;
+	    fscanf(fp, INTSCANSTR " " INTSCANSTR, &x , &y ) ;
 
 	    if( initial && (x < cx1S || x > cx2S || y < cy1S || y > cy2S) ) {
 		printf("a macro vertex lies outside the core\n");
@@ -737,11 +751,11 @@ BOOL restore_state( FILE *fp )
     TILE_BOX *last_tile ;
 
     /* feed_lengthS */
-    fscanf(fp,"%s " intSCANSTR, string , &feed_lengthS ) ;
+    fscanf(fp,"%s " INTSCANSTR, string , &feed_lengthS ) ;
     /* spacing */
-    fscanf(fp,"%s " intSCANSTR, string , &spacingG ) ;
+    fscanf(fp,"%s " INTSCANSTR, string , &spacingG ) ;
     /* numtiles */
-    fscanf(fp,"%s " intSCANSTR, string , &numtiles ) ;
+    fscanf(fp,"%s " INTSCANSTR, string , &numtiles ) ;
     cur_numtiles = 0 ;
     for( tptr=tile_listG;tptr;tptr=tptr->next ){
 	/* count number of tiles for maintaining memory req. */
@@ -783,22 +797,22 @@ BOOL restore_state( FILE *fp )
     /* now read in tiles */
     for( tptr=tile_listG;tptr;tptr=tptr->next ){
 	/* 1 if this is the start tile */
-	fscanf( fp, intSCANSTR, &start ) ;
+	fscanf( fp, INTSCANSTR, &start ) ;
 	if( start ){
 	    start_tileG = tptr ;
 	}
 	/* llx, lly, urx, ury, force, class mirror */
-	fscanf(fp, intSCANSTR " " intSCANSTR " " intSCANSTR " " intSCANSTR
-		" " intSCANSTR " " intSCANSTR " " intSCANSTR,
+	fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR
+		" " INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
 	    &(tptr->llx), &(tptr->lly), &(tptr->urx), &(tptr->ury),
 	    &(tptr->force), &(tptr->class), &(tptr->mirror) ) ;
 
 	/* numrows, actual_row_height, add_no_more_than, chansep */
-	fscanf(fp, intSCANSTR " " intSCANSTR " " intSCANSTR " " intSCANSTR,
+	fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
 	&(tptr->numrows), &(tptr->actual_row_height),
 	&(tptr->add_no_more_than), &(tptr->channel_separation) ) ;
 	/* min_length, row_start, max_length, illegal */
-	fscanf(fp, intSCANSTR " " intSCANSTR " " intSCANSTR " " intSCANSTR,
+	fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
 	    &(tptr->min_length), &(tptr->row_start),
 	    &(tptr->max_length), &(tptr->illegal) ) ;
     } /* end tile loop */

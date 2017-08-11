@@ -1,3 +1,5 @@
+#ifndef H_DRAW
+#define H_DRAW
 void process_graphics();
 void draw_tile();
 void draw_macro();
@@ -20,3 +22,4 @@ int outm(int errtype, char *routine, char *string );
 void edit_row(ROW_BOX *rowptr);
 void get_global_pos( int macro, int *l, int *b, int *r, int *t );
 void draw_the_data();
+#endif

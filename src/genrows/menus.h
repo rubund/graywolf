@@ -1,3 +1,5 @@
+#ifndef H_MENUS
+#define H_MENUS
 
 /* TWmenu definitions */  
 #define TWNUMMENUS		52
@@ -115,3 +117,4 @@ static TWMENUBOX menuS[53] = {
     0,0,0,0,0,0
 } ;
 
+#endif

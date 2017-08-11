@@ -161,29 +161,29 @@ typedef struct row_box {
 
 /* ********************** global variables ************************ */
 /* GENERAL GLOBAL VARIABLES */
-char *cktNameG ;
-BOOL graphicsG ;           /* TRUE if graphics are requested */
+extern char *cktNameG ;
+extern BOOL graphicsG ;           /* TRUE if graphics are requested */
 
 /* DATA GLOBAL VARIABLES */
-TILE_BOX *tile_listG ;    /* head of list of tiles */
-TILE_BOX *last_tileG ;    /* end of list of tiles */
-TILE_BOX *start_tileG;    /* current start of tiles */
-MACROPTR *macroArrayG ;
-MACROPTR *mergeArrayG ;   /* tiles that the user merged */
-int num_macrosG ;    /* number of macros given */
-int num_mergedG ;    /* number of merged tiles given */
-int num_rowsG ;      /* user specified the number of rows */
-int feeds_per_segG ; /* feed length per segment */
-int flip_alternateG; /* flip alternate rows beginning at 1 or 2 */ 
-int spacingG ;       /* spacing to macros */
-BOOL shortRowG ;      /* whether to keep short row */
-BOOL invalidG ;      /* whether configuration is ok */
-BOOL limitMergeG ;    /* whether to limit merge to 1 step */
-BOOL noMacroMoveG ;   /* when TRUE macros may not move */
-BOOL wait_for_userG;  /* normally wait for user */
-BOOL last_chanceG;    /* "last chance" timeout */
-BOOL memoryG ;        /* try to remember last state */
-BOOL no_outputG ;     /* when TRUE no .blk file */
+extern TILE_BOX *tile_listG ;    /* head of list of tiles */
+extern TILE_BOX *last_tileG ;    /* end of list of tiles */
+extern TILE_BOX *start_tileG;    /* current start of tiles */
+extern MACROPTR *macroArrayG ;
+extern MACROPTR *mergeArrayG ;   /* tiles that the user merged */
+extern int num_macrosG ;    /* number of macros given */
+extern int num_mergedG ;    /* number of merged tiles given */
+extern int num_rowsG ;      /* user specified the number of rows */
+extern int feeds_per_segG ; /* feed length per segment */
+extern int flip_alternateG; /* flip alternate rows beginning at 1 or 2 */ 
+extern int spacingG ;       /* spacing to macros */
+extern BOOL shortRowG ;      /* whether to keep short row */
+extern BOOL invalidG ;      /* whether configuration is ok */
+extern BOOL limitMergeG ;    /* whether to limit merge to 1 step */
+extern BOOL noMacroMoveG ;   /* when TRUE macros may not move */
+extern BOOL wait_for_userG;  /* normally wait for user */
+extern BOOL last_chanceG;    /* "last chance" timeout */
+extern BOOL memoryG ;        /* try to remember last state */
+extern BOOL no_outputG ;     /* when TRUE no .blk file */
 /* ********************** end global variables ******************** */
 
 #endif /* GENROWS_GLOBALS_H */
