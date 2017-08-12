@@ -149,7 +149,7 @@ static long heap_els_allocated = 0L;
 
 *****************************************************************************/
      
-     extern YHEAPPTR Yheap_init()
+YHEAPPTR Yheap_init()
 {
   YHEAPPTR tmp;
   
@@ -170,8 +170,7 @@ static long heap_els_allocated = 0L;
   
   *****************************************************************************/
 
-extern YHEAPPTR Yheap_init_with_parms(fn)
-     int (*fn)();
+YHEAPPTR Yheap_init_with_parms(int (*fn)())
 {
   YHEAPPTR tmp;
   
@@ -395,9 +394,7 @@ static HEAP_EL mesh(e1,e2,fn)
   
  *****************************************************************************/
 
-int extern Yheap_cmp_num(x, y)
-     int x;
-     int y;
+int Yheap_cmp_num(int x, int y)
 {
   return x - y;
 }   /*  heap_cmp_num  */
@@ -413,9 +410,7 @@ int extern Yheap_cmp_num(x, y)
   
  *****************************************************************************/
 
-int extern Yheap_cmp_ptr( x, y)
-     VOIDPTR x;
-     VOIDPTR y;
+int Yheap_cmp_ptr( VOIDPTR x,  VOIDPTR y)
 {
   return (int) ((long) x - (long) y);
 }   /*  heap_cmp_ptr  */
@@ -479,8 +474,7 @@ static HEAP_EL allocate_heap_el()
   
  *****************************************************************************/
 
-void free_heap(heap)
-     YHEAPPTR heap;
+void free_heap(YHEAPPTR heap)
 {
   YFREE(heap);
   heaps_allocated--;
@@ -525,8 +519,7 @@ void Yheap_check_mem()
   Yheap_verify:
   Verify heap data structures
   --------------------------------*/
-extern int Yheap_verify(heap)
-  YHEAPPTR heap;
+int Yheap_verify(YHEAPPTR heap)
 {
   int rc = TRUE;
 
