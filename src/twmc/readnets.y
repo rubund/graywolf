@@ -5,8 +5,11 @@
 #define yyget_lineno twmc_readnets_get_lineno
 #define yytext twmc_readnets_text
 #define yyin twmc_readnets_in
+
+extern FILE *yyin;
 extern char *yytext;
 extern int yyget_lineno(void);
+
 int twmc_readnets_error(char *s);
 char *twmc_readnets_lex();
 %}
@@ -95,7 +98,9 @@ string: STRING | INTEGER | FLOAT;
 %%
 
 int yyerror(char *s) {
-	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
+	printf("%s error: %s at %s, line %d\n", __FUNCTION__, s, yytext, yyget_lineno());
+	fclose(yyin);
+	YexitPgm(PGMFAIL);
 }
 
 int readnets(char *filename)
@@ -107,6 +112,7 @@ int readnets(char *filename)
 		init_nets() ;
 		/* parse input file using yacc if input given */
 		yyparse();  
+		fclose(yyin);
 	}
 	cleanup_nets() ;
 

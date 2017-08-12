@@ -6,8 +6,11 @@
 #define yyget_lineno twmc_readcells_get_lineno
 #define yytext twmc_readcells_text
 #define yyin twmc_readcells_in
+
 extern char *yytext;
+extern FILE *yyin;
 extern int yyget_lineno(void);
+
 int twmc_readcells_error(char *s);
 int twmc_readcells_lex();
 %}
@@ -367,7 +370,9 @@ timing : TIMING FLOAT;
 %%
 
 int yyerror(char *s) {
-	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
+	printf("%s error: %s at %s, line %d\n", __FUNCTION__, s, yytext, yyget_lineno());
+	fclose(yyin);
+	YexitPgm(PGMFAIL);
 }
 
 int readcells(char *filename)

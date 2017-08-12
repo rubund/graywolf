@@ -9,7 +9,8 @@
 #define yyget_lineno twsc_readnets_get_lineno
 #define yytext twsc_readnets_text
 #define yyin twsc_readnets_in
-extern char *yytext;
+extern char *twsc_readnets_text;
+extern FILE *twsc_readnets_in;
 extern int yyget_lineno(void);
 int twsc_readnets_error(char *s);
 char twsc_readnets_lex();
@@ -71,31 +72,26 @@ single_path : pathlist COLON INTEGER INTEGER
 
 };
 pathlist : PATH netlist;
-netlist : string;
-netlist : netlist string;
-string : STRING;
-string : INTEGER;
-string : FLOAT;
+netlist : STRING;
+netlist : netlist STRING;
 
 %%
 
-int yyerror(char *s) {
-	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
+int twsc_readnets_error(char *s) {
+	printf("%s error: %s at %s, line %d\n", __FUNCTION__, s, yytext, yyget_lineno());
+	fclose(yyin);
+	YexitPgm(PGMFAIL);
 }
 
-void init_read_nets();
-void finish_read_nets();
-
 int readnets(char *filename)
-{ 
-	extern FILE *yyin;
-
+{
 	yyin = fopen(filename,"r");
 	/* parse input file using yacc */
 	if( yyin ) {
 		init_read_nets();
 		yyparse();
 		finish_read_nets();
+		fclose(yyin);
 	}
 
 } /* end readnets */

@@ -9,10 +9,13 @@
 #define yyget_lineno twsc_readcell_get_lineno
 #define yytext twsc_readcell_text
 #define yyin twsc_readcell_in
+
 extern char *yytext;
+extern FILE *yyin;
 extern int yyget_lineno(void);
+
 int twsc_readcell_error(char *s);
-char twsc_readcell_lex();
+int twsc_readcell_lex();
 }
 
 %union {
@@ -357,21 +360,23 @@ cellgrouplist : cellgrouplist STRING;
 
 %%
 
-int yyerror(char *s) {
-	printf("error: %s at %s, line %d\n", s, yytext, yyget_lineno());
+int twsc_readcell_error(char *s) {
+	printf("%s error: %s at %s, line %d\n", __FUNCTION__, s, yytext, yyget_lineno());
+	fclose(yyin);
+	YexitPgm(PGMFAIL);
 }
 
 int readcell(char *filename)
-{ 
-	extern FILE *yyin;
+{
+	printf("%s: using file %s\n",__FUNCTION__,filename);
 	yyin = fopen(filename,"r");
 	/* parse input file using yacc */
 	if(yyin) {
-		printf("opened %s\n",filename);
 		initialize_parser() ;
-		yyparse();
+		twsc_readcell_parse();
 		init_net_set();
 		cleanup_readcells();
+		fclose(yyin);
 	}
 } /* end readcell */
 
