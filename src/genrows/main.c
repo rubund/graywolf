@@ -84,11 +84,6 @@ Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 	BOOL force_tiles() ; /* returns true if last tile is forced */
 
 	/* ********************** start initialization *********************** */
-	#ifdef DEBUGX
-	extern int _Xdebug ;
-	_Xdebug = TRUE ;
-	#endif
-
 	debug       = FALSE ;
 	noMacroMoveG = FALSE ;
 	graphicsG = TRUE ;
