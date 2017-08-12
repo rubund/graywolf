@@ -67,8 +67,7 @@ REVISIONS:  Jun 19, 1989 - added marked to ADJPTR record.
 
 #endif /* NOGRAPHICS */
 
-#include <yalecad/string.h>
-#include <yalecad/message.h>
+#include <globals.h>
 
 /********************** DEFINE STATEMENTS *********************/
 #define MASTER        "twflow"  /* the program name */
@@ -136,13 +135,13 @@ typedef struct objectbox {
 OBJECTPTR *proGraphG ;    /* array of pointers to program nodes */
 
 /* the size of the data */
-int  numobjectsG ;        /* number of program objects */
-char *cktNameG;          /* name of the design */
-char *twdirG ;            /* name of the TimberWolf directory */
-char *flow_dirG ;         /* name of user specified flow dir. */
-BOOL graphicsG ;          /* whether graphics is requested */
-BOOL autoflowG ;          /* whether autoflow is enabled */
-BOOL problemsG ;          /* whether problems were encountered */
-BOOL tomusG ;             /* TRUE if called from partitioning */
+extern int  numobjectsG ;        /* number of program objects */
+extern char *cktNameG;          /* name of the design */
+extern char *twdirG ;            /* name of the TimberWolf directory */
+extern char *flow_dirG ;         /* name of user specified flow dir. */
+extern BOOL graphicsG ;          /* whether graphics is requested */
+extern BOOL autoflowG ;          /* whether autoflow is enabled */
+extern BOOL problemsG ;          /* whether problems were encountered */
+extern BOOL tomusG ;             /* TRUE if called from partitioning */
 
 #endif /* GLOBALS_H */

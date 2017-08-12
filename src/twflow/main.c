@@ -71,11 +71,17 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 #include "findflow.h"
 #include "autoflow.h"
 
-#define WINDOWID "@WINDOWID"
-
 int readobjects( char *filename );
 
 int windowIdG;
+int  numobjectsG ;        /* number of program objects */
+char *cktNameG;          /* name of the design */
+char *twdirG ;            /* name of the TimberWolf directory */
+char *flow_dirG ;         /* name of user specified flow dir. */
+BOOL graphicsG ;          /* whether graphics is requested */
+BOOL autoflowG ;          /* whether autoflow is enabled */
+BOOL problemsG ;          /* whether problems were encountered */
+BOOL tomusG ;             /* TRUE if called from partitioning */
 
 /* give user correct syntax */
 void syntax()

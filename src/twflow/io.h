@@ -1,3 +1,6 @@
+#ifndef H_IO
+#define H_IO
+
 typedef struct ebox {
 	int from ;                           /* from node for edge */
 	int to ;                             /* to node for edge */
@@ -21,3 +24,5 @@ void add_fdependency( char *file ) ;
 void add_box( int l, int b, int r, int t );
 void set_window();
 void process_arcs();
+
+#endif
