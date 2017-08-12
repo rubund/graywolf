@@ -79,7 +79,6 @@ Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 	FILE *fp ;
 	void yaleIntro() ;
 	char filename[LRECL] ; /* used for input filename */
-	char *ptr ;     /* used to parse command line */
 	BOOL debug ;    /* true if debug is requested */
 	BOOL force_tiles() ; /* returns true if last tile is forced */
 
