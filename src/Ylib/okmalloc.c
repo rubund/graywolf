@@ -195,11 +195,11 @@ void Ysafe_free(void *ptr)
 	return;
 }
 
-void Ysafe_cfree(void* ptr)
+/*void Ysafe_cfree(void* ptr)
 {
 	cfree(ptr);
 	return;
-}
+}*/
 
 /* ***********DUMMY ROUTINES TO RESOLVE GLOBALS **************** */
 /*

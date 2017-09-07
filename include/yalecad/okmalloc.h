@@ -21,7 +21,7 @@ REVISIONS:
 
 /* memory manager definitions - safety net between memory manager */
 void Ysafe_free( void *ptr ) ;
-void Ysafe_cfree( void *ptr ) ;
+//void Ysafe_cfree( void *ptr ) ;
 char *Ysafe_malloc( int bytes ) ;
 char *Ysafe_calloc( int num_entries, int bytes ) ;
 char *Ysafe_realloc( void *ptr, int bytes ) ;

@@ -332,7 +332,8 @@ int cleanupReadCells()
 	/* free memory */
 	Ysafe_free(cornerArrayS) ;
 	Ysafe_free(pSideArrayS) ;
-	Ysafe_cfree(kArrayS) ;
+	//Ysafe_cfree(kArrayS) ;
+	Ysafe_free(kArrayS) ;
 	Ybuster_free() ;
 
 } /* end cleanupReadCells */
