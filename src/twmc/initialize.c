@@ -332,7 +332,6 @@ int cleanupReadCells()
 	/* free memory */
 	Ysafe_free(cornerArrayS) ;
 	Ysafe_free(pSideArrayS) ;
-	//Ysafe_cfree(kArrayS) ;
 	Ysafe_free(kArrayS) ;
 	Ybuster_free() ;
 
@@ -359,11 +358,12 @@ void addCell( char *cellName, CELLTYPE cellType )
 	/* add cell to hash table */
 	data = (int *) Ysafe_malloc( sizeof(int) ) ;
 	*data = totalcellsG ;
-	if( Yhash_search( cellTableS, curCellNameS, (char *) data, ENTER ) ){
+	if( Yhash_search( cellTableS, curCellNameS, data, ENTER ) ){
 		sprintf( YmsgG, "Cellnames not unique:%s\n", curCellNameS ) ;
 		M(ERRMSG,"addCell",YmsgG ) ;
 		Ysafe_free( data ) ;
 		errorFlagS = TRUE ;
+		exit(0);
 	}
 	ptrS->cname = cellName ; /* memory allocation in yylex */
 	ptrS->celltype = cellType ;

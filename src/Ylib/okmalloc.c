@@ -153,23 +153,14 @@ char *Ysafe_malloc(int size)
 		exit(0);
 	}
 	char *p = malloc(size);
-// 	printf("%s size %d ptr %p\n",__FUNCTION__,size,p);
-	if (!p) {
-		errno = heap_no_mem ;
-		kill(getpid(),SIGUSR1);
-		exit(0);
-	}
+	if (!p) exit(0);
 	return p;
 }
 
 char *Ysafe_realloc(void* obj, int size)
 {
 	char *p = realloc(obj, size);
-	if (!p) {
-		errno = heap_no_mem ;
-		kill(getpid(),SIGUSR1);
-		exit(0);
-	}
+	if (!p) exit(0);
 	return p;
 }
 
@@ -180,19 +171,13 @@ char *Ysafe_calloc(int num, int size)
 		exit(0);
 	}
 	char *p = calloc(num,size);
-// 	printf("%s num %d size %d ptr %p\n",__FUNCTION__,num,size,p);
-	if (!p) {
-		errno = heap_no_mem ;
-		kill(getpid(),SIGUSR1);
-		exit(0);
-	}
+	if (!p) exit(0);
 	return p;
 }
 /* when not testing memory just call system free */
 void Ysafe_free(void *ptr)
 {
 	free(ptr);
-	return;
 }
 
 /*void Ysafe_cfree(void* ptr)
