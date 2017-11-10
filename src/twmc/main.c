@@ -332,7 +332,7 @@ TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dN
 		if( !cost_onlyG ) {
 			printf("\n\nTimberWolf Cell Placement Ready for Action\n\n");
 			/* allow multi cell moves */
-			G( set_graphic_context( PLACEMENT ) ) ;
+			if(doGraphicsG) G( set_graphic_context( PLACEMENT ) ) ;
 			utemp( attmaxG, TRUE ) ;
 		}
 

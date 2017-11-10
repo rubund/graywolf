@@ -145,9 +145,8 @@ cellname : CELL INTEGER STRING
 };
 neighborhood : NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
 neighborhood : NEIGHBORHOOD FIXED INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
-fixed : fixedcontext AT INTEGER FROM xloc INTEGER FROM yloc;
-fixed : fixedcontext NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
-fixedcontext : FIXED;
+fixed : FIXED AT INTEGER FROM xloc INTEGER FROM yloc;
+fixed : FIXED NEIGHBORHOOD INTEGER FROM xloc INTEGER FROM yloc INTEGER FROM xloc INTEGER FROM yloc;
 std_fixed :;
 std_fixed : initially fixed_type INTEGER FROM fixed_loc OF BLOCK INTEGER;
 swap_group : SWAPGROUP STRING;

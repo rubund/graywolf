@@ -860,7 +860,7 @@ while( attempts < limit ) {
 D( "uloop", checkcost() ) ;
 
 if( !(++dumpCountS % dumpRatioS) ){
-    G( setGraphicWindow() ) ;
+    if(doGraphicsG) G( setGraphicWindow() ) ;
     G( draw_the_data() ) ;
 }
 
