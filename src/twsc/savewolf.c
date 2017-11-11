@@ -39,9 +39,9 @@
 
 /* ----------------------------------------------------------------- 
 FILE:	    savewolf.c                                       
-DESCRIPTION:checkpoINT file routines.
+DESCRIPTION:checkpoint file routines.
 CONTENTS:   savewolf(flag)
-		INT flag ;
+		int flag ;
 	    TW_oldin( fp )
 		FILE *fp ;
 DATE:	    Mar 27, 1989 
@@ -49,64 +49,35 @@ REVISIONS:  Wed Mar 13 13:48:30 CST 1991 - make sure the .blk
 		and the .res file are consistent.
 	    Thu Sep 19 16:36:02 EDT 1991 - added more error checking.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "feeds.h"
-#include "readpar.h"
-#include "parser.h"
-#include <yalecad/message.h>
-
-#if SIZEOF_VOID_P == 64
-#define INTSCANSTR "%ld"
-#else
 #define INTSCANSTR "%d"
-#endif
 
-savewolf(flag)
-INT flag ;
+void savewolf(int flag)
 {
 
 FILE *fp ;
-INT xcenter , ycenter ;
-INT cell , block , orient ;
+int xcenter , ycenter ;
+int cell , block , orient ;
 char filename[64] ;
 char file1[1024], file2[1024];
 CBOXPTR cellptr ;
-DOUBLE Ycpu_time();
-DOUBLE current_time;
-static DOUBLE last_time = 0.0;
+double Ycpu_time();
+double current_time;
+static double last_time = 0.0;
 
 if( !flag ) {
-#ifndef VMS
-    /* make sure another checkpoINT is worthwhile !! */
+    /* make sure another checkpoint is worthwhile !! */
     current_time = Ycpu_time();
     if ((current_time - last_time) < 900.0 ) {
         return;
     }
     last_time = current_time;
-#else
-    if( iterationG % 10 != 0 ) {
-        return ;
-    }
-#endif
 }
 
-#ifdef VMS
-sprintf( filename , "%s.sav" , cktNameG ) ;
-fp = TWOPEN( filename , "w", ABORT ) ;
-sprintf( filename , "%s.sav;-2" , cktNameG ) ;
-delete( filename ) ;
-#else
 sprintf( filename , "%s.tmp" , cktNameG ) ;
 fp = TWOPEN( filename , "w", ABORT ) ;
-#endif
 
 fprintf( fp, "%f\n", TG ) ;
 fprintf( fp, "%d\n", iterationG ) ;
@@ -140,15 +111,14 @@ rename(file1, file2);
 return ;
 }
 
-TW_oldin( fp )
-FILE *fp ;
+void TW_oldin( FILE *fp )
 {
 
-INT cell , orient , numfds ;
-INT block , xcenter , ycenter , dummy ;
-INT last_cell ;
-INT number_of_core_cells ;
-DOUBLE cost_scale_factor ;
+int cell , orient , numfds ;
+int block , xcenter , ycenter , dummy ;
+int last_cell ;
+int number_of_core_cells ;
+double cost_scale_factor ;
 CBOXPTR ptr ;
 PINBOXPTR pinptr ;
 

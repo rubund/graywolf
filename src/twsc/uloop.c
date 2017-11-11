@@ -46,29 +46,29 @@ CONTENTS:
 		FILE *fp ;
 	    read_control( fp )
 		FILE *fp ;
-	    INT eval_ratio(t)
-		DOUBLE *t;
+	    int eval_ratio(t)
+		double *t;
 	    init_uloop()
 	    init_control(first)
-		INT first;
+		int first;
 	    pick_position(x,y,ox,oy,scale)
-		INT *x,*y,ox,oy;
-		DOUBLE scale ;
+		int *x,*y,ox,oy;
+		double scale ;
 	    update_window_size( iternum )
-		DOUBLE iternum ;
+		double iternum ;
 	    uloop()
 	    rowcon()
-	    DOUBLE partition( C_initial,k_initial,p_initial,R_initial )
-		INT C_initial , k_initial , p_initial , R_initial ;
-	    DOUBLE expected_value(C_initial,k_initial,p_initial,R_initial)
-		INT C_initial , k_initial , p_initial , R_initial ;
-	    DOUBLE expected_svalue(C_initial,k_initial,
+	    double partition( C_initial,k_initial,p_initial,R_initial )
+		int C_initial , k_initial , p_initial , R_initial ;
+	    double expected_value(C_initial,k_initial,p_initial,R_initial)
+		int C_initial , k_initial , p_initial , R_initial ;
+	    double expected_svalue(C_initial,k_initial,
 		p_initial,R_initial ) 
-	    INT C_initial , k_initial , p_initial , R_initial ; 
-	    DOUBLE compute_and_combination( C , k , p , R )
-		INT C , k , p , R ;
-	    DOUBLE combination( numerator , denominator )
-		INT numerator , denominator ;
+	    int C_initial , k_initial , p_initial , R_initial ; 
+	    double compute_and_combination( C , k , p , R )
+		int C , k , p , R ;
+	    double combination( numerator , denominator )
+		int numerator , denominator ;
 	    sanity_check()
 	    sanity_check2()
 	    sanity_check3()
@@ -80,21 +80,11 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) uloop.c (Yale) version 4.14 3/23/92" ;
-#endif
-#endif
-
 #define UCXXGLB_VARS
 
-#include "standard.h"
-#include "ucxxglb.h"
-#include "main.h"
-#include "readpar.h"
-#include "parser.h"
-#include "yalecad/message.h"
-#include "yalecad/debug.h"
+#include <globals.h>
+#define NO_PAD
+#include "allheaders.h"
 
 #define INITRATIO 0.95
 #define AC0 0.90
@@ -116,7 +106,7 @@ static char SccsId[] = "@(#) uloop.c (Yale) version 4.14 3/23/92" ;
 #define TABSHIFT 19
 #define TABMASK 0xfff
 #define TABOFFSET 0x40000
-#define RANDFACT (1.0 / MAXINT)
+#define RANDFACT (1.0 / INT_MAX)
 #define CHANCE(n) (!(RAND % n))
 
 /* #define START_ITER 81  if you change this one, */
@@ -131,93 +121,92 @@ static char SccsId[] = "@(#) uloop.c (Yale) version 4.14 3/23/92" ;
 #define LASTTEMP       155.00 /* last iterationG */
 #define NUMTUPDATES   400 /* maximum number of T updates per iterationG */
 
-#define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
+#define PICK_int(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global variables */
+int wire_chgsG ;
+int *cellaptrG , *cellbptrG ;
+int attemptsG;
 BOOL fences_existG ;
-DOUBLE avg_timeG ; /* average random time penalty */
-DOUBLE avg_funcG ; /* average random wirelength penalty */
-DOUBLE start_timeG ;/* initial target value for the time penalty */
-DOUBLE end_timeG ;  /* final target value for the time penalty - obviously zero */
-DOUBLE ratioG = 1.0 ;
-DOUBLE finalRowControlG ;
-DOUBLE initialRowControlG ;
-
-/* global references */
-extern INT totalRG ;
-extern INT minxspanG ;
-extern BOOL pairtestG ;
-extern BOOL no_feed_estG ;
-extern BOOL good_initial_placementG ;
+double avg_timeG ; /* average random time penalty */
+double avg_funcG ; /* average random wirelength penalty */
+double start_timeG ;/* initial target value for the time penalty */
+double end_timeG ;  /* final target value for the time penalty - obviously zero */
+double ratioG = 1.0 ;
+double finalRowControlG ;
+double initialRowControlG ;
+double total_wire_chgG ;
+double sigma_wire_chgG ;
+double mean_wire_chgG ;
 
 /* function calls */
-DOUBLE expected_svalue() ;
-DOUBLE expected_value() ;
-DOUBLE partition() ;
-DOUBLE compute_and_combination() ;
-DOUBLE combination() ;
-INT eval_ratio() ;
+double expected_svalue() ;
+double expected_value() ;
+double partition() ;
+double compute_and_combination() ;
+double combination() ;
+int eval_ratio() ;
 
 /* static variables */
-static INT acc_cntS = 0 ;
-static INT move_cntS = 0 ;
-static INT f_cntS = 0;
-static INT cost_vectorS[13] = { 0,0,0,0,0,0,0,0,0,0,0,0,0 } ;
+static int acc_cntS = 0 ;
+static int move_cntS = 0 ;
+static int f_cntS = 0;
+static int cost_vectorS[13] = { 0,0,0,0,0,0,0,0,0,0,0,0,0 } ;
 static BOOL not_doneS = TRUE ;
 static BOOL first_fdsS = TRUE ;
 static BOOL first_capS = TRUE ;
 static BOOL called_rowconS = FALSE ;
 static BOOL P_limit_setS = FALSE ;
-static DOUBLE xadjustmentS,xalS,min_xalphaS,max_xalphaS;/* x control */
-static DOUBLE yadjustmentS,yalS,min_yalphaS,max_yalphaS;/* y control */
-static DOUBLE tauXS, tauYS ; /* exp. decay time constants for window */
-static DOUBLE stepS ;
-static DOUBLE num_penalS ;
-static DOUBLE avg_rowpenalS ;
-static DOUBLE f_meanS = 0.0;
-static DOUBLE total_stepS ;
-static DOUBLE fp_ratioS = 1.0 ;
-static DOUBLE log_tabS[TABLIMIT];
-static DOUBLE bin_capS = 99.0 ;
-static DOUBLE row_capS = 99.0 ;
-static DOUBLE a_ratioS;
-static DOUBLE total_costS;
+static double xadjustmentS,xalS,min_xalphaS,max_xalphaS;/* x control */
+static double yadjustmentS,yalS,min_yalphaS,max_yalphaS;/* y control */
+static double tauXS, tauYS ; /* exp. decay time constants for window */
+static double stepS ;
+static double num_penalS ;
+static double avg_rowpenalS ;
+static double f_meanS = 0.0;
+static double total_stepS ;
+static double fp_ratioS = 1.0 ;
+static double log_tabS[TABLIMIT];
+static double bin_capS = 99.0 ;
+static double row_capS = 99.0 ;
+static double a_ratioS;
+static double total_costS;
+double TG ;
 
-init_uloop()
+void init_uloop()
 {
     not_doneS = 1;
     acc_cntS = move_cntS ;
     ratioG = 1.0;
 } /* end init_uloop */
 
-
-uloop()
+void uloop()
 {
 
 FENCEBOXPTR fence ;
 CBOXPTR acellptr, bcellptr ; 
 BBOXPTR ablckptr , bblckptr ;
-INT flips , rejects , do_single_cell_move , bit_class ;
-INT axcenter , bxcenter , bycenter ; 
-INT aorient , borient ;
-INT blk , pairflips ;
-INT i , j , t , count , swaps, index, shift ;
-INT abin , bbin , fds , done , single_swap ;
-DOUBLE target_row_penalty ;
-DOUBLE target_bin_penalty ;
-DOUBLE temp , percent_error ;
-DOUBLE dCp, delta , gswap_ratio ;
-INT m1,m2, trials ;
-INT num_accepts , gate_switches , gate_attempts ;
-INT last_flips , delta_func , delta_time ;
-INT temp_timer, time_to_update ; /* keeps track of when to update T */
-DOUBLE iter_time, accept_deviation, calc_acceptance_ratio() ;
-DOUBLE num_time, num_func ;
-DOUBLE calc_time_factor() ; 
+int flips , rejects , do_single_cell_move , bit_class ;
+int axcenter , bxcenter , bycenter ; 
+int aorient , borient ;
+int blk , pairflips ;
+int i , j , t , count , swaps, index, shift ;
+int abin , bbin , fds , done , single_swap ;
+double target_row_penalty ;
+double target_bin_penalty ;
+double temp , percent_error ;
+double dCp, delta , gswap_ratio ;
+int m1,m2, trials ;
+int num_accepts , gate_switches , gate_attempts ;
+int last_flips , delta_func , delta_time ;
+int temp_timer, time_to_update ; /* keeps track of when to update T */
+double iter_time, accept_deviation, calc_acceptance_ratio() ;
+double num_time, num_func ;
+double calc_time_factor() ; 
 /* 
     commented out variables 
-    INT reset_T ;
-    DOUBLE old_T ;
+    int reset_T ;
+    double old_T ;
 */
 
 
@@ -238,9 +227,9 @@ if( !P_limit_setS || iterationG <= 0 ) {
     }
 } else {
     if( wire_chgsG > 0 ) {
-	mean_wire_chgG = total_wire_chgG / (DOUBLE) wire_chgsG ;
+	mean_wire_chgG = total_wire_chgG / (double) wire_chgsG ;
 	if( iterationG > 1 ) {
-	    sigma_wire_chgG = sqrt( sigma_wire_chgG / (DOUBLE) wire_chgsG);
+	    sigma_wire_chgG = sqrt( sigma_wire_chgG / (double) wire_chgsG);
 	} else {
 	    sigma_wire_chgG = 3.0 * mean_wire_chgG ;
 	}
@@ -288,7 +277,7 @@ gate_attempts = 0 ;
 while( attemptsG < attmaxG ) {
 
     /* ------------- pick up a number at random --------------- */
-    aG = PICK_INT( 1 , numcellsG - extra_cellsG ) ;
+    aG = PICK_int( 1 , numcellsG - extra_cellsG ) ;
 
     /* ------------- get the structure for cell# aG ------------- */
     acellptr = carrayG[ aG ] ;
@@ -300,9 +289,9 @@ while( attemptsG < attmaxG ) {
     interchangable. Below we check if the cell#aG belongs to a swap_group
    ------------------------------------------------------------------------ */
     if( acellptr->num_swap_group > 0 ) {
-	INT sgroup;
+	int sgroup;
 	SGLISTPTR sglistptr;
-	i = PICK_INT( 0 , acellptr->num_swap_group - 1 ) ;
+	i = PICK_int( 0 , acellptr->num_swap_group - 1 ) ;
 	sglistptr = acellptr->swapgroups + i;
 	sgroup = sglistptr->swap_group;
 	
@@ -327,7 +316,7 @@ while( attemptsG < attmaxG ) {
 		if( Equal_Width_CellsG ){
 		    BpostG = 1 ;
 		} else {
-		    BpostG = PICK_INT( 1 , *cellbptrG ) ;
+		    BpostG = PICK_int( 1 , *cellbptrG ) ;
 		}
 		bG = cellbptrG[ BpostG ] ;
 		bcellptr  = carrayG[bG] ;
@@ -425,7 +414,7 @@ while( attemptsG < attmaxG ) {
 		for( ; fence; fence = fence->next_fence){
 		    count++ ;
 		}
-		j = PICK_INT( 1 , count ) ;
+		j = PICK_int( 1 , count ) ;
 		count = 0 ;
 		fence = acellptr->fence ;
 		for( ; fence; fence = fence->next_fence ) {
@@ -470,7 +459,7 @@ while( attemptsG < attmaxG ) {
 get_b:  if( Equal_Width_CellsG ){
 	    BpostG = 1 ;
 	} else {
-	    BpostG = PICK_INT( 1 , *cellbptrG ) ;
+	    BpostG = PICK_int( 1 , *cellbptrG ) ;
 	}
 	bG = cellbptrG[ BpostG ] ;
 	if( aG == bG ) {
@@ -653,7 +642,7 @@ get_b:  if( Equal_Width_CellsG ){
 
     num_penalS += 1.0 ;
     avg_rowpenalS = (avg_rowpenalS * (num_penalS - 1.0) + 
-			(DOUBLE) rowpenalG) / num_penalS ;
+			(double) rowpenalG) / num_penalS ;
     
     attemptsG++ ;
 
@@ -669,13 +658,13 @@ get_b:  if( Equal_Width_CellsG ){
 	if( delta_time != 0 ) {
 	    num_time += 1.0 ;
 	    avg_timeG = (avg_timeG * (num_time - 1.0) + 
-			    (DOUBLE) delta_time) / num_time ;
+			    (double) delta_time) / num_time ;
 	
 	    /* calculate a running average of (delta) wirelength penalty */
 	    delta_func = abs( delta_func - funccostG ) ;
 	    num_func += 1.0 ;
 	    avg_funcG = (avg_funcG * (num_func - 1.0) + 
-				(DOUBLE) delta_func) / num_func ;
+				(double) delta_func) / num_func ;
 	}
 
 
@@ -711,21 +700,21 @@ get_b:  if( Equal_Width_CellsG ){
 
     if( ++temp_timer >= time_to_update || 
 			(attemptsG >= attmaxG && temp_timer >= 50) ) {
-	ratioG = ((DOUBLE)(num_accepts)) / (DOUBLE) temp_timer ;
+	ratioG = ((double)(num_accepts)) / (double) temp_timer ;
 	temp_timer = 0 ; /* reset counter */
 	num_accepts = 0 ;
-	iter_time = (DOUBLE) iterationG +
-		    (DOUBLE) attemptsG / (DOUBLE) attmaxG ;
+	iter_time = (double) iterationG +
+		    (double) attemptsG / (double) attmaxG ;
 	accept_deviation = 
 	    (calc_acceptance_ratio( iter_time ) - ratioG ) ;
-	if( (DOUBLE) iterationG < TURNOFFT ) {
+	if( (double) iterationG < TURNOFFT ) {
 	    accept_deviation *= ACCEPTDAMPFACTOR ; 
 	} else {
 	    accept_deviation *= ACCEPTDAMPFACTOR2 ;
 	}
 	TG *= 1.0 + accept_deviation ;
-	update_window_size( (DOUBLE) iterationG +
-			    (DOUBLE) attemptsG / (DOUBLE) attmaxG ) ;
+	update_window_size( (double) iterationG +
+			    (double) attemptsG / (double) attmaxG ) ;
     }
 
 
@@ -745,19 +734,19 @@ if( ratioG < AC3 ){
 }
 
 if( potential_errorsG > 0 ) {
-    percent_error = (DOUBLE) error_countG / (DOUBLE) potential_errorsG ;
+    percent_error = (double) error_countG / (double) potential_errorsG ;
 } else {
     percent_error = 0.0 ;
 }
 percent_error *= 100.0 ;
 
 if( pairflips > 0.0001 ) {
-    fp_ratioS = (DOUBLE)flips/(DOUBLE)pairflips ;
+    fp_ratioS = (double)flips/(double)pairflips ;
 } else {
     fp_ratioS = 1.0 ;
 }
 
-ratioG = ((DOUBLE)(pairflips+flips)) / attemptsG;
+ratioG = ((double)(pairflips+flips)) / attemptsG;
 if(iterationG >= 0 || good_initial_placementG ) {
     if( !gate_arrayG ) {
 	sprintf(YmsgG,"%3d: %6.2le %6ld %-8ld %-6ld %-8ld",
@@ -773,23 +762,22 @@ if(iterationG >= 0 || good_initial_placementG ) {
     M( MSG, NULL, YmsgG ) ;
     if( swappable_gates_existG ) {
 	if( gate_attempts > 0 ) {
-	    gswap_ratio = (DOUBLE) gate_switches / (DOUBLE) gate_attempts ;
+	    gswap_ratio = (double) gate_switches / (double) gate_attempts ;
 	} else {
 	    gswap_ratio = 0 ;
 	}
 	sprintf(YmsgG,"%4.2lf %4.2lf %5.3lf %4.2lf\n",
-	    fp_ratioS,((DOUBLE) earlyRejG)/attemptsG,ratioG,
+	    fp_ratioS,((double) earlyRejG)/attemptsG,ratioG,
 	    gswap_ratio );
 	M( MSG, NULL, YmsgG ) ;
 
     } else {
 	sprintf(YmsgG,"%4.2lf %4.2lf %5.3lf\n",
-	    fp_ratioS,((DOUBLE) earlyRejG)/attemptsG,ratioG );
+	    fp_ratioS,((double) earlyRejG)/attemptsG,ratioG );
 	M( MSG, NULL, YmsgG ) ;
     }
     Ymessage_flush();
 }
-
 
 if( !called_rowconS && !(Equal_Width_CellsG)) {
     rowcon() ;
@@ -813,17 +801,17 @@ if( not_doneS || good_initial_placementG ) {
 	/*---------------------------------------------------------*/
     } else {
 
-	target_bin_penalty = (1.25 - 1.00 * fraction_doneG) * (DOUBLE)totalRG ;
+	target_bin_penalty = (1.25 - 1.00 * fraction_doneG) * (double)totalRG ;
 	target_row_penalty = (initialRowControlG - 
 		    (initialRowControlG - finalRowControlG) * 
-		    (fraction_doneG) ) * (DOUBLE) totalRG ;
-	binpenConG += ((DOUBLE) binpenalG - target_bin_penalty) / 
-						(DOUBLE) totalRG ;
+		    (fraction_doneG) ) * (double) totalRG ;
+	binpenConG += ((double) binpenalG - target_bin_penalty) / 
+						(double) totalRG ;
 	binpenConG = (binpenConG > 1.0) ? binpenConG : 1.0 ;
 	if( good_initial_placementG ) {
 	    binpenConG = (binpenConG > 4.0) ? 4.0 : binpenConG ;
 	}
-	delta = ((DOUBLE) rowpenalG - target_row_penalty) / 
+	delta = ((double) rowpenalG - target_row_penalty) / 
 						target_row_penalty ;
 	if( fraction_doneG > PT1 && fraction_doneG < PT2 ) {
 	    roLenConG += (  (fraction_doneG - PT1) / (PT2 - PT1)  ) * delta;
@@ -836,8 +824,8 @@ if( not_doneS || good_initial_placementG ) {
 	    }
 	}
 	roLenConG = (roLenConG > 1.0) ? roLenConG : 1.0 ;
-	penaltyG = (INT)( binpenConG * (DOUBLE) binpenalG + 
-				    roLenConG * (DOUBLE) rowpenalG ) ;
+	penaltyG = (int)( binpenConG * (double) binpenalG + 
+				    roLenConG * (double) rowpenalG ) ;
     } /* end !Equal_Width_CellsG */
 
     timeFactorG = calc_time_factor() ;
@@ -846,17 +834,13 @@ if( not_doneS || good_initial_placementG ) {
 return ;
 } /* end uloop */
 
-
-
-
-
-rowcon()
+void rowcon()
 {
 
-INT C , R , p_first , totalCells , cellsPerRow , temp_R ;
-INT over, under ;
-DOUBLE states , value , expect , variance ; 
-DOUBLE expectedExtraRowLength , rowControl , x , minDev ;
+int C , R , p_first , totalCells , cellsPerRow , temp_R ;
+int over, under ;
+double states , value , expect , variance ; 
+double expectedExtraRowLength , rowControl , x , minDev ;
 
 if( numcellsG > 5000 ) {
     rowControl = 0.008 ;
@@ -883,9 +867,9 @@ if( numcellsG > 5000 ) {
     rowControl = 0.0 ;
     do {
 	rowControl += 0.001 ;
-	C = (INT)( rowControl * (DOUBLE) totalCells / 2.0 ) ;
-	if( 2.0 * (DOUBLE)(C+1) - rowControl * totalCells <=
-			rowControl * totalCells - 2.0 * (DOUBLE) C ) {
+	C = (int)( rowControl * (double) totalCells / 2.0 ) ;
+	if( 2.0 * (double)(C+1) - rowControl * totalCells <=
+			rowControl * totalCells - 2.0 * (double) C ) {
 	    C++ ;
 	}
     } while( 2 * C < temp_R ) ;
@@ -902,11 +886,11 @@ if( numcellsG > 5000 ) {
 	value = expected_value( C , 0 , p_first , R ) ;
 	states = combination( C+R-1, C ) ;
 	expect = value / states ;
-	expectedExtraRowLength = 100.0 * expect / (DOUBLE) cellsPerRow ;
+	expectedExtraRowLength = 100.0 * expect / (double) cellsPerRow ;
 	value = expected_svalue( C , 0 , p_first , R ) ;
 	variance = value / states - (expect * expect) ;
-	x = 100.0 * sqrt( variance ) / (DOUBLE) cellsPerRow ; 
-	minDev = 100.0 / (DOUBLE) cellsPerRow ;
+	x = 100.0 * sqrt( variance ) / (double) cellsPerRow ; 
+	minDev = 100.0 / (double) cellsPerRow ;
 	value = x+expectedExtraRowLength - minDev ;
 
 	if( !resume_runG ) {
@@ -931,9 +915,9 @@ if( numcellsG > 5000 ) {
 		break ;
 	    }
 	}
-	C = (INT)( rowControl * (DOUBLE) totalCells / 2.0 ) ;
-	if( 2.0 * (DOUBLE)(C+1) - rowControl * totalCells <=
-			rowControl * totalCells - 2.0 * (DOUBLE) C ) {
+	C = (int)( rowControl * (double) totalCells / 2.0 ) ;
+	if( 2.0 * (double)(C+1) - rowControl * totalCells <=
+			rowControl * totalCells - 2.0 * (double) C ) {
 	    C++ ;
 	}
 	p_first = C / R ;
@@ -949,13 +933,11 @@ if( numcellsG > 5000 ) {
 return ;
 }
 
-
-DOUBLE partition( C_initial , k_initial , p_initial , R_initial )
-INT C_initial , k_initial , p_initial , R_initial ;
+double partition( int C_initial , int k_initial , int p_initial , int R_initial )
 {
 
-INT R , C , k , p , k_limit , p_limit ;
-DOUBLE states , equivs ;
+int R , C , k , p , k_limit , p_limit ;
+double states , equivs ;
 
 states = 0.0 ;
 R = k_limit = R_initial - k_initial ;
@@ -977,13 +959,11 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 return( states ) ;
 }
 
-
-DOUBLE expected_value( C_initial , k_initial , p_initial , R_initial )
-INT C_initial , k_initial , p_initial , R_initial ;
+double expected_value( int C_initial , int k_initial , int p_initial , int R_initial )
 {
 
-INT R , C , k , p , k_limit , p_limit ;
-DOUBLE value , equivs ;
+int R , C , k , p , k_limit , p_limit ;
+double value , equivs ;
 
 value = 0.0 ;
 R = k_limit = R_initial - k_initial ;
@@ -996,7 +976,7 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 	if( C - (p-1)*R > k ) { ;
 	    continue ;
 	}
-	value += (DOUBLE) p * equivs *
+	value += (double) p * equivs *
 			(compute_and_combination( C , k , p , R ) -
 				    partition( C , k , p , R ) ) ;
     }
@@ -1005,13 +985,11 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 return( value ) ;
 }
 
-
-DOUBLE expected_svalue( C_initial , k_initial , p_initial , R_initial )
-INT C_initial , k_initial , p_initial , R_initial ;
+double expected_svalue( int C_initial , int k_initial , int p_initial , int R_initial )
 {
 
-INT R , C , k , p , k_limit , p_limit ;
-DOUBLE value , equivs ;
+int R , C , k , p , k_limit , p_limit ;
+double value , equivs ;
 
 value = 0.0 ;
 R = k_limit = R_initial - k_initial ;
@@ -1024,7 +1002,7 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 	if( C - (p-1)*R > k ) { ;
 	    continue ;
 	}
-	value += (DOUBLE)(p * p) * equivs *
+	value += (double)(p * p) * equivs *
 			(compute_and_combination( C , k , p , R ) -
 				    partition( C , k , p , R ) ) ;
     }
@@ -1033,13 +1011,10 @@ for( k = 1 ; k <= k_limit ; k++ ) {
 return( value ) ;
 }
 
-
-DOUBLE compute_and_combination( C , k , p , R )
-INT C , k , p , R ;
+double compute_and_combination( int C , int k , int p , int R )
 {
-
-INT numerator , denom1 , denom2 , temp ;
-DOUBLE states ;
+int numerator , denom1 , denom2 , temp ;
+double states ;
 
 states = 1.0  ;
 numerator = C - k*p + R - k - 1 ;
@@ -1051,20 +1026,20 @@ if( denom1 > denom2 ) {
     denom2 = temp ;
 }
 for( ; numerator > denom2 ; numerator-- , denom1-- ) {
-    states *= (DOUBLE) numerator ;
-    states /= (DOUBLE) denom1 ;
+    states *= (double) numerator ;
+    states /= (double) denom1 ;
 }
 
 return( states ) ;
 }
 
 
-DOUBLE combination( numerator , denominator )
-INT numerator , denominator ;
+double combination( numerator , denominator )
+int numerator , denominator ;
 {
 
-DOUBLE states ;
-INT temp , denom1 , denom2 ;
+double states ;
+int temp , denom1 , denom2 ;
 
 states = 1.0  ;
 
@@ -1076,18 +1051,17 @@ if( denom1 > denom2 ) {
     denom2 = temp ;
 }
 for( ; numerator > denom2 ; numerator-- , denom1-- ) {
-    states *= (DOUBLE) numerator ;
-    states /= (DOUBLE) denom1 ;
+    states *= (double) numerator ;
+    states /= (double) denom1 ;
 }
 
 return( states ) ;
 }
 
-
-sanity_check()
+int sanity_check()
 {
 
-INT *cellxptr , cell , center , block , bin , i ;
+int *cellxptr , cell , center , block , bin , i ;
 
 for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
     center = carrayG[cell]->cxcenter ;
@@ -1106,14 +1080,13 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 return(0);
 }
 
-
-sanity_check2()
+int sanity_check2()
 {
 
-INT *cellxptr , *clist ;
-INT block , bin , cell , i ;
+int *cellxptr , *clist ;
+int block , bin , cell , i ;
 
-clist = (INT *) Ysafe_malloc( (1 + numcellsG - extra_cellsG ) * sizeof( INT ) ) ;
+clist = (int *) Ysafe_malloc( (1 + numcellsG - extra_cellsG ) * sizeof( int ) ) ;
 for( i = 1 ; i <= numcellsG - extra_cellsG ; i++ ) {
     clist[i] = 0 ;
 }
@@ -1145,12 +1118,11 @@ Ysafe_free( clist ) ;
 return(0);
 }
 
-
-sanity_check3()
+int sanity_check3()
 {
 
-INT *cellxptr ;
-INT block , bin , cell , i ;
+int *cellxptr ;
+int block , bin , cell , i ;
 
 for( block = 1 ; block <= numRowsG ; block++ ) {
     for( bin = 0 ; bin <= numBinsG ; bin++ ) {
@@ -1175,24 +1147,22 @@ return(0);
 }
 
 /* new evaluate ratio is a linear function of iterationG */
-INT eval_ratio( t )
-DOUBLE *t;
+int eval_ratio(double *t)
 {
     if( iterationG >= TURNOFFT ){
 	*t = 1.0 ;
     } else if( iterationG < 0 ){
 	*t = 0.0 ;
     } else {
-	*t = (DOUBLE) iterationG / TURNOFFT ;
+	*t = (double) iterationG / TURNOFFT ;
     }
     return((ratioG < AC4) ? 0 : 1);
 }
 
-init_control(first)
-INT first;
+void init_control(int first)
 {
-    INT i;
-    DOUBLE tmp ;
+    int i;
+    double tmp ;
 
     /* initialize move generation parameters */
     min_xalphaS = 0.5 * minxspanG;	/* average min. window size */
@@ -1224,16 +1194,12 @@ INT first;
     }
 }
 
-
-
-pick_fence_position(x,y,fence)
-INT *x, *y ;
-FENCEBOX *fence ;
+void pick_fence_position(int *x, int *y, FENCEBOX *fence)
 {
-    register INT left,right;
+    register int left,right;
     BBOXPTR bblckptr ;
 
-    *y = PICK_INT( fence->min_block , fence->max_block ) ;
+    *y = PICK_int( fence->min_block , fence->max_block ) ;
     bblckptr = barrayG[*y] ;
     
     left = fence->min_xpos ;
@@ -1244,16 +1210,14 @@ FENCEBOX *fence ;
     if( right > bblckptr->bxcenter + bblckptr->bright ) {
 	right = bblckptr->bxcenter + bblckptr->bright ;
     }
-    *x = PICK_INT( left , right ) ;
+    *x = PICK_int( left , right ) ;
     return;
 }
 
-pick_position(x,y,ox,oy,scale)
-INT *x,*y,ox,oy;
-DOUBLE scale ;
+void pick_position(int *x, int *y, int ox, int oy,double scale)
 {
-    register INT i,m,n,bleft,bright;
-    DOUBLE tmp ;
+    register int i,m,n,bleft,bright;
+    double tmp ;
     BBOXPTR bblckptr ;
 
     m = RAND;
@@ -1264,8 +1228,8 @@ DOUBLE scale ;
     n = -tmp * log_tabS[(m >> TABSHIFT) & TABMASK] + 0.5;
     if (m & 0x10000) n = -n;
     n += oy;
-    if (n < 1) n = PICK_INT(1,oy);
-    else if (n > numRowsG) n = PICK_INT(oy,numRowsG);
+    if (n < 1) n = PICK_int(1,oy);
+    else if (n > numRowsG) n = PICK_int(oy,numRowsG);
     *y = n;
     bblckptr = barrayG[n] ;
     for (i=0; i<2; i++) {
@@ -1286,24 +1250,23 @@ DOUBLE scale ;
     if (n < bleft) {
 	if (ox > bright) ox = bright;
 	else if (ox < bleft) ox = bleft;
-	n = PICK_INT(bleft,ox);
+	n = PICK_int(bleft,ox);
     } else if (n > bright) {
 	if (ox < bleft) ox = bleft;
 	else if (ox > bright) ox = bright;
-	n = PICK_INT(ox,bright);
+	n = PICK_int(ox,bright);
     }
     *x = n;
 }
 
 /* change range limiter according to iterationG number */
-update_window_size( iternum )
-DOUBLE iternum ;
+void update_window_size( double iternum )
 {
 
 /*
     commented out variables 
     CBOXPTR ptr ;
-    INT cell ;
+    int cell ;
 */
 
     if( iternum <= HIGHTEMP ){
@@ -1326,33 +1289,9 @@ DOUBLE iternum ;
 	xalS = min_xalphaS ;
 	yalS = min_yalphaS ;
     }
-
-    /*
-    for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
-	ptr = carrayG[cell] ;
-	if( ptr->fence != NULL ) {
-	    ptr->fence->min_xpos = ptr->orig_xcenter - xalS ;
-	    ptr->fence->max_xpos = ptr->orig_xcenter + xalS ;
-	    if( yalS != min_yalphaS ) {
-		ptr->fence->min_block = ptr->orig_row - (INT) yalS ;
-		if( ptr->fence->min_block < 1 ) {
-		    ptr->fence->min_block = 1 ;
-		}
-		ptr->fence->max_block = ptr->orig_row + (INT) yalS ;
-		if( ptr->fence->max_block > numRowsG ) {
-		    ptr->fence->max_block = numRowsG ;
-		}
-	    } else {
-		ptr->fence->min_block = ptr->orig_row ;
-		ptr->fence->max_block = ptr->orig_row ;
-	    }
-	}
-    }
-    */
 }
 
-save_control( fp )
-FILE *fp ;
+void save_control(FILE *fp)
 {
     fprintf(fp,"%d 0 %d\n",pairtestG,not_doneS);
     fprintf(fp,"%d %d %d %d\n",acc_cntS,move_cntS,first_fdsS,first_capS);
@@ -1362,10 +1301,9 @@ FILE *fp ;
     fprintf(fp,"%f %f %f\n",avg_timeG, avg_funcG, timeFactorG);
 }
 
-read_control( fp )
-FILE *fp ;
+void read_control( FILE *fp )
 {
-    INT junk ;
+    int junk ;
 
     fscanf(fp,"%ld %ld %ld\n",&pairtestG,&junk,&not_doneS);
     fscanf(fp,"%ld %ld %ld %ld\n",&acc_cntS,&move_cntS,&first_fdsS,&first_capS);
@@ -1375,21 +1313,20 @@ FILE *fp ;
     fscanf(fp,"%lf %lf %lf\n",&avg_timeG, &avg_funcG, &timeFactorG);
 }
 
-tw_frozen( cost )
-INT cost ;
+int tw_frozen( int cost )
 {
 
-DOUBLE diff , avg_first_set , avg_second_set ;
-INT i ;
+double diff , avg_first_set , avg_second_set ;
+int i ;
 
 if( cost_vectorS[0] >= 12 ) {
     for( i = 2 ; i <= 12 ; i++ ) {
 	cost_vectorS[i-1] = cost_vectorS[i] ;
     }
     cost_vectorS[12] = cost ;
-    avg_first_set = (DOUBLE)(cost_vectorS[1] + cost_vectorS[2] + 
+    avg_first_set = (double)(cost_vectorS[1] + cost_vectorS[2] + 
 		    cost_vectorS[3] + cost_vectorS[4]) / 4.0 ;
-    avg_second_set = (DOUBLE)(cost_vectorS[9] + cost_vectorS[10] + 
+    avg_second_set = (double)(cost_vectorS[9] + cost_vectorS[10] + 
 		    cost_vectorS[11] + cost_vectorS[12]) / 4.0 ;
     diff = avg_first_set - avg_second_set ;
     if( diff <= 0.0 ) {

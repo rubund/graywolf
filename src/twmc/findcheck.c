@@ -46,24 +46,20 @@ REVISIONS:  Jul 21, 1988 - fixed softcell code.
 	    Oct 25, 1988 - remove weights from funccost
 	    Mar 30, 1989 - changed tile datastructure.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findcheck.c version 3.3 9/5/90" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <yalecad/relpos.h>
-#include <yalecad/debug.h>
+int fwireG, fwirexG , fwireyG , fcostG ;
+int iwireG, iwirexG , iwireyG , icostG ;
 
-
-finalcheck()
+void finalcheck()
 {
 
 NETBOXPTR netptr ;
 PINBOXPTR pinptr ;
 CELLBOXPTR ptr ;
-INT cell , net ;
-INT x , y , xc , yc ;
-INT orient ;
+int cell , net ;
+int x , y , xc , yc ;
+int orient ;
 
 fcostG  = 0 ;
 fwireG  = 0 ;
@@ -130,14 +126,12 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 return;
 }
 
-
-
-initcheck()
+void initcheck()
 {
 
 NETBOXPTR netptr ;
 
-INT net ;
+int net ;
 
 icostG  = 0 ;
 iwireG  = 0 ;

@@ -1,0 +1,12 @@
+int find_optimum_locations() ;
+void place_pad(PADBOXPTR pad,int bestside);
+void find_core();
+void align_pads();
+void placepads();
+void print_pads( char *message, PADBOXPTR *array, int howmany );
+void setVirtualCore( BOOL flag );
+void find_core_boundary( int *left, int *right, int *bottom, int *top );
+void get_global_pos( int cell, int *l, int *b, int *r, int *t );
+void output_nets( FILE *fp, int numnets );
+void call_place_pads();
+void find_core_boundary( int *left, int *right, int *bottom, int *top );

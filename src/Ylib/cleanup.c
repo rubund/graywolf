@@ -73,37 +73,17 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Fri Jan 25 16:16:50 PST 1991 - fixed to run on HPUX.
 	    Mon Sep 16 22:20:09 EDT 1991 - fixed to run on R6000.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cleanup.c version 3.13 11/2/91" ;
-#endif
-
-#include <yalecad/cleanup.h>
+#include <globals.h>
 
 /* conditional compile switch is set in cleanup.h */
-#ifdef CLEANUP_C
-
-#include <stdio.h>
-#include <yalecad/base.h>
-
-#ifdef R6000
-#include <sys/types.h>
-#include <sys/context.h>
-#include <sys/signal.h>
-#endif /* R6000 */
-
-
-static INT dumpFlag ;
+static int dumpFlag ;
 static char programPath[LRECL] ;
 static BOOL  (*userFunction)() ;
-
 
 /* ***************************************************************** 
    initCleanup - sets static variables for cleanup handler.
 */
-VOID YinitCleanup( argv, function, dump )
-char *argv ;
-BOOL  (*function)() ;
-int dump ;
+void YinitCleanup( char *argv, BOOL  (*function)(), int dump )
 {
     sprintf( programPath, "%s", argv ) ;
     userFunction = function ;
@@ -113,90 +93,34 @@ int dump ;
 /* ***************************************************************** 
    cleanup - the installed cleanup handler.
 */
-#ifdef linux	/* maybe others? */
-
-void
-Ycleanup(int sigNum)
-
-#else
-
-Ycleanup(sigNum, code, scp )
-int sigNum ;
-int code ;
-struct sigcontext *scp ;
-
-#endif /* linux */
-
+void Ycleanup(int sigNum)
 {
     if( sigNum != SIGINT && sigNum != SIGQUIT && sigNum != SIGKILL ){
-	fprintf(stderr,
-	    "\nSystem has detected an error!\n") ;
-#ifdef apollo
-	{
-	    INT pid ;
-	    char command[LRECL] ;
-
-	    pid = getpid() ;
-	    sprintf( command, "/com/tb %d", pid ) ;
-	    if(Ysystem("traceback", FALSE, command, NULL )){
-	       fprintf(stderr,"ERROR[cleanup]:could not perform traceback.\n");
-	    }
-	}
-#endif
-#ifdef UNIX
-#ifndef SYS5
-#ifndef mips
-#ifdef linux
-	fprintf(stderr, "Stack pointer unknown\n");
-#else
-	fprintf(stderr,"Stack pointer :%0x\n", scp->sc_sp ) ;
-#endif
-#endif
-#ifndef AIX
-#ifdef linux
-	fprintf(stderr, "Program counter unknown\n");
-#else
-	fprintf(stderr,"Program counter:%0x\n", scp->sc_pc ) ;
-#endif
-#else /* AIX */
-#ifdef R6000
-	fprintf(stderr,"Instruction Address Register :%0x\n", scp->sc_jmpbuf.jmp_context.iar ) ; 
-#else /* R6000 */
-	fprintf(stderr,"Stack pointer :%0x\n", scp->sc_psw ) ;
-#endif /* R6000 */
-#endif /* AIX */
-#endif /* SYS5 */
-#endif /* UNIX */
+	printf("\nSystem has detected an error!\n") ;
     }
     YcleanupHandler(sigNum) ;
-
 }
 
 /* ***************************************************************** 
    YcleanupHandler - after system work process user information.
 */
-YcleanupHandler(status)
-INT status ;
+void YcleanupHandler(int status)
 {
 
     char responseBuf[LRECL], *response = responseBuf ;
 
     if( status == SIGINT || status == SIGQUIT || status == SIGKILL ){
-	fprintf(stderr,"\nProgram terminated by user\n\n") ;
+	printf("\nProgram terminated by user\n\n") ;
     } else if( status == SIGUSR1 ){ 
 	Ypmemerror( "ERROR[memory manager]" ) ;
 
-    } else {
-#ifndef SYS5
-	psignal( status, "ERROR[cleanup handler]" ) ;
-#endif
     }
 
     if( userFunction ){
 	(*userFunction)() ;
     }
     if( dumpFlag == MAYBEDUMP ){
-	fprintf(stderr,"Enter y for core dump.  Default no dump\n") ;
+	printf("Enter y for core dump.  Default no dump\n") ;
 	scanf( "%s", response ) ;
 	if( *response == 'y' || *response == 'Y' ){
 	    dumpFlag = YESDUMP ;
@@ -204,8 +128,8 @@ INT status ;
     }
 
     if( dumpFlag == YESDUMP ){
-	fprintf(stderr,"Generating core dump for user traceback...\n") ;
-	fprintf(stderr,
+	printf("Generating core dump for user traceback...\n") ;
+	printf(
 	    "Use dbx to find where program core dumped...\n\n") ;
 	fflush(stdout) ;
 	signal(SIGILL,SIG_DFL);
@@ -216,4 +140,3 @@ INT status ;
     }
 
 }
-#endif /* CLEANUP_H */

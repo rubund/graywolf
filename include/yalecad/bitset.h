@@ -30,9 +30,9 @@ main()
 
     for( i = 0 ; i <= max ; i++ ){
 	if( BITSET_GET( array, i ) ){
-	    fprintf( stderr, "i:%d T\n", i ) ;
+	    printf( "i:%d T\n", i ) ;
 	} else {
-	    fprintf( stderr, "i:%d F\n", i ) ;
+	    printf( "i:%d F\n", i ) ;
 	}
     }
 }

@@ -1,3 +1,4 @@
+
 /* ----------------------------------------------------------------- 
 "@(#) readblck.h (Yale) version 4.2 9/7/90"
 FILE:	    readblck.h                                       
@@ -9,33 +10,27 @@ REVISIONS:
 #ifndef READBLCK_H
 #define READBLCK_H
 
-#ifdef READBLCK_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
 typedef struct exceptbox {
-    INT row ;
-    INT ll_x ;
-    INT ll_y ;
-    INT ur_x ;
-    INT ur_y ;
+    int row ;
+    int ll_x ;
+    int ll_y ;
+    int ur_x ;
+    int ur_y ;
 } *EXCEPTPTR, EXCEPTBOX ;
 
 /* global variable definitions */
-EXTERN INT num_exceptsG ;
-EXTERN INT top_of_top_rowG ;
-EXTERN INT bot_of_bot_rowG ;
-EXTERN INT uniform_rowsG ;
-EXTERN INT individual_rowSepsG ;
-EXTERN INT total_except_widthG ;
-EXTERN DOUBLE *rowSepsG ;
-EXTERN INT *rowSepsAbsG ;
-EXTERN DOUBLE *relativeLenG ;
-EXTERN EXCEPTBOX *exceptionsG ;
+extern int num_exceptsG ;
+extern int top_of_top_rowG ;
+extern int bot_of_bot_rowG ;
+extern int uniform_rowsG ;
+extern int individual_rowSepsG ;
+extern int total_except_widthG ;
+extern double *rowSepsG ;
+extern int *rowSepsAbsG ;
+extern double *relativeLenG ;
+extern EXCEPTBOX *exceptionsG ;
+extern int rowsG ;
 
-
-#undef EXTERN  
+void readblck(FILE *fp);
 
 #endif /* READBLCK_H */

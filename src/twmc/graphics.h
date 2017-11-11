@@ -1,0 +1,15 @@
+void initMCGraphics(int windowId);
+void setGraphicWindow();
+void set_graphic_context( int context );
+void process_graphics();
+void twmc_draw_a_cell( int cell );
+void draw_fs( CELLBOXPTR cptr );
+void draw_neighbors( int cell );
+void graphics_dump();
+void edit_cell( int cell );
+void edit_field_string( TWDIALOGPTR dialog, int field, char *string );
+void edit_field_case( TWDIALOGPTR dialog, int field, int initcase );
+void set_graphics_wait_menu( TWMENUBOX menus[] );
+void fix_the_cell( int cell );
+void fix_the_cell2( int cell );
+int draw_the_data();

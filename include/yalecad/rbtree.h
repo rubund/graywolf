@@ -107,7 +107,7 @@ Function:
     NULL if nothing is in the tree or if no match to the key is found.
 */
 
-extern VOID Yrbtree_insert( P2(YTREEPTR tree, VOIDPTR data ) ) ;
+void Yrbtree_insert( P2(YTREEPTR tree, VOIDPTR data ) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;
@@ -131,7 +131,7 @@ Function:
     requested or when no match can be found.
 */
 
-extern VOID Yrbtree_enumeratePush( P1(YTREEPTR tree) ) ;
+void Yrbtree_enumeratePush( P1(YTREEPTR tree) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;
@@ -141,7 +141,7 @@ Function:
     enumerate trees.
 */
 
-extern VOID Yrbtree_enumeratePop( P1(YTREEPTR tree) ) ;
+void Yrbtree_enumeratePop( P1(YTREEPTR tree) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;
@@ -166,7 +166,7 @@ Function:
     Returns NULL when element > high_key or no match can be found.
 */
 
-extern INT Yrbtree_interval_size( P3(YTREEPTR tree,VOIDPTR low_key,
+int Yrbtree_interval_size( P3(YTREEPTR tree,VOIDPTR low_key,
 				    VOIDPTR high_key) ) ;
 /* 
 Arguments:
@@ -177,7 +177,7 @@ Function:
     number of elements in that interval.
 */
 
-extern VOID Yrbtree_intervalPush( P1(YTREEPTR tree) ) ;
+void Yrbtree_intervalPush( P1(YTREEPTR tree) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;
@@ -187,7 +187,7 @@ Function:
     enumerate trees.
 */
 
-extern VOID Yrbtree_intervalPop( P1(YTREEPTR tree) ) ;
+void Yrbtree_intervalPop( P1(YTREEPTR tree) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;
@@ -197,7 +197,7 @@ Function:
     enumerate trees.
 */
 
-extern VOID Yrbtree_interval_free( P4(YTREEPTR tree, VOIDPTR low_key,
+void Yrbtree_interval_free( P4(YTREEPTR tree, VOIDPTR low_key,
 				VOIDPTR high_key, VOID (*userDelete)()) );
 /* 
 Arguments:
@@ -259,7 +259,7 @@ Function:
    function.  See the rbtree test program to see how it is used.
 */
 
-extern VOID Yrbtree_empty( P2(YTREEPTR tree, VOID (*userDelete)() ) ) ;
+void Yrbtree_empty( P2(YTREEPTR tree, VOID (*userDelete)() ) ) ;
 /*
 Arguments:
    YTREEPTR tree;
@@ -269,7 +269,7 @@ Function:
    unallocated using userDelete function
 */
 
-extern VOID Yrbtree_free( P2(YTREEPTR tree, VOID (*userDelete)() ) ) ;
+void Yrbtree_free( P2(YTREEPTR tree, VOID (*userDelete)() ) ) ;
 /*
 Arguments:
    YTREEPTR tree;
@@ -279,19 +279,19 @@ Function:
    unallocated using userDelete function
 */
 
-extern INT Yrbtree_size( P1(YTREEPTR tree) ) ;
+int Yrbtree_size( P1(YTREEPTR tree) ) ;
 /*
 Function:
    Find the total elements in the tree.
 */
 
-extern INT(*Yrbtree_get_compare( P1(YTREEPTR tree) ))() ;
+int(*Yrbtree_get_compare( P1(YTREEPTR tree) ))() ;
 /*
 Function:
    Returns a pointer to the tree's comparison function.
 */
 
-extern INT Yrbtree_verify( P1(YTREEPTR tree) ) ;
+int Yrbtree_verify( P1(YTREEPTR tree) ) ;
 /*
 Function:
    Exercise tree pointers by walking through the tree.
@@ -349,14 +349,14 @@ Function:
    Enumerate the tree in reverse order.
 */
 
-extern VOID Yrbtree_dump( P2(YTREEPTR tree, VOID (*print_key)() )) ;
+void Yrbtree_dump( P2(YTREEPTR tree, VOID (*print_key)() )) ;
 /*
 Function:
    Dump the contents of a tree.  Print keys takes one argument,
    a key.
 */
 
-extern VOID Yrbtree_resort( P2(YTREEPTR tree, INT (*compare_func)() )) ;
+void Yrbtree_resort( P2(YTREEPTR tree, INT (*compare_func)() )) ;
 /*
 Function:
    Takes a tree and resorts the tree with a new comparison function.

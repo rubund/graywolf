@@ -47,17 +47,8 @@ DATE:	    Feb 13, 1988 REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Apr 29, 1990 - added message.h
 	    Fri Jan 18 18:38:36 PST 1991 - fixed to run on AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) plot.c version 1.6 12/9/91" ;
-#endif
-
+#include <globals.h>
 #include <stdarg.h>
-#include <string.h>
-#include <yalecad/base.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
 
 #define MAXARGS 20
 typedef struct {
@@ -67,21 +58,19 @@ typedef struct {
     BOOL  graphFlushed ;
 } YPLOTTYPE, *YPLOTPTR ;
 
-static YPLOTTYPE gfileS[MAXARGS] ;
-static INT gfilenoS = 0 ;
-static BOOL graphFilesS = TRUE ;
+YPLOTTYPE gfileS[MAXARGS] ;
+int gfilenoS = 0 ;
+BOOL graphFilesS = TRUE ;
 
+int findType();
 
-static INT findType();
-
-Yplot_control( toggle )
-BOOL toggle ;
+void Yplot_control( BOOL toggle )
 {
     graphFilesS = toggle ;
 } /* end YgraphControl */
 
 /* graph init uses variable number of arguments */
-Yplot_init( int dval, ... )
+void Yplot_init( int dval, ... )
 {
 
     va_list ap ;
@@ -96,7 +85,7 @@ Yplot_init( int dval, ... )
 	return ;
     }
 
-    while( graphName = va_arg( ap, char * ) ){
+    while(( graphName = va_arg( ap, char * ) )){
 	/* save graph file name */
 	gptr = &(gfileS[gfilenoS++]) ;
 	sprintf( gptr->fileName,"%s",graphName ) ;
@@ -108,13 +97,13 @@ Yplot_init( int dval, ... )
 }
 
 /* graph init uses variable number of arguments */
-Yplot_heading( int dval, ... )
+void Yplot_heading( int dval, ... )
 {
 
     va_list ap ;
     char *gName, *varName ;
     YPLOTPTR gptr ;
-    INT i ;
+    int i ;
     FILE *fp ;
 
     va_start(ap, dval) ;
@@ -150,16 +139,16 @@ Yplot_heading( int dval, ... )
 	}
     }
     gfileS[i].headPrintedAlready = TRUE ;
-    while( varName = va_arg( ap, char * ) ){
+    while((varName = va_arg( ap, char *))){
 	fprintf( fp, "%s\t", varName ) ;
     }
     fprintf( fp, "\n" ) ;
     va_end(ap) ;
 }
 
-Yplot_close()
+void Yplot_close()
 {
-    INT i ;
+    int i ;
 
     if( !(graphFilesS) ){
 	/* don't do anything if flag is not set */
@@ -172,7 +161,7 @@ Yplot_close()
 }
 
 #define NULL_TYPE 0
-#define INT_TYPE  1
+#define int_TYPE  1
 #define CHAR_TYPE 2
 #define STRG_TYPE 3
 #define DOUB_TYPE 4
@@ -180,7 +169,7 @@ Yplot_close()
 /* This is what argument list looks like - use it to pass any type */
 /* of variable to graph */
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 
-Yplot( int dval, ... ) 
+void Yplot( int dval, ... )
 {
     va_list ap ;
     char *gName ;
@@ -189,12 +178,12 @@ Yplot( int dval, ... )
     char gchar ;
     char *gstr ;
     char **tokenBuf ;
-    INT gint ;
-    INT i , type, numtokens ;
-    DOUBLE gdoub ;
+    int gint ;
+    int i , type, numtokens ;
+    double gdoub ;
     FILE *fp ;
     static char copyformatS[LRECL] ;
-    /* static INT findType();*/
+    /* static int findType();*/
 
     va_start(ap, dval) ;
     if( !(graphFilesS) ){
@@ -242,8 +231,8 @@ Yplot( int dval, ... )
     /* only print if graph has previously been flushed */
     /* now that we have type we can get third element */
     switch( type ){
-    case INT_TYPE:
-	gint = va_arg( ap, INT ) ;
+    case int_TYPE:
+	gint = va_arg( ap, int ) ;
 	if( gfileS[i].graphFlushed ){  
 	    fprintf( fp, tokenBuf[0], gint ) ;
 	    fprintf( fp, "\t" ) ;
@@ -268,7 +257,7 @@ Yplot( int dval, ... )
 	}
 	break ;
     case DOUB_TYPE:
-	gdoub = va_arg( ap, DOUBLE ) ;
+	gdoub = va_arg( ap, double ) ;
 	if( gfileS[i].graphFlushed ){  
 	    fprintf( fp, tokenBuf[0], gdoub ) ;
 	    fprintf( fp, "\t" ) ;
@@ -294,8 +283,8 @@ Yplot( int dval, ... )
 	    return ;
 	}
 	switch( type ){
-	    case INT_TYPE:
-		gint = va_arg( ap, INT ) ;
+	    case int_TYPE:
+		gint = va_arg( ap, int ) ;
 		fprintf( fp, tokenBuf[i], gint ) ;
 		break ;
 	    case CHAR_TYPE:
@@ -311,7 +300,7 @@ Yplot( int dval, ... )
 		fprintf( fp, tokenBuf[i], gstr ) ;
 		break ;
 	    case DOUB_TYPE:
-		gdoub = va_arg( ap, DOUBLE ) ;
+		gdoub = va_arg( ap, double ) ;
 		fprintf( fp, tokenBuf[i], gdoub ) ;
 		break ;
 	}
@@ -321,10 +310,9 @@ Yplot( int dval, ... )
 
 }
 
-Yplot_flush( gName ) 
-char *gName ;
+void Yplot_flush(char *gName)
 {
-    INT i ;
+    int i ;
 
     if( !(graphFilesS) ){
 	/* don't do anything if flag is not set */
@@ -361,9 +349,7 @@ char *gName ;
 
 } /* end GRAPHFLUSH */
 
-static INT findType( control, number )
-char **control ;
-INT number ;
+int findType( char **control, int number )
 {
     char *formatChar ;
     
@@ -371,7 +357,7 @@ INT number ;
     if( formatChar ){
 
 	if( strchr(formatChar,'d') ){
-	    return( INT_TYPE ) ;
+	    return( int_TYPE ) ;
 	} else if( strchr(formatChar,'f') ){
 	    return( DOUB_TYPE ) ;
 	} else if( strchr(formatChar,'e') ){
@@ -390,9 +376,9 @@ INT number ;
 
 main()
 {
-    INT i ;       /* counter */
-    DOUBLE f ;    /* function value */
-    INT y ;       /* integer function value */
+    int i ;       /* counter */
+    double f ;    /* function value */
+    int y ;       /* integer function value */
 
     /* first initialize two graphs */
     Yplot_init( 0, "graph1", "graph_kroy", NULL ) ;
@@ -410,7 +396,7 @@ main()
 	   Ygraph has the following format:
 	   Ygraph( filename, x format, x varible, y format, y variables...
 	------------------------------------------------------------- */
-	f = (DOUBLE) i ;
+	f = (double) i ;
 	y = i * i ;
 	Yplot( 0, "graph1", "%d", i, "%4.2le %d", f, y ) ;
 	/* now after each graph has been finished flush data */
@@ -418,7 +404,7 @@ main()
 
 	/* now output another graph */
 	Yplot_heading( 0, "graph_kroy", "iter", "Temperature", NULL ) ;
-	Yplot( 0, "graph_kroy", "%4.2le", (DOUBLE) i, "%d", 3 * i ) ;
+	Yplot( 0, "graph_kroy", "%4.2le", (double) i, "%d", 3 * i ) ;
 	Yplot_flush( "graph_kroy" ) ;
     }
 

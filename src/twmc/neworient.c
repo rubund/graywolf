@@ -43,19 +43,12 @@ DESCRIPTION:pick a new orientation.
 DATE:	    Jan 29, 1988 
 REVISIONS:  Thu Apr 18 01:37:39 EDT 1991 - added check_valid_orientation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) neworient.c version 3.4 4/18/91" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <yalecad/debug.h>
-
-newOrient( cellptr , range )
-CELLBOXPTR cellptr ;
-INT range ;
+int newOrient( CELLBOXPTR cellptr , int range )
 {
 
-    INT incidence , count , i , orient ;
+    int incidence , count , i , orient ;
 
     orient = cellptr->orient ;
     if( range == 4 ) {
@@ -70,9 +63,9 @@ INT range ;
 		return( -1 ) ;
 	    }
 	    do {
-		incidence = (INT) ( (DOUBLE) count * 
-				  ( (DOUBLE) RAND / 
-				  (DOUBLE) 0x7fffffff ) ) + 1 ;
+		incidence = (int) ( (double) count * 
+				  ( (double) RAND / 
+				  (double) 0x7fffffff ) ) + 1 ;
 	    } while( incidence == count + 1 ) ;
 
 	    count = 0 ;
@@ -95,9 +88,9 @@ INT range ;
 		return( -1 ) ;
 	    }
 	    do {
-		incidence = (INT) ( (DOUBLE) count * 
-				 ( (DOUBLE) RAND / 
-				 (DOUBLE) 0x7fffffff ) ) + 1 ;
+		incidence = (int) ( (double) count * 
+				 ( (double) RAND / 
+				 (double) 0x7fffffff ) ) + 1 ;
 	    } while( incidence == count + 1 ) ;
 
 	    count = 0 ;
@@ -123,9 +116,9 @@ INT range ;
 	    return( -1 ) ;
 	}
 	do {
-	    incidence = (INT) ( (DOUBLE) count * 
-			      ( (DOUBLE) RAND / 
-			      (DOUBLE) 0x7fffffff ) ) + 1 ;
+	    incidence = (int) ( (double) count * 
+			      ( (double) RAND / 
+			      (double) 0x7fffffff ) ) + 1 ;
 	} while( incidence == count + 1 ) ;
 
 	count = 0 ;
@@ -149,10 +142,9 @@ INT range ;
    returns +1 if it could find a valid orientation.
 */
 
-INT check_valid_orient( cptr )
-CELLBOXPTR cptr ;
+int check_valid_orient( CELLBOXPTR cptr )
 {
-    INT i ; /* view counter */
+    int i ; /* view counter */
    
     if( cptr->orientList[cptr->orient] ){
 	/* this is valid no problem */

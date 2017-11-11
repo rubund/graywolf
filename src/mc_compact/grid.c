@@ -45,14 +45,11 @@ DATE:	    Apr 18, 1989 - origin prboard.c
 REVISIONS:  Apr 30, 1989 - removed unnecessary variables.
 	    Mon May  6 22:33:51 EDT 1991 - no longer grid cells.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) grid.c version 7.2 5/6/91" ;
-#endif
+#include <globals.h>
+#include "compact.h"
+#include "grid.h"
 
-#include <compact.h>
-#include <yalecad/debug.h>
-
-grid_data()
+void grid_data()
 {
 
     int xcenter , ycenter, remainder ;
@@ -90,10 +87,10 @@ grid_data()
 	/* now modify center of cell coordinates */
 	delta_x = left - old_left ;
 	if( delta_x ){
-	    fprintf( stderr, "Gridding cell %d in x direction...\n", cell ) ;
+	    printf( "Gridding cell %d in x direction...\n", cell ) ;
 	}
 	if( delta_y ){
-	    fprintf( stderr, "Gridding cell %d in y direction...\n", cell ) ;
+	    printf( "Gridding cell %d in y direction...\n", cell ) ;
 	}
 	delta_y = bottom - old_bottom ;
 	xcenter = cellptr->xcenter += delta_x ;

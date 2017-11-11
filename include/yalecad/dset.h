@@ -11,17 +11,19 @@ REVISIONS:  Sun Dec  8 23:30:16 EST 1991 - removed indirection
 #ifndef YDSET_H
 #define YDSET_H
 
-#ifndef lint
-static char Ydset_h_SccsId[] = "@(#) dset.h version 1.6 3/28/92";
-#endif
+#include <globals.h>
 
-#include <yalecad/base.h>
-#include <yalecad/rbtree.h>
+typedef struct dset_element {
+  VOIDPTR data ;
+  int rank ;
+  int size;
+  struct dset_element *parent ;
+} ELEMENT, *ELEMENTPTR ;
 
 typedef struct ydsetrec {
     YTREEPTR dtree ;            /* rbtree holding sets */
-    INT (*compare_func)() ;	/* how to compare functions in rbtree */
-    VOID (*user_delete)() ;	/* how to delete functions in rbtree */
+    int (*compare_func)() ;	/* how to compare functions in rbtree */
+    void (*user_delete)() ;	/* how to delete functions in rbtree */
     YTREEPTR superset_tree ;	/* tree to store the superset */
     YTREEPTR subset_tree ;	/* tree to store the subsets */
     YTREEPTR parent_tree ;	/* tree to store the parents */
@@ -32,7 +34,7 @@ typedef struct ydsetrec {
   NOTE that the users comparison function will be similar to 
   comparison function used in the rbtree package.
   ---------------------------------------*/
-extern YDSETPTR Ydset_init( P1(INT (*compare_func)() ) ) ;
+YDSETPTR Ydset_init(int (*compare_func)()) ;
 /*
 Function:
     Initialize the union/find routines.  Returns back a set.
@@ -47,14 +49,14 @@ Function:
   Free all elements in the set but leaves the set intact
   This may be used recursively.
   ---------------------------------------*/
-extern VOID Ydset_empty( P2(YDSETPTR set,VOID (*userDelete)() ) );
+void Ydset_empty( P2(YDSETPTR set,void (*userDelete)() ) );
 /*
   free all elements of a superset.  Function userDelete is applied to user data.
 */
 
 /*---------------------------------------
   ---------------------------------------*/
-extern VOIDPTR Ydset_enumerate( P2(YDSETPTR set, BOOL startFlag));
+VOIDPTR Ydset_enumerate( P2(YDSETPTR set, BOOL startFlag));
 /*
 Function:
     Enumerate all of the elements of the super set
@@ -62,13 +64,13 @@ Function:
      
 /*---------------------------------------
   ---------------------------------------*/
-extern VOIDPTR Ydset_enumerate_superset( P2(YDSETPTR set, BOOL startFlag));
+VOIDPTR Ydset_enumerate_superset( P2(YDSETPTR set, BOOL startFlag));
 /*
 Function:
     Enumerate all of the elements of the super set
 */
 
-extern VOIDPTR Ydset_enumerate_parents( P2(YDSETPTR dset, BOOL startFlag) ) ;
+VOIDPTR Ydset_enumerate_parents( P2(YDSETPTR dset, BOOL startFlag) ) ;
 /*
 Function:
     Enumerate the parents of the super set
@@ -76,7 +78,7 @@ Function:
      
 /*---------------------------------------
   ---------------------------------------*/
-extern VOIDPTR Ydset_enumerate_subset( P3 (YDSETPTR set,VOIDPTR subsetData,
+VOIDPTR Ydset_enumerate_subset( P3 (YDSETPTR set,VOIDPTR subsetData,
 					BOOL startFlag));
 /*
 Function:
@@ -86,7 +88,7 @@ Function:
 
 /*---------------------------------------
   ---------------------------------------*/
-extern VOIDPTR Ydset_find( P2(YDSETPTR dset, VOIDPTR data ) ) ;
+VOIDPTR Ydset_find( P2(YDSETPTR dset, VOIDPTR data ) ) ;
 /*
 Function:
     Returns subset name for the given data of the given set.  If
@@ -106,14 +108,14 @@ VOIDPTR Ydset_find_set( P2( YDSETPTR dset, VOIDPTR data ));
   Free all elements in the set and the set.
   This can be used recursively.
   ---------------------------------------*/
-extern VOID Ydset_free( P2(YDSETPTR set,VOID (*userDelete)() ) );
+void Ydset_free( P2(YDSETPTR set,void (*userDelete)() ) );
 /*
   free the entire superset.  Function userDelete is applied to user data.
 */
 
 /*---------------------------------------
   ---------------------------------------*/
-extern VOIDPTR Ydset_union( P3(YDSETPTR set, VOIDPTR x, VOIDPTR y ) ) ;
+VOIDPTR Ydset_union( P3(YDSETPTR set, VOIDPTR x, VOIDPTR y ) ) ;
 /*
 Function:
     Perform union operation on two data items for the given set.
@@ -124,21 +126,21 @@ Function:
 
 /*---------------------------------------
   ---------------------------------------*/
-extern VOIDPTR Ydset_search( P2(YDSETPTR set,VOIDPTR data));
+VOIDPTR Ydset_search( P2(YDSETPTR set,VOIDPTR data));
 /*
     Search for an elment in the super set
 */
 
 /*---------------------------------------
   ---------------------------------------*/
-INT Ydset_subset_size( P2(YDSETPTR set, VOIDPTR data));
+int Ydset_subset_size( P2(YDSETPTR set, VOIDPTR data));
 /*
     returns the size of the subset data is an element of.
 */
 
 /*---------------------------------------
   ---------------------------------------*/
-extern INT Ydset_superset_size(P1(YDSETPTR set));
+int Ydset_superset_size(P1(YDSETPTR set));
 /*
   returns the size of the entire superset
 */
@@ -146,12 +148,12 @@ extern INT Ydset_superset_size(P1(YDSETPTR set));
 /*-----------------------
   Ydset_verify
   -----------------------*/
-extern INT Ydset_verify( P1(YDSETPTR set));
+int Ydset_verify( P1(YDSETPTR set));
 
 /*------------------------
   Ydset_dump
   ------------------------*/
-extern Ydset_dump(P2( YDSETPTR set, VOID (*printFunc)() ) );
+void Ydset_dump(P2( YDSETPTR set, void (*printFunc)() ) );
 
 #endif /* YDSET_H */
 

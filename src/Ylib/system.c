@@ -49,60 +49,56 @@ static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
 
 #include <yalecad/file.h>
 #include <yalecad/message.h>
+#include <dirent.h>
+#include <unistd.h>
 
-INT Ysystem( program, abortFlag, exec_statement, abort_func )
-char *program ;
-BOOL abortFlag ;
-char *exec_statement ;
-INT  (*abort_func)() ;
+int Yrm_files( char *files );
+
+void YcopyFile( char *sourcefile, char *destfile )
 {
-    INT status ;        /* return status from program */
-
-    if( status = system( exec_statement ) ){
-	/* get status from exit routine */
-	status = (status & 0x0000FF00) >> 8 ;/* return code in 2nd byte */
-	/* now determine the program */
-
-	sprintf( YmsgG, "Program %s returned with exit code:%d\n",program,
-	    status );
-	M( ERRMSG, NULL, YmsgG ) ;
-	if( abort_func ){
-	    (*abort_func)() ;
+	if(YfileExists(sourcefile)) {
+		printf("%s: %s doesn't exist\n",__FUNCTION__,sourcefile);
+		return;
 	}
-	if( abortFlag ){
-	    YexitPgm( PGMFAIL ) ; /* exit the program */
+
+	if(YfileExists(destfile)) {
+		Yrm_files(destfile);
 	}
-	return( status ) ;
-    } 
-    return( 0 ) ;
-} /* end Ysystem */
 
-YcopyFile( sourcefile, destfile )
-char *sourcefile, *destfile ;
-{
-    sprintf( YmsgG, "/bin/cp %s %s", sourcefile, destfile ) ;
-    Ysystem( "Ylib/YcopyFile", ABORT, YmsgG, NULL ) ;
+	FILE* source = fopen(sourcefile, "rb");
+	FILE* dest = fopen(destfile, "wb");
+	for (int i = getc(source); i != EOF; i = getc(source)) {
+		putc(i, dest);
+	}
+	fclose(dest);
+	fclose(source);
 } /* end Ycopyfile */
 
-YmoveFile( sourcefile, destfile )
-char *sourcefile, *destfile ;
+int YmoveFile( char *sourcefile, char *destfile )
 {
-    sprintf( YmsgG, "/bin/mv %s %s", sourcefile, destfile ) ;
-    Ysystem( "Ylib/YmoveFile", ABORT, YmsgG, NULL ) ;
+	return rename(sourcefile, destfile);
 } /* end Ycopyfile */
 
-Yrm_files( files )
-char *files ;
+int Yrm_files( char *files )
 {
-    sprintf( YmsgG, "/bin/rm -rf %s", files ) ;
-    Ysystem( "Ylib/Yrm_files", NOABORT, YmsgG, NULL ) ;
+	if(remove(files)) {
+		printf("Could not remove %s \n", files);
+		if(rmdir(files)) {
+			printf("Could not remove %s \n", files);
+			return 1;
+		} else {
+			printf("Removed %s \n", files);
+			return 0;
+		}
+	} else {
+		printf("Removed %s \n", files);
+		return 0;
+	}
 } /* end Ycopyfile */
 
-char *Ygetenv( env_var )
-char *env_var ;
+char *Ygetenv( char *env_var )
 {
-    char *getenv() ;
-
-    return( (char *) getenv( env_var ) ) ;
+	char *getenv() ;
+	return( (char *) getenv( env_var ) ) ;
 
 } /* end Ygetenv */

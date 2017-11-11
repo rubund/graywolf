@@ -51,18 +51,12 @@ static char SccsId[] = "@(#) merge.c (Yale) version 3.5 5/14/92" ;
 #endif
 
 #include <stdio.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
 #include <globals.h>
+#include "genrows.h"
 
+#include "merge.h"
 
-
-static check_max_length();
-static merge_adjacent_tiles();
-
-
-
-merge_tiles()
+void merge_tiles()
 {
     TILE_BOX *tileptr ; /* current tile */
 
@@ -73,11 +67,10 @@ merge_tiles()
     }
 } /* end merge_tiles */
 
-merge_upward( begin_tile )
-TILE_BOX *begin_tile ;
+void merge_upward( TILE_BOX *begin_tile )
 {
-    INT left ;          /* left edge of merge tile */
-    INT right ;         /* right edge of merge tile */
+    int left ;          /* left edge of merge tile */
+    int right ;         /* right edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -104,7 +97,7 @@ TILE_BOX *begin_tile ;
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
+	if( YprojectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
 	    /* this tile may be merged with the bottom tile */
 	    if( begin_tile->ury < tileptr->ury ){
 		begin_tile->ury = tileptr->ury ;
@@ -224,11 +217,10 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_upward */
 
-merge_downward( begin_tile )
-TILE_BOX *begin_tile ;
+void merge_downward( TILE_BOX *begin_tile )
 {
-    INT left ;          /* left edge of merge tile */
-    INT right ;         /* right edge of merge tile */
+    int left ;          /* left edge of merge tile */
+    int right ;         /* right edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -255,7 +247,7 @@ TILE_BOX *begin_tile ;
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
+	if( YprojectY( tileptr->lly,tileptr->ury,begin_tile->lly,begin_tile->ury)){
 	    /* this tile may be merged with the bottom tile */
 	    if( begin_tile->lly > tileptr->lly ){
 		begin_tile->lly = tileptr->lly ;
@@ -377,11 +369,10 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_downward */
 
-merge_right( begin_tile )
-TILE_BOX *begin_tile ;
+void merge_right( TILE_BOX *begin_tile )
 {
-    INT bottom ;        /* bottom edge of merge tile */
-    INT top ;           /* top edge of merge tile */
+    int bottom ;        /* bottom edge of merge tile */
+    int top ;           /* top edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -408,7 +399,7 @@ TILE_BOX *begin_tile ;
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
+	if( YprojectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
 	    /* this tile may be merged with the right tile */
 	    if( begin_tile->urx < tileptr->urx ){
 		begin_tile->urx = tileptr->urx ;
@@ -524,11 +515,10 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_right */
 
-merge_left( begin_tile )
-TILE_BOX *begin_tile ;
+void merge_left( TILE_BOX *begin_tile )
 {
-    INT bottom ;        /* bottom edge of merge tile */
-    INT top ;           /* top edge of merge tile */
+    int bottom ;        /* bottom edge of merge tile */
+    int top ;           /* top edge of merge tile */
     TILE_BOX *tileptr ; /* current tile */
     TILE_BOX *temp ;    /* temp pointers to  tile */
     TILE_BOX *tptr ;    /* temp pointers to  tile */
@@ -555,7 +545,7 @@ TILE_BOX *begin_tile ;
 	    continue ;
 	}
 	/* Does it touch the begin tile in the y direction ? */
-	if( projectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
+	if( YprojectX( tileptr->llx,tileptr->urx,begin_tile->llx,begin_tile->urx)){
 	    /* this tile may be merged with the right tile */
 	    if( begin_tile->llx > tileptr->llx ){
 		begin_tile->llx = tileptr->llx ;
@@ -668,19 +658,18 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_left */
 
-static check_max_length( tileptr )
-TILE_BOX *tileptr ;
+void check_max_length( TILE_BOX *tileptr )
 {
-    INT length ;              /* length of tile */
+    int length ;              /* length of tile */
 
     length = tileptr->urx - tileptr->llx - 2 * spacingG ;
     tileptr->max_length = length ;
 
 }/* end check_max_length */
 
-renumber_tiles()
+void renumber_tiles()
 {
-    INT count ;              /* count the tiles */
+    int count ;              /* count the tiles */
     TILE_BOX *tileptr ;      /* current tile */
     count = 0 ;
     for( tileptr=tile_listG;tileptr;tileptr=tileptr->next ){
@@ -688,7 +677,7 @@ renumber_tiles()
     }
 } /* end renumber_tiles() */
 
-static merge_adjacent_tiles()
+void merge_adjacent_tiles()
 {
 
     TILE_BOX *tileptr1 , *tileptr2 , *tileptr ;
@@ -732,18 +721,18 @@ REDO:
     return ;
 }/* end merge_adjacent_tiles */
 
-dtiles()
+void dtiles()
 {
     TILE_BOX *tptr ;      /* current tile */
 
-    fprintf( stderr, "The forward tiles\n" ) ;
+    printf( "The forward tiles\n" ) ;
     for( tptr=tile_listG;tptr;tptr=tptr->next ){
-	fprintf( stderr, "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
+	printf( "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
 	    tptr->name, tptr->llx, tptr->lly, tptr->urx, tptr->ury ) ;
     }
-    fprintf( stderr, "The backward tiles\n" ) ;
+    printf( "The backward tiles\n" ) ;
     for( tptr=last_tileG;tptr;tptr=tptr->prev ){
-	fprintf( stderr, "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
+	printf( "\tTile:%d l:%5d b:%5d r:%5d t:%5d\n", 
 	    tptr->name, tptr->llx, tptr->lly, tptr->urx, tptr->ury ) ;
     }
     

@@ -67,15 +67,7 @@ REVISIONS: Apr 10, 1990 - rewrote debug routines so that each individual
 	    Tue Feb  4 15:31:28 EST 1992 - added return_code variable to
 		Ydebug so you can switch it in the debugger if necessary.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) ydebug.c (Yale) version 3.15 2/7/92" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/string.h>
+#include <globals.h>
 
 #define DBGFILE "dbg"
 
@@ -89,7 +81,7 @@ static BOOL firstTimeS = FALSE ;      /* first time we ran program */
 static YTREEPTR debug_treeS ;
 
 /* ********* STATIC DEFINITIONS ************ */
-static INT compare_routine( P2(ROUTINEPTR key1, ROUTINEPTR key2 ) ) ;
+int compare_routine( P2(ROUTINEPTR key1, ROUTINEPTR key2 ) ) ;
 static ROUTINEPTR make_data_debug( P2(char *string, BOOL debugOn ) ) ;
 
 BOOL Ydebug( routine ) 
@@ -121,7 +113,7 @@ char *routine ;
 		}
 	    }
 	} else {
-	    fprintf( stderr, "No debug routine name specified here\n" ) ;
+	    printf( "No debug routine name specified here\n" ) ;
 	}
     } else {
 	return_code = FALSE ;
@@ -137,18 +129,18 @@ BOOL YdebugAssert()
     return( debugFlagS ) ;
 } /* end YdebugAssert */
 
-YdebugWrite()
+void YdebugWrite()
 {
     ROUTINEPTR data ;              /* the data in the tree */
     FILE *fp ;                   /* write to the debug file */
 
     if( debugFlagS ){
 	
-	if( YfileExists( DBGFILE ) ){
+	//if( YfileExists( DBGFILE ) ){
 	    /* move to .bak to save a copy of the file */
-	    sprintf( YmsgG, "/bin/cp %s %s.bak", DBGFILE,DBGFILE ) ;
-	    system( YmsgG ) ;
-	}
+	    //sprintf( YmsgG, "/bin/cp %s %s.bak", DBGFILE,DBGFILE ) ;
+	    //system( YmsgG ) ;
+	//}
 	/* now write a debug file */
 	fp = TWOPEN( DBGFILE, "w", ABORT ) ;
 	for( data = (ROUTINEPTR) Yrbtree_enumerate(debug_treeS,TRUE);data; 
@@ -160,14 +152,13 @@ YdebugWrite()
     }
 }
 
-YsetDebug( flag )
-BOOL flag ;
+void YsetDebug( BOOL flag )
 {
 
     char buffer[LRECL], *bufferptr ;
     char **tokens ;         /* for parsing menu file */
-    INT  numtokens ;        /* number of tokens on the line */
-    INT  line ;             /* count lines in input file */
+    int  numtokens ;        /* number of tokens on the line */
+    int  line ;             /* count lines in input file */
     FILE *fp ;              /* open file pointer */
     ROUTINEPTR data ;       /* new data to be stored */
 
@@ -197,7 +188,7 @@ BOOL flag ;
     debugFlagS = flag ;
 } /* end YsetDebug */
 
-static INT compare_routine( key1, key2 )
+int compare_routine( key1, key2 )
 ROUTINEPTR key1, key2 ;
 {
     return( strcmp( key1->routine, key2->routine ) ) ;
@@ -215,19 +206,17 @@ BOOL debugOn ;
     return( data ) ;
 } /* end make_data_debug */
 
-YfixDebug( ptr, type )
-char *ptr ;
-INT type ;
+void YfixDebug(char *ptr, int type)
 {
     switch( type ){
     case 0: /* integer */
-	printf( "%d\n", (INT) ptr ) ;
+	printf( "%d\n", (int) ptr ) ;
 	break ;
     case 1: /* string */
 	printf( "%s\n", ptr ) ;
 	break ;
     case 2: /* hexidecimal */
-	printf( "%0x\n", (INT) ptr ) ;
+	printf( "%0x\n", (int) ptr ) ;
 	break ;
     }
 }

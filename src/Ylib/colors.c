@@ -43,7 +43,7 @@ DESCRIPTION:These routines give the standard colors for TimberWolf
     draw system.  They can be overriden by creating a color matrix 
     similar to below.
 CONTENTS:   char **TWstdcolors()
-	    INT TWnumcolors() 
+	    int TWnumcolors() 
 DATE:	    Jan 25, 1989 - major rewrite of version 1.0
 REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Sep 25, 1990 - redid the stipple patterns for B&W.
@@ -118,7 +118,7 @@ char **TWstdcolors()
 } /* end TWstdcolors */
 
 /* returns the number of colors in standard color array */
-INT TWnumcolors()
+int TWnumcolors()
 {
     return( NUMCOLORS ) ;
 } /* end TWnumcolors */

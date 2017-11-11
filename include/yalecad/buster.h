@@ -17,19 +17,15 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 #ifndef YBUSTER_H
 #define YBUSTER_H
 
-#ifndef lint
-static char YbusterId[] = "@(#) buster.h version 1.5 4/18/91" ;
-#endif
-
 #include <yalecad/base.h>
 
 typedef struct ybustbox {
-    INT x ;
-    INT y ;
+    int x ;
+    int y ;
 } YBUSTBOX , *YBUSTBOXPTR ;
 
 
-extern Ybuster_init() ;
+void Ybuster_init() ;
 /* 
 Arguments:
     none
@@ -40,7 +36,7 @@ Function:
     into tiles.
 */
 
-extern Ybuster_addpt( P2( INT x, INT y ) ) ;
+void Ybuster_addpt(int x, int y);
 /* 
 Arguments:
     INT x, y ;
@@ -48,7 +44,7 @@ Function:
     Add a point to the current arbitrary figure.
 */
 
-extern YBUSTBOXPTR Ybuster() ;
+YBUSTBOXPTR Ybuster() ;
 /* 
 Arguments:
     none
@@ -61,7 +57,7 @@ Function:
 	ptr[3].x, ptr[3].y if ptr is the returned pointer.
 */
 
-extern Ybuster_free() ;
+void Ybuster_free() ;
 /* 
 Arguments:
     none
@@ -69,7 +65,7 @@ Function:
     Free up the memory associated with buster.
 */
 
-extern BOOL Ybuster_verify( P1(char *object_name) ) ;
+BOOL Ybuster_verify(char *object_name) ;
 /* 
 Arguments:
     char *object_name
@@ -80,5 +76,8 @@ Function:
     on an error to describe the current object to be busted.
     This makes for better user messages.
 */
+
+BOOL Ybuster_check_rect(int xx1, int yy1, int xx2, int yy2 );
+void Ybuster_check_rect_init(char *user_string);
 
 #endif /* YBUSTER_H */

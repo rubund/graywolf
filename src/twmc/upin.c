@@ -54,23 +54,15 @@ REVISIONS:  Jun 30, 1988 - added rel_pos for test.
 	    Aug 13, 1990 - moved relpos to yalecad/relpos.h
 	    Wed Jan 30 14:15:02 EST 1991 - removed relpos.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) upin.c version 3.4 1/30/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include "allheaders.h"
 
 #define BREAK_PT2   6
 
-upin_test( termptr, pos )
-PINBOXPTR termptr ;
-MOVEBOXPTR pos ;
+void upin_test( PINBOXPTR termptr, MOVEBOXPTR pos )
 {
 
     NETBOXPTR dimptr ;
-    INT targetx, targety, orient ;
+    int targetx, targety, orient ;
 
     /* get target position from Rotational record */
     targetx = pos->xcenter ;
@@ -89,8 +81,7 @@ MOVEBOXPTR pos ;
     }
 } /* end upin_test */
 
-upin_accept( termptr )
-PINBOXPTR termptr ;
+void upin_accept( PINBOXPTR termptr )
 {
 
     NETBOXPTR dimptr ;

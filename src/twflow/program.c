@@ -56,89 +56,68 @@ REVISIONS:  Jun 19, 1989 - shortened designName to $ for substitution.
 static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
 #endif
 
-#include <string.h>
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/string.h>
-#include <yalecad/file.h>
-#include <yalecad/debug.h>
 #include <globals.h>
+#include "twflow.h"
 
 #define  DESIGNNAME   "$"
 #define  DSNLEN       1
-#define  WINDOWID     "@WINDOWID"
 #define  FLOWDIR      "@FLOWDIR"
 
-BOOL executePgm( adjptr )
-ADJPTR adjptr ;
+BOOL executePgm( ADJPTR adjptr, int debug )
 {
-    char *Yfixpath() ;               /* get full pathname */
-    char command[LRECL] ;
-    char window_name[LRECL] ;        /* the window name */
-    OBJECTPTR obj ;                  /* current object */
-    INT i ;                          /* arg counter */
-    INT status ;                     /* program return status */
-    char **argv ;                    /* argument vector */
-    BOOL stateSaved ;                /* whether graphics state was saved*/
+	char *Yfixpath() ;               /* get full pathname */
+	char command[LRECL] ;
+	OBJECTPTR obj ;                  /* current object */
+	int i ;                          /* arg counter */
+	int status ;                     /* program return status */
+	BOOL stateSaved ;                /* whether graphics state was saved*/
 
-    obj = proGraphG[adjptr->node] ;
+	obj = proGraphG[adjptr->node] ;
 
-    sprintf( YmsgG, "Executing %s", obj->name)  ;
-    G( TWmessage( YmsgG ) ) ;
+	/* build command to be executed */
+	command[0] = EOS ; /* clear character string */
 
-    /* build command to be executed */
-    command[0] = EOS ; /* clear character string */
+	stateSaved = FALSE ;  /* for remember whether we save graphics */
 
-    stateSaved = FALSE ;  /* for remember whether we save graphics */
+	D( "twflow/executePgm", sprintf( YmsgG, "%s\n", command ) ) ;
+	D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
-    /* first the program name */
-    if( obj->path ){
-	/* take users pathname */
-	sprintf( command, "%s", Yfixpath( obj->path,TRUE ) ) ;
-    } else {
-	/* otherwise take default TimberWolf directory */
-	sprintf( command, "%s/bin/%s", twdirG, obj->name ) ;
-    }
-    argv = adjptr->argv ;
-    for( i = 0 ; i < adjptr->argc; i++ ){
-	strcat( command, " " ) ;
-	if( strncmp( argv[i], DESIGNNAME, DSNLEN ) == STRINGEQ ){
-	    /* +1 skips over $ to see if other is present */
-	    strcat( command, cktNameG ) ;
-	    strcat( command, argv[i]+1 ) ;
-	} else if( strcmp( argv[i], WINDOWID ) == STRINGEQ ){
-	    /* save state of graphics before call if necessary */
-	    if( graphicsG ){
-		G( sprintf( window_name, "%d", TWsaveState() ) ) ;
-		stateSaved = TRUE ;
-	    }
-	    strcat( command, window_name ) ;
+	/* now log the beginning time */
+	//Ylog_msg( YmsgG ) ;
+	status = 0;
 
-	} else if( strcmp( argv[i], FLOWDIR ) == STRINGEQ ){
-	    /* add flow directory */
-	    strcat( command, flow_dirG ) ;
-	} else {
-	    strcat( command, argv[i] ) ;
+	if(!strcmp("edit_twfiles",obj->name)) {
+		printf("It's edit_twfiles!\n");
+		status = 0;
 	}
-    }
-    D( "twflow/executePgm", sprintf( YmsgG, "%s\n", command ) ) ;
-    D( "twflow/executePgm", M( MSG, NULL, YmsgG ) ) ;
 
-    /* now log the beginning time */
-    sprintf( YmsgG, "%s started...", obj->name ) ;
-    Ylog_msg( YmsgG ) ;
+	if(!strcmp("edit_mcfiles",obj->name)) {
+		printf("It's edit_mcfiles!\n");
+		status = 0;
+	}
 
-    /* now execute the command */
-    status = system( command ) ;
+	int Mincut( int, char*);
 
-    sprintf( YmsgG, "%s completed...", obj->name ) ;
-    Ylog_msg( YmsgG ) ;
+	if(!strcmp("Mincut",obj->name)) {
+		status = Mincut(debug,Ystrclone(cktNameG));
+	}
 
-    if( stateSaved ){
-	/* if we save the graphics state we need to restore it */
-	G( TWrestoreState() ) ;
-    }
+	int TimberWolfMC(int b, int d, int n, int scale_dataP, int p, int q, int v, char *dName);
 
-    return( status ) ;
+	if(!strcmp("TimberWolfMC",obj->name)) {
+		status = TimberWolfMC(0, debug, !graphicsG, 0, 0, 0, debug, cktNameG);
+	}
+
+	int TimberWolfSC(int n, int v, char *cktName);
+
+	if(!strcmp("TimberWolfSC",obj->name)) {
+		status=TimberWolfSC (!graphicsG, debug, cktNameG);
+	}
+
+	sprintf( YmsgG, "%s completed...", obj->name ) ;
+	Ylog_msg( YmsgG ) ;
+
+	return( status ) ;
 
 } /* end execute Pgm */
+

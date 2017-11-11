@@ -45,22 +45,14 @@ CONTENTS:
 DATE:	    Aug 17, 1988 
 REVISIONS:  Jan 29, 1989 - changed msg to YmsgG and added \n's.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) mergecell.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
-
+#include "allheaders.h"
 
 /* ######################  STATIC definitions ############################# */
 /* ################## END STATIC definitions ############################# */
 
 /* mergeCells takes the contents of child and parent and merges them together */
 /* to form a new parent */
-mergeCells( cptr, pptr ) 
-CELLBOXPTR cptr ;  /* pointer to child cell box */
-CELLBOXPTR pptr ;  /* pointer to parent cell box */
+void mergeCells( CELLBOXPTR cptr, CELLBOXPTR pptr )
 {
 #ifdef LATER
     BOUNBOXPTR cbounptr, pbounptr ;

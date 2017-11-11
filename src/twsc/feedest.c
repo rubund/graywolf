@@ -44,14 +44,14 @@ DESCRIPTION:feedthru estimation.
 CONTENTS:   feedest()
 	    re_estimate_feed_penalty( )
 	    estimate_pass_thru_penalty( row1 , row2 )
-		INT row1 , row2 ;
+		int row1 , row2 ;
 	    update_feedest( net )
-		INT net ;
+		int net ;
 	    free_up_feedest_malloc()
 	    update_segment_data( segptr )
 		SEGBOXPTR segptr ;
 	    PINBOXPTR makeSTpt( net , ptr1 , ptr2 )
-		INT net ;
+		int net ;
 		PINBOXPTR ptr1 , ptr2 ;
 	    SEGBOXPTR makeseg( lowptr , highptr )
 		PINBOXPTR lowptr , highptr ;
@@ -62,45 +62,36 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue Mar 12 17:08:44 CST 1991 - added back missing
 		computation.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) feedest.c (Yale) version 4.9 3/12/91" ;
-#endif
-#endif
-
 #define FEEDS_VARS
-
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
-#include "main.h"
+#include <globals.h>
+#include "allheaders.h"
 
 /* global definitions */
-INT *rowfeed_penaltyG ;
-
-extern BOOL absolute_minimum_feedsG ;
+int *rowfeed_penaltyG ;
+int add_Lcorner_feedG ;
 
 /* static definitions */
-static DOUBLE *fd_estimateS ;
-static INT *min_feedS ;
-static INT *row_flagS ;
-static INT chip_width_penaltyS ;
-static INT *est_min_ratioS ;
+static double *fd_estimateS ;
+static int *min_feedS ;
+static int *row_flagS ;
+static int chip_width_penaltyS ;
+static int *est_min_ratioS ;
 
+void estimate_pass_thru_penalty( int row1 , int row2 );
 
-feedest()
+void feedest()
 {
 
-DOUBLE ratio ;
-INT net , row , toprow , botrow, maxdesire ;
+double ratio ;
+int net , row , toprow , botrow, maxdesire ;
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
 
-fd_estimateS = (DOUBLE *)Ysafe_calloc( numChansG + 1, sizeof(DOUBLE) ) ;
-min_feedS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
-row_flagS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
-rowfeed_penaltyG = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof(INT) ) ;
-est_min_ratioS = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
+fd_estimateS = (double *)Ysafe_calloc( numChansG + 1, sizeof(double) ) ;
+min_feedS = (int *)Ysafe_calloc( numChansG + 1, sizeof(int) ) ;
+row_flagS = (int *)Ysafe_calloc( numChansG + 1, sizeof(int) ) ;
+rowfeed_penaltyG = (int *)Ysafe_malloc( ( numChansG + 1 ) * sizeof(int) ) ;
+est_min_ratioS = (int *)Ysafe_malloc( numChansG * sizeof(int) ) ;
 
 maxdesire = barrayG[1]->desire ;
 for( row = 2 ; row <= numRowsG ; row++ ) {
@@ -109,7 +100,7 @@ for( row = 2 ; row <= numRowsG ; row++ ) {
     }
 }
 
-ratio = (DOUBLE)(maxdesire) / (DOUBLE)( barrayG[numRowsG]->bycenter -
+ratio = (double)(maxdesire) / (double)( barrayG[numRowsG]->bycenter -
 			  barrayG[1]->bycenter + rowHeightG ) ;
 ratio = 1.0 / ratio ;  /* to fix Kai-Win's bug */
 
@@ -121,8 +112,8 @@ if( absolute_minimum_feedsG ) {
 	chip_width_penaltyS = maxdesire ;
     }
 } else {
-    /* chip_width_penaltyS = 2.0 * (DOUBLE) rowHeightG ; */
-    chip_width_penaltyS = 6.9 * (DOUBLE) rowHeightG ;
+    /* chip_width_penaltyS = 2.0 * (double) rowHeightG ; */
+    chip_width_penaltyS = 6.9 * (double) rowHeightG ;
 }
 
 
@@ -246,15 +237,15 @@ estimate_pass_thru_penalty( 1 , numRowsG ) ;
 
 }
 
-re_estimate_feed_penalty()
+void re_estimate_feed_penalty()
 {
 
-INT i , n , row , row_rite , excess_fd , *old_penalty ;
-DOUBLE ratio , factor ;
+int i , n , row , row_rite , excess_fd , *old_penalty ;
+double ratio , factor ;
 FEED_DATA *feedptr ;
 CBOXPTR cellptr ;
 
-old_penalty = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
+old_penalty = (int *)Ysafe_malloc( numChansG * sizeof(int) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     old_penalty[row] = rowfeed_penaltyG[row] ;
     feedptr = feedpptrG[row] ;
@@ -285,7 +276,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
     if( excess_fd <= 0 ) {
 	continue ;
     }
-    ratio = (DOUBLE)(fdcel_addedG[row]) / (DOUBLE)(FeedInRowG[row]) ;
+    ratio = (double)(fdcel_addedG[row]) / (double)(FeedInRowG[row]) ;
     if( ratio <= 0.01 ) {
 	factor = 4 ;
     } else if( ratio <= 0.03 ) {
@@ -301,7 +292,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
     } else {
 	factor = 50 ;
     }
-    rowfeed_penaltyG[row] += factor * ratio * (DOUBLE)(rowHeightG) ;
+    rowfeed_penaltyG[row] += factor * ratio * (double)(rowHeightG) ;
 }
 /*
 fp = TWOPEN("vcost.dat", "a", ABORT ) ;
@@ -316,42 +307,11 @@ out:
 Ysafe_free( old_penalty );
 }
 
-#ifdef Carl
-estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
+void estimate_pass_thru_penalty( int row1 , int row2 )
 {
 
-INT row ;
-DOUBLE ratio ;
-if( row1 < 1 ) {
-    row1 = 1 ;
-}
-if( row2 > numRowsG ) {
-    row2 = numRowsG ;
-}
-ratio = (DOUBLE) implicit_feed_count / (DOUBLE) TotRegPins ;
-if( ratio > 0.0 ) {
-    ratio += 0.1 ;
-}
-if( ratio > 1.0 ) {
-    ratio = 1.0 ;
-}
-for( row = row1 ; row <= row2 ; row++ ) {
-    if( !absolute_minimum_feeds ) {
-	rowfeed_penaltyG[row] = (2.0 - ratio * 1.2) * rowHeightG ;
-    } else {
-	rowfeed_penaltyG[row] = chip_width_penaltyS ;
-    }
-}
-}
-#else
-
-estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
-{
-
-INT row ;
-DOUBLE actual , estimate , act_est_ratio ;
+int row ;
+double actual , estimate , act_est_ratio ;
 if( row1 < 1 ) {
     row1 = 1 ;
 }
@@ -385,17 +345,14 @@ for( row = row1 ; row <= row2 ; row++ ) {
     }
 }
 }
-#endif
 
-
-update_feedest( net )
-INT net ;
+void update_feedest( int net )
 {
 
 DBOXPTR dimptr ;
 SEGBOXPTR seg ;
 PINBOXPTR ptr ;
-INT row , toprow , botrow , row1 , row2 ;
+int row , toprow , botrow , row1 , row2 ;
 
 
 dimptr = netarrayG[net] ;
@@ -501,8 +458,7 @@ estimate_pass_thru_penalty( botrow , toprow ) ;
 
 }
 
-
-free_up_feedest_malloc()
+void free_up_feedest_malloc()
 {
 
 Ysafe_free( fd_estimateS ) ;
@@ -512,9 +468,7 @@ Ysafe_free( rowfeed_penaltyG ) ;
 Ysafe_free( est_min_ratioS ) ;
 }
 
-
-update_segment_data( segptr )
-SEGBOXPTR segptr ;
+void update_segment_data( SEGBOXPTR segptr )
 {
 PINBOXPTR ptr1 , ptr2 ;
 
@@ -537,11 +491,11 @@ if( ptr1->row < ptr2->row ) {
     } else {
 	segptr->switchvalue = nswLINE ;
     }
-} else if( (INT) ptr1->pinloc == BOTCELL && (INT) ptr2->pinloc == TOPCELL ) {
+} else if( (int) ptr1->pinloc == BOTCELL && (int) ptr2->pinloc == TOPCELL ) {
     segptr->pin1ptr = ptr1 ;
     segptr->pin2ptr = ptr2 ;
     segptr->switchvalue = nswLINE ;
-} else if( (INT) ptr1->pinloc == TOPCELL && (INT) ptr2->pinloc == BOTCELL ) {
+} else if( (int) ptr1->pinloc == TOPCELL && (int) ptr2->pinloc == BOTCELL ) {
     segptr->pin1ptr = ptr2 ;
     segptr->pin2ptr = ptr1 ;
     segptr->switchvalue = nswLINE ;
@@ -556,10 +510,7 @@ if( ptr1->row < ptr2->row ) {
 }
 }
 
-
-PINBOXPTR makeSTpt( net , ptr1 , ptr2 )
-INT net ;
-PINBOXPTR ptr1 , ptr2 ;
+PINBOXPTR makeSTpt( int net , PINBOXPTR ptr1 , PINBOXPTR ptr2 )
 {
 
 PINBOXPTR ptr ;
@@ -585,9 +536,7 @@ steinerHeadG[net]->next = ptr ;
 return( ptr ) ;
 }
 
-
-SEGBOXPTR makeseg( lowptr , highptr )
-PINBOXPTR lowptr , highptr ;
+SEGBOXPTR makeseg( PINBOXPTR lowptr, PINBOXPTR highptr )
 {
 ADJASEG *adj1, *adj2 ;
 SEGBOXPTR segptr ;
@@ -601,11 +550,11 @@ if( lowptr->row < highptr->row ) {
     segptr->pin2ptr = lowptr ;
     segptr->pin1ptr = highptr ;
     segptr->switchvalue = swL_up ;
-} else if( (INT) lowptr->pinloc == BOTCELL && (INT) highptr->pinloc == TOPCELL ) {
+} else if( (int) lowptr->pinloc == BOTCELL && (int) highptr->pinloc == TOPCELL ) {
     segptr->pin1ptr = lowptr ;
     segptr->pin2ptr = highptr ;
     segptr->switchvalue = swL_up ;
-} else if( (INT) lowptr->pinloc == TOPCELL && (INT) highptr->pinloc == BOTCELL ) {
+} else if( (int) lowptr->pinloc == TOPCELL && (int) highptr->pinloc == BOTCELL ) {
     segptr->pin1ptr = highptr ;
     segptr->pin2ptr = lowptr ;
     segptr->switchvalue = swL_up ;
@@ -635,15 +584,15 @@ return( segptr ) ;
 dbg_cost()
 {
 FILE *fp ;
-INT row ;
-DOUBLE cost, ratio ;
+int row ;
+double cost, ratio ;
 
 fp = TWOPEN("vcost.dat", "w", ABORT ) ;
 fprintf(fp, " rowHeightG = %d\n", rowHeightG ) ;
 fprintf(fp, " row  cost actual estimate    ratio\n" ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    cost = (DOUBLE)(rowfeed_penaltyG[row]) / (DOUBLE)(rowHeightG) ;
-    ratio = (DOUBLE)(FeedInRowG[row]) / fd_estimateS[row] ;
+    cost = (double)(rowfeed_penaltyG[row]) / (double)(rowHeightG) ;
+    ratio = (double)(FeedInRowG[row]) / fd_estimateS[row] ;
     fprintf(fp, " %3d %5.2f %6d %8.2f %8.2f\n", row, cost,
 		FeedInRowG[row], fd_estimateS[row], ratio ) ;
 }
@@ -656,7 +605,7 @@ dbx_fdpen()
 
 FILE *fp ;
 FEED_DATA *feedptr ;
-INT row , i , s ;
+int row , i , s ;
 
 fp = TWOPEN("pen.dat" , "w", ABORT ) ;
 fprintf(fp," row min_feedSS fd_estimateS act_feed needed\n" ) ;
@@ -667,7 +616,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	s += feedptr[i]->needed ;
     }
     fprintf(fp," %3d %8d %8d %8d %6d\n", row, min_feedS[row],
-		    (INT)fd_estimateS[row] , FeedInRowG[row] , s ) ;
+		    (int)fd_estimateS[row] , FeedInRowG[row] , s ) ;
 }
 TWCLOSE(fp) ;
 }

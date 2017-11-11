@@ -7,7 +7,7 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 	    Oct 27, 1988 - changed RAND to acm minimal standard generator
 	    Feb 13, 1989 - added graphics definitions.
 	    Feb 25, 1989 - removed redundant macro definitions and
-		added inclusion of yalecad/base.h
+		added inclusion of yalecad/string.h
 	    Feb 26, 1989 - added G suffix to all global variables.
 	    Mar 01, 1989 - added wait_for_user global and added
 		compile switch for program exit status.
@@ -36,31 +36,11 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h> 
-#include <stdlib.h>
-
-#ifndef MATH_H
-#define MATH_H
-#include <math.h>
-#endif   /* MATH_H */
-
-#ifdef ultrix
-#undef UNIX
-#include <limits.h>
-#define UNIX ultrix
-
-#else
-
-#endif /* ultrix */
+#include <globals.h>
 
 /* program exit status is different in VMS */
-#ifdef VMS
-#define OK 1
-#define FAIL 0
-#else /* not VMS */
 #define OK 0
 #define FAIL 1
-#endif /* VMS */
 
 /* if not using makefile and debug is wanted add it here */
 /* #define DEBUG */
@@ -73,14 +53,12 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 #define G(x_xz)   x_xz
 
 #endif /* NOGRAPHICS */
-/* ***********LEAVE THE BELOW UNCHANGED *************************** */
-#include <yalecad/base.h>
 
 /* BASIC MACRO DEFINITIONS  */
 #define MAXSITES 50
 
 /* cell types */
-typedef INT CELLTYPE ;
+typedef int CELLTYPE ;
 #define CUSTOMCELLTYPE 1
 #define PADCELLTYPE    2
 #define SOFTCELLTYPE   3
@@ -104,39 +82,40 @@ typedef INT CELLTYPE ;
 #define COMPACTION               4
 #define CHANNEL_GENERATION       5
 
-/* I/O MACRO DEFINITIONS */
-#include <yalecad/message.h>
+#define PINGROUPTYPE     1
+#define HARDPINTYPE      2
+#define SOFTPINTYPE      3
+#define SOFTEQUIVTYPE    4
+#define HARDEQUIVTYPE    5
+#define ADDEQUIVTYPE     6
+#define ANALOGPINTYPE    7
 
-/* compile switch for globals */
-#ifndef MAIN_DEFS
-#define EXTERN extern
+extern char *cktNameG ;
+extern char *argv0G ;     /* the pathname of the program */
 
-#else
-#define EXTERN
-#endif
+extern double saveLapFactorG;
 
-EXTERN char *cktNameG ;
-EXTERN char *argv0G ;     /* the pathname of the program */
-EXTERN INT attpercellG ;
-EXTERN INT scale_dataG ;  /* reduce the scale of the input data */
-EXTERN INT track_spacingXG ;
-EXTERN INT track_spacingYG ;
-EXTERN INT defaultTracksG ;
+extern int attpercellG ;
+extern int scale_dataG ;  /* reduce the scale of the input data */
+extern int defaultTracksG ;
 
 /* booleans for control of program */
-EXTERN BOOL cost_onlyG ;
-EXTERN BOOL doChannelGraphG ;
-EXTERN BOOL doGlobalRouteG ;
-EXTERN BOOL doCompactionG ;
-EXTERN BOOL doPartitionG ;
-EXTERN BOOL doGraphicsG ;
-EXTERN BOOL quickrouteG ;
-EXTERN BOOL new_wire_estG ;        /* use new wire estimation alg. */
-EXTERN BOOL restartG ;
-EXTERN BOOL wireEstimateOnlyG ;
-EXTERN BOOL wait_for_userG ;
-EXTERN BOOL verboseG ;
+extern BOOL cost_onlyG ;
+extern BOOL doChannelGraphG ;
+extern BOOL doGlobalRouteG ;
+extern BOOL doCompactionG ;
+extern BOOL doGraphicsG ;
+extern BOOL quickrouteG ;
+extern BOOL new_wire_estG ;        /* use new wire estimation alg. */
+extern BOOL wireEstimateOnlyG ;
+extern BOOL wait_for_userG ;
+extern BOOL verboseG ;
 
-#undef EXTERN
+int readcells(char *filename);
+
+BOOL get_batch_mode();
+
+void writeResults( int wire, int penal, int rand );
+void set_wiring_reduction( double reduction );
 
 #endif /* MAIN_H */

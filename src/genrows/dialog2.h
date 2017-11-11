@@ -1,3 +1,5 @@
+#ifndef H_DIALOG2
+#define H_DIALOG2
 static TWDIALOGBOX row_dialogS[19] = {
     1,5,8," ACCEPT ",2,6,0,
     1,25,8," CANCEL ",2,3,0,
@@ -19,4 +21,4 @@ static TWDIALOGBOX row_dialogS[19] = {
     16,1,35,"the field, hit the return key.",0,4,0,
     0,0,0,0,0,0,0
 } ;
-
+#endif

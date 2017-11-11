@@ -41,9 +41,9 @@
 FILE:	    trans.c                                       
 DESCRIPTION:translation routines
 	    Ytranslate(l,b,r,t, orient) 
-		INT *l, *b, *r, *t, orient ;
+		int *l, *b, *r, *t, orient ;
 	    Ytranslatef(l,b,r,t, orient) 
-		DOUBLE *l, *b, *r, *t, orient ;
+		double *l, *b, *r, *t, orient ;
 	    Yinv_orient( orient )
 		int orient ;
 DATE:	    Aug 08, 1990 - from TimberWolfMC. 
@@ -52,23 +52,16 @@ REVISIONS:  Wed Jan 30 14:11:50 EST 1991 - added Ytrans_init and
 	    Sat Nov 23 21:07:47 EST 1991 - added boundary translation
 		functions.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) trans.c version 1.5 3/6/92" ;
-#endif
-
 #define  YTRANS_DEFS
-#include <yalecad/base.h>
-#include <yalecad/relpos.h>
-#include <yalecad/message.h>
+#include <globals.h>
 
 /* ***************************************************************** 
 translate rotation of cells
 ----------------------------------------------------------------- */
-VOID Ytranslate(l,b,r,t, orient) 
-INT *l, *b, *r, *t, orient ;
+void Ytranslate(int *l, int *b, int *r, int *t, int orient) 
 {
 
-    INT temp ;
+    int temp ;
 
     switch( orient ){
 	case 0 :
@@ -133,14 +126,12 @@ INT *l, *b, *r, *t, orient ;
 } /* end function translate */
 
 /* ***************************************************************** 
-translate rotation of DOUBLE (cell weights)
+translate rotation of double (cell weights)
 ----------------------------------------------------------------- */
-VOID Ytranslatef(l,b,r,t, orient) 
-DOUBLE *l, *b, *r, *t ;
-INT orient ;
+void Ytranslatef(double *l, double *b, double *r, double *t, int orient) 
 {
 
-    DOUBLE temp ;
+    double temp ;
 
     switch( orient ){
 	case 0 :
@@ -205,11 +196,10 @@ INT orient ;
 
 /* given current cell bounding box and new orient - orient to change to */
 /* set the cell centering flags - cell will always be left justified */
-VOID Ytrans_init( cur_l,cur_b,cur_r,cur_t, new_orient ) 
-INT cur_l, cur_b, cur_r, cur_t, new_orient ;
+void Ytrans_init(int cur_l, int cur_b, int cur_r, int cur_t, int new_orient) 
 {
-    INT height ;
-    INT length ;
+    int height ;
+    int length ;
 
     height = cur_t - cur_b ;
     length = cur_r - cur_l ;
@@ -230,13 +220,13 @@ INT cur_l, cur_b, cur_r, cur_t, new_orient ;
 } /* end Yinv_orient */
 
 /* return back to zero orientation */
-static INT invOrientTableS[8] = {
+static int invOrientTableS[8] = {
     0, 1, 2, 3, 4, 5, 7, 6 
 } ;
 
 
-INT Ytrans_inv_orient( orient )
-INT orient ;
+int Ytrans_inv_orient( orient )
+int orient ;
 {
     return( invOrientTableS[orient] ) ;
 } /* end Yinv_orient */
@@ -244,8 +234,7 @@ INT orient ;
 
 /* this translate performs translation but also centers the tile */
 /* so that the truncatated side is always to the left */
-VOID YtranslateC(l,b,r,t,orient) 
-INT *l, *b, *r, *t, orient ;
+void YtranslateC(int *l, int *b, int *r, int *t, int orient) 
 {
     Ytranslate( l, b, r, t, orient ) ;
     if( Ytrans_xflagG ){
@@ -260,12 +249,11 @@ INT *l, *b, *r, *t, orient ;
 
 /* this translate performs translation but also centers the tile */
 /* so that the truncatated side is always to the left */
-VOID YtranslateT(l,b,r,t, orient) 
-INT *l, *b, *r, *t, orient ;
+void YtranslateT(int *l, int *b, int *r, int *t, int orient) 
 {
 
-    INT height ;
-    INT length ;
+    int height ;
+    int length ;
 
     height = *t - *b ;
     length = *r - *l ;
@@ -289,10 +277,7 @@ INT *l, *b, *r, *t, orient ;
     test - normally a macro defined in relpos.h is used for speed.
     Conditional compile switch is in relpos.h.
 ----------------------------------------------------------------- */
-VOID Ytrans_rel_pos( orient_R, globalX_R, globalY_R, relativeX_R, relativeY_R,
-    cellX_R, cellY_R )               
-INT orient_R, *globalX_R, *globalY_R, relativeX_R, relativeY_R,         
-    cellX_R, cellY_R ;               
+void Ytrans_rel_pos( int orient_R, int *globalX_R, int *globalY_R, int relativeX_R, int relativeY_R, int cellX_R, int cellY_R )               
 {
     switch(orient_R){
 	case 0: *globalX_R = cellX_R + relativeX_R ;
@@ -326,10 +311,7 @@ INT orient_R, *globalX_R, *globalY_R, relativeX_R, relativeY_R,
     Ytrans_post - same as Ytrans_rel_pos except it does cell centering
     in addition.
 ----------------------------------------------------------------- */
-VOID Ytrans_rel_post( orient_R, globalX_R, globalY_R, relativeX_R, relativeY_R,
-    cellX_R, cellY_R )               
-INT orient_R, *globalX_R, *globalY_R, relativeX_R, relativeY_R,         
-    cellX_R, cellY_R ;               
+void Ytrans_rel_post(int orient_R, int *globalX_R, int *globalY_R, int relativeX_R, int relativeY_R, int cellX_R, int cellY_R )
 {
     Ytrans_rel_pos( orient_R, globalX_R, globalY_R, relativeX_R, 
 	relativeY_R, cellX_R, cellY_R ) ;
@@ -342,47 +324,44 @@ INT orient_R, *globalX_R, *globalY_R, relativeX_R, relativeY_R,
 } /* end Ytrans_rel_post */
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT num_ptS ;		/* number of points for boundary */
-static INT *pt_xS = NIL(INT *);	/* x point array */
-static INT *pt_yS = NIL(INT *);	/* y point array */
-static INT countS ;		/* count during output */
-static INT pt_allocS ;		/* point allocation */
+static int num_ptS ;		/* number of points for boundary */
+static int *pt_xS = NIL(int *);	/* x point array */
+static int *pt_yS = NIL(int *);	/* y point array */
+static int countS ;		/* count during output */
+static int pt_allocS ;		/* point allocation */
 #define EXPECTEDPTS	2
 
-VOID Ytrans_boun_init()
+void Ytrans_boun_init()
 {
     /* allocate the space for reoordering the points of the macro */
     num_ptS = 0 ;
     /* allocate memory if needed */
     if(!(pt_xS)){
 	pt_allocS = EXPECTEDPTS ;
-	pt_xS = YVECTOR_MALLOC( 1, pt_allocS, INT ) ;
-	pt_yS = YVECTOR_MALLOC( 1, pt_allocS, INT ) ;
+	pt_xS = YVECTOR_MALLOC( 1, pt_allocS, int ) ;
+	pt_yS = YVECTOR_MALLOC( 1, pt_allocS, int ) ;
     }
 } /* end Ytrans_boun_init() */
 
-VOID Ytrans_boun_add( x, y )
-INT x, y ;
+void Ytrans_boun_add(int x, int y)
 {
     /* increase the space if necessary */
     if( ++num_ptS >= pt_allocS ){
 	pt_allocS += EXPECTEDPTS ;
-	pt_xS = YVECTOR_REALLOC( pt_xS, 1, pt_allocS, INT ) ;
-	pt_yS = YVECTOR_REALLOC( pt_yS, 1, pt_allocS, INT ) ;
+	pt_xS = YVECTOR_REALLOC( pt_xS, 1, pt_allocS, int ) ;
+	pt_yS = YVECTOR_REALLOC( pt_yS, 1, pt_allocS, int ) ;
     }
     pt_xS[num_ptS] = x ;
     pt_yS[num_ptS] = y ;
 } /* end Ytrans_boun_add() */
 
-VOID Ytrans_boun( orient, new_xc, new_yc, use_new_orient )
-INT new_xc, new_yc, orient ;
-BOOL use_new_orient ;
+void Ytrans_boun( int orient, int new_xc, int new_yc, BOOL use_new_orient )
 {
 
-    INT pt ;			/* counter */
-    INT xc, yc ;		/* cell center */
-    INT x, y ;			/* cell relative coordinate */
-    INT l, b, r, t ;            /* bounding box of boundary */
+    int pt ;			/* counter */
+    int xc, yc ;		/* cell center */
+    int x, y ;			/* cell relative coordinate */
+    int l, b, r, t ;            /* bounding box of boundary */
 
     l = INT_MAX ;
     r = INT_MIN ;
@@ -415,14 +394,14 @@ BOOL use_new_orient ;
 } /* end Ytrans_boun() */
 
 BOOL Ytrans_boun_pt( x_ret, y_ret )
-INT *x_ret, *y_ret ;
+int *x_ret, *y_ret ;
 {
-    INT this_pt ;               /* used in calculating direction */
-    INT nextpos, nextneg ;      /* next position CW and CCW */
-    INT x, y ;			/* the lowest left pt coordinate */
-    INT pt ;			/* counter */
-    static INT ptL ;		/* current point in array */
-    static INT limitL ;		/* current direction limit */
+    int this_pt ;               /* used in calculating direction */
+    int nextpos, nextneg ;      /* next position CW and CCW */
+    int x, y ;			/* the lowest left pt coordinate */
+    int pt ;			/* counter */
+    static int ptL ;		/* current point in array */
+    static int limitL ;		/* current direction limit */
 
     if( ++countS == 1 ){
 	/* now we need to reorder the vertices */
@@ -496,13 +475,13 @@ INT *x_ret, *y_ret ;
 
 } /* end Ytrans_boun_pt() */
 
-VOID Ytrans_boun_free()
+void Ytrans_boun_free()
 {
     /* free allocate memory */
     if(pt_xS){
 	YVECTOR_FREE( pt_xS, 1 ) ;
 	YVECTOR_FREE( pt_yS, 1 ) ;
-	pt_xS = NIL(INT *) ;
+	pt_xS = NIL(int *) ;
     }
 } /* end Ytrans_boun_free() */
 /* ***************************************************************** */

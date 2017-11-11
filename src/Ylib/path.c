@@ -49,15 +49,7 @@ REVISIONS:  Sep 15, 1989 - replaced which with my own version.
 	    Oct 20, 1990 - pathname should be bufsize since
 		users path may be very long.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) path.c version 3.8 10/23/90" ;
-#endif
-
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <yalecad/base.h>
-#include <yalecad/string.h>
+#include <globals.h>
 
 #undef  LRECL
 #define LRECL	BUFSIZ
@@ -70,8 +62,8 @@ char *given_path;
 BOOL fileNotDir; /* tells whether path is file or directory */
 {
 
-    INT  i ;                  /* token counter */
-    INT  numtokens ;          /* number of tokens on line */
+    int  i ;                  /* token counter */
+    int  numtokens ;          /* number of tokens on line */
     char pathname[LRECL] ;    /* copy of given_path */
     char cur_dir[LRECL] ;     /* current working directory */
     char temp[LRECL] ;        /* temporary buffer */
@@ -186,16 +178,16 @@ register char *user;
 
 /* include date.o object for link */
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
     char *Yfixpath() ; /* fix a path to get rid of .. */
     if( argc == 2 ){
-	fprintf( stderr, "given file:%s\n", argv[1] ) ;
-	fprintf( stderr, "resolved pathname:%s\n", 
+	printf( "given file:%s\n", argv[1] ) ;
+	printf( "resolved pathname:%s\n", 
 	    Yfixpath(argv[1],TRUE) ) ;
     } else {
-	fprintf( stderr, "Error[syntax]: a.out pathName\n" ) ;
+	printf( "Error[syntax]: a.out pathName\n" ) ;
 	exit(1) ;
     }
     exit(0) ;

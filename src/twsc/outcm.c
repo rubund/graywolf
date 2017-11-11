@@ -46,30 +46,23 @@ CONTENTS:   outcm()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outcm.c (Yale) version 4.3 9/7/90" ;
-#endif
-#endif
-
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
+#include <globals.h>
+#include "allheaders.h"
 
 #if SIZEOF_VOID_P == 64
-#define INTSCANSTR "%ld"
+#define intSCANSTR "%ld"
 #else
-#define INTSCANSTR "%d"
+#define intSCANSTR "%d"
 #endif
 
-outcm()
+void outcm()
 {
 
 char filename[64] ;
 FILE *fp ;
 PINBOXPTR netptr ;
-INT net , x , local_pin_count , pin_count ;
-INT cell , row , length , xstart ;
+int net , x , local_pin_count , pin_count ;
+int cell , row , length , xstart ;
 
 
 sprintf( filename , "%s.cm" , cktNameG ) ;
@@ -119,24 +112,19 @@ TWCLOSE(fp);
 return ;
 }
 
-
-
-
-
-incm(fp)
-FILE *fp ;
+void incm(FILE *fp)
 {
 
 CBOXPTR ptr ;
-INT net , x , pin_count , pin ;
-INT cell , row , length , xstart ;
+int net , x , pin_count , pin ;
+int cell , row , length , xstart ;
 
 
-fscanf(fp, INTSCANSTR, &pin_count ) ;
+fscanf(fp, intSCANSTR, &pin_count ) ;
 
 for( pin = 1 ; pin <= pin_count ; pin++ ) {
-    fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " "
-		INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
+    fscanf(fp, intSCANSTR " " intSCANSTR " " intSCANSTR " "
+		intSCANSTR " " intSCANSTR " " intSCANSTR,
 		&row, &cell, &net, &x, &length, &xstart );
     ptr = carrayG[cell] ;
     ptr->cblock = row ;

@@ -1,0 +1,14 @@
+void output( FILE * fp );
+void output_pads( FILE *fp );
+void output_corners( CELLBOXPTR cellptr );
+void output_class_orient( CELLBOXPTR cellptr );
+void output_side_n_space( CELLBOXPTR cellptr );
+void output_pad_groups( CELLBOXPTR cellptr );
+void output_fixed( CELLBOXPTR cellptr );
+void set_determine_side( BOOL flag );
+void output_vertices( FILE *fp, CELLBOXPTR cellptr );
+void create_sc_output();
+void create_pl1();
+void print_four_corners( FILE *fp, CELLBOXPTR cellptr );
+void create_pin();
+int output_pins( CELLBOXPTR cellptr );

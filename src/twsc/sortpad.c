@@ -50,38 +50,31 @@ REVISIONS:  Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 	    Tue Mar 12 17:09:30 CST 1991 - fixed initialization problem
 		with permute_pads.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) sortpad.c version 4.6 3/12/91" ;
-#endif
-
+#include <globals.h>
 #include <standard.h>
 #include <pads.h>
 #include <parser.h>
-#include <yalecad/debug.h>
 
 /* Forward declarations */
 
-static INT compare_pads();
-static INT sort_by_pos();
+static int compare_pads();
+static int sort_by_pos();
 static void install_pad_groups();
-static void permute_pads();
+static void permute_pads( PADBOXPTR pad );
 
 /******************************************************************************
 			   PAD SORTING ROUTINES
 *******************************************************************************/
 
-sort_pads()
+void sort_pads()
 {
-    INT i ;                /* pad counter */
-    INT pos ;              /* position in place array */
+    int i ;                /* pad counter */
+    int pos ;              /* position in place array */
     PADBOXPTR pad ;        /* current pad */
 
     /* first perform an initial sort to order the pads by side, hierarchy, */
     /* and position on the side. */
     Yquicksort( &(sortarrayG[1]), totalpadsG,sizeof(PADBOXPTR), compare_pads );
-    D( "placepads/after_sort", 
-	print_pads("pads after initial sort\n",sortarrayG, totalpadsG ) ;
-    ) ;
 
     /* Now make sure the pads are permuted correctly */
     for( i = 1; i <= totalpadsG;i++ ){
@@ -92,7 +85,7 @@ sort_pads()
     }
 
     /* NOW INSTALL THE PAD GROUPS IN THEIR PROPER ORDER. There are 2 cases: */
-    /* CASE I CONTIGUOUS INSURE THAT GROUP REMAIN INTACT */
+    /* CASE I CONTIGUOUS INSURE THAT GROUP REMAIN intACT */
     pos = 1 ;
     for( i = 1; i <= totalpadsG; i++ ){
 	pad = sortarrayG[i];
@@ -100,24 +93,18 @@ sort_pads()
 	    install_pad_groups( pad, &pos ) ;
 	}
     }
-    D( "placepads/after_install",
-	print_pads("pads after install\n",placearrayG,numpadsG);
-    ) ;
 
     if(!(contiguousG)){
 	/* CASE II -  LEAVES ARE ALIGNED LIKE ORDINARY PADS IF THEY HAVE NO */
-	/* CONSTRAINTS SUCH AS ORDER OR PERMUTE.  **/
+	/* CONSTRAintS SUCH AS ORDER OR PERMUTE.  **/
 	Yquicksort( &(placearrayG[1]), numpadsG, sizeof(PADBOXPTR), sort_by_pos ) ;
-	D( "placepads/after_ncontsort",
-	    print_pads("pads after noncontiguous sort\n",placearrayG,numpadsG);
-	) ;
     }
 
 } /* end SortPads */
 /* ***************************************************************** */
 
 /*** compare_pads() RETURNS TRUE IF ARG1 > ARG2 BY ITS OWN RULES **/
-static INT compare_pads( padptr1, padptr2 )
+static int compare_pads( padptr1, padptr2 )
 PADBOXPTR *padptr1, *padptr2 ;
 {
     PADBOXPTR pad1, pad2;
@@ -151,7 +138,7 @@ PADBOXPTR *padptr1, *padptr2 ;
 } /* end compare_pads */
 /* ***************************************************************** */
 
-static INT sort_by_pos( padptr1, padptr2 )
+static int sort_by_pos( padptr1, padptr2 )
 PADBOXPTR *padptr1, *padptr2 ;
 {
     PADBOXPTR pad1, pad2;
@@ -195,12 +182,12 @@ PADBOXPTR *padptr1, *padptr2 ;
 
 static void install_pad_groups( pad, position )
 PADBOXPTR pad ;
-INT *position ;
+int *position ;
 {
-    INT i ;                      /* pad counter */
-    INT howmany ;                /* number of pads in group */
-    INT initial_position ;       /* position of next open place in placearray */
-    INT sort_by_pos() ;          /* how to sort the pads */
+    int i ;                      /* pad counter */
+    int howmany ;                /* number of pads in group */
+    int initial_position ;       /* position of next open place in placearray */
+    int sort_by_pos() ;          /* how to sort the pads */
     PADBOXPTR child ;            /* current child */
     PADBOXPTR *temparray ;       /* temporary array to sort pads */
 
@@ -230,21 +217,20 @@ INT *position ;
 } /* end install_pad_groups */
 /* ***************************************************************** */
 
-static void permute_pads( pad )
-PADBOXPTR pad ;
+static void permute_pads( PADBOXPTR pad )
 {
-    INT tmp ;                 /* used to reverse permutable pads */
-    INT j, k ;                /* used to reverse pads */
-    INT i ;                   /* padcounter */
-    INT howmany ;             /* number of children in current padgroup */
-    INT max_pos ;             /* max. value of the ideal positions of pad in pg */
-    INT min_pos ;             /* min. value of the ideal positions of pad in pg */
-    INT forward_cost ;        /* cost to place pads in current order */
-    INT bakward_cost ;        /* cost to place pads in reverse order */
-    INT proposed_fpos ;       /* proposed uniformly spaced pos in forward order */
-    INT proposed_bpos ;       /* proposed uniformly spaced pos in bakward order */
-    INT *array ;              /* sort the children */
-    DOUBLE spacing ;          /* spacing if we place pads in pg uniformly */
+    int tmp ;                 /* used to reverse permutable pads */
+    int j, k ;                /* used to reverse pads */
+    int i ;                   /* padcounter */
+    int howmany ;             /* number of children in current padgroup */
+    int max_pos ;             /* max. value of the ideal positions of pad in pg */
+    int min_pos ;             /* min. value of the ideal positions of pad in pg */
+    int forward_cost ;        /* cost to place pads in current order */
+    int bakward_cost ;        /* cost to place pads in reverse order */
+    int proposed_fpos ;       /* proposed uniformly spaced pos in forward order */
+    int proposed_bpos ;       /* proposed uniformly spaced pos in bakward order */
+    int *array ;              /* sort the children */
+    double spacing ;          /* spacing if we place pads in pg uniformly */
     PADBOXPTR child ;         /* current child */
 
     if( pad->permute ){
@@ -261,7 +247,7 @@ PADBOXPTR pad ;
 	    max_pos = MAX( child->position, max_pos ) ;
 	}
 	/* now find the cost if we evenly space the pads over that region */
-	spacing = (DOUBLE) (max_pos - min_pos) / (DOUBLE) (howmany - 1) ;
+	spacing = (double) (max_pos - min_pos) / (double) (howmany - 1) ;
 	forward_cost = 0 ;
 	bakward_cost = 0 ;
 	for( i = 1; i <= howmany ; i++ ){

@@ -47,9 +47,9 @@ CONTENTS:
 	    setVirtualCore( flag )
 		BOOL flag ;
 	    find_core_boundry( left, right, bottom, top )
-		INT *left, *right, *bottom, *top ;
+		int *left, *right, *bottom, *top ;
 	    get_global_pos( cell, l, b, r, t ) 
-		INT cell, *l, *r, *b, *t ;
+		int cell, *l, *r, *b, *t ;
 DATE:	    Aug 12, 1988 
 REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 		placement.
@@ -76,17 +76,8 @@ REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 		options when only a fraction of the pins to pads have
 		connections to the core.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) placepads.c version 3.14 11/23/91" ;
-#endif
-
-#include <custom.h>
-#include <pads.h>
-#include <dens.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <yalecad/set.h>
+#include "allheaders.h"
+#include "placepads.h"
 
 #include "config-build.h"
 
@@ -94,161 +85,139 @@ static char SccsId[] = "@(#) placepads.c version 3.14 11/23/91" ;
 #define PLACEPADPATH      "../placepads"
 #define PADKEYWORD        "pad"
 
-/* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static find_optimum_locations( P1(void) ) ;
-static place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
-static place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
-static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
-   BOOL spacing_restricted ) ) ;
-static find_core( P1(void) ) ;
-
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT sumposS ; /* sum of the modified opt. pin pos. of pad pins */
-static INT sumtieS ; /* sum of all the opt. pin pos. of pad pins */
-static INT pin_countS ; /* number of pins found with valid connections */
+int sumposS ; /* sum of the modified opt. pin pos. of pad pins */
+int sumtieS ; /* sum of all the opt. pin pos. of pad pins */
+int pin_countS ; /* number of pins found with valid connections */
 static BOOL virtualCoreS = FALSE ;
 static YSETPTR pad_net_setS = NIL(YSETPTR) ;
 static BOOL external_pad_programS = FALSE ;
-
-
-
 
 /*-------------------------------------------------------------------
  placepads() now call placepads program or uses internal algorithm.
  If you convert from placepads program remember to change numterms
  field to endsuper.
 ____________________________________________________________________*/
-
-placepads()
+void placepads()
 {
 
-    if( padspacingG == EXACT_PADS ){
-	/* no work to do */
-	return ;
-    }
+	if( padspacingG == EXACT_PADS ){
+		/* no work to do */
+		return ;
+	}
 
-    find_core();  /* GET THE UPDATED CORE'S DIMENSION */
+	find_core();  /* GET THE UPDATED CORE'S DIMENSION */
 
-    if( external_pad_programG ){
-	call_place_pads() ;
+	if( external_pad_programG ){
+		call_place_pads() ;
+		funccostG = findcost() ;
+		return ;
+	}
+
+	/* otherwise do the internal routines */
+	D( "placepads/initially",
+		print_pads( "pads initially\n", padarrayG, totalpadsG ) ;
+	) ;
+
+	find_optimum_locations() ;
+	D( "placepads/after_find_opt",
+		print_pads( "pads after_cost\n", sortarrayG, totalpadsG ) ;
+	) ;
+
+	sort_pads();
+	D( "placepads/after_sort", 
+		print_pads( "pads after sort\n", placearrayG, numpadsG );
+	) ;
+
+	align_pads();
+	D( "placepads/after_align",
+		print_pads( "pads after align\n", placearrayG, numpadsG ) ;
+	) ;
+
+	orient_pads();
+	D( "placepads/after_orient",
+		print_pads( "pads after orient\n", placearrayG, numpadsG ) ;
+	) ;
+
+	dimension_pads();
+	D( "placepads/after_dim", 
+		print_pads( "pads after dimension\n", placearrayG, numpadsG ) ;
+	) ;
+
 	funccostG = findcost() ;
-	return ;
-    }
-
-    /* otherwise do the internal routines */
-    D( "placepads/initially",
-	print_pads( "pads initially\n", padarrayG, totalpadsG ) ;
-    ) ;
-
-    find_optimum_locations() ;
-    D( "placepads/after_find_opt",
-	print_pads( "pads after_cost\n", sortarrayG, totalpadsG ) ;
-    ) ;
-
-    sort_pads();
-    D( "placepads/after_sort", 
-	print_pads( "pads after sort\n", placearrayG, numpadsG );
-    ) ;
-
-    align_pads();
-    D( "placepads/after_align",
-	print_pads( "pads after align\n", placearrayG, numpadsG ) ;
-    ) ;
-
-    orient_pads();
-    D( "placepads/after_orient",
-	print_pads( "pads after orient\n", placearrayG, numpadsG ) ;
-    ) ;
-
-    dimension_pads();
-    D( "placepads/after_dim", 
-	print_pads( "pads after dimension\n", placearrayG, numpadsG ) ;
-    ) ;
-
-    funccostG = findcost() ;
 
 } /* end placepads */
 /* ***************************************************************** */
-
-static find_optimum_locations()
+void place_children(PADBOXPTR pad, int side, double lb,double ub,BOOL spacing_restricted);
+int find_cost_for_a_side(PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted);
+int find_optimum_locations()
 {
-    INT i ;                  /* pad counter */
-    INT side ;               /* loop thru valid sides */
-    INT cost ;               /* current cost */
-    INT bestpos ;            /* best modified position for pad */
-    INT besttie ;            /* best position for pad for tiebreak */
-    INT bestcost ;           /* best cost for pad or padgroup */
-    INT bestside ;           /* best side to place pad or padgroup */
-    PADBOXPTR pad ;          /* current pad */
+	int side ;               /* loop thru valid sides */
+	int cost ;               /* current cost */
+	int bestpos ;            /* best modified position for pad */
+	int besttie ;            /* best position for pad for tiebreak */
+	int bestcost ;           /* best cost for pad or padgroup */
+	int bestside ;           /* best side to place pad or padgroup */
+	PADBOXPTR pad ;          /* current pad */
 
-    /** FIND OPTIMUM PLACE FOR PADS ACCORDING TO THE RESTRICTIONS **/
-    for( i = 1; i <= totalpadsG; i++ ){
+	/** FIND OPTIMUM PLACE FOR PADS ACCORDING TO THE RESTRICTIONS **/
+	for(int i = 1; i <= totalpadsG; i++ ) {
 
-	/**** LEAVES AND SUBROOTS NEED TO BE PLACED ON THE SAME
-	**** SIDE AS THEIR PARENT ROOT, HENCE WE PLACE THE ROOT
-	**** FIRST, AND THEN PLACE ALL ITS CHILDREN **/
+		/**** LEAVES AND SUBROOTS NEED TO BE PLACED ON THE SAME
+		**** SIDE AS THEIR PARENT ROOT, HENCE WE PLACE THE ROOT
+		**** FIRST, AND THEN PLACE ALL ITS CHILDREN **/
 
-	pad = padarrayG[i] ;
-	if( pad->padtype == PADGROUPTYPE && pad->hierarchy == ROOT  ){
-	    /* the case of a padgroup root */
-	    bestcost = INT_MAX ;
-	    for (side = 1; side <= 4; side++ ) {
-		if( pad->valid_side[ALL] || pad->valid_side[side] ){
-		    cost = find_cost_for_a_side( pad,side,
-			(DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound,
-			pad->fixed ) ;
-		    if( cost < bestcost) {
-			bestcost = cost;
-			bestside = side ;
-		    }
-		}
-	    }
-	    place_children( pad, bestside, (DOUBLE) pad->lowerbound, 
-		(DOUBLE) pad->upperbound, pad->fixed ) ;
-
-	} else if( pad->padtype == PADCELLTYPE && pad->hierarchy == NONE ) {
-	    /* the case of a pad that is not in a padgroup */
-	    bestcost = INT_MAX ;
-	    for (side = 1; side <= 4; side++ ) {
-		if( pad->valid_side[ALL] || pad->valid_side[side] ){
-		    cost = find_cost_for_a_side( pad,side,
-			(DOUBLE) pad->lowerbound, (DOUBLE) pad->upperbound, 
-			pad->fixed ) ;
-		    if( cost < bestcost) {
-			bestcost = cost;
-			bestside = side ;
-			bestpos = sumposS ;
-			besttie = sumtieS ;
-		    }
-		}
-	    }
-	    /* now use the best positions for the position */
-	    sumposS = bestpos ;
-	    sumtieS = besttie ;
-	    place_pad( pad, bestside ) ;
-
-	} /* end simple pad case */
-    }
+		pad = padarrayG[i] ;
+		if( pad->padtype == PADGROUPTYPE && pad->hierarchy == ROOT  ){
+			/* the case of a padgroup root */
+			bestcost = INT_MAX ;
+			for (side = 1; side <= 4; side++ ) {
+				if( pad->valid_side[ALL] || pad->valid_side[side] ){
+				cost = find_cost_for_a_side( pad,side, (double) pad->lowerbound, (double) pad->upperbound,
+					pad->fixed ) ;
+					if( cost < bestcost) {
+						bestcost = cost;
+						bestside = side ;
+					}
+				}
+			}
+			place_children( pad, bestside, (double) pad->lowerbound, (double) pad->upperbound, pad->fixed ) ;
+		} else if( pad->padtype == PADCELLTYPE && pad->hierarchy == NONE ) {
+			/* the case of a pad that is not in a padgroup */
+			bestcost = INT_MAX ;
+			for (side = 1; side <= 4; side++ ) {
+				if( pad->valid_side[ALL] || pad->valid_side[side] ){
+					cost = find_cost_for_a_side( pad,side, (double) pad->lowerbound, (double) pad->upperbound, pad->fixed ) ;
+					if( cost < bestcost) {
+						bestcost = cost;
+						bestside = side ;
+						bestpos = sumposS ;
+						besttie = sumtieS ;
+					}
+				}
+			}
+			/* now use the best positions for the position */
+			sumposS = bestpos ;
+			sumtieS = besttie ;
+			place_pad( pad, bestside ) ;
+		} /* end simple pad case */
+	}
 } /* end find_optimum */
 
 /* ***************************************************************** */
-static INT find_cost_for_a_side(pad,side,lb,ub,spacing_restricted)
-PADBOXPTR pad;
-INT  side ;
-DOUBLE lb, ub ;
-BOOL spacing_restricted ;
+int find_cost_for_a_side(PADBOXPTR pad, int side, double lb, double ub, BOOL spacing_restricted)
 {
-    INT i ;           /* children counter */
-    INT pos ;         /* current pos. of current core pin constrained*/
-    INT dist ;        /* current distance from core pin to pad */
-    INT cost ;        /* sum of the opt pad pins to closest core pin */
-    INT dist2 ;       /* under restrictions dist from core pin to pad */
-    INT lowpos ;      /* convert lower bound to a position */
-    INT uppos ;       /* convert upper bound to a position */
-    INT bestpos ;     /* best constrained pos for pad to core for 1 net */
-    INT besttie ;     /* best position for pad to core for 1 net */
-    INT bestdist ;    /* best distance for pad to core for 1 net */
-    INT tiebreak ;    /* best place to put pad pin unconstrained */
+    int i ;           /* children counter */
+    int pos ;         /* current pos. of current core pin constrained*/
+    int dist ;        /* current distance from core pin to pad */
+    int cost ;        /* sum of the opt pad pins to closest core pin */
+    int dist2 ;       /* under restrictions dist from core pin to pad */
+    int lowpos ;      /* convert lower bound to a position */
+    int uppos ;       /* convert upper bound to a position */
+    int bestpos ;     /* best constrained pos for pad to core for 1 net */
+    int besttie ;     /* best position for pad to core for 1 net */
+    int bestdist ;    /* best distance for pad to core for 1 net */
+    int tiebreak ;    /* best place to put pad pin unconstrained */
     BOOL pinFound ;   /* true if we find a match on current net */
     PINBOXPTR pinptr; /* current pin */
     PINBOXPTR netterm;/* loop thru pins of a net */
@@ -418,9 +387,7 @@ BOOL spacing_restricted ;
  **** are set in those routines.  Otherwise set sumposS and sumtieS
  **** to their proper values.
  ***/
-static place_pad( pad, bestside )
-PADBOXPTR pad ;
-INT bestside ;
+void place_pad(PADBOXPTR pad, int bestside)
 {
 
     if( pin_countS == 0 ){
@@ -450,22 +417,16 @@ INT bestside ;
 } /* end place_pad */
 /* ***************************************************************** */
 
-
-
 /**** RECURSIVELY SET THE PADSIDE OF ALL CHILDREN OF THE ROOT PAD TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL CXCENTER */
-static place_children( pad, side, lb, ub, spacing_restricted )
-PADBOXPTR pad ;
-INT side ;
-DOUBLE lb, ub ;
-BOOL spacing_restricted ;
+void place_children(PADBOXPTR pad, int side, double lb,double ub,BOOL spacing_restricted)
 {
-    INT i ;           /* pad counter */
-    INT pos ;         /* position of last placed pad */
-    INT min_pos ;     /* min position of the last padgroup */
-    INT max_pos ;     /* max position of the last padgroup */
-    DOUBLE lowbound ; /* lower bound for pad or pad group */
-    DOUBLE hibound ;  /* upper bound for pad or pad group */
+    int i ;           /* pad counter */
+    int pos ;         /* position of last placed pad */
+    int min_pos ;     /* min position of the last padgroup */
+    int max_pos ;     /* max position of the last padgroup */
+    double lowbound ; /* lower bound for pad or pad group */
+    double hibound ;  /* upper bound for pad or pad group */
     PADBOXPTR child;  /* go thru the children of the padgroup */
 
     /* DETERMINE SPACING RESTRICTIONS */
@@ -535,49 +496,42 @@ BOOL spacing_restricted ;
 /* ***************************************************************** */
 
 /* ***************************************************************** */
-#ifdef DEBUG
-print_pads( message, array, howmany )
-char *message ;
-PADBOXPTR *array ;
-INT howmany ;
+void print_pads( char *message, PADBOXPTR *array, int howmany )
 {
-    INT i ;
+    int i ;
     PADBOXPTR ptr ;
     CELLBOXPTR cptr ;
     
-    fprintf( stderr, "\n%s\n", message ) ;
+    printf( "\n%s\n", message ) ;
 
     /* now print them out */
     for( i = 1 ; i <= howmany; i++ ){
 	ptr = array[i] ;
 	cptr = cellarrayG[ptr->cellnum] ;
-	fprintf( stderr, 
+	printf( 
 	    "pad:%s x:%d y:%d type:%d side:%d pos:%d tie:%d orient:%d\n",
 	    cptr->cname, cptr->xcenter, cptr->ycenter, ptr->hierarchy,
 	    ptr->padside, ptr->position, ptr->tiebreak, cptr->orient ) ;
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 
     dimension_pads() ;
     G( process_graphics() ) ;
 
 } /* end print_pads */
 
-#endif /* DEBUG */
 /* ***************************************************************** */
 
 
 /* turn virtual core on and off */
-setVirtualCore( flag )
-BOOL flag ;
+void setVirtualCore( BOOL flag )
 {
     virtualCoreS = flag ;
 } /* end set Virtual core */
 
 /* function finds and returns core boundary region including cells */
 /* which overlap the core region */
-find_core_boundary( left, right, bottom, top )
-INT *left, *right, *bottom, *top ;
+void find_core_boundary( int *left, int *right, int *bottom, int *top )
 {
     BOOL rememberFlag ;
 
@@ -599,11 +553,9 @@ INT *left, *right, *bottom, *top ;
 
 
 /* given a cell it returns bounding box of cell in global coordinates */
-get_global_pos( cell, l, b, r, t )
-INT cell ; 
-INT *l, *r, *b, *t ;
+void get_global_pos( int cell, int *l, int *b, int *r, int *t )
 {
-    INT orient ;
+    int orient ;
     BOUNBOXPTR bounptr ;
     CELLBOXPTR ptr ;
 
@@ -624,12 +576,10 @@ INT *l, *r, *b, *t ;
 
 
 /* given a cell it returns bounding box of cell including routing area */
-get_routing_boundary( cell, ret_l, ret_b, ret_r, ret_t )
-INT cell ; 
-INT *ret_l, *ret_r, *ret_b, *ret_t ; /* return quantities */
+void get_routing_boundary( int cell, int *ret_l, int *ret_b, int *ret_r, int *ret_t )
 {
-    INT minx, maxx ;
-    INT miny, maxy ;
+    int minx, maxx ;
+    int miny, maxy ;
     CELLBOXPTR ptr ;
     RTILEBOXPTR tileptr ;
 
@@ -663,17 +613,16 @@ INT *ret_l, *ret_r, *ret_b, *ret_t ; /* return quantities */
 } /* end get_routing_boundary */
 
 
-static INT get_pad_routing( cell )
-INT cell ;
+int get_pad_routing( int cell )
 {
 
     CELLBOXPTR cptr ;            /* pad cell in question */
     RTILEBOXPTR tptr ;            /* look at all the routing tiles */
-    INT last_core_cell ;         /* calc last core cell index */
-    INT new ;                    /* new position with routing */
-    INT old ;                    /* old position with no routing */
+    int last_core_cell ;         /* calc last core cell index */
+    int new ;                    /* new position with routing */
+    int old ;                    /* old position with no routing */
 
-    last_core_cell = ( (INT) routingTilesG[HOWMANY] ) - 4 ;
+    last_core_cell = ( (int) routingTilesG[HOWMANY] ) - 4 ;
 
     /* find bounding box of routing tiles */
     cptr = cellarrayG[endpadgrpsG + cell] ;
@@ -712,12 +661,12 @@ INT cell ;
     return( 0 ) ;
 } /* end get_pad_routing */
 
-static find_core()
+void find_core()
 {
-    INT ominx, ominy ;
-    INT omaxx, omaxy ;
-    INT l, r, b, t ;
-    INT i ;
+    int ominx, ominy ;
+    int omaxx, omaxy ;
+    int l, r, b, t ;
+    int i ;
 
     if( virtualCoreS ){
 	/* initialize xmin, ymax, etc. */
@@ -812,15 +761,14 @@ static find_core()
 
 
 /* ***********************EXTERNAL ROUTINES ************************** */
-call_place_pads()
+void call_place_pads()
 {
     FILE *fp ;
-    INT pad ;
-    INT line ;
-    INT numnets ;
-    INT numtokens ;
-    INT closegraphics() ;
-    INT find_numnets() ;
+    int pad ;
+    int line ;
+    int numnets ;
+    int numtokens ;
+    int find_numnets() ;
     BOOL abort ;
     char **tokens ;
     char *bufferptr ;
@@ -865,7 +813,7 @@ call_place_pads()
     M( MSG, NULL, "\n" ) ;
 
     /* Ysystem will kill program if catastrophe occurred */
-    Ysystem( PLACEPADPROG, ABORT, YmsgG, closegraphics ) ; 
+    //Ysystem( PLACEPADPROG, ABORT, YmsgG, closegraphics ) ; 
     Ysafe_free( pathname ) ; /* free name created in Yrelpath */
     /* ############# end of placepads execution ############# */
 
@@ -916,17 +864,16 @@ call_place_pads()
 
     if( abort ){
 	M(ERRMSG, "placepads", "Problem with placing pads.Must abort\n") ;
-	closegraphics() ;
-	YexitPgm( PGMFAIL ) ;
+	return 1;
     }
     /* ************ END READ RESULTS of placepads ************/
 
 } /* end call_place_pads */
 
-INT find_numnets()
+int find_numnets()
 {
-    INT pad ; 
-    INT numnets ; 
+    int pad ; 
+    int numnets ; 
     CELLBOXPTR ptr ;
     PINBOXPTR pin ;
 
@@ -950,11 +897,10 @@ INT find_numnets()
     return( numnets ) ;
 } /* end find_numnets */
 
-output_nets( fp, numnets )
-FILE *fp ;
+void output_nets( FILE *fp, int numnets )
 {
-    INT net ;
-    INT pincount ;
+    int net ;
+    int pincount ;
     PINBOXPTR pin ;
     NETBOXPTR netptr ;
     YSETLISTPTR list ;

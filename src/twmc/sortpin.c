@@ -47,27 +47,16 @@ REVISIONS:  May  2, 1990 - added verify_pad_pins as an error checking
 		channel graph.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) sortpin.c version 3.7 10/18/91" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-
-
-
-static INT comparePin() ;
-
-
-sortpins()
+void sortpins()
 {
 
-    INT j , n , cell ;
+    int j , n , cell ;
     CELLBOXPTR ptr ;
     PINBOXPTR pin, *xpptr ;
-    /* static INT comparePin() ;*/
-    INT maxpins ;
+    /* static int comparePin() ;*/
+    int maxpins ;
 
 
     /* find maximum number of pins on a cell for allocation */
@@ -100,9 +89,7 @@ sortpins()
 } /* end sortpins */
 
 
-static INT comparePin( pinA , pinB )
-PINBOXPTR *pinA , *pinB ;
-
+int comparePin( PINBOXPTR *pinA , PINBOXPTR *pinB )
 {
     /* first sort by net number */
     if( (*pinA)->net != (*pinB)->net ){

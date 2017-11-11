@@ -47,32 +47,30 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Wed Aug 28 14:27:04 EDT 1991 - added more debug.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) changrid.c (Yale) version 4.5 8/29/91" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include "groute.h"
+TGRIDPTR *TgridG ;
+CHANGRDPTR *BeginG ;
+CHANGRDPTR *EndG ;
 
-changrid( )
+void changrid( )
 {
 
 CHANGRDPTR **gdptr , grdptr , cgdptr , ngdptr ;
 PINBOXPTR netptr ;
-INT row , net , channel , terminal ;
-INT *numPins , *PinInChan ;
-INT count , i, k, comparegdx() ;
+int row , net , channel , terminal ;
+int *numPins , *PinInChan ;
+int count , i, k, comparegdx() ;
 
 
-numPins   = (INT *)Ysafe_calloc( numChansG+1, sizeof(INT) ) ;
-PinInChan = (INT *)Ysafe_calloc( numChansG+1, sizeof(INT) ) ;
+numPins   = (int *)Ysafe_calloc( numChansG+1, sizeof(int) ) ;
+PinInChan = (int *)Ysafe_calloc( numChansG+1, sizeof(int) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     for( netptr = netarrayG[net]->pins ; netptr ; netptr = netptr->next ) {
-	if( (INT) netptr->pinloc == BOTCELL ) {
+	if( (int) netptr->pinloc == BOTCELL ) {
 	    numPins[ netptr->row ]++ ;
-	} else if( (INT) netptr->pinloc == TOPCELL ) {
+	} else if( (int) netptr->pinloc == TOPCELL ) {
 	    numPins[ netptr->row + 1 ]++ ;
 	} else {  /* pinloc == 0  pin on pads or macros */
 	    if( netptr->row > 0 ) {
@@ -109,14 +107,14 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     }
 #endif
 	grdptr = ( CHANGRDPTR )Ysafe_calloc( 1, sizeof(CHANGRDBOX)) ;
-	if( (INT) netptr->pinloc == BOTCELL ) {
+	if( (int) netptr->pinloc == BOTCELL ) {
 	    channel = row ;
 	    count = ++(PinInChan[ channel ]) ;
 	    gdptr[ channel ][ count ] = grdptr ;
 	    TgridG[ terminal ]->up = grdptr ;
 	    TgridG[ terminal ]->down = grdptr ;
 	    grdptr->netptr  = tearrayG[ terminal ] ;
-	} else if( (INT) netptr->pinloc == TOPCELL ) {
+	} else if( (int) netptr->pinloc == TOPCELL ) {
 	    channel = row + 1 ;
 	    count = ++(PinInChan[ channel ]) ;
 	    gdptr[ channel ][ count ] = grdptr ;
@@ -220,12 +218,12 @@ Ysafe_free( PinInChan ) ;
 }
 
 
-pre_findrcost()
+void pre_findrcost()
 {
 
 SEGBOXPTR segptr ;
 PINBOXPTR ptr1 , ptr2 ;
-INT net ;
+int net ;
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
     for( segptr = netsegHeadG[net]->next ;

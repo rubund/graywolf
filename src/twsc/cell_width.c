@@ -46,62 +46,34 @@ CONTENTS:   calc_cell_width()
 	    
 DATE:	    July 26, 1991 
 ----------------------------------------------------------------- */
-
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
-#endif
-#endif
-
 #define PADKEYWORD          "pad"
 #define RELATIVE_TO_CURPOS  1
 
 /* #define MITLL */
 
-#include <string.h>
-#include "standard.h"
-#include "main.h"
-#include "config.h"
-#include "readpar.h"
-#include "parser.h"
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-#include <yalecad/rbtree.h>
-#include <yalecad/string.h>
+#include <globals.h>
+#include "allheaders.h"
 
 #define GREATER 1
 #define LESS -1 
 #define EQUAL 0
 #define MAX_CELL_LEN 10
 
-
-extern INT extra_cellsG ;
-
-static INT compare_cell_length();
-static read_pads(); 
-
-
-
 /*--------------------------------------------------------------------------*/
 /*------------ User defined print routine to print out the tree ------------*/
 /*--------------------------------------------------------------------------*/
 
-INT print_cell_name(c1)
-CBOXPTR c1;
+void print_cell_name(CBOXPTR c1)
 {
- return;
+	return;
 }
 
-
-INT print_cell_length(c1)
-CBOXPTR c1;
+void print_cell_length(CBOXPTR c1)
 {
-  return;
+	return;
 }
 
-
-INT print_cell_pins(c1)
-CBOXPTR c1;
+void print_cell_pins(CBOXPTR c1)
 {
   return ;
 }
@@ -109,17 +81,14 @@ CBOXPTR c1;
 
 /*--------------------------------------------------------------------------*/
 
-
-
-
-calc_cells_width()
+void calc_cells_width()
 {
 
 FILE *fp;     /*--- file pointer to stdcell.comp ---*/
-INT cell, std_length, cell_length = 0 ;
-INT Ratio, sect, xpost,xminus, ypost, yminus, corient;
-INT alength, lower, upper, counter, longest_cell, cell_count, pp;
-DOUBLE avg_cell_length, deviation, percent, ratio, part_pin;
+int cell, std_length, cell_length = 0 ;
+int Ratio, sect, xpost,xminus, ypost, yminus, corient;
+int alength, lower, upper, counter, longest_cell, cell_count, pp;
+double avg_cell_length, deviation, percent, ratio, part_pin;
 
 YTREEPTR CellTree; 
 CBOXPTR acellptr, dummy_box, Low_Key, Hi_Key, TestTree;
@@ -128,11 +97,11 @@ EQ_NBOXPTR eptr;
 DBOXPTR dptr;
 char *aptr, *bptr, *cptr, *nptr;
 char *add_ptr = "-XTRA", *add_fptr = "-1";
-INT xx , yy, zzz, r_term, last_term, pin_diff ;
+int xx , yy, zzz, r_term, last_term, pin_diff ;
 char layer;
 
-system("clear");
-fprintf(stderr, "\n\n ");
+//system("clear");
+printf( "\n\n ");
 
 /*------ Memory allocation ------*/
 dummy_box   = (CBOXPTR) Ysafe_malloc( sizeof(CBOX) );
@@ -152,7 +121,7 @@ for(cell = 1; cell <= numcellsG - extra_cellsG ; cell++){
    ASSERTNFAULT(Yrbtree_verify(CellTree),"calc_cells_name","bad tree");
   }  
 
-  /* fprintf(stderr,"\n\n The RB-Tree of All The Cells Follows: \n\n  ");
+  /* printf("\n\n The RB-Tree of All The Cells Follows: \n\n  ");
 
    Yrbtree_dump(CellTree,print_cell_name);     printout the whole tree--*/
 
@@ -168,11 +137,11 @@ for(cell = 1; cell <= numcellsG - extra_cellsG ; cell++){
 /*--------------------------------------------------------------------*/
 
 
-fprintf(stderr, "\n------------------------------------\n");
-fprintf(stderr, "The total number of cells = %d \n", --cell );
-fprintf(stderr, "The avarage cell length = %f \n", avg_cell_length );
-fprintf(stderr, "The cell deviation = %f", deviation );
-fprintf(stderr,"\n------------------------------------");
+printf( "\n------------------------------------\n");
+printf( "The total number of cells = %d \n", --cell );
+printf( "The avarage cell length = %f \n", avg_cell_length );
+printf( "The cell deviation = %f", deviation );
+printf("\n------------------------------------");
 
 
 
@@ -182,7 +151,7 @@ Low_Key->clength = 0;
 Hi_Key->clength = avg_cell_length;
 upper = Hi_Key->clength ;
 
-fprintf(stderr, "\n");
+printf( "\n");
 counter = 0;
 
 for(TestTree = (CBOXPTR) Yrbtree_interval(CellTree,Low_Key,Hi_Key,TRUE);
@@ -200,10 +169,10 @@ percent =  (counter / (float) (numcellsG - extra_cellsG)) ;
 
 if (percent >= 0.6){
 
-fprintf(stderr,"\n\nThe Total Number of Cells b/w the Lower Limit = %d",lower);
-fprintf(stderr,"\nand the Upper Limit = %d is ----->> %d \n", upper, counter);
-fprintf(stderr,"\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
-fprintf(stderr,"\nPlease wait, conversion is being done ... \n");
+printf("\n\nThe Total Number of Cells b/w the Lower Limit = %d",lower);
+printf("\nand the Upper Limit = %d is ----->> %d \n", upper, counter);
+printf("\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
+printf("\nPlease wait, conversion is being done ... \n");
 
 Hi_Key->clength = avg_cell_length ;
 
@@ -211,7 +180,7 @@ Hi_Key->clength = avg_cell_length ;
    
   while(percent < 0.6){
 
-    Hi_Key->clength += (INT) deviation / 20 ; 
+    Hi_Key->clength += (int) deviation / 20 ; 
     upper = Hi_Key->clength ; 
 
     counter = 0;
@@ -236,10 +205,10 @@ Hi_Key->clength = avg_cell_length ;
 
   }
 
-fprintf(stderr,"\n\nThe Total Number of Cell b/w the Lower Limit = %d",lower);
-fprintf(stderr,"\nand the  Upper Limit = %d is ----->> %d \n", upper, counter);
-fprintf(stderr,"\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
-fprintf(stderr,"\nPlease wait, conversion is being done ... \n");
+printf("\n\nThe Total Number of Cell b/w the Lower Limit = %d",lower);
+printf("\nand the  Upper Limit = %d is ----->> %d \n", upper, counter);
+printf("\nThe Percentage of Cells within the Limits = %f \n", 100*percent);
+printf("\nPlease wait, conversion is being done ... \n");
 
 }/*---- end else ----*/
 
@@ -376,7 +345,7 @@ for(TestTree = (CBOXPTR)Yrbtree_interval(CellTree,Low_Key,Hi_Key,TRUE);
 
 if ( upper > std_length){
    ratio = (float) TestTree->clength / std_length ;
-   Ratio = (INT) ratio ;
+   Ratio = (int) ratio ;
    if((ratio - Ratio) > 0){
    Ratio++ ;
    }
@@ -387,7 +356,7 @@ if ( upper > std_length){
  part_pin = lower / (float) Ratio ; /*--calculate the pins per partition--*/   
 
 
- pp   = (INT) part_pin ;
+ pp   = (int) part_pin ;
  if ((part_pin - pp) > 0){
    pp++ ;
  } 
@@ -542,7 +511,7 @@ return;
 
 /***************************************************************************/
  
-static INT compare_cell_length(c1,c2)
+int compare_cell_length(c1,c2)
 
 CBOXPTR c1;
 CBOXPTR c2;
@@ -560,13 +529,12 @@ return(EQUAL);
 /****************************************************************************/
 
 
-static read_pads( fp ) 
-FILE *fp ;
+void read_pads( FILE *fp ) 
 {
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing menu file */
     char copyBuf[LRECL] ;
-    INT  numtokens ;
+    int  numtokens ;
     int  delta ;
     int  error ;
     int lineG ;

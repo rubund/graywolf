@@ -80,30 +80,14 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 	    Thu Aug 22 22:10:09 CDT 1991 - fixed problem with
 		fixed cells moving during pairwise flips.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c (Yale) version 3.17 10/18/91" ;
-#endif
-
 #ifndef NOGRAPHICS
 
-#include <string.h>
-#include <custom.h>
-#include <dens.h>
-#include <analog.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
-#include <yalecad/colors.h>
-#include <yalecad/draw.h>
-#include <yalecad/dialog.h>
-#include <yalecad/system.h>
-#include <menus.h>
-
+#include "allheaders.h"
 
 #define CELLEST     0
 #define CELLBORDER  1
 #define TRUECELL    2
-#define INTRO       "Welcome to TimberWolfMC"
-
+#define intRO       "Welcome to TimberWolfMC"
 
 #define CELLCOLOR          TWGREEN
 #define ORIGCOLOR          TWYELLOW
@@ -121,125 +105,93 @@ static char SccsId[] = "@(#) graphics.c (Yale) version 3.17 10/18/91" ;
 /* #define DEVELOPMENU */
 /* During development use TWread_menus in place of menuS */
 /* to create menu record, ie.  TWread_menus(MENUP) */
-#ifdef DEVELOPMENU
-#define MENU   (TWMENUPTR ) TWread_menus(MENUP)
-#else
+#include "dialog.h"
 #define MENU   menuS
-#endif
-
-/* #define DEVELOPDIALOG */
-#ifndef DEVELOPDIALOG
-
-#ifdef TI
-#include <tidialog.h>
-#else
-#include <dialog.h>
-#endif
-
-#else /* DEVELOPDIALOG */
-static TWDIALOGPTR dialogS ;
-#endif /* DEVELOPDIALOG */
 
 /* ***************************************************************** 
-   DUMP CURRENT MC CONFIGURATION.  USER INTERFACE
+   DUMP CURRENT MC CONFIGURATION.  USER intERFACE
 */
-static BOOL avoidDump = FALSE ;
-static BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
-static BOOL drawBinS = FALSE ;   /* whether or not to draw bins */
-static BOOL drawLabelS = FALSE ;  /* whether to draw labels or not */
-static BOOL ignoreStdMacroS=FALSE;/* normally draw the standard cell macros */
-static INT  selectCellS ;        /* the current selected cell  */
-static BOOL auto_drawS = TRUE ;/* whether to draw immediately after exp.*/
-static BOOL drawNeighborS = TRUE; /* whether to draw neighborhoods */
-static BOOL cleanFileS = FALSE ;   /* whether we need to delete old files */
-static INT  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
-static BOOL drawBorderS = TRUE ; /* normal option - draw border otherwise cell tiles */
-static BOOL drawGlobeS = TRUE ; /* turn off global routing tiles */
-static BOOL drawGridS = TRUE ; /* draw the grid reference lines */
-static BOOL drawWireEstS ; /* whether to draw wire estimation */
-static INT  pinsizeS ;     /* size of the pin */
-static BOOL movedCellS ;   /* lets us know whether we have to update cellbins */
-static BOOL single_cell_moveS = FALSE ;
-static BOOL drawFS = FALSE ;
+BOOL avoidDump = FALSE ;
+BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
+BOOL drawBinS = FALSE ;   /* whether or not to draw bins */
+BOOL drawLabelS = FALSE ;  /* whether to draw labels or not */
+BOOL ignoreStdMacroS=FALSE;/* normally draw the standard cell macros */
+int selectCellS ;        /* the current selected cell  */
+BOOL auto_drawS = TRUE ;/* whether to draw immediately after exp.*/
+BOOL drawNeighborS = TRUE; /* whether to draw neighborhoods */
+BOOL cleanFileS = FALSE ;   /* whether we need to delete old files */
+int drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
+BOOL drawBorderS = TRUE ; /* normal option - draw border otherwise cell tiles */
+BOOL drawGlobeS = TRUE ; /* turn off global routing tiles */
+BOOL drawGridS = TRUE ; /* draw the grid reference lines */
+BOOL drawWireEstS ; /* whether to draw wire estimation */
+int pinsizeS ;     /* size of the pin */
+BOOL movedCellS ;   /* lets us know whether we have to update cellbins */
+BOOL single_cell_moveS = FALSE ;
+BOOL drawFS = FALSE ;
 
+BOOL wait_for_userG ;
 
-/* Forward references */
-
-INT draw_the_data() ;
-static draw_fs();
-static edit_cell();
-static edit_field_string();
-static edit_field_case();
-static fix_the_cell();
-static fix_the_cell2();
-
-initMCGraphics( argc, argv, windowId )
-INT argc, windowId ;
-char *argv[] ;
+void initMCGraphics(int windowId)
 {
 
-    char *host ;
+	char *host ;
 
-#ifndef DEVELOPMENU
-    set_graphics_wait_menu( MENU ) ;
-#endif
+	set_graphics_wait_menu( MENU ) ;
 
-    if( !(doGraphicsG) ){
-	TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),TRUE,MENU,
-	    draw_the_data ) ;
-	return ;
-    }
-	
-    /* we need to find host for display */
-    if(!(host = Ygetenv("DISPLAY"))) {
-	M(WARNMSG,"initMCGraphics","Can't get environment variable ");
-	M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
-	avoidDump = TRUE ;
-	doGraphicsG = FALSE ;
-	return ;
-    }
-    if( windowId ){
-	/* init windows as a parasite */
-	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
-	    M(ERRMSG,"initMCGraphics","Aborting graphics.");
-	    doGraphicsG = FALSE ;
-	    avoidDump = TRUE ;
-	    return ;
+	if( !(doGraphicsG) ){
+		TWinitGraphics(TWnumcolors(),TWstdcolors(),TRUE,MENU, draw_the_data ) ;
+		return ;
 	}
-    } else {
-	/* init window as a master */
-	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),FALSE,MENU,
-	    draw_the_data ))){
-	    M(ERRMSG,"initMCGraphics","Aborting graphics.");
-	    doGraphicsG = FALSE ;
-	    avoidDump = TRUE ;
-	    return ;
+
+	/* we need to find host for display */
+	if(!(host = Ygetenv("DISPLAY"))) {
+		M(WARNMSG,"initMCGraphics","Can't get environment variable ");
+		M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
+		avoidDump = TRUE ;
+		doGraphicsG = FALSE ;
+		return ;
 	}
-    }
-    TWsetwindow( 0, 0, 10, 10 ) ;
-    TWsetFrame(0) ;
-    TWdrawCell( 0, 0,0,11,11, BINCOLOR, INTRO ) ;
-    TWmessage("To interupt program click on top menu window") ;
-    TWflushFrame() ;
-    selectCellS = 0 ; /* initialize to no selected cells */
-    /* use TWinterupt to turn off window enter/leave lights */
-    TWinterupt() ;
-    /* set the default pin size */
-    pinsizeS = (track_spacingXG + track_spacingYG) / 4 - 1 ;
-    pinsizeS = MAX( 1, pinsizeS ) ;
+	if( windowId ){
+		/* init windows as a parasite */
+		if( !( TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data, windowId ))){
+			M(ERRMSG,"initMCGraphics","Aborting graphics.");
+			doGraphicsG = FALSE ;
+			avoidDump = TRUE ;
+			return ;
+		}
+	} else {
+		/* init window as a master */
+		if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(),FALSE,MENU, draw_the_data ))){
+			M(ERRMSG,"initMCGraphics","Aborting graphics.");
+			doGraphicsG = FALSE ;
+			avoidDump = TRUE ;
+			return ;
+		}
+	}
+	TWsetwindow( 0, 0, 10, 10 ) ;
+	TWsetFrame(0) ;
+	TWdrawCell( 0, 0,0,11,11, BINCOLOR, intRO ) ;
+	TWmessage("To interupt program click on top menu window") ;
+	TWflushFrame() ;
+	selectCellS = 0 ; /* initialize to no selected cells */
+	/* use TWinterupt to turn off window enter/leave lights */
+	TWinterupt() ;
+	/* set the default pin size */
+	pinsizeS = (track_spacingXG + track_spacingYG) / 4 - 1 ;
+	pinsizeS = MAX( 1, pinsizeS ) ;
 
 } /* end initMCGraphics */
 
-setGraphicWindow() 
+void setGraphicWindow() 
 {
-    INT  expand ;
-    INT  minx ;
-    INT  maxx ;
-    INT  miny ;
-    INT  maxy ;
-    INT  xc, yc ;      /* cell center */
-    INT  i ;           /* counter */
+    int  expand ;
+    int  minx ;
+    int  maxx ;
+    int  miny ;
+    int  maxy ;
+    int  xc, yc ;      /* cell center */
+    int  i ;           /* counter */
     CELLBOXPTR cptr ;  /* cell record pointer */
 
     regenorient( 1, endsuperG ) ; /* update bounding boxes if necessary */
@@ -261,7 +213,7 @@ setGraphicWindow()
     }
 
     expand = MAX( maxy - miny, maxx - minx ) ;
-    expand = (INT) (0.1 * (DOUBLE) expand ) ;
+    expand = (int) (0.1 * (double) expand ) ;
     TWsetwindow( minx - expand, miny - expand, 
 	maxx + expand, maxy + expand ) ;
 } /* end setGraphicWindow */
@@ -269,8 +221,7 @@ setGraphicWindow()
 
 /* set what we are going to draw on a dump to the screen */
 /* placement data, compaction data , etc. are valid */
-set_graphic_context( context )
-INT context ;
+void set_graphic_context( int context )
 {
     if( context == PARTITION_PLACEMENT ){
 	/* after placement ignore drawing the standard macros */
@@ -280,23 +231,20 @@ INT context ;
 } /* end set_graphic_context */ 
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
-    INT x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
-    INT x, y ;           /* coordinates from pointer */
-    INT i ;             /* temp variable */
-    INT selection ;     /* the users pick */
-    INT pick_cell() ;   /* get cell from user */
+    int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
+    int x, y ;           /* coordinates from pointer */
+    int i ;             /* temp variable */
+    int selection ;     /* the users pick */
+    int pick_cell() ;   /* get cell from user */
     char *reply ;       /* user reply to a querry */
     BOOL ok ;           /* loop until this value is true */
     char leftNotRight[2] ; /* reference to left or right side of core */
     char bottomNotTop[2] ; /* reference to bottom or top of core */
     char leftNotRight2[2]; /* reference to left or right side of core */
     char bottomNotTop2[2]; /* reference to bottom or top of core */
-    DOUBLE scale ;      /* scale wireestimation */
-    DOUBLE eval_ratio() ;/* returns a double */
-    DOUBLE calc_core_factor() ; /* calculate new core */
 
     if(!(doGraphicsG)){
 	return ;
@@ -618,14 +566,14 @@ process_graphics()
 
 
 /* find the cell in question */
-INT pick_cell()
+int pick_cell()
 {
 
-    INT i ;
-    INT match_count ;        /* keep track of all cells that match */
-    INT x, y ;               /* coordinates picked by user */
-    INT cell ;               /* selected cell */
-    INT l, r, b, t ;         /* cell sides */
+    int i ;
+    int match_count ;        /* keep track of all cells that match */
+    int x, y ;               /* coordinates picked by user */
+    int cell ;               /* selected cell */
+    int l, r, b, t ;         /* cell sides */
 
     cell = 0 ;
     TWmessage("Pick cell by clicking any mouse button at center of cell");
@@ -695,210 +643,210 @@ INT pick_cell()
 
 /* the graphics program can draw the results at each desired */
 /* timestep. */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  x ;
-    INT  y ;
-    INT  pt ;
-    INT  max ;
-    INT  grid ;
-    INT  area ;
-    INT  offset ;
-    char *labelptr ;
-    char label[LRECL] ;
-    INT  x0, x1, y0, y1 ;
-    PINBOXPTR  curPin ;
-    BINBOXPTR  bp ;
-    ANALOGPTR aptr ;
-    CELLBOXPTR cellptr ;
-    DOUBLE percent ;
+	int  i ;
+	int  x ;
+	int  y ;
+	int  pt ;
+	int  max ;
+	int  grid ;
+	int  area ;
+	int  offset ;
+	char *labelptr ;
+	char label[LRECL] ;
+	int  x0, x1, y0, y1 ;
+	PINBOXPTR  curPin ;
+	BINBOXPTR  bp ;
+	ANALOGPTR aptr ;
+	CELLBOXPTR cellptr ;
+	double percent ;
 
-    if( avoidDump || !(doGraphicsG) ){
-	return( -1 ) ;
-    }
-    if( cleanFileS == TRUE ){
-	Yrm_files( "DATA/*" ) ;
-	cleanFileS = FALSE ;
-    }
-    TWstartFrame() ;
-    TWmessage( "Drawing the data...Please wait" ) ;
-
-    /* draw the cells */
-    for( i = 1; i <= totalcellsG ; i++ ){
-	twmc_draw_a_cell( i ) ;
-    }
-
-    if( selectCellS ){
-	get_global_pos( selectCellS, &x0, &y0, &x1, &y1 ) ;
-	TWhighLightRect( x0, y0, x1, y1 ) ;
-    }
-
-    /* now build net file */
-    /* nets are the interconnections between the cells */
-    if( drawNetS ){
-	Ymst_init( get_max_pin() ) ;
-	for( i=1;i<=numnetsG;i++){
-	    /* this is the single net case */
-	    if( drawNetS <= numnetsG && i != drawNetS ){
-		continue ;
-	    }
-	    Ymst_clear() ;
-	    for(curPin=netarrayG[i]->pins;curPin;curPin=curPin->next){
-		Ymst_addpt( curPin->xpos, curPin->ypos ) ;
-	    }
-	    Ymst_draw() ;
+	if( avoidDump || !(doGraphicsG) ){
+		return( -1 ) ;
 	}
-	Ymst_free() ;
-    }
-    /* draw core region for reference */
-    TWdrawLine( ++i, blocklG,blockbG,blocklG,blocktG,BLACK,NULL ) ;
-    TWdrawLine( ++i, blocklG,blocktG,blockrG,blocktG, BLACK,NULL ) ;
-    TWdrawLine( ++i, blockrG,blocktG,blockrG,blockbG, BLACK, NULL ) ;
-    TWdrawLine( ++i, blockrG,blockbG,blocklG,blockbG, BLACK, NULL ) ;
-
-    if( drawBinS ){
-	/* draw bins for reference */
-	for( x=1;x<maxBinXG;x++ ){
-	    for( y=1;y<maxBinYG;y++ ){
-		bp = binptrG[x][y] ;
-		/* left edge */
-		TWdrawLine( ++i,
-		bp->left, bp->bottom,
-		bp->left, bp->top, BINCOLOR, NULL ) ;
-
-		/* top edge */
-		TWdrawLine(i,
-		bp->left, bp->top,
-		bp->right, bp->top , BINCOLOR, NULL ) ;
-
-		/* right edge */
-		TWdrawLine(i,
-		bp->right, bp->top,
-		bp->right, bp->bottom, BINCOLOR, NULL ) ;
-
-		/* bottom edge */
-		TWdrawLine(i,
-		bp->right, bp->bottom,
-		bp->left, bp->bottom, BINCOLOR, NULL ) ;
-	    }
+	if( cleanFileS == TRUE ){
+		Yrm_files( "DATA/*" ) ;
+		cleanFileS = FALSE ;
 	}
-	for( x = 0 ; x <= maxBinXG ; x++ ) {
-	    for( y = 0 ; y <= maxBinYG ; y++ ) {
-		bp = binptrG[x][y] ;
+	TWstartFrame() ;
+	TWmessage( "Drawing the data...Please wait" ) ;
+
+	/* draw the cells */
+	for( i = 1; i <= totalcellsG ; i++ ){
+		twmc_draw_a_cell( i ) ;
+	}
+
+	if( selectCellS ){
+		get_global_pos( selectCellS, &x0, &y0, &x1, &y1 ) ;
+		TWhighLightRect( x0, y0, x1, y1 ) ;
+	}
+
+	/* now build net file */
+	/* nets are the interconnections between the cells */
+	if( drawNetS ){
+		Ymst_init( get_max_pin() ) ;
+		for( i=1;i<=numnetsG;i++){
+		/* this is the single net case */
+		if( drawNetS <= numnetsG && i != drawNetS ){
+			continue ;
+		}
+		Ymst_clear() ;
+		for(curPin=netarrayG[i]->pins;curPin;curPin=curPin->next){
+			Ymst_addpt( curPin->xpos, curPin->ypos ) ;
+		}
+		Ymst_draw() ;
+		}
+		Ymst_free() ;
+	}
+	/* draw core region for reference */
+	TWdrawLine( ++i, blocklG,blockbG,blocklG,blocktG,BLACK,NULL ) ;
+	TWdrawLine( ++i, blocklG,blocktG,blockrG,blocktG, BLACK,NULL ) ;
+	TWdrawLine( ++i, blockrG,blocktG,blockrG,blockbG, BLACK, NULL ) ;
+	TWdrawLine( ++i, blockrG,blockbG,blocklG,blockbG, BLACK, NULL ) ;
+
+	if( drawBinS ){
+		/* draw bins for reference */
+		for( x=1;x<maxBinXG;x++ ){
+		for( y=1;y<maxBinYG;y++ ){
+			bp = binptrG[x][y] ;
+			/* left edge */
+			TWdrawLine( ++i,
+			bp->left, bp->bottom,
+			bp->left, bp->top, BINCOLOR, NULL ) ;
+
+			/* top edge */
+			TWdrawLine(i,
+			bp->left, bp->top,
+			bp->right, bp->top , BINCOLOR, NULL ) ;
+
+			/* right edge */
+			TWdrawLine(i,
+			bp->right, bp->top,
+			bp->right, bp->bottom, BINCOLOR, NULL ) ;
+
+			/* bottom edge */
+			TWdrawLine(i,
+			bp->right, bp->bottom,
+			bp->left, bp->bottom, BINCOLOR, NULL ) ;
+		}
+		}
+		for( x = 0 ; x <= maxBinXG ; x++ ) {
+		for( y = 0 ; y <= maxBinYG ; y++ ) {
+			bp = binptrG[x][y] ;
+			if( drawLabelS ){
+			/* name the cell */
+			sprintf(label,"%d", bp->penalty ) ; 
+			labelptr = label ;
+			} else {
+			labelptr = NULL ;
+			}
+			area = (bp->right - bp->left) * (bp->top - bp->bottom) ;
+			percent = (double) bp->penalty / (double) area ;
+			if( percent < -0.75 ){
+			TWdrawRect( x, bp->left, bp->bottom, bp->right,
+				bp->top, TWRED, labelptr ) ;
+			} else if( percent < -0.50 ){
+			TWdrawRect( x, bp->left, bp->bottom, bp->right,
+				bp->top, TWYELLOW, labelptr ) ;
+			} else if( percent < -0.25 ){
+			TWdrawRect( x, bp->left, bp->bottom, bp->right,
+				bp->top, TWBLUE, labelptr ) ;
+			} else if( percent < 0.0 ){
+			TWdrawRect( x, bp->left, bp->bottom, bp->right,
+				bp->top, TWORANGE, labelptr ) ;
+			} else {
+			TWdrawRect( x, bp->left, bp->bottom, bp->right,
+				bp->top, TWCYAN, labelptr ) ;
+			}
+		}
+		}
+			
+	} /* end test of binsOnS */
+
+	if( drawGridS && gridGivenG ){
+		Ygrid_getx( &grid, &offset ) ;
+		/* draw gridding lines for reference */
+		max = blockrG ;
+		Ygridx ( &max ) ;
+		for( i=1; i <= max; i++ ){
+		/* vertical edge */
+		x = i * grid ;
+		Ygridx( &x ) ;
+		TWdrawLine( i, x, 0, x, blockrG, BINCOLOR, NULL ) ;
+		}
+		Ygrid_gety( &grid, &offset ) ;
+		max = blocktG ;
+		Ygridy ( &max ) ;
+		for( i=1; i <= max; i++ ){
+		/* horizontal edge */
+		y = i * grid ;
+		Ygridy( &y ) ;
+		TWdrawLine( i, 0, y, blocktG, y, BINCOLOR, NULL ) ;
+		}
+	} /* end test of drawGridS */
+
+	/* draw neighborhoods if desired */
+	if( drawNeighborS ){
+		for( i=1; i<= endsuperG; i++ ){
+		draw_neighbors( i ) ;
+		}
+	}
+
+	/* now output pins */
+	/* pins are the terminal points on a net */
+	if( drawPinS ){
+		for( i = 1 ; i <= numpinsG ; i++ ) {
+		curPin = termarrayG[i] ;
 		if( drawLabelS ){
-		    /* name the cell */
-		    sprintf(label,"%d", bp->penalty ) ; 
-		    labelptr = label ;
+			labelptr = curPin->pinname ;
 		} else {
-		    labelptr = NULL ;
+			labelptr = NULL ;
 		}
-		area = (bp->right - bp->left) * (bp->top - bp->bottom) ;
-		percent = (DOUBLE) bp->penalty / (DOUBLE) area ;
-		if( percent < -0.75 ){
-		    TWdrawRect( x, bp->left, bp->bottom, bp->right,
-			bp->top, TWRED, labelptr ) ;
-		} else if( percent < -0.50 ){
-		    TWdrawRect( x, bp->left, bp->bottom, bp->right,
-			bp->top, TWYELLOW, labelptr ) ;
-		} else if( percent < -0.25 ){
-		    TWdrawRect( x, bp->left, bp->bottom, bp->right,
-			bp->top, TWBLUE, labelptr ) ;
-		} else if( percent < 0.0 ){
-		    TWdrawRect( x, bp->left, bp->bottom, bp->right,
-			bp->top, TWORANGE, labelptr ) ;
+		if( aptr = curPin->analog ){
+			TWarb_init() ;
+			cellptr = cellarrayG[curPin->cell] ;
+			ASSERTNCONT( cellptr, "draw_the_data","cellptr NULL\n" ) ;
+
+			for( pt = 0; pt < aptr->num_corners; pt++ ){
+			/* rel position is a macro which calculates */
+			/* absolute pin loc - defined in relpos.h */
+			REL_POS( cellptr->orient, 
+				x, y,                               /* result */
+				aptr->x_contour[pt],
+				aptr->y_contour[pt],              /* cell relative */
+				cellptr->xcenter, cellptr->ycenter ) ;  /* cell center */
+
+			TWarb_addpt( x, y ) ;
+			}
+			TWdrawArb( i, PINCOLOR, labelptr ) ;
 		} else {
-		    TWdrawRect( x, bp->left, bp->bottom, bp->right,
-			bp->top, TWCYAN, labelptr ) ;
+			x =  curPin->xpos ;
+			y =  curPin->ypos ;
+			TWdrawPin( curPin->net,x-pinsizeS,y-pinsizeS,
+			x+pinsizeS,y+pinsizeS, PINCOLOR, labelptr ) ;
 		}
-	    }
-	}
-		
-    } /* end test of binsOnS */
-
-    if( drawGridS && gridGivenG ){
-	Ygrid_getx( &grid, &offset ) ;
-	/* draw gridding lines for reference */
-	max = blockrG ;
-	Ygridx ( &max ) ;
-	for( i=1; i <= max; i++ ){
-	    /* vertical edge */
-	    x = i * grid ;
-	    Ygridx( &x ) ;
-	    TWdrawLine( i, x, 0, x, blockrG, BINCOLOR, NULL ) ;
-	}
-	Ygrid_gety( &grid, &offset ) ;
-	max = blocktG ;
-	Ygridy ( &max ) ;
-	for( i=1; i <= max; i++ ){
-	    /* horizontal edge */
-	    y = i * grid ;
-	    Ygridy( &y ) ;
-	    TWdrawLine( i, 0, y, blocktG, y, BINCOLOR, NULL ) ;
-	}
-    } /* end test of drawGridS */
-
-    /* draw neighborhoods if desired */
-    if( drawNeighborS ){
-	for( i=1; i<= endsuperG; i++ ){
-	    draw_neighbors( i ) ;
-	}
-    }
-
-    /* now output pins */
-    /* pins are the terminal points on a net */
-    if( drawPinS ){
-	for( i = 1 ; i <= numpinsG ; i++ ) {
-	    curPin = termarrayG[i] ;
-	    if( drawLabelS ){
-		labelptr = curPin->pinname ;
-	    } else {
-		labelptr = NULL ;
-	    }
-	    if( aptr = curPin->analog ){
-		TWarb_init() ;
-		cellptr = cellarrayG[curPin->cell] ;
-		ASSERTNCONT( cellptr, "draw_the_data","cellptr NULL\n" ) ;
-
-		for( pt = 0; pt < aptr->num_corners; pt++ ){
-		    /* rel position is a macro which calculates */
-		    /* absolute pin loc - defined in relpos.h */
-		    REL_POS( cellptr->orient, 
-			x, y,                               /* result */
-			aptr->x_contour[pt],
-			aptr->y_contour[pt],              /* cell relative */
-			cellptr->xcenter, cellptr->ycenter ) ;  /* cell center */
-
-		    TWarb_addpt( x, y ) ;
 		}
-		TWdrawArb( i, PINCOLOR, labelptr ) ;
-	    } else {
-		x =  curPin->xpos ;
-		y =  curPin->ypos ;
-		TWdrawPin( curPin->net,x-pinsizeS,y-pinsizeS,
-		    x+pinsizeS,y+pinsizeS, PINCOLOR, labelptr ) ;
-	    }
 	}
-    }
 
-    /* clear wait message and FLUSH OUTPUT BUFFER */
-    TWmessage( NULL ) ;
-    TWflushFrame() ;
-    return( 0 ) ;
+	/* clear wait message and FLUSH OUTPUT BUFFER */
+	TWmessage( NULL ) ;
+	TWflushFrame() ;
+	return( 0 ) ;
 
 } /* end draw_the_data */
 
-twmc_draw_a_cell( cell )
+void twmc_draw_a_cell( int cell )
 {
-    INT  pt ;
-    INT  xc, yc ;
-    INT  x, y ;
-    INT  type ;
-    INT  x0, x1, y0, y1 ;
-    INT  l, r, b, t ;
-    INT  *xvert ;
-    INT  *yvert ;
+    int  pt ;
+    int  xc, yc ;
+    int  x, y ;
+    int  type ;
+    int  x0, x1, y0, y1 ;
+    int  l, r, b, t ;
+    int  *xvert ;
+    int  *yvert ;
     char label[LRECL] ;
     char *labelptr ;
     CELLBOXPTR cptr ;
@@ -1007,14 +955,13 @@ twmc_draw_a_cell( cell )
 
 } /* end TWdrawCell */
 
-static draw_fs( cptr )
-CELLBOXPTR cptr ;
+void draw_fs( CELLBOXPTR cptr )
 {
-    INT x[10], y[10] ;   /* only 10 points to an F */
-    INT l, b, r, t ;     /* bounding box points */
-    INT xout, yout ;     /* rotated points */
-    INT wid ;            /* with of the F */
-    INT pt ;             /* point counter */
+    int x[10], y[10] ;   /* only 10 points to an F */
+    int l, b, r, t ;     /* bounding box points */
+    int xout, yout ;     /* rotated points */
+    int wid ;            /* with of the F */
+    int pt ;             /* point counter */
     BOUNBOXPTR bounptr ; /* cell's boundary */
 
     bounptr = cptr->bounBox[0] ;
@@ -1022,7 +969,7 @@ CELLBOXPTR cptr ;
     b = bounptr->b ;
     r = bounptr->r ;
     t = bounptr->t ;
-    wid = (INT) (0.25 * (DOUBLE)( t - b ) ) ;
+    wid = (int) (0.25 * (double)( t - b ) ) ;
     /* now set the points */
     x[0] = l ;         y[0] = b ;
     x[1] = l ;         y[1] = t ;
@@ -1049,8 +996,7 @@ CELLBOXPTR cptr ;
 } /* end draw_fs */
 
 /* draw the neighborhood of a cell if it exists */
-draw_neighbors( cell )
-INT cell ;
+void draw_neighbors( int cell )
 {
 
     CELLBOXPTR ptr ;
@@ -1103,7 +1049,7 @@ BOOL dgetDump()
 }
 
 /* dumps the data to a file for future study */
-graphics_dump() 
+void graphics_dump() 
 {
     /* now change mode to dump to file */
     TWsetMode(1) ;
@@ -1113,8 +1059,7 @@ graphics_dump()
     TWsetMode(0) ;
 } /* end graphics_dump() */
 
-static edit_cell( cell )
-INT cell ;
+void edit_cell( int cell )
 {
 
 #define NAMEF         3
@@ -1128,9 +1073,9 @@ INT cell ;
 #define ORIENTBASE    ORIENTF+1
 #define DIALOGNAME    "editcell"
 
-    INT i ;              /* counter */
-    INT offset ;         /* offset from base */
-    INT status ;         /* status from check_valid_orient */
+    int i ;              /* counter */
+    int offset ;         /* offset from base */
+    int status ;         /* status from check_valid_orient */
     char name[LRECL];    /* a scratch buffer for cellname */
     char cellnum[LRECL]; /* a scratch buffer for cellnum */
     char xcenter[LRECL]; /* a scratch buffer for xcenter */
@@ -1261,20 +1206,13 @@ INT cell ;
 
 } /* end edit_tiles */
 
-
-static edit_field_string( dialog, field, string )
-TWDIALOGPTR dialog;    /* dialog record */
-INT field ;
-char *string ;
+void edit_field_string( TWDIALOGPTR dialog, int field, char *string ) /* dialog record */
 {
     dialog[field].string = string ;
 
 } /* end edit_field_string */
 
-static edit_field_case( dialog, field, initcase )
-TWDIALOGPTR dialog;    /* dialog record */
-INT field ;
-INT initcase ;
+void edit_field_case( TWDIALOGPTR dialog, int field, int initcase ) /* dialog record */
 {
     TWDIALOGPTR fptr;    /* current dialog record */
 
@@ -1282,10 +1220,9 @@ INT initcase ;
 
 } /* end edit_field_case */
 
-set_graphics_wait_menu( menus )
-TWMENUBOX menus[] ;
+void set_graphics_wait_menu( TWMENUBOX menus[] )
 {
-    INT i ;   /* counter */
+    int i ;   /* counter */
     for( i = 0; i < TWNUMMENUS; i++ ){
 	/* look for the graphics wait menu */
 	if( strcmp( menus[i].item, "Graphics Wait") ==
@@ -1302,10 +1239,9 @@ TWMENUBOX menus[] ;
     }
 }
 
-static fix_the_cell( cell )
-INT cell ;
+void fix_the_cell( int cell )
 {
-    INT i ; /* counter */
+    int i ; /* counter */
 
     /* turn off all rotational possibibilites */
     for( i = 0 ; i < 8 ; i++ ) {
@@ -1318,10 +1254,9 @@ INT cell ;
     cellarrayG[cell]->orientList[HOWMANYORIENT] = 1 ;
 } /* end fix_the_cell */
 
-static fix_the_cell2( cell )
-INT cell ;
+void fix_the_cell2( int cell )
 {
-    INT x1, y1 ;
+    int x1, y1 ;
     char leftNotRight[2] ; /* reference to left or right side of core */
     char bottomNotTop[2] ; /* reference to bottom or top of core */
 

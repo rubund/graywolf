@@ -55,10 +55,6 @@ CONTENTS:  YinitQueue( queue, node )
 DATE:	    Mar 16, 1989 
 REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) queue.c (Yale) version 3.4 12/15/91" ;
-#endif
-
 #include <stdio.h>
 #include <yalecad/queue.h>
 
@@ -119,17 +115,17 @@ YQUEUE *queue ;
 {
     YQUEUEPTR temp ; 
 
-    fprintf( stderr,"Queue:" ) ;
+    printf("Queue:" ) ;
     if( temp = queue->top_of_queue ){
 	for( ;temp; temp=temp->next ){
 #if SIZEOF_VOID_P == 64
-	    fprintf( stderr,"%ld ", (INT)temp->data ) ;
+	    printf("%ld ", (int)temp->data ) ;
 #else
-	    fprintf( stderr,"%d ", (INT)temp->data ) ;
+	    printf("%d ", (int)temp->data ) ;
 #endif
 	}
-	fprintf( stderr,"\n" ) ;
+	printf("\n" ) ;
     } else { /* queue is empty */
-	fprintf( stderr,"empty.\n" ) ;
+	printf("empty.\n" ) ;
     }
 } /* end YdumpQueue */

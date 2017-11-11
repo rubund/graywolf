@@ -54,25 +54,15 @@ REVISIONS:  Dec 3, 1988 - added output info for timing.
 	    Oct 14,1990 - added overlap iterations.
 	    Fri Jan 25 18:09:20 PST 1991 - removed unnecessary globals.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) utemp.c version 3.6 4/6/92" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <temp.h>
-#include <yalecad/debug.h>
-
-utemp( attempts, multi_cell_moves )
-INT attempts ;
-BOOL multi_cell_moves ;
+void utemp( int attempts, BOOL multi_cell_moves )
 {
 
-    INT i ;
-    DOUBLE calc_lap_factor( P1(DOUBLE percentDone) ) ;
-
+    int i ;
 
     /****************** main annealing loop ***************** */
-    while( iterationG < (INT) LASTTEMP ){
+    while( iterationG < (int) LASTTEMP ){
 	iterationG++ ; /* next iteration */
 	/* write iteration to the screen if not verbose */
 	if(!(verboseG )){
@@ -88,9 +78,9 @@ BOOL multi_cell_moves ;
     }
 
     /* **** overlap penalty controller **** */
-    if( iterationG <= (INT) LASTTEMP ){
+    if( iterationG <= (int) LASTTEMP ){
 	iterationG++ ; /* next iteration */
-	lapFactorG = calc_lap_factor( (DOUBLE) 3.0 ) ;
+	lapFactorG = calc_lap_factor( (double) 3.0 ) ;
 	funccostG = findcost() ;
 	for( i = 1; i <= 3 ; i++ ){
 	    uloop( attmaxG ) ;
@@ -104,7 +94,7 @@ BOOL multi_cell_moves ;
      *  * WE ARE FINISHED *
      */
     prnt_cost("\nPLACEMENT RESULTS AFTER ANNEALING ARE:\n" ) ;
-    OUT2("MAX NUMBER OF ATTEMPTED FLIPS PER T:%8d\n", attmaxG ) ;
+    printf("MAX NUMBER OF ATTEMPTED FLIPS PER T:%8d\n", attmaxG ) ;
     /* verify incremental and current costs */
     D( "twmc/utemp", checkcost() ) ;
     return ;

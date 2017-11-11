@@ -36,24 +36,17 @@
  *   POSSIBILITY OF THE FOREGOING.
  *
  */
-
-#ifndef lint
-static char SccsId[] = "@(#) findloc.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "allheaders.h"
 
 typedef struct flogbox {
-    INT pin ;
-    INT placed ;
-    INT finalx ;
-    INT finaly ;
+    int pin ;
+    int placed ;
+    int finalx ;
+    int finaly ;
 }
 FBOX ,
 *FBOXPTR ;
-
-
 
 /*   
  *   We have here a little function which 
@@ -64,12 +57,12 @@ FBOX ,
 findLoc( pinptr, lArray, nPinLocs, HorV ) 
 PINBOXPTR pinptr ;
 BOOL HorV ;
-INT nPinLocs ;
+int nPinLocs ;
 FBOXPTR lArray ;
 {
 
-INT bigoX , bigoY , litoX , litoY ;
-INT aPin, bestPos , meanx , meany , distant , i ;
+int bigoX , bigoY , litoX , litoY ;
+int aPin, bestPos , meanx , meany , distant , i ;
 
 bigoX = INT_MIN ;
 bigoY = INT_MIN ;

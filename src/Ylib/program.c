@@ -60,17 +60,18 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Fri Feb 22 23:39:39 EST 1991 - added newline character
 		at exit.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) program.c version 3.8 3/4/92" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/program.h>
+#include <globals.h>
  
 static char programName[LRECL];
 static char progVersion[LRECL];
 static char progDate[LRECL];
+
+void YdebugWrite() ;
+
+char *getCompileDate()
+{
+	return __DATE__;
+} /* end getCompileDate */
 
 /* ----------------------------------------------------------------- 
    Program control routines                    
@@ -80,83 +81,68 @@ static char progDate[LRECL];
    The user may perform various initialization in introTextFunction. 
    Returns string with program name, version, and compile date.
    ----------------------------------------------------------------- */
-char *YinitProgram(name,version,introTextFunction)
-     char *name ;
-     char *version ;
-     VOID (*introTextFunction)() ;
+char *YinitProgram(char *name,  char *version ,void (*introTextFunction)() )
 {
-  char    *date ,
-  *getCompileDate() ;
-  
-  Ytimer_start() ;   /* start the elapsed timer */
-  sprintf(programName,"%s",name);
-  sprintf(progVersion,"%s",version);
-  
-  if ( date = getCompileDate() ){
-    sprintf(progDate,"%s",date);
-  } else {
-    sprintf(progDate,"unknown") ;
-  }
-  sprintf( YmsgG, "%s version:%s date:%s",
-	  programName,progVersion,progDate) ;
-  
-  /* call the users intro text if available */
-  /* Intro Text function may use YmsgG as a global variable */
-  if( introTextFunction ){
-    (*introTextFunction)() ;
-  }
-  return( YmsgG ) ;
-  
+	char    *date ,
+	*getCompileDate() ;
+	
+	Ytimer_start() ;   /* start the elapsed timer */
+	sprintf(programName,"%s",name);
+	sprintf(progVersion,"%s",version);
+	
+	if ( date = getCompileDate() ){
+		sprintf(progDate,"%s",date);
+	} else {
+		sprintf(progDate,"unknown") ;
+	}
+	sprintf( YmsgG, "%s version:%s date:%s", programName, progVersion, progDate) ;
+	
+	/* call the users intro text if available */
+	/* Intro Text function may use YmsgG as a global variable */
+	if( introTextFunction ){
+		(*introTextFunction)() ;
+	}
+	return( YmsgG ) ;
 } /* end initProgram */
 
 /* exit program gracefully */
-YexitPgm(status)
-INT status ;
+void YexitPgm(int status)
 {
+	int errorCount, warningCount, mode ;
+	char	message[LRECL] , *name ;
 
-    INT     errorCount, 
-	    warningCount,
-	    mode ;
-    char    message[LRECL] ,
-	    *name ;
-
-    warningCount = Ymessage_get_warncount() ;
-    errorCount = Ymessage_get_errorcount() ;
-    if( status != 0 && errorCount == 0 ){
-	/* if we have an error status but no recorded error record error*/
-	errorCount++ ;
-    }
-    mode = Ymessage_get_mode() ;
-    if( errorCount != 0 || mode != M_SILENT ){
-	/* make sure we see errors */
-	Ymessage_mode( M_VERBOSE ) ;
-    }
-
-    if( name = YgetProgName() ){
-	if( errorCount ){
-	    sprintf(message,"\n%s terminated abnormally with %d error[s] and %d warning[s]\n\n",
-		name,errorCount,warningCount) ;
-	} else {
-	    sprintf(message,"\n%s terminated normally with no errors and %d warning[s]\n\n",
-		name,warningCount) ;
+	warningCount = Ymessage_get_warncount() ;
+	errorCount = Ymessage_get_errorcount() ;
+	if( status != 0 && errorCount == 0 ){
+		/* if we have an error status but no recorded error record error*/
+		errorCount++ ;
 	}
-    } else {
-	M(WARNMSG,"exitPgm","Unable to get program name.  Probably initProgram not used.\n") ;
-	sprintf(message,"Program terminated abnormally with %d error[s] and %d warning[s]\n\n",
-		errorCount,++warningCount) ;
-    }
-    M(MSG,NULL,message) ;
-    /* now write debug file if desired */
-    YdebugWrite() ;
-    Ymessage_close();	/* Added by Tim, 5/4/11 */
-    exit(status) ;
+	mode = Ymessage_get_mode() ;
+	if( errorCount != 0 || mode != M_SILENT ){
+		/* make sure we see errors */
+		Ymessage_mode( M_VERBOSE ) ;
+	}
 
+	if((name = YgetProgName())){
+		if( errorCount ){
+			sprintf(message,"\n%s terminated abnormally with %d error[s] and %d warning[s]\n\n", name, errorCount, warningCount) ;
+		} else {
+			sprintf(message,"\n%s terminated normally with no errors and %d warning[s]\n\n", name, warningCount) ;
+		}
+	} else {
+		printf("Unable to get program name.  Probably initProgram not used.\n") ;
+		sprintf(message,"Program terminated abnormally with %d error[s] and %d warning[s]\n\n", errorCount, ++warningCount) ;
+	}
+	printf(message) ;
+	/* now write debug file if desired */
+	YdebugWrite() ;
+// 	Ymessage_close();
+	exit(status);
+	//return status;
 } /* end exitPgm */
- 
-    
+
 char *YgetProgName()
 {
- 
-    return(programName);
+	return(programName);
 }
 /*---------------end program control routines --------------------- */

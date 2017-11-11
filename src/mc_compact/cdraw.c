@@ -52,33 +52,19 @@ REVISIONS:  Apr 25, 1989 - added graphics loop to program.
 	    Fri Mar 29 14:13:22 EST 1991 - temp fix for 2D graphics
 		avoids arbitrary edge explosion.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cdraw.c version 7.5 3/29/91" ;
-#endif
-
 #ifndef NOGRAPHICS 
 
-#include <yalecad/base.h>
-#include <yalecad/message.h>
-#include <yalecad/draw.h>
-#include <yalecad/colors.h>
-#include <yalecad/debug.h>
-#include <compact.h>
+#include <globals.h>
+#include "changraph.h"
+#include "io.h"
+#include "cdraw.h"
 
 #define SLEEPTIME     (unsigned) 2
 #define DATADIR       "./DATA"
 #define COMPACTMENU   "compact_menu"
-
-/* #define DEVELOPMENU */
-/* During development use TWread_menus in place of menuS */
-/* to create menu record, ie.  TWread_menus(COMPACTMENU) */
-#ifdef DEVELOPMENU
-#define MENU   TWread_menus(COMPACTMENU)
-#else
 #define MENU   menuS
-#endif
 
-#include <menus.h>
+#include "menus.h"
 
 static BOOL drawLabelS = FALSE ;
 static BOOL drawEdgeS  = FALSE ;
@@ -90,52 +76,48 @@ static BOOL draw3DS = FALSE ;
 static BOOL drawCriticalS = FALSE ;
 static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
-static INT  zspanS ;
+int zspanS ;
 
-init_graphics( argc, argv, windowId )
-INT argc, windowId ;
-char *argv[] ;
+void draw_changraph();
+
+void init_graphics( int windowId )
 {
-    char *host, *Ygetenv() ;
-    int  xpandx, xpandy ;
-    INT draw_the_data() ;
+	char *host, *Ygetenv() ;
+	int  xpandx, xpandy ;
 
-    /* we need to find host for display */
-    if(!(host = Ygetenv("DISPLAY"))) {
-	M(WARNMSG,"init_graphics","Can't get environment variable ");
-	M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
-	graphicsG = FALSE ;
-	return ;
-    }
-    if( windowId ){
-	/* init windows as a parasite */
-	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
-	    M(ERRMSG,"initgraphics","Aborting graphics.");
-	    graphicsG = FALSE ;
-	    return ;
+	/* we need to find host for display */
+	if(!(host = Ygetenv("DISPLAY"))) {
+		M(WARNMSG,"init_graphics","Can't get environment variable ");
+		M(MSG,NULL, "for display.  Aborting graphics...\n\n" ) ;
+		graphicsG = FALSE ;
+		return ;
 	}
-    } else {
-	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data ))){
-	    M(ERRMSG,"init_graphics","Aborting graphics.");
-	    graphicsG = FALSE ;
-	    return ;
+	if( windowId ){
+		/* init windows as a parasite */
+		if( !( TWinitParasite(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data, windowId ))){
+		M(ERRMSG,"initgraphics","Aborting graphics.");
+		graphicsG = FALSE ;
+		return ;
+		}
+	} else {
+		if(!(TWinitGraphics(TWnumcolors(),TWstdcolors(), FALSE, MENU, draw_the_data ))){
+		M(ERRMSG,"init_graphics","Aborting graphics.");
+		graphicsG = FALSE ;
+		return ;
+		}
+		xpandx = blockrG - blocklG ;
+		xpandy = blocktG - blockbG ;
+		zspanS = MIN( xpandx, xpandy ) ;
+		xpandx /= 2 ;
+		xpandx /= 2 ;
+		TWsetwindow( blocklG-xpandx, blockbG-xpandy, 
+		blockrG+xpandx, blocktG+xpandy ) ;
+		TWdrawMenus() ;
+		TWflushFrame() ;
 	}
-	xpandx = blockrG - blocklG ;
-	xpandy = blocktG - blockbG ;
-	zspanS = MIN( xpandx, xpandy ) ;
-	xpandx /= 2 ;
-	xpandx /= 2 ;
-	TWsetwindow( blocklG-xpandx, blockbG-xpandy, 
-	    blockrG+xpandx, blocktG+xpandy ) ;
-	TWdrawMenus() ;
-	TWflushFrame() ;
-    }
 }
 
-set_draw_critical( flag ) 
-BOOL flag ;
+void set_draw_critical( BOOL flag ) 
 {
 
     if( YdebugAssert() ){
@@ -147,12 +129,12 @@ BOOL flag ;
 } /* end set_draw_critical */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  toX, toY, fromX, fromY, sinkTile ;
-    INT  color ;
+    int  i ;
+    int  toX, toY, fromX, fromY, sinkTile ;
+    int  color ;
     static BOOL firstL = TRUE ;
     unsigned sleep() ;
     char label[LRECL] ;
@@ -165,7 +147,7 @@ INT draw_the_data()
 	return ;
     }
     if( firstL && numcellsG ){
-	zspanS = ROUND( (DOUBLE) zspanS / (DOUBLE) numcellsG / 10.0 ) ;
+	zspanS = ROUND( (double) zspanS / (double) numcellsG / 10.0 ) ;
 	firstL = FALSE ;
     }
 
@@ -383,11 +365,11 @@ INT draw_the_data()
 } /* end draw_the_data */
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
-    INT x, y ;           /* coordinates from pointer */
+    int x, y ;           /* coordinates from pointer */
     int i ;            /* temp variable */
     int selection ;     /* the users pick */
     char *reply ;       /* user reply to a querry */
@@ -554,17 +536,17 @@ process_graphics()
 
 
 /* how to draw the channel graph */
-draw_changraph()
+void draw_changraph()
 {
-    INT i ;                        /* temp counter */
-    INT color ;                    /* color of edge */
+    int i ;                        /* temp counter */
+    int color ;                    /* color of edge */
     CHANBOXPTR nptr ;              /* pointer to channel graph */
     CHANBOXPTR node1 ;             /* pointer to channel graph */
     CHANBOXPTR node2 ;             /* pointer to channel graph */
     INFOPTR eptr ;                 /* current edge */
     char label_buf[LRECL] ;        /* buffer for labels */
     char *label ;                  /* label pointer */
-    INT x1, x2, y1, y2 ;           /* points of trace line */
+    int x1, x2, y1, y2 ;           /* points of trace line */
 
     /* first draw the nodes */
     for( i = 1; i <= numnodesG; i++ ){

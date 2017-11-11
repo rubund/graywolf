@@ -42,14 +42,14 @@ FILE:	    menus.c
 DESCRIPTION:graphic drawing routines for handling menus
     There are two windows of interest in this file:
 	wS - parent window is the large TW drawing window.
-	menuS - INT small window at the top of the large TW window.
+	menuS - int small window at the top of the large TW window.
     The name of the menus are displayed in the menuS window but when 
     a menu is selected it is draw in the large wS window.  The 
     variables which have top in their name refer to the menuS window and
     variable with entry in their name refer to the menu entry pixmaps
     which are drawn in the large window.
 CONTENTS:   TWinforMenus( )
-	    INT TWsaveState()
+	    int TWsaveState()
 	    TWrestoreState()
 	    BOOL TWinitMenuWindow( menu_fields, parasite )
 		TWMENUPTR menu_fields ;
@@ -58,15 +58,15 @@ CONTENTS:   TWinforMenus( )
 	    static set_window_lights( flag )
 		BOOL flag ;
 	    static checkwindow_lights()
-	    INT TWcheckMouse()
+	    int TWcheckMouse()
 	    TWgetPt( x, y )
-		INT *x, *y ;
+		int *x, *y ;
 	    TWmessage( message )
 		char *message ;
 	    char *TWgetString( directions )
 		char *directions ;
 	    BOOL TWgetPt2( x, y )
-		INT *x, *y ;
+		int *x, *y ;
 	    BOOL TWcheckExposure()
 	    BOOL TWinterupt()
 	    TWcheckReconfig()
@@ -127,51 +127,34 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Wed Feb 26 03:54:12 EST 1992 - added persistent windows and
 		added dim features.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) menus.c (Yale) version 3.36 2/26/92" ;
-#endif
-
 #ifndef NOGRAPHICS 
 
-#include <stdio.h>
-#include <string.h>
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include <X11/Xutil.h>
-
-#include <yalecad/base.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-#include <yalecad/hash.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-#include <yalecad/draw.h>
-#include <yalecad/colors.h>
+#include <globals.h>
 #include "info.h"
 
 #define DEFAULT_TIMEOUT      10 * 1000       /* 10 seconds to timeout on message window */
 
 /* data record for menu information */
 typedef struct {
-    Window   top_window ;            /* heading window for menu */
-    Window   *window ;               /* window for each menu entry */
-    char     *name ;                 /* the name of this menu */
-    INT      xpos ;                  /* x pos of entry menu in messageW */
-    INT      name_len ;              /* name length of top menu */
-    INT      pix_len ;               /* pixlength of top menu entry */
-    INT      entry_wid ;             /* width in pix of max menu entry */
-    INT      numentries ;            /* number of entries in menu */
-    INT      *function ;             /* function number of each entry */
-    char     **entry ;               /* name of each menu entry */
-    INT      *entry_len ;            /* len of each menu entry */
-    INT      *xpos_adj ;             /* position of each menu entry str */
-    INT      width ;                 /* width of menu entry */
-    BOOL     *bool_entry ;           /* tells whether entry is boolean */
-    BOOL     *state ;                /* state of this window entry */
-    INT      *function2 ;            /* alternate function for boolean */
-    char     **entry2 ;              /* for Boolean entries */
-    INT      *xpos_adj2 ;            /* position of alternate menu entry*/
-    INT      *entry_len2 ;           /* len of each menu entry */
+	Window   top_window ;            /* heading window for menu */
+	Window   *window ;               /* window for each menu entry */
+	char     *name ;                 /* the name of this menu */
+	int xpos ;                  /* x pos of entry menu in messageW */
+	int name_len ;              /* name length of top menu */
+	int pix_len ;               /* pixlength of top menu entry */
+	int      entry_wid ;             /* width in pix of max menu entry */
+	int      numentries ;            /* number of entries in menu */
+	int      *function ;             /* function number of each entry */
+	char     **entry ;               /* name of each menu entry */
+	int      *entry_len ;            /* len of each menu entry */
+	int      *xpos_adj ;             /* position of each menu entry str */
+	int      width ;                 /* width of menu entry */
+	BOOL     *bool_entry ;           /* tells whether entry is boolean */
+	BOOL     *state ;                /* state of this window entry */
+	int      *function2 ;            /* alternate function for boolean */
+	char     **entry2 ;              /* for Boolean entries */
+	int      *xpos_adj2 ;            /* position of alternate menu entry*/
+	int      *entry_len2 ;           /* len of each menu entry */
     BOOL     *enabled ;              /* whether menu item is enable or not */
 } MENUBOX, *MENUPTR ;
 
@@ -183,19 +166,19 @@ static Window       backS;           /* the backing window */
 static Window       messageS;        /* the message display window */
 static GC           menuGCS ;        /* graphics context for menus */
 static GC           menuRGCS ;       /* reverse gc for turning on menus */
-static INT          screenS ;        /* the current screen */
-static UNSIGNED_INT backgrdS ;
-static UNSIGNED_INT foregrdS ;
-static INT          winwidthS ;      /* window width */
+static int          screenS ;        /* the current screen */
+static unsigned int backgrdS ;
+static unsigned int foregrdS ;
+static int          winwidthS ;      /* window width */
 static MENUPTR      *menuArrayS ;    /* contains info about menus */
 static XFontStruct  *fontinfoS ;     /* font information */
 static Font         fontS ;          /* current font */
-static INT          numMenuS ;       /* number of menus */
-static INT          stepsizeS ;      /* spacing between menus in x direction */
+static int          numMenuS ;       /* number of menus */
+static int          stepsizeS ;      /* spacing between menus in x direction */
 static BOOL         parasiteS=FALSE; /* whether this menu init is a parasite */
 static Pixmap       pixmapS ;        /* offscreen copy of data */
 static BOOL         three_button_mouseS ; /* whether 3 button mouse */
-static INT          message_timeoutS ;/* how long to wait in message window */
+static int          message_timeoutS ;/* how long to wait in message window */
 static char persistent_messageS[LRECL];/* stores persistent message */
 static BOOL persistenceS = TRUE ;    /* whether message is persistent */
 
@@ -213,384 +196,367 @@ static BOOL persistenceS = TRUE ;    /* whether message is persistent */
 #define COMMENT     '#'              /* comment character in first col */
 #define SLEEPTIME   (unsigned) 2     /* sleep for two seconds */
 
-/* define static functions */
-static set_window_lights( P1(BOOL flag) ) ;
-static resize_windows( P2( INT winwidth, INT winheight ) ) ;
-static debug_menus( P1(TWMENUPTR menu_field) ) ;
-static draw_persistent_message( P1(char *message) ) ;
 
 
 /* get information from main draw routine and set it */
-TWinforMenus( )
+void TWinforMenus( )
 {
-    TWINFOPTR TWgetDrawInfo() ;
+	TWINFOPTR TWgetDrawInfo() ;
 
-    infoS = TWgetDrawInfo() ;
-    /* save display info for future use */
-    dpyS = infoS->dpy ;
-    screenS = infoS->screen ;
-    drawS = infoS->drawWindow ;
-    backS = infoS->backWindow ;
-    pixmapS = infoS->pixmap ;
-    fontinfoS = infoS->fontinfo ;
-    fontS = fontinfoS->fid ;
-    winwidthS = infoS->winwidth ;
+	infoS = TWgetDrawInfo() ;
+	/* save display info for future use */
+	dpyS = infoS->dpy ;
+	screenS = infoS->screen ;
+	drawS = infoS->drawWindow ;
+	backS = infoS->backWindow ;
+	pixmapS = infoS->pixmap ;
+	fontinfoS = infoS->fontinfo ;
+	fontS = fontinfoS->fid ;
+	winwidthS = infoS->winwidth ;
 
 } /* end set StaticInfo */
 
-INT TWsaveState()
+int TWsaveState()
 {
-    /* turn off all event reporting to these windows */
-    XSelectInput(dpyS,drawS,NoEventMask) ;
-    XSelectInput(dpyS,backS,NoEventMask) ;
-    XSelectInput(dpyS,menuS,NoEventMask) ;
-    XSelectInput(dpyS,messageS,NoEventMask) ;
-    set_window_lights( FALSE ) ;
-    /* next flush event queue by calling XSync with discard true */
-    XSync( dpyS, TRUE ) ;
-    return( (INT) backS ) ;
+	/* turn off all event reporting to these windows */
+	XSelectInput(dpyS,drawS,NoEventMask) ;
+	XSelectInput(dpyS,backS,NoEventMask) ;
+	XSelectInput(dpyS,menuS,NoEventMask) ;
+	XSelectInput(dpyS,messageS,NoEventMask) ;
+	set_window_lights( FALSE ) ;
+	/* next flush event queue by calling XSync with discard true */
+	XSync( dpyS, TRUE ) ;
+	return( (int) backS ) ;
 } /* end TWgetWindowId */
 
-TWrestoreState()
+void TWrestoreState()
 {
-    long event_mask ;  /* used to set input selection to window */
-    XWindowAttributes wattr;  /* get the window attributes */
+	long event_mask ;  /* used to set input selection to window */
+	XWindowAttributes wattr;  /* get the window attributes */
 
-    /* restore normal state to all the windows */
-    event_mask = ButtonPressMask ;
-    XSelectInput(dpyS,menuS,event_mask);
-    event_mask = StructureNotifyMask | SubstructureNotifyMask
-	    | VisibilityChangeMask ;
-    if( three_button_mouseS ){
-	event_mask |= ButtonPressMask ;
-    }
-    XSelectInput(dpyS,backS,event_mask);
-    event_mask = ExposureMask | ButtonPressMask ;
-    XSelectInput(dpyS,drawS,event_mask);
-    XSelectInput(dpyS,messageS,NoEventMask) ;
-    set_window_lights( TRUE ) ;
-    /* next flush event queue by calling XSync with discard true */
-    XSync( dpyS, TRUE ) ;
-    /* now see if the user resized window in parasite */
-    TWinforMenus() ;
-    XGetWindowAttributes( dpyS, backS, &wattr ) ;
-    wattr.height -= 2 * MENUHEIGHT ;
-    if( wattr.width != infoS->winwidth ||
-        wattr.height != infoS->winheight ){
-	resize_windows( wattr.width, wattr.height ) ;  
-    }
+	/* restore normal state to all the windows */
+	event_mask = ButtonPressMask ;
+	XSelectInput(dpyS,menuS,event_mask);
+	event_mask = StructureNotifyMask | SubstructureNotifyMask | VisibilityChangeMask ;
+	if( three_button_mouseS ){
+		event_mask |= ButtonPressMask ;
+	}
+	XSelectInput(dpyS,backS,event_mask);
+	event_mask = ExposureMask | ButtonPressMask ;
+	XSelectInput(dpyS,drawS,event_mask);
+	XSelectInput(dpyS,messageS,NoEventMask) ;
+	set_window_lights( TRUE ) ;
+	/* next flush event queue by calling XSync with discard true */
+	XSync( dpyS, TRUE ) ;
+	/* now see if the user resized window in parasite */
+	TWinforMenus() ;
+	XGetWindowAttributes( dpyS, backS, &wattr ) ;
+	wattr.height -= 2 * MENUHEIGHT ;
+	if( wattr.width != infoS->winwidth ||
+		wattr.height != infoS->winheight ){
+		resize_windows( wattr.width, wattr.height ) ;  
+	}
 
 } /* end TWgetWindowId */
 
 /* retrieve the window information only occurs during a parasite */
-Window TWgetWindowId( dpy, backwindow )
-Display *dpy ;
-Window backwindow ;
+Window TWgetWindowId( Display *dpy, Window backwindow )
 {
-    Atom menuAtom ; /* need to store menu property */
-    Atom messageAtom ; /* need to store message property */
-    Atom drawAtom ;    /* need to store draw property */
-    Atom actual ;      /* actual atom return from XGetWindowProperty */
-    char windowIdString[LRECL] ; /* buffer for window id string */
-    unsigned char *prop; /* used to retrieve the property added to window */
-    int junk1 ;
-    unsigned long junk2 ; /* ignore junk */
-    unsigned long length ; /* length of string */
+	Atom menuAtom ; /* need to store menu property */
+	Atom messageAtom ; /* need to store message property */
+	Atom drawAtom ;    /* need to store draw property */
+	Atom actual ;      /* actual atom return from XGetWindowProperty */
+	char windowIdString[LRECL] ; /* buffer for window id string */
+	unsigned char *prop; /* used to retrieve the property added to window */
+	int junk1 ;
+	unsigned long junk2 ; /* ignore junk */
+	unsigned long length ; /* length of string */
 
-    backS = backwindow ;
-    parasiteS = TRUE ; /* save for future use */
-    menuAtom    = XInternAtom( dpy, "menuWindowId", FALSE ) ;
-    messageAtom = XInternAtom( dpy, "messageWindowId", FALSE ) ;
-    drawAtom = XInternAtom( dpy, "drawWindowId", FALSE ) ;
-    /* if parasite get windows back by looking at menu and */
-    /* message properties stores in main window. Were stored */
-    /* there on creation of those windows during normal case */
-    XGetWindowProperty(dpy, backS, menuAtom, 0L, 200L, False,
-	XA_STRING, &actual, &junk1, &junk2, &length, &prop);
-    if( !(menuS = atoi( prop ))){
-	M( ERRMSG,"TWinitMenus","Could not find menu property\n" ) ;
-	return( FALSE ) ;
-    }
-    XGetWindowProperty(dpy, backS, messageAtom, 0, 200, False,
-	XA_STRING, &actual, &junk1, &junk2, &length, &prop);
-    if( !(messageS = atoi( prop ))){
-	M( ERRMSG,"TWinitMenus","Could not find message property\n") ;
-	return( FALSE ) ;
-    }
-    XGetWindowProperty(dpy, backS, drawAtom, 0, 200, False,
-	XA_STRING, &actual, &junk1, &junk2, &length, &prop);
-    if( !(drawS = atoi( prop ))){
-	M( ERRMSG,"TWinitMenus","Could not find draw property\n") ;
-	return( FALSE ) ;
-    }
-    /* new to return draw window */
-    return( drawS ) ;
+	backS = backwindow ;
+	parasiteS = TRUE ; /* save for future use */
+	menuAtom    = XInternAtom( dpy, "menuWindowId", FALSE ) ;
+	messageAtom = XInternAtom( dpy, "messageWindowId", FALSE ) ;
+	drawAtom = XInternAtom( dpy, "drawWindowId", FALSE ) ;
+	/* if parasite get windows back by looking at menu and */
+	/* message properties stores in main window. Were stored */
+	/* there on creation of those windows during normal case */
+	XGetWindowProperty(dpy, backS, menuAtom, 0L, 200L, False, XA_STRING, &actual, &junk1, &junk2, &length, &prop);
+	if( !(menuS = atoi( prop ))){
+		M( ERRMSG,"TWinitMenus","Could not find menu property\n" ) ;
+		return( FALSE ) ;
+	}
+	XGetWindowProperty(dpy, backS, messageAtom, 0, 200, False,
+		XA_STRING, &actual, &junk1, &junk2, &length, &prop);
+	if( !(messageS = atoi( prop ))){
+		M( ERRMSG,"TWinitMenus","Could not find message property\n") ;
+		return( FALSE ) ;
+	}
+	XGetWindowProperty(dpy, backS, drawAtom, 0, 200, False,
+		XA_STRING, &actual, &junk1, &junk2, &length, &prop);
+	if( !(drawS = atoi( prop ))){
+		M( ERRMSG,"TWinitMenus","Could not find draw property\n") ;
+		return( FALSE ) ;
+	}
+	/* new to return draw window */
+	return( drawS ) ;
 } /* end TWgetWindowId */
 
 /* perform initialization of menu windows */
-BOOL TWinitMenuWindow( menu_fields )
-TWMENUPTR menu_fields ;
+BOOL TWinitMenuWindow( TWMENUPTR menu_fields )
 {
-    MENUPTR menuptr ;  /* temporary for speed */
-    TWMENUPTR mptr ;   /* current field of the menu fields */
-    UNSIGNED_INT white, black ;
-    INT  menu ; /* counter for menus */
-    INT  items ; /* counter for menu items */
-    INT  length ; /* length of string */
-    INT  i, j ;   /* counters */
-    INT  strwidth ; /* temp for calculating width of string in pixels */
-    INT  xpos ;      /* temp to calculate xposition of menu */
-    INT  halfstep ;       /* half the calculated stepsize */
-    INT  entry_width ;    /* size of entry pixmap in pixels */
-    INT  entry ;          /* keep count of entries in each menu */
-    long event_mask ;     /* set up event catching with this mask */
-    Atom menuAtom ; /* need to store menu property */
-    Atom messageAtom ; /* need to store message property */
-    Atom drawAtom ;    /* need to store draw property */
-    Atom actual ;      /* actual atom return from XGetWindowProperty */
-    char windowIdString[LRECL] ; /* buffer for window id string */
-    char *prop;       /* used to retrieve the property added to window */
-    INT junk1, junk2 ; /* ignore junk */
-    char *reply ;      /* reply back from Xdefaults */
+	MENUPTR menuptr ;  /* temporary for speed */
+	TWMENUPTR mptr ;   /* current field of the menu fields */
+	unsigned int white, black ;
+	int  menu ; /* counter for menus */
+	int  items ; /* counter for menu items */
+	int  length ; /* length of string */
+	int  i, j ;   /* counters */
+	int  strwidth ; /* temp for calculating width of string in pixels */
+	int  xpos ;      /* temp to calculate xposition of menu */
+	int  halfstep ;       /* half the calculated stepsize */
+	int  entry_width ;    /* size of entry pixmap in pixels */
+	int  entry ;          /* keep count of entries in each menu */
+	long event_mask ;     /* set up event catching with this mask */
+	Atom menuAtom ; /* need to store menu property */
+	Atom messageAtom ; /* need to store message property */
+	Atom drawAtom ;    /* need to store draw property */
+	Atom actual ;      /* actual atom return from XGetWindowProperty */
+	char windowIdString[LRECL] ; /* buffer for window id string */
+	char *prop;       /* used to retrieve the property added to window */
+	int junk1, junk2 ; /* ignore junk */
+	char *reply ;      /* reply back from Xdefaults */
 
-    /* get static information from main draw module */
-    /* try to do crude object oriented programming */
-    TWinforMenus() ;
+	/* get static information from main draw module */
+	/* try to do crude object oriented programming */
+	TWinforMenus() ;
 
-    black = BlackPixel(dpyS,screenS);
-    white = WhitePixel(dpyS,screenS);
-    backgrdS = black ;
-    foregrdS = white ;
+	black = BlackPixel(dpyS,screenS);
+	white = WhitePixel(dpyS,screenS);
+	backgrdS = black ;
+	foregrdS = white ;
 
-    menuAtom    = XInternAtom( dpyS, "menuWindowId", FALSE ) ;
-    messageAtom = XInternAtom( dpyS, "messageWindowId", FALSE ) ;
-    drawAtom = XInternAtom( dpyS, "drawWindowId", FALSE ) ;
-    if( parasiteS == FALSE ){
-	/* normal case - need to create menu window */
-	menuS = XCreateSimpleWindow( dpyS, backS, 1, 1, 
-	    infoS->winwidth, MENUHEIGHT, 1L, white, backgrdS ) ;
+	menuAtom    = XInternAtom( dpyS, "menuWindowId", FALSE ) ;
+	messageAtom = XInternAtom( dpyS, "messageWindowId", FALSE ) ;
+	drawAtom = XInternAtom( dpyS, "drawWindowId", FALSE ) ;
+	if( parasiteS == FALSE ){
+		/* normal case - need to create menu window */
+		menuS = XCreateSimpleWindow( dpyS, backS, 1, 1, infoS->winwidth, MENUHEIGHT, 1L, white, backgrdS ) ;
 
-	/* now raise menu window so we can see it */	
-	XMapWindow( dpyS, menuS ) ;
+		/* now raise menu window so we can see it */	
+		XMapWindow( dpyS, menuS ) ;
 
-	/* now create a message window below main window */
-	messageS = XCreateSimpleWindow( dpyS, backS, 
-	    1, infoS->winheight + MENUHEIGHT, 
-	    infoS->winwidth, MENUHEIGHT,1L,white,backgrdS ) ;
-	/* now raise message window so we can see it */	
-	XMapWindow( dpyS, messageS ) ;
-	XClearWindow( dpyS, messageS ) ;
+		/* now create a message window below main window */
+		messageS = XCreateSimpleWindow( dpyS, backS, 1, infoS->winheight + MENUHEIGHT, infoS->winwidth, MENUHEIGHT,1L,white,backgrdS ) ;
+		/* now raise message window so we can see it */	
+		XMapWindow( dpyS, messageS ) ;
+		XClearWindow( dpyS, messageS ) ;
 
-	/* store the windowIds of the two window so that a parasite */
-	/* can find its way later */
-	sprintf( windowIdString, "%d", drawS ) ; /* store as a string */
-	XChangeProperty( dpyS, backS, drawAtom, XA_STRING, 8, PropModeAppend,
-	    (unsigned char *) windowIdString, strlen(windowIdString) ) ;
-	sprintf( windowIdString, "%d", menuS ) ; /* store as a string */
-	XChangeProperty( dpyS, backS, menuAtom, XA_STRING, 8, PropModeAppend,
-	    (unsigned char *) windowIdString, strlen(windowIdString) ) ;
-	sprintf( windowIdString, "%d", messageS ) ;/* store as a string */
-	XChangeProperty( dpyS, backS, messageAtom, XA_STRING, 8, 
-	    PropModeAppend, (unsigned char *) windowIdString, 
-	    strlen(windowIdString) ) ;
-    } /* end normal case */
+		/* store the windowIds of the two window so that a parasite */
+		/* can find its way later */
+		sprintf( windowIdString, "%d", drawS ) ; /* store as a string */
+		XChangeProperty( dpyS, backS, drawAtom, XA_STRING, 8, PropModeAppend, (unsigned char *) windowIdString, strlen(windowIdString) ) ;
+		sprintf( windowIdString, "%d", menuS ) ; /* store as a string */
+		XChangeProperty( dpyS, backS, menuAtom, XA_STRING, 8, PropModeAppend, (unsigned char *) windowIdString, strlen(windowIdString) ) ;
+		sprintf( windowIdString, "%d", messageS ) ;/* store as a string */
+		XChangeProperty( dpyS, backS, messageAtom, XA_STRING, 8, PropModeAppend, (unsigned char *) windowIdString, strlen(windowIdString) ) ;
+	} /* end normal case */
 
-    /* set graphic contexts */
-    menuGCS = infoS->graphicContext[WHITE] ;
-    menuRGCS = infoS->graphicContext[BLACK] ;
+	/* set graphic contexts */
+	menuGCS = infoS->graphicContext[WHITE] ;
+	menuRGCS = infoS->graphicContext[BLACK] ;
 
-    /* user deliberately gave us a NULL menu so we have no more work */
-    if( !(menu_fields) ){
-	return( TRUE ) ;
-    }
-
-    if( XGetDefault( dpyS, GRAPHICS, "three_button_mouse" )){
-        three_button_mouseS = TRUE ;
-	event_mask = StructureNotifyMask | SubstructureNotifyMask
-	    | VisibilityChangeMask | ButtonPressMask ;
-	XSelectInput(dpyS,backS,event_mask) ;
-    } else {
-        three_button_mouseS = FALSE ;
-    }
-
-    if( reply = XGetDefault( dpyS, GRAPHICS, "message_timeout" )){
-	/* time is in milliseconds */
-	message_timeoutS = atoi( reply ) * 1000 ;
-    } else {
-	message_timeoutS = DEFAULT_TIMEOUT ;
-    }
-
-    /* count number of menus and menu items */
-    numMenuS = 0 ;
-    items = 0 ;
-    for( i=0; menu_fields[i].item ; i++ ){ 
-	if( menu_fields[i].menuNotItem ){
-	    numMenuS++ ;
+	/* user deliberately gave us a NULL menu so we have no more work */
+	if( !(menu_fields) ){
+		return( TRUE ) ;
 	}
-	items++ ;
-    }
 
-    /* allocate memory for menu data */
-    menuArrayS = YMALLOC( numMenuS, MENUPTR ) ;
-    for( i=0; i< numMenuS; i++ ){
-	menuArrayS[i] = YCALLOC( 1, MENUBOX ) ;
-    }
-
-
-    menu = -1 ;
-    for( i=0; i < items; i++ ){ 
-	mptr = &(menu_fields[i]) ;
-	if( mptr->menuNotItem ){  /* start of a new menu */
-	    
-	    /* increment menu count */
-	    menuptr = menuArrayS[++menu] ;
-	    /* find width of menu string in characters */
-	    length = strlen( mptr->item ) ;
-	    menuptr->name_len = length ;
-	    /* find width of menu in pixels */
-	    menuptr->pix_len = 
-		XTextWidth( fontinfoS, mptr->item, length ) ;
-	    /* save menu name */
-	    menuptr->name = Ystrclone( mptr->item ) ;
-
-	} else if( menu >= 0 ){ /* avoid obvious error if menu -1 */
-	    /* add to number of entries */
-	    menuArrayS[menu]->numentries++ ;
-	    /* find maximum length of entries of this menu */
-	    length  = strlen( mptr->item ) ;
-	    strwidth = XTextWidth( fontinfoS, mptr->item, length ) ;
-	    menuArrayS[menu]->entry_wid =
-		MAX( menuArrayS[menu]->entry_wid, strwidth ) ;
-
-	    if( mptr->bool_item ){ /* also check the complement */
-		length  = strlen( mptr->bool_item ) ;
-		strwidth = XTextWidth( fontinfoS,mptr->bool_item,length );
-		menuArrayS[menu]->entry_wid =
-		    MAX( menuArrayS[menu]->entry_wid, strwidth ) ;
-	    }
-	}
-    }
-    if( numMenuS < 0 || numMenuS != ++menu ){
-	M( ERRMSG, "initMenus", "Problems with menu array\n" ) ;
-	return( FALSE ) ;
-    }
-
-    /* first calculate position of the menus based on equal spacing */
-    stepsizeS = winwidthS / numMenuS ;
-    halfstep = stepsizeS / 2 ;
-    xpos = halfstep ;  /* placement of first menu */
-
-    /* build menus */
-    menu = -1 ;
-    for( i=0; i < items; i++ ){ 
-	mptr = &(menu_fields[i]) ;
-
-	if( mptr->menuNotItem ){  /* start of a new menu */
-	    /* increment menu count */
-	    menuptr = menuArrayS[++menu] ;
-	    /* save where to draw menu title in menu window */
-	    menuptr->xpos = halfstep - menuptr->pix_len / 2 ;
-	    menuptr->width = entry_width = menuptr->entry_wid +
-		MENUBORDER ;
-
-	    /* create a top subwindow */
-	    menuptr->top_window = XCreateSimpleWindow( dpyS, menuS, 
-		    xpos - halfstep, 0, 
-		    stepsizeS, MENUHEIGHT, 0L, black, backgrdS ) ;
-	    /* now raise window so we can see it */	
-	    XMapWindow( dpyS, menuptr->top_window ) ;
-
-	    /* set the events for top subwindow */
-	    event_mask = EnterWindowMask | LeaveWindowMask ;
-	    XSelectInput(dpyS,menuptr->top_window,event_mask) ;
-
-
-	    /* create an array of simple windows for menus */
-	    menuptr->window = YMALLOC( menuptr->numentries, Window ) ;
-	    for( j=0; j< menuptr->numentries; j++ ){
-		menuptr->window[j] = XCreateSimpleWindow( dpyS, backS, 
-		    xpos - menuptr->width / 2,
-		    (j+1) * MENUHEIGHT, 
-		    entry_width,
-		    MENUHEIGHT, 1L, black, backgrdS ) ;
-	    }
-
-	    /* now create entry array for each menu entry string */
-	    menuptr->entry = YMALLOC( menuptr->numentries, char * ) ;
-	    /* now create function array for each entry window */
-	    menuptr->function = YMALLOC( menuptr->numentries, INT ) ;
-	    /* now create adjusted position array for each menu entry */
-	    menuptr->xpos_adj = YMALLOC( menuptr->numentries, INT ) ;
-	    /* now create name len array for each menu entry */
-	    menuptr->entry_len = YMALLOC( menuptr->numentries, INT ) ;
-	    /* now create enabled array for each entry window */
-	    menuptr->enabled = YMALLOC( menuptr->numentries, BOOL ) ;
-
-	    /* now create second version of arrays for Boolean */
-	    /* complementary state */
-	    menuptr->bool_entry = YMALLOC( menuptr->numentries, BOOL ) ;
-	    menuptr->state = YMALLOC( menuptr->numentries, BOOL ) ;
-	    menuptr->entry2 = YMALLOC( menuptr->numentries, char * ) ;
-	    menuptr->function2 = YCALLOC( menuptr->numentries, INT ) ;
-	    menuptr->xpos_adj2 = YMALLOC( menuptr->numentries, INT ) ;
-	    /* now create name len array for each menu entry */
-	    menuptr->entry_len2 = YMALLOC( menuptr->numentries, INT ) ;
-	    entry = 0 ; /* reset entry */
-	    /* now update position of next menu */
-	    xpos += stepsizeS ;
-
+	if( XGetDefault( dpyS, GRAPHICS, "three_button_mouse" )){
+		three_button_mouseS = TRUE ;
+		event_mask = StructureNotifyMask | SubstructureNotifyMask
+		| VisibilityChangeMask | ButtonPressMask ;
+		XSelectInput(dpyS,backS,event_mask) ;
 	} else {
-	    
-	    length = strlen( mptr->item ) ;
-	    /* save string in array */
-	    menuptr->entry[entry] = Ystrclone( mptr->item ) ;
-	    /* save string len in array */
-	    menuptr->entry_len[entry] = length ;
-	    /* save function number - last token */
-	    menuptr->function[entry] = mptr->action_index ;
-	    menuptr->enabled[entry] = TRUE ;
-
-	    strwidth = XTextWidth( fontinfoS, mptr->item, length ) ;
-	    /* save where to draw string */
-	    menuptr->xpos_adj[entry] = (menuptr->width-strwidth) / 2 ;
-	    if( mptr->bool_item ){
-		menuptr->bool_entry[entry] = TRUE ;
-		length  = strlen( mptr->bool_item ) ;
-		/* save string in array */
-		menuptr->entry2[entry] = Ystrclone( mptr->bool_item ) ;
-		/* save string len in array */
-		menuptr->entry_len2[entry] = length ;
-		/* save function number - last token */
-		menuptr->function2[entry] = mptr->action_indexb ;
-		strwidth = XTextWidth( fontinfoS,mptr->bool_item,length );
-		/* save where to draw string */
-		menuptr->xpos_adj2[entry] = 
-		    (menuptr->width - strwidth) / 2 ;
-		/* set initial state 1 means first entry set active */
-		menuptr->state[entry] = mptr->bool_init ;
-
-	    } else { /* number of tokens == 2 */
-		menuptr->bool_entry[entry] = FALSE ;
-	    }
-	    /* increment entry for next string */
-	    entry++ ;
+		three_button_mouseS = FALSE ;
 	}
 
-    } /* end for loop */
+	if( reply = XGetDefault( dpyS, GRAPHICS, "message_timeout" )){
+		/* time is in milliseconds */
+		message_timeoutS = atoi( reply ) * 1000 ;
+	} else {
+		message_timeoutS = DEFAULT_TIMEOUT ;
+	}
 
-    /* now enable it so we can see mouse button in this window */
-    event_mask = ButtonPressMask ;
-    XSelectInput(dpyS,menuS,event_mask);
+	/* count number of menus and menu items */
+	numMenuS = 0 ;
+	items = 0 ;
+	for( i=0; menu_fields[i].item ; i++ ){ 
+		if( menu_fields[i].menuNotItem ){
+		numMenuS++ ;
+		}
+		items++ ;
+	}
 
-    /* sucessful if we got to here */
-    return( TRUE ) ;
+	/* allocate memory for menu data */
+	menuArrayS = YMALLOC( numMenuS, MENUPTR ) ;
+	for( i=0; i< numMenuS; i++ ){
+		menuArrayS[i] = YCALLOC( 1, MENUBOX ) ;
+	}
+
+
+	menu = -1 ;
+	for( i=0; i < items; i++ ){ 
+		mptr = &(menu_fields[i]) ;
+		if( mptr->menuNotItem ){  /* start of a new menu */
+		
+		/* increment menu count */
+		menuptr = menuArrayS[++menu] ;
+		/* find width of menu string in characters */
+		length = strlen( mptr->item ) ;
+		menuptr->name_len = length ;
+		/* find width of menu in pixels */
+		menuptr->pix_len = 
+			XTextWidth( fontinfoS, mptr->item, length ) ;
+		/* save menu name */
+		menuptr->name = Ystrclone( mptr->item ) ;
+
+		} else if( menu >= 0 ){ /* avoid obvious error if menu -1 */
+		/* add to number of entries */
+		menuArrayS[menu]->numentries++ ;
+		/* find maximum length of entries of this menu */
+		length  = strlen( mptr->item ) ;
+		strwidth = XTextWidth( fontinfoS, mptr->item, length ) ;
+		menuArrayS[menu]->entry_wid =
+			MAX( menuArrayS[menu]->entry_wid, strwidth ) ;
+
+		if( mptr->bool_item ){ /* also check the complement */
+			length  = strlen( mptr->bool_item ) ;
+			strwidth = XTextWidth( fontinfoS,mptr->bool_item,length );
+			menuArrayS[menu]->entry_wid =
+			MAX( menuArrayS[menu]->entry_wid, strwidth ) ;
+		}
+		}
+	}
+	if( numMenuS < 0 || numMenuS != ++menu ){
+		M( ERRMSG, "initMenus", "Problems with menu array\n" ) ;
+		return( FALSE ) ;
+	}
+
+	/* first calculate position of the menus based on equal spacing */
+	stepsizeS = winwidthS / numMenuS ;
+	halfstep = stepsizeS / 2 ;
+	xpos = halfstep ;  /* placement of first menu */
+
+	/* build menus */
+	menu = -1 ;
+	for( i=0; i < items; i++ ){ 
+		mptr = &(menu_fields[i]) ;
+
+		if( mptr->menuNotItem ){  /* start of a new menu */
+		/* increment menu count */
+		menuptr = menuArrayS[++menu] ;
+		/* save where to draw menu title in menu window */
+		menuptr->xpos = halfstep - menuptr->pix_len / 2 ;
+		menuptr->width = entry_width = menuptr->entry_wid +
+			MENUBORDER ;
+
+		/* create a top subwindow */
+		menuptr->top_window = XCreateSimpleWindow( dpyS, menuS, 
+			xpos - halfstep, 0, 
+			stepsizeS, MENUHEIGHT, 0L, black, backgrdS ) ;
+		/* now raise window so we can see it */	
+		XMapWindow( dpyS, menuptr->top_window ) ;
+
+		/* set the events for top subwindow */
+		event_mask = EnterWindowMask | LeaveWindowMask ;
+		XSelectInput(dpyS,menuptr->top_window,event_mask) ;
+
+
+		/* create an array of simple windows for menus */
+		menuptr->window = YMALLOC( menuptr->numentries, Window ) ;
+		for( j=0; j< menuptr->numentries; j++ ){
+			menuptr->window[j] = XCreateSimpleWindow( dpyS, backS, 
+			xpos - menuptr->width / 2,
+			(j+1) * MENUHEIGHT, 
+			entry_width,
+			MENUHEIGHT, 1L, black, backgrdS ) ;
+		}
+
+		/* now create entry array for each menu entry string */
+		menuptr->entry = YMALLOC( menuptr->numentries, char * ) ;
+		/* now create function array for each entry window */
+		menuptr->function = YMALLOC( menuptr->numentries, int ) ;
+		/* now create adjusted position array for each menu entry */
+		menuptr->xpos_adj = YMALLOC( menuptr->numentries, int ) ;
+		/* now create name len array for each menu entry */
+		menuptr->entry_len = YMALLOC( menuptr->numentries, int ) ;
+		/* now create enabled array for each entry window */
+		menuptr->enabled = YMALLOC( menuptr->numentries, BOOL ) ;
+
+		/* now create second version of arrays for Boolean */
+		/* complementary state */
+		menuptr->bool_entry = YMALLOC( menuptr->numentries, BOOL ) ;
+		menuptr->state = YMALLOC( menuptr->numentries, BOOL ) ;
+		menuptr->entry2 = YMALLOC( menuptr->numentries, char * ) ;
+		menuptr->function2 = YCALLOC( menuptr->numentries, int ) ;
+		menuptr->xpos_adj2 = YMALLOC( menuptr->numentries, int ) ;
+		/* now create name len array for each menu entry */
+		menuptr->entry_len2 = YMALLOC( menuptr->numentries, int ) ;
+		entry = 0 ; /* reset entry */
+		/* now update position of next menu */
+		xpos += stepsizeS ;
+
+		} else {
+		
+		length = strlen( mptr->item ) ;
+		/* save string in array */
+		menuptr->entry[entry] = Ystrclone( mptr->item ) ;
+		/* save string len in array */
+		menuptr->entry_len[entry] = length ;
+		/* save function number - last token */
+		menuptr->function[entry] = mptr->action_index ;
+		menuptr->enabled[entry] = TRUE ;
+
+		strwidth = XTextWidth( fontinfoS, mptr->item, length ) ;
+		/* save where to draw string */
+		menuptr->xpos_adj[entry] = (menuptr->width-strwidth) / 2 ;
+		if( mptr->bool_item ){
+			menuptr->bool_entry[entry] = TRUE ;
+			length  = strlen( mptr->bool_item ) ;
+			/* save string in array */
+			menuptr->entry2[entry] = Ystrclone( mptr->bool_item ) ;
+			/* save string len in array */
+			menuptr->entry_len2[entry] = length ;
+			/* save function number - last token */
+			menuptr->function2[entry] = mptr->action_indexb ;
+			strwidth = XTextWidth( fontinfoS,mptr->bool_item,length );
+			/* save where to draw string */
+			menuptr->xpos_adj2[entry] = 
+			(menuptr->width - strwidth) / 2 ;
+			/* set initial state 1 means first entry set active */
+			menuptr->state[entry] = mptr->bool_init ;
+
+		} else { /* number of tokens == 2 */
+			menuptr->bool_entry[entry] = FALSE ;
+		}
+		/* increment entry for next string */
+		entry++ ;
+		}
+
+	} /* end for loop */
+
+	/* now enable it so we can see mouse button in this window */
+	event_mask = ButtonPressMask ;
+	XSelectInput(dpyS,menuS,event_mask);
+
+	/* sucessful if we got to here */
+	return( TRUE ) ;
 
 	
 } /* end TWinitMenuWindow */
 
-TWdrawMenus()
+void TWdrawMenus()
 {
-    INT i ;
+    int i ;
     MENUPTR menuptr ;
 
     XClearWindow( dpyS, menuS ) ;
@@ -606,10 +572,10 @@ TWdrawMenus()
 } /* end TWdrawMenus */
 
 /* turn top window entering and leaving lights */
-static set_window_lights( flag )
+void  set_window_lights( flag )
 BOOL flag ;
 {
-    INT i ;            /* window counter */
+    int i ;            /* window counter */
     MENUPTR menuptr ;  /* pointer to current window */
     long event_mask ;  /* used to set input selection to window */
 
@@ -633,7 +599,7 @@ BOOL flag ;
 static BOOL checkwindow_lights()
 {
     long event_mask ;  /* used to set input selection to window */
-    INT i ;            /* window counter */
+    int i ;            /* window counter */
     MENUPTR menuptr ;  /* menu pointer */
     Window win ;       /* match window */
     BOOL foundWindow;  /* flag to match window */
@@ -695,30 +661,30 @@ static BOOL checkwindow_lights()
 
 /* check to see mouse button was click.  If true put up appropriate */
 /* menu and return value to user */
-INT TWcheckMouse()
+int TWcheckMouse()
 {
     BOOL foundWindow ;      /* used in window search to find match */
     XEvent event ;          /* describes button event */
-    INT i ;                 /* menu desired by user */
-    INT x ;                 /* pixel location button was pushed */
-    INT menu_requested ;    /* the menu the user requested */
+    int i ;                 /* menu desired by user */
+    int x ;                 /* pixel location button was pushed */
+    int menu_requested ;    /* the menu the user requested */
     long event_mask ;       /* setup menus */
     Window win ;            /* temporary for selected menu window */
     MENUPTR menuptr ;       /* temporary for selected menu record */
     BOOL press ;            /* tells whether button has been pushed */
     GC menu_GC ;            /* normal menu graphics context */
     GC reverse_menuGC ;     /* reverse menu context */
-    static INT last_timeL=0;/* the last time we interupted */
-    static INT last_commandL = CANCEL ; /* the last command issued */
-    static INT countL = 0 ; 		/* the last command issued */
+    static int last_timeL=0;/* the last time we interupted */
+    static int last_commandL = CANCEL ; /* the last command issued */
+    static int countL = 0 ; 		/* the last command issued */
 
-    INT cur_time ;          /* the current time since start of process */
+    int cur_time ;          /* the current time since start of process */
 
     /* now avoid looking for interuptions all the time */
     /* it take too much time*/
     Ytimer_elapsed( &cur_time ) ;
     if( cur_time - last_timeL > 10000 ){
-	sleep( (UNSIGNED_INT) 1 ) ;
+	sleep( (unsigned int) 1 ) ;
     }
 
     /* always set window lights on in this routine */
@@ -737,7 +703,7 @@ INT TWcheckMouse()
 	press = XCheckMaskEvent( dpyS, ButtonPressMask,&event ) ;
 	D( "TWcheckMouse",
 	    if( press ){
-		fprintf( stderr, "window = %d\n", event.xbutton.window ) ;
+		printf( "window = %d\n", event.xbutton.window ) ;
 	    }
 	) ;
 	if(!(press)){
@@ -748,7 +714,7 @@ INT TWcheckMouse()
 		if( last_commandL != CANCEL ){
 		    TWmessage( "Repeating last command..." ) ;
 		    if( ++countL <= 3 ){
-			(VOID) sleep( (unsigned) 2 ) ;
+			sleep( 2 ) ;
 		    }
 		    return( last_commandL ) ;
 		}
@@ -768,7 +734,7 @@ INT TWcheckMouse()
 
     /* ****** otherwise process the mouse button press ******** */
     D( "TWcheckMouse",
-	fprintf( stderr,"Button event-button:%d\n",event.xbutton.button);
+	printf("Button event-button:%d\n",event.xbutton.button);
     ) ;
 
     /* now disable top menu so we cant get false clicks */
@@ -963,21 +929,21 @@ INT TWcheckMouse()
 		menuptr->state[menu_requested] = FALSE ;
 		last_commandL = menuptr->function2[menu_requested] ;
 
-		D( "TWcheckMouse",fprintf( stderr,"return %d\n", 
+		D( "TWcheckMouse",printf("return %d\n", 
 		    last_commandL ) ) ;
 		return( last_commandL ) ;
 	    } else {
 		/* was false change to true */
 		menuptr->state[menu_requested] = TRUE ;
 		last_commandL = menuptr->function[menu_requested] ;
-		D( "TWcheckMouse",fprintf( stderr, "return %d\n",
+		D( "TWcheckMouse",printf( "return %d\n",
 		    last_commandL ) ) ;
 		return( last_commandL ) ;
 	    }
 	}
 	last_commandL = menuptr->function[menu_requested] ;
 	D( "TWcheckMouse",
-	    fprintf( stderr, "return %d\n", last_commandL ) ) ;
+	    printf( "return %d\n", last_commandL ) ) ;
 	return( last_commandL ) ;
     }
 
@@ -986,11 +952,11 @@ INT TWcheckMouse()
 
 } /* end TWcheckMouse */
 
-TWdisableMenu( menu_item )
-INT menu_item ;
+void TWdisableMenu( menu_item )
+int menu_item ;
 {
-    INT      menu ;            /* counter */
-    INT      entry ;           /* counter */
+    int      menu ;            /* counter */
+    int      entry ;           /* counter */
     MENUPTR menuptr ;          /* temporary for selected menu record */
 
     for( menu = 0 ; menu < numMenuS; menu++ ){
@@ -1008,11 +974,10 @@ INT menu_item ;
     }
 } /* end TWdisableMenu() */
 
-TWenableMenu( menu_item )
-INT menu_item ;
+void TWenableMenu(int menu_item)
 {
-    INT      menu ;            /* counter */
-    INT      entry ;           /* counter */
+    int      menu ;            /* counter */
+    int      entry ;           /* counter */
     MENUPTR menuptr ;          /* temporary for selected menu record */
 
     for( menu = 0 ; menu < numMenuS; menu++ ){
@@ -1030,12 +995,11 @@ INT menu_item ;
     }
 } /* end TWenableMenu() */
 
-TWgetPt( x, y )
-INT *x, *y ;
+void TWgetPt(int *x, int *y)
 {
     BOOL press ;            /* tells whether button has been pushed */
     XEvent event ;          /* describes button event */
-    INT xtemp, ytemp ;      /* pixel location button was pushed */
+    int xtemp, ytemp ;      /* pixel location button was pushed */
     long event_mask ;       /* setup menus */
     
     /* turn on event mask for main drawing window - known as drawS */
@@ -1061,12 +1025,12 @@ INT *x, *y ;
 	    /* account for inversion of y axis */
 	    ytemp = infoS->winheight - ytemp ;
 	    /* now reverse scale of coordinates */
-	    xtemp = (INT) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
-	    ytemp = (INT) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
+	    xtemp = (int) ( (double) xtemp / infoS->scaleFactor ) ;
+	    ytemp = (int) ( (double) ytemp / infoS->scaleFactor ) ;
 	    /* now apply data offset */
 	    *x = xtemp - infoS->xoffset ;
 	    *y = ytemp - infoS->yoffset ;
-	    D( "TWgetPt", fprintf( stderr, "pt = (%d,%d)\n", *x, *y ) ) ;
+	    D( "TWgetPt", printf( "pt = (%d,%d)\n", *x, *y ) ) ;
 	}
     }
     /* now again enable top menu so we can get clicks */
@@ -1075,7 +1039,7 @@ INT *x, *y ;
     
 } /* end TWgetPt */
 
-TWmessage( message )
+void TWmessage( message )
 char *message ;
 {
     if( persistenceS ){
@@ -1089,8 +1053,7 @@ char *message ;
 
 } /* end TWmessage */
 
-TWmessagePersistence(flag)
-BOOL flag ;
+void TWmessagePersistence(BOOL flag)
 {
     persistenceS = flag ;
     if( flag ){
@@ -1099,10 +1062,10 @@ BOOL flag ;
     }
 } /* end TWmessagePersistence() */
 
-static draw_persistent_message( non_persistent_message )
+void draw_persistent_message( non_persistent_message )
 char *non_persistent_message ;
 {
-    INT fwidth ; /* font width */
+    int fwidth ; /* font width */
     char *message ;   /* message to output */
 
     XClearWindow( dpyS, messageS ) ;
@@ -1135,10 +1098,10 @@ char *directions ;
     static char data[LRECL];/* current value of users input */
     KeySym keysym ;         /* return of keysym from user */
     XComposeStatus status ; /* where a compose key was pressed */
-    INT strwidth ;          /* width of string in pixels */
-    INT dataCount ;         /* number of characters in user input */
-    INT cur_time ;          /* the current time */
-    INT start_time ;        /* the start or last activity time */
+    int strwidth ;          /* width of string in pixels */
+    int dataCount ;         /* number of characters in user input */
+    int cur_time ;          /* the current time */
+    int start_time ;        /* the start or last activity time */
 
     event_mask = KeyPressMask ;
     XSelectInput(dpyS,messageS,event_mask);
@@ -1170,7 +1133,7 @@ char *directions ;
 	    /* find what the user entered */
 	    XLookupString( &(event.xkey), buffer,LRECL,&keysym, &status );
 	    buffer[1] = EOS ; /* only get one character at a time */
-	    D( "TWgetString",fprintf( stderr, "string:%s\n", buffer ) ) ;
+	    D( "TWgetString",printf( "string:%s\n", buffer ) ) ;
 
 	    /* look to see if we got a return */
 	    if( buffer[0] == RETURN ){
@@ -1231,7 +1194,7 @@ char *directions ;
 /* or from the using the mouse */
 /* returns TRUE if entered from keyboard, false from mouse */
 BOOL TWgetPt2( x, y )
-INT *x, *y ;
+int *x, *y ;
 {
     BOOL press ;                /* tells whether button has been pushed */
     BOOL ok ;                     /* whether keyboard input is ok */
@@ -1239,7 +1202,7 @@ INT *x, *y ;
     XEvent event ;                /* describes button event */
     long event_mask ;             /* setup input */
     char **tokens;                /* for parsing keyboard data */
-    INT numtokens ;               /* number of tokens in keyboard str */
+    int numtokens ;               /* number of tokens in keyboard str */
     char *reply ;                 /* answer from user */
     
     /* turn on event mask for main drawing window - known as wS */
@@ -1305,7 +1268,7 @@ INT *x, *y ;
 } /* end TWgetPt2 */
 
 /* start receiving events concerning mouse tracking */
-TWmouse_tracking_start()
+void TWmouse_tracking_start()
 {
     long event_mask ;         /* set events */
 
@@ -1319,13 +1282,12 @@ TWmouse_tracking_start()
 
 /* get the current mouse position */
 /* returns true if position has changed */
-BOOL TWmouse_tracking_pt( x, y )
-INT *x, *y ;
+BOOL TWmouse_tracking_pt( int *x, int *y )
 {
     XEvent event ;            /* describes event */
-    INT xtemp, ytemp ;        /* current position of pointer */
+    int xtemp, ytemp ;        /* current position of pointer */
     BOOL changed ;            /* whether position has changed */
-    static INT xoldL, yoldL;  /* position from previous call */
+    static int xoldL, yoldL;  /* position from previous call */
 
     xtemp = xoldL ;           /* restore old point */
     ytemp = yoldL ;           /* restore old point */
@@ -1348,12 +1310,12 @@ INT *x, *y ;
     /* account for inversion of y axis */
     ytemp = infoS->winheight - ytemp ;
     /* now reverse scale of coordinates */
-    xtemp = (INT) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
-    ytemp = (INT) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
+    xtemp = (int) ( (double) xtemp / infoS->scaleFactor ) ;
+    ytemp = (int) ( (double) ytemp / infoS->scaleFactor ) ;
     /* now apply data offset */
     *x = xtemp - infoS->xoffset ;
     *y = ytemp - infoS->yoffset ;
-    D( "TWmouse_tracking_pt", fprintf( stderr,"pt = (%d,%d)\n", *x, *y ));
+    D( "TWmouse_tracking_pt", printf("pt = (%d,%d)\n", *x, *y ));
     XFlush( dpyS ) ;
 
     return( changed ) ;
@@ -1385,8 +1347,8 @@ BOOL TWcheckExposure()
 
     BOOL exposed ;          /* tells whether window has been covered */
     XEvent event ;          /* describes event */
-    INT time ;              /* current time */
-    static INT lasttimeL ;  /* last time of exposure event */
+    int time ;              /* current time */
+    static int lasttimeL ;  /* last time of exposure event */
 
     exposed = FALSE ;
     /* XSync( dpyS, FALSE ) ;*/ /* allow program to catch up */
@@ -1407,7 +1369,7 @@ BOOL TWcheckExposure()
 	    /* if we got a TWforceRedraw always redraw screen */
 	    lasttimeL = time ;
 	    D( "TWcheckExposure", 
-		fprintf( stderr,"Exposure:f @time = %d\n",time);
+		printf("Exposure:f @time = %d\n",time);
 	    ) ;
 	    if( exposed ){
 		draw_persistent_message( NULL ) ;
@@ -1420,7 +1382,7 @@ BOOL TWcheckExposure()
 	    lasttimeL = time ;
 	}
 	D( "TWcheckExposure", 
-	    fprintf( stderr,"Exposure:%d @time = %d\n",exposed,time);
+	    printf("Exposure:%d @time = %d\n",exposed,time);
 	) ;
     }
     if( exposed ){
@@ -1435,8 +1397,8 @@ BOOL TWcheckExposure()
 /* if we are using TWinterupt we which to turn off menu subwindows */
 BOOL TWinterupt()
 {
-    static INT last_timeL=0; /* the last time we interupted */
-    INT cur_time ;          /* the current time since start of process */
+    static int last_timeL=0; /* the last time we interupted */
+    int cur_time ;          /* the current time since start of process */
     BOOL press ;            /* tells whether button has been pushed */
     XEvent event ;          /* describes button event */
 
@@ -1460,11 +1422,11 @@ BOOL TWinterupt()
 } /* end TWinterupt */
 
 /* update windows if configuration changes */
-TWcheckReconfig()
+void TWcheckReconfig()
 {
-    INT height ;              /* height of current backing window */
+    int height ;              /* height of current backing window */
     XEvent event ;            /* describes configuration event */
-    INT winwidth, winheight ; /* size of window */
+    int winwidth, winheight ; /* size of window */
     BOOL redraw = FALSE ;     /* whether to redraw or not */
 
     height = infoS->winheight + 2 * MENUHEIGHT ;
@@ -1492,9 +1454,9 @@ TWcheckReconfig()
     }
     if( redraw ){
 	D( "TWcheckReconfig",
-	    {   INT time ;
+	    {   int time ;
 		(void) YcurTime( &time ) ;
-		fprintf( stderr,"TWcheckReconfig redraw:@time = %d\n",
+		printf("TWcheckReconfig redraw:@time = %d\n",
 		time);
 	    }
 	) ;
@@ -1507,13 +1469,11 @@ TWcheckReconfig()
     }
 } /* end TWcheckReconfig */
 
-
-static resize_windows( winwidth, winheight )
-INT winwidth, winheight ;
+void resize_windows( int winwidth, int winheight )
 {
-    INT halfstep ;            /* menu half spacing */
-    INT xpos ;                /* position of menu */
-    INT i, j ;                /* counters */
+    int halfstep ;            /* menu half spacing */
+    int xpos ;                /* position of menu */
+    int i, j ;                /* counters */
     MENUPTR menuptr ;       /* temporary for selected menu record */
 
     /* change size of draw window */
@@ -1573,9 +1533,9 @@ INT winwidth, winheight ;
 } /* end TWcheckReconfig */
 
 
-TWfreeMenuWindows()
+void TWfreeMenuWindows()
 {
-    INT i, j ;              /* counters */
+    int i, j ;              /* counters */
     MENUPTR menuptr ;       /* temporary for selected menu record */
 
     for( i = 0; i < numMenuS ; i++ ){
@@ -1604,9 +1564,9 @@ char *filename ;
 {
     char buffer[LRECL], *bufferptr ;
     char **tokens ;         /* for parsing menu file */
-    INT  numtokens ;        /* number of tokens on the line */
-    INT  line ;             /* count lines in input file */
-    INT  item ;             /* number of menu fields */
+    int  numtokens ;        /* number of tokens on the line */
+    int  line ;             /* count lines in input file */
+    int  item ;             /* number of menu fields */
     FILE *fp ;              /* open file pointer */
     TWMENUPTR menu_fields;  /* array of menu information */
     TWMENUPTR mptr;         /* current menu item */
@@ -1726,9 +1686,9 @@ static char *cap_item( sptr )
 char *sptr ;
 {
     static char bufferL[LRECL] ;
-    INT len ;                 /* string length */
-    INT j ;                   /* counter */
-    INT pos ;                 /* position in buffer */
+    int len ;                 /* string length */
+    int j ;                   /* counter */
+    int pos ;                 /* position in buffer */
 
     /* always capitialize the item */
     len = strlen( sptr ) ;
@@ -1752,8 +1712,8 @@ char *sptr ;
 static debug_menus( menu_field )
 TWMENUPTR menu_field ;
 {
-    INT i ;                   /* counter */
-    INT count ;               /* number of fields */
+    int i ;                   /* counter */
+    int count ;               /* number of fields */
     char label[LRECL] ;       /* copy of the menu item */
     FILE *fp ;                /* file pointer */
     TWMENUPTR mptr ;        /* temporary pointer */

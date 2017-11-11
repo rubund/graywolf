@@ -55,18 +55,16 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 	    May  3, 1989 - changed to Y prefixes.
 	    May  6, 1989 - added no graphics compile switch
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) xcompact.c version 7.2 11/10/90" ;
-#endif
-
-#include <compact.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-
+#include <globals.h>
+#include "compact.h"
+#include "compactor.h"
+#include "xcompact.h"
+#include "debug2.h"
+#include "multi.h"
 
 static PICKETPTR  botPickS ;
 
-buildXGraph()
+void buildXGraph()
 {
     int i ;                    /* counter */
     int overlapx ;             /* overlap conditions in x direction */
@@ -127,7 +125,7 @@ buildXGraph()
 	/* search thru picket list for adjacencies */
 	for( curPick=botPickS;curPick;curPick=curPick->next){
 	    ASSERT( dcheckPicks(), "buildXGraph", "pickets are bad" ) ;
-	    overlapy = projectY( curPick->pt2.bot, curPick->pt1.top,
+	    overlapy = YprojectY( curPick->pt2.bot, curPick->pt1.top,
 		candidate->b, candidate->t) ;
 		
 	    if( overlapy > 0 ){ /* overlap positive means real overlap */
@@ -148,7 +146,7 @@ buildXGraph()
 
 
 		/* now check for errors */
-		overlapx = projectX(t->l,t->r,candidate->l,candidate->r);
+		overlapx = YprojectX(t->l,t->r,candidate->l,candidate->r);
 		if( overlapy > 0 && overlapx > 0 ){
 		    D( "mc_compact/buildXGraph", sprintf( YmsgG, 
 			"Overlap detected: cell %d (tile:%d) and cell %d (tile:%d)\n",
@@ -225,9 +223,7 @@ buildXGraph()
 
 } /* end buildXGraph */
 
-formxEdge( fromNode, toNode ) 
-int fromNode ;
-int toNode ;
+void formxEdge(int fromNode, int toNode) 
 {
     COMPACTPTR e1, e2 ;
     ECOMPBOXPTR temp, newE ;
@@ -298,7 +294,7 @@ int toNode ;
     ASSERT( newE->constraint >= 0, "formxEdge", YmsgG ) ;
 }
 
-initxPicket() 
+void initxPicket() 
 {
     COMPACTPTR sink, source, node ;
     int i ;
@@ -332,11 +328,7 @@ initxPicket()
 
 } /* end initxPicket */
     
-
-
-update_xpicket( i, lowerLimit, upperLimit )
-int i ;
-PICKETPTR lowerLimit, upperLimit ;
+void update_xpicket( int i, PICKETPTR lowerLimit, PICKETPTR upperLimit )
 {
     PICKETPTR t, temp, curPick ;
     COMPACTPTR newtile ;         /* new tile to be added to picket */
@@ -557,11 +549,10 @@ COMPACTPTR *tileA , *tileB ;
     }
 }
 
-load_ancestors( direction )
-INT direction ;
+void load_ancestors( int direction )
 {
-    INT i ;			/* counter */
-    INT last ;			/* last tile in tileNode array */
+    int i ;			/* counter */
+    int last ;			/* last tile in tileNode array */
 
     last = YSINK ;
     switch( direction ){
@@ -588,13 +579,13 @@ INT direction ;
     }
 }
 
-static xforwardPath()
+void xforwardPath()
 {
 
-    INT j ;			/* current tile adjacent to node */
-    INT node ;			/* current node popped from the queue */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT currentValue ;		/* path value of node popped from queue */
+    int j ;			/* current tile adjacent to node */
+    int node ;			/* current node popped from the queue */
+    int setValue ;		/* the value of the path to this adj node */
+    int currentValue ;		/* path value of node popped from queue */
     COMPACTPTR nextptr ;	/* the tile record of the adj. node */
     ECOMPBOXPTR ptr ;		/* used to traverse edges of popped node */
     QUEUEPTR botqueue, queue ;	/* used to implement queue MACRO */
@@ -631,10 +622,10 @@ static xforwardPath()
 static xbackwardPath()
 {
 
-    INT j ;			/* current tile adjacent to node */
-    INT node ;			/* current node popped from the queue */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT currentValue ;		/* path value of node popped from queue */
+    int j ;			/* current tile adjacent to node */
+    int node ;			/* current node popped from the queue */
+    int setValue ;		/* the value of the path to this adj node */
+    int currentValue ;		/* path value of node popped from queue */
     COMPACTPTR nextptr ;	/* the tile record of the adj. node */
     ECOMPBOXPTR ptr ;		/* used to traverse edges of popped node */
     QUEUEPTR botqueue, queue ;	/* used to implement queue MACRO */
@@ -669,17 +660,16 @@ static xbackwardPath()
     }
 } /* end xbackwardPath */
 
-INT longestxPath( find_path )
-BOOL find_path ;
+int longestxPath( BOOL find_path )
 {
 
-    INT cell ;			/* current cell in question */
-    INT tile ;			/* one of the tiles of the adj. cell */
-    INT count ; 		/* number of iterations */
-    INT center ;		/* where center of cell is relative to path */
-    INT length ;		/* length of longest path */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT siblingCenter ;		/* the value of the path to sibling of adj node */
+    int cell ;			/* current cell in question */
+    int tile ;			/* one of the tiles of the adj. cell */
+    int count ; 		/* number of iterations */
+    int center ;		/* where center of cell is relative to path */
+    int length ;		/* length of longest path */
+    int setValue ;		/* the value of the path to this adj node */
+    int siblingCenter ;		/* the value of the path to sibling of adj node */
     BOOL need_to_iterate_path ; /* if TRUE perform another round of longest path*/
     BOOL need_to_update_tiles;  /* whether tile x values need to be updated */
     NODEPTR nptr ;		/* used to traverse multi tiles */
@@ -753,7 +743,7 @@ BOOL find_path ;
 	) ;
     } /* end loop on longest path for forward loop including fixed cells. */
     D( "mc_compact/iterate", 
-	fprintf( stderr, "It took %d time[s] to converge in x forward graph\n\n",
+	printf( "It took %d time[s] to converge in x forward graph\n\n",
 	    count ) ;
     ) ;
     /***********************************************************
@@ -820,7 +810,7 @@ BOOL find_path ;
 	) ;
     } /* end loop on longest path for reverse loop including fixed cells. */
     D( "mc_compact/iterate", 
-	fprintf( stderr, "It took %d time[s] to converge in x backward graph\n\n",
+	printf( "It took %d time[s] to converge in x backward graph\n\n",
 	    count ) ;
     ) ;
     /***********************************************************

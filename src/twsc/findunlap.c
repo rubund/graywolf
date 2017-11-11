@@ -41,73 +41,53 @@
 FILE:	    findunlap.c                                       
 DESCRIPTION:remove overlap from cells.
 CONTENTS:   findunlap(flag)
-		INT flag ;
+		int flag ;
 	    even_the_rows(flag)
-		INT flag ;
+		int flag ;
 	    even_the_rows_2( iteration )
-		INT iteration ;
+		int iteration ;
 	    check_row_length()
 	    find_longest_row() ;
 	    find_shortest_row() ;
 	    find_last_6_moveable_cells( cell1, cell2, cell3,
 					cell4, cell5, cell6 )
-		INT *cell1, *cell2, *cell3, *cell4, *cell5, *cell6 ;
+		int *cell1, *cell2, *cell3, *cell4, *cell5, *cell6 ;
 	    row_cost( long_row , short_row , width )
-		INT long_row , short_row , width ;
+		int long_row , short_row , width ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 	    Wed Sep 11 11:19:25 CDT 1991 - modified
 		for new global router.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findunlap.c (Yale) version 4.14 4/2/92" ;
-#endif
-#endif
-
-
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "feeds.h"
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "allheaders.h"
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-/* globals */
-INT largest_delta_row_lenG ;
-extern INT **pairArrayG ;
-extern INT exact_feedsG ;
-extern INT extra_cellsG ;
-extern INT actual_feed_thru_cells_addedG ;
-extern BOOL gate_arrayG ;
-extern BOOL no_row_lengthsG ;
-extern DOUBLE mean_widthG ;
-extern INT *feeds_in_rowG ;
-
-static INT *row_lengthS ;
+static int *row_lengthS ;
 static BOOL first_passS = TRUE ;
 
-findunlap(flag)
-INT flag ;
+int largest_delta_row_lenG ;
+
+void findunlap(int flag)
 {
 
 CBOXPTR cellptr , ptr ;
 TIBOXPTR tileptr ;
 DBOXPTR dimptr ;
 PINBOXPTR termptr , netptr ;
-INT cost , corient , last_cell , total_penalty ;
-INT block , cell , bin ;
-INT i , n , xwire, ywire ;
-INT bigblkx ;
-INT net , x , y , *blklen , k ;
-INT pathcount ;
-INT delta_row_len ;
-INT length , tmp ;
+int cost , corient , last_cell , total_penalty ;
+int block , cell , bin ;
+int i , n , xwire, ywire ;
+int bigblkx ;
+int net , x , y , *blklen , k ;
+int pathcount ;
+int delta_row_len ;
+int length , tmp ;
 PATHPTR path ;
 GLISTPTR net_of_path ;
 
-blklen = (INT *) Ysafe_malloc( (numRowsG + 1) * sizeof( INT ) ) ;
+blklen = (int *) Ysafe_malloc( (numRowsG + 1) * sizeof( int ) ) ;
 for( i = 0 ; i <= numRowsG ; i++ ) {
     blklen[i]  = 0 ;
 }
@@ -260,7 +240,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     cost += dimptr->halfPx = dimptr->newhalfPx = 
 					 dimptr->xmax - dimptr->xmin ;
     dimptr->halfPy = dimptr->newhalfPy = dimptr->ymax - dimptr->ymin ;
-    cost = cost + (INT)( vertical_wire_weightG * (DOUBLE) dimptr->halfPy ) ;
+    cost = cost + (int)( vertical_wire_weightG * (double) dimptr->halfPy ) ;
 }
 funccostG = cost ;
 
@@ -284,10 +264,10 @@ for( pathcount = 1 ; pathcount <= numpathsG ; pathcount++ ) {
 	net = net_of_path->p.net ;
 	dimptr = netarrayG[net] ;
 	/* accumulate length of path */
-	length = length + (INT)
-	    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx) ;
-	length = length + (INT)
-	    (vertical_path_weightG * (DOUBLE) dimptr->halfPy) ;
+	length = length + (int)
+	    (horizontal_path_weightG * (double) dimptr->halfPx) ;
+	length = length + (int)
+	    (vertical_path_weightG * (double) dimptr->halfPy) ;
 
     }
     /* save result */
@@ -368,22 +348,16 @@ Ysafe_free( blklen ) ;
 return ;
 }
 
-
-
-
-
-even_the_rows(flag,even_the_rows_max)
-INT flag ;
-BOOL even_the_rows_max ;
+void even_the_rows(int flag, BOOL even_the_rows_max)
 {
 
-INT cell1 , cell2 , cell3 , cell4 , cell5 , cell6 ;
-INT long_row , short_row , row , bound , j , i , desire ;
-INT select , cost , num_trys, index, shift ;
+int cell1 , cell2 , cell3 , cell4 , cell5 , cell6 ;
+int long_row , short_row , row , bound , j , i , desire ;
+int select , cost , num_trys, index, shift ;
 unsigned bit_class ;
 
 
-row_lengthS = (INT *) Ysafe_calloc(  (1+numRowsG), sizeof(INT) ) ;
+row_lengthS = (int *) Ysafe_calloc(  (1+numRowsG), sizeof(int) ) ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
     bound = 0 ;
@@ -581,19 +555,19 @@ return ;
 
 
 gate_arrayG_even_the_rows(flag)
-INT flag ;
+int flag ;
 {
 
 CBOXPTR cellptr , cellptr1 , cellptr2 , cellptr3 , cellptr4 ; 
-INT shortest , *set , i , row , tmp , w1 , w2 , w3 , w4 , error ;
-INT width1, width2, width3, width4, desire, mark, bound, new_bound ;
-INT gap , j , k , l , m, shift, index ;
+int shortest , *set , i , row , tmp , w1 , w2 , w3 , w4 , error ;
+int width1, width2, width3, width4, desire, mark, bound, new_bound ;
+int gap , j , k , l , m, shift, index ;
 unsigned bit_class ;
 
 if( numRowsG <= 6 ) {
     return ;
 }
-set = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof( INT ) ) ;
+set = (int *) Ysafe_malloc( (1 + numcellsG) * sizeof( int ) ) ;
 set[0] = 0 ;
 
 shortest = 0 ;
@@ -806,28 +780,19 @@ Ysafe_free( set ) ;
 return ;
 }
 
-
-
-
-row_cost( long_row , short_row , width )
-INT long_row , short_row , width ;
+int row_cost( int long_row , int short_row , int width )
 {
 
-INT cost ;
+int cost ;
 
 cost = row_lengthS[short_row] + width - row_lengthS[long_row] ;
 return( cost ) ;
 }
 
-
-
-
-find_last_6_moveable_cells( row, cell1, cell2, cell3, cell4, cell5, cell6) 
-INT row ;
-INT *cell1 , *cell2 , *cell3 , *cell4 , *cell5 , *cell6 ;
+void find_last_6_moveable_cells( int row, int *cell1, int *cell2, int *cell3, int *cell4, int *cell5, int *cell6) 
 {
 
-INT i ;
+int i ;
 CBOXPTR cellptr ;
 
 i = pairArrayG[row][0] + 1 ;
@@ -926,8 +891,8 @@ return ;
 
 find_longest_row()
 {
-INT row ;
-INT num_trys ;
+int row ;
+int num_trys ;
 
 num_trys = 0 ;
 do {
@@ -937,37 +902,11 @@ do {
 return( row ) ;
 }
 
-
-
-/*
-find_shortest_row( long_row )
-INT long_row ;
+int find_shortest_row( int long_row )
 {
-INT row ;
-
-if( long_row + 1 <= numRowsG && long_row - 1 >= 1 ) {
-    if( row_lengthS[long_row + 1] <= row_lengthS[long_row - 1] ) {
-	row = long_row + 1 ;
-    } else {
-	row = long_row - 1 ;
-    }
-} else if( long_row + 1 <= numRowsG ) {
-    row = long_row + 1 ;
-} else {
-    row = long_row - 1 ;
-}
-
-return(row) ;
-}
-*/
-
-
-find_shortest_row( long_row )
-INT long_row ;
-{
-INT row ;
-INT short_row_length ;
-INT slack , short_row , min_row , max_row ;
+int row ;
+int short_row_length ;
+int slack , short_row , min_row , max_row ;
 
 if( long_row > 3 ) {
     min_row = long_row - 3 ;
@@ -990,13 +929,11 @@ for( row = min_row ; row <= max_row ; row ++ ){
 return(short_row) ;
 }
 
-
-determine_unequal_rows( short_row, long_row )
-INT *short_row, *long_row ;
+void determine_unequal_rows( int *short_row, int *long_row )
 {
-    INT row ;
-    INT short_row_length, long_row_length ;
-    INT slack ;
+    int row ;
+    int short_row_length, long_row_length ;
+    int slack ;
 
     short_row_length = INT_MAX ;
     long_row_length = INT_MIN ;
@@ -1017,19 +954,19 @@ INT *short_row, *long_row ;
 
 
 even_the_rows_2( iteration )
-INT iteration ;
+int iteration ;
 {
 
 CBOXPTR cellptr , cellptr1 , cellptr2 , cellptr3 , cellptr4 ; 
-INT shortest , *set , i , row , tmp , w1 , w2 , w3 , w4 , error ;
-INT width1, width2, width3, width4, desire, mark, bound, new_bound ;
-INT gap , j , k , l , m, shift, index ;
+int shortest , *set , i , row , tmp , w1 , w2 , w3 , w4 , error ;
+int width1, width2, width3, width4, desire, mark, bound, new_bound ;
+int gap , j , k , l , m, shift, index ;
 unsigned bit_class ;
 
 if( numRowsG <= 1 || numcellsG <= 6 ) {
     return ;
 }
-set = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof( INT ) ) ;
+set = (int *) Ysafe_malloc( (1 + numcellsG) * sizeof( int ) ) ;
 set[0] = 0 ;
 
 shortest = 0 ;
@@ -1044,7 +981,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	shortest = desire - bound ;
     }
 }
-shortest += iteration * (INT) mean_widthG ;
+shortest += iteration * (int) mean_widthG ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
     bound = 0 ;
@@ -1258,8 +1195,8 @@ return ;
 check_row_length()
 {
 
-INT longest , row , shortest ;
-INT desire , bound , i , j , long_row ;
+int longest , row , shortest ;
+int desire , bound , i , j , long_row ;
 
 if( numRowsG <= 1 || numcellsG <= 6 ) {
     return(0) ;
@@ -1290,8 +1227,8 @@ if( gate_arrayG ) {
 	return(0) ;
     }
 } else {
-    if( (DOUBLE) longest / (DOUBLE)(barrayG[long_row]->desire) > 0.01 &&
-				    longest >= (INT) mean_widthG ) {
+    if( (double) longest / (double)(barrayG[long_row]->desire) > 0.01 &&
+				    longest >= (int) mean_widthG ) {
 	return(1) ;
     } else {
 	return(0) ;
@@ -1299,18 +1236,15 @@ if( gate_arrayG ) {
 }
 }
 
-
-
-
-findunlap2()
+void findunlap2()
 {
 
 CBOXPTR cellptr ;
 TIBOXPTR tileptr ;
-INT last_cell ;
-INT block , i , bigblkx , *blklen , delta_row_len ;
+int last_cell ;
+int block , i , bigblkx , *blklen , delta_row_len ;
 
-blklen = (INT *) Ysafe_malloc( (numRowsG + 1) * sizeof( INT ) ) ;
+blklen = (int *) Ysafe_malloc( (numRowsG + 1) * sizeof( int ) ) ;
 for( i = 0 ; i <= numRowsG ; i++ ) {
     blklen[i]  = 0 ;
 }

@@ -46,28 +46,20 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Tue Mar 19 16:22:56 CST 1991 - fixed crash when
 		there are no routing tracks in a channel.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) urcost.c (Yale) version 4.4 3/19/91" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include "groute.h"
-#include <yalecad/debug.h>
-
-urcost( segptr )
-SEGBOXPTR segptr ;
+int urcost( SEGBOXPTR segptr )
 {
 
 CHANGRDPTR aptr1 , aptr2 , bptr1 , bptr2 , ptr ;
 DENSITYPTR denptr , headptr ;
-INT penalty , check ;
-INT x , achannel , bchannel , aMaxVal , bMaxVal ;
-INT maxaa , maxbb , pin1 , pin2 ;
-INT aoutside , binside ;
-INT ax1 , ax2 , bx1 , bx2 ;
-INT track ;
+int penalty , check ;
+int x , achannel , bchannel , aMaxVal , bMaxVal ;
+int maxaa , maxbb , pin1 , pin2 ;
+int aoutside , binside ;
+int ax1 , ax2 , bx1 , bx2 ;
+int track ;
 
 penalty = 0 ;
 pin1 = segptr->pin1ptr->terminal ;
@@ -191,7 +183,7 @@ if( check <= 0 ) {
 	    if( track == -1 ){
 		track = 0 ;
 		D( "twsc/urcost",
-		    fprintf( stderr, " track less than 1 reset to 0\n" ) ;
+		    printf( " track less than 1 reset to 0\n" ) ;
 		) ;
 	    }
 

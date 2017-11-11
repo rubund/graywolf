@@ -48,21 +48,9 @@ REVISIONS:  Apr  1, 1990 - fixed gateswap routine by changing sortpins
 		txpos fields.  Needed to pass the beginning of
 		the cell pin listx instead of pina and pinb.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) gateswap.c (Yale) version 4.6 2/23/92" ;
-#endif
-#endif
+#include "allheaders.h"
 
-#include <string.h>
-#include "ucxxglb.h"
-#include "parser.h"
-#include <yalecad/debug.h>
-#include "readnets.h"
-
-gate_swap( between_two_cells, sgidxa, sgidxb )
-INT between_two_cells ;
-INT sgidxa, sgidxb ; 
+int gate_swap( int between_two_cells, int sgidxa, int sgidxb )
 {
 
 CBOXPTR cell1ptr , cell2ptr ;
@@ -70,11 +58,11 @@ PINLIST *term1 , *term2 , *term_list1 , *term_list2 , *term ;
 PINBOXPTR pin1 , pin2 , pina, pinb ;
 char *tmp_char_ptr ;
 struct equiv_box *tmp_eqptr ;
-INT cost , cell1 , cell2 , length ;
-INT tmp , i, swap_group ;
-INT truth , count ;
-INT pg1 , pg2 ;  /* pg stands for 'pin group' */
-INT newtimepenal ;
+int cost , cell1 , cell2 , length ;
+int tmp , i, swap_group ;
+int truth , count ;
+int pg1 , pg2 ;  /* pg stands for 'pin group' */
+int newtimepenal ;
 SGLISTPTR cell1sgl, cell2sgl;
 
 term_list1 = NULL;
@@ -278,16 +266,10 @@ if( truth ) {
 }
 }
 
-
-
-
-
-
-adjust_paths_on_cell( cell )
-INT cell ;
+void adjust_paths_on_cell( int cell )
 {
 
-INT net_number ;
+int net_number ;
 PSETPTR pathlist, enum_path_set() ;
 CBOXPTR ptr ;
 GLISTPTR  path_ptr, tempPath ;

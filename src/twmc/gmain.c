@@ -50,27 +50,16 @@ REVISIONS:  Thu Jan 17 00:49:52 PST 1991 - now read side information.
 	    Wed May  1 19:17:23 EDT 1991 - added switchbox keyword
 		so we can ignore these areas during wire estimation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) gmain.c version 3.8 5/1/91" ;
-#endif
-
 #define DENS_DEFS
 
-#include <custom.h>
-#include <dens.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
+#include "allheaders.h"
 
 #include "config-build.h"
 
 #define GENGRAPHPROG      "gengraph"
 #define GENGRAPHPATH      "../gengraph"
 
-
-
-static free_routing_tiles();
-
+void free_routing_tiles();
 
 /* --------------------------------------------------------------------
     There are two ways to call the channel graph generator.
@@ -82,26 +71,24 @@ static free_routing_tiles();
 	from the global router and build the routing tiles.  We will
 	update the routing tiles in this file.
 -------------------------------------------------------------------- */
-gmain( updateNotChan )
-BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
+void gmain(BOOL updateNotChan) /* if true update routing tiles otherwise normal */
 {
     char filename[LRECL] ;
     char *Yrelpath() ;
     char *pathname ;
     char *twdir ;       /* path of TimberWolf directory */
     char *getenv() ;    /* used to get TWDIR environment variable */
-    INT  windowId ;     /* windowId of current window */
+    int  windowId ;     /* windowId of current window */
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing file */
-    INT  numtokens, line ;
-    INT closegraphics() ;
+    int  numtokens, line ;
     BOOL abort ; /* whether to abort program */
-    INT cell ;
-    INT xc, yc ;        /* xcenter and ycenter of cell */
-    INT side ;                    /* side that routing tile is on */
-    INT xcenter, ycenter ;        /* xcenter and ycenter of cell */
-    INT x1, x2, y1, y2 ;
-    INT ncells ;                   /* the number of cells in graph */
+    int cell ;
+    int xc, yc ;        /* xcenter and ycenter of cell */
+    int side ;                    /* side that routing tile is on */
+    int xcenter, ycenter ;        /* xcenter and ycenter of cell */
+    int x1, x2, y1, y2 ;
+    int ncells ;                   /* the number of cells in graph */
     CELLBOXPTR cptr ;
     RTILEBOXPTR tmp ;  /* current routing tile */
     RTILEBOXPTR tile ;  /* current routing tile */
@@ -132,7 +119,6 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
     M( MSG, NULL, YmsgG ) ;
     M( MSG, NULL, "\n" ) ;
     /* Ysystem will kill program if catastrophe occurred */
-    Ysystem( GENGRAPHPROG, ABORT, YmsgG, closegraphics ) ;
 
     if( stateSaved ){
 	sleep(1) ;
@@ -226,23 +212,21 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
 	}
     }
     if( abort ){
-	closegraphics() ;
-	YexitPgm( PGMFAIL ) ;
+	return;
     }
     TWCLOSE( fp ) ;
     /* ********************** end routing tiles ********************** */
 
 } /* end gmain */
 
-
-init_routing_tiles()
+void init_routing_tiles()
 {
-    routingTilesG = NULL ;
+	routingTilesG = NULL ;
 } /* end init_routing_tiles */
 
-static free_routing_tiles()
+void free_routing_tiles()
 {
-    INT cell ;              /* cell counter */
+    int cell ;              /* cell counter */
     RTILEBOXPTR freeptr ;   /* free tile */
     RTILEBOXPTR rptr ;      /* traverse tiles */
 

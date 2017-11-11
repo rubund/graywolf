@@ -56,21 +56,13 @@ REVISIONS:  Feb  7, 1990 - took total_row_length out of procedure calls.
 		for debugging X.
 	    Sat Sep 21 15:48:12 EDT 1991 - added memory functionality.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
-#endif
-
-#define GLOBAL_DEFS
-#define EXPECTEDMEMORY ( 512 * 1024 )
-#define VERSION        "v1.0"
-
-#include <stdio.h>
-#include <yalecad/cleanup.h>
-#include <yalecad/message.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
 #include <globals.h>
+#include "genrows.h"
+#include "merge.h"
+#include "draw.h"
+
+char *cktNameG;
+BOOL graphicsG;           /* TRUE if graphics are requested */
 
 /* NOTE ****** macros cannot overlap !!! ****** */
 
@@ -80,227 +72,151 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 	 I am only interested in EFFECTIVE and ROBUST 
 	 functionality. ---Carl Sechen  */
 
-
-
-
-main( argc, argv )
-int  argc ;
-char *argv[] ;
+int
+__attribute__((visibility("default")))
+Genrows( BOOL d, BOOL f, BOOL n, char *cktName)
 {
+	FILE *fp ;
+	void yaleIntro() ;
+	char filename[LRECL] ; /* used for input filename */
+	BOOL debug ;    /* true if debug is requested */
+	BOOL force_tiles() ; /* returns true if last tile is forced */
 
-    FILE *fp ;
-    int yaleIntro() ;
-    char filename[LRECL] ; /* used for input filename */
-    char *ptr ;     /* used to parse command line */
-    int  windowId ; /* window id */
-    BOOL parasite ; /* true if window inheritance is on */
-    BOOL debug ;    /* true if debug is requested */
-    BOOL force_tiles() ; /* returns true if last tile is forced */
-
-    /* ********************** start initialization *********************** */
-#ifdef DEBUGX
-    extern int _Xdebug ;
-    _Xdebug = TRUE ;
-#endif
-
-    /* start up cleanup handler */
-    YINITCLEANUP( "config", NULL, MAYBEDUMP ) ;
-
-    Yinit_memsize( EXPECTEDMEMORY ) ;
-
-    if( argc < 2 || argc > 4 ){
-	syntax() ;
-    } else {
+	/* ********************** start initialization *********************** */
 	debug       = FALSE ;
-	parasite    = FALSE ;
-	windowId    = 0 ;
 	noMacroMoveG = FALSE ;
-#ifndef NOGRAPHICS
 	graphicsG = TRUE ;
-#else
+
+	if(d) {
+		debug = TRUE ;
+		YsetDebug( TRUE ) ;
+	}
+	if(f) {
+		noMacroMoveG = TRUE ;
+	}
+	if(n) {
+		graphicsG = FALSE ;
+	}
+#ifdef NOGRAPHICS
 	graphicsG = FALSE ;
 #endif
-	if( *argv[1] == '-' ){
-	    for( ptr = ++argv[1]; *ptr; ptr++ ){
-		switch( *ptr ){
-		case 'd':
-		    debug = TRUE ;
-		    YsetDebug( TRUE ) ;
-		    break ;
-		case 'f':
-		    noMacroMoveG = TRUE ;
-		    break ;
-		case 'n':
-		    graphicsG = FALSE ;
-		    break ;
-		case 'w':
-		    parasite = TRUE ;
-		    break ;
-		default:
-		    sprintf( YmsgG,"Unknown option:%c\n", *ptr ) ;
-		    M(ERRMSG,"main",YmsgG);
-		    syntax() ;
-		}
-	    }
-	    YdebugMemory( debug ) ;
 
-	    /* handle I/O requests */
-	    cktNameG = Ystrclone( argv[2] );
+	YdebugMemory( debug ) ;
 
-	    YinitProgram( "config", VERSION, yaleIntro );
+	/* handle I/O requests */
+	cktNameG = Ystrclone(cktName);
 
-	    /* now tell the user what he picked */
-	    M(MSG,NULL,"\n\nconfig switches:\n" ) ;
-	    if( debug ){
+	YinitProgram( "config", VERSION, yaleIntro );
+
+	/* now tell the user what he picked */
+	M(MSG,NULL,"\n\nconfig switches:\n" ) ;
+	if( debug ){
 		YsetDebug( TRUE ) ;
 		M(MSG,NULL,"\tdebug on\n" ) ;
-	    } 
-	    if( graphicsG ){
+	} 
+	if( graphicsG ){
 		M(MSG,NULL,"\tGraphics mode on\n" ) ;
-	    } else {
-		M(MSG,NULL,"\tGraphics mode off\n" ) ;
-	    }
-	    if( parasite ){
-		M(MSG,NULL,"\tconfig will inherit window\n" ) ;
-		/* look for windowid */
-		if( argc != 4 ){
-		    M(ERRMSG,"main","Need to specify windowID\n" ) ;
-		    syntax() ;
-		} else {
-		    windowId = atoi( argv[3] ) ;
-		} 
-	    }
-	    if( noMacroMoveG ){
-		M(MSG,NULL,"\tconfig will not alloc macro moves\n" ) ;
-	    }
-	    M(MSG,NULL,"\n" ) ;
-	} else if( argc == 2 ){
-	    /* order is important here */
-	    YdebugMemory( FALSE ) ;
-	    cktNameG = Ystrclone( argv[1] );
-
-	    YinitProgram( "config", VERSION, yaleIntro );
-
 	} else {
-	    syntax() ;
+		M(MSG,NULL,"\tGraphics mode off\n" ) ;
 	}
-    }
-    init_data_structures() ;
-    G( initgraphics( argc, argv, windowId ) ) ;
-    /* ********************** end initialization ************************* */
+	if( noMacroMoveG ){
+		M(MSG,NULL,"\tconfig will not alloc macro moves\n" ) ;
+	}
+	M(MSG,NULL,"\n" ) ;
 
-    sprintf( filename, "%s.mver", cktNameG ) ;
-    fp = TWOPEN( filename, "r", ABORT ) ;
+	YinitProgram( "config", VERSION, yaleIntro );
 
-    /* actual_row_heightS is the default used for rows placed across the 
-       top of the core--these are NOT generated from a tile */
-    read_vertices(fp,TRUE) ;
-    TWCLOSE(fp);
+	init_data_structures() ;
 
-    /* now safe to read parameter file */
-    readpar() ;
+	/* ********************** end initialization ************************* */
 
-    build_macros() ;
+	sprintf( filename, "%s.mver", cktNameG ) ;
+	fp = fopen( filename, "r") ;
 
-    process_vertices() ;
-    D( "genrows/main", print_vertices() ) ;
+	/* actual_row_heightS is the default used for rows placed across the 
+	top of the core--these are NOT generated from a tile */
+	read_vertices(fp,TRUE) ;
+	fclose(fp);
 
-    process_tiles() ;
+	/* now safe to read parameter file */
+	readpar() ;
 
-    D( "genrows/main", print_tiles() ) ;
+	build_macros() ;
 
-    merge_tiles() ;
+	process_vertices() ;
+	D( "genrows/main", print_vertices() ) ;
 
-    D( "genrows/main", print_tiles() ) ;
-    
-    check_tiles() ;
+	process_tiles() ;
 
-    /* *************************************************************** */
-    /* THE USER SHOULD BE ABLE TO DO:
-	(1) Be able to divide a tile into two parts, separated by a
-	    horizontal line -- when the rows above should have a 
-	    higher height, for example.
-	    To divide a tile, simply call the function: 
-		    divide_tile( tile , horiz_line ) 
-		    TILE_BOX *tile ;
-		    int horiz_line ;
+	D( "genrows/main", print_tiles() ) ;
 
-	(2) Be able to expand a tile in any direction.
-	(3) Be able to edit the actual_row_height.
-	(4) Be able to edit the channel_separation.
-		*BUT,THE check_tiles MUST BE CONDUCTED IF THE USER 
-		CHANGES ANYTHING IN (3) OR (4)
-	(5) Be able to edit the min_length
+	merge_tiles() ;
 
-    /* *************************************************************** */
-    /* make the rows once to see where the tiles are */
-    /* force the last tile with rows to line up */
-    remakerows() ;
+	D( "genrows/main", print_tiles() ) ;
+	
+	check_tiles() ;
 
-    if( num_rowsG && num_macrosG == 0 ){
-	memoryG = FALSE ;
-	calculate_numrows() ;
-	memoryG = TRUE ;
-    }
+	/* *************************************************************** */
+	/* THE USER SHOULD BE ABLE TO DO:
+		(1) Be able to divide a tile into two parts, separated by a
+		horizontal line -- when the rows above should have a 
+		higher height, for example.
+		To divide a tile, simply call the function: 
+			divide_tile( tile , horiz_line ) 
+			TILE_BOX *tile ;
+			int horiz_line ;
 
-    if( force_tiles() ){
+		(2) Be able to expand a tile in any direction.
+		(3) Be able to edit the actual_row_height.
+		(4) Be able to edit the channel_separation.
+			*BUT,THE check_tiles MUST BE CONDUCTED IF THE USER 
+			CHANGES ANYTHING IN (3) OR (4)
+		(5) Be able to edit the min_length
+
+	/* *************************************************************** */
+	/* make the rows once to see where the tiles are */
+	/* force the last tile with rows to line up */
 	remakerows() ;
-    }
 
-    if( graphicsG ){
+	if( num_rowsG && num_macrosG == 0 ){
+		memoryG = FALSE ;
+		calculate_numrows() ;
+		memoryG = TRUE ;
+	}
 
-	G( process_graphics() ) ;
-	    
-    } /* end graphics switch */
+	if( force_tiles() ){
+		remakerows() ;
+	}
 
-    if( graphicsG ){
-	G( TWcloseGraphics() ) ;
-    }
-    print_blk_file()  ;
+	if( graphicsG ){
+		G( process_graphics() ) ;
+	} /* end graphics switch */
 
-    /* now save a restart file */
-    sprintf( filename, "%s.gsav", cktNameG ) ;
-    fp = TWOPEN( filename, "w", ABORT ) ;
-    save_state(fp) ;
-    TWCLOSE( fp ) ;
+	print_blk_file()  ;
 
-    /* now blow away do and undo files if they exist */
-    sprintf( filename, "%s.undo", cktNameG ) ;
-    if( YfileExists( filename) ){
-	Yrm_files( filename ) ;
-    }
-    sprintf( filename, "%s.redo", cktNameG ) ;
-    if( YfileExists( filename) ){
-	Yrm_files( filename ) ;
-    }
+	/* now save a restart file */
+	sprintf( filename, "%s.gsav", cktNameG ) ;
+	fp = fopen( filename, "w") ;
+	save_state(fp) ;
+	fclose( fp ) ;
 
-    YexitPgm( PGMOK ) ;
+	/* now blow away do and undo files if they exist */
+	sprintf( filename, "%s.undo", cktNameG ) ;
+	if( YfileExists( filename) ){
+		Yrm_files( filename ) ;
+	}
+	sprintf( filename, "%s.redo", cktNameG ) ;
+	if( YfileExists( filename) ){
+		Yrm_files( filename ) ;
+	}
+
+	return 0;
 
 } /* end main */
 
-
-yaleIntro() 
+void yaleIntro() 
 {
-
-    fprintf(stdout,"\n%s\n",YmsgG) ;
-    fprintf(stdout,"Row configuration program\n");
-    fprintf(stdout,"    Yale University\n");
-
+	printf("\n%s\n",YmsgG) ;
+	printf("Row configuration program\n");
+	printf("    Yale University\n");
 } /* end yaleIntro */
-
-/* give user correct syntax */
-syntax()
-{
-   M(ERRMSG,NULL,"\n" ) ; 
-   M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
-   sprintf( YmsgG, 
-       "\nconfig [-dnw] designName [windowId] \n" ) ;
-   M(MSG,NULL,YmsgG ) ; 
-   M(MSG,NULL,"\twhose options are zero or more of the following:\n");
-   M(MSG,NULL,"\t\td - prints debug info and performs extensive\n");
-   M(MSG,NULL,"\t\t    error checking\n");
-   M(MSG,NULL,"\t\tn - no graphics - the default is to open the\n");
-   M(MSG,NULL,"\t\t    display and output graphics to an Xwindow\n");
-   M(MSG,NULL,"\t\tw - parasite mode - user must specify windowId\n");
-   YexitPgm(PGMFAIL);
-} /* end syntax */

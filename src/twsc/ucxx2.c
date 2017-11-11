@@ -43,7 +43,7 @@ DESCRIPTION:pairwise exchange.
 CONTENTS:   ucxx2( )
 	    find_new_pos()
 	    add_cell( cellptr , c ) 
-		INT **cellptr , c ;
+		int **cellptr , c ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
@@ -53,39 +53,32 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxx2.c (Yale) version 4.10 4/2/92" ;
-#endif
-#endif
+#include "allheaders.h"
 
-#include "ucxxglb.h"
-#include "readpar.h"
-#include <yalecad/debug.h>
+int aleftG , arightG , bleftG , brightG ;
+int anxcenterS , bnxcenterS ;
 
-static INT anxcenterS , bnxcenterS ;
-
-ucxx2( )
+int ucxx2( )
 {
 
 CBOXPTR acellptr , bcellptr ;
 TIBOXPTR atileptr , btileptr ;
 PINBOXPTR atermptr , btermptr ;
-INT error_light_is_on ;
-INT cost ;
-INT aorient , borient ;
-INT a1LoBin, a1HiBin, b1LoBin, b1HiBin ;
-INT a2LoBin, a2HiBin, b2LoBin, b2HiBin ;
-INT startxa1 , endxa1 , startxa2 , endxa2 ;
-INT startxb1 , endxb1 , startxb2 , endxb2 ;
-INT newtimepenal ;
-INT newpenal ;
-INT anbin , bnbin , i ;
-INT truth ;
-INT wire_chg ;
-DOUBLE temp ;
+int error_light_is_on ;
+int cost ;
+int aorient , borient ;
+int a1LoBin, a1HiBin, b1LoBin, b1HiBin ;
+int a2LoBin, a2HiBin, b2LoBin, b2HiBin ;
+int startxa1 , endxa1 , startxa2 , endxa2 ;
+int startxb1 , endxb1 , startxb2 , endxb2 ;
+int newtimepenal ;
+int newpenal ;
+int anbin , bnbin , i ;
+int truth ;
+int wire_chg ;
+double temp ;
 
-INT abin, bbin ; /* temporary */
+int abin, bbin ; /* temporary */
 
 acellptr = carrayG[ aG ]    ; 
 axcenterG = acellptr->cxcenter ; 
@@ -135,8 +128,8 @@ if( Equal_Width_CellsG ){
     add_penal( startxa2 , endxa2 , bblockG , a2LoBin , a2HiBin ) ; 
     add_penal( startxb2 , endxb2 , ablockG , b2LoBin , b2HiBin ) ; 
 
-    newpenal = (INT)( roLenConG * (DOUBLE) newrowpenalG +
-		binpenConG * (DOUBLE) newbinpenalG ) ;
+    newpenal = (int)( roLenConG * (double) newrowpenalG +
+		binpenConG * (double) newbinpenalG ) ;
 
     error_light_is_on = 0 ;
     if( newpenal - penaltyG > P_limitG ) {
@@ -204,7 +197,7 @@ if( truth ) {
 	add_cell( &binptrG[ablockG][bnbin]->cell , bG ) ;
     }
     if( wire_chg < 0 ) {
-	temp = (DOUBLE) - wire_chg ;
+	temp = (double) - wire_chg ;
 	total_wire_chgG += temp ;
 	sigma_wire_chgG += (temp - mean_wire_chgG) * 
 					(temp - mean_wire_chgG) ;
@@ -240,14 +233,13 @@ if( truth ) {
 }
 }
 
-
-find_new_pos()
+void find_new_pos()
 {
 
-INT newA_l , newA_r , newB_l , newB_r ;
-INT oldA_l , oldA_r , oldB_l , oldB_r ;
-INT span , target , target_l , target_r , blkLeft , blkRite ;
-INT dist1 , dist2 ;
+int newA_l , newA_r , newB_l , newB_r ;
+int oldA_l , oldA_r , oldB_l , oldB_r ;
+int span , target , target_l , target_r , blkLeft , blkRite ;
+int dist1 , dist2 ;
 
 
 newA_l = bxcenterG + aleftG  ;
@@ -312,16 +304,14 @@ if( (ablockG == bblockG) && (!( (newA_l >= newB_r) || (newB_l >= newA_r)))){
 }
 return ;
 }
- 
 
-add_cell( cellptr , c ) 
-INT **cellptr , c ;
+void add_cell(int **cellptr , int c) 
 {
 
-INT k ;
+int k ;
 
 if( (k = ++(**cellptr)) % 10 == 0 ) {
-    *cellptr = (INT *) Ysafe_realloc( *cellptr, (k + 10) * sizeof(INT));
+    *cellptr = (int *) Ysafe_realloc( *cellptr, (k + 10) * sizeof(int));
 
 }
 (*cellptr)[k] = c ;
@@ -334,7 +324,7 @@ return ;
 
 /*
 remv_cell( cellptr , post )
-INT *cellptr , post ;
+int *cellptr , post ;
 {
 
 if( *cellptr != post ) {

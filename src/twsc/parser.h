@@ -10,43 +10,60 @@ REVISIONS:
 
 #define PARSER_H
 
-#ifdef PARSER_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
+#include "parser_defines.h"
+#include "standard.h"
 
-/* cell types */
-#define STDCELLTYPE       1
-#define EXCEPTTYPE        2
-#define PADTYPE           3
-#define PORTTYPE          4
-#define EXTRATYPE         5
-#define PADGROUPTYPE      6
-#define HARDCELLTYPE      7
-/* pin types */
-#define PINTYPE           1
-#define PASS_THRU         2
-#define SWAP_PASS         3
+extern SWAPBOX *swap_group_listG ;
 
-EXTERN SWAPBOX *swap_group_listG ;
-EXTERN BOOL one_pin_feedthruG ;
+extern int maxCellOG ;
+extern int case_unequiv_pinG ;
+extern int celllenG ;
+extern int cells_per_clusterG ;
+extern int cluster_widthG ;
+extern int extra_cellsG ;
+extern int *fixLRBTG ;
+extern int last_pin_numberG ;
+extern int num_clustersG ;
+extern int swap_netG ;
+extern int totallenG ;
+extern double *padspaceG ;
+extern int totalRG ;
+extern int spacer_widthG ;
+extern int *spacer_feedsG ;
+extern int total_row_lengthG ;
+extern int approximately_fixed_factorG ;
+extern int ECOs_existG;
+extern int orig_max_row_lengthG ;
 
-EXTERN INT maxCellOG ;
-EXTERN INT case_unequiv_pinG ;
-EXTERN INT celllenG ;
-EXTERN INT cells_per_clusterG ;
-EXTERN INT cluster_widthG ;
-EXTERN INT extra_cellsG ;
-EXTERN INT *fixLRBTG ;
-EXTERN INT last_pin_numberG ;
-EXTERN INT num_clustersG ;
-EXTERN BOOL swappable_gates_existG ;
+extern BOOL fences_existG ;
+extern BOOL turn_off_checksG ;
+extern BOOL spacer_name_twfeedG ;
+extern BOOL rigidly_fixed_cellsG ;
+extern BOOL stand_cell_as_gate_arrayG ;
+extern BOOL one_pin_feedthruG ;
+extern BOOL swappable_gates_existG ;
 
-EXTERN INT swap_netG ;
-EXTERN INT totallenG ;
-EXTERN DOUBLE *padspaceG ;
-
-#undef EXTERN  
+void add_legal_blocks( int block_class );
+void addCell( char *cellname, int celltype );
+void add_tile( int left, int bottom, int right, int top );
+void add_initial_orient( int orient );
+void add_pin( char *pin_name, char *signal, int layer, int xpos, int ypos );
+void end_padgroup();
+void init_corners();
+void add_corner( int x, int y );
+void process_corners();
+void add2padgroup( char *padName, BOOL ordered );
+void add_sidespace( double lower, double upper );
+void add_port( char *portname, char *signal, int layer, int xpos, int ypos );
+void add_equiv( char *equiv_name, int layer, int eq_xpos, int eq_ypos, BOOL unequiv_flag );
+void add_eco();
+void add_orient( int orient );
+void add_padside( char *padside );
+void set_old_format( char *padside );
+static void layer_test();
+static void check_pin();
+void setPermutation( BOOL permuteFlag );
+void initialize_parser();
+void cleanup_readcells();
 
 #endif /* PARSER_H */

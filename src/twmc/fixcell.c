@@ -48,7 +48,7 @@ CONTENTS:   updateFixedCells( initializeFlag )
 	    build_active_array()
 	    build_soft_array()
 	    determine_origin( x, y, left_not_right, bottom_not_top )
-		INT *x, *y ;
+		int *x, *y ;
 		BOOL *left_non_right, *bottom_not_top ;
 DATE:	    Sept 28, 1988 
 REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
@@ -76,37 +76,25 @@ REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
 	    Wed Jul 24 20:43:22 CDT 1991 - added delete function 
 		for fixing cells.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) fixcell.c version 3.9 11/23/91" ;
-#endif
+#include "allheaders.h"
 
-#include <string.h>
-#include <custom.h>
-#include <yalecad/base.h>
-#include <yalecad/debug.h>
+CELLBOXPTR *activeCellarrayG ; /* cells that are active */
+CELLBOXPTR *softPinArrayG ;    /* softcells that have pins */
 
+int activecellsG;  /* number of active cells not fixed or merged */
 
 /* defined routes for error checking */
-VOID updateFixedCells( P1(BOOL initializeFlag) ) ;
-static VOID update_fixed_record( P3(CELLBOXPTR ptr,FIXEDBOXPTR fptr,
-				BOOL initFlag ) ) ;
-VOID init_fixcell( P4(INT left, INT bottom, INT right, INT top ) ) ;
-VOID build_active_array() ;
-VOID build_soft_array() ;
-VOID determine_origin( P4(INT *x, INT *y, 
-    char *left_not_right, char *bottom_not_top ) ) ;
+static int initialS = FALSE ;
+static int newxspanS ;
+static int newyspanS ;
+static int oldxspanS ;
+static int oldyspanS ;
 
-static INT initialS = FALSE ;
-static INT newxspanS ;
-static INT newyspanS ;
-static INT oldxspanS ;
-static INT oldyspanS ;
-
-VOID updateFixedCells( initializeFlag )
+void updateFixedCells( initializeFlag )
 BOOL initializeFlag ;
 {
 
-    INT i ;
+    int i ;
     CELLBOXPTR ptr ;
     FIXEDBOXPTR fptr ;
 
@@ -141,27 +129,24 @@ BOOL initializeFlag ;
 
 /* update all the variables in the fixed box record - that is the */
 /* the neighborhood and/or the center of the cell for a fixed point */
-static VOID update_fixed_record( ptr, fptr, initFlag ) 
-CELLBOXPTR ptr ;
-FIXEDBOXPTR fptr ;
-BOOL initFlag ;
+void update_fixed_record( CELLBOXPTR ptr, FIXEDBOXPTR fptr, BOOL initFlag ) 
 {
-    INT x1, x2, y1, y2 ;
+    int x1, x2, y1, y2 ;
     BOOL error_flag = FALSE ;
-    DOUBLE temp ;
+    double temp ;
 
     if( fptr ){
 	D( "update_fixed_record", 
-	    fprintf( stderr, "cell:%s\n", ptr->cname ) ;
-	    fprintf( stderr, "\tinitialS:%d\n", initialS ) ;
-	    fprintf( stderr, "\toldxspanS:%d ", oldxspanS ) ;
-	    fprintf( stderr, "\toldyspanS:%d\n", oldyspanS ) ;
-	    fprintf( stderr, "\tnewxspanS:%d ",  newxspanS ) ;
-	    fprintf( stderr, "\tnewyspanS:%d\n", newyspanS ) ;
-	    fprintf( stderr, "\txc:%d yc:%d x1:%d y1:%d x2:%d y2:%d\n", 
+	    printf( "cell:%s\n", ptr->cname ) ;
+	    printf( "\tinitialS:%d\n", initialS ) ;
+	    printf( "\toldxspanS:%d ", oldxspanS ) ;
+	    printf( "\toldyspanS:%d\n", oldyspanS ) ;
+	    printf( "\tnewxspanS:%d ",  newxspanS ) ;
+	    printf( "\tnewyspanS:%d\n", newyspanS ) ;
+	    printf( "\txc:%d yc:%d x1:%d y1:%d x2:%d y2:%d\n", 
 		fptr->xcenter, fptr->ycenter,
 		fptr->xloc1,fptr->yloc1,fptr->xloc2,fptr->yloc2 ) ;
-	    fprintf( stderr, "\tx1:%d y1:%d x2:%d y2:%d\n", 
+	    printf( "\tx1:%d y1:%d x2:%d y2:%d\n", 
 		fptr->leftNotRight,fptr->bottomNotTop,
 		fptr->leftNotRight2,fptr->bottomNotTop2 ) ;
 	) ; /* end debug macro */
@@ -169,43 +154,43 @@ BOOL initFlag ;
 	if( fptr->fixedType != POINTFLAG ){
 	    if( initialS ){
 		/* get two points of neighborhood */
-		/* POINT ONE */
-		temp = (DOUBLE) fptr->xloc1 / oldxspanS * newxspanS ;
+		/* POint ONE */
+		temp = (double) fptr->xloc1 / oldxspanS * newxspanS ;
 		if( fptr->leftNotRight ){
 		    /* from left edge  */
-		    x1 = blocklG + (INT) temp ;
+		    x1 = blocklG + (int) temp ;
 		} else {
 		    /* from right edge = blockx */
-		    x1 = blockrG - (INT) temp ;
+		    x1 = blockrG - (int) temp ;
 		}
-		temp = (DOUBLE) fptr->yloc1 / oldyspanS * newyspanS ;
+		temp = (double) fptr->yloc1 / oldyspanS * newyspanS ;
 		if( fptr->bottomNotTop ){
 		    /* from bottom edge = 0 */
-		    y1 = blockbG + (INT) temp ;
+		    y1 = blockbG + (int) temp ;
 		} else {
 		    /* from top edge = blocky */
-		    y1 = blocktG - (INT) temp ;
+		    y1 = blocktG - (int) temp ;
 		}
-		/* POINT TWO */
-		temp = (DOUBLE) fptr->xloc2 / oldxspanS * newxspanS ;
+		/* POint TWO */
+		temp = (double) fptr->xloc2 / oldxspanS * newxspanS ;
 		if( fptr->leftNotRight2 ){
 		    /* from left edge  */
-		    x2 = blocklG + (INT) temp ;
+		    x2 = blocklG + (int) temp ;
 		} else {
 		    /* from right edge = blockx */
-		    x2 = blockrG - (INT) temp ;
+		    x2 = blockrG - (int) temp ;
 		}
-		temp = (DOUBLE) fptr->yloc2 / oldyspanS * newyspanS ;
+		temp = (double) fptr->yloc2 / oldyspanS * newyspanS ;
 		if( fptr->bottomNotTop2 ){
 		    /* from bottom edge = 0 */
-		    y2 = blockbG + (INT) temp ;
+		    y2 = blockbG + (int) temp ;
 		} else {
 		    /* from top edge = blocky */
-		    y2 = blocktG - (INT) temp ;
+		    y2 = blocktG - (int) temp ;
 		}
 	    } else {
 		/* get two points of neighborhood */
-		/* POINT ONE */
+		/* POint ONE */
 		if( fptr->leftNotRight ){
 		    /* from left edge  */
 		    x1 = blocklG + fptr->xloc1 ;
@@ -220,7 +205,7 @@ BOOL initFlag ;
 		    /* from top edge = blocky */
 		    y1 = blocktG - fptr->yloc1 ;
 		}
-		/* POINT TWO */
+		/* POint TWO */
 		if( fptr->leftNotRight2 ){
 		    /* from left edge  */
 		    x2 = blocklG + fptr->xloc2 ;
@@ -307,13 +292,13 @@ BOOL initFlag ;
 
 	} else {  /* cell is fixed at a point */
 	    if( initialS ){
-		temp = (DOUBLE) fptr->xcenter / oldxspanS * newxspanS ;
+		temp = (double) fptr->xcenter / oldxspanS * newxspanS ;
 		if( fptr->leftNotRight ){
 		    /* from left edge  */
-		    ptr->xcenter = blocklG + (INT) temp ;
+		    ptr->xcenter = blocklG + (int) temp ;
 		} else {
 		    /* from right edge = blockx */
-		    ptr->xcenter = blockrG - (INT) temp ;
+		    ptr->xcenter = blockrG - (int) temp ;
 		}
 		if( fptr->bottomNotTop ){
 		    /* from bottom edge = 0 */
@@ -382,8 +367,8 @@ BOOL initFlag ;
     } /* end for loop */
 } /* end function update_fixed_record */
 
-VOID init_fixcell( left, bottom, right, top )
-INT left, bottom, right, top ;
+void init_fixcell( left, bottom, right, top )
+int left, bottom, right, top ;
 {
     initialS = TRUE ; 
     oldxspanS = right - left ;
@@ -399,10 +384,9 @@ INT left, bottom, right, top ;
 } /* end init_fixcell */
 
 /* build active cell list from cells that aren't fixed */
-VOID
-build_active_array()
+void build_active_array()
 {
-    INT i, cell ;
+    int i, cell ;
     CELLBOXPTR cptr ;
 
     /* first determine number of active cells */
@@ -461,15 +445,14 @@ build_active_array()
 /* build softPinArrayG so that soft pin moves are more efficient */
 /* softPinArray will contain the cellptrs of all softcells which */
 /* have pins that can move.  The zeroth element will contain howmany */
-VOID
-build_soft_array()
+void build_soft_array()
 {
 
 #define HOWMANY 0  /* this tells the size of the array */
 
-    INT i, cell ;
+    int i, cell ;
     CELLBOXPTR cptr ;
-    INT softPins ;
+    int softPins ;
 
     softPins = 0 ;
     if( numsoftG > 0 || numstdcellG > 0 ){
@@ -512,10 +495,7 @@ build_soft_array()
 /* In fixing a cell, determine which side of the core to reference */
 /* cell so that changes to the position of the cell due to core size */
 /* changes will be minimized. */
-VOID
-determine_origin( x, y, left_not_right, bottom_not_top )
-INT *x, *y ; /* point of reference */
-char *left_not_right, *bottom_not_top ;
+void determine_origin( int *x, int *y, char *left_not_right, char *bottom_not_top )
 {
     if( *x <= blockmxG ){
 	strcpy( left_not_right, "L" ) ;
@@ -533,8 +513,7 @@ char *left_not_right, *bottom_not_top ;
     }
 } /* end determine_origin */
 
-delete_fix_constraint( cell )
-INT cell ;
+void delete_fix_constraint( int cell )
 {
     CELLBOXPTR ptr ;
 

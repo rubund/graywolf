@@ -41,37 +41,39 @@
 FILE:	    ucxx1.c                                       
 DESCRIPTION:single cell move.
 CONTENTS:   ucxx1( bxcenter , bycenter )
-		INT bxcenter , bycenter ;
+		int bxcenter , bycenter ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
 		debug mode.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxx1.c (Yale) version 4.7 2/23/92" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "ucxxglb.h"
-#include <yalecad/debug.h>
+int newrowpenalG ;
+int earlyRejG , Rej_errorG ;
+int newbinpenalG ;
+int ApostG , BpostG ;
+int potential_errorsG , error_countG , P_limitG ;
+int binpenalG ;
+int ablockG , bblockG ;
+int aG , bG ;
+int axcenterG , aycenterG , bxcenterG , bycenterG ;
 
-
-ucxx1( bxcenter , bycenter )
-INT bxcenter , bycenter ;
+int ucxx1( int bxcenter, int bycenter )
 {
 
 CBOXPTR acellptr ;
 TIBOXPTR atileptr ;
 PINBOXPTR atermptr ;
 
-INT cost , error_light_is_on ;
-INT axcenter ;
-INT aleft , aright ;
-INT a1LoBin , a1HiBin , b1LoBin , b1HiBin ;
-INT startxa1 , endxa1 , startxb1 , endxb1 ;
-INT truth , aorient ;
-INT newpenal, newtimepenal ;
+int cost , error_light_is_on ;
+int axcenter ;
+int aleft , aright ;
+int a1LoBin , a1HiBin , b1LoBin , b1HiBin ;
+int startxa1 , endxa1 , startxb1 , endxb1 ;
+int truth , aorient ;
+int newpenal, newtimepenal ;
 
 acellptr = carrayG[ aG ]    ; 
 aorient  = acellptr->corient ;
@@ -96,8 +98,8 @@ old_assgnto_new1( a1LoBin , a1HiBin , b1LoBin , b1HiBin ) ;
 sub_penal( startxa1 , endxa1 , ablockG , a1LoBin , a1HiBin ) ; 
 add_penal( startxb1 , endxb1 , bblockG , b1LoBin , b1HiBin ) ; 
 
-newpenal = (INT)(roLenConG * (DOUBLE) newrowpenalG +
-				binpenConG * (DOUBLE) newbinpenalG ) ;
+newpenal = (int)(roLenConG * (double) newrowpenalG +
+				binpenConG * (double) newbinpenalG ) ;
 error_light_is_on = 0 ;
 if( newpenal - penaltyG > P_limitG ) {
     if( potential_errorsG < 100 ) {

@@ -62,42 +62,29 @@ CONTENTS:   outpins()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outpins1.c (Yale) version 1.3 4/18/91" ;
-#endif
-#endif
-
-#include <string.h>
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "readpar.h"
-#include "pads.h"
-#include <yalecad/debug.h>
+#include <globals.h>
+#include "allheaders.h"
 
 /* #define NSC */
 
-char *strtok() ;
-
 /* global variables */
-extern INT *root_G ;
-extern INT *count_G ;
-extern INT *stack_G ;
-extern INT *father_G ;
-extern INT Max_numPinsG ;
-extern BOOL new_row_formatG ;
-extern PINBOXPTR *vertex_G ;
-extern char *find_layer() ;
+int *root_G ;
+int *count_G ;
+int *stack_G ;
+int *father_G ;
+int Max_numPinsG ;
+BOOL new_row_formatG ;
+PINBOXPTR *vertex_G ;
+char *find_layer() ;
 
 /* static definitions */
-static INT vtxS ;
-static INT *hashS ;
-static INT *groupS ;
-static INT numpinS ;
-static INT *rite_edgeS ;
-static INT *left_edgeS ;
-static FILE *fpS ;
+int vtxS ;
+int *hashS ;
+int *groupS ;
+int numpinS ;
+int *rite_edgeS ;
+int *left_edgeS ;
+FILE *fpS ;
 
 static do_outpins();
 static do_vertical_channel();
@@ -118,10 +105,10 @@ int i , a , b , net , row , padside ;
 int upFlag , downFlag , group_index ;
 
 
-hashS  = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
-groupS = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
-rite_edgeS = (INT *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
-left_edgeS = (INT *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
+hashS  = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+groupS = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+rite_edgeS = (int *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
+left_edgeS = (int *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     cellptr = carrayG[ pairArrayG[row][ pairArrayG[row][0] ] ] ;
     rite_edgeS[row] = cellptr->cxcenter + cellptr->tileptr->right ;

@@ -46,22 +46,17 @@ REVISIONS:  May 14, 1989 - set weights to zero for stdcell case.
 	    Mon Feb  4 02:20:39 EST 1991 - updated for new wire estimator
 	    NOTE that standard cell weights are -2 as a flag.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) setpwates.c version 3.4 2/4/91" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <yalecad/debug.h>
-
-setpwates()
+void setpwates()
 {
 
 TILEBOXPTR tileptr ;
 CELLBOXPTR cptr ;
 INSTBOXPTR instptr ;
-INT cell ;
-INT i ;
-INT numinstances ;
+int cell ;
+int i ;
+int numinstances ;
 
 for( cell = 1 ; cell <= numcellsG ; cell++ ) {
     cptr = cellarrayG[cell] ;

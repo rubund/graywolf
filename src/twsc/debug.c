@@ -41,40 +41,33 @@
 FILE:	    debug.c                                       
 DESCRIPTION:Various debug functions.
 CONTENTS:   cellbox_data( first_cell , last_cell )
-		INT first_cell , last_cell ;
+		int first_cell , last_cell ;
 	    cellterm_data( first_cell , last_cell )
-		INT first_cell , last_cell ;
+		int first_cell , last_cell ;
 	    dbx_terminal( first_net , last_net )
-		INT first_net , last_net ;
+		int first_net , last_net ;
 	    dbx_grd( ptr1 , ptr2 )
 		CHANGRDPTR ptr1 , ptr2 ;
 	    pairCheck( first_row , last_row )
-		INT first_row , last_row ;
+		int first_row , last_row ;
 	    fcellheight( pin , fcell , status )
-		INT pin , *fcell , status ;
+		int pin , *fcell , status ;
 	    dbx_track( start_chan , end_chan )
-		INT start_chan , end_chan ;
+		int start_chan , end_chan ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) debug.c (Yale) version 4.5 9/7/90" ;
-#endif
-#endif
-
-#include "standard.h"
-#include "groute.h"
+#include <globals.h>
+#include "allheaders.h"
 #include "pads.h"
 
-cellbox_data( first_cell , last_cell )
-INT first_cell , last_cell ;
+void cellbox_data( int first_cell , int last_cell )
 {
 
 FILE *fp ;
 CBOXPTR ptr ;
-INT cell ;
-INT padside ;
+int cell ;
+int padside ;
 
 fp = TWOPEN( "cellbox.dat" , "w", ABORT ) ;
 
@@ -95,15 +88,13 @@ TWCLOSE( fp ) ;
 
 }
 
-
-cellterm_data( first_cell , last_cell )
-INT first_cell , last_cell ;
+void cellterm_data( int first_cell , int last_cell )
 {
 
 FILE *fp ;
 CBOXPTR ptr ;
 PINBOXPTR termptr ;
-INT cell , corient, padside ;
+int cell , corient, padside ;
 
 fp = TWOPEN( "cellterm.dat" , "w", ABORT ) ;
 
@@ -145,14 +136,12 @@ for( cell = first_cell ; cell <= last_cell ; cell++ ) {
 TWCLOSE( fp ) ;
 }
 
-
-dbx_terminal( first_net , last_net )
-INT first_net , last_net ;
+void dbx_terminal( int first_net , int last_net )
 {
 
 FILE *fp ;
 PINBOXPTR netptr ;
-INT net ;
+int net ;
 
 fp = TWOPEN( "netbox.dat" , "w", ABORT ) ;
 
@@ -169,13 +158,11 @@ for( net = first_net ; net <= last_net ; net++ ) {
 TWCLOSE( fp ) ;
 }
 
-
-dbx_grd( ptr1 , ptr2 )
-CHANGRDPTR ptr1 , ptr2 ;
+void dbx_grd( CHANGRDPTR ptr1 , CHANGRDPTR ptr2 )
 {
 
 CHANGRDPTR ptr ;
-INT x2 , flag = 0 ;
+int x2 , flag = 0 ;
 
 x2 = ptr2->netptr->xpos ;
 for( ptr = ptr1 ; ptr->netptr->xpos <= x2 ; ptr = ptr->nextgrd ) {
@@ -190,17 +177,15 @@ if( flag == 1 ) {
 }
 }
 
-pairCheck( first_row , last_row )
-INT first_row , last_row ;
+void pairCheck(int  first_row , int last_row )
 {
 
 FILE *fp ;
 CBOXPTR cellptr ;
 TIBOXPTR tileptr ;
-INT row , i , *Aray , cell ;
-INT most_left , most_rite , n ;
-INT curr_cell_left , curr_cell_rite , prev_cell_rite ;
-extern INT fdWidthG ;
+int row , i , *Aray , cell ;
+int most_left , most_rite , n ;
+int curr_cell_left , curr_cell_rite , prev_cell_rite ;
 
 fp = TWOPEN( "row.dat" , "w", ABORT ) ;
 /*
@@ -236,13 +221,9 @@ for( row = first_row ; row <= last_row ; row++ ) {
 TWCLOSE( fp ) ;
 }
 
-
-
-
-dbx_track( start_chan , end_chan )
-INT start_chan , end_chan ;
+void dbx_track( int start_chan , int end_chan )
 {
-INT chan ;
+int chan ;
 FILE *fp ;
 CHANGRDPTR gdptr ;
 PINBOXPTR netptr ;

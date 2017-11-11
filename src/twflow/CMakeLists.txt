@@ -1,11 +1,38 @@
 
+INCLUDE(FindBISON)
+INCLUDE(FindFLEX)
 
-add_executable(graywolf autoflow.c findflow.c graphics.c io.c main.c program.c readobjects.c ${CMAKE_SOURCE_DIR}/src/date/date.c)
+bison_target(twflowparser readobjects.y ${CMAKE_BINARY_DIR}/src/twflow/readobjects.y.c)
+flex_target(twflowparser readobjects.lex ${CMAKE_BINARY_DIR}/src/twflow/readobjects.lex.c)
 
-target_link_libraries(graywolf ${CMAKE_BINARY_DIR}/src/Ylib/libycadgraywolf.so)
+add_executable(graywolf
+	autoflow.c
+	findflow.c
+	graphics.c
+	io.c
+	main.c
+	program.c
+	${BISON_twflowparser_OUTPUTS}
+	${FLEX_twflowparser_OUTPUTS}
+	)
+
+target_link_libraries(graywolf ycadgraywolf)
+target_link_libraries(graywolf GraywolfMincut)
+target_link_libraries(graywolf TimberWolfMC)
+target_link_libraries(graywolf TimberWolfSC)
+target_link_libraries(graywolf GrayWolfSyntax)
+target_link_libraries(graywolf GrayWolfGenRows)
+target_link_libraries(graywolf GrayWolfMCCompact)
 target_link_libraries(graywolf X11)
 target_link_libraries(graywolf m)
+target_link_libraries(graywolf ${GSL_LIBRARIES})
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include ${CMAKE_BINARY_DIR}/src/twflow .)
 
-install(TARGETS graywolf DESTINATION bin)
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden")
+
+install(
+	TARGETS graywolf
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
+	)
+

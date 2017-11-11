@@ -55,64 +55,38 @@ REVISIONS:  July 15, 1989
 	    Tue Aug 13 12:47:54 CDT 1991 - fixed create new
 		cell file.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) output.c (Yale) version 4.14 9/23/91" ;
-#endif
-#endif
-
-/* #define DEC  */
-/* added on 06/01/90 Sury */
-/* #define NSC */
-
-#include "standard.h"
-#include "groute.h"
-#include "main.h"
-#include "readpar.h"
-#include "config.h"
-#include "pads.h"
-#include <string.h>
-#include <yalecad/debug.h>
-#include <yalecad/message.h>
-
-/* external functions */
-char *strtok(); /* added 06/01/90 sury */
-INT comparex() ;
+#include <globals.h>
+#include "allheaders.h"
 
 /* global variables */
-extern INT spacer_widthG ;
-extern INT actual_feed_thru_cells_addedG ;
-extern BOOL output_at_densityG ;
-extern BOOL create_new_cel_fileG ;
-extern BOOL unused_feed_name_twspacerG ;
-extern BOOL stand_cell_as_gate_arrayG ;
+BOOL restartG;
 
 /* static definitions */
 static char a_lineS[LRECL] ;
 
-output()
+void output()
 {
 
 FILE *fpp1 , *fpp2 ;
-INT locx , locy , height , width ;
-INT xloc , i , cell , block , orient ;
-INT num ;
-INT xloc2 , yloc2 , yloc ;
-INT *array , desire , k , limit ;
-INT left , right , bottom , top , end ;
-INT *deleted_feeds ;
-INT eliminated_feeds ;
+int locx , locy , height , width ;
+int xloc , i , cell , block , orient ;
+int num ;
+int xloc2 , yloc2 , yloc ;
+int *array , desire , k , limit ;
+int left , right , bottom , top , end ;
+int *deleted_feeds ;
+int eliminated_feeds ;
 char filename[LRECL] , ctmp[32] ;
 CBOXPTR cellptr ;
 TIBOXPTR tptr ;
 PADBOXPTR pptr ;
 /* added on 06/01/90 Sury */
-INT length;
-INT row ;
+int length;
+int row ;
 char instance_name[LRECL], tmp_name[LRECL], *tmp_string;
 
 
-deleted_feeds = (INT *) Ysafe_malloc( numcellsG * sizeof(INT) ) ;
+deleted_feeds = (int *) Ysafe_malloc( numcellsG * sizeof(int) ) ;
 eliminated_feeds = 0 ;
 
 sprintf( filename , "%s.pl1" , cktNameG ) ;
@@ -191,27 +165,10 @@ for( block = 1 ; block <= numRowsG ; block++ ) {
 	yloc2 = cellptr->tileptr->top - 
 		cellptr->tileptr->bottom ; 
 
-/* The following code was added on 06/01/90 Sury */
-#ifdef NSC
-	strcpy( tmp_name , cellptr->cname ) ;
-	length = strcspn( tmp_name , ":" ) ;
-	if( length < strlen( tmp_name ) ) {
-	    tmp_string = strtok( tmp_name , ":" ) ;
-	    tmp_string = strtok( NULL , ":" ) ;
-	    sprintf( instance_name, "%s" , tmp_string ) ;
-	} else {
-	    sprintf( instance_name , "%s" , tmp_name ) ;
-	}
-	fprintf(fpp1,"%s %d %d  %d %d  %d %d\n",
-			instance_name,
-			xloc, yloc, xloc + xloc2,
-			yloc + yloc2, orient, block ) ;
-#else
 	fprintf(fpp1,"%s %d %d  %d %d  %d %d\n",
 			cellptr->cname ,
 			xloc, yloc, xloc + xloc2,
 			yloc + yloc2, orient, block ) ;
-#endif
     }
 }
 
@@ -257,44 +214,12 @@ for( i = numcellsG + 1 ; i <= lastpadG ; i++ ) {
 	}
     }
 
-
-#ifndef DEC
-/* The following code was added on 06/01/90 Sury */
-#ifdef NSC
-	strcpy( tmp_name , cellptr->cname ) ;
-	length = strcspn( tmp_name , ":" ) ;
-	if( length < strlen( tmp_name ) ) {
-	    tmp_string = strtok( tmp_name , ":" ) ;
-	    tmp_string = strtok( NULL , ":" ) ;
-	    sprintf( instance_name, "%s" , tmp_string ) ;
-	} else {
-	sprintf( instance_name , "%s" , tmp_name ) ;
-	}
-    fprintf(fpp1,"%s %d %d  %d %d  %d %d\n", instance_name,
-				locx, locy, locx + width,
-				locy + height, orient, row ) ;
-    fprintf(fpp2,"%s %d %d  %d %d  %d %d\n", instance_name,
-				locx, locy, locx + width,
-				locy + height, orient, row ) ;
-#else
-    /* normal case */
     fprintf(fpp1,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
 				locx, locy, locx + width,
 				locy + height, orient, row ) ;
     fprintf(fpp2,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
 				locx, locy, locx + width,
 				locy + height, orient, row ) ;
-#endif
-#else
-    /* DEC case */
-    fprintf(fpp1,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
-		    locx, locy, locx + width,
-		    locy + height, orient, -cellptr->padside ) ;
-    fprintf(fpp2,"%s %d %d  %d %d  %d %d\n", cellptr->cname ,
-		    locx, locy, locx + width,
-		    locy + height, orient, -cellptr->padside ) ;
-#endif
-
 }
 TWCLOSE( fpp1 ) ;
 TWCLOSE( fpp2 ) ;
@@ -308,13 +233,9 @@ Ysafe_free( deleted_feeds ) ;
 return ;
 }
 
-
-
-
-
-final_free_up()
+void final_free_up()
 {
-INT i, j, k, row, pin, net, cell, chan, track ;
+int i, j, k, row, pin, net, cell, chan, track ;
 CBOXPTR cellptr ;
 DBOXPTR dimptr ;
 PINBOXPTR ptr, nextptr ;
@@ -436,17 +357,14 @@ Ysafe_free( netsegHeadG ) ;
 
 }
 
-
-
-
-create_cel_file()
+void create_cel_file()
 {
 
 
 FILE *fpoG2 , *fp ;
 char *token , fixed_string[32] , filename[256] ;
 char cell_name[32] ;
-INT ignore_line , block , offset , test , carrayG_index , is_a_cell ;
+int ignore_line , block , offset , test , carrayG_index , is_a_cell ;
 
 
 if( rowsG > 0 ) {
@@ -512,12 +430,7 @@ TWCLOSE(fp) ;
 TWCLOSE(fpoG2) ;
 }
 
-
-
-add_new_line( x_rel , block , fixed_ptr , fp )
-INT x_rel , block ;
-char *fixed_ptr ;
-FILE *fp ;
+void add_new_line( int x_rel , int block , char *fixed_ptr , FILE *fp )
 {
 
 fprintf(fp, "initially %s %d from left of block %d\n",
@@ -525,13 +438,10 @@ fprintf(fp, "initially %s %d from left of block %d\n",
 return ;
 }
 
-
-
-load_a_lineS(fp)
-FILE *fp ;
+int load_a_lineS(FILE *fp)
 {
 
-INT i ;
+int i ;
 char tmp ;
 
 if( (int) (tmp = fgetc(fp)) != EOF ) {
@@ -550,15 +460,15 @@ if( (int) (tmp = fgetc(fp)) != EOF ) {
 }
 
 /* ******************************************************************** */
-density()
+void density()
 {
     /* set all the cells at density */
-    INT row ;
-    INT cell ;
-    INT block ;
-    INT rowtop ;
-    INT corient ;
-    INT rowcenter ;
+    int row ;
+    int cell ;
+    int block ;
+    int rowtop ;
+    int corient ;
+    int rowcenter ;
     CBOXPTR cellptr ;
     PINBOXPTR pin ;
 
@@ -575,7 +485,7 @@ density()
 	    rowtop = rowcenter + barrayG[row]->bheight - 
 		        barrayG[row]->bheight / 2;
 	    D( "twsc/buildDensityArray",
-		fprintf( stderr, "row:%d oldy:%d newy:%d tracks:%d\n",
+		printf( "row:%d oldy:%d newy:%d tracks:%d\n",
 		    row, barrayG[row]->bycenter, rowcenter, 
 		    maxTrackG[row] ) ;
 	    ) ;

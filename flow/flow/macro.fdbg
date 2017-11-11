@@ -1,0 +1,20 @@
+numobjects 2
+
+pobject edit_mcfiles 1: 0
+path  : 
+drawn : 150 550 450 650
+edge 0:
+ifiles:
+ofiles: $.par
+args  : $
+
+pobject TimberWolfMC 2: 1
+path  : 
+drawn : 150 350 450 450
+edge 1: 
+ifiles: $.cel $.par $.mpar* $.mnet* $.net*
+ofiles: $.mdat
+args  : -wvd $ @WINDOWID
+drawn : 300 450 300 550
+	300 450 320 470
+	300 450 280 470

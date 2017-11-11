@@ -41,11 +41,11 @@
 FILE:	    uloop.c                                       
 DESCRIPTION:inner loop of the simulated annealing algorithm.
 CONTENTS:   uloop( limit )
-		INT limit ;
+		int limit ;
 	    make_movebox() ;
 	    save_uloop( fp )
 		FILE *fp ;
-	    INT read_uloop( fp )
+	    int read_uloop( fp )
 		FILE *fp ;
 DATE:	    Feb 5, 1988 
 REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
@@ -106,25 +106,28 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 	    Sat Nov 23 21:21:49 EST 1991 - began working with automatically
 		setting move strategy.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uloop.c version 3.14 4/6/92" ;
-#endif
-
-#include <custom.h>
-#include <temp.h>
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
+#include "allheaders.h"
 
 #define TMIN      1E-6
 #define HOWMANY   0
 
-extern INT pick_position() ;
 /* ----------------------------------------------------------------- 
    important global definitions - defined in custom.h 
-   MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
-   MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
    usite routines use these globals - used arguments are commented.
 */
+
+MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ;
+MOVEBOXPTR old_apos0G, new_apos0G, old_bpos0G, new_bpos0G ;
+BINBOXPTR  newbptrG; /* *** bin cell ptr *** */ 
+
+int *newCellListG ;  /* *** bin cell list *** */ 
+int iterationG=0;
+int timingcostG ;
+int flipsG;
+
+double lapFactorG;
+double avg_funcG , avgsG ;
+double coreFactorG;
 
 /* define the cell moves */
 #define NUMSELECT                            16
@@ -150,38 +153,28 @@ extern INT pick_position() ;
 #define CELL_INSTANCE_CHANGE                  9
 #define NUMBER_MOVES                         10
 
-
-static INT  move_cntS = 0 ;
-static INT  acc_cntS = 0 ;
-static INT  dumpRatioS = 1 ; /* update screen after each outerloop */
-static INT  dumpCountS = 0 ; /* count number of outer loops */
-static DOUBLE total_costS, a_ratioS = 1.0 ;
-static DOUBLE desired_ratioS = 1.0 ;
-static BOOL   controlOnS = TRUE ;
-static BOOL   firstTimeS = TRUE ;  /* for graphics control */
+int move_cntS = 0 ;
+int acc_cntS = 0 ;
+int dumpRatioS = 1 ; /* update screen after each outerloop */
+int dumpCountS = 0 ; /* count number of outer loops */
+double total_costS, a_ratioS = 1.0 ;
+double desired_ratioS = 1.0 ;
+BOOL controlOnS = TRUE ;
+BOOL firstTimeS = TRUE ;  /* for graphics control */
 /* statistic collection */
-static DOUBLE totalwireS ;
-static DOUBLE totalpenalS ;
-static DOUBLE num_dtimeS ;  /* number of delta time samples */
-static DOUBLE avg_dtimeS ;  /* average random delta time */
-static DOUBLE num_dfuncS ;  /* number of delta wirelength samples */
-static DOUBLE avg_dfuncS ;  /* average random delta wirelength */
-
-
-
-
-static output_move_table();
-
-
-
-static INT TempSelectSoftS[11]  = {
+double totalwireS ;
+double totalpenalS ;
+double num_dtimeS ;  /* number of delta time samples */
+double avg_dtimeS ;  /* average random delta time */
+double num_dfuncS ;  /* number of delta wirelength samples */
+double avg_dfuncS ;  /* average random delta wirelength */
+static int TempSelectSoftS[11]  = {
     0,
     GROUP_MOVE, GROUP_MOVE, CELL_MOVE, CELL_MOVE,
     ASPECT_MOVE, ASPECT_MOVE, ROTATION_MOVE, PIN_MOVE,
     CELL_MOVE, CELL_MOVE
 } ;
-
-static INT TempSelectHardS[11]  = {
+static int TempSelectHardS[11]  = {
     0,
     GROUP_MOVE, GROUP_MOVE, CELL_MOVE, CELL_MOVE,
     GROUP_MOVE, CELL_MOVE, CELL_MOVE, ROTATION_MOVE,
@@ -191,42 +184,38 @@ static INT TempSelectHardS[11]  = {
 /* ***************************************************************** 
    uloop - inner loop of simulated annealing algorithm.
 */
-uloop( limit )
-INT limit ;
+void uloop( int limit )
 {
 
 CELLBOXPTR acellptr , bcellptr ;
-DOUBLE range , newAspect ;
-DOUBLE calc_core_factor(), calc_lap_factor() ;
-DOUBLE calc_time_factor() ;
-DOUBLE percentDone ;
-DOUBLE coin_toss ;
-INT a , b ;
-INT attempts, i ;
-INT move_acceptted ;
-INT binX , binY, bpos, numcells_in_bin ;
-INT xb , yb , axcenter , aycenter ;
-INT newaor, newbor, aorient , borient ;
-INT proposed_move, selection, *moveSelection ;
-INT lowerBound, upperBound ;
-INT flip[NUMBER_MOVES] ;
-INT att[NUMBER_MOVES] ;
-DOUBLE move_size[MOVE_ARRAY_SIZE] ;
+double range , newAspect ;
+double percentDone ;
+double coin_toss ;
+int a , b ;
+int attempts, i ;
+int move_acceptted ;
+int binX , binY, bpos, numcells_in_bin ;
+int xb , yb , axcenter , aycenter ;
+int newaor, newbor, aorient , borient ;
+int proposed_move, selection, *moveSelection ;
+int lowerBound, upperBound ;
+int flip[NUMBER_MOVES] ;
+int att[NUMBER_MOVES] ;
+double move_size[MOVE_ARRAY_SIZE] ;
 BOOL acc_move ;
 BOOL asp_move_possible ;
 FIXEDBOXPTR fixptr ;
-BOOL checkbinList() ;
 
 /* temperature control definitions */
-INT         m1 = 1, m2 = 1;
-DOUBLE      dCp = 0.0;
-DOUBLE      temp, eval_ratio() ;
+int         m1 = 1, m2 = 1;
+double      dCp = 0.0;
+double      temp;
 
-INT temp_timer, time_to_update ; /* keeps track of when to update T */
-DOUBLE iter_time, accept_deviation, calc_acceptance_ratio() ;
+int temp_timer, time_to_update ; /* keeps track of when to update T */
+double iter_time, accept_deviation, calc_acceptance_ratio() ;
 
-INT old_time, old_func ; /* keep track of previous value of penalties */
-INT delta_time, delta_func ; /* delta penalties */
+int old_time, old_func ; /* keep track of previous value of penalties */
+int delta_time, delta_func ; /* delta penalties */
 
 if( activecellsG <= 0 ){
     M( WARNMSG, "uloop", "No active cells found. Aborting placement\n" ) ;
@@ -285,7 +274,7 @@ if( ratioG > 0.34 ){
 /* determine upperBound based on temp */
 /* skip over group moves */
 /* linearize so moves turn on slowly */
-upperBound = 11 - (INT) (10.0 * ratioG)  ;
+upperBound = 11 - (int) (10.0 * ratioG)  ;
 upperBound = (upperBound <= 10) ? upperBound : 10 ; 
 upperBound = (upperBound >= 4) ? upperBound : 4 ; 
 /* end move selection possibilities */
@@ -423,10 +412,10 @@ while( attempts < limit ) {
 	    /* to make pin moves more efficient, use softPinArrayG */
 	    /* which keeps track of all softcells which have pins */
 	    /* which can move. softPinArrayG[0] holds size of array */
-	    if( (INT) softPinArrayG[HOWMANY] > 0 ){
+	    if( (int) softPinArrayG[HOWMANY] > 0 ){
 		proposed_move = SOFT_PIN_MOVE ;
 		/* pick one of the soft cells */
-		selection = PICK_INT( 1, (INT) softPinArrayG[HOWMANY] );
+		selection = PICK_INT( 1, (int) softPinArrayG[HOWMANY] );
 		/* now get cellptr */
 		acellptr = softPinArrayG[selection] ;
 
@@ -474,7 +463,7 @@ while( attempts < limit ) {
 	/* try a rotation of cell and move  */
 	new_apos0G->orient = newOrient( acellptr , 4 ) ;
 	if( new_apos0G->orient >= 0 ) {
-	    if( acc_move = usite1( /* old_apos, new_apos */ ) ) {
+	    if((acc_move = usite1( /* old_apos, new_apos */ ))) {
 		flipsG++ ;
 		flip[SINGLE_CELL_MOVE_AND_ROTATE]++ ;
 		acc_cntS++ ;
@@ -515,7 +504,7 @@ while( attempts < limit ) {
 	new_bpos0G->xcenter = acellptr->xcenter ;
 	new_bpos0G->ycenter = acellptr->ycenter ;
 	/* first try exchanging a and b positions */
-	if( acc_move = usite2( /*old_apos,new_apos,old_bpos,new_bpos*/ )) {
+	if((acc_move = usite2( /*old_apos,new_apos,old_bpos,new_bpos*/ ))) {
 	    acc_cntS++ ;
 	    flipsG++ ;
 	    flip[PAIRWISE_CELL_SWAP]++ ;
@@ -593,8 +582,8 @@ while( attempts < limit ) {
 	 *   aspect ratio for the cell.
 	 */
 	range = acellptr->aspUB - acellptr->aspLB;
-	newAspect = range * ((DOUBLE)RAND / 
-		(DOUBLE) 0x7fffffff) + acellptr->aspLB ;
+	newAspect = range * ((double)RAND / 
+		(double) 0x7fffffff) + acellptr->aspLB ;
 	/* insure cell center and orientation is correct */
 	new_apos0G->orient = acellptr->orient ;
 	new_apos0G->xcenter = acellptr->xcenter ;
@@ -602,7 +591,7 @@ while( attempts < limit ) {
 	/* need to make sure we count right number of tiles */
 	/* see overlap.c - calc_wBins for details */
 	new_apos0G->numtiles = acellptr->numtiles ;
-	if( acc_move = uaspect( a , newAspect ) ) {
+	if((acc_move = uaspect( a , newAspect ))) {
 	    flipsG++ ; 
 	    acc_cntS++ ;
 	    flip[ASPECT_RATIO_CHANGE]++ ;
@@ -695,21 +684,21 @@ while( attempts < limit ) {
 	/* statistic collection for overlap and pinFactor determination */
 	avg_funcG = (avg_funcG * avgsG + funccostG) / (avgsG + 1.0) ;
 	avgsG += 1.0 ;
-	totalwireS += (DOUBLE) funccostG ;
-	totalpenalS += (DOUBLE) penaltyG ;
+	totalwireS += (double) funccostG ;
+	totalpenalS += (double) penaltyG ;
 
 	delta_time = ABS( old_time - timingpenalG ) ;
 	if( delta_time != 0 ){
 	    /* calculate a running average of the delta timing penalty */
 	    num_dtimeS += 1.0 ;
 	    avg_dtimeS = (avg_dtimeS * (num_dtimeS - 1.0) +
-		(DOUBLE) delta_time) / num_dtimeS ;
+		(double) delta_time) / num_dtimeS ;
 
 	    /* calculate a running average of the delta wiring penalty */
 	    delta_func = ABS( old_func - funccostG ) ;
 	    num_dfuncS += 1.0 ;
 	    avg_dfuncS = (avg_dfuncS * (num_dfuncS - 1.0) +
-		(DOUBLE) delta_func) / num_dfuncS ;
+		(double) delta_func) / num_dfuncS ;
 	}
 	/* now update the old values of the timing and wirelength */
 	old_time = timingpenalG ;
@@ -752,11 +741,11 @@ while( attempts < limit ) {
        or cummulative ratio.
      ------------------------------------------------------------------ */
     if( ++temp_timer >= time_to_update || attempts >= attmaxG ) {
-	a_ratioS = (DOUBLE) acc_cntS / (DOUBLE) temp_timer;/*incremental*/
+	a_ratioS = (double) acc_cntS / (double) temp_timer;/*incremental*/
 	temp_timer = 0 ; /* reset counter */
 	acc_cntS = 0;     /* reset incremental timer */
-	iter_time = (DOUBLE) iterationG +
-		    (DOUBLE) attempts / (DOUBLE) attmaxG ;
+	iter_time = (double) iterationG +
+		    (double) attempts / (double) attmaxG ;
 	/* maintain desired ratio from iteration to iteration */
 	desired_ratioS = calc_acceptance_ratio( iter_time ) ;
 	accept_deviation = desired_ratioS - a_ratioS ;
@@ -771,9 +760,9 @@ while( attempts < limit ) {
 	    running_avg, calc_acceptance_ratio(iter_time), a_ratioS, TG );
 	Yplot_flush( "graph_T" ) ;
 #endif
-	if( iterationG <= (INT) HIGHTEMP ) {
+	if( iterationG <= (int) HIGHTEMP ) {
 	    /* no change to damping factor */
-	} else if( iterationG <= (INT) TURNOFFT ) {
+	} else if( iterationG <= (int) TURNOFFT ) {
 	    accept_deviation *= ACCEPTDAMPFACTOR ; 
 	} else {
 	    accept_deviation *= ACCEPTDAMPFACTOR2 ;
@@ -871,7 +860,7 @@ while( attempts < limit ) {
 D( "uloop", checkcost() ) ;
 
 if( !(++dumpCountS % dumpRatioS) ){
-    G( setGraphicWindow() ) ;
+    if(doGraphicsG) G( setGraphicWindow() ) ;
     G( draw_the_data() ) ;
 }
 
@@ -901,12 +890,11 @@ if( controlOnS ){
 } /* end negative feedback controller code */
 
 /* reset penalties */
-penaltyG  = (INT) (lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
-timingcostG = (INT) (timeFactorG * (DOUBLE) timingpenalG ) ;
+penaltyG  = (int) (lapFactorG * sqrt( (double) binpenalG ) ) ;
+timingcostG = (int) (timeFactorG * (double) timingpenalG ) ;
 
-total_costS = (DOUBLE) (funccostG + penaltyG + timingcostG ) ;
-ratioG = ( (DOUBLE) flipsG / (DOUBLE) attempts ) ;
-FLUSHOUT() ;
+total_costS = (double) (funccostG + penaltyG + timingcostG ) ;
+ratioG = ( (double) flipsG / (double) attempts ) ;
 
 if( quickrouteG ){
     output_move_table( flip, att, move_size ) ;
@@ -916,34 +904,33 @@ if( quickrouteG ){
    now output statistics for this temperature.
 */
 
-OUT1("\nI     T     funccost  binpen x lapFact = penalty  cost coreFactor\n");
-OUT2("%3d ",iterationG ); 
-OUT2("%4.2le ",TG ); 
-OUT2("%4.2le ",(DOUBLE) funccostG ); 
-OUT2("%4.2le ",(DOUBLE) binpenalG ); 
-OUT2("%4.2le ",lapFactorG ); 
-OUT2("%4.2le ",(DOUBLE) penaltyG ); 
-OUT2("%4.2le ",total_costS ); 
-OUT2("%4.2le\n",coreFactorG ); 
-OUT1("timeFactor timepenal timecost  var perDone\n");
-OUT2("%4.2le ",(DOUBLE) timeFactorG ); 
-OUT2("%4.2le ",(DOUBLE) timingpenalG ); 
-OUT2("%4.2le ",(DOUBLE) timingcostG ); 
-OUT2("%4.2le\n ",percentDone ); 
-OUT1(" flip1   flipo   flip0   flipp   flipa   flip2   flipo2  flipi   flips ratio\n");
-OUT3("%3d/%3d ",flip[SINGLE_CELL_MOVE],att[SINGLE_CELL_MOVE] ); 
-OUT3("%3d/%3d ",flip[SINGLE_CELL_MOVE_AND_ROTATE],
+printf("\nI     T     funccost  binpen x lapFact = penalty  cost coreFactor\n");
+printf("%3d ",iterationG ); 
+printf("%4.2le ",TG ); 
+printf("%4.2le ",(double) funccostG ); 
+printf("%4.2le ",(double) binpenalG ); 
+printf("%4.2le ",lapFactorG ); 
+printf("%4.2le ",(double) penaltyG ); 
+printf("%4.2le ",total_costS ); 
+printf("%4.2le\n",coreFactorG ); 
+printf("timeFactor timepenal timecost  var perDone\n");
+printf("%4.2le ",(double) timeFactorG ); 
+printf("%4.2le ",(double) timingpenalG ); 
+printf("%4.2le ",(double) timingcostG ); 
+printf("%4.2le\n ",percentDone ); 
+printf(" flip1   flipo   flip0   flipp   flipa   flip2   flipo2  flipi   flips ratio\n");
+printf("%3d/%3d ",flip[SINGLE_CELL_MOVE],att[SINGLE_CELL_MOVE] ); 
+printf("%3d/%3d ",flip[SINGLE_CELL_MOVE_AND_ROTATE],
                 att[SINGLE_CELL_MOVE_AND_ROTATE] ); 
-OUT3("%3d/%3d ",flip[ROTATION],att[ROTATION] ); 
-OUT3("%3d/%3d ",flip[SOFT_PIN_MOVE],att[SOFT_PIN_MOVE] ); 
-OUT3("%3d/%3d ",flip[ASPECT_RATIO_CHANGE],att[ASPECT_RATIO_CHANGE] ); 
-OUT3("%3d/%3d ",flip[PAIRWISE_CELL_SWAP],att[PAIRWISE_CELL_SWAP] ); 
-OUT3("%3d/%3d ",flip[PAIRWISE_CELL_SWAP_AND_ROTATION],
+printf("%3d/%3d ",flip[ROTATION],att[ROTATION] ); 
+printf("%3d/%3d ",flip[SOFT_PIN_MOVE],att[SOFT_PIN_MOVE] ); 
+printf("%3d/%3d ",flip[ASPECT_RATIO_CHANGE],att[ASPECT_RATIO_CHANGE] ); 
+printf("%3d/%3d ",flip[PAIRWISE_CELL_SWAP],att[PAIRWISE_CELL_SWAP] ); 
+printf("%3d/%3d ",flip[PAIRWISE_CELL_SWAP_AND_ROTATION],
 		att[PAIRWISE_CELL_SWAP_AND_ROTATION] ); 
-OUT3("%3d/%3d ",flip[CELL_INSTANCE_CHANGE],att[CELL_INSTANCE_CHANGE] ); 
-OUT3(" %3d/%3d ",flipsG,attempts ); 
-OUT2(" %4.2f\n\n",ratioG ); 
-FLUSHOUT() ;
+printf("%3d/%3d ",flip[CELL_INSTANCE_CHANGE],att[CELL_INSTANCE_CHANGE] ); 
+printf(" %3d/%3d ",flipsG,attempts ); 
+printf(" %4.2f\n\n",ratioG ); 
 
 
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 
@@ -978,7 +965,7 @@ initStatCollection()
 /* ***************************************************************** */
 
 getStatistics( totalWire, totalPenalty, avg_time, avg_func )
-DOUBLE *totalWire, *totalPenalty, *avg_time, *avg_func ;
+double *totalWire, *totalPenalty, *avg_time, *avg_func ;
 {
     *totalWire = totalwireS ;
     *totalPenalty = totalpenalS ;
@@ -994,10 +981,10 @@ DOUBLE *totalWire, *totalPenalty, *avg_time, *avg_func ;
 		softcells only use old_aposG[1] and new_aposG[1]
 		    since they can have only one tile.
 */
-make_movebox() 
+void make_movebox() 
 {
-    INT i ;
-    INT maxtiles ;
+    int i ;
+    int maxtiles ;
 
     maxtiles = get_tile_count() ;
 
@@ -1039,8 +1026,7 @@ make_movebox()
 /* ***************************************************************** 
    save_uloop - save uloop parameters for restart
 */
-save_uloop( fp )
-FILE *fp ;
+void save_uloop( FILE *fp )
 {
     fprintf(fp,"# uloop parameters:\n") ;
     fprintf(fp,"%d %d %d\n",iterationG,acc_cntS,move_cntS);
@@ -1050,10 +1036,9 @@ FILE *fp ;
 /* ***************************************************************** 
    read_uloop - read uloop parameters for restart
 */
-INT read_uloop( fp )
-FILE *fp ;
+int read_uloop(FILE *fp)
 {
-    INT error = 0 ;
+    int error = 0 ;
 
     fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
     fscanf(fp,"%ld %ld %ld\n",&iterationG,&acc_cntS,&move_cntS);
@@ -1083,23 +1068,20 @@ FILE *fp ;
 
 } /* end read_uloop */
 
-set_dump_ratio( count )
+void set_dump_ratio( int count )
 {
     dumpRatioS = count ;
 } /* end dump_ratio */
 
-
-static output_move_table( flip, att, move_size )
-INT *flip, *att ;
-DOUBLE *move_size ;
+void output_move_table(int *flip, int *att, double *move_size)
 {
-    INT  i ;
-    INT a[MOVE_ARRAY_SIZE] ;  /* attempts for the individual moves */
-    INT f[MOVE_ARRAY_SIZE] ;  /* flips for the individual moves */
+    int  i ;
+    int a[MOVE_ARRAY_SIZE] ;  /* attempts for the individual moves */
+    int f[MOVE_ARRAY_SIZE] ;  /* flips for the individual moves */
     FILE *fp ;
-    DOUBLE Qm[MOVE_ARRAY_SIZE] ;
-    DOUBLE P[MOVE_ARRAY_SIZE] ;
-    DOUBLE Qsum ;
+    double Qm[MOVE_ARRAY_SIZE] ;
+    double P[MOVE_ARRAY_SIZE] ;
+    double Qsum ;
     char filename[LRECL] ;
 
     sprintf( filename, "%s.mset", cktNameG ) ;
@@ -1146,7 +1128,7 @@ DOUBLE *move_size ;
     Qsum = 0.0 ;
     for( i = 1; i <= NUMBER_MOVE_TYPES; i++ ){
 	if( a[i] ){
-	    Qm[i] = f[i] * move_size[i] / (DOUBLE) a[i] / (DOUBLE) a[i] ;
+	    Qm[i] = f[i] * move_size[i] / (double) a[i] / (double) a[i] ;
 	} else {
 	    Qm[i] = 0.0 ;
 	}

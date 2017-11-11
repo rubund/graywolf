@@ -15,37 +15,36 @@ REVISIONS:  Nov  6, 1988 - added user delete function to delTable.
 #include <yalecad/base.h>
 
 typedef struct ytable_rec {
-    char *key ;
-    char *data ;
-    struct ytable_rec *next ;
-    struct ytable_rec *threadNext ; /* thread thru entire table */
+	char *key ;
+	char *data ;
+	struct ytable_rec *next ;
+	struct ytable_rec *threadNext ; /* thread thru entire table */
 } YTABLEBOX, *YTABLEPTR ;
 
 typedef struct {
-    YTABLEPTR *hash_table ;
-    YTABLEPTR thread ;
-    INT size ;
+	YTABLEPTR *hash_table ;
+	YTABLEPTR thread ;
+	int size ;
 } YHASHBOX, *YHASHPTR ;
 
-#define ENTER   (INT) 1
-#define FIND    (INT) 0
-#define DELETE  (INT) 2
+#define ENTER   (int) 1
+#define FIND    (int) 0
+#define DELETE  (int) 2
 
-extern YHASHPTR Yhash_table_create( P1(INT numentries) ) ;
+extern YHASHPTR Yhash_table_create( int numentries ) ;
 /*
 Function:
     Returns a hash table with the given number of entries.
     More that one hash table can coexist at the same time.
 */
 
-extern INT Yhash_table_get( P1( YHASHPTR  hashtable ) ) ;
+extern int Yhash_table_get( YHASHPTR  hashtable ) ;
 /*
 Function:
     Returns the current size of hash table set by Yhash_table_create 
 */
 
-extern char *Yhash_search( P4(YHASHPTR  hashtable, char *key, VOIDPTR data,
-	INT operation ) ) ;
+extern char *Yhash_search( YHASHPTR  hashtable, char *key, VOIDPTR data, int operation ) ;
 /*
 Function:
     Hash table search routine.  Given a hashtable and a key, perform
@@ -60,8 +59,7 @@ Function:
     Data is a pointer to the information to be store with the given key.
 */
 		
-extern char *Yhash_add( P4( YHASHPTR  hashtable, char *key,
-	char *(*add_function)(), BOOL *new_flag ) ) ;
+extern char *Yhash_add( YHASHPTR  hashtable, char *key, char *(*add_function)(), BOOL *new_flag ) ;
 /*
 Function:
     Hash table search convenience routine. It avoids two calls to hash_search
@@ -76,7 +74,7 @@ Function:
 */
 
 
-extern Yhash_table_delete( P2(YHASHPTR  hashtable,INT (*userdelete)() ) ) ;
+void Yhash_table_delete(YHASHPTR hashtable, int (*userdelete(int*))) ;
 /*
 Function:
     Frees the memory associated with a hash table. The user
@@ -90,7 +88,7 @@ Function:
     }
 */
 
-extern INT Yhash_set_size( P1( YHASHPTR  hashtable ) ) ;
+int Yhash_set_size( YHASHPTR  hashtable) ;
 /*
 Function:
     Since this is a threaded hash table we can find the size of
@@ -102,4 +100,6 @@ Function:
 	...
     }
 */
+
+int Yhash_table_size( int minEntries );
 #endif /* HASH_H */

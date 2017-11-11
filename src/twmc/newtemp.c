@@ -40,12 +40,12 @@
 /* ----------------------------------------------------------------- 
 FILE:	    newtemp.c                                       
 DESCRIPTION:update temparature of the simulated annealing algorithm.
-CONTENTS:  DOUBLE calc_acceptance_ratio( iteration )
-		DOUBLE iteration ;
+CONTENTS:  double calc_acceptance_ratio( iteration )
+		double iteration ;
 	    init_acceptance_rate()
-	    INT compute_attprcel() 
+	    int compute_attprcel() 
 	    set_tw_speed( speed ) 
-		DOUBLE speed ;
+		double speed ;
 DATE:	    Dec 19, 1988 
 REVISIONS:  Feb 25, 1989 - allow negative iterations by setting 
 		iteration to zero.
@@ -57,22 +57,14 @@ REVISIONS:  Feb 25, 1989 - allow negative iterations by setting
 	    Mon Feb  4 02:14:30 EST 1991 - reset the number of attempts
 		and added quickroute function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) newtemp.c version 3.4 2/4/91" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <temp.h>
-#undef DEBUG
-#include <yalecad/debug.h>
-
-
-static DOUBLE alphaS ;    /* exponential decay constant for high temp */
-static DOUBLE betaS ;     /* exponential decay constant for low temp */
-static DOUBLE speedS ;    /* multiply attempts per cell by this factor */
+double alphaS ;    /* exponential decay constant for high temp */
+double betaS ;     /* exponential decay constant for low temp */
+double speedS ;    /* multiply attempts per cell by this factor */
 
 /* calculate static exponential time constants */
-init_acceptance_rate()
+void init_acceptance_rate()
 {
     /* determine alpha */
     alphaS =  - log( CRITRATIO ) / HIGHTEMP ;
@@ -82,10 +74,9 @@ init_acceptance_rate()
 } /* end init_acceptance_rate */
 
 /* given an iteration number return desired acceptance rate */
-DOUBLE calc_acceptance_ratio( iteration )
-DOUBLE iteration ;
+double calc_acceptance_ratio( double iteration )
 {
-    DOUBLE desired_ratio ;
+    double desired_ratio ;
 
     if( iteration < 0.0 ){ /* allow negative iterations */
 	iteration = 0.0 ;
@@ -121,12 +112,12 @@ DOUBLE iteration ;
     return( desired_ratio ) ;
 } /* end calc_acceptance ratio */
 
-INT compute_attprcel() 
+int compute_attprcel() 
 {
-    DOUBLE attempts ;
+    double attempts ;
 
     /*  n to the 4/3 power  */
-    attempts = 25.0 * pow( (DOUBLE) endsuperG, 4.0 / 3.0 ) ;
+    attempts = 25.0 * pow( (double) endsuperG, 4.0 / 3.0 ) ;
 
     if( quickrouteG ){
 	attempts /= 10.0 ;
@@ -135,37 +126,16 @@ INT compute_attprcel()
 	/* modify the attempts per cell based on user input */
 	attempts *= speedS ;
     }
-    if( attempts < (DOUBLE) MINTUPDATE ){
+    if( attempts < (double) MINTUPDATE ){
 	/* guarantee at least one temperature update */
-	attempts = (DOUBLE) MINTUPDATE + 2.0 ;
+	attempts = (double) MINTUPDATE + 2.0 ;
     }
 
-    return((INT) attempts) ;
+    return((int) attempts) ;
 
 } /* end compute_attprcell */ 
 
-set_tw_speed( speed ) 
-DOUBLE speed ;
+void set_tw_speed( double speed ) 
 {
     speedS = speed ;
 } /* end set_tw_speed */
-
-/* #define TESTRATIO */
-#ifdef TESTRATIO
-
-/* test program for desired acceptance rate profile */
-main( argc , argv )
-INT argc ;
-char *argv[] ;
-{
-    DOUBLE d_ratio, calc_acceptance_rate() ;
-    INT i ;
-
-    init_acceptance_rate() ;
-    for( i= 0; i<= 155; i++ ){
-	d_ratio = calc_acceptance_ratio( (DOUBLE) i ) ;
-	printf( "%4.2le\n" , d_ratio ) ;
-    }
-
-} /* end main */
-#endif /* TESTRATIO */

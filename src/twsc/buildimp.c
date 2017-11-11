@@ -45,7 +45,7 @@ CONTENTS:   buildimp( )
 	    decide_boundary( )
 	    fixwolf( )
 	    addfeed( row , pos , feednum ) 
-		INT row , pos , feednum ;
+		int row , pos , feednum ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Aug 30, 1989 - removed lastimp error.
 	    Tue Jan 15 20:31:33 PST 1991 - removed constant number
@@ -53,29 +53,24 @@ REVISIONS:  Aug 30, 1989 - removed lastimp error.
 		dynamic.
 	    Wed Jan 16 14:26:44 PST 1991 - removed re_buildimp
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) buildimp.c (Yale) version 4.9 11/7/91" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include "groute.h"
-#include "feeds.h"
+IPBOXPTR *impFeedsG ;
+int *FeedInRowG ;
+int gxstartG ;
+int gxstopG ;
 
-static INT max_impfeed_in_cellS ; /* max no. of feeds in a cell */
-INT comparetxpos() ;
-extern BOOL ignore_feedsG ;	/* Treat feedthroughs as width 0 */
+static int max_impfeed_in_cellS ; /* max no. of feeds in a cell */
 
-
-buildimp( )
+void buildimp( )
 {
 
 IPBOXPTR *impinptr , imptr ;
 CBOXPTR cellptr ;
-INT i , j , *Aray , row , count , total ;
-INT row_rite , longest_row , longest_blk_length ;
-INT *feasible_feednum ;
+int i , j , *Aray , row , count , total ;
+int row_rite , longest_row , longest_blk_length ;
+int *feasible_feednum ;
 
 /* first calculate the maximum implicit feeds in a cell */
 max_impfeed_in_cellS = 0 ;
@@ -89,11 +84,11 @@ for( i = 1; i <= numcellsG; i++ ){
 	max_impfeed_in_cellS = count ;
     }
 }
-FeedInRowG = (INT *)Ysafe_calloc( numRowsG+1, sizeof(INT)) ;
+FeedInRowG = (int *)Ysafe_calloc( numRowsG+1, sizeof(int)) ;
 impinptr = (IPBOXPTR *)
 	Ysafe_malloc( (max_impfeed_in_cellS+1)* sizeof(IPBOXPTR) ) ;
 impFeedsG = (IPBOXPTR *)Ysafe_malloc( ( numRowsG+1 ) * sizeof( IPBOXPTR ));
-feasible_feednum = (INT *)Ysafe_malloc( ( numRowsG+1 ) * sizeof( INT ));
+feasible_feednum = (int *)Ysafe_malloc( ( numRowsG+1 ) * sizeof( int ));
 for( row = 1 ; row <= numRowsG ; row++ ) {
     total = 0 ;
     impFeedsG[row] = (IPBOXPTR)Ysafe_calloc( 1, sizeof(IPBOX)) ;
@@ -107,8 +102,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	if( count <= 1 ) {
 	    continue ;
 	}
-	Yquicksort( (char *)(impinptr+1) , count , sizeof(PINBOXPTR),
-	    comparetxpos ) ;
+	Yquicksort( (char *)(impinptr+1) , count , sizeof(PINBOXPTR), comparetxpos ) ;
 	if( cellptr->corient <= 1 ) {
 	    cellptr->imptr = impinptr[1] ;
 	    for( j = 1 ; j <= count - 1 ; j++ ) {
@@ -173,10 +167,9 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 Ysafe_free( feasible_feednum ) ;
 }
 
-
-link_imptr( )
+void link_imptr( )
 {
-INT i , row , *Aray ;
+int i , row , *Aray ;
 CBOXPTR cellptr ;
 IPBOXPTR imptr , lastimp ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -195,13 +188,12 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 }
 
-
-decide_boundary( )
+void decide_boundary( )
 {
 
-INT row , fcx , fcl , lcx , lcr , lcl ;
-INT fcell , lcell , cell ;
-INT xstart , xstop ;
+int row , fcx , fcl , lcx , lcr , lcl ;
+int fcell , lcell , cell ;
+int xstart , xstop ;
 
 numChansG = numRowsG + 1 ;
 xstart = INT_MAX ;
@@ -235,29 +227,23 @@ gxstartG = xstart ;
 gxstopG  = xstop  ;
 }
 
-
-fixwolf( )
+void fixwolf( )
 {
 
-INT j , last_j ;
+int j , last_j ;
 
 maxtermG = implicit_feed_countG + fdthrusG + TotRegPinsG ;
 last_j = maxtermG + 2 * numRowsG + 2 ;
 
-carrayG = (CBOXPTR *)Ysafe_realloc( carrayG, (1 + numcellsG + numtermsG + 
-			    2 * numRowsG + fdthrusG) * sizeof(CBOXPTR) );
-
-tearrayG = ( PINBOXPTR * ) Ysafe_realloc( tearrayG , ( last_j + 1 )
-					    * sizeof(PINBOXPTR) );
+carrayG = (CBOXPTR *)Ysafe_realloc( carrayG, (1 + numcellsG + numtermsG + 2 * numRowsG + fdthrusG) * sizeof(CBOXPTR) );
+tearrayG = ( PINBOXPTR * ) Ysafe_realloc( tearrayG , ( last_j + 1 ) * sizeof(PINBOXPTR) );
 for( j = TotRegPinsG + 1 ; j <= last_j ; j++ ) {
     tearrayG[j] = PINNULL ;
 }
 return ;
 }
 
-
-addfeed( row , pos , feednum ) 
-INT row , pos , feednum ;
+void addfeed( int row , int pos , int feednum ) 
 {
 CBOXPTR cellptr ;
 TIBOXPTR tileptr ;

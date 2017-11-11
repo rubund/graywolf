@@ -72,12 +72,7 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 	    Wed Jul 24 20:48:13 CDT 1991 - now always wait for
 		user at the end of annealing if requested.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include "allheaders.h"
 
 /* redefine flags for easier reading */
 #define VIOLATIONSONLY   FALSE
@@ -87,184 +82,165 @@ static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
 #define NOCONSTRAINTS    FALSE
 #define CONSTRAINTS      TRUE
 
-finalout()
+int finalout()
 {
+	int c ;
 
-INT c ;
-INT bbtop, bbbottom, bbleft, bbright ;
+	/* dump the results of the placement to graphics file */
+	G( graphics_dump() ) ;
+	G( TWsetMode(1) ) ;
+	G( draw_the_data() ) ;
+	G( TWsetMode(0) ) ;
+	/* we known wire area at this point don't need to estimate */
+	turn_wireest_on(FALSE) ;
 
-/* dump the results of the placement to graphics file */
-G( graphics_dump() ) ;
-G( TWsetMode(1) ) ;
-G( draw_the_data() ) ;
-G( TWsetMode(0) ) ;
+	/* let the user know which pins we couldn't place */
+	set_pin_verbosity( TRUE ) ;
 
+	/* before channel graph generation and global routing let use tweak */
+	/* placement if desired */
+	if( doGraphicsG && wait_for_userG ){
+		G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;
+		G( process_graphics() ) ;
+	} 
 
-/* we known wire area at this point don't need to estimate */
-turn_wireest_on(FALSE) ;
-
-/* let the user know which pins we couldn't place */
-set_pin_verbosity( TRUE ) ;
-
-/* before channel graph generation and global routing let use tweak */
-/* placement if desired */
-if( doGraphicsG && wait_for_userG ){
-    G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;
-    G( process_graphics() ) ;
-} 
-
-savewolf( TRUE ) ;  /* for debug purposes force save to occur */
-if( scale_dataG > 1 ){
-    /* end of the line for scaled case - 
-	will return to parent to continue using saved placement. */
-    closegraphics() ;
-    YexitPgm( PGMOK ) ;
-}
-grid_cells() ;      /* force cells to grid locations */
-compact(VIOLATIONSONLY); /* remove cell overlap */
-
-/* if this is a partitioning run determine row placement */
-if( doPartitionG && !(quickrouteG) ){
-    set_determine_side( FALSE ) ;  /* allow SC to pick side */
-    G( set_graphic_context( PARTITION_PLACEMENT ) ) ;
-    config_rows() ;
-    print_paths() ; /* print path information */
-    Output( 0 ) ;
-    return ;
-}
-/* do final placement of pads using virtual core to insure pads */
-/* are outside of core */
-setVirtualCore( TRUE ) ;
-placepads() ;
-
-/* before channel graph generation and global routing let use tweak */
-/* placement if desired */
-check_graphics() ;
-
-if( !scale_dataG ){ 
-    /* reload bins to get new overlap penalty */
-    loadbins(FALSE) ; /* wireArea not known */
-}
-prnt_cost( "\nFINAL PLACEMENT RESULTS AFTER VIOLATION REMOVAL ARE:\n" ) ;
-
-print_paths() ; /* print path information */
-Output( 0 ) ;
-
-if( doCompactionG > 0 || quickrouteG ) {
-    gmain( CHANNELGRAPH ) ;
-    rmain( NOCONSTRAINTS ) ;
-    gmain( UPDATE_ROUTING ) ;
-    adapt_wire_estimator() ;
-    check_graphics() ;
-
-    if( quickrouteG ){
-	return ;
-    }
-
-    for( c = 1 ; c <= doCompactionG ; c++ ) {
-
-	funccostG = findcost() ;
-	sprintf(YmsgG,"\n\nCompactor Pass Number: %d begins with:\n", c ) ;
-	prnt_cost( YmsgG ) ;
-
-	wirecosts() ;
-
-
+	savewolf( TRUE ) ;  /* for debug purposes force save to occur */
+	if( scale_dataG > 1 ){
+		/* end of the line for scaled case - 
+		will return to parent to continue using saved placement. */
+		return 1;
+	}
 	grid_cells() ;      /* force cells to grid locations */
-	compact(COMPACT);   /* remove white space */
-	reorigin() ;
-	check_graphics() ;
-
-	sprintf(YmsgG,"\n\nCompactor Pass Number: %d after cost:\n", c ) ;
-	prnt_cost( YmsgG ) ;
-
-	Output( c ) ;
-
-	gmain( CHANNELGRAPH ) ;
-
-	if( c == doCompactionG ){
-	    rmain( CONSTRAINTS ) ;
-	} else {
-	    rmain( NOCONSTRAINTS ) ;
-	    gmain( UPDATE_ROUTING ) ;
-	    adapt_wire_estimator() ;
-	    check_graphics() ;
+	compact(VIOLATIONSONLY); /* remove cell overlap */
+	
+	/* if this is a partitioning run determine row placement */
+	if( doPartitionG && !(quickrouteG) ){
+		set_determine_side( FALSE ) ;  /* allow SC to pick side */
+		if(doGraphicsG) {
+			G( set_graphic_context( PARTITION_PLACEMENT ) ) ;
+		}
+		config_rows() ;
+		print_paths() ; /* print path information */
+		Output( 0 ) ;
+		return 0;
 	}
 
-    } /* end compaction - global route loop */
+	/* do final placement of pads using virtual core to insure pads */
+	/* are outside of core */
+	setVirtualCore( TRUE ) ;
+	placepads() ;
 
-} else {
-    if( doChannelGraphG ) {
-	gmain( CHANNELGRAPH ) ;
-    }
-    if( doGlobalRouteG ) {
-	rmain( CONSTRAINTS ) ;
-    }
-}
+	/* before channel graph generation and global routing let use tweak */
+	/* placement if desired */
+	check_graphics() ;
 
+	if( !scale_dataG ){ 
+		/* reload bins to get new overlap penalty */
+		loadbins(FALSE) ; /* wireArea not known */
+	}
+	prnt_cost( "\nFINAL PLACEMENT RESULTS AFTER VIOLATION REMOVAL ARE:\n" ) ;
 
-prnt_cost("\nTIMBERWOLFMC FINAL RESULTS ARE:\n" ) ;
+	print_paths() ; /* print path information */
+	Output( 0 ) ;
 
-return ;
+	if( doCompactionG > 0 || quickrouteG ) {
+		gmain( CHANNELGRAPH ) ;
+		rmain( NOCONSTRAINTS ) ;
+		gmain( UPDATE_ROUTING ) ;
+		adapt_wire_estimator() ;
+		check_graphics() ;
+
+		if( quickrouteG ){
+			return ;
+		}
+
+		for( c = 1 ; c <= doCompactionG ; c++ ) {
+			funccostG = findcost() ;
+			sprintf(YmsgG,"\n\nCompactor Pass Number: %d begins with:\n", c ) ;
+			prnt_cost( YmsgG ) ;
+			wirecosts() ;
+			grid_cells() ;      /* force cells to grid locations */
+			compact(COMPACT);   /* remove white space */
+			reorigin() ;
+			check_graphics() ;
+			sprintf(YmsgG,"\n\nCompactor Pass Number: %d after cost:\n", c ) ;
+			prnt_cost( YmsgG ) ;
+			Output( c ) ;
+			gmain( CHANNELGRAPH ) ;
+			if( c == doCompactionG ){
+				rmain( CONSTRAINTS ) ;
+			} else {
+				rmain( NOCONSTRAINTS ) ;
+				gmain( UPDATE_ROUTING ) ;
+				adapt_wire_estimator() ;
+				check_graphics() ;
+			}
+
+		} /* end compaction - global route loop */
+	} else {
+		if( doChannelGraphG ) {
+			gmain( CHANNELGRAPH ) ;
+		}
+		if( doGlobalRouteG ) {
+			rmain( CONSTRAINTS ) ;
+		}
+	}
+
+	prnt_cost("\nTIMBERWOLFMC FINAL RESULTS ARE:\n" ) ;
+
+	return ;
 } /* end finalout */
 
-
-
-
-Output( cycle )
-INT cycle ;
+void outpin();
+void Output( int cycle )
 {
-
-    if( cycle == 0 || cycle < doCompactionG / 2 ){
-	update_pins( FALSE ) ;  /* update the _orig fields */
-    }
-    outgeo() ;
-    output(NULL)   ;
-    outpin() ;
-    if( doPartitionG ){
-	output_partition() ;
-    }
-    return ;
+	if( cycle == 0 || cycle < doCompactionG / 2 ){
+		update_pins( FALSE ) ;  /* update the _orig fields */
+	}
+	outgeo() ;
+	output(NULL)   ;
+	outpin() ;
+// 	if( doPartitionG ){
+// 		output_partition() ;
+// 	}
+	return ;
 } /* end Output */
 
 /* print out the current cost to the user */
-prnt_cost( out_string ) 
-char *out_string ;
+void prnt_cost( char *out_string ) 
 {
-    INT xspan ;
-    INT yspan ;
+	int xspan ;
+	int yspan ;
 
-    funccostG = findcost() ;
-    OUT2("%s", out_string ) ;
-    OUT2("   routing cost        :%d\n", funccostG ) ;
-    OUT2("   overlap penalty     :%d\n", binpenalG);
-    OUT2("   lapFactor * overlap :%d\n", penaltyG);
-    OUT2("   timing penalty      :%d\n", timingpenalG );
-    OUT2("+  timeFactor * timepen:%d\n", timingcostG );
-    OUT1("-------------------------------------\n" ) ; 
-    OUT2("   total cost          :%d\n",
-	(funccostG + penaltyG + timingcostG) ) ;
-    wirecosts() ;
+	funccostG = findcost() ;
+	printf("%s", out_string ) ;
+	printf("   routing cost        :%d\n", funccostG ) ;
+	printf("   overlap penalty     :%d\n", binpenalG);
+	printf("   lapFactor * overlap :%d\n", penaltyG);
+	printf("   timing penalty      :%d\n", timingpenalG );
+	printf("+  timeFactor * timepen:%d\n", timingcostG );
+	printf("-------------------------------------\n" ) ; 
+	printf("   total cost          :%d\n", (funccostG + penaltyG + timingcostG) ) ;
+	wirecosts() ;
 
-    find_core_boundary( &blocklG, &blockrG, &blockbG, &blocktG ) ;
-    OUT5("\n\nCORE Bounding Box: l:%d r:%d b:%d t:%d\n",
-	    blocklG , blockrG , blockbG , blocktG ) ;
-    xspan = blockrG - blocklG ;
-    yspan = blocktG - blockbG ;
-    OUT2( "   xspan     = %d\n", xspan ) ;
-    OUT2( "   yspan     = %d\n", yspan ) ;
-    OUT2( "   core area = %4.2le\n\n",  (DOUBLE) xspan * (DOUBLE) yspan );
-    OUT1("-------------------------------------\n" ) ; 
-    Ymessage_flush() ;
+	find_core_boundary( &blocklG, &blockrG, &blockbG, &blocktG ) ;
+	OUT5("\n\nCORE Bounding Box: l:%d r:%d b:%d t:%d\n", blocklG , blockrG , blockbG , blocktG ) ;
+	xspan = blockrG - blocklG ;
+	yspan = blocktG - blockbG ;
+	printf( "   xspan     = %d\n", xspan ) ;
+	printf( "   yspan     = %d\n", yspan ) ;
+	printf( "   core area = %4.2le\n\n",  (double) xspan * (double) yspan );
+	printf("-------------------------------------\n" ) ; 
+	Ymessage_flush() ;
 
-}/* end print_current_cost */
+	}/* end print_current_cost */
 
-check_graphics()
+void check_graphics()
 {
-    if( doGraphicsG && wait_for_userG ){
-	G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;
-	G( process_graphics() ) ;
-    } else { 
-	G( draw_the_data() ) ;
-    }
+	if( doGraphicsG && wait_for_userG ){
+		G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;
+		G( process_graphics() ) ;
+	} else { 
+		G( draw_the_data() ) ;
+	}
 } /* end check_graphics */

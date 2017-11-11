@@ -20,28 +20,19 @@ REVISIONS:  Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 #define add_cell( cellptr , c ) ( cellptr[ ++(*cellptr) ] = c )
 */
 
-/* global variables defined for main */
-#ifdef UCXXGLB_VARS
-#define EXTERN 
-#else
-#define EXTERN extern 
-#endif
-
-EXTERN INT ablockG , bblockG ;
-EXTERN INT aG , bG ;
-EXTERN INT ApostG , BpostG ;
-EXTERN INT *cellaptrG , *cellbptrG ;
-EXTERN INT earlyRejG , Rej_errorG ;
-EXTERN INT axcenterG , aycenterG , bxcenterG , bycenterG ;
-EXTERN INT aleftG , arightG , bleftG , brightG ;
-EXTERN INT attemptsG ;
-EXTERN INT potential_errorsG , error_countG , P_limitG ;
-EXTERN DOUBLE total_wire_chgG ;
-EXTERN DOUBLE sigma_wire_chgG ;
-EXTERN DOUBLE mean_wire_chgG ;
-EXTERN INT wire_chgsG ;
-EXTERN DOUBLE fraction_doneG ;
-
-#undef EXTERN  
+extern int ablockG , bblockG ;
+extern int aG , bG ;
+extern int ApostG , BpostG ;
+extern int *cellaptrG , *cellbptrG ;
+extern int earlyRejG , Rej_errorG ;
+extern int axcenterG , aycenterG , bxcenterG , bycenterG ;
+extern int aleftG , arightG , bleftG , brightG ;
+extern int attemptsG ;
+extern int potential_errorsG , error_countG , P_limitG ;
+extern double total_wire_chgG ;
+extern double sigma_wire_chgG ;
+extern double mean_wire_chgG ;
+extern int wire_chgsG ;
+extern double fraction_doneG ;
 
 #endif /* UCXXGLB_H */

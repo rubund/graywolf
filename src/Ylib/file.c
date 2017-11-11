@@ -63,243 +63,114 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Oct 07, 1991 - fix #include sys/dir.h for SYS5 A/UX (RAWeier)
             Oct 18, 1991 - change INT to BOOL in YopenFile (RAWeier)
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) file.c version 3.11 10/20/91" ;
-#endif
-
-#include <stdio.h>
-#include <yalecad/base.h>
-#include <yalecad/file.h>
-#include <yalecad/message.h>
-
 #define SERROR  0
 
-/* ----------------------------------------------------------------- 
-                      File routines                                 */ 
-	  
-FILE *YopenFile(filename,readwrite,abort)
-char *filename ;
-char *readwrite ;
-BOOL  abort ;
-{
-
-    FILE *fileptr ;
-
-    fileptr = fopen( filename, readwrite );
-
-    if( !(fileptr) && abort ){
-	sprintf( YmsgG,"could not open file %s\n",filename ) ;
-	M(ERRMSG,"openFile",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    return( fileptr ) ;
-
-} /* end openFile */
-
-
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <globals.h>
 
 /* check if a file exists */
-BOOL YfileExists(pathname)
-char *pathname ;
+BOOL YfileExists(char *pathname)
 {
-    struct stat buf;
-
-    if( pathname ){
-	if( stat(pathname, &buf) == 0 ){
-	    return(TRUE) ;
+	int ret = 1;
+	if( access( pathname, F_OK ) == -1 ) {
+		ret = 0;
 	}
-    }
-    return(FALSE) ;
+	return ret;
 }
 
-char *Yfile_slink( pathname )
-char *pathname ;
+char *Yfile_slink( char *pathname )
 {
-    INT len ;
-    static char buf[BUFSIZ] ;
+	static char buf[BUFSIZ] ;
 
-    len = readlink( pathname, buf, BUFSIZ ) ;
-    if( len <= SERROR ){
-	sprintf( YmsgG, "ERROR[Yfile_slink]:%s", pathname ) ;
-	perror( YmsgG ) ;
-	Ymessage_error_count() ;
-	return(NIL(char *)) ;
-    } else {
-	/* null terminate string */
-	buf[len] = EOS ;
-	return( buf ) ;
-    }
+	int len = readlink( pathname, buf, BUFSIZ ) ;
+	if( len <= SERROR ){
+		sprintf( YmsgG, "ERROR[Yfile_slink]:%s", pathname ) ;
+		perror( YmsgG ) ;
+		Ymessage_error_count() ;
+		return(NIL(char *)) ;
+	} else {
+		/* null terminate string */
+		buf[len] = EOS ;
+		return( buf ) ;
+	}
 
 } /* end Yfile_slink */
 
-#include <sys/dir.h>
 
 /* check if a directory exists */
-BOOL YdirectoryExists(pathname)
-char *pathname ;
+BOOL YdirectoryExists(char *pathname)
 {
-    DIR *dp ;
+	DIR *dp ;
 
-    if( pathname ){
-	if( dp = opendir(pathname) ){
-	    closedir(dp) ;
-	    return(TRUE) ;
+	if( pathname ){
+		if( dp = opendir(pathname) ){
+		closedir(dp) ;
+		return(TRUE) ;
+		}
 	}
-    }
-    return(FALSE) ;
+	return(FALSE) ;
 }
 
-#ifndef HPUX
-
-#include <sys/file.h>
-FILE *Yfile_create_lock( filename, readNotWrite ) 
-char *filename ;
-BOOL readNotWrite ;
+FILE *Yfile_create_lock( char *filename, BOOL readNotWrite ) 
 {
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
-    FILE *fp ;           /* file stream descriptor */
+	int fd ;             /* file descriptor */
+	int status ;         /* return status */
+	FILE *fp ;           /* file stream descriptor */
 
-    if(!(YfileExists(filename))){ 
-	/* short cut to avoid having to chmod file */
-	fp = YopenFile( filename, "w", ABORT ) ;
-	fclose( fp ) ;
-    }
-
-    if( readNotWrite ){
-	fd = creat( filename, O_RDONLY ) ;
-    } else {
-	fd = creat( filename, O_WRONLY ) ;
-    }
-    if( fd <= 0 ){
-	perror( "Yfile_create_lock" ) ;
-	sprintf( YmsgG,"could not open file %s\n",filename ) ;
-	M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    status = flock( fd, LOCK_EX | LOCK_NB ) ;
-    if( status != 0 ){
-	sprintf( YmsgG,"could not lock file %s\n",filename ) ;
-	M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    /* now if we get this far find file descriptor */
-    if( readNotWrite ){
-	fp = fdopen( fd, "r" ) ;
-    } else {
-	fp = fdopen( fd, "w" ) ;
-    }
-    if(!(fp)){
-	perror( "Yfile_create_lock" ) ;
-	sprintf( YmsgG,"could not get file descriptor %s\n",filename ) ;
-	M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    return( fp ) ;
+	if( readNotWrite ){
+		fd = creat( filename, O_RDONLY ) ;
+	} else {
+		fd = creat( filename, O_WRONLY ) ;
+	}
+	if( fd <= 0 ){
+		perror( "Yfile_create_lock" ) ;
+		sprintf( YmsgG,"could not open file %s\n",filename ) ;
+		M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
+		YexitPgm(PGMFAIL) ;
+	}
+	status = flock( fd, LOCK_EX | LOCK_NB ) ;
+	if( status != 0 ){
+		sprintf( YmsgG,"could not lock file %s\n",filename ) ;
+		M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
+		YexitPgm(PGMFAIL) ;
+	}
+	/* now if we get this far find file descriptor */
+	if( readNotWrite ){
+		fp = fdopen( fd, "r" ) ;
+	} else {
+		fp = fdopen( fd, "w" ) ;
+	}
+	if(!(fp)){
+		perror( "Yfile_create_lock" ) ;
+		sprintf( YmsgG,"could not get file descriptor %s\n",filename ) ;
+		M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
+		YexitPgm(PGMFAIL) ;
+	}
+	return( fp ) ;
 } /* end Yfile_create_lock */
 
 /* see a file is locked */
-BOOL Yfile_test_lock( filename ) 
-char *filename ;
+BOOL Yfile_test_lock( char *filename ) 
 {
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
+	int fd ;             /* file descriptor */
+	int status ;         /* return status */
 
-    if(!(YfileExists(filename))){ 
-	/* file does not exist */
-	return( FALSE ) ;
-    }
+	if(!(YfileExists(filename))){ 
+		/* file does not exist */
+		return( FALSE ) ;
+	}
 
-    fd = open( filename, O_RDONLY, 0 ) ;
-    if( fd <= 0 ){
-	sprintf( YmsgG,"could not open file %s\n",filename ) ;
-	M(ERRMSG,"Yfile_test_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    status = flock( fd, LOCK_EX | LOCK_NB ) ;
-    if( status != 0 ){
-	return( TRUE ) ;
-    } else {
-	return( FALSE ) ;
-    }
+	fd = open( filename, O_RDONLY, 0 ) ;
+	if( fd <= 0 ){
+		sprintf( YmsgG,"could not open file %s\n",filename ) ;
+		M(ERRMSG,"Yfile_test_lock",YmsgG ) ;
+		YexitPgm(PGMFAIL) ;
+	}
+	status = flock( fd, LOCK_EX | LOCK_NB ) ;
+	if( status != 0 ){
+		return( TRUE ) ;
+	} else {
+		return( FALSE ) ;
+	}
 } /* end Yfile_test_lock */
-
-#else /* HPUX */
-
-#include <unistd.h>
-#include <sys/file.h>
-FILE *Yfile_create_lock( filename, readNotWrite ) 
-char *filename ;
-BOOL readNotWrite ;
-{
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
-    FILE *fp ;           /* file stream descriptor */
-
-    if(!(YfileExists(filename))){ 
-	/* short cut to avoid having to chmod file */
-	fp = YopenFile( filename, "w", ABORT ) ;
-	fclose( fp ) ;
-    }
-
-    if( readNotWrite ){
-	fd = creat( filename, O_RDONLY ) ;
-    } else {
-	fd = creat( filename, O_WRONLY ) ;
-    }
-    if( fd <= 0 ){
-	perror( "Yfile_create_lock" ) ;
-	sprintf( YmsgG,"could not open file %s\n",filename ) ;
-	M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    status = lockf( fd, F_LOCK, 0 ) ;
-    if( status != 0 ){
-	sprintf( YmsgG,"could not lock file %s\n",filename ) ;
-	M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    /* now if we get this far find file descriptor */
-    if( readNotWrite ){
-	fp = fdopen( fd, "r" ) ;
-    } else {
-	fp = fdopen( fd, "w" ) ;
-    }
-    if(!(fp)){
-	sprintf( YmsgG,"could not get file descriptor %s\n",filename ) ;
-	M(ERRMSG,"Yfile_create_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    return( fp ) ;
-} /* end Yfile_create_lock */
-
-/* see a file is locked */
-BOOL Yfile_test_lock( filename ) 
-char *filename ;
-{
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
-
-    if(!(YfileExists(filename))){ 
-	/* file does not exist */
-	return( FALSE ) ;
-    }
-    fd = open( filename, O_RDONLY, 0 ) ;
-    if( fd <= 0 ){
-	sprintf( YmsgG,"could not open file %s\n",filename ) ;
-	M(ERRMSG,"Yfile_test_lock",YmsgG ) ;
-	YexitPgm(PGMFAIL) ;
-    }
-    status = lockf( fd, F_TEST, 0 ) ;
-    if( status != 0 ){
-	return( TRUE ) ;
-    } else {
-	return( FALSE ) ;
-    }
-} /* end Yfile_test_lock */
-
-#endif /* HPUX */
 
 /* --------------end file routines ------------------------------- */

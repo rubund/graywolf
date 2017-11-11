@@ -41,30 +41,22 @@
 FILE:	    uc0.c                                       
 DESCRIPTION:orientation change.
 CONTENTS:   uc0( a , newaor )
-		INT a , newaor ;
+		int a , newaor ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
 		debug mode.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) uc0.c (Yale) version 4.6 2/23/92" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include <yalecad/debug.h>
-
-
-uc0( a , newaor )
-INT a , newaor ;
+void uc0( int a , int newaor )
 {
 
 CBOXPTR acellptr ;
 PINBOXPTR antrmptr ;
-INT cost , truth ;
-INT newtimepenal ;
+int cost , truth ;
+int newtimepenal ;
 
 
 acellptr = carrayG[ a ]    ;

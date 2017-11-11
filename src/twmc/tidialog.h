@@ -1,3 +1,5 @@
+#ifndef H_TIDIALOG
+#define H_TIDIALOG
 static TWDIALOGBOX dialogS[53] = {
     1,5,8," ACCEPT ",2,3,0,
     1,25,8," CANCEL ",2,2,0,
@@ -54,10 +56,8 @@ static TWDIALOGBOX dialogS[53] = {
     0,0,0,0,0,0,0
 } ;
 
-
 /* timberwolf to ice view translations */
-INT tw2ice(orient)
-INT orient;
+int tw2ice(int orient)
 {
    switch (orient){
       case 0:
@@ -80,9 +80,7 @@ INT orient;
 
 }
 
-
-INT ice2tw(orient)
-INT orient;
+int ice2tw(int orient)
 {
    switch (orient){
       case 1:
@@ -104,4 +102,4 @@ INT orient;
    }
 } /* end ice2tw */
 
-
+#endif

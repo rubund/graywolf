@@ -62,398 +62,437 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 	    Fri Mar 29 14:25:29 EST 1991 - now save the critical
 		path.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) compactor.c version 7.3 3/29/91" ;
-#endif
+#include <globals.h>
+#include "compactor.h"
+#include "compact.h"
+#include "movestrat.h"
+#include "movestrat2.h"
+#include "cdraw.h"
+#include "xcompact.h"
+#include "ycompact.h"
+#include "grid.h"
 
-#include <compact.h>
-#include <yalecad/debug.h>
+/* the graph data structure */
+COMPACTPTR *tileNodeG ;        /* array of pointers to nodes */
+COMPACTPTR *xGraphG ;          /* array of nodes to x node ptrs */
+COMPACTPTR *yGraphG ;          /* array of yGraph node pointers */
+YSETPTR    tileSetG ;          /* make set of tiles */
 
-remove_violations()
+/* the size of the data */
+int numcellsG ;             /* number of cells to be compacted   */
+int numtilesG ;             /* number of tiles to be compacted   */
+int last_tileG ;            /* last tile in x or y graph */
+int last_cellG ;            /* last cell including sources and sinks */
+char *cktNameG ;            /* the name of the circuit           */
+CELLBOXPTR *cellarrayG ;    /* the cell data */
+CELLBOXPTR *slackG ;        /* array of cells sorted by slack */
+int blockbG ;               /* core bottom */
+int blocklG ;               /* core left */
+int blockrG ;               /* core right */
+int blocktG ;               /* core top */
+int blockmxG ;              /* core center */
+int blockmyG ;              /* core center */
+int *ancestorG ;            /* array of ancestor counts */
+
+/* FOR THE CHANNEL GRAPH */
+int numnodesG ;      /* number of nodes in the channel graph */
+int numedgesG ;      /* number of edges in the channel graph */
+CHANBOXPTR *changraphG ; /* array of nodes of channel graph  */
+INFOPTR    *edgeArrayG ; /* array of edges of channel graph */
+YDECKPTR path_deckG ;    /* list of nodes in critical path */
+
+/* the user requests */
+BOOL alignG     ;  /* TRUE if channel are to be aligned */
+BOOL compactG   ;  /* TRUE if compaction is desired */
+BOOL graphicsG  ;  /* TRUE if graphics are desired */
+BOOL parasiteG  ;  /* TRUE if we want to inherit window */
+BOOL partitionG ;  /* TRUE if partitioning is requested */
+BOOL constraintsG; /* TRUE if constraint graph is present */
+BOOL debugG ;      /* TRUE if debug is requested */
+int xgridG ;       /* force cells to given x grid */
+int ygridG ;       /* force cells to given y grid */
+int xspaceG ;      /* xspacing between tiles of different cells */
+int yspaceG ;      /* yspacing between tiles of different cells */
+
+void remove_violations()
 {
-    ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
+	ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
 
-    /* --------------------------------------------------------------- 
-       VIOLATION REMOVAL CYCLE - iterate till all violations are removed
-    */
-    while( TRUE ){
-	buildXGraph() ;
-	violations = buildYGraph() ; 
-	if( violations ){ /* violations unresolved */
-	    /* move strategy is to resolve overlap violations */
-	    moveStrategy( violations ) ;
-	} else {
-	    break ; /* exit loop */
-	}
+	/* --------------------------------------------------------------- 
+	VIOLATION REMOVAL CYCLE - iterate till all violations are removed
+	*/
+	while( TRUE ){
+		buildXGraph() ;
+		violations = buildYGraph() ; 
+		if( violations ){ /* violations unresolved */
+			/* move strategy is to resolve overlap violations */
+			moveStrategy( violations ) ;
+		} else {
+			break ; /* exit loop */
+		}
 
-	D( "mc_compact/remove_violations", MEMUSAGE ) ;
-	
-	/* G( ) is NOGRAPHICS conditional compile */
-	G( if( graphicsG && TWinterupt() ) ){
-	    G( process_graphics() ) ;
-	}
-	G( draw_the_data() ) ;
+		D( "mc_compact/remove_violations", MEMUSAGE ) ;
+		
+		/* G( ) is NOGRAPHICS conditional compile */
+		G( if( graphicsG && TWinterupt() ) ){
+			G( process_graphics() ) ;
+		}
+		G( draw_the_data() ) ;
+
+		freeGraph(XFORWARD ) ;
+		freeGraph(XBACKWARD ) ;
+		freeGraph(YFORWARD ) ;
+		freeGraph(YBACKWARD ) ;
+
+		D( "mc_compact/remove_violations", MEMUSAGE ) ;
+
+	} /* ----- END VIOLATION REMOVAL CYCLE ------ */
 
 	freeGraph(XFORWARD ) ;
 	freeGraph(XBACKWARD ) ;
 	freeGraph(YFORWARD ) ;
 	freeGraph(YBACKWARD ) ;
-
-	D( "mc_compact/remove_violations", MEMUSAGE ) ;
-
-    } /* ----- END VIOLATION REMOVAL CYCLE ------ */
-
-    freeGraph(XFORWARD ) ;
-    freeGraph(XBACKWARD ) ;
-    freeGraph(YFORWARD ) ;
-    freeGraph(YBACKWARD ) ;
-    G( draw_the_data() ) ;
+	G( draw_the_data() ) ;
 
 } /* end remove_violations */
 
-
-compact()
+void compact()
 {
-    INT length ;       /* length of longest path */
-    INT count ;        /* number of compaction cycles */
-    ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
-    BOOL compactNotSat ; /* compaction criteria is not satisfied */
-    BOOL xNotY_toggle ; /* toggle between x and y compaction. */
+	int length ;       /* length of longest path */
+	int count ;        /* number of compaction cycles */
+	ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
+	BOOL compactNotSat ; /* compaction criteria is not satisfied */
+	BOOL xNotY_toggle ; /* toggle between x and y compaction. */
 
-    /* --------------------------------------------------------------- 
-       COMPACTION CYCLE - iterate till all violations are removed
-	    and compaction criteria is satisfied.
-    */
-    count = 0 ;
-    compactNotSat = TRUE ;
-    xNotY_toggle  = TRUE ;
-    if(!(debugG)) fprintf( stderr,"\nCompaction Begins...\n" ) ;
-    while( compactNotSat ){
-	/* first build x and y graphs */
-	buildXGraph() ;
-	violations = buildYGraph() ; 
-	if( violations ){ /* violations unresolved */
-	    /* move strategy is to resolve overlap violations */
-	    G( set_draw_critical( FALSE ) ) ; 
-	    moveStrategy( violations ) ;
-	    fprintf( stderr,"V " ) ;
-	    D( "mc_compact/viofail",
-		YexitPgm( PGMFAIL ) ;
-	    ) ;
-	    if( debugG ) {
-		fprintf( stderr, "\n" ) ;
-	    }
-	} else {
-	    G( set_draw_critical( TRUE ) ) ; 
-	    if( xNotY_toggle ){
-		fprintf( stderr,"X " ) ;
-		length = longestxPath( TRUE ) ;
-		/* move strategy is to compact in x direction */
-		move_compactx( length );
-		xNotY_toggle = FALSE ; /* flip toggle */
-	    } else {
-		fprintf( stderr,"Y " ) ;
-		length = longestyPath( TRUE ) ;
-		/* move strategy is to compact in y direction */
-		move_compacty( length );
-		xNotY_toggle = TRUE ; /* flip toggle */
-	    }
-	    compactNotSat = test_area() ;
-	    if( debugG) {
-		fprintf( stderr, "\n" ) ;
-	    }
+	/* --------------------------------------------------------------- 
+	COMPACTION CYCLE - iterate till all violations are removed
+		and compaction criteria is satisfied.
+	*/
+	count = 0 ;
+	compactNotSat = TRUE ;
+	xNotY_toggle  = TRUE ;
+	if(!(debugG)) printf("\nCompaction Begins...\n" ) ;
+	while( compactNotSat ){
+		/* first build x and y graphs */
+		buildXGraph() ;
+		violations = buildYGraph() ; 
+		if( violations ) { /* violations unresolved */
+			/* move strategy is to resolve overlap violations */
+			G( set_draw_critical( FALSE ) ) ; 
+			moveStrategy( violations ) ;
+			printf("V " ) ;
+			D( "mc_compact/viofail",
+				YexitPgm( PGMFAIL ) ;
+			) ;
+			if( debugG ) {
+				printf( "\n" ) ;
+			}
+		} else {
+			G( set_draw_critical( TRUE ) ) ; 
+			if( xNotY_toggle ){
+				printf("X " ) ;
+				length = longestxPath( TRUE ) ;
+				/* move strategy is to compact in x direction */
+				move_compactx( length );
+				xNotY_toggle = FALSE ; /* flip toggle */
+			} else {
+				printf("Y " ) ;
+				length = longestyPath( TRUE ) ;
+				/* move strategy is to compact in y direction */
+				move_compacty( length );
+				xNotY_toggle = TRUE ; /* flip toggle */
+			}
+			compactNotSat = test_area() ;
+			if( debugG) {
+				printf( "\n" ) ;
+			}
+		}
 
+		if( (!(debugG)) && (++count % 15) == 0 ){ 
+			printf( "\n" ) ;
+		}
+
+		D( "mc_compact/compact", MEMUSAGE ) ;
+		
+		/* G( ) is NOGRAPHICS conditional compile */
+		G( if( graphicsG && TWinterupt() ) ){
+			G( process_graphics() ) ;
+		}
+		G( draw_the_data() ) ;
+
+		freeGraph(XFORWARD) ;
+		freeGraph(XBACKWARD) ;
+		freeGraph(YFORWARD) ;
+		freeGraph(YBACKWARD) ;
+
+		D( "mc_compact/compact", MEMUSAGE ) ;
+
+	} /* ----- END COMPACTION CYCLE ------ */
+
+	if(!(debugG)){ 
+		printf( "\n\n" ) ;
 	}
 
-	if( (!(debugG)) && (++count % 15) == 0 ){ 
-	    fprintf( stderr, "\n" ) ;
-	}
+	/* grid the cells */
+	grid_data() ;
 
-	D( "mc_compact/compact", MEMUSAGE ) ;
-	
-	/* G( ) is NOGRAPHICS conditional compile */
-	G( if( graphicsG && TWinterupt() ) ){
-	    G( process_graphics() ) ;
-	}
+	/* make sure we have no violations */
+	remove_violations() ;
+
+	/* show the results */
 	G( draw_the_data() ) ;
-
-	freeGraph(XFORWARD) ;
-	freeGraph(XBACKWARD) ;
-	freeGraph(YFORWARD) ;
-	freeGraph(YBACKWARD) ;
-
-	D( "mc_compact/compact", MEMUSAGE ) ;
-
-    } /* ----- END COMPACTION CYCLE ------ */
-
-    if(!(debugG)){ 
-	fprintf( stderr, "\n\n" ) ;
-    }
-
-    /* grid the cells */
-    grid_data() ;
-
-    /* make sure we have no violations */
-    remove_violations() ;
-
-    /* show the results */
-    G( draw_the_data() ) ;
 
 } /* end compact */
 
-
-freeGraph( direction ) 
-INT direction ;
+void freeGraph( int direction ) 
 {
-    INT i ;
-    ECOMPBOXPTR edge , saveEdge ;
+	int i ;
+	ECOMPBOXPTR edge , saveEdge ;
 
-    for( i=0 ; i<= last_tileG ; i++ ){
-	switch( direction ){
-	    case XFORWARD: edge=xGraphG[i]->xadjF;
-		xGraphG[i]->xadjF = NULL ;
-		break ;
-	    case XBACKWARD: edge=xGraphG[i]->xadjB;
-		xGraphG[i]->xadjB = NULL ;
-		break ;
-	    case YFORWARD:  edge=yGraphG[i]->yadjF;
-		yGraphG[i]->yadjF = NULL ;
-		break ;
-	    case YBACKWARD: edge=yGraphG[i]->yadjB;
-		yGraphG[i]->yadjB = NULL ;
-		break ;
-	}
-	/* free all the edges */
-	for( ;edge; ){ 
-	    saveEdge = edge ;
-	    edge = edge->next ;
-	    Ysafe_free(saveEdge) ;
-	}
-    } /* end for loop */
-}
-
-INT path(direction)
-INT direction ;
-{
-    INT node ;
-    INT source ;
-
-
-    switch( direction ){
-    case XFORWARD : node = numtilesG + 1 ;
-	if( constraintsG ){
-	    Ydeck_empty( path_deckG, NIL(VOIDPTR)) ;
-	}
-	D( "mc_compact/path",
-	    printf("Longest path in xGraphG-Forward direction:\n" ) ) ;
-	source = 0 ;
-	/* print backwards so list is in correct order columatted */
-	while( node != source ){
-	    D( "mc_compact/path",
-	    printf("Node:%2d cell:%2d xvalueMin:%4d\n",
-		tileNodeG[node]->node,
-		tileNodeG[node]->cell,
-		tileNodeG[node]->xvalueMin ) ) ;
-	    tileNodeG[node]->criticalX = TRUE ;
-	    /* update node */
-	    node = tileNodeG[node]->pathx ;
-	    if( constraintsG && node != source ){
-		Ydeck_push( path_deckG, (VOIDPTR) node ) ;
-	    }
-	}
-	return( tileNodeG[numtilesG+1]->xvalueMin ) ;
-    case XBACKWARD: node = 0 ;
-	D( "mc_compact/path",
-	printf("Longest path in xGraphG-Backward direction:\n" ) ) ;
-	source = numtilesG + 1 ;
-	/* print backwards so list is in correct order columatted */
-	while( node != source ){
-	    D( "mc_compact/path",
-	    printf("Node:%2d cell:%2d xvalueMax:%4d\n",
-		tileNodeG[node]->node,
-		tileNodeG[node]->cell,
-		tileNodeG[node]->xvalueMax ) ) ;
-	    /* update node */
-	    node = tileNodeG[node]->pathx ;
-	}
-	return( tileNodeG[0]->xvalueMax ) ;
-    case YFORWARD : node = numtilesG + 3 ;
-	if( constraintsG ){
-	    Ydeck_empty( path_deckG, NIL(VOIDPTR)) ;
-	}
-	D( "mc_compact/path",
-	printf("Longest path in yGraphG-Forward direction:\n" ) );
-	source = numtilesG + 2 ;
-	/* print backwards so list is in correct order columatted */
-	while( node != source ){
-	    D( "mc_compact/path",
-	    printf("Node:%2d cell:%2d yvalueMin:%4d\n",
-		tileNodeG[node]->node,
-		tileNodeG[node]->cell,
-		tileNodeG[node]->yvalueMin ) );
-	    tileNodeG[node]->criticalY = TRUE ;
-	    /* update node */
-	    node = tileNodeG[node]->pathy ;
-	    if( constraintsG && node != source ){
-		Ydeck_push( path_deckG, (VOIDPTR) node ) ;
-	    }
-	}
-	return( tileNodeG[numtilesG+3]->yvalueMin ) ;
-    case YBACKWARD: node = numtilesG + 2 ;
-	D( "mc_compact/path",
-	printf("Longest path in yGraphG-Backward direction:\n" ) ) ;
-	source = numtilesG + 3 ;
-	while( node != source ){
-	    D( "mc_compact/path",
-	    printf("Node:%2d cell:%2d yvalueMax:%4d\n",
-		tileNodeG[node]->node,
-		tileNodeG[node]->cell,
-		tileNodeG[node]->yvalueMax ) ) ;
-	    /* update node */
-	    node = tileNodeG[node]->pathy ;
-	}
-	return( tileNodeG[numtilesG+2]->yvalueMax ) ;
-    default:
-	M(ERRMSG,"dpath","invalid direction in graph\n") ;
-	return( 0 ) ;
-    }
-}
-
-cleanupGraph( direction ) 
-INT direction ;
-{
-    INT i ;
-    ECOMPBOXPTR edge , match, saveNode ;
-    INT matchNode, sameNode ;
-
-    for( i=0 ; i<= last_tileG ; i++ ){
-	switch( direction ){
-	    case XFORWARD: edge=xGraphG[i]->xadjF;
-	        sameNode = xGraphG[i]->node ; 
-		break ;
-	    case XBACKWARD: edge=xGraphG[i]->xadjB;
-		sameNode = xGraphG[i]->node ; 
-		break ;
-	    case YFORWARD:  edge=yGraphG[i]->yadjF;
-		sameNode = yGraphG[i]->node ; 
-		break ;
-	    case YBACKWARD: edge=yGraphG[i]->yadjB;
-		sameNode = yGraphG[i]->node ; 
-		break ;
-	}
-	for( ;edge;edge=edge->next ){ 
-	    matchNode = edge->node ;
-	    saveNode = edge ;
-	    for(match=edge->next; match ; ){
-		if( match->node == matchNode ){ 
-
-		    D( "mc_compact/cleanupGraph",
-			sprintf( YmsgG, 
-			"We discovered redundant edge-N%d -> N%d\n",
-			sameNode, match->node ) ;
-		        M(MSG, NULL, YmsgG )
-		    ) ;
-
-		    /* need to update ancestors */
-		    /* the edge in question is sameNode:match->node */
-		    switch( direction ){
-			case XFORWARD: 
-			    tileNodeG[matchNode]->xancestrF-- ;
-			    break ;
-			case XBACKWARD: 
-			    tileNodeG[matchNode]->xancestrB-- ;
-			    break ;
-			case YFORWARD:  
-			    tileNodeG[matchNode]->yancestrF-- ;
-			    break ;
-			case YBACKWARD:
-			    tileNodeG[matchNode]->yancestrB-- ;
-			    break ;
-		    }
-
-		    ASSERT( edge->constraint == match->constraint,
-		      "cleanupGraph",
-		      "Redundant edges have mismatching constraints\n");
-
-		    /* now delete */
-		    saveNode->next = match->next ;
-		    Ysafe_free( match ) ;
-
-		    /* update loop */
-		    match = saveNode->next ;
-
-		} else if( match->node == sameNode){ 
-		    /* a node constrainted to itself delete it. */
-
-		    D( "mc_compact/cleanupGraph",
-			sprintf( YmsgG, 
-			"We discovered redundant edge-N%d -> N%d\n",
-			sameNode, match->node ) ;
-		        M(MSG, NULL, YmsgG )
-		    ) ;
-
-		    /* need to update ancestors */
-		    /* the edge in question is sameNode:match->node */
-		    switch( direction ){
-			case XFORWARD: 
-			    tileNodeG[sameNode]->xancestrF-- ;
-			    break ;
-			case XBACKWARD: 
-			    tileNodeG[sameNode]->xancestrB-- ;
-			    break ;
-			case YFORWARD:  
-			    tileNodeG[sameNode]->yancestrF-- ;
-			    break ;
-			case YBACKWARD:
-			    tileNodeG[sameNode]->yancestrB-- ;
-			    break ;
-		    }
-
-		    /* now delete */
-		    saveNode->next = match->next ;
-		    Ysafe_free( match ) ;
-
-		    /* update loop */
-		    match = saveNode->next ;
-
-		} else {
-		    /* edge is OK */
-
-		    /* update loop */
-		    saveNode = match ;
-		    match = match->next ;
+	for( i=0 ; i<= last_tileG ; i++ ){
+		switch( direction ){
+		case XFORWARD: edge=xGraphG[i]->xadjF;
+			xGraphG[i]->xadjF = NULL ;
+			break ;
+		case XBACKWARD: edge=xGraphG[i]->xadjB;
+			xGraphG[i]->xadjB = NULL ;
+			break ;
+		case YFORWARD:  edge=yGraphG[i]->yadjF;
+			yGraphG[i]->yadjF = NULL ;
+			break ;
+		case YBACKWARD: edge=yGraphG[i]->yadjB;
+			yGraphG[i]->yadjB = NULL ;
+			break ;
 		}
-	    }
+		/* free all the edges */
+		for( ;edge; ){ 
+		saveEdge = edge ;
+		edge = edge->next ;
+		Ysafe_free(saveEdge) ;
+		}
+	} /* end for loop */
+}
+
+int path(int direction)
+{
+	int node ;
+	int source ;
+
+	switch( direction ){
+	case XFORWARD : node = numtilesG + 1 ;
+		if( constraintsG ){
+		Ydeck_empty( path_deckG, NIL(VOIDPTR)) ;
+		}
+		D( "mc_compact/path",
+		printf("Longest path in xGraphG-Forward direction:\n" ) ) ;
+		source = 0 ;
+		/* print backwards so list is in correct order columatted */
+		while( node != source ){
+		D( "mc_compact/path",
+		printf("Node:%2d cell:%2d xvalueMin:%4d\n",
+			tileNodeG[node]->node,
+			tileNodeG[node]->cell,
+			tileNodeG[node]->xvalueMin ) ) ;
+		tileNodeG[node]->criticalX = TRUE ;
+		/* update node */
+		node = tileNodeG[node]->pathx ;
+		if( constraintsG && node != source ){
+			Ydeck_push( path_deckG, (VOIDPTR) node ) ;
+		}
+		}
+		return( tileNodeG[numtilesG+1]->xvalueMin ) ;
+	case XBACKWARD: node = 0 ;
+		D( "mc_compact/path",
+		printf("Longest path in xGraphG-Backward direction:\n" ) ) ;
+		source = numtilesG + 1 ;
+		/* print backwards so list is in correct order columatted */
+		while( node != source ){
+		D( "mc_compact/path",
+		printf("Node:%2d cell:%2d xvalueMax:%4d\n",
+			tileNodeG[node]->node,
+			tileNodeG[node]->cell,
+			tileNodeG[node]->xvalueMax ) ) ;
+		/* update node */
+		node = tileNodeG[node]->pathx ;
+		}
+		return( tileNodeG[0]->xvalueMax ) ;
+	case YFORWARD : node = numtilesG + 3 ;
+		if( constraintsG ){
+		Ydeck_empty( path_deckG, NIL(VOIDPTR)) ;
+		}
+		D( "mc_compact/path",
+		printf("Longest path in yGraphG-Forward direction:\n" ) );
+		source = numtilesG + 2 ;
+		/* print backwards so list is in correct order columatted */
+		while( node != source ){
+		D( "mc_compact/path",
+		printf("Node:%2d cell:%2d yvalueMin:%4d\n",
+			tileNodeG[node]->node,
+			tileNodeG[node]->cell,
+			tileNodeG[node]->yvalueMin ) );
+		tileNodeG[node]->criticalY = TRUE ;
+		/* update node */
+		node = tileNodeG[node]->pathy ;
+		if( constraintsG && node != source ){
+			Ydeck_push( path_deckG, (VOIDPTR) node ) ;
+		}
+		}
+		return( tileNodeG[numtilesG+3]->yvalueMin ) ;
+	case YBACKWARD: node = numtilesG + 2 ;
+		D( "mc_compact/path",
+		printf("Longest path in yGraphG-Backward direction:\n" ) ) ;
+		source = numtilesG + 3 ;
+		while( node != source ){
+		D( "mc_compact/path",
+		printf("Node:%2d cell:%2d yvalueMax:%4d\n",
+			tileNodeG[node]->node,
+			tileNodeG[node]->cell,
+			tileNodeG[node]->yvalueMax ) ) ;
+		/* update node */
+		node = tileNodeG[node]->pathy ;
+		}
+		return( tileNodeG[numtilesG+2]->yvalueMax ) ;
+	default:
+		M(ERRMSG,"dpath","invalid direction in graph\n") ;
+		return( 0 ) ;
 	}
-    } /* end for loop */
+}
+
+void cleanupGraph( int direction ) 
+{
+	int i ;
+	ECOMPBOXPTR edge , match, saveNode ;
+	int matchNode, sameNode ;
+
+	for( i=0 ; i<= last_tileG ; i++ ){
+		switch( direction ){
+			case XFORWARD:
+				edge=xGraphG[i]->xadjF;
+				sameNode = xGraphG[i]->node ; 
+				break ;
+			case XBACKWARD:
+				edge=xGraphG[i]->xadjB;
+				sameNode = xGraphG[i]->node ; 
+				break ;
+			case YFORWARD:
+				edge=yGraphG[i]->yadjF;
+				sameNode = yGraphG[i]->node ; 
+				break ;
+			case YBACKWARD:
+				edge=yGraphG[i]->yadjB;
+				sameNode = yGraphG[i]->node ; 
+				break ;
+		}
+		for( ;edge;edge=edge->next ){ 
+			matchNode = edge->node ;
+			saveNode = edge ;
+			for(match=edge->next; match ; ){
+				if( match->node == matchNode ){ 
+
+				D( "mc_compact/cleanupGraph",
+					sprintf( YmsgG, 
+					"We discovered redundant edge-N%d -> N%d\n",
+					sameNode, match->node ) ;
+					M(MSG, NULL, YmsgG )
+				) ;
+
+				/* need to update ancestors */
+				/* the edge in question is sameNode:match->node */
+				switch( direction ){
+					case XFORWARD: 
+					tileNodeG[matchNode]->xancestrF-- ;
+					break ;
+					case XBACKWARD: 
+					tileNodeG[matchNode]->xancestrB-- ;
+					break ;
+					case YFORWARD:  
+					tileNodeG[matchNode]->yancestrF-- ;
+					break ;
+					case YBACKWARD:
+					tileNodeG[matchNode]->yancestrB-- ;
+					break ;
+				}
+
+				ASSERT( edge->constraint == match->constraint,
+				"cleanupGraph",
+				"Redundant edges have mismatching constraints\n");
+
+				/* now delete */
+				saveNode->next = match->next ;
+				Ysafe_free( match ) ;
+
+				/* update loop */
+				match = saveNode->next ;
+
+				} else if( match->node == sameNode){ 
+				/* a node constrainted to itself delete it. */
+
+				D( "mc_compact/cleanupGraph",
+					sprintf( YmsgG, 
+					"We discovered redundant edge-N%d -> N%d\n",
+					sameNode, match->node ) ;
+					M(MSG, NULL, YmsgG )
+				) ;
+
+				/* need to update ancestors */
+				/* the edge in question is sameNode:match->node */
+				switch( direction ){
+					case XFORWARD: 
+					tileNodeG[sameNode]->xancestrF-- ;
+					break ;
+					case XBACKWARD: 
+					tileNodeG[sameNode]->xancestrB-- ;
+					break ;
+					case YFORWARD:  
+					tileNodeG[sameNode]->yancestrF-- ;
+					break ;
+					case YBACKWARD:
+					tileNodeG[sameNode]->yancestrB-- ;
+					break ;
+				}
+
+				/* now delete */
+				saveNode->next = match->next ;
+				Ysafe_free( match ) ;
+
+				/* update loop */
+				match = saveNode->next ;
+
+				} else {
+				/* edge is OK */
+
+				/* update loop */
+				saveNode = match ;
+				match = match->next ;
+				}
+			}
+		}
+	} /* end for loop */
 }
 
 /* find bounding box of tiles */
-find_core( l, r, b, t )
-INT *l, *r, *b, *t ;
+void find_core( int *l, int *r, int *b, int *t )
 {
+	int i ;
+	int expand ;
+	COMPACTPTR tile ;
 
-    INT i ;
-    INT expand ;
-    COMPACTPTR tile ;
+	blocklG = INT_MAX ;
+	blockbG = INT_MAX ;
+	blockrG = INT_MIN ;
+	blocktG = INT_MIN ;
 
-    blocklG = INT_MAX ;
-    blockbG = INT_MAX ;
-    blockrG = INT_MIN ;
-    blocktG = INT_MIN ;
-
-    for( i=1; i <= numtilesG; i++ ){
-	tile = tileNodeG[i] ;
-	blocklG = MIN( blocklG, tile->l ) ;
-	blockbG = MIN( blockbG, tile->b ) ;
-	blockrG = MAX( blockrG, tile->r ) ;
-	blocktG = MAX( blocktG, tile->t ) ;
-    }
-    expand = (INT) ( 0.25 * (DOUBLE) ABS(blockrG - blocklG) ) ;
-    *l = blocklG -= expand ;
-    *r = blockrG += expand ;
-    expand = (INT) ( 0.25 * (DOUBLE) ABS(blocktG - blockbG) ) ;
-    *b = blockbG -= expand ;
-    *t = blocktG += expand ;
-
+	for( i=1; i <= numtilesG; i++ ){
+		tile = tileNodeG[i] ;
+		blocklG = MIN( blocklG, tile->l ) ;
+		blockbG = MIN( blockbG, tile->b ) ;
+		blockrG = MAX( blockrG, tile->r ) ;
+		blocktG = MAX( blocktG, tile->t ) ;
+	}
+	expand = (int) ( 0.25 * (double) ABS(blockrG - blocklG) ) ;
+	*l = blocklG -= expand ;
+	*r = blockrG += expand ;
+	expand = (int) ( 0.25 * (double) ABS(blocktG - blockbG) ) ;
+	*b = blockbG -= expand ;
+	*t = blocktG += expand ;
 } /* end find_core */

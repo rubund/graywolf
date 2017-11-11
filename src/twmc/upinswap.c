@@ -41,30 +41,22 @@
 FILE:	    upinswap.c                                       
 DESCRIPTION:place pins on the cell.
 CONTENTS:   BOOL upinswap( a )
-		INT a ;
+		int a ;
 DATE:	    Mar 30, 1990 - new vertion of pinswap code.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) upinswap.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-#include <initialize.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include "allheaders.h"
 
 #define CURVERTICES FALSE
 
-BOOL upinswap( a )
-INT a ;
+BOOL upinswap( int a )
 {
 
     CELLBOXPTR acellptr ;
     PINBOXPTR  pin, atermptr ;
     SOFTBOXPTR spin ;
-    INT cost, inst ;
-    INT newtimepenalty, newtimepenal ;
+    int cost, inst ;
+    int newtimepenalty, newtimepenal ;
 
     acellptr = cellarrayG[ a ] ;
     atermptr = acellptr->pinptr ;
@@ -84,7 +76,7 @@ INT a ;
     ASSERT(newtimepenal==dcalc_full_penalty(),"upinswap","Timing woes\n");
 
     /* scale new timing penalty */
-    newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+    newtimepenalty = (int) ( timeFactorG * (double) newtimepenal ) ;
 
     if( acceptt( funccostG + timingcostG - cost - newtimepenalty )){
 
@@ -115,12 +107,10 @@ INT a ;
     }
 } /* end upinswap */
 
-
-check_pin( a )
-INT a ;
+void check_pin( int a )
 {
-    INT x, y, l, r, t, b;
-    INT orient ;
+    int x, y, l, r, t, b;
+    int orient ;
     CELLBOXPTR acellptr ;
     PINBOXPTR pin ;
 
@@ -138,18 +128,18 @@ INT a ;
 	    pin->txpos, pin->typos,     
 	    acellptr->xcenter, acellptr->ycenter );
 	if( x != pin->xpos ){
-	    fprintf( stderr,"xpin != xpos \n" ) ;
+	    printf("xpin != xpos \n" ) ;
 	    pin->xpos = x ;
 	}
 	if( y != pin->ypos ){
-	    fprintf( stderr,"ypin != ypos \n" ) ;
+	    printf("ypin != ypos \n" ) ;
 	    pin->ypos = y ;
 	}
 	if( x < l || x > r ){
-	    fprintf( stderr,"pin outside bounding box\n" ) ;
+	    printf("pin outside bounding box\n" ) ;
 	}
 	if( y < b || b > t ){
-	    fprintf( stderr,"pin outside bounding box\n" ) ;
+	    printf("pin outside bounding box\n" ) ;
 	}
     }
 } /* end check_pin */

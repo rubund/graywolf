@@ -46,21 +46,16 @@ REVISIONS:  Jul 30, 1988 - fixed output for softcells and added
 		gridding of cells for mighty interface.
 	    Mon Jan  7 18:31:00 CST 1991 - don't grid pads.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) prboard.c version 3.6 4/18/91" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <yalecad/debug.h>
-
-grid_cells()
+void grid_cells()
 {
 
-INT xcenter , ycenter, remainder ;
-INT cell ;
-INT old_left, old_bottom ;/* original xy center of cell before gridding */
-INT delta_x, delta_y ;       /* delta to move cell lower left to grid */
-INT left, right, bottom, top ;            /* sides of cell bounding box */
+int xcenter , ycenter, remainder ;
+int cell ;
+int old_left, old_bottom ;/* original xy center of cell before gridding */
+int delta_x, delta_y ;       /* delta to move cell lower left to grid */
+int left, right, bottom, top ;            /* sides of cell bounding box */
 CELLBOXPTR cellptr ;
 BOUNBOXPTR bounptr ;
 

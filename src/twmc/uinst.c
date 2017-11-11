@@ -49,14 +49,7 @@ REVISIONS:  Oct 3, 1989 - fixed problem with overlap calculation.
 	    Sat Apr 27 01:10:04 EDT 1991 - fixed problem with
 		aspect ratio calculation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uinst.c version 3.9 11/23/91" ;
-#endif
-
-#include <custom.h>
-#include <initialize.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include "allheaders.h"
 
 #define NEWVERTICES TRUE
 #define HOWMANY     0
@@ -72,17 +65,17 @@ MOVEBOXPTR newtile ;     /* temp pointer for easier access */
 VERTBOXPTR vert ;        /* the vertices of the cell */
 TILEBOXPTR tptr ;        /* temp pointer for tiles */
 INSTBOXPTR instptr ;     /* pointer to the cells instance box */
-DOUBLE aspFactor ;
-DOUBLE val ;
+double aspFactor ;
+double val ;
 
-INT cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
-INT a, i ;
-INT lastinst, newinst ;
-INT aorient, axcenter, aycenter ;
-INT oleft, obottom, oright, otop ;
-INT Hdiv2, Wdiv2 ;
-INT *xorig, *xnew, *yorig, *ynew ;
-INT numsides, howmany ;
+int cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
+int a, i ;
+int lastinst, newinst ;
+int aorient, axcenter, aycenter ;
+int oleft, obottom, oright, otop ;
+int Hdiv2, Wdiv2 ;
+int *xorig, *xnew, *yorig, *ynew ;
+int numsides, howmany ;
 
 /* ----------------------------------------------------------------- 
    global information is stored in element zero of position arrays 
@@ -125,9 +118,9 @@ if( acellptr->softflag ){
     obottom = bounptr->b ;
     oright = bounptr->r ;
     otop = bounptr->t ;
-    val = (DOUBLE) (otop - obottom) * aspFactor ;
+    val = (double) (otop - obottom) * aspFactor ;
     Hdiv2 = ROUND( val ) / 2 ;
-    val = (DOUBLE) (oright - oleft) / aspFactor ;
+    val = (double) (oright - oleft) / aspFactor ;
     Wdiv2 = ROUND( val ) / 2 ;
 
 
@@ -137,13 +130,13 @@ if( acellptr->softflag ){
     new_apos0G->loaded_previously = TRUE ;
     for( tptr = instptr->tile_inst[newinst];tptr;tptr = tptr->next ){
 	newtile = new_aposG[++i] ;
-	val = (DOUBLE)(tptr->orig_left - oleft) / aspFactor;
+	val = (double)(tptr->orig_left - oleft) / aspFactor;
 	newtile->l = ROUND( val ) - Wdiv2 ;
-	val = (DOUBLE)(tptr->orig_right - oleft) / aspFactor;
+	val = (double)(tptr->orig_right - oleft) / aspFactor;
 	newtile->r = ROUND( val ) - Wdiv2 ;
-	val = (DOUBLE)(tptr->orig_bottom - obottom) * aspFactor;
+	val = (double)(tptr->orig_bottom - obottom) * aspFactor;
 	newtile->b = ROUND( val ) - Hdiv2 ;
-	val = (DOUBLE)(tptr->orig_top - obottom) * aspFactor;
+	val = (double)(tptr->orig_top - obottom) * aspFactor;
 	newtile->t = ROUND( val ) - Hdiv2 ;
 
 	newtile->lw = tptr->lweight ;
@@ -163,9 +156,9 @@ if( acellptr->softflag ){
     yorig = vert->y_orig ;
     ynew = vert->y_new ;
     for( i = 1, numsides=instptr->numsides[newinst]; i <= numsides; i++ ){
-	val = (DOUBLE)(xorig[i] - oleft) / aspFactor ;
+	val = (double)(xorig[i] - oleft) / aspFactor ;
 	xnew[i] = ROUND( val ) - Wdiv2 ;
-	val = (DOUBLE)(yorig[i] - obottom) * aspFactor ;
+	val = (double)(yorig[i] - obottom) * aspFactor ;
 	ynew[i] = ROUND( val ) - Hdiv2 ;
     }
 
@@ -195,7 +188,7 @@ if( acellptr->softflag ){
 newbinpenal += overlap( /* old_aposG, new_aposG */ ) ;
 
 /* scale new penalty for feedback circuit */
-newpenalty = (INT) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
+newpenalty = (int) ( lapFactorG * sqrt( (double) newbinpenal ) ) ;
 
 /* -------------- update the position of all pins --------------------- */
 axcenter = acellptr->xcenter ;
@@ -205,13 +198,13 @@ if( acellptr->softflag ){
     for( pin = anewtermptr ; pin ; pin = pin->nextpin ) {
 
 	if( pin->type == HARDPINTYPE ){
-	    val = (DOUBLE)(pin->txpos_orig[newinst]-oleft) / aspFactor ;
+	    val = (double)(pin->txpos_orig[newinst]-oleft) / aspFactor ;
 	    pin->txpos_new = ROUND( val ) - Wdiv2 ;
-	    val = (DOUBLE)(pin->typos_orig[newinst]-obottom) * aspFactor ;
+	    val = (double)(pin->typos_orig[newinst]-obottom) * aspFactor ;
 	    pin->typos_new = ROUND( val ) - Hdiv2 ;
 	}
     }
-    howmany = (INT) acellptr->softpins[HOWMANY] ;
+    howmany = (int) acellptr->softpins[HOWMANY] ;
     /* set each pin's correct instance */
     for( i = 1 ; i <= howmany; i++ ){
 	pin = acellptr->softpins[i] ;
@@ -248,7 +241,7 @@ newtimepenal += calc_incr_time( a ) ;
 ASSERT( newtimepenal == dcalc_full_penalty(),NULL,NULL) ;
 
 /* scale new timing penalty */
-newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+newtimepenalty = (int) ( timeFactorG * (double) newtimepenal ) ;
 
 /* ------------------------------------------------------------------
     Note: we don't take overfill into account here because changing 
@@ -278,13 +271,13 @@ if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty -
     if( acellptr->softflag ){
 	/* update the aspect ratio of softtile */
 	for( tptr = acellptr->tiles;tptr;tptr = tptr->next ){
-	    val = (DOUBLE)(tptr->orig_left - oleft) / aspFactor;
+	    val = (double)(tptr->orig_left - oleft) / aspFactor;
 	    tptr->left = ROUND( val ) - Wdiv2 ;
-	    val = (DOUBLE)(tptr->orig_right - oleft) / aspFactor;
+	    val = (double)(tptr->orig_right - oleft) / aspFactor;
 	    tptr->right = ROUND( val ) - Wdiv2 ;
-	    val = (DOUBLE)(tptr->orig_bottom - obottom) * aspFactor;
+	    val = (double)(tptr->orig_bottom - obottom) * aspFactor;
 	    tptr->bottom = ROUND( val ) - Hdiv2 ;
-	    val = (DOUBLE)(tptr->orig_top - obottom) * aspFactor;
+	    val = (double)(tptr->orig_top - obottom) * aspFactor;
 	    tptr->top = ROUND( val ) - Hdiv2 ;
 	} /* end calculation of new tiles */
 

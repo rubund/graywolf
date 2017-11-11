@@ -48,23 +48,17 @@ CONTENTS:
 DATE:	    Apr  27, 1989 - added heading and added limitnets calc.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wirecosts.c version 3.3 9/5/90" ;
-#endif
+#include "allheaders.h"
 
-#include <custom.h>
-#include <yalecad/debug.h>
-
-
-wirecosts()
+void wirecosts()
 {
 
 NETBOXPTR dimptr ;
 PINBOXPTR pinptr ;
 
-INT limitNets, withPads , withOutPads ;
-INT x , y , xmin , xmax , ymin , ymax , net ;
-INT cell, celltype, bbox ;
+int limitNets, withPads , withOutPads ;
+int x , y , xmin , xmax , ymin , ymax , net ;
+int cell, celltype, bbox ;
 
 withPads = 0 ;
 withOutPads = 0 ;
@@ -142,10 +136,10 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 	limitNets += bbox ;
     }
 }
-OUT1("Wirelength:\n") ;
-OUT2("\tAll nets             :%d\n", withPads ) ;
-OUT2("\tLimited nets         :%d\n", limitNets ) ;
-OUT2("\tAll nets without pads:%d\n", withOutPads ) ;
+printf("Wirelength:\n") ;
+printf("\tAll nets             :%d\n", withPads ) ;
+printf("\tLimited nets         :%d\n", limitNets ) ;
+printf("\tAll nets without pads:%d\n", withOutPads ) ;
 return ;
 
 }

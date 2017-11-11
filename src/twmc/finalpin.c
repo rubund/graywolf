@@ -44,22 +44,15 @@ DATE:	    Jan 29, 1988
 REVISIONS:  Feb  7, 1990 - complete rewrite of finalpin. Now uses
 		low temperature anneal.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) finalpin.c version 3.6 4/3/92" ;
-#endif
-
-#include <custom.h>
-#include <yalecad/debug.h>
+#include "allheaders.h"
 
 #define HOWMANY 0
 #define EXPECTEDNUMSITES  500
 
-
-finalpin()
+void finalpin()
 {
 
 }
-
 
 #ifdef LATER
 
@@ -147,16 +140,15 @@ final_pin_place()
        now output statistics for this temperature.
     */
 
-    OUT1("\n\nPin place optimizer\n");
-    OUT1("\nI     T     funccost  overpen  x pinFact = overfill pinflips\n");
-    OUT2("%3d ",iterationG ); 
-    OUT2("%4.2le ",TG ); 
-    OUT2("%4.2le ",(DOUBLE) funccostG ); 
-    OUT2("%4.2le ",(DOUBLE) overpenalG ); 
-    OUT2("%4.2le ",(DOUBLE) pinFactorG ); 
-    OUT2("%4.2le ",(DOUBLE) overfillG ); 
-    OUT3("%3d/%3d\n\n",flippG,attpG ); 
-    FLUSHOUT() ;
+    printf("\n\nPin place optimizer\n");
+    printf("\nI     T     funccost  overpen  x pinFact = overfill pinflips\n");
+    printf("%3d ",iterationG ); 
+    printf("%4.2le ",TG ); 
+    printf("%4.2le ",(DOUBLE) funccostG ); 
+    printf("%4.2le ",(DOUBLE) overpenalG ); 
+    printf("%4.2le ",(DOUBLE) pinFactorG ); 
+    printf("%4.2le ",(DOUBLE) overfillG ); 
+    printf("%3d/%3d\n\n",flippG,attpG ); 
 
     return ;
 } /* end final_pin_place */
@@ -420,7 +412,7 @@ CELLBOXPTR cellptr ;
 	    "There are more pins than valid locations\n" ) ;
 	sprintf( YmsgG, "\t - %d sites < %d pins for cell:%d\n",
 	numsites,numsoftpins);
-	OUT1( YmsgG ) ;
+	printf( YmsgG ) ;
 	M( MSG, NULL, YmsgG ) ;
 	M( MSG, NULL, 
 	    "\tSome pins will be placed with design rule violations\n" ) ;
@@ -644,11 +636,11 @@ for( j = 1; j <= numsoftpins; j++ ){
 		    sprintf( YmsgG, 
 			"Sequence overflow for sequence starting with\n");
 		    M( ERRMSG, NULL, YmsgG ) ;
-		    OUT1( YmsgG ) ;
+		    printf( YmsgG ) ;
 		    sprintf( YmsgG, " pin:%s cell:%d\n",
 			pin->pinname,pin->cell ) ;
 		    M( ERRMSG, NULL, YmsgG ) ;
-		    OUT1( YmsgG ) ;
+		    printf( YmsgG ) ;
 		    for( seqcount = 0; seqcount < seq; seqcount++ ){
 			set_pin_n_site( sitePtr, pin, hit+seqcount ) ;
 			/* get next pin */
@@ -690,7 +682,7 @@ for( j = 1; j <= numsoftpins; j++ ){
 			set_pin_n_site( sitePtr, pin, hit ) ;
 			sprintf( YmsgG, "Overfill for pin:%s cell:%d\n",
 			    pin->pinname, pin->cell) ;
-			OUT1( YmsgG ) ;
+			printf( YmsgG ) ;
 			M( ERRMSG, NULL, YmsgG ) ;
 		    } else {
 			/* just pick lower site as default */

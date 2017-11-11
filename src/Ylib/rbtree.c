@@ -67,7 +67,7 @@ REVISIONS:  Apr 19, 1990 - Added Yrbtree_dump()
 	    Thu Oct 10 17:28:21 EDT 1991 - added rbtree_resort and copy.
             Thu Oct 17 11:19:18 EDT 1991 - added rbtree_pred and
                rbtree_rev_list ( reverse list )
-	    10/18/91 - Changed startFlag from INT to BOOL for gcc -RAW 
+	    10/18/91 - Changed startFlag from int to BOOL for gcc -RAW 
 	    Tue Oct 29 15:00:58 EST 1991 - added two search routines
 		which keep track where you are in the tree.
 	    Mon Dec  9 15:34:09 EST 1991 - now deck datastructures are
@@ -108,8 +108,8 @@ typedef struct bin_tree {
 
 typedef struct tree {
     BINTREEPTR root ;                 /* the root of the tree */
-    INT        (*compare_func)() ;    /* how to compare two keys */
-    INT        size;                  /* current size of tree */
+    int        (*compare_func)() ;    /* how to compare two keys */
+    int        size;                  /* current size of tree */
     BINTREEPTR intervalPtr;           /* current position in interval search */
     BINTREEPTR searchPtr;             /* current position in search */
     BINTREEPTR enumeratePtr;          /* current position in enumeration */
@@ -121,7 +121,7 @@ typedef struct tree {
 #include <yalecad/rbtree.h>
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT          treeSizeS ;        /* the size of a tree */
+static int          treeSizeS ;        /* the size of a tree */
 static BINTREE      sentinelS ;        /* build a sentinel */
 static BINTREEPTR   nilS ;             /* pointer to sentinel */
 static BINTREE      recalc_sentinelS ; /* build a recalculate flag */
@@ -131,16 +131,16 @@ static BINTREEPTR   recalcS ;          /* pointer to recalc flag */
 static BINTREEPTR tree_search( P2(YTREEPTR tree, char *key) ) ;
 static BINTREEPTR tree_suc( P1(BINTREEPTR ptr) ) ;
 static BINTREEPTR tree_pred( P1(BINTREEPTR ptr) ) ;
-static left_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
-static right_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
-static tree_free( P1(BINTREEPTR ptr) ) ;
-static free_tree_and_data( P2(BINTREEPTR ptr, VOID (*userDelete)() ) ) ;
-static tree_delete( P3(YTREEPTR tree, BINTREEPTR z, VOID (*userDelete)() ) ) ;
-static tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
-    		    VOID (*print_key)(),INT printTab) ) ;
+void left_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
+void right_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
+void tree_free( P1(BINTREEPTR ptr) ) ;
+void free_tree_and_data( P2(BINTREEPTR ptr, void (*userDelete)() ) ) ;
+void tree_delete( P3(YTREEPTR tree, BINTREEPTR z, void (*userDelete)() ) ) ;
+void tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
+    		    void (*print_key)(),int printTab) ) ;
 
 YTREEPTR Yrbtree_init( compare_func )
-INT (*compare_func)() ;  /* user specifies key function */
+int (*compare_func)() ;  /* user specifies key function */
 {
 
     YTREEPTR tree ;      /* the current tree being built */
@@ -172,9 +172,9 @@ static BINTREEPTR tree_search( tree, key )
 YTREEPTR tree ;
 char *key ;
 {
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
     BINTREEPTR ptr ;            /* current node in the tree */
-    INT k ;                   /* test condition [-1,0,1] */
+    int k ;                   /* test condition [-1,0,1] */
 
     ptr = tree->root ;
     comp_func = tree->compare_func ;
@@ -196,9 +196,9 @@ VOIDPTR Yrbtree_search( tree, key )
 YTREEPTR tree ;
 VOIDPTR key ;
 {
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
     BINTREEPTR ptr ;          /* current node in the tree */
-    INT k ;
+    int k ;
 
     ptr = tree->root ;
     comp_func = tree->compare_func ;
@@ -222,14 +222,14 @@ VOIDPTR key ;
 VOIDPTR Yrbtree_search_closest( tree, key, func )
 YTREEPTR tree ;
 VOIDPTR key ;
-INT func ;
+int func ;
 {
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
     BINTREEPTR ptr ;          /* current node in the tree */
     BINTREEPTR closest_ptr ;  /* current closest match in the tree */
     BINTREEPTR suc, pred ;    /* successor and predecessor for closest_ptr */
-    INT dist1, dist2 ;	      /* distance using predecessor functions */
-    INT k ;
+    int dist1, dist2 ;	      /* distance using predecessor functions */
+    int k ;
 
     ptr = tree->root ;
     comp_func = tree->compare_func ;
@@ -433,9 +433,7 @@ YTREEPTR tree ;
     
 } /* end Yrbtree_search_pred */
 
-static left_rotate( tree, x )
-YTREEPTR tree ;
-BINTREEPTR x ;
+void left_rotate( YTREEPTR tree, BINTREEPTR x )
 {
     BINTREEPTR y ;          /* a temporary pointer */
 
@@ -456,9 +454,7 @@ BINTREEPTR x ;
     x->parent = y ;       
 } /* left_rotate */
 
-static right_rotate( tree, x )
-YTREEPTR tree ;
-BINTREEPTR x ;
+void right_rotate( YTREEPTR tree, BINTREEPTR x )
 {
     BINTREEPTR y ;          /* a temporary pointer */
 
@@ -483,10 +479,7 @@ BINTREEPTR x ;
 * Delete a node in the tree by using actual pointer.  Also frees
 * user data if necessary.
 ----------------------------------------------------------------- */
-static tree_delete( tree, z, userDelete )
-YTREEPTR tree ;
-BINTREEPTR z ;
-VOID (*userDelete)();
+void tree_delete( YTREEPTR tree, BINTREEPTR z, void (*userDelete)() )
 {
     BINTREEPTR w ;            /* a temporary pointer */
     BINTREEPTR x ;            /* a temporary pointer */
@@ -588,7 +581,7 @@ VOID (*userDelete)();
 } /* end tree_delete */
 
 
-VOID Yrbtree_insert( tree, data )
+void Yrbtree_insert( tree, data )
 YTREEPTR tree ;
 VOIDPTR data ;
 {
@@ -597,7 +590,7 @@ VOIDPTR data ;
     BINTREEPTR z ;          /* a temporary pointer */
     BINTREEPTR nil ;          /* a temporary pointer */
     BINTREEPTR ptr ;          /* a temporary pointer */
-    INT (*comp_func)() ;      /* current compare function */
+    int (*comp_func)() ;      /* current compare function */
 
     if(!(data)){
 	M( ERRMSG, "Yrbtree_insert","No data given\n" ) ;
@@ -731,7 +724,7 @@ BOOL startFlag;
 
 /* Push the current enumeration pointer.  This is useful */
 /* for recursive enumeration                             */
-VOID Yrbtree_enumeratePush ( tree )
+void Yrbtree_enumeratePush ( tree )
 YTREEPTR tree;
 {
    if (!(tree->enumerateDeck)) {
@@ -743,7 +736,7 @@ YTREEPTR tree;
 
 /* pops the current enumeration pointer.  This is useful */
 /* for recursive enumeration                             */
-VOID Yrbtree_enumeratePop ( tree )
+void Yrbtree_enumeratePop ( tree )
 YTREEPTR tree;
 {
    if (!(tree->enumerateDeck)) {
@@ -761,7 +754,7 @@ YTREEPTR tree;
 BOOL Yrbtree_delete( tree, key, userDelete )
 YTREEPTR tree ;
 VOIDPTR key ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     BINTREEPTR z ;            /* a temporary pointer */
 
@@ -777,7 +770,7 @@ VOID (*userDelete)();
 
 BOOL Yrbtree_deleteCurrentInterval( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     BINTREEPTR z ;            /* a temporary pointer */
     BINTREEPTR w ;            /* a temporary pointer */
@@ -808,7 +801,7 @@ VOID (*userDelete)();
 
 BOOL Yrbtree_deleteCurrentEnumerate( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     BINTREEPTR z ;            /* a temporary pointer */
     BINTREEPTR w ;            /* a temporary pointer */
@@ -837,13 +830,9 @@ VOID (*userDelete)();
     }
 } /* end Yrbtree_deleteCurrentEnumerate() */
 
-static tree_dump( tree, ptr, print_key, printTab )
-YTREEPTR tree ;
-BINTREEPTR ptr ;
-VOID (*print_key)() ;
-INT printTab ;
+void tree_dump( YTREEPTR tree, BINTREEPTR ptr, void (*print_key)(), int printTab )
 {
-    INT  i ;
+    int  i ;
 
     if( ptr != nilS ){
 	printTab+=4;
@@ -851,15 +840,15 @@ INT printTab ;
 	tree_dump( tree, ptr->right, print_key, printTab ) ;
 
 	/* print level */
-	fprintf( stderr, " " ) ;
+	printf( " " ) ;
 	for( i = 1; i < printTab; i++ ){
-	    fprintf( stderr, " " ) ;
+	    printf( " " ) ;
 	}
 	(*print_key)( ptr->data ) ;
 	if( ptr->color == BLACK ){
-	    fprintf( stderr, ":black\n" ) ;
+	    printf( ":black\n" ) ;
 	} else {
-	    fprintf( stderr, ":red\n" ) ;
+	    printf( ":red\n" ) ;
 	}
 
 	tree_dump( tree, ptr->left, print_key, printTab ) ;
@@ -867,9 +856,9 @@ INT printTab ;
     }
 } /* end Ytree_dump */
 
-VOID Yrbtree_dump( tree, print_key )
+void Yrbtree_dump( tree, print_key )
 YTREEPTR tree ;
-VOID (*print_key)() ;
+void (*print_key)() ;
 {
     if( tree ){
         Yrbtree_verify(tree);
@@ -884,7 +873,7 @@ VOIDPTR low_key, high_key ;
 BOOL startFlag;
 {
     BINTREEPTR ptr ;                  /* remember where we are */
-    static INT (*comp_func)() ;       /* current compare function */
+    static int (*comp_func)() ;       /* current compare function */
     BINTREEPTR y ;                    /* remember where we are */
 
     comp_func = tree->compare_func ;
@@ -933,12 +922,12 @@ BOOL startFlag;
 } /* end Ytree_interval */
 
 
-INT Yrbtree_interval_size( tree, low_key, high_key )
+int Yrbtree_interval_size( tree, low_key, high_key )
 YTREEPTR tree ;
 VOIDPTR low_key, high_key ;
 {
-    static INT (*comp_func)() ;       /* current compare function */
-    INT size ;			      /* number of element in interval */
+    static int (*comp_func)() ;       /* current compare function */
+    int size ;			      /* number of element in interval */
     BINTREEPTR ptr ;                  /* remember where we are */
     BINTREEPTR y ;                    /* remember where we are */
 
@@ -981,7 +970,7 @@ VOIDPTR low_key, high_key ;
 
 /* Push the current interval pointer.  This is useful  */
 /* for recursive intervals                             */
-VOID Yrbtree_intervalPush ( tree )
+void Yrbtree_intervalPush ( tree )
 YTREEPTR tree;
 {
    if (!(tree->intervalDeck)) {
@@ -993,7 +982,7 @@ YTREEPTR tree;
 
 /* Pop the current interval pointer.  This is useful  */
 /* for recursive intervals                             */
-VOID Yrbtree_intervalPop ( tree )
+void Yrbtree_intervalPop ( tree )
 YTREEPTR tree;
 {
    if (!(tree->intervalDeck)) {
@@ -1007,10 +996,10 @@ YTREEPTR tree;
     tree->intervalPtr = (BINTREEPTR) Ydeck_pop(tree->intervalDeck);
 } /* end Yrbtree_intervalPop() */
 
-VOID Yrbtree_interval_free( tree, low_key, high_key, userDelete )
+void Yrbtree_interval_free( tree, low_key, high_key, userDelete )
 YTREEPTR tree ;
 VOIDPTR low_key, high_key ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
 
   VOIDPTR data ;
@@ -1022,8 +1011,7 @@ VOID (*userDelete)();
 
 } /* end Yrbtree_interval_free() */
 
-static tree_free( ptr )
-BINTREEPTR ptr ;
+void tree_free( BINTREEPTR ptr )
 {
 
     if( ptr->left != nilS ){
@@ -1037,9 +1025,7 @@ BINTREEPTR ptr ;
     }
 } /* end tree_free */
 
-static free_tree_and_data( ptr, userDelete )
-BINTREEPTR ptr ;
-VOID (*userDelete)();
+void free_tree_and_data( BINTREEPTR ptr, void (*userDelete)() )
 {
 
     if( ptr->left != nilS ){
@@ -1054,9 +1040,9 @@ VOID (*userDelete)();
     }
 } /* end tree_free */
 
-VOID Yrbtree_free( tree, userDelete )
+void Yrbtree_free( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     if( tree ){
 	Yrbtree_empty( tree,userDelete ) ;
@@ -1064,9 +1050,9 @@ VOID (*userDelete)();
     }
 } /* end Yrbtree_free */
 
-VOID Yrbtree_empty( tree, userDelete )
+void Yrbtree_empty( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
   if( tree ){
     if (tree->root != nilS) {             /* does tree need to be emptied? */
@@ -1091,10 +1077,10 @@ VOID (*userDelete)();
 } /* end Yrbtree_empty() */
 
 
-INT Yrbtree_size( tree )
+int Yrbtree_size( tree )
 YTREEPTR tree ;
 {
-    INT size;
+    int size;
 
     if( tree ){
       if ( tree->size >= 0 ) {
@@ -1107,17 +1093,17 @@ YTREEPTR tree ;
     return (-1);
 } /* end Yrbtree_size */
 
-INT (*Yrbtree_get_compare( tree ))()
+int (*Yrbtree_get_compare( tree ))()
 YTREEPTR tree;
 {
   return ( tree->compare_func );
 }
 
-INT Yrbtree_verify(tree)
+int Yrbtree_verify(tree)
      YTREEPTR tree ;
 {
-  INT count;
-  INT rc;
+  int count;
+  int rc;
   BINTREEPTR ptr;
 
   /* exercise tree pointers */
@@ -1151,9 +1137,9 @@ INT Yrbtree_verify(tree)
   return ( rc );
 }
 
-VOID Yrbtree_resort( tree, compare_func )
+void Yrbtree_resort( tree, compare_func )
 YTREEPTR tree ;
-INT (*compare_func)() ;  /* user specifies key function */
+int (*compare_func)() ;  /* user specifies key function */
 {
     BINTREEPTR ptr ;          /* remember where we are */
     YTREEPTR new_tree ;       /* the new tree being built */
@@ -1188,7 +1174,7 @@ INT (*compare_func)() ;  /* user specifies key function */
 
 YTREEPTR Yrbtree_copy( tree, compare_func )
 YTREEPTR tree ;
-INT (*compare_func)() ;  /* user specifies key function */
+int (*compare_func)() ;  /* user specifies key function */
 {
     BINTREEPTR ptr ;          /* remember where we are */
     YTREEPTR new_tree ;       /* the new tree being built */
@@ -1215,7 +1201,7 @@ INT (*compare_func)() ;  /* user specifies key function */
                        TEST OF TREE ROUTINES 
    ################################################################## */
 typedef struct {
-    INT  str_len ;
+    int  str_len ;
     char *name ;
 } DATA, *DATAPTR ;
 
@@ -1231,13 +1217,13 @@ DATAPTR key1, key2 ;
     return( key1->str_len - key2->str_len ) ;
 } /* end compare_len */
 
-static VOID print_data( data )
+static void print_data( data )
 DATAPTR data ;
 {
-    fprintf( stderr, "%s:%d ", data->name, data->str_len ) ;
+    printf( "%s:%d ", data->name, data->str_len ) ;
 } /* end print_data() */
 
-static VOID free_data( data )
+static void free_data( data )
 DATAPTR data ;
 {
     YFREE( data->name ) ;
@@ -1263,13 +1249,13 @@ main()
     DATAPTR data ;
     static char buffer1[LRECL] ;
     static char buffer2[LRECL] ;
-    INT count ;
+    int count ;
     DATA key1, key2 ;
 
     key1.name = buffer1 ;
     key2.name = buffer2 ;
 
-    fprintf( stderr, "Initial memory:%d\n", YgetCurMemUse() ) ;
+    printf( "Initial memory:%d\n", YgetCurMemUse() ) ;
 
     tree1 = Yrbtree_init( compare_string ) ;
     Yrbtree_insert( tree1, make_data("the" ) ) ;
@@ -1280,20 +1266,20 @@ main()
     Yrbtree_insert( tree1, make_data("the" ) ) ;
     Yrbtree_insert( tree1, make_data("moon" ) ) ;
     Yrbtree_verify(tree1) ;
-    fprintf( stderr, "Output the initial tree\n" ) ;
+    printf( "Output the initial tree\n" ) ;
     for( data=(DATAPTR)Yrbtree_enumerate(tree1,TRUE); data; 
 	data=(DATAPTR)Yrbtree_enumerate(tree1,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
-    fprintf( stderr, "\nLook for jumped...\n" ) ;
+    printf( "\nLook for jumped...\n" ) ;
     strcpy( key1.name, "jumped" ) ;
     data = (DATAPTR) Yrbtree_search( tree1, &key1 ) ;
     Yrbtree_verify(tree1) ;
     if( data ){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
     Yrbtree_dump( tree1, print_data ) ;
-    fprintf( stderr, "\nDelete jumped...\n" ) ;
+    printf( "\nDelete jumped...\n" ) ;
     strcpy( key2.name, "jumped" ) ;
     Yrbtree_delete( tree1, &key2, free_data ) ;
     Yrbtree_verify(tree1) ;
@@ -1302,51 +1288,51 @@ main()
     for( data=(DATAPTR)Yrbtree_enumerate(tree1,TRUE); 
 	data;
 	data=(DATAPTR)Yrbtree_enumerate(tree1,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
-    fprintf( stderr, "\nInsert takeover and try to delete history...\n" );
+    printf( "\nInsert takeover and try to delete history...\n" );
     Yrbtree_insert( tree1, make_data("takeover" ) ) ;
     strcpy( key1.name, "history" ) ;
     if( Yrbtree_delete( tree1, &key1, free_data ) ){
-	fprintf( stderr, "found history\n" ) ;
+	printf( "found history\n" ) ;
     } else {
-	fprintf( stderr, "didn't find history\n" ) ;
+	printf( "didn't find history\n" ) ;
     }
     strcpy( key1.name, "fox" ) ;
     Yrbtree_delete( tree1, &key1, free_data ) ;
-    fprintf( stderr, "\nNow show result...\n" );
+    printf( "\nNow show result...\n" );
     for( data=Yrbtree_enumerate(tree1,TRUE); data; 
 	data=Yrbtree_enumerate(tree1,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
 
-    fprintf( stderr, "\nNow find interval 'over' to 'the'\n" );
+    printf( "\nNow find interval 'over' to 'the'\n" );
     strcpy( key1.name, "over" ) ;
     strcpy( key2.name, "the" ) ;
     for( data=Yrbtree_interval(tree1,&key1,&key2,TRUE); data; 
 	data=Yrbtree_interval(tree1,&key1,&key2,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
     }
-    fprintf( stderr, "The interval size is:%d\n",
+    printf( "The interval size is:%d\n",
 	Yrbtree_interval_size( tree1, &key1, &key2 ) ) ;
 
-    fprintf( stderr, "\nInsert zoo and delete the two the's...\n" );
+    printf( "\nInsert zoo and delete the two the's...\n" );
     Yrbtree_insert( tree1, make_data("zoo" ) ) ;
     strcpy( key1.name, "the" ) ;
     strcpy( key2.name, "the" ) ;
     for( data=Yrbtree_interval(tree1,&key1,&key2,TRUE); data; 
 	data=Yrbtree_interval(tree1,&key1,&key2,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
 	Yrbtree_deleteCurrentInterval( tree1, free_data ) ;
     }
 
-    fprintf( stderr, "\nNow dump the tree\n" );
+    printf( "\nNow dump the tree\n" );
     Yrbtree_dump( tree1, print_data ) ;
 
-    fprintf( stderr, "\nInsert two airplanes and then delete...\n" );
+    printf( "\nInsert two airplanes and then delete...\n" );
     Yrbtree_insert( tree1, make_data("airplane" ) ) ;
     Yrbtree_insert( tree1, make_data("airplane" ) ) ;
-    fprintf( stderr, "\nLook for airplanes\n" );
+    printf( "\nLook for airplanes\n" );
     Yrbtree_dump( tree1, print_data ) ;
 
     /* now delete them */
@@ -1354,14 +1340,14 @@ main()
     strcpy( key2.name, "airplane" ) ;
     for( data=Yrbtree_interval(tree1,&key1,&key2,TRUE); data; 
 	data=Yrbtree_interval(tree1,&key1,&key2,FALSE)){
-	fprintf( stderr, "key:%s\n", data->name ) ;
+	printf( "key:%s\n", data->name ) ;
 	Yrbtree_deleteCurrentInterval( tree1, free_data ) ;
     }
     Yrbtree_dump( tree1, print_data ) ;
-    fprintf( stderr, "The interval size is:%d\n",
+    printf( "The interval size is:%d\n",
 	Yrbtree_interval_size( tree1, &key1, &key2 ) ) ;
 
-    fprintf( stderr, "\nDelete third sorted element in the tree\n" );
+    printf( "\nDelete third sorted element in the tree\n" );
     for( count = 0, data=Yrbtree_enumerate(tree1,TRUE); data; 
 	data=Yrbtree_enumerate(tree1,FALSE)){
 	if( ++count == 3 ){
@@ -1370,15 +1356,15 @@ main()
     }
     Yrbtree_dump( tree1, print_data ) ;
 
-    fprintf( stderr, "\nUse a new comparison function sort by length\n" );
+    printf( "\nUse a new comparison function sort by length\n" );
     Yrbtree_resort( tree1, compare_len ) ;
 
-    fprintf( stderr, "\nAgain dump the tree\n" );
+    printf( "\nAgain dump the tree\n" );
     Yrbtree_dump( tree1, print_data ) ;
 
-    fprintf( stderr, "\nNow free tree\n" );
+    printf( "\nNow free tree\n" );
     Yrbtree_free( tree1, free_data ) ;
-    fprintf( stderr, "Final memory:%d\n", YgetCurMemUse() ) ;
+    printf( "Final memory:%d\n", YgetCurMemUse() ) ;
 
     exit(0) ;
 }

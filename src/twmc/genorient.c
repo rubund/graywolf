@@ -41,14 +41,14 @@
 FILE:	    genorient.c                                       
 DESCRIPTION:generate all eight orientation for tiles.
 CONTENTS:   genorient( lowerBound, upperBound )
-		INT lowerBound, upperBound ;
+		int lowerBound, upperBound ;
 	    trans_bbox( ptr ) 
 		CELLBOXPTR ptr ;
 	    loadTermArray()
 	    adjust_lr( orient, height, width,  left, right )
-		INT orient, height, *left, *right ;
+		int orient, height, *left, *right ;
 	    adjust_lr( orient, height, width,  bottom, top )
-		INT orient, height, *bottom, *top ;
+		int orient, height, *bottom, *top ;
 DATE:	    Feb 8, 1988 
 REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 		to genorient and split out terminal array code to
@@ -79,31 +79,23 @@ REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 	    Sun May  5 14:27:53 EDT 1991 - fixed problem with orienting
 		bounboxes.  Had used wrong translation function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) genorient.c (Yale) version 3.13 5/5/91" ;
-#endif
-
-#include <custom.h>
-#include <pads.h>
-#include <yalecad/debug.h>
-#include <yalecad/relpos.h>
+#include "allheaders.h"
 
 /* genorient works on range [lowerBound..upperBound] inclusive */
-genorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+void genorient( int lowerBound, int upperBound)
 {
 
-    INT i ;                         /* counter */
-    INT cell ;                      /* current cell */
-    INT x, y ;                      /* used to translate the pins */
-    INT orient ;                    /* user specified orientation */
-    INT saveorient ;                /* initial orientation */
-    INT bhgt, blen ;                /* bounding box height, length */
-    INT inverse ;                   /* inverse orientation */
-    INT numinst ;                   /* number of cell instances */
-    INT pt ;                        /* counter */
-    INT *xvert ;                    /* xvertices */
-    INT *yvert ;                    /* yvertices */
+    int i ;                         /* counter */
+    int cell ;                      /* current cell */
+    int x, y ;                      /* used to translate the pins */
+    int orient ;                    /* user specified orientation */
+    int saveorient ;                /* initial orientation */
+    int bhgt, blen ;                /* bounding box height, length */
+    int inverse ;                   /* inverse orientation */
+    int numinst ;                   /* number of cell instances */
+    int pt ;                        /* counter */
+    int *xvert ;                    /* xvertices */
+    int *yvert ;                    /* yvertices */
     INSTBOXPTR instptr ;            /* instance pointer */
     BOUNBOXPTR bounptr ;            /* bounding box pointer */
     PINBOXPTR  pin ;                /* translate the pins */
@@ -176,7 +168,7 @@ INT lowerBound, upperBound ;
 			}
 		    case B:
 		    default:
-			OUT1("\nNON-PADS or PAD w/o valid side rotatation\n");
+			printf("\nNON-PADS or PAD w/o valid side rotatation\n");
 			break;
 		}
 	    } else {
@@ -268,7 +260,7 @@ INT lowerBound, upperBound ;
 	    padptr->length = bounptr->r - bounptr->l ;
 	    padptr->height = bounptr->t - bounptr->b ;
 	} else {
-	    (VOID) check_valid_orient( ptr ) ;
+	    check_valid_orient( ptr ) ;
 	}
     } /* end loop on cells */
 
@@ -277,13 +269,12 @@ INT lowerBound, upperBound ;
 /* regenorient works on range [lowerBound..upperBound] inclusive */
 /* recalculates the bounding boxes and updates all the views */
 /* works in an incremental manner */
-regenorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+void regenorient(int lowerBound, int upperBound)
 {
 
-    INT cell ;
-    INT l, r, b, t ;
-    INT xdev, ydev ;
+    int cell ;
+    int l, r, b, t ;
+    int xdev, ydev ;
     CELLBOXPTR ptr ;
     TILEBOXPTR tileptr ;
     BOUNBOXPTR bounptr ;
@@ -325,12 +316,11 @@ INT lowerBound, upperBound ;
 
 
 /* trans_bbox - translate bounding box into 8 views */
-trans_bbox( ptr ) 
-CELLBOXPTR ptr ;
+void trans_bbox( CELLBOXPTR ptr )
 {
 
-INT orient ;
-INT bhgt, blen ;
+int orient ;
+int bhgt, blen ;
 BOUNBOXPTR boun0, bounptr ;
 
     if( ptr->boun_valid ){
@@ -355,9 +345,9 @@ BOUNBOXPTR boun0, bounptr ;
 } /* end trans_bbox() */ 
 
 /* allocate space for and load termarray */
-loadTermArray()
+void loadTermArray()
 {
-    INT net ;
+    int net ;
     PINBOXPTR pinptr ;
 
     /* load termarray */
@@ -368,17 +358,16 @@ loadTermArray()
     }
 } /* end loadTermArray */
 
-translate_numpins( ptr ) 
-CELLBOXPTR ptr ;
+void translate_numpins(CELLBOXPTR ptr) 
 {
-    INT pt ;                        /* point counter */
-    INT minx ;                      /* looking for lowest y pt */
-    INT miny ;                      /* looking for lowest y pt */
-    INT side1 ;                     /* where the first side is */
-    INT oldpt ;                     /* the place in the old array */
-    INT *xvert ;                    /* xvertices */
-    INT *yvert ;                    /* yvertices */
-    FLOAT *tmp ;                    /* array of the numpins per side */
+    int pt ;                        /* point counter */
+    int minx ;                      /* looking for lowest y pt */
+    int miny ;                      /* looking for lowest y pt */
+    int side1 ;                     /* where the first side is */
+    int oldpt ;                     /* the place in the old array */
+    int *xvert ;                    /* xvertices */
+    int *yvert ;                    /* yvertices */
+    float *tmp ;                    /* array of the numpins per side */
 
 
     xvert = ptr->vertices->x ;
@@ -386,7 +375,7 @@ CELLBOXPTR ptr ;
     /* find the bottom left so we have side 1 */
     miny = INT_MAX ;
     minx = INT_MAX ;
-    tmp = (FLOAT *) Yvector_alloc( 1, ptr->numsides, sizeof(FLOAT) );
+    tmp = (float *) Yvector_alloc( 1, ptr->numsides, sizeof(float) );
     for( pt = 1; pt <= ptr->numsides; pt++ ){
 	tmp[pt] = ptr->vertices->numpins[pt] ;
 	if( yvert[pt] < miny ){

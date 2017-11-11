@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    reconfig.c                                       
 DESCRIPTION:cell topology configuration with feed estimation.
-CONTENTS:   INT reconfig()
+CONTENTS:   int reconfig()
 DATE:	    Mar 27, 1989 
 REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 		if criteria is met.  Instead call recompute_wirecosts
@@ -51,45 +51,23 @@ REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 	    Wed Sep 11 11:27:46 CDT 1991 - added user
 		output info for blocks.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) reconfig.c (Yale) version 4.11 4/2/92" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include "readpar.h"
-#include "main.h"
-#include <yalecad/message.h>
-#include <yalecad/string.h>
-#include <yalecad/debug.h>
-
-#if SIZEOF_VOID_P == 64
-#define INTSCANSTR "%ld"
-#else
-#define INTSCANSTR "%d"
-#endif
-
+#define intSCANSTR "%d"
 #define MIN_FEED_RATIO     0.66
-
-/* global definitions */
-extern BOOL no_feed_estG ;
-extern INT fdWidthG ;
-extern INT totalRG ;
-extern INT extra_cellsG ;
-extern INT *feeds_in_rowG ;
 
 /* static definitions */
 static BOOL feed_length_setS = TRUE ;
-static INT feed_lengthS ;             /* the current feed length */
-static INT old_feed_lengthS = 0 ; /* the feed length from the last iteration */
+static int feed_lengthS ;             /* the current feed length */
+static int old_feed_lengthS = 0 ; /* the feed length from the last iteration */
 static BOOL print_desiredS = TRUE ;
 
-INT reconfig()
+int reconfig()
 {
 
-    INT block ;
-    INT total_desire ;
+    int block ;
+    int total_desire ;
 
     if( print_desiredS ) {
 	print_desiredS = FALSE ;
@@ -114,14 +92,14 @@ INT reconfig()
 } /* end reconfig */
 
 
-static configuref()
+void configuref()
 {
-    INT row ;
-    INT cell ;
-    INT core_left ;
-    INT core_right ;
-    INT shift_amount ;
-    INT extra_shift , tmp ;
+    int row ;
+    int cell ;
+    int core_left ;
+    int core_right ;
+    int shift_amount ;
+    int extra_shift , tmp ;
 
 
     /* see if any rows would be completely filled with feeds */
@@ -172,15 +150,13 @@ static configuref()
 
 } /* end configuref */
 
-read_feeds( fp )
-FILE *fp ;
+void read_feeds( FILE *fp )
 {
-    fscanf( fp , INTSCANSTR , &feed_lengthS ) ;
+    fscanf( fp , intSCANSTR , &feed_lengthS ) ;
     feed_length_setS = TRUE ;
 } /* end read_feeds */
 
-save_feeds( fp )
-FILE *fp ;
+void save_feeds( FILE *fp )
 {
     fprintf( fp, "%d\n", feed_lengthS ) ;
 } /* end save_feeds */
@@ -200,16 +176,16 @@ BOOL read_feed_data()
 #define LESS_ROWS_CASE    1   /* currently have less rows */
 #define MORE_ROWS_CASE    2   /* currently have more rows */
 
-    INT row ;                 /* counter */
-    INT numtokens ;           /* number of tokens on the line */
-    INT pl1_rows ;            /* the number of row found in .pl2 */
-    INT pl1_case ;            /* which of 3 cases we have */
-    INT row_in_pl1 ;          /* the feed was found in this row */
-    INT start_row ;           /* the first row in case 3 */
-    INT end_row ;             /* the last row in case 3 */
+    int row ;                 /* counter */
+    int numtokens ;           /* number of tokens on the line */
+    int pl1_rows ;            /* the number of row found in .pl2 */
+    int pl1_case ;            /* which of 3 cases we have */
+    int row_in_pl1 ;          /* the feed was found in this row */
+    int start_row ;           /* the first row in case 3 */
+    int end_row ;             /* the last row in case 3 */
     FILE *fp ;                /* current file pointer */
-    DOUBLE *smooth ;          /* used to calculate MORE_ROWS case */
-    DOUBLE value ;            /* distribute feed over mult. rows */
+    double *smooth ;          /* used to calculate MORE_ROWS case */
+    double value ;            /* distribute feed over mult. rows */
     char filename[LRECL] ;    /* name of the file */
     char buffer[LRECL] ;      /* read string into buffer */
     char *bufferptr ;         /* start of the buffer */
@@ -275,8 +251,8 @@ BOOL read_feed_data()
 	M( WARNMSG, "read_feed_data",
 	"The number of rows have increased since the last run.\n" ) ;
 	/* here we need also to make a smoothing array */
-	smooth = (DOUBLE *) 
-	    Ysafe_malloc( (numRowsG+1) * sizeof(DOUBLE) ) ;
+	smooth = (double *) 
+	    Ysafe_malloc( (numRowsG+1) * sizeof(double) ) ;
 	for( row = 1; row <= numRowsG; row++ ){
 	    smooth[row] = 0.0 ;
 	}
@@ -314,18 +290,18 @@ BOOL read_feed_data()
 		feeds_in_rowG[row_in_pl1]++ ;
 		break ;
 	    case LESS_ROWS_CASE :
-		row = ROUND( (DOUBLE) row_in_pl1 / 
-			(DOUBLE) pl1_rows * (DOUBLE) numRowsG ) ;
+		row = ROUND( (double) row_in_pl1 / 
+			(double) pl1_rows * (double) numRowsG ) ;
 		feeds_in_rowG[row]++ ;
 		break ;
 	    case MORE_ROWS_CASE :
-		value = (DOUBLE) row_in_pl1 / 
-			(DOUBLE) pl1_rows * (DOUBLE) numRowsG ;
-		start_row = (INT) floor( value ) ;
+		value = (double) row_in_pl1 / 
+			(double) pl1_rows * (double) numRowsG ;
+		start_row = (int) floor( value ) ;
 		if( start_row <= 0 ){
 		    start_row = 1 ;
 		}
-		end_row = (INT) ceil( value ) ;
+		end_row = (int) ceil( value ) ;
 		value = 1.0 / (end_row - start_row + 1) ;
 		for( row = start_row; row <= end_row; row++ ){
 		    smooth[row] += value ;

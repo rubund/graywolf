@@ -43,10 +43,10 @@ DESCRIPTION:remove netsegment overlap function.
 CONTENTS:   assgn_channel_to_seg()
 	    free_chan_seg()
 	    remove_overlap_segment( net )
-		INT net ;
+		int net ;
 	    rm_segm_overlap( checkseg , m )
 		SEGBOXPTR *checkseg ;
-		INT m ;
+		int m ;
 	    PINBOXPTR depth_first_search( ptr, bptr1, bptr2, aseg, edge )
 		PINBOXPTR ptr , bptr1 , bptr2 ;
 		SEGBOXPTR aseg , edge ;
@@ -58,7 +58,7 @@ CONTENTS:   assgn_channel_to_seg()
 	    check_overlap_at_pin( ptr )
 		PINBOXPTR ptr ;
 	    check_connectivity( net )
-		INT net ;
+		int net ;
 	    depth_first_check( ptr , oldedge )
 		PINBOXPTR ptr ;
 		SEGBOXPTR oldedge ;
@@ -66,33 +66,26 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) rmoverlap.c (Yale) version 4.4 12/15/90" ;
-#endif
-#endif
-
-#include "standard.h"
-#include "groute.h"
+#include <globals.h>
+#include "allheaders.h"
 
 /* global variable references */
-extern BOOL connectFlagG ;
 PINBOXPTR depth_first_search() ;
 
 /* static definitions */
-static INT *segcountS ;
+static int *segcountS ;
 static SEGBOXPTR **chan_segS ;
 
-assgn_channel_to_seg()
+void assgn_channel_to_seg()
 {
 
 PINBOXPTR ptr1 , ptr2 ;
 SEGBOXPTR segptr ;
-INT i , net , *maxcount ;
-INT channel , topchan , botchan ;
+int i , net , *maxcount ;
+int channel , topchan , botchan ;
 
-segcountS = (INT *)Ysafe_calloc( numChansG+1 , sizeof(INT) ) ;
-maxcount = (INT *)Ysafe_calloc( numChansG+1 , sizeof(INT) ) ;
+segcountS = (int *)Ysafe_calloc( numChansG+1 , sizeof(int) ) ;
+maxcount = (int *)Ysafe_calloc( numChansG+1 , sizeof(int) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     topchan = 0 ;
     botchan = numChansG ;
@@ -137,10 +130,9 @@ for( i = 1 ; i <= numChansG ; i++ ) {
 Ysafe_free( maxcount ) ;
 }
 
-
-free_chan_seg()
+void free_chan_seg()
 {
-INT i ;
+int i ;
 
 for( i = 1 ; i <= numChansG ; i++ ) {
     Ysafe_free( chan_segS[i] ) ;
@@ -150,14 +142,13 @@ Ysafe_free( segcountS ) ;
 
 }
 
-remove_overlap_segment( net )
-INT net ;
+void remove_overlap_segment( int net )
 {
 
 PINBOXPTR ptr ;
 SEGBOXPTR segptr ;
-INT chan , botchan , topchan ; 
-INT checkFlag ;
+int chan , botchan , topchan ; 
+int checkFlag ;
 
 for( ptr = netarrayG[net]->pins ; ptr ; ptr = ptr->next ) {
     ptr->flag = 1 ;
@@ -195,16 +186,13 @@ if( check_connectivity( net ) == 0 ) {
 }
 }
 
-
-rm_segm_overlap( checkseg , m )
-SEGBOXPTR *checkseg ;
-INT m ;
+void rm_segm_overlap( SEGBOXPTR *checkseg , int m )
 {
 
 SEGBOXPTR aseg , bseg , seg ;
 PINBOXPTR aptr1 , aptr2 , bptr1 , bptr2 , anode , bnode ;
 ADJASEGPTR adj ;
-INT i , j , flag ;
+int i , j , flag ;
 
 do {
     flag = 0 ;
@@ -371,9 +359,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 return( NULL ) ;
 }
 
-
-replace_seg( netptr, oldnode, newnode )
-PINBOXPTR netptr , oldnode , newnode ;
+void replace_seg( PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode )
 {
 ADJASEGPTR adj, tmpadj ;
 SEGBOXPTR segptr ;
@@ -408,10 +394,7 @@ if( netptr->row != newnode->row ) {
 }
 }
 
-
-add_adj( segptr, node )
-SEGBOXPTR segptr ;
-PINBOXPTR node ;
+void add_adj( SEGBOXPTR segptr, PINBOXPTR node )
 {
 ADJASEG *adjptr ;
 
@@ -421,15 +404,13 @@ adjptr->next = node->adjptr->next ;
 node->adjptr->next = adjptr ;
 }
 
-
-check_overlap_at_pin( ptr )
-PINBOXPTR ptr ;
+void check_overlap_at_pin( PINBOXPTR ptr )
 {
 
 PINBOXPTR aptr , bptr ;
 SEGBOXPTR aseg , bseg ;
 ADJASEGPTR adj , bdj , next_adj , next_bdj ;
-INT breakFlag ;
+int breakFlag ;
 
 ptr->flag = 0 ;
 breakFlag = 0 ;
@@ -531,11 +512,9 @@ for( adj = ptr->adjptr ; adj->next ; ) {
 }
 }
 
-
-check_connectivity( net )
-INT net ;
+int check_connectivity( int net )
 {
-INT correctness = 1 ;
+int correctness = 1 ;
 PINBOXPTR ptr , hdptr ;
 
 hdptr= netarrayG[net]->pins ;
@@ -558,9 +537,7 @@ for( ptr =  hdptr ; ptr ; ptr = ptr->next ) {
 return( correctness ) ;
 }
 
-depth_first_check( ptr , oldedge )
-PINBOXPTR ptr ;
-SEGBOXPTR oldedge ;
+void depth_first_check( PINBOXPTR ptr , SEGBOXPTR oldedge )
 {
 PINBOXPTR nextptr ;
 SEGBOXPTR segptr ;

@@ -26,13 +26,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-#ifndef lint
-static char SccsId[] = "@(#) radixsort.c (Yale) version 1.4 4/18/92" ;
-#endif
-
-#include <string.h>
-#include <yalecad/base.h>
+#include <globals.h>
 #define RADIX_PREFIX	4
 
 /* radixsort.c, radixsort.h: linear-per-byte in-memory string sort
@@ -548,7 +542,7 @@ but this is (heavily) modified.
 /* build a prefix for the string.  returns where to add to the string */
 char *Yradix_prefix( buffer, num )
 char *buffer ;
-INT num ;
+int num ;
 {
     buffer[0] = (char) ((num >> 24) & 0x000000FF) ;
     buffer[1] = (char) ((num >> 16) & 0x000000FF) ;
@@ -559,7 +553,7 @@ INT num ;
 } /* end Yradix_prefix() */
 
 /* given a prefix string returns the number (prefix) at the start */
-INT Yradix_number( buffer )
+int Yradix_number( buffer )
 char *buffer ;
 {
     unsigned int num ;
@@ -574,7 +568,7 @@ char *buffer ;
     temp = ( ((unsigned int) buffer[3]) ) & 0x000000FF ;
     num  |= temp ;
     return( num ) ;
-} /* end INT Yradix_number() */
+} /* end int Yradix_number() */
 
 char *Yradix_suffix( buffer )
 char *buffer ;
@@ -585,7 +579,7 @@ char *buffer ;
 char *Yradix_pref_clone( buffer )
 char *buffer ;
 {
-    INT i, len ;
+    int i, len ;
     char *new_string ;
 
     len = strlen( buffer + 4 ) + 4 + 1 ;
@@ -613,7 +607,7 @@ main()
 {
     INFOPTR *array ;
     INFOPTR aptr ;
-    INT i, num ;
+    int i, num ;
     char buffer[20] ;
     char *bufferptr ;
     char *sort_field ;
@@ -628,26 +622,26 @@ main()
 	/* Yradix_prefix returns back the new start of the string */
 	sort_field = Yradix_prefix( aptr->sort_weight, i ) ;
 	sprintf( sort_field, "%10d", aptr->weight ) ;
-	fprintf( stderr, "array[%d] = %d\n", i, aptr->weight ) ;
+	printf( "array[%d] = %d\n", i, aptr->weight ) ;
     }
 
     Yradixsort_pref( array, NUM_ALLOC ) ;
 
-    fprintf( stderr, "\nAfter the sort:\n" ) ;
+    printf( "\nAfter the sort:\n" ) ;
     for( i = 0 ; i < NUM_ALLOC ; i++ ){
 	aptr = array[i] ;
 	num = Yradix_number( aptr->sort_weight ) ;
-	fprintf( stderr, "array[%d] = %10d (originally array[%d])\n", 
+	printf( "array[%d] = %10d (originally array[%d])\n", 
 	    i, aptr->weight, num ) ;
     }
 
     num = array[0]->weight ;
 
-    fprintf( stderr, "number = %d\n", num ) ;
+    printf( "number = %d\n", num ) ;
     bufferptr = Yradix_prefix( buffer, num ) ;
-    fprintf( stderr, "prefix = %s\n", bufferptr ) ;
+    printf( "prefix = %s\n", bufferptr ) ;
     num = Yradix_number( buffer ) ;
-    fprintf( stderr, "number = %d\n", num ) ;
+    printf( "number = %d\n", num ) ;
 
 
 } /* end main() */

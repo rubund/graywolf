@@ -47,15 +47,7 @@ REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Mar 30, 1989 - changed tile datastructure.
 	    Apr 23, 1990 - moved graph routines to library.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
-#endif
-
-#include <custom.h>
-/* #include <stdarg.h> */
-#include <yalecad/debug.h>
-#include <yalecad/file.h>
-#include <yalecad/string.h>
+#include "allheaders.h"
 
 #define CELLEST     0
 #define CELLBORDER  1
@@ -64,11 +56,10 @@ static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
 /* ***************************************************************** 
    DUMP CELL BIN LISTS
 */
-dcellList( cell )
-INT cell ;
+void dcellList( int cell )
 {
-    INT binX, binY, limit ;
-    INT *cellList, i ;
+    int binX, binY, limit ;
+    int *cellList, i ;
     BINBOXPTR bptr ;
 
     printf("Dumping bin cell list...\n") ;
@@ -99,14 +90,14 @@ INT cell ;
 */
 BOOL checkbinList()
 {
-    INT x, y ;
-    INT *cellList ;
+    int x, y ;
+    int *cellList ;
     BINBOXPTR bptr ;
     CELLBOXPTR ptr ;
-    INT numcells_in_bin = 0 ;
-    INT i ;
-    INT cell ;
-    INT celltype ; 
+    int numcells_in_bin = 0 ;
+    int i ;
+    int cell ;
+    int celltype ; 
     BOOL found ;
 
     for( y=0;y<=maxBinYG;y++ ){
@@ -151,10 +142,10 @@ BOOL checkbinList()
    DUMP CELL BIN LISTS
 */
 dbinList( flag )
-INT flag ;
+int flag ;
 {
-    INT x, y, limit ;
-    INT *cellList, i ;
+    int x, y, limit ;
+    int *cellList, i ;
     BINBOXPTR bptr ;
 
     printf("Dumping bin cell list...\n") ;
@@ -164,7 +155,7 @@ INT flag ;
 	    bptr = binptrG[x][y] ;
 	    cellList = bptr->cells ;
 
-	    if( flag ){ /* prINT all bins */
+	    if( flag ){ /* print all bins */
 
 		printf("bin:(%2d,%2d) ",x,y );
 		printf("cellList: %0x ", cellList );
@@ -208,8 +199,8 @@ dbins( flag )
 BOOL flag ;
 {
 
-    INT x, y ;
-    INT cost ;
+    int x, y ;
+    int cost ;
     BINBOXPTR bptr;
 
     if( flag ){
@@ -257,7 +248,7 @@ BOOL flag ;
 dmove()
 {
 
-INT i;
+int i;
 
 printf("Dumping movebox records...") ;
 for( i=0 ; i<= 1; i++ ){
@@ -297,7 +288,7 @@ for( i=0 ; i<= 1; i++ ){
    DUMP TILEPTR STRUCTURE
 */
 dtile(cell)
-INT cell ;
+int cell ;
 {
 
 CELLBOXPTR ptr ;
@@ -312,14 +303,14 @@ for( t=ptr->tiles;t;t=t->next ){
 } /* end for loop */
 } /* end dtile */
 
+int loadbins(BOOL wireAreaKnown);
 /* ***************************************************************** 
    RELOAD BINS same as loadbins make call because of dbx bug. 
    Also reinitializes nupenalty field 
 */
-dloadbins( flag )
-BOOL flag ;
+void dloadbins(BOOL flag)
 {
-    INT x, y ;
+    int x, y ;
 
     dbins( TRUE ) ;
     loadbins( flag ) ;
@@ -344,22 +335,21 @@ printf("Area with estimated routing area:%d\n",calc_cellareas(TRUE) ) ;
 
 #ifdef NEEDED
 DORIENT( cell )
-INT cell ;
+int cell ;
 {
     FILE *fp ;
     CELLBOXPTR cptr ;
     TILEBOXPTR tileptr ;
     TERMBOXPTR  termptr ;
-    INT  i ;
-    INT  x ;
-    INT  y ;
-    INT  orient ;
-    INT  newx, newy ;
-    INT  x0, x1, y0, y1 ;
+    int  i ;
+    int  x ;
+    int  y ;
+    int  orient ;
+    int  newx, newy ;
+    int  x0, x1, y0, y1 ;
     char filename[LRECL] ;
     char label[LRECL] ;
 
-    system("rm -f DATA/*" ) ;
     for( i= 0; i<=7; i++ ){
 	cptr = cellarrayG[cell] ;
 	cptr->orient = i ;
@@ -465,20 +455,20 @@ INT cell ;
 } /* end dumpForce */
 
 dsoftpins( cell )
-INT cell ;
+int cell ;
 {
 
     
-    INT pin ;
+    int pin ;
     PINBOXPTR  *sarray    ;  /* array of just the soft pins of a cell */
 
     sarray = cellarrayG[cell]->softpins ;
     for( pin = 1; pin <= cellarrayG[cell]->numsoftpins;pin++ ) {
-	fprintf( stderr, " %d ", sarray[pin]->softinfo->site );
+	printf( " %d ", sarray[pin]->softinfo->site );
 	if( pin % 15 == 0 ){
-	    fprintf( stderr, "\n" ) ;
+	    printf( "\n" ) ;
 	}
     }
-    fprintf( stderr, "\n" ) ;
+    printf( "\n" ) ;
 }
 #endif

@@ -41,30 +41,23 @@
 FILE:	    ucxxp.c                                       
 DESCRIPTION:pairwise exchange.
 CONTENTS:   ucxxp( a , b , anxcenter , bnxcenter )
-		INT a , b , anxcenter , bnxcenter ;
+		int a , b , anxcenter , bnxcenter ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxxp.c (Yale) version 4.6 2/23/92" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "ucxxglb.h"
-#include <yalecad/debug.h>
-
-ucxxp( a , b , anxcenter , bnxcenter )
-INT a , b , anxcenter , bnxcenter ;
+int ucxxp( int a , int b , int anxcenter , int bnxcenter )
 {
 
 CBOXPTR acellptr , bcellptr ;
 PINBOXPTR atermptr , btermptr ;
 
-INT cost ;
-INT aorient , borient ;
-INT aycenter , bycenter ;
-INT newtimepenal ;
+int cost ;
+int aorient , borient ;
+int aycenter , bycenter ;
+int newtimepenal ;
 
 acellptr = carrayG[ a ]    ; 
 aycenter = acellptr->cycenter ; 

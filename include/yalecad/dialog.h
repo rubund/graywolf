@@ -21,28 +21,27 @@ static char dialogHId[] = "@(#) dialog.h version 1.4 12/7/90" ;
 #define CASETYPE    3
 
 typedef struct {
-    INT   row,  column,  len ;
+    int   row,  column,  len ;
     char *string ;
-    INT   type ;
-    INT   color ;
-    INT   group ; /* used for CASETYPE - initial switch */
+    int   type ;
+    int   color ;
+    int   group ; /* used for CASETYPE - initial switch */
 	  	  /* used for BUTTONTYPE - member of case group */
 } TWDIALOGBOX, *TWDIALOGPTR ;
 
 typedef struct {
-    INT   type ;
+    int   type ;
     char  *string ;
     BOOL  bool ;
 } TWDRETURNBOX, *TWDRETURNPTR ;
 
 /* build a dialog box and get info */
-extern TWDRETURNPTR TWdialog( P3(TWDIALOGPTR fieldp, char *name,
-    INT (*user_function)() ) ) ;
+TWDRETURNPTR TWdialog(TWDIALOGPTR fieldp, char* dialogname, void (*user_function)());
 /* 
 Arguments:
     TWDIALOGPTR fieldp ;
     char *name ;
-    INT (*user_function)() ;
+    int (*user_function)() ;
 Function:
     Creates a dialog box for user to enter data.  Return a pointer
     to an array of type TWDRETURNPTR of the same size as input argument.

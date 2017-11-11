@@ -49,19 +49,7 @@
   1) instead of rebuilding priority heaps all the time,
   keep them around as part of graph structures.
   -----------------------------------------------------------------*/
-#ifndef lint
-static char SccsId[] = "@(#) graph.c version 1.35 4/2/92" ;
-#endif
-
-#include <yalecad/base.h>
-#include <yalecad/colors.h>
-#include <yalecad/debug.h>
-#include <yalecad/deck.h>
-#include <yalecad/draw.h>
-#include <yalecad/dset.h>
-#include <yalecad/heap.h>
-#include <yalecad/message.h>
-#include <yalecad/rbtree.h>
+#include <globals.h>
 
 /* numbers are TWcolors to ease debugging */
 #define BLACK        TWBLACK
@@ -89,10 +77,10 @@ typedef struct graph {
   YDSETPTR sourceSet;         /* Nodes which must be part of steiner tree */
   YDECKPTR primeDeck;         /* Edges with which to prime steiner tree */
   int flags;
-  INT size;                   /* any metric by which the graph is measured */
-  INT (*userEdgeWeight)();    /* user routine to get an edge's weight */
-  VOID (*userDrawEdge)();     /* user routine to draw edges */
-  VOID (*userDrawNode)();     /* user routine to draw edges */
+  int size;                   /* any metric by which the graph is measured */
+  int (*userEdgeWeight)();    /* user routine to get an edge's weight */
+  void (*userDrawEdge)();     /* user routine to draw edges */
+  void (*userDrawNode)();     /* user routine to draw edges */
 } YGRAPH, *YGRAPHPTR ;
 
 typedef struct graph_node {
@@ -103,7 +91,7 @@ typedef struct graph_node {
   int color;
   int start;
   int finish;
-  INT distance;
+  int distance;
 } YNODE, *YNODEPTR;
 
 typedef struct graph_edge {
@@ -116,7 +104,6 @@ typedef struct graph_edge {
 } YEDGE, *YEDGEPTR ;
 
 #define GRAPH_DEFINED
-#include <yalecad/graph.h>
 
 /*---------------------------------------------------------
   Macros
@@ -132,35 +119,31 @@ typedef struct graph_edge {
 /*---------------------------------------------------------
   static variables 
   ---------------------------------------------------------*/
-static INT dfs_timeS;  /* time variable used by depth first search */
-static YGRAPHPTR graphS;
-static INT bestSpanDistanceS;  /* span of last required path found */
-static VOID (*userNodeFreeS)();
-static VOID (*userEdgeFreeS)();
+int dfs_timeS;  /* time variable used by depth first search */
+YGRAPHPTR graphS;
+int bestSpanDistanceS;  /* span of last required path found */
+void (*userNodeFreeS)();
+void (*userEdgeFreeS)();
 
 /*---------------------------------------------------------
   static prototypes
   ---------------------------------------------------------*/
-static VOID graph_adjedge_free(P2(YEDGEPTR *a_p,YEDGEPTR edge));
-static YEDGEPTR *graph_adjedge_insert(P2(YEDGEPTR *a_p,YEDGEPTR edge));
-static VOID graph_edge_free(P1(YEDGEPTR edge));
+void graph_adjedge_free(P2(YEDGEPTR *a_p,YEDGEPTR edge));
+YEDGEPTR *graph_adjedge_insert(P2(YEDGEPTR *a_p,YEDGEPTR edge));
+void graph_edge_free(P1(YEDGEPTR edge));
 
 /*--------------------------------------------------
   set_compare_node_ptr: compare node pointers
   --------------------------------------------------*/
-static INT set_compare_node_ptr(p1,p2)
-    YNODEPTR p1;
-    YNODEPTR p2;
+int set_compare_node_ptr(YNODEPTR p1, YNODEPTR p2)
 {
-  return ( (INT)(p1) - (INT)(p2) );
+  return ( p1 - p2 );
 }
 
 /*--------------------------------------------------
   compare_node_distance: compare node distance fields
   --------------------------------------------------*/
-static INT compare_node_distance(p1,p2)
-    YNODEPTR p1;
-    YNODEPTR p2;
+int compare_node_distance(YNODEPTR p1, YNODEPTR p2)
 {
   return ( p1->distance - p2->distance );
 }
@@ -168,9 +151,7 @@ static INT compare_node_distance(p1,p2)
 /*--------------------------------------------------
   compare_edges: compare edges based on their weight
   --------------------------------------------------*/
-static INT compare_edge_weight(p1,p2)
-     YEDGEPTR p1;
-     YEDGEPTR p2;
+int compare_edge_weight(YEDGEPTR p1, YEDGEPTR p2)
 {
   return ( p1->weight - p2->weight );
 }
@@ -178,9 +159,7 @@ static INT compare_edge_weight(p1,p2)
 /*--------------------------------------------------
   compare_edges: compare edges based on their weight
   --------------------------------------------------*/
-static INT compare_edge(p1,p2)
-     YEDGEPTR p1;
-     YEDGEPTR p2;
+int compare_edge(YEDGEPTR p1, YEDGEPTR p2)
 {
   return ( p1 - p2 );
 }
@@ -188,9 +167,7 @@ static INT compare_edge(p1,p2)
 /*-------------------------------------------------------
   compare_graph_size: compare graphs based on size field
   -------------------------------------------------------*/
-static INT compare_graph_size(p1,p2)
-     YGRAPHPTR p1;
-     YGRAPHPTR p2;
+int compare_graph_size(YGRAPHPTR p1, YGRAPHPTR p2)
 {
   return ( p1->size - p2->size );
 }
@@ -198,15 +175,13 @@ static INT compare_graph_size(p1,p2)
 /*----------------------------------------------------------------
   graph_adjedge_insert: insert edges into an array.
   ----------------------------------------------------------------*/
-static YEDGEPTR *graph_adjedge_insert(a_p,edge)
-     YEDGEPTR *a_p;    /* the array pointer */
-     YEDGEPTR edge;
+YEDGEPTR *graph_adjedge_insert(YEDGEPTR *a_p, YEDGEPTR edge)
 {
-  INT newSize;
-  INT max;
+  int newSize;
+  int max;
   
-  newSize = (INT) a_p[SIZE] + 1;
-  max = (INT) a_p[MAXSIZE];
+  newSize = (int) a_p[SIZE] + 1;
+  max = (int) a_p[MAXSIZE];
   
    /* do we need to allocate another chunk of memory */
    if ( newSize > max ) {
@@ -216,14 +191,14 @@ static YEDGEPTR *graph_adjedge_insert(a_p,edge)
       a_p = YVECTOR_REALLOC ( a_p, LO, max, YEDGEPTR );
    
       /* update the maximum size */
-      a_p[MAXSIZE] = (YEDGEPTR) max;   /* this is really an INT */
+      a_p[MAXSIZE] = (YEDGEPTR) max;   /* this is really an int */
    }
 
    /* add the new edge to the array */
    a_p[newSize] = edge;
  
    /* update the size of the array */
-   a_p[SIZE] = (YEDGEPTR) newSize;  /* This is an INT */
+   a_p[SIZE] = (YEDGEPTR) newSize;  /* This is an int */
 
    return(a_p);
 }
@@ -232,18 +207,18 @@ static YEDGEPTR *graph_adjedge_insert(a_p,edge)
 /*-------------------------------------------------------------
   graph_adjedge_free: free edge from adj edge data structure
   ------------------------------------------------------------*/
-static VOID graph_adjedge_free(a_p,edge)
+void graph_adjedge_free(a_p,edge)
      YEDGEPTR *a_p;
      YEDGEPTR edge;
 {
      YEDGEPTR *s_p;   /* size pointer */
      YEDGEPTR *c_p;   /* current edge pointer */
      YEDGEPTR *l_p;   /* last edge pointer */
-     INT size;
-     INT newSize;
+     int size;
+     int newSize;
 
    s_p = a_p + SIZE;
-   size = (INT) *s_p;
+   size = (int) *s_p;
 
    c_p = a_p + START;
    l_p = a_p + size;
@@ -266,7 +241,7 @@ static VOID graph_adjedge_free(a_p,edge)
 /*--------------------------------------------------
   edge_free: free edges from data structure
   --------------------------------------------------*/
-static VOID graph_edge_free(edgePtr)
+void graph_edge_free(edgePtr)
      YEDGEPTR edgePtr;
 {
   /* now delete users edge data */
@@ -285,7 +260,7 @@ static VOID graph_edge_free(edgePtr)
 /*--------------------------------------------------
   free_node: free node from data structure
   --------------------------------------------------*/
-static VOID graph_node_free(nodePtr)
+void graph_node_free(nodePtr)
     YNODEPTR nodePtr;
 {
   /* free node adjacency edge tree */
@@ -317,10 +292,10 @@ static VOID graph_node_free(nodePtr)
   -------------------------------------------------------------*/
 YGRAPHPTR Ygraph_init( user_compare_node, user_compare_edge,
                        user_edge_weight, flags )
-     INT (*user_compare_node)();
-     INT (*user_compare_edge)();
-     INT (*user_edge_weight)();
-     INT flags ;             /* Directed edges, redundant edges, etc. */
+     int (*user_compare_node)();
+     int (*user_compare_edge)();
+     int (*user_edge_weight)();
+     int flags ;             /* Directed edges, redundant edges, etc. */
 {
   YGRAPHPTR graph ;      /* the current tree being built */
   
@@ -356,10 +331,10 @@ YGRAPHPTR Ygraph_init( user_compare_node, user_compare_edge,
 /*--------------------------------------------------
   empty all nodes and edge from the graph;
   --------------------------------------------------*/
-VOID Ygraph_empty(graph,userNodeDelete,userEdgeDelete)
+void Ygraph_empty(graph,userNodeDelete,userEdgeDelete)
      YGRAPHPTR graph;
-     VOID (*userNodeDelete)();  /* user function to free node data */
-     VOID (*userEdgeDelete)();  /* user function to free edge data */
+     void (*userNodeDelete)();  /* user function to free node data */
+     void (*userEdgeDelete)();  /* user function to free edge data */
 {
 
   userEdgeFreeS = userEdgeDelete;
@@ -372,10 +347,10 @@ VOID Ygraph_empty(graph,userNodeDelete,userEdgeDelete)
 /*--------------------------------------------------
   free and empty the graph
   --------------------------------------------------*/
-VOID Ygraph_free(graph,userNodeDelete,userEdgeDelete)
+void Ygraph_free(graph,userNodeDelete,userEdgeDelete)
      YGRAPHPTR graph;
-     VOID (*userNodeDelete)();  /* user function to free node data */
-     VOID (*userEdgeDelete)();  /* user function to free edge data */
+     void (*userNodeDelete)();  /* user function to free node data */
+     void (*userEdgeDelete)();  /* user function to free edge data */
 {
   
   Ydset_free(graph->sourceSet,NULL);
@@ -404,17 +379,17 @@ VOID Ygraph_free(graph,userNodeDelete,userEdgeDelete)
 /*-------------------------------------------------
   Ygraph_nodeDegree
   -------------------------------------------------*/
-INT Ygraph_nodeDegree( node )
+int Ygraph_nodeDegree( node )
      YNODEPTR node;
 {
-  return ( (INT) node->adjEdge[SIZE] + 
-           (INT) node->backEdge[SIZE] );
+  return ( (int) node->adjEdge[SIZE] + 
+           (int) node->backEdge[SIZE] );
 }
 
 /*-------------------------------------------------
   Ygraph_nodeCount
   -------------------------------------------------*/
-INT Ygraph_nodeCount( graph )
+int Ygraph_nodeCount( graph )
      YGRAPHPTR graph;
 {
   return (Yrbtree_size(graph->nodeTree));
@@ -423,7 +398,7 @@ INT Ygraph_nodeCount( graph )
 /*-------------------------------------------------
   Ygraph_edgeCount
   -------------------------------------------------*/
-INT Ygraph_edgeCount( graph )
+int Ygraph_edgeCount( graph )
      YGRAPHPTR graph;
 {
   return (Yrbtree_size(graph->edgeTree));
@@ -457,7 +432,7 @@ YNODEPTR Ygraph_nodeFind( graph, nodeData )
 YNODEPTR Ygraph_nodeFindClosest( graph, nodeData, func )
 YGRAPHPTR graph;
 VOIDPTR nodeData;
-INT func ;
+int func ;
 {
   YNODE nodeDummy;
   
@@ -496,7 +471,7 @@ YNODEPTR Ygraph_nodeEnumerate( graph, startFlag )
 /*-------------------------------------------------
   Ygraph_nodeEnumeratePush
   -------------------------------------------------*/
-VOID Ygraph_nodeEnumeratePush(graph)
+void Ygraph_nodeEnumeratePush(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_enumeratePush(graph->nodeTree);
@@ -505,7 +480,7 @@ VOID Ygraph_nodeEnumeratePush(graph)
 /*-------------------------------------------------
   Ygraph_nodeEnumeratePop
   -------------------------------------------------*/
-VOID Ygraph_nodeEnumeratePop(graph)
+void Ygraph_nodeEnumeratePop(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_enumeratePop(graph->nodeTree);
@@ -534,7 +509,7 @@ YNODEPTR Ygraph_nodeMax(graph)
   -------------------------------------------------*/
 YNODEPTR Ygraph_listAdjNodes( node, listNum )
      YNODEPTR node;
-     INT listNum;
+     int listNum;
 {
   YEDGEPTR edge;
   YNODEPTR adjNode;
@@ -545,7 +520,7 @@ YNODEPTR Ygraph_listAdjNodes( node, listNum )
     M( ERRMSG, "Ygraph_listAdjNode","adj list numbered 1-n\n" ) ;
   }
   
-  if ( listNum <= (INT) node->adjEdge[SIZE] ) {
+  if ( listNum <= (int) node->adjEdge[SIZE] ) {
     edge = node->adjEdge[listNum];
     if (edge->node1 == node) {
       adjNode = edge->node2;
@@ -562,7 +537,7 @@ YNODEPTR Ygraph_listAdjNodes( node, listNum )
   -------------------------------------------------*/
 YNODEPTR Ygraph_listBackNodes( node, listNum )
      YNODEPTR node;
-     INT listNum;
+     int listNum;
 {
   YEDGEPTR edge;
   YNODEPTR backNode;
@@ -573,7 +548,7 @@ YNODEPTR Ygraph_listBackNodes( node, listNum )
     M( ERRMSG, "Ygraph_listBackNode","back list numbered 1-n\n" ) ;
   }
   
-  if ( listNum <= (INT) node->backEdge[SIZE] ) {
+  if ( listNum <= (int) node->backEdge[SIZE] ) {
     edge = node->backEdge[listNum];
     if (edge->node1 == node) {
       backNode = edge->node2;
@@ -605,7 +580,7 @@ YNODEPTR Ygraph_nodeInterval( graph, loData, hiData, startFlag )
 /*-------------------------------------------------
   Ygraph_nodeIntervalPush
   -------------------------------------------------*/
-VOID Ygraph_nodeIntervalPush(graph)
+void Ygraph_nodeIntervalPush(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_intervalPush(graph->nodeTree);
@@ -614,7 +589,7 @@ VOID Ygraph_nodeIntervalPush(graph)
 /*-------------------------------------------------
   Ygraph_nodeIntervalPop
   -------------------------------------------------*/
-VOID Ygraph_nodeIntervalPop(graph)
+void Ygraph_nodeIntervalPop(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_intervalPop(graph->nodeTree);
@@ -660,11 +635,11 @@ YNODEPTR  Ygraph_nodeInsert( graph, nodeData)
 /*--------------------------------------------------
   free_node: free node from data structure
   --------------------------------------------------*/
-VOID Ygraph_nodeDelete(graph,node,userNodeFree,userEdgeFree)
+void Ygraph_nodeDelete(graph,node,userNodeFree,userEdgeFree)
      YGRAPHPTR graph;
      YNODEPTR node;
-     VOID (*userNodeFree)();
-     VOID (*userEdgeFree)();
+     void (*userNodeFree)();
+     void (*userEdgeFree)();
 {
   YEDGEPTR edge;
   YNODEPTR node2;
@@ -683,7 +658,7 @@ VOID Ygraph_nodeDelete(graph,node,userNodeFree,userEdgeFree)
        a_p = ( a_p == node->adjEdge ? node->backEdge:0 ) ) {
     
     c_p = a_p + START;
-    l_p =  c_p + (INT) a_p[SIZE];
+    l_p =  c_p + (int) a_p[SIZE];
     
     /* node adj list for edges */
     for ( ; c_p < l_p; c_p++ ) {
@@ -727,10 +702,10 @@ VOID Ygraph_nodeDelete(graph,node,userNodeFree,userEdgeFree)
 /*--------------------------------------------------
   Ygraph_edgeDelete: free edges from data structure
   --------------------------------------------------*/
-VOID Ygraph_edgeDelete(graph,edge,userEdgeFree)
+void Ygraph_edgeDelete(graph,edge,userEdgeFree)
      YGRAPHPTR graph;
      YEDGEPTR  edge;
-     VOID (*userEdgeFree)();
+     void (*userEdgeFree)();
 {
   YEDGEPTR edge2;
 
@@ -792,7 +767,7 @@ YEDGEPTR Ygraph_edgeFindByNodes( graph, node1, node2 )
   /* see if the edge already exists  */
   edge = NIL(YEDGEPTR) ;
   c_p = node1->adjEdge + START;
-  l_p = c_p + (INT) node1->adjEdge[SIZE];
+  l_p = c_p + (int) node1->adjEdge[SIZE];
   for ( ; c_p < l_p; c_p ++ ) {
     adjEdge = *c_p;
     if (adjEdge->node1 == node1 && adjEdge->node2 == node2 ) {
@@ -834,7 +809,7 @@ YEDGEPTR Ygraph_edgeFindByNodeData( graph, node1Data, node2Data )
   /* see if the edge already exists  */
   edge = NIL(YEDGEPTR) ;
   c_p = node1->adjEdge + START;
-  l_p = c_p + (INT) node1->adjEdge[SIZE];
+  l_p = c_p + (int) node1->adjEdge[SIZE];
   for ( ; c_p < l_p; c_p ++ ) {
     adjEdge = *c_p;
     if (adjEdge->node1 == node1 && adjEdge->node2 == node2 ) {
@@ -871,7 +846,7 @@ YEDGEPTR Ygraph_edgeFind( graph, edgeData, node1Data, node2Data )
 
   edgeDummy.node1 = &node1Dummy;
   edgeDummy.node2 = &node2Dummy;
-  fprintf( stderr, "Obsolete routine. Use edgeFindByNode() or edgeFindByNodeData().\n" ) ;
+  printf( "Obsolete routine. Use edgeFindByNode() or edgeFindByNodeData().\n" ) ;
 
   edge = (YEDGEPTR) Yrbtree_search(graph->edgeTree,&edgeDummy);
 
@@ -889,7 +864,7 @@ YEDGEPTR Ygraph_edgeFind( graph, edgeData, node1Data, node2Data )
 /*-------------------------------------------------
   Ygraph_edgeEnumeratePush
   -------------------------------------------------*/
-VOID Ygraph_edgeEnumeratePush( graph)
+void Ygraph_edgeEnumeratePush( graph)
      YGRAPHPTR graph;
 {
   Yrbtree_enumeratePush( graph->edgeTree);
@@ -898,7 +873,7 @@ VOID Ygraph_edgeEnumeratePush( graph)
 /*-------------------------------------------------
   Ygraph_edgeEnumeratePop
   -------------------------------------------------*/
-VOID Ygraph_edgeEnumeratePop(graph)
+void Ygraph_edgeEnumeratePop(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_enumeratePop( graph->edgeTree);
@@ -937,7 +912,7 @@ YEDGEPTR Ygraph_edgeMax(graph)
   -------------------------------------------------*/
 YEDGEPTR Ygraph_listAdjEdges( node, listNum )
      YNODEPTR node;
-     INT listNum;
+     int listNum;
 {
   YEDGEPTR edge;
 
@@ -947,7 +922,7 @@ YEDGEPTR Ygraph_listAdjEdges( node, listNum )
     M( ERRMSG, "Ygraph_listAdjEdge","adj list numbered 1-n\n" ) ;
   }
   
-  if ( listNum <= (INT) node->adjEdge[SIZE] ) {
+  if ( listNum <= (int) node->adjEdge[SIZE] ) {
     edge = node->adjEdge[listNum];
   }
 
@@ -959,7 +934,7 @@ YEDGEPTR Ygraph_listAdjEdges( node, listNum )
   -------------------------------------------------*/
 YEDGEPTR Ygraph_listBackEdges( node, listNum )
      YNODEPTR node;
-     INT listNum;
+     int listNum;
 {
   YEDGEPTR edge;
 
@@ -969,7 +944,7 @@ YEDGEPTR Ygraph_listBackEdges( node, listNum )
     M( ERRMSG, "Ygraph_listBackEdges","adj list numbered 1-n\n" ) ;
   }
   
-  if ( listNum <= (INT) node->backEdge[SIZE] ) {
+  if ( listNum <= (int) node->backEdge[SIZE] ) {
     edge = node->backEdge[listNum];
   }
 
@@ -996,7 +971,7 @@ YEDGEPTR Ygraph_edgeInterval( graph, loData, hiData, startFlag )
 /*-------------------------------------------------
   Ygraph_edgeIntervalPush
   -------------------------------------------------*/
-VOID Ygraph_edgeIntervalPush(graph)
+void Ygraph_edgeIntervalPush(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_intervalPush(graph->edgeTree);
@@ -1005,7 +980,7 @@ VOID Ygraph_edgeIntervalPush(graph)
 /*-------------------------------------------------
   Ygraph_edgeIntervalPop
   -------------------------------------------------*/
-VOID Ygraph_edgeIntervalPop(graph)
+void Ygraph_edgeIntervalPop(graph)
      YGRAPHPTR graph;
 {
   Yrbtree_intervalPop(graph->edgeTree);
@@ -1014,7 +989,7 @@ VOID Ygraph_edgeIntervalPop(graph)
 /*-------------------------------------------------
   Ygraph_edgeNodes
   -------------------------------------------------*/
-VOID Ygraph_edgeNodes( edge, p1, p2 )
+void Ygraph_edgeNodes( edge, p1, p2 )
      YEDGEPTR edge;
      YNODEPTR *p1;
      YNODEPTR *p2;
@@ -1071,7 +1046,7 @@ VOIDPTR Ygraph_edgeNode2Data( edge )
 /*-------------------------------------------------
   Ygraph_edgeWeight
   -------------------------------------------------*/
-INT Ygraph_edgeWeight( edge )
+int Ygraph_edgeWeight( edge )
      YEDGEPTR edge;
 {
   return( edge->weight );
@@ -1080,9 +1055,9 @@ INT Ygraph_edgeWeight( edge )
 /*-------------------------------------------------
   Ygraph_edgeWeightSet
   -------------------------------------------------*/
-INT Ygraph_edgeWeightSet( edge, weight )
+int Ygraph_edgeWeightSet( edge, weight )
      YEDGEPTR edge;
-     INT weight;
+     int weight;
 {
   edge->weight = weight;
   return( edge->weight );
@@ -1093,11 +1068,11 @@ INT Ygraph_edgeWeightSet( edge, weight )
   Sum all of the edge weights, and put into the
   graph size field.
   -------------------------------------------------*/
-INT Ygraph_edgeWeights2Size( graph )
+int Ygraph_edgeWeights2Size( graph )
      YGRAPHPTR graph;
 {
   YEDGEPTR edge; 
-  INT size;
+  int size;
   
   size = 0; 
   
@@ -1130,7 +1105,7 @@ int Ygraph_edgeType( edge )
 YEDGEPTR Ygraph_edgeInsert( graph, edgeData, edgeWeight, nodeData, node2Data)
      YGRAPHPTR graph;
      VOIDPTR edgeData;   /* users optional edge Data */
-     INT edgeWeight;
+     int edgeWeight;
      VOIDPTR nodeData;
      VOIDPTR node2Data;
 {
@@ -1151,7 +1126,7 @@ YEDGEPTR Ygraph_edgeInsert( graph, edgeData, edgeWeight, nodeData, node2Data)
   /* check node1 adj edge tree to */
   /* see if the edge already exists  */
   c_p = node1->adjEdge + START;
-  l_p = c_p + (INT) node1->adjEdge[SIZE];
+  l_p = c_p + (int) node1->adjEdge[SIZE];
   for ( ; c_p < l_p; c_p ++ ) {
     adjEdge = *c_p;
     if (adjEdge->node1 == node1 && adjEdge->node2 == node2 ) {
@@ -1207,7 +1182,7 @@ YEDGEPTR Ygraph_edgeInsert( graph, edgeData, edgeWeight, nodeData, node2Data)
 /*-------------------------------------------------
   Ygraph_flags
   -------------------------------------------------*/
-INT Ygraph_flags( graph )
+int Ygraph_flags( graph )
      YGRAPHPTR graph;
 {
   return(graph->flags);
@@ -1216,9 +1191,9 @@ INT Ygraph_flags( graph )
 /*-------------------------------------------------
   Ygraph_flagsSet
   -------------------------------------------------*/
-INT Ygraph_flagsSet(graph, flag )
+int Ygraph_flagsSet(graph, flag )
      YGRAPHPTR graph;
-     INT flag;
+     int flag;
 {
   return(graph->flags = flag);
 }
@@ -1231,7 +1206,7 @@ INT Ygraph_flagsSet(graph, flag )
   Also, Ygraph_edgeWeights2Size() can be called to
   add up all of the edge weights into a single size.
   -------------------------------------------------*/
-INT Ygraph_size( graph )
+int Ygraph_size( graph )
      YGRAPHPTR graph;
 {
   return(graph->size);
@@ -1246,8 +1221,8 @@ YGRAPHPTR Ygraph_copy( graph )
   YGRAPHPTR    newGraph;
   YEDGEPTR edge;
   YNODEPTR node;
-  INT (*nodeComp)();
-  INT (*edgeComp)();
+  int (*nodeComp)();
+  int (*edgeComp)();
   
   edgeComp = Yrbtree_get_compare(graph->edgeTree);
   nodeComp = Yrbtree_get_compare(graph->nodeTree);
@@ -1314,7 +1289,7 @@ YGRAPHPTR Ygraph_copy( graph )
   Optionally, the user can provide a targetNode beyond
   which the search is terminated.
   --------------------------------------------------*/
-VOID Ygraph_bfs(graph,sourceNode,targetNode)
+void Ygraph_bfs(graph,sourceNode,targetNode)
      YGRAPHPTR graph;
      YNODEPTR sourceNode;
      YNODEPTR targetNode;
@@ -1357,7 +1332,7 @@ VOID Ygraph_bfs(graph,sourceNode,targetNode)
     
     /* enumerate all of the adjacent nodes */
     c_p = nextNode->adjEdge + START;
-    l_p = c_p + (INT) nextNode->adjEdge[SIZE];
+    l_p = c_p + (int) nextNode->adjEdge[SIZE];
     
     /* search list for edges */
     for ( ; c_p < l_p; c_p++ ) {
@@ -1426,7 +1401,7 @@ YDECKPTR Ygraph_path(graph,targetNode)
   Ydeck_push(pathDeck,nextNode);
  
   D("Ygraph_path",
-    fprintf(stderr,"path found with %d nodes\n",Ydeck_size(pathDeck));
+    printf("path found with %d nodes\n",Ydeck_size(pathDeck));
     ASSERTNFAULT(Ydeck_verify(pathDeck),"Ygraph_path","bad deck");
   );
 
@@ -1439,7 +1414,7 @@ YDECKPTR Ygraph_path(graph,targetNode)
   but is is quite general.  It it will correctly
   identify edge types for the directed, undirected, and mixed case.
   -----------------------------------------------------------------------*/
-static VOID graph_dfs_visit(node)
+void graph_dfs_visit(node)
      YNODEPTR node;
 {
   YNODEPTR adjNode;
@@ -1458,13 +1433,13 @@ static VOID graph_dfs_visit(node)
   node->start = dfs_timeS;
   
  D("Ygraph_dfs",
-   fprintf(stderr,"dfs visit start\n");
+   printf("dfs visit start\n");
    Ygraph_draw(graphS);
    );
   
   /* enumerate all of the adjacent nodes */
   c_p = node->adjEdge + START;
-  l_p = c_p + (INT) node->adjEdge[SIZE];
+  l_p = c_p + (int) node->adjEdge[SIZE];
   
   /* search list for edges */
   for ( ; c_p < l_p; c_p++ ) {
@@ -1494,13 +1469,13 @@ static VOID graph_dfs_visit(node)
     
     D("Ygraph_dfs",
       if ( adjEdge->color == GRAY ) {
-        fprintf(stderr,"edge classified as back edge (GRAY)\n");
+        printf("edge classified as back edge (GRAY)\n");
       } else if ( adjEdge->color == WHITE ) {
-        fprintf(stderr,"edge classified as tree edge (WHITE)\n");
+        printf("edge classified as tree edge (WHITE)\n");
       } else if ( adjEdge->color == BLACK ) {
-        fprintf(stderr,"edge classified as forward/cross edge (BLACK)\n");
+        printf("edge classified as forward/cross edge (BLACK)\n");
       } else {
-        fprintf(stderr,"edge classified as unknow edge (UNKNOWN)\n");
+        printf("edge classified as unknow edge (UNKNOWN)\n");
       }
       Ygraph_draw(graphS);
       );
@@ -1526,7 +1501,7 @@ static VOID graph_dfs_visit(node)
 	
 	/* enumerate all of the adjacent nodes */
 	c2_p = node2->adjEdge + START;
-	l2_p = c2_p + (INT) node2->adjEdge[SIZE];
+	l2_p = c2_p + (int) node2->adjEdge[SIZE];
 	
 	/* search list for edges */
 	for ( ; c2_p < l2_p; c2_p++ ) {
@@ -1566,7 +1541,7 @@ static VOID graph_dfs_visit(node)
         adjEdge->color = GRAY;
         
 	D("Ygraph_dfs",
-	  fprintf(stderr,"mixed graph edge re-classified\n");
+	  printf("mixed graph edge re-classified\n");
 	  Ygraph_draw(graphS);
 	  );
 	
@@ -1574,7 +1549,7 @@ static VOID graph_dfs_visit(node)
         while (adjEdge = (YEDGEPTR) Ydeck_pop(swapDeck)) {
           adjEdge->node1->predecessor = adjEdge->node2;
 	  D("Ygraph_dfs",
-	    fprintf(stderr,"%d predecessor = %d\n",
+	    printf("%d predecessor = %d\n",
 		    adjEdge->node1->start,adjEdge->node2->start);
 	    );
 	  
@@ -1597,7 +1572,7 @@ static VOID graph_dfs_visit(node)
  node->finish = dfs_timeS;
  
  D("Ygraph_dfs",
-   fprintf(stderr,"dfs visit complete\n");
+   printf("dfs visit complete\n");
    Ygraph_draw(graphS);
    );
 }
@@ -1625,7 +1600,7 @@ YDECKPTR Ygraph_dfs(graph)
   }
   
  D("Ygraph_dfs",
-   fprintf(stderr,"Ygraph_dfsstart\n");
+   printf("Ygraph_dfsstart\n");
    Ygraph_draw(graph);
    );
 
@@ -1719,7 +1694,7 @@ YDECKPTR Ygraph_mst_prim(graph,source)
 
   /* enumerate all of the adjacent nodes */
   c_p = source->adjEdge + START;
-  l_p = c_p + (INT) source->adjEdge[SIZE];
+  l_p = c_p + (int) source->adjEdge[SIZE];
   
   /* search list for edges */
   for ( ; c_p < l_p; c_p++ ) {
@@ -1739,7 +1714,7 @@ YDECKPTR Ygraph_mst_prim(graph,source)
 	
 	/* enumerate all of the adjacent nodes */
 	c_p = nextNode->adjEdge + START;
-	l_p = c_p + (INT) nextNode->adjEdge[SIZE];
+	l_p = c_p + (int) nextNode->adjEdge[SIZE];
 	
 	/* search list for edges */
 	for ( ; c_p < l_p; c_p++ ) {
@@ -1764,7 +1739,7 @@ YDECKPTR Ygraph_mst_prim(graph,source)
   This could be speeded up for some uses by sending a target
     and terminating when that target is found.
   ----------------------------------------------------------*/
-VOID Ygraph_dijkstra(graph,sourceNode)
+void Ygraph_dijkstra(graph,sourceNode)
      YGRAPHPTR graph;
      YNODEPTR sourceNode;
 {
@@ -1776,7 +1751,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
   YHEAPPTR heap;
   
     D("Ygraph_dijkstra",
-      fprintf(stderr,"start dijkstra \n");
+      printf("start dijkstra \n");
       ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dijkstra","bogus graph");
       Ygraph_draw(graph);
       );
@@ -1804,7 +1779,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
   Yheap_insert(heap,sourceNode);
   
   D("Ygraph_dijkstra",
-    fprintf(stderr,"dijkstra initialized\n");
+    printf("dijkstra initialized\n");
     Ygraph_draw(graph);
     );
   
@@ -1821,7 +1796,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
     
     /* enumerate all of the adjacent edges */
     c_p = nextNode->adjEdge + START;
-    l_p = c_p + (INT) nextNode->adjEdge[SIZE];
+    l_p = c_p + (int) nextNode->adjEdge[SIZE];
     
     /* search list for edges */
     for ( ; c_p < l_p; c_p++ ) {
@@ -1844,7 +1819,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
         Yheap_insert(heap,adjNode);
 	
 	D("Ygraph_dijkstra",
-	  fprintf(stderr,"dijkstra adj node relaxed\n");
+	  printf("dijkstra adj node relaxed\n");
 	  ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dijkstra","bogus graph");
 	  /* Ygraph_draw(graph);   /* debug */
 	  );
@@ -1855,7 +1830,7 @@ VOID Ygraph_dijkstra(graph,sourceNode)
   }
   
   D("Ygraph_dijkstra",
-    fprintf(stderr,"dijkstra complete\n");
+    printf("dijkstra complete\n");
     ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dijkstra","bogus graph");
     Ygraph_draw(graph);
     );
@@ -1880,8 +1855,8 @@ BOOL Ygraph_bellman_ford(graph,sourceNode)
   YNODEPTR node2;
   YEDGEPTR nextEdge;
   YTREEPTR tree;
-  INT count;
-  INT numberOfNodes;
+  int count;
+  int numberOfNodes;
   
   /* make sure graph is directed edge graph */
   if ( ! ( graph->flags & YGRAPH_DIRECTED ) ) {
@@ -1970,7 +1945,7 @@ YDECKPTR Ygraph_cycles(graph)
       
       D("Ygraph_cycles",
 	ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_cycles","bad graph");
-	fprintf(stderr,"back edge found\n");
+	printf("back edge found\n");
 	);
       
       node1 = Ygraph_edgeNode1(edge);
@@ -2014,7 +1989,7 @@ YDECKPTR Ygraph_cycles(graph)
   
   D("Ygraph_cycles",
     ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_cycles","bad graph");
-    fprintf(stderr,"%d cycles found\n",Ydeck_size(graph->cycleDecks));
+    printf("%d cycles found\n",Ydeck_size(graph->cycleDecks));
     );
   
   return(graph->cycleDecks);
@@ -2063,7 +2038,7 @@ YNODEPTR Ygraph_nodeRequired( graph, node, equivNode)
   Returns the number of nodes in the required node
   set.
   -------------------------------------------------*/
-INT Ygraph_nodeRequiredCount( graph )
+int Ygraph_nodeRequiredCount( graph )
      YGRAPHPTR graph;
 {
   return( Ydset_superset_size( graph->sourceSet )  );
@@ -2073,7 +2048,7 @@ INT Ygraph_nodeRequiredCount( graph )
   Ygraph_clearRequired: clear all nodes which must
                        part of any steiner tree  
   -------------------------------------------------*/
-VOID Ygraph_clearRequired(graph)
+void Ygraph_clearRequired(graph)
      YGRAPHPTR graph;
 {
   Ydset_empty(graph->sourceSet,NULL);
@@ -2100,7 +2075,7 @@ YNODEPTR Ygraph_enumerateRequired(graph,startFlag)
   Ygraph_edgePrime: Prime a steiner tree search
   with this edge
   -------------------------------------------------*/
-VOID Ygraph_edgePrime( graph, edge)
+void Ygraph_edgePrime( graph, edge)
      YGRAPHPTR graph;
      YEDGEPTR edge;   /* users edge */
 {
@@ -2118,7 +2093,7 @@ VOID Ygraph_edgePrime( graph, edge)
   Ygraph_clearPrime: clear all nodes which must
                        part of any steiner tree  
   -------------------------------------------------*/
-VOID Ygraph_clearPrime(graph)
+void Ygraph_clearPrime(graph)
      YGRAPHPTR graph;
 {
   Ydeck_empty( graph->primeDeck, NULL );
@@ -2166,7 +2141,7 @@ static YDECKPTR steiner_trace_back(bridgeEdge)
 
     /* enumerate all of the adjacent edges */
     c_p = currentNode->predecessor->adjEdge + START;
-    l_p = c_p + (INT) currentNode->predecessor->adjEdge[SIZE];
+    l_p = c_p + (int) currentNode->predecessor->adjEdge[SIZE];
     
     /* search list for edges */
     for ( ; c_p < l_p; c_p++ ) {
@@ -2221,7 +2196,7 @@ YDECKPTR Ygraph_requiredPath(graph)
   YHEAPPTR heap;
   YDSETPTR dset;
   YDECKPTR spanDeck;
-  INT distance;
+  int distance;
   int sourceSetCount;
 
   bestSpanEdge = NIL(YEDGEPTR);
@@ -2293,7 +2268,7 @@ YDECKPTR Ygraph_requiredPath(graph)
  }
 
   D(routineNameS,
-    fprintf(stderr,"%s: initialize\n",routineNameS);
+    printf("%s: initialize\n",routineNameS);
     Ygraph_draw(graph); /* DEBUG */
     );
   
@@ -2308,7 +2283,7 @@ YDECKPTR Ygraph_requiredPath(graph)
 
     /* enumerate all of the adjacent nodes */
     c_p = nextNode->adjEdge + START;
-    l_p = c_p + (INT) nextNode->adjEdge[SIZE];
+    l_p = c_p + (int) nextNode->adjEdge[SIZE];
     
     /* search list for edges */
     for ( ; c_p < l_p; c_p++ ) {
@@ -2361,7 +2336,7 @@ YDECKPTR Ygraph_requiredPath(graph)
     }    /* END enumerate all of the adjacent nodes */
     
     D(routineNameS,
-      fprintf(stderr,"%s: ready to pop heap\n",routineNameS);
+      printf("%s: ready to pop heap\n",routineNameS);
       Ygraph_draw(graph); /* DEBUG */
       );
     
@@ -2373,7 +2348,7 @@ YDECKPTR Ygraph_requiredPath(graph)
   }
 
   D(routineNameS,
-    fprintf(stderr,"%s single path finished:\n",routineNameS);
+    printf("%s single path finished:\n",routineNameS);
     Ygraph_draw(graph); /* DEBUG */
     );
 
@@ -2389,7 +2364,7 @@ YDECKPTR Ygraph_requiredPath(graph)
 /*--------------------------------------------------
   Return size of last required path
   --------------------------------------------------*/
-INT Ygraph_requiredPathSize(graph)
+int Ygraph_requiredPathSize(graph)
      YGRAPHPTR graph;
 {
   return(bestSpanDistanceS);
@@ -2421,8 +2396,8 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
   YDSETPTR dset;
   YDSETPTR saveSourceSet;
   YGRAPHPTR steinerGraph;
-  INT (*compareEdge)();
-  INT (*compareNode)();
+  int (*compareEdge)();
+  int (*compareNode)();
   int done = FALSE;
   
   /* first run a sanity on the graph */
@@ -2462,7 +2437,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
   }
 
    D(routineNameS,
-     fprintf(stderr,"%s edge initialized\n",routineNameS);
+     printf("%s edge initialized\n",routineNameS);
      Ygraph_draw(graph); /* DEBUG */
      );
 
@@ -2480,7 +2455,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
    }
 
   D(routineNameS,
-    fprintf(stderr,"%s steiner tree primed\n",routineNameS);
+    printf("%s steiner tree primed\n",routineNameS);
     Ygraph_draw(graph); /* DEBUG */
     );
   
@@ -2516,7 +2491,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
   Ydset_free(dset,NULL);
 
   D(routineNameS,
-    fprintf(stderr,"spanning tree found with %d edges and %d nodes \n",
+    printf("spanning tree found with %d edges and %d nodes \n",
             Ygraph_edgeCount(steinerGraph), Ygraph_nodeCount(steinerGraph));
     Ygraph_draw(graph); /* DEBUG */
     );
@@ -2529,7 +2504,7 @@ YGRAPHPTR Ygraph_steiner(graph,maxImproves)
   The original graph must have its required
   nodes properly set.
   ----------------------------------------*/
-VOID Ygraph_steinerImprove(graph,steinerGraph,maxIterations)
+void Ygraph_steinerImprove(graph,steinerGraph,maxIterations)
      YGRAPHPTR graph;
      YGRAPHPTR steinerGraph;
      int maxIterations;
@@ -2548,8 +2523,8 @@ VOID Ygraph_steinerImprove(graph,steinerGraph,maxIterations)
   YNODEPTR node1;
   YNODEPTR node2;
   YNODEPTR origNode;
-  INT oldWeight;
-  INT newWeight;
+  int oldWeight;
+  int newWeight;
   int count;
   int numEdges;
   int pass;
@@ -2677,7 +2652,7 @@ VOID Ygraph_steinerImprove(graph,steinerGraph,maxIterations)
     if ( newWeight < oldWeight ) {
       
       D("Ygraph_steinerImprove",
-        fprintf(stderr,"steiner graph improved %d -> %d\n",
+        printf("steiner graph improved %d -> %d\n",
 		oldWeight,newWeight);
 	);
 
@@ -2724,13 +2699,13 @@ int Ygraph_nodeVerify(node)
   }
 
   if ( YcheckDebug( &node->adjEdge[LO] )  < 
-      ( sizeof(YEDGEPTR) * ( (INT) node->adjEdge[MAXSIZE] - LO + 1 ) ) ) {
+      ( sizeof(YEDGEPTR) * ( (int) node->adjEdge[MAXSIZE] - LO + 1 ) ) ) {
     M(ERRMSG,"Ygraph_nodeVerify","bogus node adj edge list\n");
     rc = FALSE;
   }
   
   if ( YcheckDebug( &node->backEdge[LO] )  < 
-      ( sizeof(YEDGEPTR) * ( (INT) node->backEdge[MAXSIZE] - LO + 1 ) ) ) {
+      ( sizeof(YEDGEPTR) * ( (int) node->backEdge[MAXSIZE] - LO + 1 ) ) ) {
     M(ERRMSG,"Ygraph_nodeVerify","bogus node adj edge list\n");
     rc = FALSE;
   }
@@ -2847,7 +2822,7 @@ int Ygraph_verify(graph)
     /* check node's adjacent edge list */
   
     c_p = node->adjEdge + START;
-    l_p = c_p + (INT) node->adjEdge[SIZE];
+    l_p = c_p + (int) node->adjEdge[SIZE];
 
     /* search list for edges */
 
@@ -2862,7 +2837,7 @@ int Ygraph_verify(graph)
     /* check node's back edge list */
   
     c_p = node->backEdge + START;
-    l_p = c_p + (INT) node->backEdge[SIZE];
+    l_p = c_p + (int) node->backEdge[SIZE];
 
     /* search list for edges */
 
@@ -2911,7 +2886,7 @@ int Ygraph_verify(graph)
 
     /* enumerate all of the adjacent edges */
     c_p = node1->adjEdge + START;
-    l_p = c_p + (INT) node1->adjEdge[SIZE];
+    l_p = c_p + (int) node1->adjEdge[SIZE];
     
     /* search list for edges */
     for ( edge2=NIL(YEDGEPTR) ; c_p < l_p; c_p++ ) {
@@ -2931,7 +2906,7 @@ int Ygraph_verify(graph)
     }
 
     c_p = node1->backEdge + START;
-    l_p = c_p + (INT) node1->backEdge[SIZE];
+    l_p = c_p + (int) node1->backEdge[SIZE];
     
     /* search list for edges */
     for ( edge3=NIL(YEDGEPTR) ; c_p < l_p; c_p++ ) {
@@ -2949,7 +2924,7 @@ int Ygraph_verify(graph)
 
     /* enumerate all of the adjacent edges */
     c_p = node2->adjEdge + START;
-    l_p = c_p + (INT) node2->adjEdge[SIZE];
+    l_p = c_p + (int) node2->adjEdge[SIZE];
     
     /* search list for edges */
     for ( edge4=NIL(YEDGEPTR) ; c_p < l_p; c_p++ ) {
@@ -2974,7 +2949,7 @@ int Ygraph_verify(graph)
     }
 
     c_p = node2->backEdge + START;
-    l_p = c_p + (INT) node2->backEdge[SIZE];
+    l_p = c_p + (int) node2->backEdge[SIZE];
     
     /* search list for edges */
     for ( edge5=NIL(YEDGEPTR) ; c_p < l_p; c_p++ ) {
@@ -3013,10 +2988,10 @@ int Ygraph_verify(graph)
   Dump graph statistics and call users print functions for
   nodes and edges
   ---------------------------------------------------------*/
-VOID Ygraph_dump(graph,printNode,printEdge)
+void Ygraph_dump(graph,printNode,printEdge)
   YGRAPHPTR graph;
-  VOID (*printNode)();
-  VOID (*printEdge)();
+  void (*printNode)();
+  void (*printEdge)();
 {
   YEDGEPTR edge;
   YNODEPTR node;
@@ -3025,7 +3000,7 @@ VOID Ygraph_dump(graph,printNode,printEdge)
     ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_dump","bogus graph");
     );
   
-  fprintf(stderr,"graph has %d edges \n",Ygraph_edgeCount(graph));
+  printf("graph has %d edges \n",Ygraph_edgeCount(graph));
 
   if ( printEdge ) {
 
@@ -3040,7 +3015,7 @@ VOID Ygraph_dump(graph,printNode,printEdge)
   }
   
 
-  fprintf(stderr,"graph has %d nodes \n",Ygraph_nodeCount(graph));
+  printf("graph has %d nodes \n",Ygraph_nodeCount(graph));
 
   if ( printNode ) {    
 
@@ -3059,10 +3034,10 @@ VOID Ygraph_dump(graph,printNode,printEdge)
 /*---------------------------------------------------------
   Sets up the users draw functions for Ygraph_draw.
   ---------------------------------------------------------*/
-VOID Ygraph_drawFunctions(graph,userNodeDraw, userEdgeDraw)
+void Ygraph_drawFunctions(graph,userNodeDraw, userEdgeDraw)
      YGRAPHPTR graph;
-     VOID (*userNodeDraw)();
-     VOID (*userEdgeDraw)();
+     void (*userNodeDraw)();
+     void (*userEdgeDraw)();
 {
   graph->userDrawNode = userNodeDraw;
   graph->userDrawEdge = userEdgeDraw;
@@ -3071,7 +3046,7 @@ VOID Ygraph_drawFunctions(graph,userNodeDraw, userEdgeDraw)
 /*---------------------------------------------------------
   Get the current edge weight function
   ---------------------------------------------------------*/
-INT (*Ygraph_getEdgeWeightFunction(graph))()
+int (*Ygraph_getEdgeWeightFunction(graph))()
      YGRAPHPTR graph;
 {
   return( graph->userEdgeWeight );
@@ -3080,9 +3055,9 @@ INT (*Ygraph_getEdgeWeightFunction(graph))()
 /*---------------------------------------------------------
   Set the current edge weight function
   ---------------------------------------------------------*/
-VOID Ygraph_setEdgeWeightFunction(graph,userEdgeWeight)
+void Ygraph_setEdgeWeightFunction(graph,userEdgeWeight)
      YGRAPHPTR graph;
-     INT (*userEdgeWeight)();
+     int (*userEdgeWeight)();
 {
   graph->userEdgeWeight = userEdgeWeight;
 }
@@ -3095,7 +3070,7 @@ VOID Ygraph_setEdgeWeightFunction(graph,userEdgeWeight)
 
   Some sample edge and node draw function are below:
 
-  VOID drawNode(node,color)
+  void drawNode(node,color)
     YNODEPTR node;
     int color;
   {
@@ -3104,7 +3079,7 @@ VOID Ygraph_setEdgeWeightFunction(graph,userEdgeWeight)
     TW3DdrawLine(0,n->x,n->y,n->z,n->x,n->y,n->z,color,0);
   }
 
-  VOID drawEdge(edge,color)
+  void drawEdge(edge,color)
     YEDGEPTR edge;
     int color;
   {
@@ -3113,7 +3088,7 @@ VOID Ygraph_setEdgeWeightFunction(graph,userEdgeWeight)
     TW3DdrawLine(0,e->x1,e->y1,e->z1,e->x2,e->y2,e->z2,color,0);
   }
   ---------------------------------------------------------*/
-VOID Ygraph_drawRequired(graph)
+void Ygraph_drawRequired(graph)
   YGRAPHPTR graph;
 {
   YNODEPTR node;
@@ -3152,7 +3127,7 @@ VOID Ygraph_drawRequired(graph)
 
   Some sample edge and node draw function are below:
 
-  VOID drawNode(node,color)
+  void drawNode(node,color)
     YNODEPTR node;
     int color;
   {
@@ -3161,7 +3136,7 @@ VOID Ygraph_drawRequired(graph)
     TW3DdrawLine(0,n->x,n->y,n->z,n->x,n->y,n->z,color,0);
   }
 
-  VOID drawEdge(edge,color)
+  void drawEdge(edge,color)
     YEDGEPTR edge;
     int color;
   {
@@ -3170,34 +3145,33 @@ VOID Ygraph_drawRequired(graph)
     TW3DdrawLine(0,e->x1,e->y1,e->z1,e->x2,e->y2,e->z2,color,0);
   }
   ---------------------------------------------------------*/
-VOID Ygraph_drawPrime(graph)
-  YGRAPHPTR graph;
+void Ygraph_drawPrime(YGRAPHPTR graph)
 {
-  YEDGEPTR edge;
-  
-  D("Ygraph_drawPrime",
-    ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_drawPrime","bogus graph");
-    );
-  
-  if ( graph->userDrawEdge ) {    
-    
-    /* now draw the nodes which have not yet been drawn */
-    for ( Ydeck_top(graph->primeDeck); Ydeck_notEnd(graph->primeDeck);
-	 Ydeck_down(graph->primeDeck ) ) {
-      edge = (YEDGEPTR) Ydeck_getData(graph->primeDeck);
-      (*graph->userDrawEdge)(edge,edge->color);    
-    }
-    
-    
-  }     /* end for each node */
-  
-  TWflushFrame();       /* draw any pending events */
+	YEDGEPTR edge;
+	
+	D("Ygraph_drawPrime",
+	ASSERTNFAULT(Ygraph_verify(graph),"Ygraph_drawPrime","bogus graph");
+	);
+	
+	if ( graph->userDrawEdge ) {    
+	
+	/* now draw the nodes which have not yet been drawn */
+	for ( Ydeck_top(graph->primeDeck); Ydeck_notEnd(graph->primeDeck);
+		Ydeck_down(graph->primeDeck ) ) {
+	edge = (YEDGEPTR) Ydeck_getData(graph->primeDeck);
+	(*graph->userDrawEdge)(edge,edge->color);    
+	}
+	
+	
+	}     /* end for each node */
+	
+	TWflushFrame();       /* draw any pending events */
 
-  D("Ygraph_drawPrime",
-    TWmessage("Waiting for keypress:");
-    getchar();
-    TWmessage("keypress acknowledged...");
-    );
+	D("Ygraph_drawPrime",
+	TWmessage("Waiting for keypress:");
+	getchar();
+	TWmessage("keypress acknowledged...");
+	);
 }
 
 /*---------------------------------------------------------
@@ -3210,7 +3184,7 @@ VOID Ygraph_drawPrime(graph)
 
   Some sample edge and node draw function are below:
 
-  VOID drawNode(node,color)
+  void drawNode(node,color)
     YNODEPTR node;
     int color;
   {
@@ -3219,7 +3193,7 @@ VOID Ygraph_drawPrime(graph)
     TW3DdrawLine(0,n->x,n->y,n->z,n->x,n->y,n->z,color,0);
   }
 
-  VOID drawEdge(edge,color)
+  void drawEdge(edge,color)
     YEDGEPTR edge;
     int color;
   {
@@ -3229,7 +3203,7 @@ VOID Ygraph_drawPrime(graph)
   }
   ---------------------------------------------------------*/
 
-VOID Ygraph_draw(graph)
+void Ygraph_draw(graph)
   YGRAPHPTR graph;
 {
   YEDGEPTR edge;
@@ -3279,11 +3253,11 @@ VOID Ygraph_draw(graph)
                        TEST OF GRAPH ROUTINES
    ################################################################## */
 typedef struct {
-  INT  len;
+  int  len;
   char *name ;
 } DATA, *DATAPTR ;
 
-static int compare_node( node1, node2 )
+int compare_node( node1, node2 )
      YNODEPTR node1;
      YNODEPTR node2;
 {
@@ -3296,24 +3270,24 @@ static int compare_node( node1, node2 )
   return( strcmp(n1->name,n2->name) );
 } /* end node */
 
-static VOID print_node_data( node )
+void print_node_data( node )
      YNODEPTR node;
 {
   DATAPTR data ;
   data = (DATAPTR) Ygraph_nodeData(node);
-  fprintf( stderr, "%s:%d ", data->name, data->len ) ;
+  printf( "%s:%d ", data->name, data->len ) ;
 } /* end print_data() */
 
-static VOID print_node_info( node )
+void print_node_info( node )
      YNODEPTR node;
 {
   DATAPTR data ;
   data = (DATAPTR) Ygraph_nodeData(node);
-  fprintf( stderr, "node %s has %d neighbors\n",
+  printf( "node %s has %d neighbors\n",
                     data->name, Ygraph_nodeDegree(node) ) ;
 } /* end print_data() */
 
-static VOID print_edge_info( edge )
+void print_edge_info( edge )
      YEDGEPTR edge;
 {
   DATAPTR n1;
@@ -3322,15 +3296,15 @@ static VOID print_edge_info( edge )
   n1 = Ygraph_edgeNode1Data(edge);
   n2 = Ygraph_edgeNode2Data(edge);
 
-  fprintf( stderr, "edge from ");
-  fprintf( stderr, "%s\t ", n1->name ) ;
-  fprintf( stderr, "to ");
-  fprintf( stderr, "%s\t ", n2->name ) ;
-  fprintf( stderr, "has weight = %d ", Ygraph_edgeWeight(edge) ) ;
-  fprintf( stderr, "\n") ;
+  printf( "edge from ");
+  printf( "%s\t ", n1->name ) ;
+  printf( "to ");
+  printf( "%s\t ", n2->name ) ;
+  printf( "has weight = %d ", Ygraph_edgeWeight(edge) ) ;
+  printf( "\n") ;
 } /* end print_data() */
 
-static VOID free_data( data )
+void free_data( data )
      DATAPTR data;
 {
   YFREE( data->name ) ;
@@ -3368,7 +3342,7 @@ main()
 
   YdebugMemory( TRUE ) ;
     
-  fprintf(stderr,"start\n");
+  printf("start\n");
 
   /* initialize a graph with no compare edge function AND no graph flags */
   graph = Ygraph_init(compare_node,NULL,NULL,NULL);
@@ -3403,12 +3377,12 @@ main()
   pathDeck = Ygraph_path(graph,jumpedNode);
 
   /* print out the shortest path */
-  fprintf(stderr,"\nshortest path from `the` to `jumped`\n");
-  fprintf(stderr,"edge weights = 1\n");
+  printf("\nshortest path from `the` to `jumped`\n");
+  printf("edge weights = 1\n");
   while ( node = (YNODEPTR) Ydeck_pop(pathDeck) ) {
     print_node_data(node);    
   }
-  fprintf(stderr,"\n");
+  printf("\n");
 
   /* free the path deck */
   Ydeck_free(pathDeck,NULL);
@@ -3426,18 +3400,18 @@ main()
   pathDeck = Ygraph_path(graph,jumpedNode);
 
   /* print out the shortest path */
-  fprintf(stderr,"\nshortest path from `the` to `jumped`\n");
-  fprintf(stderr,"edge weights = number of chars word\n");
+  printf("\nshortest path from `the` to `jumped`\n");
+  printf("edge weights = number of chars word\n");
   while ( node = (YNODEPTR) Ydeck_pop(pathDeck) ) {
     print_node_data(node);    
   }
-  fprintf(stderr,"\n");
+  printf("\n");
 
   /* print whole tree */
-  fprintf(stderr,"FINAL GRAPH\n");
-  fprintf(stderr,"===========\n");
+  printf("FINAL GRAPH\n");
+  printf("===========\n");
   Ygraph_dump(graph,print_node_info,print_edge_info);
-  fprintf(stderr,"\n");
+  printf("\n");
 
   /* free the path deck */
   Ydeck_free(pathDeck,NULL);
@@ -3445,7 +3419,7 @@ main()
 
   /* free the graph */
   Ygraph_free(graph, free_data, NULL);  
-  fprintf( stderr, "Final memory:%d\n", YgetCurMemUse() ) ;
+  printf( "Final memory:%d\n", YgetCurMemUse() ) ;
   Yprint_stats( stderr ) ;
   Ydump_mem() ;
 

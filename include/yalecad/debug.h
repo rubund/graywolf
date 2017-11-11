@@ -21,10 +21,6 @@ REVISIONS:  Jan 24, 1989 - added selective turnoff of print debug
 #ifndef DEBUG_H
 #define DEBUG_H
 
-#ifdef DEBUG
-
-#include <yalecad/message.h>
-
 /* ---------------------------------------------------------------
    The assertions differ from the D macro in that the test is
    always executed in an assertion whereas the function part of
@@ -121,7 +117,7 @@ REVISIONS:  Jan 24, 1989 - added selective turnoff of print debug
 	    M(ERRMSG,routine_xz,assertMsg_xz ) ;\
 	    sprintf( assertMsg_xz, "%s\n", userMsg_xz ) ;\
 	    M(MSG,NULL,assertMsg_xz) ;\
-	    YcleanupHandler( -1, NULL ) ; \
+	    YcleanupHandler( -1) ; \
     }}}
 
 
@@ -150,7 +146,7 @@ REVISIONS:  Jan 24, 1989 - added selective turnoff of print debug
     }}}}
 
 /* ************** function prototypes ************** */
-extern BOOL Ydebug( P1(char *routine) ) ;
+BOOL Ydebug( P1(char *routine) ) ;
 /* 
 Function:
     Return TRUE if the given routine has been turned on for debug.
@@ -158,67 +154,23 @@ Function:
 */
 
 /* ASSERTIONS are always on */
-extern BOOL YdebugAssert() ;
+BOOL YdebugAssert() ;
 /* 
 Function:
     Returns TRUE if debug is on.  It returns FALSE otherwise.
 */
 
-extern YdebugWrite() ;
+void YdebugWrite() ;
 /* 
 Function:
     Write the debug data structure to a file.
 */
 
-extern YsetDebug( P1(BOOL flag ) ) ;
+void YsetDebug( P1(BOOL flag ) ) ;
 /* 
 Function:
     Turn the debug functions on or off.  It will cause the evaluation
     of the dbg file in the current working directory.
 */
-
-#else  /* remove debug code from source */
-
-#define ASSERT(a_xz,b_xz,c_xz) 
-#define ASSERTNBREAK(a_xz,b_xz,c_xz) 
-#define ASSERTNCONT(a_xz,b_xz,c_xz) 
-#define ASSERTNRETURN(a_xz,b_xz,c_xz) 
-#define ASSERTNFAULT(a_xz,b_xz,c_xz) 
-#define ASSERTNQUERY(a_xz,b_xz,c_xz) 
-#define ASSERTNFUNC(a_xz,b_xz,c_xz) 
-#define D(x_xz,func_xz)      
-#define DS(name_xz)
-
-#endif  /* DEBUG */
-
-/* now selectively delete either ASSERTIONS or PRINT */
-#ifdef TURNOFFPRINTD
-
-#undef  D      
-#define D(x_xz,func_xz)      
-#undef  DS      
-#define DS(name_xz)
-
-#endif  /* end TURNOFFPTRINTD */
-
-#ifdef TURNOFFASSERT
-
-#undef ASSERT
-#undef ASSERTNBREAK
-#undef ASSERTNCONT
-#undef ASSERTNRETURN
-#undef ASSERTNFAULT
-#undef ASSERTNQUERY
-#undef ASSERTNFUNC
-
-#define ASSERT(a_xz,b_xz,c_xz) 
-#define ASSERTNBREAK(a_xz,b_xz,c_xz) 
-#define ASSERTNCONT(a_xz,b_xz,c_xz) 
-#define ASSERTNRETURN(a_xz,b_xz,c_xz) 
-#define ASSERTNFAULT(a_xz,b_xz,c_xz) 
-#define ASSERTNQUERY(a_xz,b_xz,c_xz) 
-#define ASSERTNFUNC(a_xz,b_xz,c_xz) 
-
-#endif /* end TURNOFFASSERT */
 
 #endif /* end DEBUG_H */

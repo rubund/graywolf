@@ -66,22 +66,16 @@ REVISIONS:  Dec  4, 1989 added YsetSize and made Yenumerate a macro.
 	    May  8, 1990 - fixed error messages.
 	    Fri Feb 15 15:36:27 EST 1991 - renamed the set functions.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) set.c version 3.8 12/15/91" ;
-#endif
-
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
 #include <yalecad/message.h>
 #include <yalecad/set.h>
 
-
 /* initialize set */
-YSETPTR Yset_init( lowerLimit, upperLimit ) 
-INT lowerLimit, upperLimit ;
+YSETPTR Yset_init( int lowerLimit, int upperLimit ) 
 {   
-    INT i ;
-    INT sizeSet ;
+    int i ;
+    int sizeSet ;
     YSETPTR set ;
 
     set = YMALLOC( 1, YSET ) ;
@@ -113,8 +107,8 @@ INT lowerLimit, upperLimit ;
 Yset_free( set ) 
 YSETPTR set ;
 {   
-    INT i ;
-    INT sizeSet ;
+    int i ;
+    int sizeSet ;
 
     /* add back offset to free array */
     set->set += set->lowerLimit ;
@@ -129,7 +123,7 @@ YSETPTR set ;
 /* test whether a node is member of a set */
 BOOL Yset_member( set, node ) 
 YSETPTR set ;
-INT  node ;
+int  node ;
 {
     if( node >= set->lowerLimit && node <= set->upperLimit ){
 	if( set->set[node]->member == set->in_set ){
@@ -147,7 +141,7 @@ INT  node ;
 /* returns TRUE if this a new member of set FALSE if already a member */
 BOOL Yset_add( set, node ) 
 YSETPTR set ;
-INT  node ;
+int  node ;
 {  
     YSETLISTPTR temp ;
 
@@ -182,7 +176,7 @@ INT  node ;
 /* delete a node from the set */
 Yset_delete( set, node )
 YSETPTR set ;
-INT node ;
+int node ;
 {
     YSETLISTPTR delptr ;
 
@@ -238,10 +232,10 @@ Yset_comp( set )
 YSETPTR set ;
 {
 
-    INT i ;                       /* counter */
-    INT lower ;                   /* lower bound on set */
-    INT upper ;                   /* upper bound on set */
-    INT member ;                  /* member match */
+    int i ;                       /* counter */
+    int lower ;                   /* lower bound on set */
+    int upper ;                   /* upper bound on set */
+    int member ;                  /* member match */
     YSETLISTPTR *setarray ;       /* set is an array of YLISTBOXes */
 
 

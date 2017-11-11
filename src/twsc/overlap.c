@@ -41,42 +41,35 @@
 FILE:	    clean.c                                       
 DESCRIPTION:overlap calculations.
 CONTENTS:   new_old( c )
-		INT c ;
+		int c ;
 	    old_assgnto_new1( alobin , ahibin , anewlobin , anewhibin )
-		INT alobin , ahibin , anewlobin , anewhibin ;
+		int alobin , ahibin , anewlobin , anewhibin ;
 	    new_assgnto_old1( alobin , ahibin , anewlobin , anewhibin )
-		INT alobin , ahibin , anewlobin , anewhibin ;
+		int alobin , ahibin , anewlobin , anewhibin ;
 	    old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,
 			      b1lobin , b1hibin , b2lobin , b2hibin )
-		INT a1lobin , a1hibin , a2lobin , a2hibin ;
-		INT b1lobin , b1hibin , b2lobin , b2hibin ;
+		int a1lobin , a1hibin , a2lobin , a2hibin ;
+		int b1lobin , b1hibin , b2lobin , b2hibin ;
 	    new_assgnto_old2( a1lobin , a1hibin , a2lobin , a2hibin ,
 			      b1lobin , b1hibin , b2lobin , b2hibin )
-		INT a1lobin , a1hibin , a2lobin , a2hibin ;
-		INT b1lobin , b1hibin , b2lobin , b2hibin ;
+		int a1lobin , a1hibin , a2lobin , a2hibin ;
+		int b1lobin , b1hibin , b2lobin , b2hibin ;
 	    sub_penal( startx , endx , block , LoBin , HiBin )
-		INT startx , endx , block , LoBin , HiBin ;
+		int startx , endx , block , LoBin , HiBin ;
 	    add_penal( startx , endx , block , LoBin , HiBin )
-		INT startx , endx , block , LoBin , HiBin ;
+		int startx , endx , block , LoBin , HiBin ;
 	    term_newpos( antrmptr , xcenter , ycenter , newaor )
 		TEBOXPTR antrmptr ;
-		INT xcenter , ycenter , newaor ;
+		int xcenter , ycenter , newaor ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) overlap.c (Yale) version 4.3 9/7/90" ;
-#endif
-#endif
+#include "allheaders.h"
 
-#include "ucxxglb.h"
-
-new_old( c )
-INT c ;
+void new_old(int c)
 {
 
-INT old, new ;
+int old, new ;
 
 if( ablockG != bblockG ) {
     barrayG[ablockG]->newsize = barrayG[ablockG]->oldsize + c ;
@@ -87,150 +80,55 @@ if( ablockG != bblockG ) {
 	   ABS(barrayG[bblockG]->newsize - barrayG[bblockG]->desire) ;
     newrowpenalG += (new - old) ;
 
-    /*
-    old = new = 0 ;
-    if( ABS( ablockG - bblockG ) >= 3 ) {
-	for( block = ablockG - 2 ; block <= ablockG ; block++ ) {
-	    if( block < 1 || block > numblock - 2 ) {
-		continue ;
-	    }
-	    old_size = new_size = desired = 0 ;
-	    for( blk = block ; blk <= block + 2 ; blk++ ) {
-		old_size += barrayG[blk]->oldsize ;
-		desired  += barrayG[blk]->desire  ;
-		if( blk == ablockG || blk == bblockG ) {
-		    new_size += barrayG[blk]->newsize ;
-		} else {
-		    new_size += barrayG[blk]->oldsize ;
-		}
-	    }
-	    old += ABS(old_size - desired) ;
-	    new += ABS(new_size - desired) ;
-	}
-	for( block = bblockG - 2 ; block <= bblockG ; block++ ) {
-	    if( block < 1 || block > numblock - 2 ) {
-		continue ;
-	    }
-	    old_size = new_size = desired = 0 ;
-	    for( blk = block ; blk <= block + 2 ; blk++ ) {
-		old_size += barrayG[blk]->oldsize ;
-		desired  += barrayG[blk]->desire  ;
-		if( blk == ablockG || blk == bblockG ) {
-		    new_size += barrayG[blk]->newsize ;
-		} else {
-		    new_size += barrayG[blk]->oldsize ;
-		}
-	    }
-	    old += ABS(old_size - desired) ;
-	    new += ABS(new_size - desired) ;
-	}
-    } else {
-	mini = (ablockG < bblockG) ? ablockG - 2 : bblockG - 2 ;
-	maxi = (ablockG > bblockG) ? ablockG : bblockG ;
-	for( block = mini ; block <= maxi ; block++ ) {
-	    if( block < 1 || block > numblock - 2 ) {
-		continue ;
-	    }
-	    old_size = new_size = desired = 0 ;
-	    for( blk = block ; blk <= block + 2 ; blk++ ) {
-		old_size += barrayG[blk]->oldsize ;
-		desired  += barrayG[blk]->desire  ;
-		if( blk == ablockG || blk == bblockG ) {
-		    new_size += barrayG[blk]->newsize ;
-		} else {
-		    new_size += barrayG[blk]->oldsize ;
-		}
-	    }
-	    old += ABS(old_size - desired) ;
-	    new += ABS(new_size - desired) ;
-	}
-    }
-    newrowpenalG += (new - old) ;
-    */
 }
 return ;
 }
 
-
-/*
-new_old( c )
-INT c ;
+void old_assgnto_new1( int alobin , int ahibin , int anewlobin , int anewhibin )
 {
+	int bin , lobin , hibin ;
 
-INT old , new ;
-
-if( ablockG != bblockG ) {
-    barrayG[ablockG]->newsize = barrayG[ablockG]->oldsize + c ;
-    barrayG[bblockG]->newsize = barrayG[bblockG]->oldsize - c ;
-    old  = ABS(barrayG[ablockG]->oldsize - barrayG[ablockG]->desire) +
-	   ABS(barrayG[bblockG]->oldsize - barrayG[bblockG]->desire) ;
-    new  = ABS(barrayG[ablockG]->newsize - barrayG[ablockG]->desire) +
-	   ABS(barrayG[bblockG]->newsize - barrayG[bblockG]->desire) ;
-    newrowpenalG += (new - old) ;
-}
-}
-*/
-
-
-old_assgnto_new1( alobin , ahibin , anewlobin , anewhibin )
-INT alobin , ahibin , anewlobin , anewhibin ;
-{
-
-INT bin , lobin , hibin ;
-
-if( ablockG == bblockG ) {
-    lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
-    hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
-    for( bin = lobin ; bin <= hibin ; bin++ ) {
-	binptrG[ablockG][bin]->nupenalty = 
-			 binptrG[ablockG][bin]->penalty ;
-    } 
-} else {
-    for( bin = alobin ; bin <= ahibin ; bin++ ) {
-	binptrG[ablockG][bin]->nupenalty = 
-			 binptrG[ablockG][bin]->penalty ;
-    }
-    for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
-	binptrG[bblockG][bin]->nupenalty = 
-			 binptrG[bblockG][bin]->penalty ;
-    }
-} 
-}
-    
-
-new_assgnto_old1( alobin , ahibin , anewlobin , anewhibin )
-INT alobin , ahibin , anewlobin , anewhibin ;
-{
-
-INT bin , lobin , hibin ;
-
-if( ablockG == bblockG ) {
-    lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
-    hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
-    for( bin = lobin ; bin <= hibin ; bin++ ) {
-	binptrG[ablockG][bin]->penalty = 
-			 binptrG[ablockG][bin]->nupenalty ;
-    } 
-} else {
-    for( bin = alobin ; bin <= ahibin ; bin++ ) {
-	binptrG[ablockG][bin]->penalty = 
-			 binptrG[ablockG][bin]->nupenalty ;
-    }
-    for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
-	binptrG[bblockG][bin]->penalty = 
-			 binptrG[bblockG][bin]->nupenalty ;
-    }
-} 
+	if( ablockG == bblockG ) {
+			lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
+			hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
+			for( bin = lobin ; bin <= hibin ; bin++ ) {
+				binptrG[ablockG][bin]->nupenalty = binptrG[ablockG][bin]->penalty ;
+			}
+		} else {
+			for( bin = alobin ; bin <= ahibin ; bin++ ) {
+				binptrG[ablockG][bin]->nupenalty = binptrG[ablockG][bin]->penalty ;
+			}
+			for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
+				binptrG[bblockG][bin]->nupenalty = binptrG[bblockG][bin]->penalty ;
+			}
+	} 
 }
 
-old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,
-		  b1lobin , b1hibin , b2lobin , b2hibin )
-INT a1lobin , a1hibin , a2lobin , a2hibin ;
-INT b1lobin , b1hibin , b2lobin , b2hibin ;
+void new_assgnto_old1( int alobin , int ahibin , int anewlobin , int anewhibin )
+{
+	int bin , lobin , hibin ;
+
+	if( ablockG == bblockG ) {
+		lobin = ( alobin <= anewlobin ) ? alobin : anewlobin ;
+		hibin = ( ahibin >= anewhibin ) ? ahibin : anewhibin ;
+		for( bin = lobin ; bin <= hibin ; bin++ ) {
+			binptrG[ablockG][bin]->penalty = binptrG[ablockG][bin]->nupenalty ;
+		}
+	} else {
+		for( bin = alobin ; bin <= ahibin ; bin++ ) {
+			binptrG[ablockG][bin]->penalty = binptrG[ablockG][bin]->nupenalty ;
+		}
+		for( bin = anewlobin ; bin <= anewhibin ; bin++ ) {
+			binptrG[bblockG][bin]->penalty = binptrG[bblockG][bin]->nupenalty ;
+		}
+	} 
+}
+
+void old_assgnto_new2( int a1lobin , int a1hibin , int a2lobin , int a2hibin , int b1lobin , int b1hibin , int b2lobin , int b2hibin )
 {
 
-INT clobin , chibin , dlobin , dhibin ;
-INT lobin , hibin , bin ;
+int clobin , chibin , dlobin , dhibin ;
+int lobin , hibin , bin ;
 
 clobin = ( a1lobin <= b2lobin ) ? a1lobin : b2lobin ;
 chibin = ( a1hibin >= b2hibin ) ? a1hibin : b2hibin ;
@@ -254,16 +152,12 @@ if( ablockG == bblockG ) {
     }
 }
 }
-	 
 
-new_assgnto_old2( a1lobin , a1hibin , a2lobin , a2hibin ,
-		  b1lobin , b1hibin , b2lobin , b2hibin )
-INT a1lobin , a1hibin , a2lobin , a2hibin ;
-INT b1lobin , b1hibin , b2lobin , b2hibin ;
+void new_assgnto_old2( int a1lobin , int a1hibin , int a2lobin , int a2hibin , int b1lobin , int b1hibin , int b2lobin , int b2hibin )
 {
 
-INT clobin , chibin , dlobin , dhibin ;
-INT lobin , hibin , bin ;
+int clobin , chibin , dlobin , dhibin ;
+int lobin , hibin , bin ;
 
 clobin = ( a1lobin <= b2lobin ) ? a1lobin : b2lobin ;
 chibin = ( a1hibin >= b2hibin ) ? a1hibin : b2hibin ;
@@ -289,12 +183,11 @@ if( ablockG == bblockG ) {
 }
 
 
-sub_penal( startx , endx , block , LoBin , HiBin )
-INT startx , endx , block , LoBin , HiBin ;
+void sub_penal( int startx , int endx , int block , int LoBin , int HiBin )
 {
 
 BINPTR bptr ;
-INT bin ;
+int bin ;
 
 
 if( LoBin == HiBin ) {
@@ -322,12 +215,11 @@ if( LoBin == HiBin ) {
 }
 }
 
-add_penal( startx , endx , block , LoBin , HiBin )
-INT startx , endx , block , LoBin , HiBin ;
+void add_penal( int startx , int endx , int block , int LoBin , int HiBin )
 {
 
 BINPTR bptr ;
-INT bin ;
+int bin ;
 
 if( LoBin == HiBin ) {
     bptr = binptrG[block][LoBin] ;
@@ -355,9 +247,7 @@ if( LoBin == HiBin ) {
 }
 
 
-term_newpos( antrmptr , xcenter , ycenter , newaor )
-PINBOXPTR antrmptr ;
-INT xcenter , ycenter , newaor ;
+void term_newpos( PINBOXPTR antrmptr  , int xcenter , int ycenter , int newaor )
 {
 
 register PINBOXPTR pinptr ;

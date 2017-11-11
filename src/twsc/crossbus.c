@@ -46,38 +46,27 @@ CONTENTS:  handle_crossbuses()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) crossbus.c (Yale) version 4.5 10/14/90" ;
-#endif
-#endif
+#include <globals.h>
+#include "allheaders.h"
 
-#include "standard.h"
-#include "main.h"
-#include "groute.h"
-#include "pads.h"
+int left_row_boundaryG ;
 
-/* global definitions */
-extern INT left_row_boundaryG ;
-extern INT row_extentG ;
-extern BOOL exclude_noncrossbus_padsG ;
-
-handle_crossbuses()
+void handle_crossbuses()
 {
 
 PINBOXPTR netptr ;
 FENCEBOXPTR fence , fence2, save_fence , prev_fence ;
-INT cell , net , process , row_area , area ;
-INT length , max_x , min_x , max_y , min_y , count , cross_bus ;
-INT block , x , y , avg_length , left , right ;
-INT large_pos , large_neg , ro_height , tmp , i ;
-INT distance , j , save_j , side ;
-INT *left_pins , *rite_pins , *top_pins , *bot_pins , bound ;
+int cell , net , process , row_area , area ;
+int length , max_x , min_x , max_y , min_y , count , cross_bus ;
+int block , x , y , avg_length , left , right ;
+int large_pos , large_neg , ro_height , tmp , i ;
+int distance , j , save_j , side ;
+int *left_pins , *rite_pins , *top_pins , *bot_pins , bound ;
 
-left_pins = (INT *) Ysafe_malloc( (1 + numtermsG) * sizeof( INT ) ) ;
-rite_pins = (INT *) Ysafe_malloc( (1 + numtermsG) * sizeof( INT ) ) ;
-top_pins  = (INT *) Ysafe_malloc( (1 + numtermsG) * sizeof( INT ) ) ;
-bot_pins  = (INT *) Ysafe_malloc( (1 + numtermsG) * sizeof( INT ) ) ;
+left_pins = (int *) Ysafe_malloc( (1 + numtermsG) * sizeof( int ) ) ;
+rite_pins = (int *) Ysafe_malloc( (1 + numtermsG) * sizeof( int ) ) ;
+top_pins  = (int *) Ysafe_malloc( (1 + numtermsG) * sizeof( int ) ) ;
+bot_pins  = (int *) Ysafe_malloc( (1 + numtermsG) * sizeof( int ) ) ;
 
 large_pos = 10000000 ;
 large_neg = -10000000 ;
@@ -143,8 +132,8 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 	continue ;
     }
     avg_length = length / count ;
-    if( avg_length < (INT) mean_widthG ) {
-	avg_length = (INT) mean_widthG ;
+    if( avg_length < (int) mean_widthG ) {
+	avg_length = (int) mean_widthG ;
     }
     if( avg_length % 2 == 1 ) {
 	avg_length++ ;
@@ -474,7 +463,7 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
     */
 }
 fprintf(fpoG,"Percentage of constrained cells:%f\n", 
-			(DOUBLE) count / (DOUBLE) numcellsG ) ;
+			(double) count / (double) numcellsG ) ;
 fflush(stdout);
 Ysafe_free( left_pins ) ;
 Ysafe_free( rite_pins ) ;
@@ -484,16 +473,13 @@ Ysafe_free( bot_pins  ) ;
 return ;
 }
 
-
-
-
-check_violations()
+void check_violations()
 {
 
 FENCEBOXPTR fence ;
-INT cell , total_r , total_l , x , error , row_error ;
-INT max_x , min_x , row , min_block , max_block ;
-INT r_error ;
+int cell , total_r , total_l , x , error , row_error ;
+int max_x , min_x , row , min_block , max_block ;
+int r_error ;
 
 total_r = 0 ;
 total_l = 0 ;
@@ -560,7 +546,7 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 	}
     }
     if( !( error == 0 && row_error == 0) ) {
-	if( error > (INT) mean_widthG ) {
+	if( error > (int) mean_widthG ) {
 	    if( r_error == 1 ) {
 		total_r += error ;
 		/*
@@ -593,8 +579,8 @@ reduce_violations()
 {
 
 FENCEBOXPTR fence , save_fence ;
-INT cell , x , error , work , l_error , r_error , row ;
-INT max_x , min_x , i ;
+int cell , x , error , work , l_error , r_error , row ;
+int max_x , min_x , i ;
 
 work = 0 ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -633,11 +619,11 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	    if( l_error < r_error ) {
 		/* we should shift the cell to the right */
 		carrayG[ pairArrayG[row][i] ]->cxcenter =
-			  save_fence->min_xpos + 3 * (INT)(mean_widthG) ;
+			  save_fence->min_xpos + 3 * (int)(mean_widthG) ;
 	    } else {
 		/* we should shift the cell to the left */
 		carrayG[ pairArrayG[row][i] ]->cxcenter =
-			  save_fence->max_xpos - 3 * (INT)(mean_widthG) ;
+			  save_fence->max_xpos - 3 * (int)(mean_widthG) ;
 	    }
 	}
     }

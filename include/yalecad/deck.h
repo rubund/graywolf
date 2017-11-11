@@ -36,7 +36,7 @@ typedef struct Ydeck_info {
 } YCARD, *YCARDPTR  ;
 
 typedef struct {
-    INT       size ;            /* size of list */
+    int       size ;            /* size of list */
     YCARDPTR  top ;
     YCARDPTR  bottom ;
     YCARDPTR  current ;
@@ -130,7 +130,7 @@ Function:
     Initialize deck structure and return pointer to deck memory.
 */
 
-extern VOID Ydeck_push( P2( YDECK *deck, VOIDPTR data ) ) ;
+void Ydeck_push( P2( YDECK *deck, VOIDPTR data ) ) ;
 /* 
 Arguments:
     YDECK *deck ;
@@ -140,7 +140,7 @@ Function:
     memory of the data element.
 */
 
-extern VOID Ydeck_enqueue( P2( YDECK *deck, VOIDPTR data ) ) ;
+void Ydeck_enqueue( P2( YDECK *deck, VOIDPTR data ) ) ;
 /* 
 Arguments:
     YDECK *deck ;
@@ -150,7 +150,7 @@ Function:
     memory of the data element.
 */
 
-extern VOIDPTR Ydeck_pop( P1(YDECK *deck) ) ;
+VOIDPTR Ydeck_pop( P1(YDECK *deck) ) ;
 /* 
 Arguments:
     YDECK *deck ;
@@ -161,7 +161,7 @@ Function:
     Returns data (interger or pointer) stored on card.  
 */
 
-extern VOIDPTR Ydeck_dequeue( P1(YDECK *deck) ) ;
+VOIDPTR Ydeck_dequeue( P1(YDECK *deck) ) ;
 /* 
 Arguments:
     YDECK *deck ;
@@ -172,7 +172,7 @@ Function:
     Returns data (interger or pointer) stored on card.  
 */
 
-extern VOID Ydeck_dump ( P2( YDECK *deckPtr, VOID (*userPrint)() ) );
+void Ydeck_dump ( P2( YDECK *deckPtr, VOID (*userPrint)() ) );
 /*
 Arguments:
     YDECK *deckPt ;
@@ -181,7 +181,7 @@ Function:
     For each data item in the deck, call the user print function.
 */
 
-extern VOID Ydeck_empty( P2( YDECK *deck, VOID (*userDelete)() ) ) ;
+void Ydeck_empty( P2( YDECK *deck, VOID (*userDelete)() ) ) ;
 /* 
 Arguments:
     YDECK *deck ;
@@ -192,7 +192,7 @@ Function:
     Should be used if deck is to be used again.
 */
 
-extern VOID Ydeck_free( P2( YDECK *deck, VOID (*userDelete)() ) ) ;
+void Ydeck_free( P2( YDECK *deck, VOID (*userDelete)() ) ) ;
 /* 
 Arguments:
     YDECK *deck ;
@@ -209,7 +209,7 @@ Function:
    by the user.  Use macro YNOTDECKEND
 */
 
-extern  int Ydeck_verify(P1(YDECK *deck));
+extern int Ydeck_verify(P1(YDECK *deck));
 
 #endif /* DECK_H */
 
