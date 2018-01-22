@@ -37,7 +37,7 @@ static char colors_hId[] = "@(#) colors.h version 1.8 2/26/92" ;
 extern char **TWstdcolors() ;
 
 /* returns the number of colors in standard color array */
-extern int TWnumcolors() ;
+int TWnumcolors() ;
 
 #endif /* COLOR_H */
 

@@ -34,10 +34,9 @@ typedef struct {
   int	*shortlen;	/* shortest path lengths	*/
   int	*column;	/* array of columns		*/
 } LAPJV_block;
-	
 
 /******** ASSIGNMENT FUNCTIONS *************/
-extern int **Yassign_init( P2( int m, int n ) ) ;
+int **Yassign_init(int m, int n) ;
 /* 
  * Arguments:
  *   int m, n ; 
@@ -46,7 +45,7 @@ extern int **Yassign_init( P2( int m, int n ) ) ;
  * Bug:  Internally alllcate MAX(m,n) by MAX(m,n) square matrix 
  */
 
-extern int *Yassign( P3( int **cost_matrix, int m, int n ) ) ;
+int *Yassign(int **cost_matrix, int m, int n) ;
 /* 
  * Arguments:
  *   int  **cost_matrix ;
@@ -64,7 +63,7 @@ extern int *Yassign( P3( int **cost_matrix, int m, int n ) ) ;
  *   Therefore, it might overflow if cost become too large. 
  */
 
-extern void Yassign_reset( P3(int **cost_matrix, int m, int n ) ) ;
+void Yassign_reset(int **cost_matrix, int m, int n);
 /* 
  * Arguments:
  *   int m, n ;
@@ -73,7 +72,7 @@ extern void Yassign_reset( P3(int **cost_matrix, int m, int n ) ) ;
  *   Do nothing, backward compatiblity.
  */
 
-extern void Yassign_print( P3(int **cost_matrix, int m, int n ) ) ;
+void Yassign_print(int **cost_matrix, int m, int n);
 /* 
  * Arguments:
  *   int m, n ;
@@ -82,7 +81,7 @@ extern void Yassign_print( P3(int **cost_matrix, int m, int n ) ) ;
  *   Print the state of the linear assignment solver.
  */
 
-extern void Yassign_free( P3(int **cost_matrix, int m, int n ) ) ;
+void Yassign_free(int **cost_matrix, int m, int n) ;
 /* 
  * Arguments:
  *  int **cost_matrix ;

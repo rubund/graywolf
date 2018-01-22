@@ -227,20 +227,20 @@ typedef struct ylist_el {
  ************************************************************************/
 extern YLIST Ylist_create();
 extern YLIST Ylist_create_with_parms(P1(int (*comp)()));
-extern VOID Ylist_enqueue(P2(YLIST list, VOIDPTR data));
-extern VOID Ylist_push(P2(YLIST list, VOIDPTR data));
-extern VOID Ylist_insert_after(P3(YLIST list, YLIST_EL item, VOIDPTR data));
-extern VOID Ylist_insert_before(P3(YLIST list, YLIST_EL item, VOIDPTR data));
-extern VOID Ylist_insert_in_order(P2(YLIST list, VOIDPTR data));
+void Ylist_enqueue(P2(YLIST list, VOIDPTR data));
+void Ylist_push(P2(YLIST list, VOIDPTR data));
+void Ylist_insert_after(P3(YLIST list, YLIST_EL item, VOIDPTR data));
+void Ylist_insert_before(P3(YLIST list, YLIST_EL item, VOIDPTR data));
+void Ylist_insert_in_order(P2(YLIST list, VOIDPTR data));
 extern VOIDPTR  Ylist_dequeue(P1(YLIST));
 extern VOIDPTR  Ylist_pop(P1(YLIST));
-extern VOID Ylist_delete(P3(YLIST, YLIST_EL, int (*user_delete)() ));
+void Ylist_delete(P3(YLIST, YLIST_EL, int (*user_delete)() ));
 extern BOOL Ylist_find_and_delete(P3(YLIST list,VOIDPTR data,int (*user_delete)()));
 extern YLIST Ylist_sort(P1(YLIST list));
-extern VOID Ylist_append(P2(YLIST l1, YLIST l2));
-extern VOID Ylist_clear(P1(YLIST list));
-extern VOID Ylist_free(P1(YLIST list));
-extern VOID Ylist_check_mem();
+void Ylist_append(P2(YLIST l1, YLIST l2));
+void Ylist_clear(P1(YLIST list));
+void Ylist_free(P1(YLIST list));
+void Ylist_check_mem();
 
 
 #endif /* YLIST_H */

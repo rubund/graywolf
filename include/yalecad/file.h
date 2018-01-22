@@ -25,40 +25,39 @@ Function:
     If abort is set to FALSE, the routine will return a NULL pointer
     if the file could not be opened.
 */
-
-extern BOOL YfileExists( P1(char *pathname ) ) ;
+BOOL YfileExists(char *pathname) ;
 /*
 Function:
     Returns TRUE if the given file exists.  It returns FALSE otherwise.
 */
 
-extern BOOL YdirectoryExists( P1(char *pathname) ) ;
+BOOL YdirectoryExists( P1(char *pathname) ) ;
 /*
 Function:
     Returns TRUE if the given pathname is a directory and it exists.
     It returns FALSE otherwise.
 */
 
-extern FILE *Yfile_create_lock( P2(char *filename, BOOL readNotWrite ) ) ;
+FILE *Yfile_create_lock( P2(char *filename, BOOL readNotWrite ) ) ;
 /*
 Function:
     Creates a lock file ready for read or write 
 */
 
-extern BOOL Yfile_test_lock( P1( char *filename ) ) ; 
+BOOL Yfile_test_lock( P1( char *filename ) ) ; 
 /*
 Function:
     See if a file is locked.
 */
 
-extern char *Yfile_slink( P1( char *pathname ) ) ; 
+char *Yfile_slink( P1( char *pathname ) ) ; 
 /*
 Function:
     Return symbolic link of a file.
 */
 
-#define TWOPEN( a_z, b_z, c_z )  YopenFile( a_z, b_z, c_z )
-#define TWCLOSE( a_z )           fclose( a_z )
+#define TWOPEN( a_z, b_z, c_z )  fopen(a_z, b_z )
+#define TWCLOSE( a_z ) if(a_z){fclose(a_z);a_z=0;}
 
 /* I/O MACRO DEFINITIONS */
 #define ABORT   1

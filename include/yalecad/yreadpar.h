@@ -38,8 +38,7 @@ static char YreadParId[] = "@(#) yreadpar.h version 1.4 4/18/91" ;
 typedef YTREEPTR YPARPTR ;
 typedef YTREEBOX YPARBOX ;
 
-extern VOID Yreadpar_init( P4(char *design_name, int  program,
-				int  filter, BOOL abortFlag ) ) ;
+extern void Yreadpar_init(char *design_name, int program, int  filter, BOOL abortFlag);
 /* ******************* READPAR ROUTINES ****************** */
 /* 
 Function:
@@ -92,26 +91,26 @@ Function:
 
 
 /* The routines below get spacing, width, pitch, etc. for the design */
-extern DOUBLE Yreadpar_spacing( P2(char *object1, char *object2 ) ) ;
+double Yreadpar_spacing( P2(char *object1, char *object2 ) ) ;
 
-extern DOUBLE Yreadpar_width( P1(char *object) )  ;
+double Yreadpar_width( P1(char *object) )  ;
 
-extern DOUBLE Yreadpar_pitch( P1(char *object) )  ;
+double Yreadpar_pitch( P1(char *object) )  ;
 
-extern DOUBLE Yreadpar_layer_res( P1(char *object) ) ;
+double Yreadpar_layer_res( P1(char *object) ) ;
 
-extern DOUBLE Yreadpar_layer_cap( P1(char *object) ) ;
+double Yreadpar_layer_cap( P1(char *object) ) ;
 
 extern BOOL Yreadpar_layer_HnotV( P1(char *object) ) ;
 
-extern int Yreadpar_layer2id( P1(char *object) ) ;
+int Yreadpar_layer2id( P1(char *object) ) ;
 
-extern char *Yreadpar_id2layer( P1(int layerid) ) ;
+extern char *Yreadpar_id2layer( P1(INT layerid) ) ;
 
-extern int Yreadpar_numlayers() ;
+int Yreadpar_numlayers() ;
 
 extern char *Yreadpar_vianame( P2(char *object1, char *object2) ) ;
 
-extern char *Yreadpar_viaId2name( P1(int viaid) ) ;
+extern char *Yreadpar_viaId2name( P1(INT viaid) ) ;
 
 #endif /* YREADPAR_H */

@@ -21,19 +21,19 @@ static char YlinAlgId[] = "@(#) linalg.h version 1.1 1/15/91" ;
 typedef struct {
     int    rows ;
     int    columns ;
-    DOUBLE **m ;  
+    double **m ;  
 } YMBOX, *YMPTR ;
 
-extern YMPTR Ymatrix_create( P2(int rows, int columns ) ) ;
-extern YMPTR Ymatrix_free( P1( YMPTR mptr ) ) ;
-extern YMPTR Ymatrix_transpose( P1( YMPTR mptr ) ) ;
-extern YMPTR Ymatrix_mult( P2(YMPTR aptr, YMPTR bptr ) ) ;
-extern YMPTR Ymatrix_sub( P2(YMPTR aptr, YMPTR bptr ) ) ;
-extern Ymatrix_disp( P1(YMPTR mptr ) ) ;
-extern YMPTR Ymatrix_eye( P1(int size ) ) ;
-extern Ymatrix_zero( P1(YMPTR matrix ) ) ;
-extern YMPTR Ymatrix_copy( P1(YMPTR input ) ) ;
-extern YMPTR Ymatrix_linv( P1(YMPTR aptr ) ) ;
-extern YMPTR Ymatrix_cofactors( P1(YMPTR aptr ) ) ;
+YMPTR Ymatrix_create( P2(int rows, int columns ) ) ;
+YMPTR Ymatrix_free( P1( YMPTR mptr ) ) ;
+YMPTR Ymatrix_transpose( P1( YMPTR mptr ) ) ;
+YMPTR Ymatrix_mult( P2(YMPTR aptr, YMPTR bptr ) ) ;
+YMPTR Ymatrix_sub( P2(YMPTR aptr, YMPTR bptr ) ) ;
+void Ymatrix_disp( P1(YMPTR mptr ) ) ;
+YMPTR Ymatrix_eye( P1(int size ) ) ;
+void Ymatrix_zero( P1(YMPTR matrix ) ) ;
+YMPTR Ymatrix_copy( P1(YMPTR input ) ) ;
+YMPTR Ymatrix_linv( P1(YMPTR aptr ) ) ;
+YMPTR Ymatrix_cofactors( P1(YMPTR aptr ) ) ;
 
 #endif /* LINALG_H */

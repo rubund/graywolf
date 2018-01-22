@@ -150,7 +150,7 @@ REVISIONS:  Jan 24, 1989 - added selective turnoff of print debug
     }}}}
 
 /* ************** function prototypes ************** */
-extern BOOL Ydebug( P1(char *routine) ) ;
+BOOL Ydebug( P1(char *routine) ) ;
 /* 
 Function:
     Return TRUE if the given routine has been turned on for debug.

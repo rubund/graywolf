@@ -71,13 +71,12 @@ extern VOID Yvector_free( P5( VOIDPTR array, int lo, int size,char *f,int l ) ) 
 #endif /* MEM_DEBUG */
 
 /* In both cases, define these */
-extern int YgetCurMemUse( P1(void) ) ;
-extern int YgetMaxMemUse( P1(void) ) ;
-extern int YcheckMemObj( P1(char *ptr) ) ;
-extern VOID YdebugMemory( P1(int flag ) ) ;
-extern int YcheckDebug( P1(VOIDPTR where ) ) ;
-extern VOID Yinit_memsize( P1(int memsize) ) ;
-extern VOID Ydump_mem( P1(void) ) ;
-extern VOID Ypmemerror( P1(char *message ) ) ;
+int YgetCurMemUse(void) ;
+int YgetMaxMemUse(void) ;
+int YcheckMemObj(char *ptr) ;
+void YdebugMemory(int flag) ;
+int YcheckDebug(void* where) ;
+void Ydump_mem(void) ;
+void Ypmemerror(char *message) ;
 
 #endif /* YOKMALLOC_H */

@@ -64,8 +64,6 @@ static char Ybase_HId[] = "@(#) base.h version 1.34 3/5/92" ;
 #include <math.h> 
 #endif
 
-
-
 /* -------------------------------------------------------
     Use typedefs to make the code more portable.  User 
     just changes size here and all of the code will be 
@@ -210,7 +208,6 @@ typedef int *VOIDPTR ;
 #define PGMFAIL -1
 #endif
 
-
 /* BASIC MACRO DEFINITIONS  */
 #undef  TRUE
 #undef  FALSE
@@ -235,7 +232,7 @@ typedef int *VOIDPTR ;
 #define RAND            (Yacm_random() )
 /* random number [0...limit] */
 #define RANDOM(limit)   (Yacm_random() % (limit))
-#define ROLL_THE_DICE() ((DOUBLE) RAND / (DOUBLE)0x7fffffff ) 
+#define ROLL_THE_DICE() ((double) RAND / (double)0x7fffffff ) 
 #define LINE printf(" file : %s  line # %d\n", __FILE__,__LINE__);
 #define ROUND(value)  ( (int)(value + 0.5)) 
 

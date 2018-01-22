@@ -136,26 +136,25 @@ REVISIONS:  Aug 13, 1990 - moved to library for MC.
 #endif /* RELPOSFUNC */
 
 /* global variables */
-EXTERN BOOL Ytrans_xflagG ;
-EXTERN BOOL Ytrans_yflagG ;
+BOOL Ytrans_xflagG ;
+BOOL Ytrans_yflagG ;
 
 /* global function definitions */
 
-extern VOID Ytranslate( P5(int *l,int *b,int *r,int *t, int orient) ) ; 
-extern VOID Ytranslatef( P5(DOUBLE *l,DOUBLE *b,DOUBLE *r,DOUBLE *t, int orient));
-extern VOID Ytrans_init( P5(int l,int b,int r,int t, int new_orient ) ) ;
-extern int Ytrans_inv_orient( P1(int orient ) ) ;
-extern VOID YtranslateC( P5(int *l,int *b,int *r,int *t, int orient) ) ; 
-extern VOID YtranslateT( P5(int *l,int *b,int *r,int *t, int orient) ) ; 
-extern VOID Ytrans_rel_pos(P7(int ort,int *gX,int *gY,int lX,int lY,int cx,int cy));
+void Ytranslate(int *l,int *b,int *r,int *t, int orient); 
+void Ytranslatef(double *l,double *b,double *r,double *t, int orient);
+void Ytrans_init(int l,int b,int r,int t, int new_orient);
+int Ytrans_inv_orient(int orient);
+void YtranslateC(int *l,int *b,int *r,int *t, int orient); 
+void YtranslateT(int *l,int *b,int *r,int *t, int orient); 
+void Ytrans_rel_pos(int ort,int *gX,int *gY,int lX,int lY,int cx,int cy);
 /*
-extern VOID Ytrans_rel_post(P7(int ort,int *X,int *Y,int lX,int lY,int cx,int cy));
+void Ytrans_rel_post(P7(int ort,int *X,int *Y,int lX,int lY,int cx,int cy));
 */
-extern VOID Ytrans_boun_init( P1(void) ) ;
-extern VOID Ytrans_boun_add( P2(int x,int y ) ) ;
-extern VOID Ytrans_boun( P4(int orient,int xc,int yc,BOOL use_new_orient ) ) ;
-extern BOOL Ytrans_boun_pt( P2(int *x_ret,int *y_ret ) ) ;
-extern VOID Ytrans_boun_free( P1(void) ) ;
-
+void Ytrans_boun_init() ;
+void Ytrans_boun_add(int x,int y);
+void Ytrans_boun( int orient, int new_xc, int new_yc, BOOL use_new_orient );
+BOOL Ytrans_boun_pt(int *x_ret,int *y_ret);
+void Ytrans_boun_free();
 
 #endif /* RELPOS_H */

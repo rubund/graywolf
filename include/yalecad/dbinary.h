@@ -15,9 +15,9 @@ typedef struct {
     int          x2 ;
     int     	 y1 ;
     int     	 y2 ;
-    UNSIGNED_INT ref ; /* may be referenced by this number */
-    UNSIGNED_INT color ;
-    UNSIGNED_INT label ;
+    unsigned int ref ; /* may be referenced by this number */
+    unsigned int color ;
+    unsigned int label ;
 } DATABOX, *DATAPTR ;
 
 #endif /* DBINARY_H */

@@ -16,7 +16,7 @@ Function:
     Clone a string by allocating memory.  User must free memory when done.
 */
 
-extern char **Ystrparser( P3(char *str, char *delimiters,int *numtokens ) ) ;
+extern char **Ystrparser( P3(char *str, char *delimiters,INT *numtokens ) ) ;
 /*
 Function:
     This string parsing function uses strtok to break up the string

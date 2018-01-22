@@ -36,8 +36,7 @@ typedef struct {
 } TWDRETURNBOX, *TWDRETURNPTR ;
 
 /* build a dialog box and get info */
-extern TWDRETURNPTR TWdialog( P3(TWDIALOGPTR fieldp, char *name,
-    int (*user_function)() ) ) ;
+TWDRETURNPTR TWdialog(TWDIALOGPTR fieldp, char* dialogname, void (*user_function)());
 /* 
 Arguments:
     TWDIALOGPTR fieldp ;
