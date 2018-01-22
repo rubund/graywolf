@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project (graywolf)
 
 find_package(PkgConfig)
+find_package(X11)
 INCLUDE(CheckIncludeFiles)
 
 
