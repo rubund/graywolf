@@ -180,7 +180,7 @@ for( i = 1 ; i <= last_i ; i++ ) {
 }
 z_S = (PINBOXPTR **)Ysafe_malloc( ( numChansG + 1 ) * sizeof(PINBOXPTR *) ) ;
 for( i = 0 ; i <= numChansG ; i++ ) {
-    z_S[i] = (PINBOXPTR *)Ysafe_malloc( maxpin_numberS * sizeof(PINBOXPTR) ) ;
+    z_S[i] = (PINBOXPTR *)Ysafe_malloc( (maxpin_numberS + 1) * sizeof(PINBOXPTR) ) ;
 }
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
@@ -946,7 +946,7 @@ for( i = 1 ; i <= last_i ; i++ ) {
 }
 z_S = (PINBOXPTR **)Ysafe_malloc( ( numChansG + 1 ) * sizeof(PINBOXPTR *) ) ;
 for( i = 0 ; i <= numChansG ; i++ ) {
-    z_S[i] = (PINBOXPTR *)Ysafe_malloc( maxpin_numberS * sizeof(PINBOXPTR) ) ;
+    z_S[i] = (PINBOXPTR *)Ysafe_malloc( (maxpin_numberS + 1) * sizeof(PINBOXPTR) ) ;
 }
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
