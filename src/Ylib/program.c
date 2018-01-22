@@ -80,10 +80,7 @@ static char progDate[LRECL];
    The user may perform various initialization in introTextFunction. 
    Returns string with program name, version, and compile date.
    ----------------------------------------------------------------- */
-char *YinitProgram(name,version,introTextFunction)
-     char *name ;
-     char *version ;
-     VOID (*introTextFunction)() ;
+char *YinitProgram(char *name,  char *version ,void (*introTextFunction)() )
 {
   char    *date ,
   *getCompileDate() ;
@@ -110,8 +107,7 @@ char *YinitProgram(name,version,introTextFunction)
 } /* end initProgram */
 
 /* exit program gracefully */
-YexitPgm(status)
-int status ;
+void YexitPgm(int status)
 {
 
     int     errorCount, 

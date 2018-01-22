@@ -36,7 +36,7 @@ typedef struct {
     int         screen;            /* the current screen */
     char        *fontname ;        /* main font window font */
     XFontStruct *fontinfo ;        /* font information */
-    DOUBLE      scaleFactor ;      /* scale data to screen dim.*/
+    double      scaleFactor ;      /* scale data to screen dim.*/
     int         xoffset ;          /* data offset to x screen dim.*/
     int         yoffset ;          /* data offset to y screen dim.*/
     int         winwidth ;         /* window width in pixels */
@@ -48,15 +48,15 @@ typedef struct {
     int         numColors ;        /* number of colors */
     char        **colors ;         /* names of the user given colors */
     Pixmap      pixmap ;           /* pixmap for redraw after menus */
-    int         (*refresh_func)() ;/* store the refresh function */
+    void         (*refresh_func)() ;/* store the refresh function */
 } TWINFO, *TWINFOPTR ;
 
 /* ****************** GLOBALS ************************** */
 /* GLOBAL VARIABLES */
-EXTERN int TWsafe_wait_timeG ;/* time to wait before redraw */
+int TWsafe_wait_timeG ;/* time to wait before redraw */
 
 extern TWINFOPTR TWgetDrawInfo() ; /* TW library routines use this */
-extern TWsetDrawInfo( P3( int winheight, int winwidth, Pixmap pixmap )) ;
+extern void TWsetDrawInfo( P3( int winheight, int winwidth, Pixmap pixmap )) ;
 extern Window TWgetWindowId( P2(Display *dpy, Window backwindow) ) ;
 extern BOOL TWinitMenuWindow( P1(TWMENUPTR menu_fields) ) ;
 extern XFontStruct *TWgetfont( P2(char *fname, Font *font) ) ;

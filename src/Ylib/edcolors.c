@@ -70,7 +70,7 @@ static init_field( P8(int field, int row, int column, int str_len, char *string,
 		    int type, int color, int group ) ) ;
 
 /* be able to turn off individual colors */
-TWtoggleColors()
+void TWtoggleColors()
 {
     char **colors ;      /* the standard color array */
     int  i ;             /* counter */
@@ -158,11 +158,7 @@ TWtoggleColors()
     YFREE( fieldS ) ;
 } /* end TWtoggleColors */
 
-
-static init_field( field, row, column, str_len, string, 
-type, color, group )
-int field, row, column, str_len, type, color, group ;
-char *string ;
+void init_field(int field, int row, int column, int str_len, char *string, int type, int color, int group )
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
 

@@ -96,11 +96,8 @@ static  int  numCellS = 0 ; /* cell counter */
 static  int  numNetS = 0 ;  /* net counter */
 static  int  numCharS = 0 ; /* symbol table counter */
 
-BOOL TWinitWGraphics( numC, desiredColors)
-int  numC ;
-char **desiredColors ;
+BOOL TWinitWGraphics( int numC, char **desiredColors)
 {
-
     char *Yfixpath() ;
     char *Ygetenv() ;
 
@@ -129,7 +126,7 @@ char **desiredColors ;
 } /* end function TWinitWGraphics */
 
 
-TWcloseWGraphics()
+void TWcloseWGraphics()
 {
 
     if(!(initS )){
@@ -145,11 +142,11 @@ TWcloseWGraphics()
 
 } /* end TWcloseGraphics */
 
-TWstartWFrame()
+void TWstartWFrame()
 {
     char filename[LRECL] ;
     char dummy[5] ;
-    UNSIGNED_INT nitems ;
+    unsigned int nitems ;
 
     if(!(initS )){
 	fprintf(stderr,"ERROR[startNewFrame]:initialization was not" ) ;
@@ -184,37 +181,37 @@ TWstartWFrame()
     /* index easier since symbtable[0] is meaningless now. */
     /* All indexes into symbol table which are valid must be positive */
     dummy[0] = EOS ;
-    nitems = (UNSIGNED_INT) 1 ;
+    nitems = (unsigned int) 1 ;
     fwrite( dummy, sizeof(char), nitems, symbFileS ) ;
     numCharS = 1 ; /* reset symbol table counter */
 
 } /* end startWFrame */
 
 /* write size of data at end of files and close them if frames are open */
-TWflushWFrame()
+void TWflushWFrame()
 {
     char dummy[5] ;
-    UNSIGNED_INT nitems ;
+    unsigned int nitems ;
     int numw ;
     int excess ;
 
     /* check to see if other files are open */
     if( frameOpenS ){
-	nitems = (UNSIGNED_INT) 1 ;
+	nitems = (unsigned int) 1 ;
 	/* terminate the file with number of records in each file */
-	numw = fwrite( &numCellS,sizeof(UNSIGNED_INT),nitems,cellFileS ) ;
+	numw = fwrite( &numCellS,sizeof(unsigned int),nitems,cellFileS ) ;
 	ASSERT( numw == 1, "startNewFrame", "Number written zero" ) ;
-	numw = fwrite( &numNetS, sizeof(UNSIGNED_INT),nitems,netFileS ) ;
+	numw = fwrite( &numNetS, sizeof(unsigned int),nitems,netFileS ) ;
 	ASSERT( numw == 1, "startNewFrame", "Number written zero" ) ;
 	/* need to put on integer boundary */
 	if( excess = numCharS % 4 ){
 	    /* pad the remainder with dummy */
-	    nitems = (UNSIGNED_INT) (4 - excess ) ;
+	    nitems = (unsigned int) (4 - excess ) ;
 	    numw = fwrite( dummy, sizeof(char), nitems, symbFileS ) ;
 	    ASSERT( numw == nitems,"startNewFrame","Number written zero");
 	}
-	nitems = (UNSIGNED_INT) 1 ;
-	numw = fwrite( &numCharS,sizeof(UNSIGNED_INT),nitems,symbFileS ) ;
+	nitems = (unsigned int) 1 ;
+	numw = fwrite( &numCharS,sizeof(unsigned int),nitems,symbFileS ) ;
 	ASSERT( numw == 1, "startNewFrame", "Number written zero" ) ;
 
 	/* files are open close them */
@@ -230,8 +227,7 @@ TWflushWFrame()
 
 } /* TWflushWFrame */
 
-TWsetWFrame( number )
-int number ;
+void TWsetWFrame(int number)
 {
     char fileName[LRECL] ;
 
@@ -255,26 +251,20 @@ int number ;
 /* *********  GENERIC WRITE ROUTINES **************  */
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-TWdrawWPin( ref_num, x1,y1,x2,y2,color,label)
-int     ref_num ; /* reference number */
-int	x1,y1,x2,y2, color;
-char	*label;
+void TWdrawWPin(int ref_num, int x1, int y1, int x2, int y2, int color, char *label)
 {
     TWdrawWRect( ref_num, x1,y1,x2,y2,color,label) ;
 } /* end drawWPin */
 
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
-TWdrawWLine( ref_num,x1,y1,x2,y2,color,label)
-int     ref_num ; /* reference number */
-int	x1,y1,x2,y2,color ;
-char	*label;
-{	
+void TWdrawWLine(int ref_num, int x1, int y1, int x2, int y2, int color,char *label)
+{
     DATABOX record ;
-    UNSIGNED_INT nitems ;
+    unsigned int nitems ;
     int numw ; /* number written */
 
     /* fill up data record  file destination net file */
-    record.ref = (UNSIGNED_INT) ref_num ;
+    record.ref = (unsigned int) ref_num ;
     record.x1 = x1 ;
     record.x2 = x2 ;
     record.y1 = y1 ;
@@ -284,7 +274,7 @@ char	*label;
     /* now store string in symbol table if given */
     if( label ){
 	/* write string to symbol table file */
-	nitems = (UNSIGNED_INT) ( strlen( label ) + 1 ) ;
+	nitems = (unsigned int) ( strlen( label ) + 1 ) ;
 	numw = fwrite( label, sizeof(char), nitems, symbFileS ) ;
 	ASSERT( numw == nitems, "drawLine", 
 	    "Couldnt write to string table" );
@@ -297,7 +287,7 @@ char	*label;
 	record.label = 0 ;
     }
     /* now write record */
-    nitems = (UNSIGNED_INT) 1 ;
+    nitems = (unsigned int) 1 ;
     numw = fwrite( &record, sizeof(DATABOX),nitems,netFileS ) ;
     ASSERT( numw == 1, "drawLine", "Record not written..." ) ;
     numNetS++ ;
@@ -306,17 +296,14 @@ char	*label;
 
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-TWdrawWRect( ref_num, x1,y1,x2,y2,color,label)
-int     ref_num ; /* reference number */
-int	x1,y1,x2,y2, color;
-char	*label;
+void TWdrawWRect( int ref_num, int x1, int y1, int x2, int y2, int color, char *label)
 {
     DATABOX record ;
-    UNSIGNED_INT nitems ;
+    unsigned int nitems ;
     int numw ; /* number of records written */
 
     /* fill up data record  file destination net file */
-    record.ref = (UNSIGNED_INT) ref_num ;
+    record.ref = (unsigned int) ref_num ;
     record.x1 = x1 ;
     record.x2 = x2 ;
     record.y1 = y1 ;
@@ -325,7 +312,7 @@ char	*label;
     /* now store string in symbol table if given */
     if( label ){
 	/* write string to symbol table file */
-	nitems = (UNSIGNED_INT) ( strlen( label ) + 1 ) ;
+	nitems = (unsigned int) ( strlen( label ) + 1 ) ;
 	numw = fwrite( label, sizeof(char), nitems, symbFileS ) ;
 	ASSERT( numw == nitems, "drawWRect", 
 	    "Couldn't write to string table" );
@@ -338,7 +325,7 @@ char	*label;
 	record.label = 0 ;
     }
     /* now write record */
-    nitems = (UNSIGNED_INT) 1 ;
+    nitems = (unsigned int) 1 ;
     numw = fwrite( &record, sizeof(DATABOX),nitems,cellFileS ) ;
     numCellS++ ;
     ASSERT( numw == 1, "drawWRect", "Record not written..." ) ;

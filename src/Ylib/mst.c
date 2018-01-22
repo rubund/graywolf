@@ -66,9 +66,7 @@ static    int colorS = TWRED ;   /* default color is red */
 #define	SQUARE(a)    ((a)*(a))
 #define	INF	     INT_MAX
 
-static cost(i,j)
-/* return the square of the Euclidian distance of 2 points */
-int i, j ;
+int cost(int i, int j) /* return the square of the Euclidian distance of 2 points */
 {
 	if (i==j){
 	    return INF;
@@ -76,8 +74,7 @@ int i, j ;
 	return( SQUARE(nodeXS[i]-nodeXS[j])+SQUARE(nodeYS[i]-nodeYS[j]) );
 } /* end cost */
 
-Ymst_init( numpins )
-int numpins ;
+void Ymst_init( int numpins )
 {
     numpinS = numpins ;
     nodeXS = YMALLOC( numpins, int ) ;
@@ -87,7 +84,7 @@ int numpins ;
     countS = 0 ;
 } /* end Ymst_init() */
 
-Ymst_free()
+void Ymst_free()
 {
     YFREE(nodeXS) ;
     YFREE(nodeYS) ;	
@@ -95,13 +92,12 @@ Ymst_free()
     YFREE(lowcostS) ;	
 } /* end Ymst_free() */
 
-Ymst_clear()
+void Ymst_clear()
 {
     countS = 0 ;
 } /* end Yclear_mst() */
 
-Ymst_addpt( x, y )
-int x, y ;
+void Ymst_addpt( int x, int y )
 {
     if( countS >= numpinS ){
 	fprintf( stderr, "Out of space - update number of pins for MST\n"); 
@@ -112,7 +108,7 @@ int x, y ;
     countS++ ;
 } /* end Ymst_addpt() */
 
-Ymst_draw()
+void Ymst_draw()
 {
     int mincost ;             /* minimum cost for pin */
     int closest_pt ;          /* closest neighbor for pin */
@@ -148,9 +144,7 @@ Ymst_draw()
 
 } /* end Ymst_draw() */
 
-Ymst_enumerate( x1, y1, x2, y2, startFlag )
-int *x1, *y1, *x2, *y2 ;
-BOOL startFlag ;
+void Ymst_enumerate( int *x1, int *y1, int *x2, int *y2, BOOL startFlag )
 {
     int mincost ;             /* minimum cost for pin */
     int closest_pt ;          /* closest neighbor for pin */
@@ -194,7 +188,7 @@ BOOL startFlag ;
 
 } /* end Ymst_enumerate() */
 
-Ymst_color( color )
+void Ymst_color( int color )
 {
     colorS = color ;
 } /* end Ymst_color */

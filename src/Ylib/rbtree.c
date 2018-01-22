@@ -131,13 +131,13 @@ static BINTREEPTR   recalcS ;          /* pointer to recalc flag */
 static BINTREEPTR tree_search( P2(YTREEPTR tree, char *key) ) ;
 static BINTREEPTR tree_suc( P1(BINTREEPTR ptr) ) ;
 static BINTREEPTR tree_pred( P1(BINTREEPTR ptr) ) ;
-static left_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
-static right_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
-static tree_free( P1(BINTREEPTR ptr) ) ;
-static free_tree_and_data( P2(BINTREEPTR ptr, VOID (*userDelete)() ) ) ;
-static tree_delete( P3(YTREEPTR tree, BINTREEPTR z, VOID (*userDelete)() ) ) ;
-static tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
-    		    VOID (*print_key)(),int printTab) ) ;
+void left_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
+void right_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
+void tree_free( P1(BINTREEPTR ptr) ) ;
+void free_tree_and_data( P2(BINTREEPTR ptr, void (*userDelete)() ) ) ;
+void tree_delete( P3(YTREEPTR tree, BINTREEPTR z, void (*userDelete)() ) ) ;
+void tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
+    		    void (*print_key)(),int printTab) ) ;
 
 YTREEPTR Yrbtree_init( compare_func )
 int (*compare_func)() ;  /* user specifies key function */
@@ -433,9 +433,7 @@ YTREEPTR tree ;
     
 } /* end Yrbtree_search_pred */
 
-static left_rotate( tree, x )
-YTREEPTR tree ;
-BINTREEPTR x ;
+void left_rotate( YTREEPTR tree, BINTREEPTR x )
 {
     BINTREEPTR y ;          /* a temporary pointer */
 
@@ -456,9 +454,7 @@ BINTREEPTR x ;
     x->parent = y ;       
 } /* left_rotate */
 
-static right_rotate( tree, x )
-YTREEPTR tree ;
-BINTREEPTR x ;
+void right_rotate( YTREEPTR tree, BINTREEPTR x )
 {
     BINTREEPTR y ;          /* a temporary pointer */
 
@@ -483,10 +479,7 @@ BINTREEPTR x ;
 * Delete a node in the tree by using actual pointer.  Also frees
 * user data if necessary.
 ----------------------------------------------------------------- */
-static tree_delete( tree, z, userDelete )
-YTREEPTR tree ;
-BINTREEPTR z ;
-VOID (*userDelete)();
+void tree_delete( YTREEPTR tree, BINTREEPTR z, void (*userDelete)() )
 {
     BINTREEPTR w ;            /* a temporary pointer */
     BINTREEPTR x ;            /* a temporary pointer */
@@ -588,7 +581,7 @@ VOID (*userDelete)();
 } /* end tree_delete */
 
 
-VOID Yrbtree_insert( tree, data )
+void Yrbtree_insert( tree, data )
 YTREEPTR tree ;
 VOIDPTR data ;
 {
@@ -731,7 +724,7 @@ BOOL startFlag;
 
 /* Push the current enumeration pointer.  This is useful */
 /* for recursive enumeration                             */
-VOID Yrbtree_enumeratePush ( tree )
+void Yrbtree_enumeratePush ( tree )
 YTREEPTR tree;
 {
    if (!(tree->enumerateDeck)) {
@@ -743,7 +736,7 @@ YTREEPTR tree;
 
 /* pops the current enumeration pointer.  This is useful */
 /* for recursive enumeration                             */
-VOID Yrbtree_enumeratePop ( tree )
+void Yrbtree_enumeratePop ( tree )
 YTREEPTR tree;
 {
    if (!(tree->enumerateDeck)) {
@@ -761,7 +754,7 @@ YTREEPTR tree;
 BOOL Yrbtree_delete( tree, key, userDelete )
 YTREEPTR tree ;
 VOIDPTR key ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     BINTREEPTR z ;            /* a temporary pointer */
 
@@ -777,7 +770,7 @@ VOID (*userDelete)();
 
 BOOL Yrbtree_deleteCurrentInterval( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     BINTREEPTR z ;            /* a temporary pointer */
     BINTREEPTR w ;            /* a temporary pointer */
@@ -808,7 +801,7 @@ VOID (*userDelete)();
 
 BOOL Yrbtree_deleteCurrentEnumerate( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     BINTREEPTR z ;            /* a temporary pointer */
     BINTREEPTR w ;            /* a temporary pointer */
@@ -837,11 +830,7 @@ VOID (*userDelete)();
     }
 } /* end Yrbtree_deleteCurrentEnumerate() */
 
-static tree_dump( tree, ptr, print_key, printTab )
-YTREEPTR tree ;
-BINTREEPTR ptr ;
-VOID (*print_key)() ;
-int printTab ;
+void tree_dump( YTREEPTR tree, BINTREEPTR ptr, void (*print_key)(), int printTab )
 {
     int  i ;
 
@@ -867,9 +856,9 @@ int printTab ;
     }
 } /* end Ytree_dump */
 
-VOID Yrbtree_dump( tree, print_key )
+void Yrbtree_dump( tree, print_key )
 YTREEPTR tree ;
-VOID (*print_key)() ;
+void (*print_key)() ;
 {
     if( tree ){
         Yrbtree_verify(tree);
@@ -981,7 +970,7 @@ VOIDPTR low_key, high_key ;
 
 /* Push the current interval pointer.  This is useful  */
 /* for recursive intervals                             */
-VOID Yrbtree_intervalPush ( tree )
+void Yrbtree_intervalPush ( tree )
 YTREEPTR tree;
 {
    if (!(tree->intervalDeck)) {
@@ -993,7 +982,7 @@ YTREEPTR tree;
 
 /* Pop the current interval pointer.  This is useful  */
 /* for recursive intervals                             */
-VOID Yrbtree_intervalPop ( tree )
+void Yrbtree_intervalPop ( tree )
 YTREEPTR tree;
 {
    if (!(tree->intervalDeck)) {
@@ -1007,10 +996,10 @@ YTREEPTR tree;
     tree->intervalPtr = (BINTREEPTR) Ydeck_pop(tree->intervalDeck);
 } /* end Yrbtree_intervalPop() */
 
-VOID Yrbtree_interval_free( tree, low_key, high_key, userDelete )
+void Yrbtree_interval_free( tree, low_key, high_key, userDelete )
 YTREEPTR tree ;
 VOIDPTR low_key, high_key ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
 
   VOIDPTR data ;
@@ -1022,8 +1011,7 @@ VOID (*userDelete)();
 
 } /* end Yrbtree_interval_free() */
 
-static tree_free( ptr )
-BINTREEPTR ptr ;
+void tree_free( BINTREEPTR ptr )
 {
 
     if( ptr->left != nilS ){
@@ -1037,9 +1025,7 @@ BINTREEPTR ptr ;
     }
 } /* end tree_free */
 
-static free_tree_and_data( ptr, userDelete )
-BINTREEPTR ptr ;
-VOID (*userDelete)();
+void free_tree_and_data( BINTREEPTR ptr, void (*userDelete)() )
 {
 
     if( ptr->left != nilS ){
@@ -1054,9 +1040,9 @@ VOID (*userDelete)();
     }
 } /* end tree_free */
 
-VOID Yrbtree_free( tree, userDelete )
+void Yrbtree_free( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
     if( tree ){
 	Yrbtree_empty( tree,userDelete ) ;
@@ -1064,9 +1050,9 @@ VOID (*userDelete)();
     }
 } /* end Yrbtree_free */
 
-VOID Yrbtree_empty( tree, userDelete )
+void Yrbtree_empty( tree, userDelete )
 YTREEPTR tree ;
-VOID (*userDelete)();
+void (*userDelete)();
 {
   if( tree ){
     if (tree->root != nilS) {             /* does tree need to be emptied? */
@@ -1151,7 +1137,7 @@ int Yrbtree_verify(tree)
   return ( rc );
 }
 
-VOID Yrbtree_resort( tree, compare_func )
+void Yrbtree_resort( tree, compare_func )
 YTREEPTR tree ;
 int (*compare_func)() ;  /* user specifies key function */
 {
@@ -1231,13 +1217,13 @@ DATAPTR key1, key2 ;
     return( key1->str_len - key2->str_len ) ;
 } /* end compare_len */
 
-static VOID print_data( data )
+static void print_data( data )
 DATAPTR data ;
 {
     fprintf( stderr, "%s:%d ", data->name, data->str_len ) ;
 } /* end print_data() */
 
-static VOID free_data( data )
+static void free_data( data )
 DATAPTR data ;
 {
     YFREE( data->name ) ;

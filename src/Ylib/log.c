@@ -60,8 +60,7 @@ static char SccsId[] = "@(#) log.c version 1.2 8/28/90" ;
 static char cktNameS[LRECL] = " " ; 
 
 /* put a message in the log file */
-Ylog_msg( message )
-char *message ;
+void Ylog_msg( char *message )
 {
     int timestamp ;           /* seconds since Jan 1, 1970 */
     char *time, *YcurTime() ; /* YcurTime returns ASCII time string */
@@ -75,9 +74,7 @@ char *message ;
     TWCLOSE( fp ) ;
 } /* end log */
 
-Ylog_start( design, message )
-char *design ;
-char *message ;
+void Ylog_start( char *design, char *message )
 {
     int timestamp ;           /* seconds since Jan 1, 1970 */
     char *time, *YcurTime() ; /* YcurTime returns ASCII time string */

@@ -78,16 +78,14 @@ static int xgridS = 1 ;    /* default grid is one */
 static int ygridS = 1 ;  
 /* ***************************************************************** */
 /* force coordinate to closest xy grid position */
-YforceGrid( x , y )
-int *x , *y ;
+void YforceGrid( int *x , int *y )
 {
     Ygridx( x ) ;
     Ygridy( y ) ;
 } /* end forceGrid */
 
 /* force coordinate to closest x grid position */
-Ygridx( x )
-int *x ;
+void Ygridx( int *x )
 {
 
     int newx ;
@@ -102,8 +100,7 @@ int *x ;
 
 
 /* force coordinate to closest x grid position */
-Ygridy( y )
-int *y ;
+void Ygridy(int *y)
 {
 
     int newy ;
@@ -117,8 +114,7 @@ int *y ;
 } /* end Ygridy */
 
 /* force coordinate to smallest x grid position */
-Ygridx_down( x )
-int *x ;
+void Ygridx_down(int *x)
 {
 
     int newx ;
@@ -129,8 +125,7 @@ int *x ;
 } /* end Ygridx_down */
 
 /* force coordinate to smallest y grid position */
-Ygridy_down( y )
-int *y ;
+void Ygridy_down(int *y)
 {
 
     int newy ;
@@ -142,8 +137,7 @@ int *y ;
 } /* end Ygridy_down */
 
 /* round coordinate to larger x grid position */
-Ygridx_up( x )
-int *x ;
+void Ygridx_up(int *x)
 {
 
     int newx ;
@@ -157,8 +151,7 @@ int *x ;
 } /* end Ygridx_up */
 
 /* round coordinate to larger y grid position */
-Ygridy_up( y )
-int *y ;
+void Ygridy_up(int *y)
 {
 
     int newy ;
@@ -171,29 +164,25 @@ int *y ;
 
 } /* end Ygridy_up */
 
-Ygrid_setx( x, offset )
-int x, offset ;
+void Ygrid_setx(int x, int offset)
 {
     xgridS = x ;
     offsetxS = offset ;
 } /* end Ygrid_setx */
 
-Ygrid_sety( y, offset )
-int y, offset ;
+void Ygrid_sety(int y, int offset)
 {
     ygridS = y ;
     offsetyS = offset ;
 } /* end Ygrid_sety */
 
-Ygrid_getx( x, offset )
-int *x, *offset ;
+void Ygrid_getx( int *x, int *offset )
 {
     *x = xgridS ;
     *offset = offsetxS ;
 } /* end Ygrid_getx */
 
-Ygrid_gety( y, offset )
-int *y, *offset ;
+void Ygrid_gety( int *y, int *offset )
 {
     *y = ygridS ;
     *offset = offsetyS ;

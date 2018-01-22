@@ -66,12 +66,12 @@ static int *h4S = (int *) NULL ;
 static int *h5S = (int *) NULL ;
 static int *h6S = (int *) NULL ;
 
-static void initassign();
-static void shortestpath();
-static void augmentation();
-static void transformation();
-static int *allocatevector() ;
-static int **allocatematrix() ;
+void initassign();
+void shortestpath(int ys[], int yt[], int dplus[], int dminus[], int back[], int next[], int i, int *indexp, int *dp, int m, int n);
+void augmentation();
+void transformation(int ys[], int yt[], int dplus[], int dminus[], int d, int m, int n);
+int *allocatevector() ;
+int **allocatematrix() ;
 
 int *Yassign( cost_matrix, m, n )
 int  **cost_matrix ;
@@ -152,9 +152,7 @@ int m, n;
 } /* end assign */
 
 
-static void initassign(ys, yt, m, n)
-int ys[], yt[];
-int m, n;
+void initassign(int ys[], int yt[], int m, int n)
 /*
  *  Initializes, checks feasibility and constructs an optimal assignment
  *  for a subset of rowSs and colSumns :
@@ -247,19 +245,7 @@ DONE :
     }
 } /* end initassign */
 
-     
-static void shortestpath( ys, yt, dplus, dminus, back, next, i, indexp, dp, m, n )
-int ys[],
-    yt[],
-    dplus[],
-    dminus[],
-    back[],
-    next[];
-int *indexp;
-int *dp;
-int i,
-    m,
-    n;
+void shortestpath(int ys[], int yt[], int dplus[], int dminus[], int back[], int next[], int i, int *indexp, int *dp, int m, int n)
 /*
  *  Finds a shortest path from starting node i to sink node index
  *  using Dijkstra's algorithm and modify costs.
@@ -268,7 +254,7 @@ int i,
  *  back points back in the path.
  */
 {
-int lastcand,
+    int lastcand,
     headcand,
     v,
     vgl,
@@ -330,17 +316,14 @@ int lastcand,
     }
 } /* end shortest path */
 
-
-static void augmentation( back, u, ind )
-int back[];
-int u, ind;
+void augmentation( int back[], int u, int ind )
 /*
  *  tracing back the augmenting path from index back to u,
  *  assignments are updated accordingly.
  */
 {
     int oldind;
-    int w = (int)NULL;
+    int w = 0;
 
     (capS[ind])--;
 
@@ -361,10 +344,7 @@ int u, ind;
     }
 } /* end augmentation */
 
-
-static void transformation( ys, yt, dplus, dminus, d, m, n )
-int ys[], yt[], dplus[], dminus[] ;
-int d ;
+void transformation(int ys[], int yt[], int dplus[], int dminus[], int d, int m, int n)
 /*
  *  update ys and yt
  */
@@ -451,9 +431,7 @@ colS[0] = 0;
 	h6S[j] = 0;
 } /* end Yassign_reset */
 
-static int **allocatematrix ( rows, cols )
-int rows,		/* number of rows */
-    cols;		/* number of columns */
+int **allocatematrix ( int rows, int cols )
 {
     int i ;			/* loop counters */
     int ** matrix;		/* the allocated matrix */
@@ -469,8 +447,7 @@ int rows,		/* number of rows */
 } /* end allocatematrix */
 
 
-static int *allocatevector( cols )
-int cols;		/* number of columns */
+int *allocatevector( int cols ) /* number of columns */
 {
     int * vector;		/* used to allocate the vector */
 

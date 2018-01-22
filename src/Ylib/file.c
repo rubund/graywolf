@@ -101,8 +101,7 @@ BOOL  abort ;
 #include <sys/stat.h>
 
 /* check if a file exists */
-BOOL YfileExists(pathname)
-char *pathname ;
+BOOL YfileExists(char *pathname)
 {
     struct stat buf;
 
@@ -114,8 +113,7 @@ char *pathname ;
     return(FALSE) ;
 }
 
-char *Yfile_slink( pathname )
-char *pathname ;
+char *Yfile_slink( char *pathname )
 {
     int len ;
     static char buf[BUFSIZ] ;
@@ -137,8 +135,7 @@ char *pathname ;
 #include <sys/dir.h>
 
 /* check if a directory exists */
-BOOL YdirectoryExists(pathname)
-char *pathname ;
+BOOL YdirectoryExists(char *pathname)
 {
     DIR *dp ;
 
@@ -154,9 +151,7 @@ char *pathname ;
 #ifndef HPUX
 
 #include <sys/file.h>
-FILE *Yfile_create_lock( filename, readNotWrite ) 
-char *filename ;
-BOOL readNotWrite ;
+FILE *Yfile_create_lock( char *filename, BOOL readNotWrite ) 
 {
     int fd ;             /* file descriptor */
     int status ;         /* return status */

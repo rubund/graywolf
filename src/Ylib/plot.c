@@ -67,21 +67,19 @@ typedef struct {
     BOOL  graphFlushed ;
 } YPLOTTYPE, *YPLOTPTR ;
 
-static YPLOTTYPE gfileS[MAXARGS] ;
-static int gfilenoS = 0 ;
-static BOOL graphFilesS = TRUE ;
+YPLOTTYPE gfileS[MAXARGS] ;
+int gfilenoS = 0 ;
+BOOL graphFilesS = TRUE ;
 
+int findType();
 
-static int findType();
-
-Yplot_control( toggle )
-BOOL toggle ;
+void Yplot_control( BOOL toggle )
 {
     graphFilesS = toggle ;
 } /* end YgraphControl */
 
 /* graph init uses variable number of arguments */
-Yplot_init( int dval, ... )
+void Yplot_init( int dval, ... )
 {
 
     va_list ap ;
@@ -108,7 +106,7 @@ Yplot_init( int dval, ... )
 }
 
 /* graph init uses variable number of arguments */
-Yplot_heading( int dval, ... )
+void Yplot_heading( int dval, ... )
 {
 
     va_list ap ;
@@ -157,7 +155,7 @@ Yplot_heading( int dval, ... )
     va_end(ap) ;
 }
 
-Yplot_close()
+void Yplot_close()
 {
     int i ;
 
@@ -180,7 +178,7 @@ Yplot_close()
 /* This is what argument list looks like - use it to pass any type */
 /* of variable to graph */
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 
-Yplot( int dval, ... ) 
+void Yplot( int dval, ... )
 {
     va_list ap ;
     char *gName ;
@@ -191,7 +189,7 @@ Yplot( int dval, ... )
     char **tokenBuf ;
     int gint ;
     int i , type, numtokens ;
-    DOUBLE gdoub ;
+    double gdoub ;
     FILE *fp ;
     static char copyformatS[LRECL] ;
     /* static int findType();*/
@@ -268,7 +266,7 @@ Yplot( int dval, ... )
 	}
 	break ;
     case DOUB_TYPE:
-	gdoub = va_arg( ap, DOUBLE ) ;
+	gdoub = va_arg( ap, double ) ;
 	if( gfileS[i].graphFlushed ){  
 	    fprintf( fp, tokenBuf[0], gdoub ) ;
 	    fprintf( fp, "\t" ) ;
@@ -311,7 +309,7 @@ Yplot( int dval, ... )
 		fprintf( fp, tokenBuf[i], gstr ) ;
 		break ;
 	    case DOUB_TYPE:
-		gdoub = va_arg( ap, DOUBLE ) ;
+		gdoub = va_arg( ap, double ) ;
 		fprintf( fp, tokenBuf[i], gdoub ) ;
 		break ;
 	}
@@ -321,8 +319,7 @@ Yplot( int dval, ... )
 
 }
 
-Yplot_flush( gName ) 
-char *gName ;
+void Yplot_flush(char *gName)
 {
     int i ;
 
@@ -361,9 +358,7 @@ char *gName ;
 
 } /* end GRAPHFLUSH */
 
-static int findType( control, number )
-char **control ;
-int number ;
+int findType( char **control, int number )
 {
     char *formatChar ;
     
@@ -391,7 +386,7 @@ int number ;
 main()
 {
     int i ;       /* counter */
-    DOUBLE f ;    /* function value */
+    double f ;    /* function value */
     int y ;       /* integer function value */
 
     /* first initialize two graphs */
@@ -410,7 +405,7 @@ main()
 	   Ygraph has the following format:
 	   Ygraph( filename, x format, x varible, y format, y variables...
 	------------------------------------------------------------- */
-	f = (DOUBLE) i ;
+	f = (double) i ;
 	y = i * i ;
 	Yplot( 0, "graph1", "%d", i, "%4.2le %d", f, y ) ;
 	/* now after each graph has been finished flush data */
@@ -418,7 +413,7 @@ main()
 
 	/* now output another graph */
 	Yplot_heading( 0, "graph_kroy", "iter", "Temperature", NULL ) ;
-	Yplot( 0, "graph_kroy", "%4.2le", (DOUBLE) i, "%d", 3 * i ) ;
+	Yplot( 0, "graph_kroy", "%4.2le", (double) i, "%d", 3 * i ) ;
 	Yplot_flush( "graph_kroy" ) ;
     }
 

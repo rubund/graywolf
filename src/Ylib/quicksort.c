@@ -59,7 +59,7 @@ static qst();
 #define		THRESH		4	/* threshold for insertion */
 #define		MTHRESH		6	/* threshold for median */
 
-VOID Yquicksort(base, n, size, compare )
+void Yquicksort(base, n, size, compare )
 	char	*base;
 	int	n;
 	int	size;

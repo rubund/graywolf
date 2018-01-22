@@ -153,25 +153,25 @@ static char SccsId[] = "@(#) menus.c (Yale) version 3.36 2/26/92" ;
 
 /* data record for menu information */
 typedef struct {
-    Window   top_window ;            /* heading window for menu */
-    Window   *window ;               /* window for each menu entry */
-    char     *name ;                 /* the name of this menu */
-    int      xpos ;                  /* x pos of entry menu in messageW */
-    int      name_len ;              /* name length of top menu */
-    int      pix_len ;               /* pixlength of top menu entry */
-    int      entry_wid ;             /* width in pix of max menu entry */
-    int      numentries ;            /* number of entries in menu */
-    int      *function ;             /* function number of each entry */
-    char     **entry ;               /* name of each menu entry */
-    int      *entry_len ;            /* len of each menu entry */
-    int      *xpos_adj ;             /* position of each menu entry str */
-    int      width ;                 /* width of menu entry */
-    BOOL     *bool_entry ;           /* tells whether entry is boolean */
-    BOOL     *state ;                /* state of this window entry */
-    int      *function2 ;            /* alternate function for boolean */
-    char     **entry2 ;              /* for Boolean entries */
-    int      *xpos_adj2 ;            /* position of alternate menu entry*/
-    int      *entry_len2 ;           /* len of each menu entry */
+	Window   top_window ;            /* heading window for menu */
+	Window   *window ;               /* window for each menu entry */
+	char     *name ;                 /* the name of this menu */
+	int xpos ;                  /* x pos of entry menu in messageW */
+	int name_len ;              /* name length of top menu */
+	int pix_len ;               /* pixlength of top menu entry */
+	int      entry_wid ;             /* width in pix of max menu entry */
+	int      numentries ;            /* number of entries in menu */
+	int      *function ;             /* function number of each entry */
+	char     **entry ;               /* name of each menu entry */
+	int      *entry_len ;            /* len of each menu entry */
+	int      *xpos_adj ;             /* position of each menu entry str */
+	int      width ;                 /* width of menu entry */
+	BOOL     *bool_entry ;           /* tells whether entry is boolean */
+	BOOL     *state ;                /* state of this window entry */
+	int      *function2 ;            /* alternate function for boolean */
+	char     **entry2 ;              /* for Boolean entries */
+	int      *xpos_adj2 ;            /* position of alternate menu entry*/
+	int      *entry_len2 ;           /* len of each menu entry */
     BOOL     *enabled ;              /* whether menu item is enable or not */
 } MENUBOX, *MENUPTR ;
 
@@ -184,8 +184,8 @@ static Window       messageS;        /* the message display window */
 static GC           menuGCS ;        /* graphics context for menus */
 static GC           menuRGCS ;       /* reverse gc for turning on menus */
 static int          screenS ;        /* the current screen */
-static UNSIGNED_INT backgrdS ;
-static UNSIGNED_INT foregrdS ;
+static unsigned int backgrdS ;
+static unsigned int foregrdS ;
 static int          winwidthS ;      /* window width */
 static MENUPTR      *menuArrayS ;    /* contains info about menus */
 static XFontStruct  *fontinfoS ;     /* font information */
@@ -221,7 +221,7 @@ static draw_persistent_message( P1(char *message) ) ;
 
 
 /* get information from main draw routine and set it */
-TWinforMenus( )
+void TWinforMenus( )
 {
     TWINFOPTR TWgetDrawInfo() ;
 
@@ -251,7 +251,7 @@ int TWsaveState()
     return( (int) backS ) ;
 } /* end TWgetWindowId */
 
-TWrestoreState()
+void TWrestoreState()
 {
     long event_mask ;  /* used to set input selection to window */
     XWindowAttributes wattr;  /* get the window attributes */
@@ -283,9 +283,7 @@ TWrestoreState()
 } /* end TWgetWindowId */
 
 /* retrieve the window information only occurs during a parasite */
-Window TWgetWindowId( dpy, backwindow )
-Display *dpy ;
-Window backwindow ;
+Window TWgetWindowId( Display *dpy, Window backwindow )
 {
     Atom menuAtom ; /* need to store menu property */
     Atom messageAtom ; /* need to store message property */
@@ -328,8 +326,7 @@ Window backwindow ;
 } /* end TWgetWindowId */
 
 /* perform initialization of menu windows */
-BOOL TWinitMenuWindow( menu_fields )
-TWMENUPTR menu_fields ;
+BOOL TWinitMenuWindow( TWMENUPTR menu_fields )
 {
     MENUPTR menuptr ;  /* temporary for speed */
     TWMENUPTR mptr ;   /* current field of the menu fields */
@@ -588,7 +585,7 @@ TWMENUPTR menu_fields ;
 	
 } /* end TWinitMenuWindow */
 
-TWdrawMenus()
+void TWdrawMenus()
 {
     int i ;
     MENUPTR menuptr ;
@@ -606,7 +603,7 @@ TWdrawMenus()
 } /* end TWdrawMenus */
 
 /* turn top window entering and leaving lights */
-static set_window_lights( flag )
+void  set_window_lights( flag )
 BOOL flag ;
 {
     int i ;            /* window counter */
@@ -718,7 +715,7 @@ int TWcheckMouse()
     /* it take too much time*/
     Ytimer_elapsed( &cur_time ) ;
     if( cur_time - last_timeL > 10000 ){
-	sleep( (UNSIGNED_INT) 1 ) ;
+	sleep( (unsigned int) 1 ) ;
     }
 
     /* always set window lights on in this routine */
@@ -986,7 +983,7 @@ int TWcheckMouse()
 
 } /* end TWcheckMouse */
 
-TWdisableMenu( menu_item )
+void TWdisableMenu( menu_item )
 int menu_item ;
 {
     int      menu ;            /* counter */
@@ -1008,8 +1005,7 @@ int menu_item ;
     }
 } /* end TWdisableMenu() */
 
-TWenableMenu( menu_item )
-int menu_item ;
+void TWenableMenu(int menu_item)
 {
     int      menu ;            /* counter */
     int      entry ;           /* counter */
@@ -1030,8 +1026,7 @@ int menu_item ;
     }
 } /* end TWenableMenu() */
 
-TWgetPt( x, y )
-int *x, *y ;
+void TWgetPt(int *x, int *y)
 {
     BOOL press ;            /* tells whether button has been pushed */
     XEvent event ;          /* describes button event */
@@ -1075,7 +1070,7 @@ int *x, *y ;
     
 } /* end TWgetPt */
 
-TWmessage( message )
+void TWmessage( message )
 char *message ;
 {
     if( persistenceS ){
@@ -1089,8 +1084,7 @@ char *message ;
 
 } /* end TWmessage */
 
-TWmessagePersistence(flag)
-BOOL flag ;
+void TWmessagePersistence(BOOL flag)
 {
     persistenceS = flag ;
     if( flag ){
@@ -1099,7 +1093,7 @@ BOOL flag ;
     }
 } /* end TWmessagePersistence() */
 
-static draw_persistent_message( non_persistent_message )
+void draw_persistent_message( non_persistent_message )
 char *non_persistent_message ;
 {
     int fwidth ; /* font width */
@@ -1305,7 +1299,7 @@ int *x, *y ;
 } /* end TWgetPt2 */
 
 /* start receiving events concerning mouse tracking */
-TWmouse_tracking_start()
+void TWmouse_tracking_start()
 {
     long event_mask ;         /* set events */
 
@@ -1319,8 +1313,7 @@ TWmouse_tracking_start()
 
 /* get the current mouse position */
 /* returns true if position has changed */
-BOOL TWmouse_tracking_pt( x, y )
-int *x, *y ;
+BOOL TWmouse_tracking_pt( int *x, int *y )
 {
     XEvent event ;            /* describes event */
     int xtemp, ytemp ;        /* current position of pointer */
@@ -1460,7 +1453,7 @@ BOOL TWinterupt()
 } /* end TWinterupt */
 
 /* update windows if configuration changes */
-TWcheckReconfig()
+void TWcheckReconfig()
 {
     int height ;              /* height of current backing window */
     XEvent event ;            /* describes configuration event */
@@ -1507,9 +1500,7 @@ TWcheckReconfig()
     }
 } /* end TWcheckReconfig */
 
-
-static resize_windows( winwidth, winheight )
-int winwidth, winheight ;
+void resize_windows( int winwidth, int winheight )
 {
     int halfstep ;            /* menu half spacing */
     int xpos ;                /* position of menu */
@@ -1573,7 +1564,7 @@ int winwidth, winheight ;
 } /* end TWcheckReconfig */
 
 
-TWfreeMenuWindows()
+void TWfreeMenuWindows()
 {
     int i, j ;              /* counters */
     MENUPTR menuptr ;       /* temporary for selected menu record */

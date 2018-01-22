@@ -75,7 +75,7 @@ static char SccsId[] = "@(#) yreadpar.c (Yale) version 1.6 10/1/91" ;
 #define COMMENT		'#'
 #define WILDCARD	'*'
 #define END(v) (v-1 + sizeof(v)/sizeof(v[0]) ) /* for table lookup */
-#define CHARACTERISTIC	(DOUBLE) 1000.0 ;
+#define CHARACTERISTIC	(double) 1000.0 ;
 #define DEFAULT_LAYERS   3
 #define DEFAULT_VIAS     2
 
@@ -101,7 +101,7 @@ typedef struct {
     union {
 	BOOL bvalue ;
 	int ivalue ;
-	DOUBLE fvalue ;
+	double fvalue ;
 	char *svalue ;
     } value ;
 } RULEBOX, *RULEPTR ;
@@ -203,8 +203,7 @@ RULEPTR key1, key2 ;
     return( (int)strcmp( key1->rule, key2->rule ) ) ;
 } /* end compare */
 
-static BOOL check_layer( layer )
-char *layer ;
+static BOOL check_layer( char *layer )
 {
     int i ;        /* counter */
 
@@ -228,10 +227,7 @@ char *layer ;
 } /* end check_layer */
 
 
-static char *make_data( rule, value, type )
-char *rule ;
-char *value ;
-char type ;
+static char *make_data( char *rule, char *value, char type )
 {
     RULEPTR data ;
     RULEBOX data_buffer ;
@@ -301,7 +297,7 @@ char type ;
 {
     RULEPTR data ;
     RULEBOX data_buffer ;
-    DOUBLE  fvalue ;   
+    double  fvalue ;   
     int     data_value ;
     char    key[LRECL] ;
 
@@ -345,12 +341,7 @@ char type ;
     return( (char *) data ) ;
 } /* end make_data_spacing */
 
-
-VOID Yreadpar_init( design_name, parfile, filter, abortFlag )
-char *design_name ;
-int  parfile ;
-int  filter ;
-BOOL abortFlag ;
+void Yreadpar_init( char *design_name, int  parfile, int  filter, BOOL abortFlag )
 {
     char *suffix ;              /* parameter file suffix */
     char *pname ;               /* program name of filter */
@@ -512,12 +503,7 @@ BOOL abortFlag ;
 
 } /* end Yreadpar_init */
 
-char **Yreadpar_next( lineptr, line, numtokens, onNotOff, wildcard )
-char **lineptr ;
-int *line ;
-int  *numtokens ;
-BOOL *onNotOff ;
-BOOL *wildcard ;
+char **Yreadpar_next( char **lineptr, int *line, int *numtokens, BOOL *onNotOff, BOOL *wildcard )
 {
     PARAMPTR data ;
     char *bufferptr ;
@@ -599,8 +585,7 @@ BOOL *wildcard ;
 
 } /* end Yreadpar_next */
 
-static int compare_parameter( key1, key2 )
-PARAMPTR key1, key2 ;
+static int compare_parameter( PARAMPTR key1, PARAMPTR key2 )
 {
     return( (int)strcmp( key1->parameter, key2->parameter ) ) ;
 } /* end compare */
@@ -660,11 +645,7 @@ YPARPTR Yreadpar_file()
 
 } /* end Yreadpar_file */
 
-char **Yreadpar_lookup( par_object, param, program, numtokens )
-YPARPTR par_object ;          /* parameter tree */
-char *param ;                 /* parameter */
-int program ;                 /* program id */
-int *numtokens ;              /* returns the number of tokens for parameter */
+char **Yreadpar_lookup( YPARPTR par_object, char *param, int program, int *numtokens )
 {
     PARAMPTR data ;           /* store this in the tree */
     PARAM key ;
@@ -683,8 +664,7 @@ int *numtokens ;              /* returns the number of tokens for parameter */
     return( NIL(char **) ) ;
 } /* end Yreadpar_lookup */
 
-DOUBLE Yreadpar_spacing( object1, object2 )
-char *object1, *object2 ;
+double Yreadpar_spacing( char *object1, char *object2 )
 {
     char  key[LRECL] ;
     RULEPTR data ;
@@ -708,8 +688,7 @@ char *object1, *object2 ;
 
 } /* end Yreadpar_spacing */
 
-DOUBLE Yreadpar_width( object )
-char *object ;
+double Yreadpar_width( char *object )
 {
     char  key[LRECL] ;
     RULEPTR data ;
@@ -732,11 +711,10 @@ char *object ;
 
 } /* end Yreadpar_spacing */
 
-DOUBLE Yreadpar_pitch( object )
-char *object ;
+double Yreadpar_pitch( char *object )
 {
-    DOUBLE spacing ;
-    DOUBLE width ;
+	double spacing ;
+	double width ;
 
     /* pitch for a given layer is spacing plus width */
 
@@ -746,8 +724,7 @@ char *object ;
     return( spacing + width ) ;
 } /* end Yreadpar_pitch */
 
-DOUBLE Yreadpar_layer_res( object )
-char *object ;
+double Yreadpar_layer_res( char *object )
 {
     char  key[LRECL] ;
     RULEPTR data ;
@@ -770,8 +747,7 @@ char *object ;
 
 } /* end Yreadpar_layer_res */
 
-DOUBLE Yreadpar_layer_cap( object )
-char *object ;
+double Yreadpar_layer_cap( char *object )
 {
     char  key[LRECL] ;
     RULEPTR data ;
@@ -843,8 +819,7 @@ char *object ;
 
 } /* end Yreadpar_layer2id */
 
-char *Yreadpar_id2layer( layerid )
-int layerid ;
+char *Yreadpar_id2layer( int layerid )
 {
     ERROR_CHECK(char*) ;
     if( layerid > 0 && layerid <= numlayS ){

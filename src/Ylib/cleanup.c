@@ -100,10 +100,7 @@ static BOOL  (*userFunction)() ;
 /* ***************************************************************** 
    initCleanup - sets static variables for cleanup handler.
 */
-VOID YinitCleanup( argv, function, dump )
-char *argv ;
-BOOL  (*function)() ;
-int dump ;
+void YinitCleanup( char *argv, BOOL  (*function)(), int dump )
 {
     sprintf( programPath, "%s", argv ) ;
     userFunction = function ;
@@ -175,8 +172,7 @@ struct sigcontext *scp ;
 /* ***************************************************************** 
    YcleanupHandler - after system work process user information.
 */
-YcleanupHandler(status)
-int status ;
+void YcleanupHandler(int status)
 {
 
     char responseBuf[LRECL], *response = responseBuf ;

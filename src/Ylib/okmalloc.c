@@ -88,11 +88,11 @@ CONTENTS:
 	    char *Yvector_calloc( lo, hi, size )
 		int size, lo, hi ;
 	    char *Yvector_realloc( array_orig, lo, hi, size )
-	    VOIDPTR array_orig ;
-		int size, lo, hi ;
+	    void* array_orig ;
+		INT size, lo, hi ;
 	    VOID Yvector_free( array, lo, size )
-		VOIDPTR array ;
-		int lo, size ;
+		void* array ;
+		INT lo, size ;
 DATE:	    Feb  2, 1988 
 REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Feb 22, 1989 - added new memory check for debugger.
@@ -845,9 +845,7 @@ BOOL flag ;
 */
 
 /* use standard calls to malloc, calloc, etc */
-
-char *Ysafe_malloc(size)
-int size;
+void Yvector_free( void* array, int lo, int size)
 {
     char *p;
 
@@ -860,10 +858,7 @@ int size;
     return p;
 }
 
-
-char *Ysafe_realloc(obj, size)
-VOIDPTR obj;
-int size;
+char *Ysafe_realloc(void* obj, int size)
 {
     char *p;
 
@@ -876,9 +871,7 @@ int size;
     return p;
 }
 
-
-char *Ysafe_calloc(num, size)
-int size, num;
+char *Ysafe_calloc(int num, int size)
 {
     char *p;
 
@@ -891,15 +884,13 @@ int size, num;
     return p;
 }
 /* when not testing memory just call system free */
-VOID Ysafe_free(ptr)
-VOIDPTR ptr;
+void Ysafe_free(void *ptr)
 {
     free(ptr);
     return;
 }
 
-VOID Ysafe_cfree(ptr)
-VOIDPTR ptr;
+/*void Ysafe_cfree(void* ptr)
 {
     cfree(ptr);
     return;
@@ -917,27 +908,24 @@ int YgetMaxMemUse()
     return(0) ;
 }
 
-int YcheckMemObj(ptr)
-char *ptr ;
+int YcheckMemObj(char *ptr)
 {
    return(0) ;
 }
 
-int YgetListSize(ptr, offsetPtr)
-char *ptr ;     /* pointer to beginning of list structure */
-char *offsetPtr ;  /* pointer to "next" field within structure */
+int YgetListSize(char *ptr, char *offsetPtr)
+/* pointer to beginning of list structure */
+/* pointer to "next" field within structure */
 {
     return(0) ;
 }
 
-VOID YdebugMemory( flag )
-int flag ;
+void YdebugMemory( int flag )
 {
     return ;
 }
 
-int YcheckDebug( where )
-VOIDPTR where ; 
+int YcheckDebug( void* where )
 {
     return ( INT_MAX ) ;
 } /* end checkDebug */
@@ -959,8 +947,7 @@ VOID Ydump_mem()
 #endif
 
 /* print memory error in the same style as perror and psignal */
-VOID Ypmemerror( s )
-char *s ;
+void Ypmemerror( char *s )
 {
     /* first print user message if available */
     if( s ){
@@ -987,9 +974,7 @@ char *s ;
 
 /* *******  memory convenience functions  ******* */
 /* ALLOCATE an array [lo..hi] of the given size not initialized */
-char *Yvector_alloc( lo, hi, size MEM_DEBUG1 )
-int size, lo, hi ;
-MEM_DEBUG2
+char *Yvector_alloc( int lo, int hi, int size)
 {
     char *array_return ;
 
@@ -1002,9 +987,7 @@ MEM_DEBUG2
 } /* end Yvector_alloc */
 
 /* ALLOCATE an array [lo..hi] of the given size initialized to zero */
-char *Yvector_calloc( lo, hi, size MEM_DEBUG1 )
-int size, lo, hi ;
-MEM_DEBUG2
+char *Yvector_calloc( int lo, int hi, int size )
 {
     char *array_return ;
 
@@ -1017,10 +1000,7 @@ MEM_DEBUG2
 } /* end Yvector_calloc */
 
 /* REALLOCATE an array [lo..hi] of the given size no initialization */
-char *Yvector_realloc( array_orig, lo, hi, size MEM_DEBUG1 )
-VOIDPTR array_orig ;
-int size, lo, hi ;
-MEM_DEBUG2
+char *Yvector_realloc( void *array_orig, int lo, int hi, int size  )
 {
     char *adj_array ;          /* put back the offset */
     char *array_return ;       /* the new offset */

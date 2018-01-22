@@ -84,22 +84,19 @@ char *sourcefile, *destfile ;
     Ysystem( "Ylib/YcopyFile", ABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-YmoveFile( sourcefile, destfile )
-char *sourcefile, *destfile ;
+int YmoveFile( char *sourcefile, char *destfile )
 {
     sprintf( YmsgG, "/bin/mv %s %s", sourcefile, destfile ) ;
     Ysystem( "Ylib/YmoveFile", ABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-Yrm_files( files )
-char *files ;
+int Yrm_files( char *files )
 {
     sprintf( YmsgG, "/bin/rm -rf %s", files ) ;
     Ysystem( "Ylib/Yrm_files", NOABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-char *Ygetenv( env_var )
-char *env_var ;
+char *Ygetenv( char *env_var )
 {
     char *getenv() ;
 

@@ -119,50 +119,45 @@ static char SccsId[] = "@(#) dialog.c version 3.15 3/6/92" ;
 #define NEW_FONT    TRUE
 #define REVERT_FONT 2
 
-static TWINFOPTR    infoS ;          /* information about main details */
-static Display      *dpyS;           /* the display */
-static Window       menuS;           /* the current menu window */
-static Window       wS;              /* the main TW display window */
-static Window       dialogS;         /* the dialog display window */
-static GC           *contextArrayS ; /* array of context window */
-static GC           reverseGCS ;     /* reverse gc for dialog  */
-static int          screenS ;        /* the current screen */
-static UNSIGNED_INT backgrdS ;
-static UNSIGNED_INT foregrdS ;
-static int          winwidthS ;      /* window width */
-static Window       *winS ;          /* contains info about menus */
-static XFontStruct  *fontinfoS ;     /* font information */
-static Font         fontS ;          /* current font */
-static int          xdS ;            /* origin of dialog window */
-static int          ydS ;            /* origin of dialog window */
-static int          fwidthS ;        /* font width in pixels */
-static int          fheightS ;       /* font height in pixels */
-static int          numwinS ;        /* number of window in dialog box */
-static TWDRETURNPTR dataS ;          /* return data array */
-static TWDIALOGPTR  fieldS ;         /* the current dialog array */
+TWINFOPTR    infoS ;          /* information about main details */
+Display      *dpyS;           /* the display */
+Window       menuS;           /* the current menu window */
+Window       wS;              /* the main TW display window */
+Window       dialogS;         /* the dialog display window */
+GC           *contextArrayS ; /* array of context window */
+GC           reverseGCS ;     /* reverse gc for dialog  */
+int          screenS ;        /* the current screen */
+unsigned int backgrdS ;
+unsigned int foregrdS ;
+int          winwidthS ;      /* window width */
+Window       *winS ;          /* contains info about menus */
+XFontStruct  *fontinfoS ;     /* font information */
+Font         fontS ;          /* current font */
+int          xdS ;            /* origin of dialog window */
+int          ydS ;            /* origin of dialog window */
+int          fwidthS ;        /* font width in pixels */
+int          fheightS ;       /* font height in pixels */
+int          numwinS ;        /* number of window in dialog box */
+TWDRETURNPTR dataS ;          /* return data array */
+TWDIALOGPTR  fieldS ;         /* the current dialog array */
 
 /* function definitions */
-static int world2pix_x() ;
-static int world2pix_y() ;
-static int world2fonty() ;
-static int pixlen() ;
-static set_stipple_font( P2(BOOL stippleOn, int font_change ) ) ;
-static debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
-static check_cases( P3( TWDIALOGPTR fieldp, int select, 
-    			int (*user_function)() )) ;
-static draw_fields( P1(TWDIALOGPTR fieldp) ) ;
-static TWfreeWindows() ;
-static find_font_boundary() ;
-static edit_field( P4( int field, Window win, XEvent event,
-		    int (*user_function)() ) ) ;
+int world2pix_x() ;
+int world2pix_y() ;
+int world2fonty() ;
+int pixlen() ;
+void set_stipple_font(BOOL stippleOn, int font_change) ;
+void debug_dialog(TWDIALOGPTR fieldp) ;
+void check_cases(TWDIALOGPTR fieldp, int select, void (*user_function)() );
+void draw_fields(TWDIALOGPTR fieldp) ;
+void TWfreeWindows() ;
+void find_font_boundary() ;
+void edit_field(int field, Window win, XEvent event, void (*user_function)()) ;
 
 /* build a dialog box and get info */
-TWDRETURNPTR TWdialog( fieldp, dialogname, user_function )
-TWDIALOGPTR fieldp ;
-char *dialogname ;
-int (*user_function)() ;
+TWDRETURNPTR TWdialog( TWDIALOGPTR fieldp, char *dialogname, void (*user_function)())
 {
-    UNSIGNED_INT white, black ;
+    unsigned int white, black ;
     int i ;               /* counter */
     long event_mask ;     /* set up event catching with this mask */
     int screenwidth ;     /* width of root window */
@@ -522,9 +517,7 @@ int (*user_function)() ;
 
 } /* end TWdialog */
 
-static set_stipple_font( stippleOn, font_change )
-BOOL stippleOn ;
-int font_change ;
+void set_stipple_font(BOOL stippleOn , int font_change)
 {
     int i ;        /* counter */
 
@@ -553,10 +546,7 @@ int font_change ;
 } /* end set_stipple_font */
 
 /* check the case fields and set all member of group to false */
-static check_cases( fieldp, select, user_function )
-TWDIALOGPTR fieldp ;
-int select ;
-int (*user_function)() ;
+void check_cases( TWDIALOGPTR fieldp, int select, void (*user_function)() )
 {
     int i ;               /* counter */
     int group ;           /* case group */
@@ -585,8 +575,7 @@ int (*user_function)() ;
 
 } /* end check_cases */
 
-static draw_fields( fieldp )
-TWDIALOGPTR fieldp ;
+void draw_fields(TWDIALOGPTR fieldp)
 {
     int i ;               /* counter */
     TWDIALOGPTR fptr ;    /* current dialog field */
@@ -632,7 +621,7 @@ TWDIALOGPTR fieldp ;
 } /* end draw_fields */
 
 
-static TWfreeWindows()
+void TWfreeWindows()
 {
     int i, j ;              /* counters */
 
@@ -645,7 +634,7 @@ static TWfreeWindows()
 
 } /* end TWfreeWindows */
 
-static find_font_boundary() 
+void find_font_boundary() 
 {
     fwidthS = fontinfoS->max_bounds.rbearing - 
 	fontinfoS->min_bounds.lbearing ;
@@ -656,33 +645,28 @@ static find_font_boundary()
 
 /* tranforms the world coordinate character column format */
 /* to pixel coordinates */
-static int world2pix_x( x )
+int world2pix_x( int x )
 {
     return( x * fwidthS ) ;
 } /* end world2pix_x */
 
-static int world2pix_y( y )
+int world2pix_y( int y )
 {
     return( y * fheightS ) ;
 } /* end world2pix_y */
 
-static int world2fonty( y )
+int world2fonty( int y )
 {
     return( (++y) * fheightS - fontinfoS->max_bounds.descent ) ;
 } /* end world2pix_y */
 	
 /* change length of string to pixel length */
-static int pixlen( length )
-int length ;
+int pixlen( int length )
 {
     return( fwidthS * length ) ;
 } /* end pixlen */
 
-static edit_field( field, win, event, user_function )
-int field ;
-Window win ;
-XEvent event ;       /* describes the button event */
-int (*user_function)() ;
+void edit_field(int field, Window win, XEvent event, void (*user_function)() ) /* describes the button event */
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR dptr;   /* return field of dialog */

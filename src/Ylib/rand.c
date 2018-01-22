@@ -81,8 +81,7 @@ int Yacm_random()
 
 } /* end acm_random */
 
-Yset_random_seed( seed )
-int seed ;
+void Yset_random_seed(int seed)
 {
     seed = ABS(seed) ;
     if( seed == 0 ){

@@ -89,7 +89,7 @@ static BOOL firstTimeS = FALSE ;      /* first time we ran program */
 static YTREEPTR debug_treeS ;
 
 /* ********* STATIC DEFINITIONS ************ */
-static int compare_routine( P2(ROUTINEPTR key1, ROUTINEPTR key2 ) ) ;
+int compare_routine( P2(ROUTINEPTR key1, ROUTINEPTR key2 ) ) ;
 static ROUTINEPTR make_data_debug( P2(char *string, BOOL debugOn ) ) ;
 
 BOOL Ydebug( routine ) 
@@ -137,7 +137,7 @@ BOOL YdebugAssert()
     return( debugFlagS ) ;
 } /* end YdebugAssert */
 
-YdebugWrite()
+void YdebugWrite()
 {
     ROUTINEPTR data ;              /* the data in the tree */
     FILE *fp ;                   /* write to the debug file */
@@ -160,8 +160,7 @@ YdebugWrite()
     }
 }
 
-YsetDebug( flag )
-BOOL flag ;
+void YsetDebug( BOOL flag )
 {
 
     char buffer[LRECL], *bufferptr ;
@@ -197,7 +196,7 @@ BOOL flag ;
     debugFlagS = flag ;
 } /* end YsetDebug */
 
-static int compare_routine( key1, key2 )
+int compare_routine( key1, key2 )
 ROUTINEPTR key1, key2 ;
 {
     return( strcmp( key1->routine, key2->routine ) ) ;
@@ -215,9 +214,7 @@ BOOL debugOn ;
     return( data ) ;
 } /* end make_data_debug */
 
-YfixDebug( ptr, type )
-char *ptr ;
-int type ;
+void YfixDebug(char *ptr, int type)
 {
     switch( type ){
     case 0: /* integer */

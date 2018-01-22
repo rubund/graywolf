@@ -57,8 +57,7 @@ static char SccsId[] = "@(#) getftime.c version 1.3 8/28/90" ;
 
 #define ERROR    -1             /* return code for error */
 
-int YgetFileTime( filename )
-char *filename ;
+int YgetFileTime( char *filename )
 {
     struct stat info ;               /* info record */
     int    status    ;               /* return code from stat */

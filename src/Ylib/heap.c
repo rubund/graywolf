@@ -114,13 +114,13 @@ typedef struct heap_el {
  *  Local Functions							*
  *  									*
  ************************************************************************/
-static VOID free_all_els(P1(HEAP_EL));
+void free_all_els(P1(HEAP_EL));
 static HEAP_EL meld(P3(HEAP_EL, HEAP_EL, int (*cmp)()));
 static HEAP_EL mesh(P3(HEAP_EL, HEAP_EL, int (*cmp)()));
 static YHEAPPTR allocate_heap();
 static HEAP_EL allocate_heap_el();
-static VOID free_heap(P1(YHEAPPTR));
-static VOID free_heap_el(P1(HEAP_EL));
+void free_heap(P1(YHEAPPTR));
+void free_heap_el(P1(HEAP_EL));
      
      
 /************************************************************************
@@ -153,7 +153,7 @@ static long heap_els_allocated = 0L;
 
 *****************************************************************************/
      
-     extern YHEAPPTR Yheap_init()
+YHEAPPTR Yheap_init()
 {
   YHEAPPTR tmp;
   
@@ -174,8 +174,7 @@ static long heap_els_allocated = 0L;
   
   *****************************************************************************/
 
-extern YHEAPPTR Yheap_init_with_parms(fn)
-     int (*fn)();
+YHEAPPTR Yheap_init_with_parms(int (*fn)())
 {
   YHEAPPTR tmp;
   
@@ -196,8 +195,7 @@ extern YHEAPPTR Yheap_init_with_parms(fn)
   
   *****************************************************************************/
 
-extern VOID Yheap_empty(heap)
-     YHEAPPTR heap;
+void Yheap_empty(YHEAPPTR heap)
 {
   free_all_els(heap->top);
   heap->top = NIL(HEAP_EL);
@@ -214,8 +212,7 @@ extern VOID Yheap_empty(heap)
   
   *****************************************************************************/
 
-extern VOID Yheap_free(heap)
-     YHEAPPTR heap;
+void Yheap_free(YHEAPPTR heap)
 {
   Yheap_empty(heap);
   free_heap(heap);
@@ -233,9 +230,7 @@ extern VOID Yheap_free(heap)
   
  *****************************************************************************/
 
-extern VOID Yheap_insert(heap, data)
-     YHEAPPTR heap;
-     VOIDPTR data;
+void Yheap_insert(YHEAPPTR heap, VOIDPTR data)
 {
   HEAP_EL el;
   
@@ -269,8 +264,7 @@ extern VOID Yheap_insert(heap, data)
   
  *****************************************************************************/
 
-extern VOIDPTR Yheap_delete_min(heap)
-     YHEAPPTR heap;
+VOIDPTR Yheap_delete_min(YHEAPPTR heap)
 {
   HEAP_EL el;
   VOIDPTR rtn;
@@ -299,9 +293,7 @@ extern VOIDPTR Yheap_delete_min(heap)
   
  *****************************************************************************/
 
-extern YHEAPPTR Yheap_meld(h1,h2)
-     YHEAPPTR h1;
-     YHEAPPTR h2;
+YHEAPPTR Yheap_meld(YHEAPPTR h1,YHEAPPTR h2)
 {
   if ((h1->heap_cmp) != (h2->heap_cmp)) {
     fprintf(stderr,
@@ -325,8 +317,7 @@ extern YHEAPPTR Yheap_meld(h1,h2)
   
  *****************************************************************************/
 
-static VOID free_all_els(el)
-     HEAP_EL el;
+void free_all_els(HEAP_EL el)
 {
   if (el != NIL(HEAP_EL)) {
     free_all_els(get_left(el));
@@ -407,9 +398,7 @@ static HEAP_EL mesh(e1,e2,fn)
   
  *****************************************************************************/
 
-int extern Yheap_cmp_num(x, y)
-     int x;
-     int y;
+int Yheap_cmp_num(int x, int y)
 {
   return x - y;
 }   /*  heap_cmp_num  */
@@ -425,9 +414,7 @@ int extern Yheap_cmp_num(x, y)
   
  *****************************************************************************/
 
-int extern Yheap_cmp_ptr( x, y)
-     VOIDPTR x;
-     VOIDPTR y;
+int Yheap_cmp_ptr( VOIDPTR x,  VOIDPTR y)
 {
   return (int) ((long) x - (long) y);
 }   /*  heap_cmp_ptr  */
@@ -491,8 +478,7 @@ static HEAP_EL allocate_heap_el()
   
  *****************************************************************************/
 
-static VOID free_heap(heap)
-     YHEAPPTR heap;
+void free_heap(YHEAPPTR heap)
 {
   YFREE(heap);
   heaps_allocated--;
@@ -509,7 +495,7 @@ static VOID free_heap(heap)
   
  *****************************************************************************/
 
-static VOID free_heap_el(el)
+void free_heap_el(el)
      HEAP_EL el;
 {
   YFREE(el);
@@ -527,7 +513,7 @@ static VOID free_heap_el(el)
   
  *****************************************************************************/
 
-extern VOID Yheap_check_mem()
+void Yheap_check_mem()
 {
   fprintf(stderr,"\theaps_allocated = %d\n", heaps_allocated);
   fprintf(stderr,"\theap_els_allocated = %d\n", heap_els_allocated);
@@ -537,8 +523,7 @@ extern VOID Yheap_check_mem()
   Yheap_verify:
   Verify heap data structures
   --------------------------------*/
-extern int Yheap_verify(heap)
-  YHEAPPTR heap;
+int Yheap_verify(YHEAPPTR heap)
 {
   int rc = TRUE;
 

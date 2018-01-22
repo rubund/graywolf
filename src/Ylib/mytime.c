@@ -78,10 +78,10 @@ static char SccsId[] = "@(#) mytime.c version 3.8 12/15/91" ;
 
 unsigned Yrandom_seed()
 {
-    UNSIGNED_INT m , time1 , time2 ;
+    unsigned int m , time1 , time2 ;
     struct timeval tp ;
     gettimeofday(&tp,0) ;
-    time1 = (UNSIGNED_INT) tp.tv_usec ;
+    time1 = (unsigned int) tp.tv_usec ;
     time1 <<= 22 ;
     time2 = (tp.tv_usec & 0x003FFFFF) ;
     m = time1 | time2 ;

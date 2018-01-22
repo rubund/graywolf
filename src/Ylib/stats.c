@@ -42,7 +42,7 @@ FILE:	    stats.c
 DESCRIPTION:Get runtime statistics in UNIX.
 CONTENTS:   Yprint_stats( fdat )
 		FILE fdat ;
-	    DOUBLE Ycpu_time()
+	    double Ycpu_time()
 DATE:	    May  5, 1990 
 REVISIONS:  Oct  4, 1990 - added elaspse time for the mips machine.
 	    Fri Jan 25 15:44:46 PST 1991 - added AVOID conditional
@@ -76,8 +76,7 @@ static char SccsId[] = "@(#) stats.c version 3.8 2/26/92" ;
 #endif  /* AVOID */
 
 /* print out the statistics of the program to the given file */
-void Yprint_stats( fout )
-FILE *fout ;
+void Yprint_stats( FILE *fout )
 {
 
 #ifndef AVOID
@@ -184,7 +183,7 @@ FILE *fout ;
 } /* end Yprint_stats */
 /* ==================================================================== */
 
-DOUBLE Ycpu_time()
+double Ycpu_time()
 {
 #ifndef AVOID
     struct rusage rusage;
