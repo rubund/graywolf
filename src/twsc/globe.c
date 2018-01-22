@@ -46,7 +46,7 @@ CONTENTS:   globe()
 	    preFeedAssgn()
 	    free_static_in_globe()
 	    FeedAssgn( row )
-		INT row ;
+		int row ;
 	    row_seg_intersect( ptr1 , ptr2 , segptr )
 		PINBOXPTR ptr1 , ptr2 ;
 		SEGBOXPTR segptr ;
@@ -112,20 +112,20 @@ extern BOOL placement_improveG ;
 static LONG swap_cost( P1(BOOL perim_flag ) ) ;
 
 /* static variables */
-static INT *wk_headS , max_feed_in_a_rowS ;
-static INT *L_jogS ;
+static int *wk_headS , max_feed_in_a_rowS ;
+static int *L_jogS ;
 static FEED_SEG_PTR *workerS ;
-static INT wkS ;
+static int wkS ;
 static LONG global_wire_lengthS ;
-static INT swap_limitS ;
+static int swap_limitS ;
 
 globe() 
 {
 
-INT row , net , cost , last_cost , swaps , found , total_final_cost ;
-INT total_cost , total_final_global_wire , total_global_wire ;
-INT last_global_wire , total_reduction , index , i , j , k , check ;
-INT iterations, initial_time, last_index ;
+int row , net , cost , last_cost , swaps , found , total_final_cost ;
+int total_cost , total_final_global_wire , total_global_wire ;
+int last_global_wire , total_reduction , index , i , j , k , check ;
+int iterations, initial_time, last_index ;
 LONG initial_wire ;
 PINBOXPTR netptr , cnetptr ;
 int ok = 1;
@@ -316,11 +316,11 @@ preFeedAssgn()
 {
 
 SEGBOXPTR segptr , nextptr ;
-INT i , net ;
+int i , net ;
 
 max_feed_in_a_rowS = 3 * TotRegPinsG / numRowsG ;
-wk_headS = (INT *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(INT) ) ;
-L_jogS = (INT *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(INT) ) ;
+wk_headS = (int *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(int) ) ;
+L_jogS = (int *)Ysafe_malloc( max_feed_in_a_rowS * sizeof(int) ) ;
 workerS = (FEED_SEG_PTR *)Ysafe_malloc(
 	    ( max_feed_in_a_rowS + 1 ) * sizeof(FEED_SEG_PTR) ) ;
 for( i = 1 ; i <= max_feed_in_a_rowS ; i++ ) {
@@ -349,7 +349,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 free_static_in_globe()
 {
 
-INT i ;
+int i ;
 
 Ysafe_free( L_jogS ) ;
 for( i = 1 ; i <= max_feed_in_a_rowS ; i++ ) {
@@ -363,24 +363,24 @@ Ysafe_free( total_feed_in_the_rowG ) ;
 
 #ifdef CARL_NEW
 FeedAssgn( row )
-INT row ;
+int row ;
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;
 SEGBOXPTR segptr , nextptr ;
 IPBOXPTR imptr , iptr , ipinptr[40] , i_imptr , f_imptr ;
-INT net , impcount , firstnode , spacing ;
-INT i , j , k , last_i , last_j ;
-INT min_i , min_x , x , jog_num ;
-INT comparenptr() ;
+int net , impcount , firstnode , spacing ;
+int i , j , k , last_i , last_j ;
+int min_i , min_x , x , jog_num ;
+int comparenptr() ;
 
 /* added by Carl for the wild attempt to optimally align feeds */
-INT **cost , *assign_to_track , feed , feed_xpos , track , track_xpos ;
-INT v_tracks , assigned_track , *assigned_to_track ;
-INT num_parts , bound , assign_iter ;
-INT i_bound , f_bound , num_feeds , start_feed_xpos , end_feed_xpos ;
-INT count , i_count , f_count ;
-INT req_remaining_fds , remaining_fds , tot_imp_fds , num_assigned ;
+int **cost , *assign_to_track , feed , feed_xpos , track , track_xpos ;
+int v_tracks , assigned_track , *assigned_to_track ;
+int num_parts , bound , assign_iter ;
+int i_bound , f_bound , num_feeds , start_feed_xpos , end_feed_xpos ;
+int count , i_count , f_count ;
+int req_remaining_fds , remaining_fds , tot_imp_fds , num_assigned ;
 
 
 wkS = 0 ;
@@ -417,7 +417,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 		if( ptr1->pinloc >= NEITHER ) {
 		    L_jogS[ ++jog_num ] = wkS ;
 		}
-	    } else if( (INT) ptr1->pinloc == BOTCELL ) {
+	    } else if( (int) ptr1->pinloc == BOTCELL ) {
 		if( segptr->switchvalue == swL_down ) {
 		    row_seg_intersect( ptr2 , ptr1 , segptr ) ;
 		} else {
@@ -496,7 +496,7 @@ for( imptr = impFeedsG[row]->next ; imptr ; imptr = imptr->next ) {
 
 #ifdef CARL_NEW
 
-assigned_to_track = (INT *) Ysafe_calloc( (1+v_tracks) , sizeof(INT) ) ;
+assigned_to_track = (int *) Ysafe_calloc( (1+v_tracks) , sizeof(int) ) ;
 
 num_parts = v_tracks / 400 ;
 /* if remainder >= 100 or num_parts == 0 ) */
@@ -714,17 +714,17 @@ return ;
 #else
 
 FeedAssgn( row )
-INT row ;
+int row ;
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;
 SEGBOXPTR segptr , nextptr ;
 IPBOXPTR imptr , iptr , ipinptr[40] ;
 FEED_DATA *feedptr ;
-INT net , impcount , firstnode , spacing ;
-INT i , j , k , last_i , last_j ;
-INT min_i , min_x , x , jog_num ;
-INT comparenptr() ;
+int net , impcount , firstnode , spacing ;
+int i , j , k , last_i , last_j ;
+int min_i , min_x , x , jog_num ;
+int comparenptr() ;
 
 wkS = 0 ;
 jog_num = 0 ;
@@ -761,7 +761,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 		if( ptr1->pinloc >= NEITHER ) {
 		    L_jogS[ ++jog_num ] = wkS ;
 		}
-	    } else if( (INT) ptr1->pinloc == BOTCELL ) {
+	    } else if( (int) ptr1->pinloc == BOTCELL ) {
 		if( segptr->switchvalue == swL_down ) {
 		    row_seg_intersect( ptr2 , ptr1 , segptr ) ;
 		} else {
@@ -895,15 +895,15 @@ PINBOXPTR ptr1 , ptr2 ;
 SEGBOXPTR segptr ;
 {
 
-INT i ;
+int i ;
 
 if( ++wkS > max_feed_in_a_rowS ) {
     max_feed_in_a_rowS = max_feed_in_a_rowS + 100 ;
 
-    wk_headS = (INT *) Ysafe_realloc( wk_headS , 
-	max_feed_in_a_rowS * sizeof(INT) ) ;
-    L_jogS = (INT *) Ysafe_realloc( L_jogS , 
-	max_feed_in_a_rowS * sizeof(INT) ) ;
+    wk_headS = (int *) Ysafe_realloc( wk_headS , 
+	max_feed_in_a_rowS * sizeof(int) ) ;
+    L_jogS = (int *) Ysafe_realloc( L_jogS , 
+	max_feed_in_a_rowS * sizeof(int) ) ;
     workerS = (FEED_SEG_PTR *)Ysafe_realloc( workerS ,
 		( max_feed_in_a_rowS + 1 ) * sizeof(FEED_SEG_PTR) ) ;
     for( i = wkS ; i <= max_feed_in_a_rowS ; i++ ) {
@@ -932,7 +932,7 @@ IPBOXPTR imptr ;
 FEED_SEG_PTR fsptr ;
 {
 
-INT net ;
+int net ;
 PINBOXPTR netptr , ptr1 , ptr2 ;
 SEGBOXPTR segptr ;
 
@@ -1002,7 +1002,7 @@ IPBOXPTR imptr ;
 FEED_SEG_PTR fsptr ;
 {
 
-INT net ;
+int net ;
 PINBOXPTR netptr , ptr1 , ptr2 ;
 SEGBOXPTR segptr ;
 
@@ -1046,13 +1046,13 @@ netptr->eqptr->pinname = imptr->eqpinname ;
 
 
 local_Assgn( row , node )
-INT row , node ;
+int row , node ;
 {
 
-INT next , back , head , end , LeftFlag , left_node , rite_node ;
-INT i , n , k , t , diff , orig_feed_needed , feed_need ;
-INT shift_left_start_index , shift_rite_start_index ;
-INT left_start , rite_start ;
+int next , back , head , end , LeftFlag , left_node , rite_node ;
+int i , n , k , t , diff , orig_feed_needed , feed_need ;
+int shift_left_start_index , shift_rite_start_index ;
+int left_start , rite_start ;
 FEED_DATA *feedptr ;
 IPBOXPTR imptr ;
 
@@ -1164,7 +1164,7 @@ unequiv_pin_pre_processing()
 {
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
-INT net, row, hi, lo, k, xmin, xmax ;
+int net, row, hi, lo, k, xmin, xmax ;
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
     dimptr = netarrayG[net] ;
@@ -1219,7 +1219,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 relax_padPins_pinloc()
 {
-INT i ;
+int i ;
 PINBOXPTR pinptr ;
 
 for( i = lastpadG ; i > numcellsG ; i-- ) {
@@ -1238,7 +1238,7 @@ relax_unequiv_pinloc()
 {
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
-INT net ;
+int net ;
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
     dimptr = netarrayG[net] ;
@@ -1258,7 +1258,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 check_unequiv_connectivity()
 {
-INT net, channel, correctness ;
+int net, channel, correctness ;
 ADJASEG *adj ;
 PINBOXPTR pinptr ;
 DBOXPTR dimptr ;
@@ -1299,14 +1299,14 @@ BOOL perim_flag ;
     PINBOXPTR pin1ptr , pin2ptr ;
     SEGBOXPTR segptr ;
     DBOXPTR net_p ;
-    INT xwire, ywire ;
-    INT net ;
+    int xwire, ywire ;
+    int net ;
     LONG global_wire_length ;
-    INT newtimepenal ;
+    int newtimepenal ;
     FILE *fp ;
     static BOOL outputL = TRUE ;
-    INT p_path, s_path ;
-    INT Px, Sx, Py, Sy, Ppath, Spath ; 	/* used to cummulate info */
+    int p_path, s_path ;
+    int Px, Sx, Py, Sy, Ppath, Spath ; 	/* used to cummulate info */
 
     /* -----------------------------------------------------------------
 	We are going to use the half perimeter fields to calculate the
@@ -1407,15 +1407,15 @@ BOOL perim_flag ;
 
 
 improve_place_sequential( row , index )
-INT row , index ;
+int row , index ;
 {
 
-INT cell1 , cell2 , shift1 , shift2 , swap ;
+int cell1 , cell2 , shift1 , shift2 , swap ;
 LONG global_wire , new_global_wire ;
-INT cell , pin , xpos , other_cell ;
+int cell , pin , xpos , other_cell ;
 LONG ic , fc ;
-INT net, xwire ;
-INT newtimepenal ;
+int net, xwire ;
+int newtimepenal ;
 DBOXPTR net_p ;
 CBOXPTR ptr ;
 PINBOXPTR pin1ptr , pin2ptr , termptr ;
@@ -1569,12 +1569,12 @@ D( "twsc/cell_swap_opt",
 ) ;
 
 
-// (global_wire - new_global_wire) is assumed to not exceed size INT
+// (global_wire - new_global_wire) is assumed to not exceed size int
 // although each termin is size LONG
 
-if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
+if( accept_greedy( (int)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
 
-    swap = (INT)(new_global_wire - global_wire) ;
+    swap = (int)(new_global_wire - global_wire) ;
     global_wire_lengthS += (LONG)swap ;
     swap += newtimepenal - timingcostG ;
     if( numpathsG ){
@@ -1621,15 +1621,15 @@ if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal,
 
 
 cell_rotate( row , index )
-INT row , index ;
+int row , index ;
 {
 
-INT cell, swap ;
+int cell, swap ;
 LONG global_wire , new_global_wire ;
-INT pin , xpos ;
+int pin , xpos ;
 LONG ic, fc ;
-INT net, xwire, xc, left, right, dist_l, dist_r ;
-INT newtimepenal ;
+int net, xwire, xc, left, right, dist_l, dist_r ;
+int newtimepenal ;
 DBOXPTR net_p ;
 CBOXPTR ptr ;
 PINBOXPTR pin1ptr , pin2ptr , termptr ;
@@ -1728,8 +1728,8 @@ D( "twsc/cell_swap_opt",
     }
 ) ;
 
-if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
-    swap = (INT)(new_global_wire - global_wire );
+if( accept_greedy( (int)(global_wire-new_global_wire), timingcostG-newtimepenal, 0 )){
+    swap = (int)(new_global_wire - global_wire );
     global_wire_lengthS += (LONG)swap ;
     swap += newtimepenal - timingcostG ;
     if( numpathsG ){
@@ -1781,11 +1781,11 @@ elim_unused_feedsSC()
 
 CBOXPTR ptr , cellptr , first_cptr , last_cptr ;
 PINBOXPTR termptr ;
-INT row, feed_count, i , last , cell_left , length , max_length ;
-INT j , k , elim , cell , limit , left_edge , corient ;
-INT *Aray , longest_row , shift , *row_len , total_elim ;
+int row, feed_count, i , last , cell_left , length , max_length ;
+int j , k , elim , cell , limit , left_edge , corient ;
+int *Aray , longest_row , shift , *row_len , total_elim ;
 
-row_len = (INT *) Ysafe_calloc( (1+numRowsG) , sizeof(INT) ) ;
+row_len = (int *) Ysafe_calloc( (1+numRowsG) , sizeof(int) ) ;
 for( i = 1 ; i <= numRowsG ; i++ ) {
     Aray = pairArrayG[i] ;
     first_cptr = carrayG[ Aray[1] ] ;
@@ -1874,7 +1874,7 @@ return ;
  
 rebuild_nextpin()
 {
-    INT net, cell ;
+    int net, cell ;
     PINBOXPTR netptr , cnetptr ;
 
     /* added by Carl 22 July 1990 */
@@ -1907,7 +1907,7 @@ rebuild_nextpin()
 
 rebuild_cell_paths()
 {
-    INT i ;
+    int i ;
     CBOXPTR ptr ;
     GLISTPTR path_p, freepath_p ;
 

@@ -60,14 +60,14 @@ static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
 
 static YHASHPTR netTableS ;
 static BOOL abortFlagS = FALSE ;
-static INT total_num_pathS = 0 ;
+static int total_num_pathS = 0 ;
 static GLISTPTR netPtrS ;
 static PATHPTR pathPtrS = NULL ;  /* start of path list */
 /* cur bot of path list so list is in order given by user debug easier */
 static PATHPTR curPathS ;
-static INT numcapmatchS = 0 ;   /* number of cap matches */
-static INT numresmatchS = 0 ;   /* number of res matches */
-static INT anetS ;          /* current analog net */
+static int numcapmatchS = 0 ;   /* number of cap matches */
+static int numresmatchS = 0 ;   /* number of res matches */
+static int anetS ;          /* current analog net */
 static ANETPTR aptrS ;      /* current analog net information record */
 static COMMONPTR commonS ;  /* current common point record */
 
@@ -77,8 +77,8 @@ init_nets()
     YHASHPTR getNetTable() ;
     numpathsG = 0 ;
     netTableS = getNetTable() ;
-    net_cap_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
-    net_res_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
+    net_cap_matchG = (int **) Ysafe_calloc( numnetsG+1,sizeof(int *) ) ;
+    net_res_matchG = (int **) Ysafe_calloc( numnetsG+1,sizeof(int *) ) ;
 } /* end init_nets */
 
 
@@ -100,7 +100,7 @@ set_net_error()
     abortFlagS = TRUE ;
 } /* end set_net_error */
 
-static INT find_net( netname )
+static int find_net( netname )
 char *netname ;
 {
     char *data ;
@@ -114,7 +114,7 @@ char *netname ;
 	abortFlagS = TRUE ;
 	return( 0 ) ;
     }
-    net = * ( (INT *) data ) ;
+    net = * ( (int *) data ) ;
     if( net < 1 || net > numnetsG ){
 	sprintf( YmsgG, "net:%s - number:%d out of bounds\n",
 	    netname, net ) ;
@@ -129,7 +129,7 @@ add_path( pathFlag, net )
 BOOL pathFlag ;
 char *net ;
 {
-    INT net_num ;
+    int net_num ;
     GLISTPTR tempNetPtr ;
     
     /* first make sure that data is good */
@@ -165,11 +165,11 @@ char *net ;
 } /* end add_path */
 
 end_path(lower_bound, upper_bound, priority )
-INT lower_bound, upper_bound, priority ;
+int lower_bound, upper_bound, priority ;
 {
     GLISTPTR nets, path_ptr, tempPath ;
     NETBOXPTR dimptr ;
-    INT net_number ;
+    int net_number ;
 
     if( abortFlagS ){
 	/* report as many errors as possible without crashing */
@@ -206,7 +206,7 @@ INT lower_bound, upper_bound, priority ;
 
 build_path_array()
 {
-    INT i ;
+    int i ;
     PATHPTR curPtr ;
     
     patharrayG = (PATHPTR *) Ysafe_malloc( (total_num_pathS+1)*sizeof(PATHPTR) ) ;
@@ -221,16 +221,16 @@ PATHPTR get_path_list()
     return( pathPtrS ) ;
 } /* end get_path_list */
 
-INT get_total_paths()
+int get_total_paths()
 {
     return( total_num_pathS ) ;
 } /* end get_total_paths */
 
 add_paths_to_cells()
 {
-    INT i, j ;
-    INT howmany ;
-    INT net_number ;
+    int i, j ;
+    int howmany ;
+    int net_number ;
     PSETPTR pathlist, enum_path_set() ;
     CELLBOXPTR ptr ;
     GLISTPTR  path_ptr, tempPath ;
@@ -273,7 +273,7 @@ add_paths_to_cells()
 init_analog( net )
 char *net ;
 {
-    INT  anet ;
+    int  anet ;
     
     /* first make sure that data is good */
     if(!(anetS = find_net( net ) )){
@@ -303,7 +303,7 @@ DOUBLE res ;
 } /* end set_res_upper_bound */
 
 set_net_type( net_type )
-INT net_type ;
+int net_type ;
 {
     switch( net_type ){
     case SHIELDING_NET:
@@ -327,7 +327,7 @@ DOUBLE drop ;
 add_common_pt()
 {
 
-    INT pt ;         /* current number of common pts */
+    int pt ;         /* current number of common pts */
 
     pt = ++aptrS->num_common_points ;	
     if( aptrS->num_common_points == 1 ){
@@ -341,14 +341,14 @@ add_common_pt()
     }
     commonS = aptrS->common_pts[pt-1] = 
 	(COMMONPTR) Ysafe_calloc( 1, sizeof(COMMONBOX) ) ;
-    commonS->common_set = NIL(INT) ;
-    commonS->cap_match = NIL(INT) ;
-    commonS->res_match = NIL(INT) ;
+    commonS->common_set = NIL(int) ;
+    commonS->cap_match = NIL(int) ;
+    commonS->res_match = NIL(int) ;
     commonS->num_pins = 0 ;
 
 } /* end common_pt */
 
-static INT find_pin( cell, pin )
+static int find_pin( cell, pin )
 char *cell ;
 char *pin ;
 {
@@ -371,9 +371,9 @@ add2common( cell, pin )
 char *cell ;
 char *pin ;
 {
-    INT i ;           /* counter for pins in common point */
-    INT pinnum ;      /* index in netarray */
-    INT numpins ;     /* number of pins in common point */
+    int i ;           /* counter for pins in common point */
+    int pinnum ;      /* index in netarray */
+    int numpins ;     /* number of pins in common point */
 
     if(!(pinnum = find_pin( cell, pin ) )){
 	return ;
@@ -381,10 +381,10 @@ char *pin ;
     numpins = ++commonS->num_pins ;
     if( numpins == 1 ){
 	/* first time */
-	commonS->common_set = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	commonS->common_set = (int *) Ysafe_malloc( sizeof(int) ) ;
     } else {
-	commonS->common_set = (INT *) 
-	    Ysafe_realloc( commonS->common_set, numpins*sizeof(INT) ) ;
+	commonS->common_set = (int *) 
+	    Ysafe_realloc( commonS->common_set, numpins*sizeof(int) ) ;
 	/* now store the pin in the common pt */
 	/* check to see if pin is name more than once */
 	for( i = 0 ; i < numpins - 1 ; i++ ){
@@ -404,20 +404,20 @@ common_cap( cell, pin )
 char *cell ;
 char *pin ;
 {
-    INT i ;           /* counter for pins in cap match */
-    INT pinnum ;      /* index in termarray */
-    INT howmany ;     /* number of pins in cap match */
+    int i ;           /* counter for pins in cap match */
+    int pinnum ;      /* index in termarray */
+    int howmany ;     /* number of pins in cap match */
 
     if(!(pinnum = find_pin( cell, pin ) )){
 	return ;
     }
     if(!(commonS->cap_match)){
-	commonS->cap_match = (INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	commonS->cap_match = (int *) Ysafe_malloc( 2 * sizeof(int) ) ;
 	commonS->cap_match[HOWMANY] = howmany = 1 ;
     } else {
 	howmany = ++commonS->cap_match[HOWMANY] ;
-	commonS->cap_match = (INT *) 
-	    Ysafe_realloc( commonS->cap_match, (howmany+1)*sizeof(INT) ) ;
+	commonS->cap_match = (int *) 
+	    Ysafe_realloc( commonS->cap_match, (howmany+1)*sizeof(int) ) ;
 	/* check to see if pin is name more than once */
 	for( i = 0 ; i < howmany - 1 ; i++ ){
 	    if( commonS->cap_match[i] == pinnum ){
@@ -437,20 +437,20 @@ common_res( cell, pin )
 char *cell ;
 char *pin ;
 {
-    INT i ;           /* counter for pins in res match */
-    INT pinnum ;      /* index in termarray */
-    INT howmany ;     /* number of pins in res match */
+    int i ;           /* counter for pins in res match */
+    int pinnum ;      /* index in termarray */
+    int howmany ;     /* number of pins in res match */
 
     if(!(pinnum = find_pin( cell, pin ) )){
 	return ;
     }
     if(!(commonS->res_match)){
-	commonS->res_match = (INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	commonS->res_match = (int *) Ysafe_malloc( 2 * sizeof(int) ) ;
 	commonS->res_match[HOWMANY] = howmany = 1 ;
     } else {
 	howmany = ++commonS->res_match[HOWMANY] ;
-	commonS->res_match = (INT *) 
-	    Ysafe_realloc( commonS->res_match, (howmany+1)*sizeof(INT) ) ;
+	commonS->res_match = (int *) 
+	    Ysafe_realloc( commonS->res_match, (howmany+1)*sizeof(int) ) ;
 	/* check to see if pin is name more than once */
 	for( i = 0 ; i < howmany - 1 ; i++ ){
 	    if( commonS->res_match[i] == pinnum ){
@@ -469,18 +469,18 @@ char *pin ;
 start_net_capmatch( netname )
 char *netname ;
 {
-    INT net ;         /* index in netarray */
-    INT howmany ;     /* howmany net cap. matches already */
-    INT *match ;      /* current match array */
+    int net ;         /* index in netarray */
+    int howmany ;     /* howmany net cap. matches already */
+    int *match ;      /* current match array */
 
     /* first make sure that data is good */
     if(!(net = find_net( netname ) )){
 	return ;
     }
-    howmany = (INT) net_cap_matchG[HOWMANY] ;
-    net_cap_matchG[HOWMANY] = (INT *) ++howmany ;
+    howmany = (int) net_cap_matchG[HOWMANY] ;
+    net_cap_matchG[HOWMANY] = (int *) ++howmany ;
     match = net_cap_matchG[++numcapmatchS] =
-	(INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	(int *) Ysafe_malloc( 2 * sizeof(int) ) ;
     match[HOWMANY] = 1 ;
     match[1] = net ;
 } /* end start_net_capmatch */
@@ -488,35 +488,35 @@ char *netname ;
 add_net_capmatch( netname )
 char *netname ;
 {
-    INT net ;         /* index in netarray */
-    INT howmany ;     /* howmany net cap. matches already */
+    int net ;         /* index in netarray */
+    int howmany ;     /* howmany net cap. matches already */
 
     /* first make sure that data is good */
     if(!(net = find_net( netname ) )){
 	return ;
     }
     howmany = ++net_cap_matchG[numcapmatchS][HOWMANY] ;
-    net_cap_matchG[numcapmatchS] = (INT *)
+    net_cap_matchG[numcapmatchS] = (int *)
 	Ysafe_realloc( net_cap_matchG[numcapmatchS], 
-	(howmany+1) * sizeof(INT) ) ;
+	(howmany+1) * sizeof(int) ) ;
     net_cap_matchG[numcapmatchS][howmany] = net ;
 } /* end add_netcapmatch */
 
 start_net_resmatch( netname )
 char *netname ;
 {
-    INT net ;         /* index in netarray */
-    INT howmany ;     /* howmany net res. matches already */
-    INT *match ;      /* current match array */
+    int net ;         /* index in netarray */
+    int howmany ;     /* howmany net res. matches already */
+    int *match ;      /* current match array */
 
     /* first make sure that data is good */
     if(!(net = find_net( netname ) )){
 	return ;
     }
-    howmany = (INT) net_res_matchG[HOWMANY] ;
-    net_res_matchG[HOWMANY] = (INT *) ++howmany ;
+    howmany = (int) net_res_matchG[HOWMANY] ;
+    net_res_matchG[HOWMANY] = (int *) ++howmany ;
     match = net_res_matchG[++numresmatchS] =
-	(INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	(int *) Ysafe_malloc( 2 * sizeof(int) ) ;
     match[HOWMANY] = 1 ;
     match[1] = net ;
 } /* end start_net_resmatch */
@@ -524,16 +524,16 @@ char *netname ;
 add_net_resmatch( netname )
 char *netname ;
 {
-    INT net ;         /* index in netarray */
-    INT howmany ;     /* howmany net res. matches already */
+    int net ;         /* index in netarray */
+    int howmany ;     /* howmany net res. matches already */
 
     /* first make sure that data is good */
     if(!(net = find_net( netname ) )){
 	return ;
     }
     howmany = ++net_res_matchG[numresmatchS][HOWMANY] ;
-    net_res_matchG[numresmatchS] = (INT *)
+    net_res_matchG[numresmatchS] = (int *)
 	Ysafe_realloc( net_res_matchG[numresmatchS], 
-	(howmany+1) * sizeof(INT) ) ;
+	(howmany+1) * sizeof(int) ) ;
     net_res_matchG[numresmatchS][howmany] = net ;
 } /* end add_netresmatch */

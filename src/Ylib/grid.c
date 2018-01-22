@@ -41,27 +41,27 @@
 FILE:	    grid.c                                       
 DESCRIPTION:These routines grid data to the specified grid.
 CONTENTS:   YforceGrid( x , y )
-		INT *x , *y ;
+		int *x , *y ;
 	    Ygridx( x )
-		INT *x ;
+		int *x ;
 	    Ygridx( x )
-		INT *x ;
+		int *x ;
 	    Ygridx_down( x )
-		INT *x ;
+		int *x ;
 	    Ygridy_down( y )
-		INT *y ;
+		int *y ;
 	    Ygridx_up( x )
-		INT *x ;
+		int *x ;
 	    Ygridy_up( y )
-		INT *y ;
+		int *y ;
 	    Ygrid_setx( x, offset )
-		INT x, offset ;
+		int x, offset ;
 	    Ygrid_sety( y, offset )
-		INT y, offset ;
+		int y, offset ;
 	    Ygrid_getx( x, offset )
-		INT *x, *offset ;
+		int *x, *offset ;
 	    Ygrid_gety( y, offset )
-		INT *y, *offset ;
+		int *y, *offset ;
 DATE:	    Oct 27, 1989 
 REVISIONS:  Thu Apr 18 00:39:45 EDT 1991 - renamed functions so
 		that names were consistent.
@@ -72,14 +72,14 @@ static char SccsId[] = "@(#) grid.c version 1.4 4/18/91" ;
 
 #include <yalecad/base.h>
 
-static INT offsetxS = 0 ;  /* initially set offset to zero */
-static INT offsetyS = 0 ;  
-static INT xgridS = 1 ;    /* default grid is one */
-static INT ygridS = 1 ;  
+static int offsetxS = 0 ;  /* initially set offset to zero */
+static int offsetyS = 0 ;  
+static int xgridS = 1 ;    /* default grid is one */
+static int ygridS = 1 ;  
 /* ***************************************************************** */
 /* force coordinate to closest xy grid position */
 YforceGrid( x , y )
-INT *x , *y ;
+int *x , *y ;
 {
     Ygridx( x ) ;
     Ygridy( y ) ;
@@ -87,10 +87,10 @@ INT *x , *y ;
 
 /* force coordinate to closest x grid position */
 Ygridx( x )
-INT *x ;
+int *x ;
 {
 
-    INT newx ;
+    int newx ;
 
     newx = ( (*x - offsetxS) / xgridS ) * xgridS + offsetxS ;
     if( ABS(newx + xgridS - *x) < ABS(newx - *x) ) {
@@ -103,10 +103,10 @@ INT *x ;
 
 /* force coordinate to closest x grid position */
 Ygridy( y )
-INT *y ;
+int *y ;
 {
 
-    INT newy ;
+    int newy ;
 
     newy = ( (*y - offsetyS) / ygridS ) * ygridS + offsetyS ;
     if( ABS(newy + ygridS - *y) < ABS(newy - *y) ) {
@@ -118,10 +118,10 @@ INT *y ;
 
 /* force coordinate to smallest x grid position */
 Ygridx_down( x )
-INT *x ;
+int *x ;
 {
 
-    INT newx ;
+    int newx ;
 
     newx = ( (*x - offsetxS) / xgridS ) * xgridS + offsetxS ;
     /* now return values */
@@ -130,10 +130,10 @@ INT *x ;
 
 /* force coordinate to smallest y grid position */
 Ygridy_down( y )
-INT *y ;
+int *y ;
 {
 
-    INT newy ;
+    int newy ;
     newy = ( (*y - offsetyS) / ygridS ) * ygridS + offsetyS ;
 
     /* now return values */
@@ -143,10 +143,10 @@ INT *y ;
 
 /* round coordinate to larger x grid position */
 Ygridx_up( x )
-INT *x ;
+int *x ;
 {
 
-    INT newx ;
+    int newx ;
 
     newx = ( (*x - offsetxS) / xgridS ) * xgridS + offsetxS ;
     if( ABS(newx - *x)) {
@@ -158,10 +158,10 @@ INT *x ;
 
 /* round coordinate to larger y grid position */
 Ygridy_up( y )
-INT *y ;
+int *y ;
 {
 
-    INT newy ;
+    int newy ;
     newy = ( (*y - offsetyS) / ygridS ) * ygridS + offsetyS ;
     if( ABS(newy - *y)) {
 	newy += ygridS ;
@@ -172,28 +172,28 @@ INT *y ;
 } /* end Ygridy_up */
 
 Ygrid_setx( x, offset )
-INT x, offset ;
+int x, offset ;
 {
     xgridS = x ;
     offsetxS = offset ;
 } /* end Ygrid_setx */
 
 Ygrid_sety( y, offset )
-INT y, offset ;
+int y, offset ;
 {
     ygridS = y ;
     offsetyS = offset ;
 } /* end Ygrid_sety */
 
 Ygrid_getx( x, offset )
-INT *x, *offset ;
+int *x, *offset ;
 {
     *x = xgridS ;
     *offset = offsetxS ;
 } /* end Ygrid_getx */
 
 Ygrid_gety( y, offset )
-INT *y, *offset ;
+int *y, *offset ;
 {
     *y = ygridS ;
     *offset = offsetyS ;

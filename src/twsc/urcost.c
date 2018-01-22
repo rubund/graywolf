@@ -62,12 +62,12 @@ SEGBOXPTR segptr ;
 
 CHANGRDPTR aptr1 , aptr2 , bptr1 , bptr2 , ptr ;
 DENSITYPTR denptr , headptr ;
-INT penalty , check ;
-INT x , achannel , bchannel , aMaxVal , bMaxVal ;
-INT maxaa , maxbb , pin1 , pin2 ;
-INT aoutside , binside ;
-INT ax1 , ax2 , bx1 , bx2 ;
-INT track ;
+int penalty , check ;
+int x , achannel , bchannel , aMaxVal , bMaxVal ;
+int maxaa , maxbb , pin1 , pin2 ;
+int aoutside , binside ;
+int ax1 , ax2 , bx1 , bx2 ;
+int track ;
 
 penalty = 0 ;
 pin1 = segptr->pin1ptr->terminal ;

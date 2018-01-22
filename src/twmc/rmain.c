@@ -65,7 +65,7 @@ static char SccsId[] = "@(#) rmain.c version 3.6 2/23/91" ;
 rmain( constraint_flag )
 BOOL constraint_flag ;
 {
-    INT closegraphics() ;
+    int closegraphics() ;
     char filename[LRECL] ;
     char *Yrelpath() ;
     char *pathname ;

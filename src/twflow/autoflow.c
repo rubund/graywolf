@@ -47,7 +47,7 @@ CONTENTS:   auto_flow()
 	    BOOL check_dependencies( adjptr )
 		ADJPTR adjptr ;
 	    autoflow_set_object( object )
-		INT object ;
+		int object ;
 DATE:	    May  7, 1989 - original coding.
 REVISIONS:  May 25, 1989 - added needtoExecute to handle case of no
 		input file but an output file.
@@ -71,7 +71,7 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 
 #define STARTOBJECT  0          /* start of the graph */
 #define ERROR        -1         /* error from YgetFileTime() */
-static INT objectS ;            /* the last program that was run */
+static int objectS ;            /* the last program that was run */
 
 auto_flow()
 {
@@ -134,7 +134,7 @@ exec_single_prog()
     OBJECTPTR  o ;              /* current object */
     char       filename[LRECL] ;/* buffer for filename */
     FPTR       fdepend ;        /* current file in question */
-    INT        numedges ;       /* count backward edges */
+    int        numedges ;       /* count backward edges */
 
     o = proGraphG[objectS] ;
     /* get backwards edge count */
@@ -198,10 +198,10 @@ ADJPTR adjptr ;
 BOOL check_dependencies( adjptr )
 ADJPTR adjptr ;
 {
-    INT        input_time ;     /* last input file which was modified */
-    INT        output_time ;    /* first output file */
-    INT        ftime ;          /* time file was modified */
-    INT        YgetFileTime() ; /* returns last time file was modified */
+    int        input_time ;     /* last input file which was modified */
+    int        output_time ;    /* first output file */
+    int        ftime ;          /* time file was modified */
+    int        YgetFileTime() ; /* returns last time file was modified */
     char       filename[LRECL] ;/* buffer for filename */
     FPTR       fdepend ;        /* current file in question */
     BOOL       needtoExecute ;  /* TRUE if an output file doesnt exist */
@@ -272,7 +272,7 @@ ADJPTR adjptr ;
 
 /* allow graphics loop to change the object */
 autoflow_set_object( object )
-INT object ;
+int object ;
 {
     objectS = object ;
 } /* end autoflow_set_object */

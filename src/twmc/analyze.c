@@ -42,7 +42,7 @@ FILE:	    analyze.c
 DESCRIPTION:This file contains routines for analyzing random to optimal
 	    wire ratio.
 CONTENTS:   analyze( )
-	    compare( int, INT )
+	    compare( int, int )
 DATE:	    Apr  4, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
@@ -60,26 +60,26 @@ static char SccsId[] = "@(#) analyze.c version 3.7 4/18/91" ;
 #define KEYSTRING "TimberWolfMC reduction"
 #define EXPECTEDWIRERATIO   2.0
 
-static INT *howmanyS ;
+static int *howmanyS ;
 extern DOUBLE wireratio() ;
 
 DOUBLE analyze()
 {
 
-INT **number , i , net , net1 , net2 , num , cell ;
-INT *count , different , cnum , c2num , *arraynet ;
-INT num_nets , tot_cels ;
+int **number , i , net , net1 , net2 , num , cell ;
+int *count , different , cnum , c2num , *arraynet ;
+int num_nets , tot_cels ;
 DOUBLE C , C1 , C2 , C3 , wireRatio ;
 PINBOXPTR pinptr ;
-INT comparex() ;
+int comparex() ;
 DOUBLE weight_past_runs( /* wireRatio */ ) ;
 
-count  = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof( INT ) ) ;
-number = (INT **) Ysafe_malloc( (1 + numnetsG) * sizeof( INT *) ) ;
-howmanyS = (INT *) Ysafe_malloc( (1 + numnetsG) * sizeof( INT ) ) ;
-arraynet = (INT *) Ysafe_malloc( (1 + numnetsG) * sizeof( INT ) ) ;
+count  = (int *) Ysafe_malloc( (1 + numcellsG) * sizeof( int ) ) ;
+number = (int **) Ysafe_malloc( (1 + numnetsG) * sizeof( int *) ) ;
+howmanyS = (int *) Ysafe_malloc( (1 + numnetsG) * sizeof( int ) ) ;
+arraynet = (int *) Ysafe_malloc( (1 + numnetsG) * sizeof( int ) ) ;
 for( net = 0 ; net <= numnetsG ; net++ ) {
-    number[net] = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof(INT) ) ;
+    number[net] = (int *) Ysafe_malloc( (1 + numcellsG) * sizeof(int) ) ;
 }
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
@@ -156,7 +156,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 num = arraynet[0] ;
 arraynet[0] = arraynet[ arraynet[0] ] ;
-Yquicksort( (char *) arraynet ,  num , sizeof( INT ), comparex  ) ;
+Yquicksort( (char *) arraynet ,  num , sizeof( int ), comparex  ) ;
 /*  sorted: most occurrences first  */
 
 num = 0 ;
@@ -198,8 +198,8 @@ M( MSG, "analyze", YmsgG ) ;
 return( wireRatio );
 }
 
-INT comparex( a , b )
-INT *a , *b ;
+int comparex( a , b )
+int *a , *b ;
 
 {
     return( howmanyS[*b] - howmanyS[*a] ) ;
@@ -211,7 +211,7 @@ DOUBLE wireRatio ;
     FILE *fp ;          /* log file */
     char buffer[LRECL], *bufferptr ;
     char **tokens ;      /* for parsing file */
-    INT  numtokens ;
+    int  numtokens ;
     DOUBLE reduction ;   /* previous value of reduction */
 
     sprintf( buffer, "%s.log", cktNameG ) ;

@@ -54,9 +54,9 @@ static char SccsId[] = "@(#) multi.c version 7.3 5/21/92" ;
 #include <yalecad/message.h>
 
 typedef struct vertex_box {
-    INT x ;
-    INT y ;
-    INT class ;
+    int x ;
+    int y ;
+    int class ;
     struct vertex_box *next ;
 } *VERTEXPTR, VERTEX_BOX ;
 
@@ -159,14 +159,14 @@ COMPACTPTR tilea ;    /* info on tile a */
 COMPACTPTR tileb ;    /* info on tile b */
 {
 
-    INT count ;           /* count the number of tiles */
-    INT xerror ;          /* error in x direction */
-    INT xerror_plus ;     /* error in plus configuration */
-    INT yerror ;          /* error in y direction */
-    INT yerror_plus ;     /* error in plus configuration */
-    INT xc, yc ;          /* center of the given cell */
-    INT llx,lly,urx,ury ; /* bounds of the tile */
-    INT tile ;            /* tile added by add_tile */
+    int count ;           /* count the number of tiles */
+    int xerror ;          /* error in x direction */
+    int xerror_plus ;     /* error in plus configuration */
+    int yerror ;          /* error in y direction */
+    int yerror_plus ;     /* error in plus configuration */
+    int xc, yc ;          /* center of the given cell */
+    int llx,lly,urx,ury ; /* bounds of the tile */
+    int tile ;            /* tile added by add_tile */
     COMPACTPTR tileL ;    /* left tile*/
     COMPACTPTR tileR ;    /* right tile */
     COMPACTPTR tileB ;    /* bottom tile */
@@ -358,12 +358,12 @@ add_mtiles_to_ygraph()
 
 
 static BOOL find_tile( llx , lly , urx , ury )
-INT *llx , *lly , *urx , *ury ;
+int *llx , *lly , *urx , *ury ;
 {
 
     VERTEX_BOX *vertex , *lvertex , *rvertex , *tvertex ;
-    INT lowest , left_edge , right_edge , top_edge ;
-    INT x, y ;
+    int lowest , left_edge , right_edge , top_edge ;
+    int x, y ;
     BOOL found ; 
 
     /* find the leftmost of the lowest START vertices */
@@ -499,7 +499,7 @@ TOP:
 } /* end find_tile */
 
 static init_vertex_list( left, bottom, right, top )
-INT left, bottom, right, top ;
+int left, bottom, right, top ;
 {
     /* add in inverse order so list will be in correct order */
     add_pt( right, bottom, END ) ;
@@ -510,12 +510,12 @@ INT left, bottom, right, top ;
 
 static add_extra_points()
 {
-    INT xpt[9] ;
-    INT ypt[9] ;
-    INT count ;
-    INT i, j ;
-    INT x1, x2, x3, x4 ;
-    INT y1, y2, y3, y4 ;
+    int xpt[9] ;
+    int ypt[9] ;
+    int count ;
+    int i, j ;
+    int x1, x2, x3, x4 ;
+    int y1, y2, y3, y4 ;
     VERTEXPTR vertex ;
 
     /* first load arrays */
@@ -614,9 +614,9 @@ static add_extra_points()
 }
 
 static swap( a, b )
-INT *a, *b ;
+int *a, *b ;
 {
-    INT tmp ;
+    int tmp ;
 
     tmp = *a ;
     *a = *b ;
@@ -624,7 +624,7 @@ INT *a, *b ;
 } /* end swap */
 
 static add_pt( x, y, class )
-INT x, y, class ;
+int x, y, class ;
 {
     VERTEXPTR temp ;  /* head of the list */
 

@@ -10,6 +10,6 @@ DATE:	    Tue Mar  3 16:01:25 EST 1992
 static char Yquicksort_HId[] = "@(#) quicksort.h version 1.1 3/5/92" ;
 #endif
 
-extern VOID Yquicksort( P4(VOIDPTR base, INT n, INT size, INT (*compare)() ) ) ;
+extern VOID Yquicksort( P4(VOIDPTR base, int n, int size, int (*compare)() ) ) ;
 
 #endif /* YQUICKSORT_H */

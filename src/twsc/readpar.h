@@ -35,11 +35,11 @@ EXTERN BOOL Equal_Width_CellsG ;
 EXTERN BOOL file_conversionG ;
 EXTERN BOOL even_rows_maximallyG ;
 
-EXTERN INT feedLayerG ;
-EXTERN INT no_feeds_side_netsG ;
-EXTERN INT pin_layers_givenG ;
-EXTERN INT tw_fastG ;
-EXTERN INT tw_slowG ;
+EXTERN int feedLayerG ;
+EXTERN int no_feeds_side_netsG ;
+EXTERN int pin_layers_givenG ;
+EXTERN int tw_fastG ;
+EXTERN int tw_slowG ;
 
 #undef EXTERN
 

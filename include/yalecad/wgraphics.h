@@ -21,7 +21,7 @@ static char YwgraphicsId[] = "@(#) wgraphics.h (Yale) version 1.7 8/12/91" ;
     TWinitWGraphics( numC, colors ) 
 /* 
 Arguments:
-    INT numC ;
+    int numC ;
     char **colors ;
 Function:
     Initialization of graphics package.  Needs to be called first.
@@ -55,7 +55,7 @@ TWdrawWLine(ref_num, x1, y1, x2, y2, color, label )
 
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a net/line to screen and/or file.  
@@ -74,7 +74,7 @@ TWdrawWRect(ref_num, x1, y1, x2, y2, color, label )
 TWdrawWRect(ref_num, x1, y1, x2, y2, color, label )
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a cell to screen and/or file.  
@@ -90,7 +90,7 @@ Function:
 TWdrawWPin(ref_num, x1, y1, x2, y2, color, label )
 /*
 Arguments: 
-    INT ref_num, x1, y1, x2, y2, color ;
+    int ref_num, x1, y1, x2, y2, color ;
     char *label ;
 Function:
     Draws a pin to screen and/or file.  
@@ -124,7 +124,7 @@ Function:
 #define TWsetFrame( frame_xz )  TWsetWFrame( frame_xz )
 /*
 Arguments: 
-    INT frame_x ;
+    int frame_x ;
 Function:
     Resets dump to screen dump to given file.
     If zero is given, it set the frame to one past the last frame found

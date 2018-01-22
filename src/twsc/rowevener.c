@@ -63,7 +63,7 @@ static char SccsId[] = "@(#) rowevener.c (Yale) version 4.7 12/5/91" ;
 #include "readpar.h"
 
 /* global variables */
-INT exact_feedsG ;
+int exact_feedsG ;
 
 /* global references */
 extern BOOL do_not_even_rowsG ;
@@ -71,17 +71,17 @@ extern BOOL no_row_lengthsG ;
 extern BOOL ignore_feedsG ;
 
 /* static definitions */
-static INT *expect_row_rightS , *expect_row_lengthS ;
-static INT *cell_kickedS ;
+static int *expect_row_rightS , *expect_row_lengthS ;
+static int *cell_kickedS ;
 
 
 rowevener()
 {
 
-INT i , n , row , *addnum , add_to_this_row , total_remaining ;
-INT row_left , row_right , length_diff , last_cell_rite ;
-INT expect_extra , total_extra ;
-INT total_cells_length , total_desire_length , total_feed_length ;
+int i , n , row , *addnum , add_to_this_row , total_remaining ;
+int row_left , row_right , length_diff , last_cell_rite ;
+int expect_extra , total_extra ;
+int total_cells_length , total_desire_length , total_feed_length ;
 CBOXPTR cellptr , lastptr ;
 
 
@@ -132,7 +132,7 @@ return ;
 decide_right_most_in_class()
 {
 
-INT n , row , row_right ;
+int n , row , row_right ;
 CBOXPTR cellptr ;
 
 n = 0 ;

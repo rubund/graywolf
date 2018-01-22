@@ -42,7 +42,7 @@
 FILE:	    main.c
 DESCRIPTION:This file contains main control routine for Master program.
 CONTENTS:   main( argc , argv )
-		INT argc ;
+		int argc ;
 		char *argv[] ;
 	    syntax()
 DATE:	    May	 5, 1989 
@@ -86,7 +86,7 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #define VERSION         "2.1" 
 
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
 
@@ -100,8 +100,8 @@ char *argv[] ;
     BOOL        lock ;               /* whether to create a lock file */
     BOOL        verbose ;            /* whether to go into verbose mode.*/
     BOOL        parasite ;           /* TRUE if we are to take over win */
-    INT         arg_count ;          /* parse the command line */
-    INT         windowId ;           /* the parasite window id */
+    int         arg_count ;          /* parse the command line */
+    int         windowId ;           /* the parasite window id */
     VOID        yaleIntro() ;        /* give intro for program */
 
     /* start up cleanup handler */

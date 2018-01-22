@@ -58,9 +58,9 @@ static char SccsId[] = "@(#) seagate.c (Yale) version 4.7 3/7/91" ;
 #include "pads.h"
 
 
-extern INT vertical_track_pitchG ;
-extern INT horizontal_track_pitchG ;
-extern INT global_routing_iterationsG ;
+extern int vertical_track_pitchG ;
+extern int horizontal_track_pitchG ;
+extern int global_routing_iterationsG ;
 extern BOOL new_row_formatG ;
 extern BOOL min_peak_densityG ;
 extern BOOL min_total_densityG ;
@@ -73,11 +73,11 @@ CBOXPTR cellptr ;
 IPBOXPTR imptr ;
 PINBOXPTR pinptr ;
 char filename[128], *pin_name, *eqpin_name ;
-INT left, rite, *Aray, left_most_pitch ;
-INT coreLeft, coreRite, coreBot, coreTop, cxcenter ;
-INT x, y, n, m, net, row, cell, padside, templateHeight ;
-INT left_edge , rite_edge ;
-INT top_edge , bot_edge , first_pin ;
+int left, rite, *Aray, left_most_pitch ;
+int coreLeft, coreRite, coreBot, coreTop, cxcenter ;
+int x, y, n, m, net, row, cell, padside, templateHeight ;
+int left_edge , rite_edge ;
+int top_edge , bot_edge , first_pin ;
 
 coreBot  = INT_MIN ;
 coreTop  = INT_MAX ;

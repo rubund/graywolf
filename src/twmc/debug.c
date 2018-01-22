@@ -65,10 +65,10 @@ static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
    DUMP CELL BIN LISTS
 */
 dcellList( cell )
-INT cell ;
+int cell ;
 {
-    INT binX, binY, limit ;
-    INT *cellList, i ;
+    int binX, binY, limit ;
+    int *cellList, i ;
     BINBOXPTR bptr ;
 
     printf("Dumping bin cell list...\n") ;
@@ -99,14 +99,14 @@ INT cell ;
 */
 BOOL checkbinList()
 {
-    INT x, y ;
-    INT *cellList ;
+    int x, y ;
+    int *cellList ;
     BINBOXPTR bptr ;
     CELLBOXPTR ptr ;
-    INT numcells_in_bin = 0 ;
-    INT i ;
-    INT cell ;
-    INT celltype ; 
+    int numcells_in_bin = 0 ;
+    int i ;
+    int cell ;
+    int celltype ; 
     BOOL found ;
 
     for( y=0;y<=maxBinYG;y++ ){
@@ -151,10 +151,10 @@ BOOL checkbinList()
    DUMP CELL BIN LISTS
 */
 dbinList( flag )
-INT flag ;
+int flag ;
 {
-    INT x, y, limit ;
-    INT *cellList, i ;
+    int x, y, limit ;
+    int *cellList, i ;
     BINBOXPTR bptr ;
 
     printf("Dumping bin cell list...\n") ;
@@ -164,7 +164,7 @@ INT flag ;
 	    bptr = binptrG[x][y] ;
 	    cellList = bptr->cells ;
 
-	    if( flag ){ /* prINT all bins */
+	    if( flag ){ /* print all bins */
 
 		printf("bin:(%2d,%2d) ",x,y );
 		printf("cellList: %0x ", cellList );
@@ -208,8 +208,8 @@ dbins( flag )
 BOOL flag ;
 {
 
-    INT x, y ;
-    INT cost ;
+    int x, y ;
+    int cost ;
     BINBOXPTR bptr;
 
     if( flag ){
@@ -257,7 +257,7 @@ BOOL flag ;
 dmove()
 {
 
-INT i;
+int i;
 
 printf("Dumping movebox records...") ;
 for( i=0 ; i<= 1; i++ ){
@@ -297,7 +297,7 @@ for( i=0 ; i<= 1; i++ ){
    DUMP TILEPTR STRUCTURE
 */
 dtile(cell)
-INT cell ;
+int cell ;
 {
 
 CELLBOXPTR ptr ;
@@ -319,7 +319,7 @@ for( t=ptr->tiles;t;t=t->next ){
 dloadbins( flag )
 BOOL flag ;
 {
-    INT x, y ;
+    int x, y ;
 
     dbins( TRUE ) ;
     loadbins( flag ) ;
@@ -344,18 +344,18 @@ printf("Area with estimated routing area:%d\n",calc_cellareas(TRUE) ) ;
 
 #ifdef NEEDED
 DORIENT( cell )
-INT cell ;
+int cell ;
 {
     FILE *fp ;
     CELLBOXPTR cptr ;
     TILEBOXPTR tileptr ;
     TERMBOXPTR  termptr ;
-    INT  i ;
-    INT  x ;
-    INT  y ;
-    INT  orient ;
-    INT  newx, newy ;
-    INT  x0, x1, y0, y1 ;
+    int  i ;
+    int  x ;
+    int  y ;
+    int  orient ;
+    int  newx, newy ;
+    int  x0, x1, y0, y1 ;
     char filename[LRECL] ;
     char label[LRECL] ;
 
@@ -465,11 +465,11 @@ INT cell ;
 } /* end dumpForce */
 
 dsoftpins( cell )
-INT cell ;
+int cell ;
 {
 
     
-    INT pin ;
+    int pin ;
     PINBOXPTR  *sarray    ;  /* array of just the soft pins of a cell */
 
     sarray = cellarrayG[cell]->softpins ;

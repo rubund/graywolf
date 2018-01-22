@@ -46,10 +46,10 @@ static char SccsId[] = "@(#) quicksort.c version 3.3 3/6/92" ;
 
 #include <yalecad/base.h>
 
-static  INT	qsz;			/* size of each record */
-static  INT	thresh;			/* THRESHold in chars */
-static  INT	mthresh;		/* MTHRESHold in chars */
-static  INT	(*compare_fun)();	/* comparison function */
+static  int	qsz;			/* size of each record */
+static  int	thresh;			/* THRESHold in chars */
+static  int	mthresh;		/* MTHRESHold in chars */
+static  int	(*compare_fun)();	/* comparison function */
 
 
 static qst();
@@ -61,9 +61,9 @@ static qst();
 
 VOID Yquicksort(base, n, size, compare )
 	char	*base;
-	INT	n;
-	INT	size;
-	INT     (*compare)() ;
+	int	n;
+	int	size;
+	int     (*compare)() ;
 {
 
 	register char c, *i, *j, *lo, *hi;
@@ -142,9 +142,9 @@ static qst(base, max)
 	char *base, *max;
 {
 	register char c, *i, *j, *jj;
-	register INT ii;
+	register int ii;
 	char *mid, *tmp;
-	INT lo, hi;
+	int lo, hi;
 
 	/*
 	 * At the top here, lo is the number of characters of elements in the

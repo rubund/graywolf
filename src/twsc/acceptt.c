@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    acceptt.c                                       
 DESCRIPTION:accept routine used in simulated annealing
-CONTENTS:   acceptt( INT  )
+CONTENTS:   acceptt( int  )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 ----------------------------------------------------------------- */
@@ -59,7 +59,7 @@ static DOUBLE table1S[1024] , table2S[1024] , table3S[1024] ;
  
 init_table()
 {
-    INT i2 ;
+    int i2 ;
     table1S[0] = 1.0 ;
     table2S[0] = 1.0 ;
     table3S[0] = 1.0 ;
@@ -73,11 +73,11 @@ init_table()
 #ifdef DEBUG_CODE
 static FILE *fpS = NULL ;
 BOOL acceptt( d_wire, d_time, d_penal )
-INT d_wire, d_time, d_penal ;
+int d_wire, d_time, d_penal ;
 {
     BOOL truth ;
-    INT time ;
-    extern INT aG ;
+    int time ;
+    extern int aG ;
 
     time = d_time ;
     truth = acceptt2( d_wire, d_time, d_penal ) ;
@@ -100,14 +100,14 @@ INT d_wire, d_time, d_penal ;
     code know of the change.
 ----------------------------------------------------------------- */
 BOOL acceptt( d_wire, d_time, d_penal )
-INT d_wire, d_time, d_penal ;
+int d_wire, d_time, d_penal ;
 {
 
     DOUBLE fred ;
     register unsigned fract ;
 
-    /* d_time = (INT) ( 10.0 * timeFactorG * (DOUBLE) d_time ) ; */
-    d_time = (INT) ( timeFactorG * (DOUBLE) d_time ) ;
+    /* d_time = (int) ( 10.0 * timeFactorG * (DOUBLE) d_time ) ; */
+    d_time = (int) ( timeFactorG * (DOUBLE) d_time ) ;
     d_costG = d_wire + d_time + d_penal ; 
     if( d_costG >= 0 ){
 	return( TRUE ) ;
@@ -125,7 +125,7 @@ INT d_wire, d_time, d_penal ;
 	    return( FALSE ) ;
 	}
     } else {
-	fract = (INT)( -fred * 8388608.0 ) ;
+	fract = (int)( -fred * 8388608.0 ) ;
 	if( (table1S[ (fract >> 20) & MASK ] * 
 			table2S[ (fract >> 10) & MASK] * 
 			table3S[ fract & MASK ]) > 
@@ -145,7 +145,7 @@ INT d_wire, d_time, d_penal ;
     acceptted.  
 ----------------------------------------------------------------- */
 BOOL accept_greedy( d_wire, d_time, d_penal )
-INT d_wire, d_time, d_penal ;
+int d_wire, d_time, d_penal ;
 {
 
     if( d_time == 0 ){

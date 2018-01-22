@@ -58,8 +58,8 @@ static char SccsId[] = "@(#) sortpad.c version 3.6 3/12/91" ;
 
 
 
-static INT compare_pads();
-static INT sort_by_pos();
+static int compare_pads();
+static int sort_by_pos();
 static install_pad_groups();
 static permute_pads();
 
@@ -67,10 +67,10 @@ static permute_pads();
 
 sort_pads()
 {
-    INT i ;                /* pad counter */
-    INT pos ;              /* position in place array */
-    INT compare_pads() ;   /* how to sort the pads initially */
-    INT sort_by_pos() ;    /* how to sort the pads */
+    int i ;                /* pad counter */
+    int pos ;              /* position in place array */
+    int compare_pads() ;   /* how to sort the pads initially */
+    int sort_by_pos() ;    /* how to sort the pads */
     PADBOXPTR pad ;        /* current pad */
 
     /* first perform an initial sort to order the pads by side, hierarchy, */
@@ -114,7 +114,7 @@ sort_pads()
 /* ***************************************************************** */
 
 /*** compare_pads() RETURNS TRUE IF ARG1 > ARG2 BY ITS OWN RULES **/
-static INT compare_pads( padptr1, padptr2 )
+static int compare_pads( padptr1, padptr2 )
 PADBOXPTR *padptr1, *padptr2 ;
 {
     PADBOXPTR pad1, pad2;
@@ -148,7 +148,7 @@ PADBOXPTR *padptr1, *padptr2 ;
 } /* end compare_pads */
 /* ***************************************************************** */
 
-static INT sort_by_pos( padptr1, padptr2 )
+static int sort_by_pos( padptr1, padptr2 )
 PADBOXPTR *padptr1, *padptr2 ;
 {
     PADBOXPTR pad1, pad2;
@@ -187,12 +187,12 @@ PADBOXPTR *padptr1, *padptr2 ;
 
 static install_pad_groups( pad, position )
 PADBOXPTR pad ;
-INT *position ;
+int *position ;
 {
-    INT i ;                      /* pad counter */
-    INT howmany ;                /* number of pads in group */
-    INT initial_position ;       /* position of next open place in placearray */
-    INT sort_by_pos() ;          /* how to sort the pads */
+    int i ;                      /* pad counter */
+    int howmany ;                /* number of pads in group */
+    int initial_position ;       /* position of next open place in placearray */
+    int sort_by_pos() ;          /* how to sort the pads */
     PADBOXPTR child ;            /* current child */
     PADBOXPTR *temparray ;       /* temporary array to sort pads */
 
@@ -225,17 +225,17 @@ INT *position ;
 static permute_pads( pad )
 PADBOXPTR pad ;
 {
-    INT tmp ;                 /* used to reverse permutable pads */
-    INT j, k ;                /* used to reverse pads */
-    INT i ;                   /* padcounter */
-    INT howmany ;             /* number of children in current padgroup */
-    INT max_pos ;             /* max. value of the ideal positions of pad in pg */
-    INT min_pos ;             /* min. value of the ideal positions of pad in pg */
-    INT forward_cost ;        /* cost to place pads in current order */
-    INT bakward_cost ;        /* cost to place pads in reverse order */
-    INT proposed_fpos ;       /* proposed uniformly spaced pos in forward order */
-    INT proposed_bpos ;       /* proposed uniformly spaced pos in bakward order */
-    INT *array ;              /* sort the children */
+    int tmp ;                 /* used to reverse permutable pads */
+    int j, k ;                /* used to reverse pads */
+    int i ;                   /* padcounter */
+    int howmany ;             /* number of children in current padgroup */
+    int max_pos ;             /* max. value of the ideal positions of pad in pg */
+    int min_pos ;             /* min. value of the ideal positions of pad in pg */
+    int forward_cost ;        /* cost to place pads in current order */
+    int bakward_cost ;        /* cost to place pads in reverse order */
+    int proposed_fpos ;       /* proposed uniformly spaced pos in forward order */
+    int proposed_bpos ;       /* proposed uniformly spaced pos in bakward order */
+    int *array ;              /* sort the children */
     DOUBLE spacing ;          /* spacing if we place pads in pg uniformly */
     PADBOXPTR child ;         /* current child */
 

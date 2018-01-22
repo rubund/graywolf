@@ -19,7 +19,7 @@ static char StackSccsId[] = "@(#) stack.h version 1.3 10/9/90" ;
 
 #define YINITSTACK( stack_xyz, size_xyz ) \
 {   \
-    stack_xyz = (INT *) Ysafe_malloc( (size_xyz+2) * sizeof(int) ) ; \
+    stack_xyz = (int *) Ysafe_malloc( (size_xyz+2) * sizeof(int) ) ; \
     stack_xyz[YSIZE_STACK] = size_xyz + 1 ; \
     stack_xyz[YSTACK_POINT] = 1 ; \
 }

@@ -69,36 +69,36 @@ static char SccsId[] = "@(#) configpads.c version 4.12 11/7/91" ;
 
 /* ***************** STATIC FUNCTION DEFINITIONS ******************* */
 static BOOL check_overflow( P1(BOOL retain_pad_groups) ) ;
-static move_clockwise( P4(INT pad, INT side, INT cw_side, INT moveable_cw) ) ;
-static move_counterclockwise( P4(INT pad,INT side,INT ccw_side,INT m_ccw ) ) ;
-static update_pad_position( P3(PADBOXPTR pad,INT current_side, INT move_side) );
-static expand_core( P1(INT side) ) ;
-static INT compare_overflow( P2(INT *side1, INT *side2) ) ;
+static move_clockwise( P4(int pad, int side, int cw_side, int moveable_cw) ) ;
+static move_counterclockwise( P4(int pad,int side,int ccw_side,int m_ccw ) ) ;
+static update_pad_position( P3(PADBOXPTR pad,int current_side, int move_side) );
+static expand_core( P1(int side) ) ;
+static int compare_overflow( P2(int *side1, int *side2) ) ;
 static update_pad_groups( P1(void) ) ;
 static resort_place_array( P1(void) ) ;
-static child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
-static place_variable( P3(INT first,INT numpads,INT side) ) ;
+static child_constraints(P5(PADBOXPTR pad,int side,DOUBLE lb,DOUBLE ub,BOOL s));
+static place_variable( P3(int first,int numpads,int side) ) ;
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
-static INT overflowS[5] ;          /* amount of overflow on each side */
-static INT side_lengthS[5] ;       /* sum of pad lengths on a side */
-static INT first_pad_on_sideS[5] ; /* index of first pad on side */
-static INT last_pad_on_sideS[5] ;  /* index of last pad on side */
-static INT pad_extraS ;            /* insure that sort works correctly */
+static int overflowS[5] ;          /* amount of overflow on each side */
+static int side_lengthS[5] ;       /* sum of pad lengths on a side */
+static int first_pad_on_sideS[5] ; /* index of first pad on side */
+static int last_pad_on_sideS[5] ;  /* index of last pad on side */
+static int pad_extraS ;            /* insure that sort works correctly */
 
 align_pads()
 {
-    INT pad ;                      /* counter */
-    INT side ;                     /* current pad side */
-    INT last ;                     /* index of last pad on side */
-    INT first ;                    /* index of first pad on side */
-    INT count ;                    /* count number of overflow iterations */
-    INT length ;                   /* length of current pad */
-    INT needed ;                   /* extra space needed on each side */
-    INT numpads ;                  /* number of pads on this side */
-    INT cum_space ;                /* cum_space on this side */
-    INT padspacing ;               /* padspacing method for current side*/
-    INT extra_space ;              /* slack on a side */
+    int pad ;                      /* counter */
+    int side ;                     /* current pad side */
+    int last ;                     /* index of last pad on side */
+    int first ;                    /* index of first pad on side */
+    int count ;                    /* count number of overflow iterations */
+    int length ;                   /* length of current pad */
+    int needed ;                   /* extra space needed on each side */
+    int numpads ;                  /* number of pads on this side */
+    int cum_space ;                /* cum_space on this side */
+    int padspacing ;               /* padspacing method for current side*/
+    int extra_space ;              /* slack on a side */
     BOOL overflow_exists ;         /* if set, overflow still exists */
     BOOL retain_pad_groups ;       /* if set, padgroups will not be moved from side */
     PADBOXPTR padptr ;             /* current pad info */
@@ -149,7 +149,7 @@ align_pads()
 		    /* calculate the placement of the left edge of the pad */
 		    left_edge += extra_space_per_pad ;
 		    /* now find the center of the current pad */
-		    padptr->position =  ((INT) left_edge ) +
+		    padptr->position =  ((int) left_edge ) +
 			padptr->length / 2 ;
 		    /* now set left edge for next pad */
 		    left_edge += (DOUBLE)
@@ -163,7 +163,7 @@ align_pads()
 		for( pad = 1; pad <= numpads; pad++ ){
 		    padptr = placearrayG[first + pad - 1] ;
 		    /* now find the center of the current pad */
-		    padptr->position =  ((INT) left_edge ) +
+		    padptr->position =  ((int) left_edge ) +
 			padptr->length / 2 ;
 		    /* now set left edge for next pad */
 		    left_edge += (DOUBLE)
@@ -187,21 +187,21 @@ align_pads()
 static BOOL check_overflow( retain_pad_groups )
 BOOL retain_pad_groups ;
 {
-    INT i ;                        /* counter */
-    INT pad ;                      /* counter */
-    INT side ;                     /* current pad side */
-    INT cw_pad ;                   /* pad to move in clockwise direction */
-    INT ccw_pad ;                  /* pad to move in ccw direction */
-    INT length ;                   /* length of current pad */
-    INT clockwise ;                /* the side in the clockwise direction */
-    INT counterclockwise ;         /* the side in the ccw direction */
-    INT overflow_cw ;              /* amount of overflow when pad is moved cw */
-    INT overflow_ccw ;             /* amount of overflow when pad is moved ccw */
-    INT moveable_cw ;              /* size of pad to be moved cw */
-    INT moveable_ccw ;             /* size of pad to be moved ccw */
-    INT side_open[5] ;             /* whether side has been processed */
-    INT sort_overflow[5] ;         /* index for sorted overflow */
-    INT compare_overflow() ;       /* sort the sides for overflow */
+    int i ;                        /* counter */
+    int pad ;                      /* counter */
+    int side ;                     /* current pad side */
+    int cw_pad ;                   /* pad to move in clockwise direction */
+    int ccw_pad ;                  /* pad to move in ccw direction */
+    int length ;                   /* length of current pad */
+    int clockwise ;                /* the side in the clockwise direction */
+    int counterclockwise ;         /* the side in the ccw direction */
+    int overflow_cw ;              /* amount of overflow when pad is moved cw */
+    int overflow_ccw ;             /* amount of overflow when pad is moved ccw */
+    int moveable_cw ;              /* size of pad to be moved cw */
+    int moveable_ccw ;             /* size of pad to be moved ccw */
+    int side_open[5] ;             /* whether side has been processed */
+    int sort_overflow[5] ;         /* index for sorted overflow */
+    int compare_overflow() ;       /* sort the sides for overflow */
     PADBOXPTR padptr ;             /* current pad info */
 
     /* first accummulate the sum of all the pads on a given side */
@@ -248,7 +248,7 @@ BOOL retain_pad_groups ;
 	sort_overflow[i] = i ;
 	side_open[i] = TRUE ;
     }
-    Yquicksort( &(sort_overflow[1]), 4, sizeof(INT), compare_overflow );
+    Yquicksort( &(sort_overflow[1]), 4, sizeof(int), compare_overflow );
     for( i = 1; i <= 4; i++ ){
 	side = sort_overflow[i] ;
 	side_open[side] = FALSE ;
@@ -341,7 +341,7 @@ BOOL retain_pad_groups ;
 } /* end check_overflow */
 
 static move_clockwise( pad, side, clockwise_side, moveable_cw )
-INT pad, side, clockwise_side, moveable_cw ; 
+int pad, side, clockwise_side, moveable_cw ; 
 { 
     PADBOXPTR padptr ;             /* current pad info */
 
@@ -358,7 +358,7 @@ INT pad, side, clockwise_side, moveable_cw ;
 
 
 static move_counterclockwise( pad, side, counterclockwise, moveable_ccw )
-INT pad, side, counterclockwise, moveable_ccw ; 
+int pad, side, counterclockwise, moveable_ccw ; 
 { 
     PADBOXPTR padptr ;             /* current pad info */
 
@@ -375,10 +375,10 @@ INT pad, side, counterclockwise, moveable_ccw ;
 
 static update_pad_position( padptr, current_side, move_side )
 PADBOXPTR padptr ;             /* current pad info */
-INT current_side ;
-INT move_side ;
+int current_side ;
+int move_side ;
 {
-    INT dimension ;            /* the X or Y dimension */
+    int dimension ;            /* the X or Y dimension */
 
     dimension = move_side % 2 ;
     switch( current_side ){
@@ -398,13 +398,13 @@ INT move_side ;
 } /* end update_pad_position */
 
 static expand_core( side )
-INT side ;
+int side ;
 {
-    INT i ;                        /* counter */
-    INT pad ;                      /* counter */
-    INT overflow_amount ;          /* amount to expand */
-    INT amount ;                   /* amount to add to each pad half of a side */
-    INT expansion ;                /* amount to expand a dimension */
+    int i ;                        /* counter */
+    int pad ;                      /* counter */
+    int overflow_amount ;          /* amount to expand */
+    int amount ;                   /* amount to add to each pad half of a side */
+    int expansion ;                /* amount to expand a dimension */
     PADBOXPTR padptr ;             /* current pad info */
 
     overflow_amount = 0 ;
@@ -440,14 +440,14 @@ INT side ;
     perdimG[Y] = coreG[Y][MAXI] - coreG[Y][MINI] ;
 } /* end expand_core */
 
-static INT compare_overflow( side1, side2 )
-INT *side1, *side2 ;
+static int compare_overflow( side1, side2 )
+int *side1, *side2 ;
 {
     /* sort largest to smallest */
     return( overflowS[*side2] - overflowS[*side1] ) ;
 } /* end compare_overflow */
 
-static INT compare_placearray( padptr1, padptr2 )
+static int compare_placearray( padptr1, padptr2 )
 PADBOXPTR *padptr1, *padptr2 ;
 {
     PADBOXPTR pad1, pad2;
@@ -477,7 +477,7 @@ static resort_place_array()
 static update_pad_groups()
 {
 
-    INT i ;                   /* pad counter */
+    int i ;                   /* pad counter */
     DOUBLE lobound ;          /* lower bound on position */
     DOUBLE hibound ;          /* upper bound on position */
     BOOL spacing_restricted ; /* whether spacing is restricted */
@@ -510,12 +510,12 @@ static update_pad_groups()
 /* this will set the constaints for pad groups and children of them */
 static child_constraints( pad, side, lb, ub, spacing_restricted )
 PADBOXPTR pad ;
-INT side ;
+int side ;
 DOUBLE lb, ub ;
 BOOL spacing_restricted ;
 {
-    INT i ;            /* pad counter */
-    INT howmany ;      /* number of children */
+    int i ;            /* pad counter */
+    int howmany ;      /* number of children */
     PADBOXPTR child ;  /* current child */
 
     calc_constraints( pad, side, &lb, &ub, &spacing_restricted,
@@ -533,10 +533,10 @@ BOOL spacing_restricted ;
 
 calc_constraints( pad, side, lb, ub, spacing_restricted,lowpos, uppos )
 PADBOXPTR pad ;
-INT side ;
+int side ;
 DOUBLE *lb, *ub ;
 BOOL *spacing_restricted ;
-INT *lowpos, *uppos ;
+int *lowpos, *uppos ;
 {
     DOUBLE lowbound, hibound ;
 
@@ -575,9 +575,9 @@ INT *lowpos, *uppos ;
 	}
     }
     if( *spacing_restricted ){
-	*lowpos = (INT) ( lowbound * (DOUBLE)perdimG[side%2] ) ;
+	*lowpos = (int) ( lowbound * (DOUBLE)perdimG[side%2] ) ;
 	*lowpos += coreG[side%2][MINI] ;
-	*uppos = (INT) ( hibound * (DOUBLE)perdimG[side%2] ) ;
+	*uppos = (int) ( hibound * (DOUBLE)perdimG[side%2] ) ;
 	*uppos += coreG[side%2][MINI] ;
     } else {
 	*lowpos = -1 ;
@@ -592,14 +592,14 @@ INT *lowpos, *uppos ;
 /* ***************************************************************** */
 
 static place_variable( first, numpads, side )
-INT first, numpads, side ;
+int first, numpads, side ;
 {
-    INT pad ;            /* counter */
-    INT left_edge ;      /* current left edge of pad */
-    INT right_edge ;     /* current right edge of pad */
-    INT half_length ;    /* half the span of a pad */
-    INT valid_left_edge ;/* this position is open for the pad leftedge*/
-    INT valid_right_edge;/* this position is open for the pad rightedge*/
+    int pad ;            /* counter */
+    int left_edge ;      /* current left edge of pad */
+    int right_edge ;     /* current right edge of pad */
+    int half_length ;    /* half the span of a pad */
+    int valid_left_edge ;/* this position is open for the pad leftedge*/
+    int valid_right_edge;/* this position is open for the pad rightedge*/
     PADBOXPTR padptr ;   /* current pad info */
 
     valid_left_edge = 0 ;
@@ -647,7 +647,7 @@ INT first, numpads, side ;
 
 dimension_pads()
 {
-    INT i ;           /* pad counter */
+    int i ;           /* pad counter */
     PADBOXPTR pad ;   /* current pad */
     PINBOXPTR pin ;   /* current pin */
     CBOXPTR cptr ;    /* current cell */
@@ -693,7 +693,7 @@ dimension_pads()
 
 orient_pads()
 {
-    INT i ;                         /* counter */
+    int i ;                         /* counter */
     PADBOXPTR pad ;                 /* current pad info */
     CBOXPTR cptr ;                  /* current cell */
 

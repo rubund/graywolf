@@ -75,14 +75,14 @@ INSTBOXPTR instptr ;     /* pointer to the cells instance box */
 DOUBLE aspFactor ;
 DOUBLE val ;
 
-INT cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
-INT a, i ;
-INT lastinst, newinst ;
-INT aorient, axcenter, aycenter ;
-INT oleft, obottom, oright, otop ;
-INT Hdiv2, Wdiv2 ;
-INT *xorig, *xnew, *yorig, *ynew ;
-INT numsides, howmany ;
+int cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
+int a, i ;
+int lastinst, newinst ;
+int aorient, axcenter, aycenter ;
+int oleft, obottom, oright, otop ;
+int Hdiv2, Wdiv2 ;
+int *xorig, *xnew, *yorig, *ynew ;
+int numsides, howmany ;
 
 /* ----------------------------------------------------------------- 
    global information is stored in element zero of position arrays 
@@ -195,7 +195,7 @@ if( acellptr->softflag ){
 newbinpenal += overlap( /* old_aposG, new_aposG */ ) ;
 
 /* scale new penalty for feedback circuit */
-newpenalty = (INT) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
+newpenalty = (int) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
 
 /* -------------- update the position of all pins --------------------- */
 axcenter = acellptr->xcenter ;
@@ -211,7 +211,7 @@ if( acellptr->softflag ){
 	    pin->typos_new = ROUND( val ) - Hdiv2 ;
 	}
     }
-    howmany = (INT) acellptr->softpins[HOWMANY] ;
+    howmany = (int) acellptr->softpins[HOWMANY] ;
     /* set each pin's correct instance */
     for( i = 1 ; i <= howmany; i++ ){
 	pin = acellptr->softpins[i] ;
@@ -248,7 +248,7 @@ newtimepenal += calc_incr_time( a ) ;
 ASSERT( newtimepenal == dcalc_full_penalty(),NULL,NULL) ;
 
 /* scale new timing penalty */
-newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+newtimepenalty = (int) ( timeFactorG * (DOUBLE) newtimepenal ) ;
 
 /* ------------------------------------------------------------------
     Note: we don't take overfill into account here because changing 

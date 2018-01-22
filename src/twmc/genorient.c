@@ -41,14 +41,14 @@
 FILE:	    genorient.c                                       
 DESCRIPTION:generate all eight orientation for tiles.
 CONTENTS:   genorient( lowerBound, upperBound )
-		INT lowerBound, upperBound ;
+		int lowerBound, upperBound ;
 	    trans_bbox( ptr ) 
 		CELLBOXPTR ptr ;
 	    loadTermArray()
 	    adjust_lr( orient, height, width,  left, right )
-		INT orient, height, *left, *right ;
+		int orient, height, *left, *right ;
 	    adjust_lr( orient, height, width,  bottom, top )
-		INT orient, height, *bottom, *top ;
+		int orient, height, *bottom, *top ;
 DATE:	    Feb 8, 1988 
 REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 		to genorient and split out terminal array code to
@@ -90,20 +90,20 @@ static char SccsId[] = "@(#) genorient.c (Yale) version 3.13 5/5/91" ;
 
 /* genorient works on range [lowerBound..upperBound] inclusive */
 genorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+int lowerBound, upperBound ;
 {
 
-    INT i ;                         /* counter */
-    INT cell ;                      /* current cell */
-    INT x, y ;                      /* used to translate the pins */
-    INT orient ;                    /* user specified orientation */
-    INT saveorient ;                /* initial orientation */
-    INT bhgt, blen ;                /* bounding box height, length */
-    INT inverse ;                   /* inverse orientation */
-    INT numinst ;                   /* number of cell instances */
-    INT pt ;                        /* counter */
-    INT *xvert ;                    /* xvertices */
-    INT *yvert ;                    /* yvertices */
+    int i ;                         /* counter */
+    int cell ;                      /* current cell */
+    int x, y ;                      /* used to translate the pins */
+    int orient ;                    /* user specified orientation */
+    int saveorient ;                /* initial orientation */
+    int bhgt, blen ;                /* bounding box height, length */
+    int inverse ;                   /* inverse orientation */
+    int numinst ;                   /* number of cell instances */
+    int pt ;                        /* counter */
+    int *xvert ;                    /* xvertices */
+    int *yvert ;                    /* yvertices */
     INSTBOXPTR instptr ;            /* instance pointer */
     BOUNBOXPTR bounptr ;            /* bounding box pointer */
     PINBOXPTR  pin ;                /* translate the pins */
@@ -278,12 +278,12 @@ INT lowerBound, upperBound ;
 /* recalculates the bounding boxes and updates all the views */
 /* works in an incremental manner */
 regenorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+int lowerBound, upperBound ;
 {
 
-    INT cell ;
-    INT l, r, b, t ;
-    INT xdev, ydev ;
+    int cell ;
+    int l, r, b, t ;
+    int xdev, ydev ;
     CELLBOXPTR ptr ;
     TILEBOXPTR tileptr ;
     BOUNBOXPTR bounptr ;
@@ -329,8 +329,8 @@ trans_bbox( ptr )
 CELLBOXPTR ptr ;
 {
 
-INT orient ;
-INT bhgt, blen ;
+int orient ;
+int bhgt, blen ;
 BOUNBOXPTR boun0, bounptr ;
 
     if( ptr->boun_valid ){
@@ -357,7 +357,7 @@ BOUNBOXPTR boun0, bounptr ;
 /* allocate space for and load termarray */
 loadTermArray()
 {
-    INT net ;
+    int net ;
     PINBOXPTR pinptr ;
 
     /* load termarray */
@@ -371,13 +371,13 @@ loadTermArray()
 translate_numpins( ptr ) 
 CELLBOXPTR ptr ;
 {
-    INT pt ;                        /* point counter */
-    INT minx ;                      /* looking for lowest y pt */
-    INT miny ;                      /* looking for lowest y pt */
-    INT side1 ;                     /* where the first side is */
-    INT oldpt ;                     /* the place in the old array */
-    INT *xvert ;                    /* xvertices */
-    INT *yvert ;                    /* yvertices */
+    int pt ;                        /* point counter */
+    int minx ;                      /* looking for lowest y pt */
+    int miny ;                      /* looking for lowest y pt */
+    int side1 ;                     /* where the first side is */
+    int oldpt ;                     /* the place in the old array */
+    int *xvert ;                    /* xvertices */
+    int *yvert ;                    /* yvertices */
     FLOAT *tmp ;                    /* array of the numpins per side */
 
 

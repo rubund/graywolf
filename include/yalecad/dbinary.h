@@ -11,10 +11,10 @@ REVISIONS:
 
 /* data record for draw binary files */
 typedef struct {
-    INT          x1 ;
-    INT          x2 ;
-    INT     	 y1 ;
-    INT     	 y2 ;
+    int          x1 ;
+    int          x2 ;
+    int     	 y1 ;
+    int     	 y2 ;
     UNSIGNED_INT ref ; /* may be referenced by this number */
     UNSIGNED_INT color ;
     UNSIGNED_INT label ;

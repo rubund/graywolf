@@ -43,7 +43,7 @@ DESCRIPTION:pairwise flips of cells.
 CONTENTS:   upair()
 	    eval_range( acellptr , bcellptr, axc , anxc , bxc , bnxc )
 		CBOXPTR acellptr , bcellptr ;
-		INT axc , anxc , bxc , bnxc ;
+		int axc , anxc , bxc , bnxc ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Fri Mar 22 16:23:46 CST 1991 - now avoid upair
 		if there are no moveable cells.
@@ -63,7 +63,7 @@ static char SccsId[] = "@(#) upair.c (Yale) version 4.12 5/12/92" ;
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global references */
-extern INT **pairArrayG ;
+extern int **pairArrayG ;
 extern BOOL orientation_optimizationG ;
 extern BOOL placement_improveG ;
 
@@ -72,15 +72,15 @@ upair()
 
 CBOXPTR acellptr, bcellptr ; 
 BBOXPTR ablckptr ;
-INT a , b , ablock , aorient ;
-INT flips , attempts , oattempts ;
-INT axcenter,anxcenter, bnxcenter ;
-INT aleft , aright ; 
-INT startx1, endx1;
-INT cellleft, cellrite;
-INT leftEdge, riteEdge;
-INT aptr , one_cell_per_row , row ;
-INT free_cells, cells_in_row ;
+int a , b , ablock , aorient ;
+int flips , attempts , oattempts ;
+int axcenter,anxcenter, bnxcenter ;
+int aleft , aright ; 
+int startx1, endx1;
+int cellleft, cellrite;
+int leftEdge, riteEdge;
+int aptr , one_cell_per_row , row ;
+int free_cells, cells_in_row ;
 
 if(!(placement_improveG)){
     return ;
@@ -295,7 +295,7 @@ ort:if( ablckptr->borient == 1 ) {
     ) ;
 }
 sprintf( YmsgG, " %3d %6.3f %9d  %3d%s  %-8ld\n", iterationG+1, TG, funccostG,
-	(INT)( 100.0 * (DOUBLE)(flips) / (DOUBLE)(attmaxG) ) , "%" ,
+	(int)( 100.0 * (DOUBLE)(flips) / (DOUBLE)(attmaxG) ) , "%" ,
 	timingcostG ) ;
 M( MSG, NULL, YmsgG ) ;
 return;
@@ -304,12 +304,12 @@ return;
 
 eval_range( acellptr , bcellptr, axc , anxc , bxc , bnxc )
 CBOXPTR acellptr , bcellptr ;
-INT axc , anxc , bxc , bnxc ;
+int axc , anxc , bxc , bnxc ;
 {
 
 FENCEBOXPTR fence ;
-INT a_current_penalty , a_new_penalty ;
-INT b_current_penalty , b_new_penalty ;
+int a_current_penalty , a_new_penalty ;
+int b_current_penalty , b_new_penalty ;
 
 
 if( (fence = acellptr->fence) == NULL ) {

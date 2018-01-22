@@ -86,10 +86,10 @@ config1()
 
 CELLBOXPTR cellptr ;
 TILEBOXPTR tileptr ;
-INT l , r , b , t , cell ;
-INT numbins, numbinX, numbinY ;
-INT window ;
-INT closegraphics() ;
+int l , r , b , t , cell ;
+int numbins, numbinX, numbinY ;
+int window ;
+int closegraphics() ;
 char arguments[LRECL] ;
 char resfile[LRECL] ;
 char savfile[LRECL] ;
@@ -178,17 +178,17 @@ OUT3("mean short side : %4.2le      std deviation short side : %4.2le\n",
     mean_shortSide, dev_shortSide ) ;
 
 if( coreGivenG == 0 ) {
-    blockrG = blocktG = (INT) sqrt( (DOUBLE) totalArea ) + 1 ;
+    blockrG = blocktG = (int) sqrt( (DOUBLE) totalArea ) + 1 ;
     /* 
      *    Take into account the aspect ratio requested by the user
      */
-    blocktG = (INT)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
-    blockrG = (INT)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
+    blocktG = (int)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
+    blockrG = (int)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
     blocklG = blockbG = 0 ;
     totChanLenG = perimG / 2 - (blockrG + blocktG) ;
     aveChanWidG = 0.0 ;
 } else {
-    r = t = (INT) sqrt( totalArea ) + 1 ;
+    r = t = (int) sqrt( totalArea ) + 1 ;
     totChanLenG = perimG / 2 - (r + t) ;
     aveChanWidG = 0.0 ;
 }
@@ -204,7 +204,7 @@ cellArea *= cellArea ;
 coreArea = ((DOUBLE) blocktG - blockbG) * ((DOUBLE) blockrG - blocklG) ;
 
 if( 5.0 * coreArea > (DOUBLE) INT_MAX && !(cost_onlyG) ){
-    scale_dataG = (INT) sqrt( (10.0 * coreArea / (DOUBLE) INT_MAX)) ;
+    scale_dataG = (int) sqrt( (10.0 * coreArea / (DOUBLE) INT_MAX)) ;
     scale_dataG++ ; /* round up always */
     M( MSG,"config1", "Design is too large for integer operations\n");
     sprintf( YmsgG,
@@ -234,7 +234,7 @@ if( 5.0 * coreArea > (DOUBLE) INT_MAX && !(cost_onlyG) ){
     scale_dataG = 1 ;
 }
 
-numbins = (INT) ((DOUBLE) NUMBINSPERCELL * coreArea /
+numbins = (int) ((DOUBLE) NUMBINSPERCELL * coreArea /
 	         (DOUBLE) cellArea ) ;
 
 if( numbins <= 1 ){

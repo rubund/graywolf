@@ -68,11 +68,11 @@ typedef struct {
 } YPLOTTYPE, *YPLOTPTR ;
 
 static YPLOTTYPE gfileS[MAXARGS] ;
-static INT gfilenoS = 0 ;
+static int gfilenoS = 0 ;
 static BOOL graphFilesS = TRUE ;
 
 
-static INT findType();
+static int findType();
 
 Yplot_control( toggle )
 BOOL toggle ;
@@ -114,7 +114,7 @@ Yplot_heading( int dval, ... )
     va_list ap ;
     char *gName, *varName ;
     YPLOTPTR gptr ;
-    INT i ;
+    int i ;
     FILE *fp ;
 
     va_start(ap, dval) ;
@@ -159,7 +159,7 @@ Yplot_heading( int dval, ... )
 
 Yplot_close()
 {
-    INT i ;
+    int i ;
 
     if( !(graphFilesS) ){
 	/* don't do anything if flag is not set */
@@ -189,12 +189,12 @@ Yplot( int dval, ... )
     char gchar ;
     char *gstr ;
     char **tokenBuf ;
-    INT gint ;
-    INT i , type, numtokens ;
+    int gint ;
+    int i , type, numtokens ;
     DOUBLE gdoub ;
     FILE *fp ;
     static char copyformatS[LRECL] ;
-    /* static INT findType();*/
+    /* static int findType();*/
 
     va_start(ap, dval) ;
     if( !(graphFilesS) ){
@@ -243,7 +243,7 @@ Yplot( int dval, ... )
     /* now that we have type we can get third element */
     switch( type ){
     case INT_TYPE:
-	gint = va_arg( ap, INT ) ;
+	gint = va_arg( ap, int ) ;
 	if( gfileS[i].graphFlushed ){  
 	    fprintf( fp, tokenBuf[0], gint ) ;
 	    fprintf( fp, "\t" ) ;
@@ -295,7 +295,7 @@ Yplot( int dval, ... )
 	}
 	switch( type ){
 	    case INT_TYPE:
-		gint = va_arg( ap, INT ) ;
+		gint = va_arg( ap, int ) ;
 		fprintf( fp, tokenBuf[i], gint ) ;
 		break ;
 	    case CHAR_TYPE:
@@ -324,7 +324,7 @@ Yplot( int dval, ... )
 Yplot_flush( gName ) 
 char *gName ;
 {
-    INT i ;
+    int i ;
 
     if( !(graphFilesS) ){
 	/* don't do anything if flag is not set */
@@ -361,9 +361,9 @@ char *gName ;
 
 } /* end GRAPHFLUSH */
 
-static INT findType( control, number )
+static int findType( control, number )
 char **control ;
-INT number ;
+int number ;
 {
     char *formatChar ;
     
@@ -390,9 +390,9 @@ INT number ;
 
 main()
 {
-    INT i ;       /* counter */
+    int i ;       /* counter */
     DOUBLE f ;    /* function value */
-    INT y ;       /* integer function value */
+    int y ;       /* integer function value */
 
     /* first initialize two graphs */
     Yplot_init( 0, "graph1", "graph_kroy", NULL ) ;

@@ -64,21 +64,21 @@ finalpin()
 #ifdef LATER
 
 static DOUBLE aspFactorS ;         /* used to calculate diff from orig */
-static INT oleftS ;                /* used to calculate diff from orig */
-static INT obottomS ;              /* used to calculate diff from orig */
-static INT Hdiv2S ;                /* used to calculate diff from orig */
-static INT Wdiv2S ;                /* used to calculate diff from orig */
-static INT instS ;                 /* used to calculate diff from orig */
+static int oleftS ;                /* used to calculate diff from orig */
+static int obottomS ;              /* used to calculate diff from orig */
+static int Hdiv2S ;                /* used to calculate diff from orig */
+static int Wdiv2S ;                /* used to calculate diff from orig */
+static int instS ;                 /* used to calculate diff from orig */
 
 /* perform a low temperature anneal on pins */
 final_pin_place()
 {
 
-    INT i ;               /* counter */
-    INT attempts ;        /* number of moves made */
-    INT nummoves ;        /* number of moves to do on a cell */
-    INT selection ;       /* select a cell with softpins */
-    INT nsoftpin_cells ;  /* number of cells with softpins */
+    int i ;               /* counter */
+    int attempts ;        /* number of moves made */
+    int nummoves ;        /* number of moves to do on a cell */
+    int selection ;       /* select a cell with softpins */
+    int nsoftpin_cells ;  /* number of cells with softpins */
     CELLBOXPTR acellptr;  /* current cell with softpins */
 
     /* don't perform if cost only is specified in input file */
@@ -167,33 +167,33 @@ update_sites( cellptr )
 CELLBOXPTR cellptr ;
 {
 
-    INT i ;                       /* counter */
-    INT j ;                       /* counter */
-    INT k ;                       /* counter */
-    INT site ;                    /* current site */
-    INT numsites ;                /* number of sites for the cell */
-    INT span_side ;               /* find total length of cell side */
-    INT l, r, b, t ;              /* left, right, bottom, top of tile */
-    INT grid ;                    /* grid the sites */
-    INT save_x ;                  /* save the x offset */
-    INT save_y ;                  /* save the y offset */
-    INT trueSpan ;                /* span modified by aspect ratio */
-    INT oldx, oldy ;              /* traverse the cells point list */
-    INT newx, newy ;              /* traverse the cells point list */
-    INT numpoints ;               /* number of points in arb rect fig */
-    INT tile_count ;              /* count the number of tiles */
-    INT HnotV ;                   /* TRUE horizontal edge FALSE vert */
-    INT side ;                    /* current side of the cell */
-    INT start ;                   /* where to start the sites on a side */
-    INT stop ;                    /* where to stop the sites on a side */
-    INT span ;                    /* span of this side */
-    INT numsoftpins ;             /* number of soft pins for cell */
-    INT sites_this_side ;         /* number of sites this side */
-    INT firstSite ;               /* first site on the current side */
-    INT lastSite ;                /* last site on the current side */
-    INT newfirstSite ;            /* first site on this new side */
-    INT newlastSite ;             /* last site on this new side */
-    INT lastPin ;                 /* last pin on the current side */
+    int i ;                       /* counter */
+    int j ;                       /* counter */
+    int k ;                       /* counter */
+    int site ;                    /* current site */
+    int numsites ;                /* number of sites for the cell */
+    int span_side ;               /* find total length of cell side */
+    int l, r, b, t ;              /* left, right, bottom, top of tile */
+    int grid ;                    /* grid the sites */
+    int save_x ;                  /* save the x offset */
+    int save_y ;                  /* save the y offset */
+    int trueSpan ;                /* span modified by aspect ratio */
+    int oldx, oldy ;              /* traverse the cells point list */
+    int newx, newy ;              /* traverse the cells point list */
+    int numpoints ;               /* number of points in arb rect fig */
+    int tile_count ;              /* count the number of tiles */
+    int HnotV ;                   /* TRUE horizontal edge FALSE vert */
+    int side ;                    /* current side of the cell */
+    int start ;                   /* where to start the sites on a side */
+    int stop ;                    /* where to stop the sites on a side */
+    int span ;                    /* span of this side */
+    int numsoftpins ;             /* number of soft pins for cell */
+    int sites_this_side ;         /* number of sites this side */
+    int firstSite ;               /* first site on the current side */
+    int lastSite ;                /* last site on the current side */
+    int newfirstSite ;            /* first site on this new side */
+    int newlastSite ;             /* last site on this new side */
+    int lastPin ;                 /* last pin on the current side */
     BOOL RTnotLB ;                /* TRUE right top FALSE edge L or B */
     CONTENTPTR *sitePtr ;         /* pointer to array of site for cell */
     CONTENTPTR this_site ;        /* current site record */
@@ -205,7 +205,7 @@ CELLBOXPTR cellptr ;
     PINBOXPTR  *curSidePins ;     /* the pins on the current side */
     PINBOXPTR  pin ;              /* current pin */
     SOFTBOXPTR softinfo ;         /* soft information on pin */
-    static INT sort_softpins() ;  /* sort pins on a side */
+    static int sort_softpins() ;  /* sort pins on a side */
     static CONTENTPTR *check_alloc() ;/* check allocation of site pointer */
 
     
@@ -498,25 +498,25 @@ find_closest_site( cellptr, sitePtr, curSidePins, numsoftpins,
 CELLBOXPTR cellptr ;
 CONTENTPTR *sitePtr ;
 PINBOXPTR *curSidePins ;
-INT numsoftpins ;
-INT firstSite ;
-INT lastSite ;
+int numsoftpins ;
+int firstSite ;
+int lastSite ;
 {
 
-    INT i ;                           /* counter */
-    INT j ;                           /* counter */
-    INT m ;                           /* counter */
-    INT seq ;                         /* length of current pin sequence */
-    INT cur_site ;                    /* current site */
-    INT xpos, ypos ;                  /* position of current pin site */
-    INT hit ;                         /* matching site in new array */
-    INT sum ;                         /* number of continuous open sites*/
-    INT seqcount ;                    /* number of continuous open sites*/
-    INT seqsite ;                     /* place to put start of seq. */
-    INT psite ;                       /* site counter */
-    INT distant ;                     /* distance to matching position */
-    INT ldist ;                       /* lower dist to match position */
-    INT udist ;                       /* upper dist to match position */
+    int i ;                           /* counter */
+    int j ;                           /* counter */
+    int m ;                           /* counter */
+    int seq ;                         /* length of current pin sequence */
+    int cur_site ;                    /* current site */
+    int xpos, ypos ;                  /* position of current pin site */
+    int hit ;                         /* matching site in new array */
+    int sum ;                         /* number of continuous open sites*/
+    int seqcount ;                    /* number of continuous open sites*/
+    int seqsite ;                     /* place to put start of seq. */
+    int psite ;                       /* site counter */
+    int distant ;                     /* distance to matching position */
+    int ldist ;                       /* lower dist to match position */
+    int udist ;                       /* upper dist to match position */
     BOOL *ok_to_place ;               /* ok to place seq starting here */
     SOFTBOXPTR softinfo ;             /* softinfo on pin */
     PINBOXPTR pin ;                   /* current pin */
@@ -712,7 +712,7 @@ Ysafe_free( ok_to_place ) ;
     
 } /* end find_closest_site */
 
-static INT sort_softpins( pinAptr, pinBptr )
+static int sort_softpins( pinAptr, pinBptr )
 PINBOXPTR *pinAptr, *pinBptr ;
 {
 
@@ -757,11 +757,11 @@ PINBOXPTR *pinAptr, *pinBptr ;
 /* maintain allocation of sites */
 static CONTENTPTR *check_alloc( sites, numsites )
 CONTENTPTR *sites ;
-INT numsites ;
+int numsites ;
 {
-    INT i ;                      /* counter */
-    INT oldAlloc ;               /* old allocation */
-    static INT siteAllocS ;      /* current site allocation */
+    int i ;                      /* counter */
+    int oldAlloc ;               /* old allocation */
+    static int siteAllocS ;      /* current site allocation */
 
     if( sites ){
 	if( numsites >= siteAllocS ){
@@ -789,7 +789,7 @@ INT numsites ;
 static set_pin_n_site( site_array, pin, site )
 CONTENTPTR *site_array ;
 PINBOXPTR pin ;
-INT site ;
+int site ;
 {
     SOFTBOXPTR softinfo ;
     CONTENTPTR sptr ;
@@ -812,7 +812,7 @@ INT site ;
 static init_hard_struct( cellptr )
 CELLBOXPTR cellptr ;
 {
-    INT oright, otop ;             /* calculate difference from bbox */
+    int oright, otop ;             /* calculate difference from bbox */
     DOUBLE val ;                   /* temp */
     BOUNBOXPTR bounptr ;           /* bounding box pointer */
     INSTBOXPTR instptr ;           /* pointer to instance info */

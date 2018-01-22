@@ -56,8 +56,8 @@ static TWDIALOGBOX dialogS[53] = {
 
 
 /* timberwolf to ice view translations */
-INT tw2ice(orient)
-INT orient;
+int tw2ice(orient)
+int orient;
 {
    switch (orient){
       case 0:
@@ -81,8 +81,8 @@ INT orient;
 }
 
 
-INT ice2tw(orient)
-INT orient;
+int ice2tw(orient)
+int orient;
 {
    switch (orient){
       case 1:

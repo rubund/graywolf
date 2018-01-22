@@ -52,11 +52,11 @@ DESCRIPTION:This file contains cleanup handler routines.
 CONTENTS:   
 	    initCleanup( argv, function, dump )
 		char *argv ;
-		INT  (*function)() ;
+		int  (*function)() ;
 		BOOL dump ;
 	    cleanup(sigNum, code, scp )
-		INT sigNum ;
-		INT code ;
+		int sigNum ;
+		int code ;
 		struct sigcontext *scp ;
 	    void YcleanupHandler(status)
 		int status ;
@@ -92,7 +92,7 @@ static char SccsId[] = "@(#) cleanup.c version 3.13 11/2/91" ;
 #endif /* R6000 */
 
 
-static INT dumpFlag ;
+static int dumpFlag ;
 static char programPath[LRECL] ;
 static BOOL  (*userFunction)() ;
 
@@ -133,7 +133,7 @@ struct sigcontext *scp ;
 	    "\nSystem has detected an error!\n") ;
 #ifdef apollo
 	{
-	    INT pid ;
+	    int pid ;
 	    char command[LRECL] ;
 
 	    pid = getpid() ;
@@ -176,7 +176,7 @@ struct sigcontext *scp ;
    YcleanupHandler - after system work process user information.
 */
 YcleanupHandler(status)
-INT status ;
+int status ;
 {
 
     char responseBuf[LRECL], *response = responseBuf ;

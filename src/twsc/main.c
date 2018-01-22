@@ -43,7 +43,7 @@
 FILE:	    main.c                                       
 DESCRIPTION:TimberWolfSC's main function.
 CONTENTS:   main( argc , argv )
-		INT argc ;
+		int argc ;
 		char *argv[] ;
 	    initialize_global_router1()
 	    initialize_global_router()
@@ -106,11 +106,11 @@ static char SccsId[] = "@(#) main.c (Yale) version 4.38 5/15/92" ;
 #define EXPECTEDMEMORY         (512 * 1024) 
 
 /* global variables definitions */
-INT row_extentG ;
-INT **bin_configG ;
-INT left_row_boundaryG ;
-INT save_abs_min_flagG ;
-INT actual_feed_thru_cells_addedG = 0 ;
+int row_extentG ;
+int **bin_configG ;
+int left_row_boundaryG ;
+int save_abs_min_flagG ;
+int actual_feed_thru_cells_addedG = 0 ;
 BOOL orientation_optimizationG = FALSE ;
 
 /* global variable references */
@@ -126,28 +126,28 @@ extern BOOL route_padnets_outsideG ;
 extern BOOL call_row_evenerG ;
 extern BOOL placement_improveG ;
 extern BOOL ignore_feedsG ;
-extern INT ECOs_existG ;
-extern INT spacer_widthG ;
-extern INT longest_row_lengthG ;
-extern INT largest_delta_row_lenG ;
-extern INT total_row_lengthG ;
+extern int ECOs_existG ;
+extern int spacer_widthG ;
+extern int longest_row_lengthG ;
+extern int largest_delta_row_lenG ;
+extern int total_row_lengthG ;
 
 /* static variables */
-static INT routing_loopS ;
-static INT *save_cell_xS ;
-static INT *save_cell_yS ;
-static INT *save_cell_bS ;
-static INT *save_cell_cS ;
-static INT *save_desireS ;
-static INT *save_orientS ;
-static INT *save_orig_desireS ;
+static int routing_loopS ;
+static int *save_cell_xS ;
+static int *save_cell_yS ;
+static int *save_cell_bS ;
+static int *save_cell_cS ;
+static int *save_desireS ;
+static int *save_orientS ;
+static int *save_orig_desireS ;
 static char *twdirS ; 
-static INT num_feeds_addedS ;/* number of feeds added on best iteration */
+static int num_feeds_addedS ;/* number of feeds added on best iteration */
 static DOUBLE ave_row_sepS ; /* the row separation for a run */
 
 
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
 
@@ -155,18 +155,18 @@ char *argv[] ;
 FILE *fp ;
 DOUBLE quality_value();
 char filename[LRECL] ;
-INT ll, rr, bb, tt ;
-INT bdxlen , bdylen ;
-INT block ;
-INT yaleIntro() ;
-INT cx, cy, cl, cr, cb, ct, cell ;
+int ll, rr, bb, tt ;
+int bdxlen , bdylen ;
+int block ;
+int yaleIntro() ;
+int cx, cy, cl, cr, cb, ct, cell ;
 char *ptr ;
 char *Ystrclone() ;
 BOOL debug ;
 BOOL parasite ;
 BOOL windowId ;
 BOOL verbose ;
-INT arg_count ;
+int arg_count ;
 char *Ygetenv() ;
 
 /* ********************** start initialization *********************** */
@@ -269,7 +269,7 @@ if( SGGRG ){
 }
 G( initGraphics( argc, argv, windowId ) ) ;
 
-Yset_random_seed( (INT) randomSeedG ) ; 
+Yset_random_seed( (int) randomSeedG ) ; 
 fprintf( fpoG, "\nThe random number generator seed is: %u\n\n\n", 
 						randomSeedG ) ;
 
@@ -479,22 +479,22 @@ YexitPgm(PGMOK);
 initialize_global_router1()
 {
 
-INT cell , row ;
+int cell , row ;
 
-save_cell_xS = (INT *) 
-	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(INT));
-save_cell_yS = (INT *) 
-	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(INT));
-save_cell_bS = (INT *) 
-	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(INT));
-save_cell_cS = (INT *) 
-	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(INT));
-save_orientS = (INT *) 
-	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(INT));
-save_desireS = (INT *) 
-		Ysafe_malloc( (1 + numRowsG) * sizeof(INT));
-save_orig_desireS = (INT *) 
-		Ysafe_malloc( (1 + numRowsG) * sizeof(INT));
+save_cell_xS = (int *) 
+	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(int));
+save_cell_yS = (int *) 
+	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(int));
+save_cell_bS = (int *) 
+	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(int));
+save_cell_cS = (int *) 
+	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(int));
+save_orientS = (int *) 
+	Ysafe_malloc( (1 + numcellsG + numtermsG) * sizeof(int));
+save_desireS = (int *) 
+		Ysafe_malloc( (1 + numRowsG) * sizeof(int));
+save_orig_desireS = (int *) 
+		Ysafe_malloc( (1 + numRowsG) * sizeof(int));
 for( cell = 1 ; cell <= lastpadG ; cell++ ) {
     save_cell_xS[cell] = carrayG[cell]->cxcenter ; 
     save_cell_yS[cell] = carrayG[cell]->cycenter ; 
@@ -516,7 +516,7 @@ initialize_global_router()
 
 CBOXPTR ptr ;
 PINBOXPTR pinptr, pin, cnetptr , netptr ;
-INT cell , row , net ;
+int cell , row , net ;
 BOOL coreConnection ;
 
 
@@ -595,13 +595,13 @@ execute_global_router()
 {
 
 PINBOXPTR netptr ;
-INT i , j, row ;
-INT loop_boundary ;
-INT temp ;
-INT core_height ;
-INT core_width ;
-INT total_row_height ;
-INT best_tracks ;
+int i , j, row ;
+int loop_boundary ;
+int temp ;
+int core_height ;
+int core_width ;
+int total_row_height ;
+int best_tracks ;
 DOUBLE area ;
 DOUBLE best_area ;
 BOOL decision ;
@@ -819,11 +819,11 @@ return ;
 init_utemp()
 {
 
-INT row , bin ;
+int row , bin ;
 
-bin_configG = (INT **) Ysafe_malloc( (1 + numRowsG) * sizeof(INT *) ) ;
+bin_configG = (int **) Ysafe_malloc( (1 + numRowsG) * sizeof(int *) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    bin_configG[row] = (INT *) Ysafe_malloc( (1 + numBinsG) * sizeof(INT) );
+    bin_configG[row] = (int *) Ysafe_malloc( (1 + numBinsG) * sizeof(int) );
     for( bin = 0 ; bin <= numBinsG ; bin++ ) {
 	bin_configG[row][bin] = 0 ;
     }
@@ -843,7 +843,7 @@ PINBOXPTR netptr ;
 CBOXPTR ptr ;
 IPBOXPTR imptr ;
 PINBOXPTR termptr ;
-INT impxpos , impypos , cell ;
+int impxpos , impypos , cell ;
 char *pname ;
 
 /*  code borrowed from readcell()  */
@@ -890,13 +890,13 @@ incorporate_ECOs()
 {
 
 PINBOXPTR termptr , netptr ;
-INT *nets, xspot, yspot , i , net , cell , count, maxpins ;
-INT orient , row , xmin, xmax, ymin, ymax , x , y ;
+int *nets, xspot, yspot , i , net , cell , count, maxpins ;
+int orient , row , xmin, xmax, ymin, ymax , x , y ;
 
 xspot = 0 ;
 yspot = 0 ;
 maxpins = get_max_pin() ;
-nets = (INT *) Ysafe_calloc( maxpins+1, sizeof(INT) ) ;
+nets = (int *) Ysafe_calloc( maxpins+1, sizeof(int) ) ;
 for( cell = 1 ; cell <= numcellsG ; cell++ ) {
     if( carrayG[cell]->ECO_flag == 1 ) {
 	printf("ECO added cell being processed: <%s> ",

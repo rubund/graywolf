@@ -59,7 +59,7 @@ REVISIONS:  Dec  7, 1990 - add | for National.
 
 static screen() ;
 static check_line_count() ;
-static INT line_countS = 0 ;
+static int line_countS = 0 ;
 
 # define YYNEWLINE 10
 yylex(){

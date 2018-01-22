@@ -46,7 +46,7 @@ DATE:	    Apr  8, 1988
 REVISIONS:  Nov  5, 1988 - free violations and modified position of
 		sources and sinks.
 	    Dec  4, 1988 - corrected error in where to get data.
-	    Jan 15, 1989 - fixed constraINT problem for softcells
+	    Jan 15, 1989 - fixed constraint problem for softcells
 		by saving contents of tilebox and set orig_ fields 
 		correctly for compaction cycle for softcells.
 	    Jan 25, 1989 - removed incorrect force of box size to
@@ -101,19 +101,19 @@ BOOL compactFlag ; /* signals use of compaction */
     char *getenv() ;    /* used to get TWDIR environment variable */
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing file */
-    INT  numtokens, line ;
+    int  numtokens, line ;
     BOOL abort ; /* whether to abort program */
-    INT cell, numtiles, numcells ;
-    INT xcenter, ycenter ;
-    INT xoffset, yoffset ;
-    INT l, r, b, t ;
-    INT closegraphics() ;
+    int cell, numtiles, numcells ;
+    int xcenter, ycenter ;
+    int xoffset, yoffset ;
+    int l, r, b, t ;
+    int closegraphics() ;
     CELLBOXPTR cellptr ;
     TILEBOXPTR tileptr ;
     BOUNBOXPTR bounptr ;            /* bounding box pointer */
     RTILEBOXPTR rtptr ;             /* current routing tile */
     FILE *fp ;
-    INT type ;
+    int type ;
 
 
     /* ######### Create compaction file and exec compactor ######### */
@@ -342,12 +342,12 @@ BOOL compactFlag ; /* signals use of compaction */
 
 /* need accurate cell centers in density calculation */
 get_cell_centers( cell, xc, yc )
-INT cell ;
-INT *xc, *yc ;
+int cell ;
+int *xc, *yc ;
 {
-    INT last_core_cell ;
+    int last_core_cell ;
 
-    last_core_cell = (INT) routingTilesG[HOWMANY] - 4 ;
+    last_core_cell = (int) routingTilesG[HOWMANY] - 4 ;
 
     if( cell <= last_core_cell ){
 	*xc = cellarrayG[cell]->xcenter ; 

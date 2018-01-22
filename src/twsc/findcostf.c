@@ -69,30 +69,30 @@ static char SccsId[] = "@(#) findcostf.c (Yale) version 4.18 4/2/92" ;
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 /* global variables */
-extern INT **bin_configG ;
+extern int **bin_configG ;
 extern BOOL gate_arrayG ;
 
 /* static variables */
-static INT old_numBinS ;
-static INT cluster_norm_offsetS = 0 ;
-static INT **cluster_configS ;
+static int old_numBinS ;
+static int cluster_norm_offsetS = 0 ;
+static int **cluster_configS ;
 
 /* forward declarations */
 static void installf();
-INT recompute_wirecost() ;
-INT recompute_timecost() ;
+int recompute_wirecost() ;
+int recompute_timecost() ;
 
 findcostf()
 {
 TIBOXPTR tileptr1 ;
 CBOXPTR cellptr1 ;
 BINPTR bptr ;
-INT left , right ;
-INT bin , LoBin , HiBin ;
-INT block , cell , blk ;
-INT startx , endx ;
-INT cost ;
-INT k , cbin , row ;
+int left , right ;
+int bin , LoBin , HiBin ;
+int block , cell , blk ;
+int startx , endx ;
+int cost ;
+int k , cbin , row ;
 
 blkleftG = INT_MAX ;
 blkriteG = INT_MIN ;
@@ -113,15 +113,15 @@ max_blklengthG = blkriteG - blkleftG ;
 
 old_numBinS = numBinsG ;
 
-numBinsG = (INT)( ( blkriteG - binOffstG ) / binWidthG ) ;
+numBinsG = (int)( ( blkriteG - binOffstG ) / binWidthG ) ;
 if( ( blkriteG - binOffstG ) > ( numBinsG * binWidthG ) ) {
     numBinsG++ ;
 }
 
 if( numBinsG > old_numBinS ) {
     for( row = 1 ; row <= numRowsG ; row++ ) {
-	bin_configG[row] = (INT *) Ysafe_realloc( bin_configG[row] ,
-				(1 + numBinsG) * sizeof(INT) ) ;
+	bin_configG[row] = (int *) Ysafe_realloc( bin_configG[row] ,
+				(1 + numBinsG) * sizeof(int) ) ;
 	for( bin = old_numBinS + 1 ; bin <= numBinsG ; bin++ ) {
 	    bin_configG[row][bin] = 0 ;
 	}
@@ -157,8 +157,8 @@ for( block = 1 ; block <= numRowsG ; block++ ) {
     for( bin = 0 ; bin <= numBinsG ; bin++ ) {
 	binptrG[block][bin] = (BINBOX *) Ysafe_malloc( 
 					    sizeof(BINBOX) ) ; 
-	binptrG[block][bin]->cell = (INT *)Ysafe_malloc( 
-					    10 * sizeof(INT) );
+	binptrG[block][bin]->cell = (int *)Ysafe_malloc( 
+					    10 * sizeof(int) );
 	bptr = binptrG[block][bin] ;
 	bptr->cell[0] = 0 ;
 	bptr->right = binOffstG + bin * binWidthG ;
@@ -194,8 +194,8 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 
     k = ++(binptrG[block][cbin]->cell[0]) ;
     if( k % 10 == 0 ) {
-	binptrG[block][cbin]->cell = (INT *) Ysafe_realloc(
-	      binptrG[block][cbin]->cell, (k + 10) * sizeof( INT ) ) ;
+	binptrG[block][cbin]->cell = (int *) Ysafe_realloc(
+	      binptrG[block][cbin]->cell, (k + 10) * sizeof( int ) ) ;
     }
     binptrG[block][cbin]->cell[k] = cell ;
     if( LoBin == HiBin ) {
@@ -225,7 +225,7 @@ for( blk = 1 ; blk <= numRowsG ; blk++ ) {
     rowpenalG += ABS(barrayG[blk]->oldsize - barrayG[blk]->desire) ;
 }
 
-penaltyG = (INT)( binpenConG * (DOUBLE) binpenalG + 
+penaltyG = (int)( binpenConG * (DOUBLE) binpenalG + 
 				roLenConG * (DOUBLE) rowpenalG ) ;
 
 timingcostG = recompute_timecost() ;
@@ -242,7 +242,7 @@ static void installf()
 
 int row , n , i , bin , diff , extra , stop , tmp ;
 int c_limit , num_trys , cell_num ;
-INT *c_ptr ;
+int *c_ptr ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
     tmp = feeds_in_rowG[row] * fdWidthG ;
@@ -333,18 +333,18 @@ return;
 install_clusters()
 {
 
-INT row , n , i , bin , i_error , delta_bin , length_in_row , cell ;
-INT total ;
-INT total_actual_clusters ;
+int row , n , i , bin , i_error , delta_bin , length_in_row , cell ;
+int total ;
+int total_actual_clusters ;
 DOUBLE error , n_DOUBLE , cluster_norm ;
 
 fprintf(fpoG,"total number of clusters which should be added in: %d\n",
 			num_clustersG ) ;
 total_actual_clusters = 0 ;
 
-cluster_configS = (INT **) Ysafe_malloc((1 + numRowsG) * sizeof(INT *)) ;
+cluster_configS = (int **) Ysafe_malloc((1 + numRowsG) * sizeof(int *)) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    cluster_configS[row] = (INT *) Ysafe_malloc((1+numBinsG)*sizeof(INT));
+    cluster_configS[row] = (int *) Ysafe_malloc((1+numBinsG)*sizeof(int));
     for( bin = 0 ; bin <= numBinsG ; bin++ ) {
 	cluster_configS[row][bin] = 0 ;
     }
@@ -370,7 +370,7 @@ for( row = 1 ; total < num_clustersG && row <= numRowsG ; row++ ) {
     }
     n_DOUBLE = cluster_norm + error ;
 
-    n = (INT) n_DOUBLE ;
+    n = (int) n_DOUBLE ;
     if( n_DOUBLE - (DOUBLE) n >= 0.5 ) {
 	n++ ;
     }
@@ -395,7 +395,7 @@ for( row = 1 ; total < num_clustersG && row <= numRowsG ; row++ ) {
 	if( n < 0 ) {
 	    n = 0 ;
 	}
-	error += (DOUBLE)( (INT) n_DOUBLE - n ) ; 
+	error += (DOUBLE)( (int) n_DOUBLE - n ) ; 
     }
 
     if( n == 0 ) {
@@ -435,7 +435,7 @@ return;
 place_clusters()
 {
 
-INT bin , cell , row , c , count ;
+int bin , cell , row , c , count ;
 
 cell = numcellsG - extra_cellsG ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -458,15 +458,15 @@ return ;
 }
 
 /* **************************************************************** */
-INT recompute_wirecost()
+int recompute_wirecost()
 {
-    INT n ;
-    INT x, y ;
-    INT net ;
-    INT cell ;
-    INT cost ;
-    INT corient ;
-    INT block ;
+    int n ;
+    int x, y ;
+    int net ;
+    int cell ;
+    int cost ;
+    int corient ;
+    int block ;
     CBOXPTR ptr ;
     DBOXPTR dimptr ;
     PINBOXPTR netptr , termptr ;
@@ -540,20 +540,20 @@ INT recompute_wirecost()
 	cost += dimptr->halfPx = dimptr->newhalfPx = 
 					     dimptr->xmax - dimptr->xmin ;
 	dimptr->halfPy = dimptr->newhalfPy = dimptr->ymax - dimptr->ymin ;
-	cost = cost + (INT)( vertical_wire_weightG * (DOUBLE) dimptr->halfPy ) ;
+	cost = cost + (int)( vertical_wire_weightG * (DOUBLE) dimptr->halfPy ) ;
     } /* end for loop */
     return( cost ) ;
 
 } /* end recompute_wirecost */
 
 
-INT recompute_timecost()
+int recompute_timecost()
 {
 
-INT pathcount ;
-INT net ;
-INT timingpenal ;
-INT length ;
+int pathcount ;
+int net ;
+int timingpenal ;
+int length ;
 PATHPTR path ;
 DBOXPTR dimptr ;
 GLISTPTR net_of_path ;
@@ -579,9 +579,9 @@ for( pathcount = 1 ; pathcount <= numpathsG ; pathcount++ ) {
 	dimptr = netarrayG[net] ;
 	/* accumulate length of path */
 
-	length = length + (INT) 
+	length = length + (int) 
 	    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx) ;
-	length = length + (INT) 
+	length = length + (int) 
 		     (vertical_path_weightG * (DOUBLE) dimptr->halfPy) ;
     }
     /* save result */

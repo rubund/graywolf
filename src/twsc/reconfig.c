@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    reconfig.c                                       
 DESCRIPTION:cell topology configuration with feed estimation.
-CONTENTS:   INT reconfig()
+CONTENTS:   int reconfig()
 DATE:	    Mar 27, 1989 
 REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 		if criteria is met.  Instead call recompute_wirecosts
@@ -74,22 +74,22 @@ static char SccsId[] = "@(#) reconfig.c (Yale) version 4.11 4/2/92" ;
 
 /* global definitions */
 extern BOOL no_feed_estG ;
-extern INT fdWidthG ;
-extern INT totalRG ;
-extern INT extra_cellsG ;
-extern INT *feeds_in_rowG ;
+extern int fdWidthG ;
+extern int totalRG ;
+extern int extra_cellsG ;
+extern int *feeds_in_rowG ;
 
 /* static definitions */
 static BOOL feed_length_setS = TRUE ;
-static INT feed_lengthS ;             /* the current feed length */
-static INT old_feed_lengthS = 0 ; /* the feed length from the last iteration */
+static int feed_lengthS ;             /* the current feed length */
+static int old_feed_lengthS = 0 ; /* the feed length from the last iteration */
 static BOOL print_desiredS = TRUE ;
 
-INT reconfig()
+int reconfig()
 {
 
-    INT block ;
-    INT total_desire ;
+    int block ;
+    int total_desire ;
 
     if( print_desiredS ) {
 	print_desiredS = FALSE ;
@@ -116,12 +116,12 @@ INT reconfig()
 
 static configuref()
 {
-    INT row ;
-    INT cell ;
-    INT core_left ;
-    INT core_right ;
-    INT shift_amount ;
-    INT extra_shift , tmp ;
+    int row ;
+    int cell ;
+    int core_left ;
+    int core_right ;
+    int shift_amount ;
+    int extra_shift , tmp ;
 
 
     /* see if any rows would be completely filled with feeds */
@@ -200,13 +200,13 @@ BOOL read_feed_data()
 #define LESS_ROWS_CASE    1   /* currently have less rows */
 #define MORE_ROWS_CASE    2   /* currently have more rows */
 
-    INT row ;                 /* counter */
-    INT numtokens ;           /* number of tokens on the line */
-    INT pl1_rows ;            /* the number of row found in .pl2 */
-    INT pl1_case ;            /* which of 3 cases we have */
-    INT row_in_pl1 ;          /* the feed was found in this row */
-    INT start_row ;           /* the first row in case 3 */
-    INT end_row ;             /* the last row in case 3 */
+    int row ;                 /* counter */
+    int numtokens ;           /* number of tokens on the line */
+    int pl1_rows ;            /* the number of row found in .pl2 */
+    int pl1_case ;            /* which of 3 cases we have */
+    int row_in_pl1 ;          /* the feed was found in this row */
+    int start_row ;           /* the first row in case 3 */
+    int end_row ;             /* the last row in case 3 */
     FILE *fp ;                /* current file pointer */
     DOUBLE *smooth ;          /* used to calculate MORE_ROWS case */
     DOUBLE value ;            /* distribute feed over mult. rows */
@@ -321,11 +321,11 @@ BOOL read_feed_data()
 	    case MORE_ROWS_CASE :
 		value = (DOUBLE) row_in_pl1 / 
 			(DOUBLE) pl1_rows * (DOUBLE) numRowsG ;
-		start_row = (INT) floor( value ) ;
+		start_row = (int) floor( value ) ;
 		if( start_row <= 0 ){
 		    start_row = 1 ;
 		}
-		end_row = (INT) ceil( value ) ;
+		end_row = (int) ceil( value ) ;
 		value = 1.0 / (end_row - start_row + 1) ;
 		for( row = start_row; row <= end_row; row++ ){
 		    smooth[row] += value ;

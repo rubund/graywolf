@@ -42,7 +42,7 @@ FILE:	    reconfig.c
 DESCRIPTION:reconfigures the core area during simulated annealing
 	    run.  It is called from uloop by the core area controller.
 CONTENTS:   reconfigure( numbinX, numbinY, newCoreArea )
-		INT numbinX, numbinY, newCoreArea ;
+		int numbinX, numbinY, newCoreArea ;
 DATE:	    Sept 13, 1988 
 REVISIONS:  Jan  20, 1989 - added findcost call to update new wirelength
 		after reconfiguration.
@@ -62,22 +62,22 @@ static char SccsId[] = "@(#) reconfig.c version 3.6 5/5/91" ;
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 
 reconfigure( numbinX, numbinY, newCoreArea )
-INT numbinX ;
-INT numbinY ;
+int numbinX ;
+int numbinY ;
 DOUBLE newCoreArea ;
 {
 
     DOUBLE factor ;
-    INT xlength, ylength ;
+    int xlength, ylength ;
 
     if( coreGivenG == FALSE ) {
 	
-	blockrG = blocktG = (INT)( sqrt( newCoreArea ) ) + 1 ;
+	blockrG = blocktG = (int)( sqrt( newCoreArea ) ) + 1 ;
 	/* 
 	 *    Take into account the aspect ratio requested by the user
 	 */
-	blocktG = (INT)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
-	blockrG = (INT)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
+	blocktG = (int)( sqrt(chipaspectG) * (DOUBLE) blocktG ) + 1 ;
+	blockrG = (int)( 1.0 / sqrt(chipaspectG) * (DOUBLE) blockrG ) + 1;
     }
 
     xlength = blockrG - blocklG ;
@@ -152,11 +152,11 @@ reorigin()
 
     CELLBOXPTR cellptr ;
     TILEBOXPTR tileptr ;
-    INT l, r, b, t, cell ;
-    INT xcenter, ycenter ;
-    INT xorigin, yorigin ;
-    INT xmax, ymax ;
-    INT deltax, deltay ;
+    int l, r, b, t, cell ;
+    int xcenter, ycenter ;
+    int xorigin, yorigin ;
+    int xmax, ymax ;
+    int deltax, deltay ;
 
     /* find bounding box of all core cells */
     xorigin = INT_MAX ;

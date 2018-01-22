@@ -68,7 +68,7 @@ gsl_matrix_disp( mptr, rows, cols )
 gsl_matrix *mptr ;
 int rows, cols;
 {
-    INT i, j ;
+    int i, j ;
 
     for( i=0; i < rows; i++ ){
         for( j=0; j < cols; j++ ){
@@ -83,7 +83,7 @@ gsl_vector_disp( vptr, rows )
 gsl_vector *vptr ;
 int rows;
 {
-    INT i;
+    int i;
 
     for( i=0; i < rows; i++ ){
         fprintf( stderr, "% 4.4le ", gsl_vector_get(vptr, i)) ;
@@ -93,13 +93,13 @@ int rows;
 
 static set_pins( A, center, loc, tile_side, sidepins, count )
 gsl_matrix *A ;              /* the matrix holding x y positions */
-INT    center ;
-INT    loc ;
-INT    tile_side ;
-INT    *sidepins ;
-INT    count ;
+int    center ;
+int    loc ;
+int    tile_side ;
+int    *sidepins ;
+int    count ;
 {
-    INT side ;   /* the matching side for a given tile */
+    int side ;   /* the matching side for a given tile */
 
     if( sidepins ){
 	side = find_tile_side( center, loc, tile_side ) ;
@@ -118,14 +118,14 @@ INT    count ;
 
 adapt_wire_estimator()
 {
-    INT i ;                 /* coefficient counter */
-    INT cell ;              /* cell counter */
-    INT count ;             /* count number of tiles */
-    INT xc, yc ;            /* cell center */
-    INT *sidepins ;         /* array holding #pins for side */
-    INT    l, r, b, t ;     /* the global position of the rtiles */
-    INT solved ;	    /* status of gsl_linalg_SV_solve */
-    INT *find_pin_sides() ; /* find number of pins on all sides */
+    int i ;                 /* coefficient counter */
+    int cell ;              /* cell counter */
+    int count ;             /* count number of tiles */
+    int xc, yc ;            /* cell center */
+    int *sidepins ;         /* array holding #pins for side */
+    int    l, r, b, t ;     /* the global position of the rtiles */
+    int solved ;	    /* status of gsl_linalg_SV_solve */
+    int *find_pin_sides() ; /* find number of pins on all sides */
     char filename[LRECL] ;  /* output the results of the SVD fit */
     FILE  *fp ;             /* write out the results */
     gsl_matrix *A ;              /* the matrix holding x y positions */
@@ -248,7 +248,7 @@ adapt_wire_estimator()
 	    count++ ;
 	}
 	if( sidepins ){
-	    Yvector_free( sidepins, 1, sizeof(INT) ) ;
+	    Yvector_free( sidepins, 1, sizeof(int) ) ;
 	}
 
     } /* end loop on cells */
@@ -305,7 +305,7 @@ adapt_wire_estimator()
 	gsl_vector *AX ; /* multiply the answer */
 	gsl_vector *R ;
 	gsl_matrix *Q ;
-	INT c ;
+	int c ;
 	DOUBLE d ;
 	DOUBLE dx ;
 

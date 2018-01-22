@@ -65,9 +65,9 @@ CELLBOXPTR pptr ;  /* pointer to parent cell box */
 #ifdef LATER
     BOUNBOXPTR cbounptr, pbounptr ;
     PINBOXPTR cterm, pterm, saveterm ;
-    INT        pl, pr, pb, pt ;
-    INT        cl, cr, cb, ct ;
-    INT        xcenter, ycenter ;
+    int        pl, pr, pb, pt ;
+    int        cl, cr, cb, ct ;
+    int        xcenter, ycenter ;
     /* --------------------- perform error checking ------------------- */
     if( cptr->softflag ){
 	sprintf(YmsgG,"softcells can't be merged-cell:%s\n",

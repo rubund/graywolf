@@ -43,13 +43,13 @@ DESCRIPTION:outer loop of simulated annealing algorithm.
 CONTENTS:   utemp()
 	    from_middle()
 	    from_beginning()
-	    INT compute_attprcel(flag)
-		INT flag;
+	    int compute_attprcel(flag)
+		int flag;
 	    rm_overlapping_feeds()
 	    refine_placement()
 	    simple_refine_placement()
 	    parametric_refine( k_max , k_limit )
-		INT k_max, k_limit ;
+		int k_max, k_limit ;
 	    route_only_critical_nets() 
 	    elim_nets()
 DATE:	    Mar 27, 1989 
@@ -78,14 +78,14 @@ static char SccsId[] = "@(#) utemp.c (Yale) version 4.19 4/5/92" ;
 #include <yalecad/debug.h>
 
 /* global variables */
-INT moveable_cellsG ;
+int moveable_cellsG ;
 BOOL pairtestG;
 BOOL no_row_lengthsG ;
 
 /* global variable references */
-extern INT attprcelG ;
-extern INT spacer_widthG ;
-extern INT orig_max_row_lengthG ;
+extern int attprcelG ;
+extern int spacer_widthG ;
+extern int orig_max_row_lengthG ;
 extern BOOL noPairsG ;
 extern BOOL good_initial_placementG ;
 extern BOOL orientation_optimizationG ;
@@ -96,15 +96,15 @@ extern DOUBLE finalRowControlG ;
 extern DOUBLE initialRowControlG ;
 extern DOUBLE ratioG;
 
-INT comparex() ;
-INT compute_attprcel() ;
+int comparex() ;
+int compute_attprcel() ;
 
 utemp()
 {
 
-INT check ;
+int check ;
 unsigned i2 ;
-INT i , freeze ;
+int i , freeze ;
 
 
 if( orientation_optimizationG ) {
@@ -300,10 +300,10 @@ from_beginning()
     fflush(fpoG);
 }
 
-INT compute_attprcel(flag)
-INT flag;
+int compute_attprcel(flag)
+int flag;
 {
-    INT cell, n;
+    int cell, n;
 
     /* 1 March 1990 by Carl
     if( gate_array ) {
@@ -336,7 +336,7 @@ INT flag;
 	n = 12500 / moveable_cellsG ;
     } else {
 	/*  n to the 4/3 power  */
-	n = (INT)(25.0 * 
+	n = (int)(25.0 * 
 		    pow( (DOUBLE) moveable_cellsG / 500.0, 1.0 / 3.0 ) ) ;
     }
 
@@ -352,8 +352,8 @@ INT flag;
 rm_overlapping_feeds()
 {
 
-INT row , cell , *rowptr , target ;
-INT cells_in_row , index , num_deleted ;
+int row , cell , *rowptr , target ;
+int cells_in_row , index , num_deleted ;
 IPBOXPTR imptr , save_ptr ;
 
 num_deleted = 0 ;
@@ -405,7 +405,7 @@ GLISTPTR pptr ;       /* pointer to paths of a cell */
 GLISTPTR net_of_path ;
 PATHPTR path ;
 
-INT path_num , net , cell ;
+int path_num , net , cell ;
 
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
@@ -430,19 +430,19 @@ return ;
 
 
 elim_nets(print_flag)
-INT print_flag ;
+int print_flag ;
 {
 
 DBOXPTR dimptr;   /* bounding box for net */
 PINBOXPTR netptr ;  /* traverse the pins on a net */
 PINBOXPTR pinptr ;  /* traverse the pins on a cell */
 PINBOXPTR freepin ; /* used to free the pin box record */
-INT net , cell ;
+int net , cell ;
 
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
     dimptr = netarrayG[net] ;
-    if( (INT) dimptr->ignore == -1 ) {
+    if( (int) dimptr->ignore == -1 ) {
 	/*  we are not to global route this net 		     */
 	/*  therefore we eliminate this net from the data structures */
 	if( print_flag ) {
@@ -495,22 +495,22 @@ refine_fixed_placement()
 
 CBOXPTR cellptr , cellptr1 ;
 PINBOXPTR termptr ;
-INT *rowptr , *rowptr1 , *rowptr2 , **p_array , *p_rowptr ;
-INT *spacer_list, *moveable_list, *next_limit, *next_index, *filled_to ;
-INT slack, row, last_index, i, index, count , limit ;
-INT cells_in_row, target, last_cell, ok, min, save_row ;
-INT save_m, min_slack, m, all_l_fit, cell, first_index, prev_cell ;
-INT success , filled_to_edge , target_edge , width , gap , shift ;
-INT block, start, end, max_row_length , right_boundary ;
+int *rowptr , *rowptr1 , *rowptr2 , **p_array , *p_rowptr ;
+int *spacer_list, *moveable_list, *next_limit, *next_index, *filled_to ;
+int slack, row, last_index, i, index, count , limit ;
+int cells_in_row, target, last_cell, ok, min, save_row ;
+int save_m, min_slack, m, all_l_fit, cell, first_index, prev_cell ;
+int success , filled_to_edge , target_edge , width , gap , shift ;
+int block, start, end, max_row_length , right_boundary ;
 DOUBLE scale ;
 
 
-next_limit = (INT *) Ysafe_malloc( (1 + numRowsG) * sizeof(INT) ) ;
-next_index = (INT *) Ysafe_malloc( (1 + numRowsG) * sizeof(INT) ) ;
-filled_to  = (INT *) Ysafe_malloc( (1 + numRowsG) * sizeof(INT) ) ;
+next_limit = (int *) Ysafe_malloc( (1 + numRowsG) * sizeof(int) ) ;
+next_index = (int *) Ysafe_malloc( (1 + numRowsG) * sizeof(int) ) ;
+filled_to  = (int *) Ysafe_malloc( (1 + numRowsG) * sizeof(int) ) ;
 
 /* create list of spacer cells */
-spacer_list = (INT *) Ysafe_malloc( (1 + extra_cellsG) * sizeof(INT) ) ;
+spacer_list = (int *) Ysafe_malloc( (1 + extra_cellsG) * sizeof(int) ) ;
 spacer_list[0] = extra_cellsG ;
 count = numcellsG + 1 ;
 for( i = 1 ; i <= extra_cellsG ; i++ ) {
@@ -529,13 +529,13 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 limit += 1 + (extra_cellsG / numRowsG) * 4 ;
 
 /* create temporary pairArray */
-p_array = (INT **) Ysafe_malloc( ( numRowsG + 1 ) * sizeof(INT *) ) ;
+p_array = (int **) Ysafe_malloc( ( numRowsG + 1 ) * sizeof(int *) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
-    p_array[row] = (INT *) Ysafe_malloc( limit * sizeof( INT ) ) ;
+    p_array[row] = (int *) Ysafe_malloc( limit * sizeof( int ) ) ;
 }
 
 /* begin the refinement process */
-moveable_list = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof(INT) ) ;
+moveable_list = (int *) Ysafe_malloc( (1 + numcellsG) * sizeof(int) ) ;
 
 /* for Dick Davis of DEC */
 if( prop_rigid_cellsG ) {
@@ -577,7 +577,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	if( cellptr->cclass < 0 ) {  /* was "== -5" */
 	    if( cellptr->border >= 0 ) {
 		if( prop_rigid_cellsG ) {
-		    target = (INT)( (DOUBLE) cellptr->border * scale ) ;
+		    target = (int)( (DOUBLE) cellptr->border * scale ) ;
 		    if( gate_arrayG ) {
 			while( target % spacer_widthG != 0 ) {
 			    target++ ;
@@ -610,10 +610,10 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
     }
 
     Yquicksort( (char *) ( rowptr + 1 ) , 
-		    rowptr[0] , sizeof( INT ), comparex ) ;
+		    rowptr[0] , sizeof( int ), comparex ) ;
     
     Yquicksort( (char *) ( moveable_list + 1 ) , 
-		    moveable_list[0] , sizeof( INT ), comparex ) ;
+		    moveable_list[0] , sizeof( int ), comparex ) ;
 
     /* initialize filled_to[] and next_limit[]  */
     

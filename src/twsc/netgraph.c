@@ -43,13 +43,13 @@ FILE:	    netgraph.c
 DESCRIPTION:network graph code.
 CONTENTS:   postFeedAssgn()
 	    rebuild_netgraph( net )
-		INT net ;
+		int net ;
 	    remove_unnecessary_feed( net , flag )
-		INT net , flag ;
+		int net , flag ;
 	    find_set_name( v )
-		INT v ;
+		int v ;
 	    do_set_union( i , j )
-		INT i , j ;
+		int i , j ;
 	    switchable_or_not()
 	    free_z_memory()
 DATE:	    Mar 27, 1989 
@@ -70,26 +70,26 @@ static char SccsId[] = "@(#) netgraph.c (Yale) version 4.7 1/15/91" ;
 typedef struct graph_edge_cost {
     SHORT node1 ;
     SHORT node2 ;
-    INT cost ;
-    INT channel ;
+    int cost ;
+    int channel ;
 }
 *EDGE_COST ,
 EDGE_COST_BOX ;
 
 /* global variable definitions */
-INT *count_G = NULL;
-INT *father_G = NULL;
-INT *root_G = NULL;
-INT *stack_G = NULL;
+int *count_G = NULL;
+int *father_G = NULL;
+int *root_G = NULL;
+int *stack_G = NULL;
 PINBOXPTR *vertex_G = NULL;
 
 /* global variable references */
-extern INT Max_numPinsG ;
+extern int Max_numPinsG ;
 
 /* static definitions */
-static INT maxpin_numberS ;
-static INT *pins_at_rowS = NULL;
-static INT *first_indexS = NULL;
+static int maxpin_numberS ;
+static int *pins_at_rowS = NULL;
+static int *first_indexS = NULL;
 static PINBOXPTR **z_S ;
 static EDGE_COST *edge_dataS ;
 
@@ -106,7 +106,7 @@ Ysafe_free( vertex_G ) ; vertex_G = NULL ;
 postFeedAssgn()
 {
 
-INT net , i , row , botrow , toprow , last_i ;
+int net , i , row , botrow , toprow , last_i ;
 SEGBOXPTR segptr , nextseg ;
 PINBOXPTR netptr , nextptr , st_head , stptr ;
 
@@ -140,7 +140,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 Ysafe_free( steinerHeadG ) ;
 
 maxpin_numberS = 0 ;
-pins_at_rowS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
+pins_at_rowS = (int *)Ysafe_calloc( numChansG + 1, sizeof(int) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     if( netarrayG[net]->numpins <= 2 ) {
 	continue ;
@@ -166,11 +166,11 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 maxpin_numberS += 3 ;
-count_G    = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-father_G   = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-root_G     = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-stack_G    = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-first_indexS = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( INT ) ) ;
+count_G    = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+father_G   = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+root_G     = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+stack_G    = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+first_indexS = (int *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( int ) ) ;
 vertex_G   = (PINBOXPTR *)Ysafe_malloc( 2 * Max_numPinsG * sizeof(PINBOXPTR) );
 last_i = maxpin_numberS * maxpin_numberS * numRowsG - 1 ;
 edge_dataS = (EDGE_COST *)Ysafe_malloc( ( last_i + 1 )
@@ -194,16 +194,16 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 
 rebuild_netgraph( net )
-INT net ;
+int net ;
 {
 
 PINBOXPTR netptr ;
 SEGBOXPTR segptr ;
 ADJASEGPTR adj ;
-INT row , botrow , toprow , i , j , k , x ;
-INT node1 , node2 , last_j , last_k ;
-INT num_edge , tree_edge , vtx , j_rite ;
-INT comparepinx(), compare_cost() ;
+int row , botrow , toprow , i , j , k , x ;
+int node1 , node2 , last_j , last_k ;
+int num_edge , tree_edge , vtx , j_rite ;
+int comparepinx(), compare_cost() ;
 
 netptr = netarrayG[net]->pins ;
 toprow = 0 ;
@@ -393,7 +393,7 @@ return ;
 *--------------------------------------------------------------------*/
 
 remove_unnecessary_feed( net , flag )
-INT net , flag ;
+int net , flag ;
 {
 
 DBOXPTR dimptr ;
@@ -402,8 +402,8 @@ PINBOXPTR straight_ptr ;
 SEGBOXPTR segptr , segptr1 , segptr2 ;
 SEGBOXPTR asegptr[10] , straight_seg ;
 ADJASEGPTR adj , adjnext ;
-INT remove_feed_flag ;
-INT i, n, fixFlag, channel ;
+int remove_feed_flag ;
+int i, n, fixFlag, channel ;
 
 if( !(netarrayG[net]->pins) ) {
     return ;
@@ -761,10 +761,10 @@ return ;
 
 
 find_set_name( v )
-INT v ;
+int v ;
 {
 
-INT i , k ;
+int i , k ;
 
 k = 0 ;
 while( father_G[v] ) {
@@ -786,10 +786,10 @@ return( v ) ;
  * Union and Find problem.                                      *
  *--------------------------------------------------------------*/
 do_set_union( i , j )
-INT i , j ;
+int i , j ;
 {
 
-INT large , small ;
+int large , small ;
 
 if( count_G[ root_G[i] ] <= count_G[ root_G[j] ] ) {
     large = root_G[j] ;
@@ -809,7 +809,7 @@ switchable_or_not()
 SEGBOXPTR segptr ;
 PINBOXPTR ptr1 , ptr2 ;
 DOUBLE r ;
-INT net ;
+int net ;
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
     for( segptr = netsegHeadG[net]->next ; segptr ;
@@ -840,7 +840,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 free_z_memory()
 {
 
-INT i , j , last_i ;
+int i , j , last_i ;
 
 if ( z_S != NULL ) {
      j = numRowsG + 1 ;
@@ -866,7 +866,7 @@ if ( edge_dataS != NULL ) {
 postFeedAssgn_carl()
 {
 
-INT net , i , row , botrow , toprow , last_i ;
+int net , i , row , botrow , toprow , last_i ;
 SEGBOXPTR segptr , nextseg ;
 PINBOXPTR netptr , nextptr , st_head , stptr , ptr ;
 ADJASEGPTR adj , nextadj ;
@@ -889,7 +889,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 maxpin_numberS = 0 ;
 Ysafe_free( pins_at_rowS );
-pins_at_rowS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
+pins_at_rowS = (int *)Ysafe_calloc( numChansG + 1, sizeof(int) ) ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     if( netarrayG[net]->numpins <= 2 ) {
 	continue ;
@@ -933,11 +933,11 @@ for( i = 0 ; i <= numChansG ; i++ ) {
 }
 Ysafe_free( z_S );
 
-count_G    = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-father_G   = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-root_G     = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-stack_G    = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-first_indexS = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( INT ) ) ;
+count_G    = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+father_G   = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+root_G     = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+stack_G    = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+first_indexS = (int *)Ysafe_malloc( ( numChansG + 1 ) * sizeof( int ) ) ;
 vertex_G   = (PINBOXPTR *)Ysafe_malloc( 2 * Max_numPinsG * sizeof(PINBOXPTR) );
 edge_dataS = (EDGE_COST *)Ysafe_malloc( ( last_i + 1 )
 				       * sizeof(EDGE_COST) ) ;
@@ -961,16 +961,16 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 
 rebuild_netgraph_carl( net )
-INT net ;
+int net ;
 {
 
 PINBOXPTR netptr ;
 SEGBOXPTR segptr ;
 ADJASEGPTR adj ;
-INT row , botrow , toprow , i , j , k , x ;
-INT node1 , node2 , last_j , last_k ;
-INT num_edge , tree_edge , vtx , j_rite ;
-INT comparepinx(), compare_cost() ;
+int row , botrow , toprow , i , j , k , x ;
+int node1 , node2 , last_j , last_k ;
+int num_edge , tree_edge , vtx , j_rite ;
+int comparepinx(), compare_cost() ;
 
 netptr = netarrayG[net]->pins ;
 toprow = 0 ;

@@ -16,22 +16,22 @@ REVISIONS:
 #endif
 
 typedef struct exceptbox {
-    INT row ;
-    INT ll_x ;
-    INT ll_y ;
-    INT ur_x ;
-    INT ur_y ;
+    int row ;
+    int ll_x ;
+    int ll_y ;
+    int ur_x ;
+    int ur_y ;
 } *EXCEPTPTR, EXCEPTBOX ;
 
 /* global variable definitions */
-EXTERN INT num_exceptsG ;
-EXTERN INT top_of_top_rowG ;
-EXTERN INT bot_of_bot_rowG ;
-EXTERN INT uniform_rowsG ;
-EXTERN INT individual_rowSepsG ;
-EXTERN INT total_except_widthG ;
+EXTERN int num_exceptsG ;
+EXTERN int top_of_top_rowG ;
+EXTERN int bot_of_bot_rowG ;
+EXTERN int uniform_rowsG ;
+EXTERN int individual_rowSepsG ;
+EXTERN int total_except_widthG ;
 EXTERN DOUBLE *rowSepsG ;
-EXTERN INT *rowSepsAbsG ;
+EXTERN int *rowSepsAbsG ;
 EXTERN DOUBLE *relativeLenG ;
 EXTERN EXCEPTBOX *exceptionsG ;
 

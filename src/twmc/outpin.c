@@ -41,13 +41,13 @@
 FILE:	    outpin.c                                       
 DESCRIPTION:Routine outputs the pin positions to the pin file.
 CONTENTS:   outpin()
-	    INT getPadMacroNum( side )
-		INT side ;
+	    int getPadMacroNum( side )
+		int side ;
 	    setPadMacroNum( side, cellnum )
-		INT side, cellnum ;
+		int side, cellnum ;
 	    PINBOXPTR findTerminal( pinName, cell ) 
 		char *pinName ;
-		INT cell ;
+		int cell ;
 DATE:	    Mar 16, 1988 - added description block and findTerminal.
 REVISIONS:  Apr 25, 1989 - ignore 1 pin nets - causes global router to 
 		crash.
@@ -82,14 +82,14 @@ static char SccsId[] = "@(#) outpin.c version 3.11 5/11/91" ;
 
 static BOOL *output_alreadyS ;  /* mark the pins as they are output */
 static FILE *fpS ;
-static INT  output_typeS ;      /* describe the type of circuit */
+static int  output_typeS ;      /* describe the type of circuit */
 
 
 
 static output_pin();
-static INT find_cell();
+static int find_cell();
 static process_analog_net();
-static INT find_cell();
+static int find_cell();
 static output_matches();
 
 
@@ -98,7 +98,7 @@ static output_matches();
 outpin()
 {
 
-    INT net ;               /* counter */
+    int net ;               /* counter */
     char filename[LRECL] ;  /* open this filename for writing */
     NETBOXPTR netptr ;      /* current net info */
     PINBOXPTR pinptr ;      /* current pin info */
@@ -135,19 +135,19 @@ outpin()
 static output_pin( pinptr )
 PINBOXPTR pinptr ;
 {
-    INT i ;              /* softpin counter */
-    INT cell ;           /* the cell output modified for pad macros */
-    INT instance ;       /* the current instance of the cell */
-    INT x, y ;           /* the output coordinate of the pin */
-    INT xrel, yrel ;     /* the x, y position relative to cell */
-    INT howmany ;        /* howmany equivalent pins */
+    int i ;              /* softpin counter */
+    int cell ;           /* the cell output modified for pad macros */
+    int instance ;       /* the current instance of the cell */
+    int x, y ;           /* the output coordinate of the pin */
+    int xrel, yrel ;     /* the x, y position relative to cell */
+    int howmany ;        /* howmany equivalent pins */
     DOUBLE current ;     /* the current specified for the pin */
     EQUIVPTR eqptr ;     /* current equivalent pointer */
     PINBOXPTR child ;    /* current child of the softpin */
     SOFTBOXPTR spin ;    /* current softpin */
     CELLBOXPTR cellptr ; /* current cell info */
     BOUNBOXPTR bounptr ; /* bounding box pointer */
-    /*static INT find_cell() ;*/ /* get cell number */
+    /*static int find_cell() ;*/ /* get cell number */
 
     cell = find_cell( pinptr->cell ) ;
     cellptr = cellarrayG[pinptr->cell] ;
@@ -234,7 +234,7 @@ PINBOXPTR pinptr ;
     if( pinptr->type == SOFTPINTYPE ){
 	spin = pinptr->softinfo ;
 	if( spin->children ){
-	    howmany = (INT) spin->children[HOWMANY] ;
+	    howmany = (int) spin->children[HOWMANY] ;
 	} else {
 	    howmany = 0 ;
 	}
@@ -261,10 +261,10 @@ PINBOXPTR pinptr ;
 static process_analog_net( netptr )
 NETBOXPTR netptr ;
 {
-    INT i, j ;           /* counters */
-    INT pin ;            /* the pin index for the current pin in cpt */
-    INT len ;            /* keep track of the total length output */
-    INT howmany ;        /* howmany pins in the common point */
+    int i, j ;           /* counters */
+    int pin ;            /* the pin index for the current pin in cpt */
+    int len ;            /* keep track of the total length output */
+    int howmany ;        /* howmany pins in the common point */
     char *pinname ;      /* current pinname output */
     ANETPTR aptr ;       /* current analog info record */
     COMMONPTR cpt ;      /* current common point */
@@ -365,22 +365,22 @@ NETBOXPTR netptr ;
 /* we block pads together and create a new cell called a pad macro */
 /* the cell number is numbered in outgeo.c. This number needs to be */
 /* matched in outpins.  Therefore, we use this simple translation table */
-static INT side2cellS[5] = { 0,0,0,0,0 } ;
-INT getPadMacroNum( side )
-INT side ;
+static int side2cellS[5] = { 0,0,0,0,0 } ;
+int getPadMacroNum( side )
+int side ;
 {
     return( side2cellS[side] ) ;
 } /* end getPadMacroNum */
 
 setPadMacroNum( side, cellnum )
-INT side ;
-INT cellnum ;
+int side ;
+int cellnum ;
 {
     side2cellS[side] = cellnum ;
 } /* end getPadMacroNum */
 
-static INT find_cell( cell )
-INT cell ;
+static int find_cell( cell )
+int cell ;
 {
     if( cell > endsuperG ) {
 	if( cellarrayG[cell]->padptr->padside == L ) {
@@ -400,7 +400,7 @@ INT cell ;
 /* return NULL if no terminal is found */
 PINBOXPTR findTerminal( pinName, cell ) 
 char *pinName ;
-INT cell ;
+int cell ;
 {
     PINBOXPTR pin ;
     CELLBOXPTR cptr ;
@@ -418,20 +418,20 @@ INT cell ;
 
 } /* end findTerminal */
 
-INT get_circuit_type()
+int get_circuit_type()
 {
     return( output_typeS ) ;
 } /* end get_circuit_type */
 
 static output_matches()
 {
-    INT i, j ;
-    INT net ;
-    INT *match ;
-    INT num_matches ;
-    INT howmany ;
+    int i, j ;
+    int net ;
+    int *match ;
+    int num_matches ;
+    int howmany ;
 
-    howmany = (INT) net_cap_matchG[HOWMANY] ;
+    howmany = (int) net_cap_matchG[HOWMANY] ;
     for( i = 1; i <= howmany; i++ ){
 	match = net_cap_matchG[i] ;
 	num_matches = match[HOWMANY] ;
@@ -443,7 +443,7 @@ static output_matches()
 	fprintf( fpS, "\n" ) ;
     }
 
-    howmany = (INT) net_res_matchG[HOWMANY] ;
+    howmany = (int) net_res_matchG[HOWMANY] ;
     for( i = 1; i <= howmany; i++ ){
 	match = net_res_matchG[i] ;
 	num_matches = match[HOWMANY] ;

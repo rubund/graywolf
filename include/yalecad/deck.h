@@ -36,7 +36,7 @@ typedef struct Ydeck_info {
 } YCARD, *YCARDPTR  ;
 
 typedef struct {
-    INT       size ;            /* size of list */
+    int       size ;            /* size of list */
     YCARDPTR  top ;
     YCARDPTR  bottom ;
     YCARDPTR  current ;
@@ -176,7 +176,7 @@ extern VOID Ydeck_dump ( P2( YDECK *deckPtr, VOID (*userPrint)() ) );
 /*
 Arguments:
     YDECK *deckPt ;
-    INT (*userPrint)();
+    int (*userPrint)();
 Function:
     For each data item in the deck, call the user print function.
 */

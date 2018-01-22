@@ -58,8 +58,8 @@ static char SccsId[] = "@(#) changraph.c (Yale) version 1.4 5/21/92" ;
 #include <yalecad/set.h>
 #include <compact.h>
 
-static INT horz_edgeS = 0 ;  /* number of distinct horizontal edges */
-static INT vert_edgeS = 0 ;  /* number of distinct vertical edges */
+static int horz_edgeS = 0 ;  /* number of distinct horizontal edges */
+static int vert_edgeS = 0 ;  /* number of distinct vertical edges */
 static YTREEPTR horz_treeS ; /* tree of horizontal edges */
 static YTREEPTR vert_treeS ; /* tree of vertical edges */
 static YSETPTR  nodesetS ;   /* keep track of active nodes */
@@ -69,10 +69,10 @@ static YSETPTR  nodesetS ;   /* keep track of active nodes */
     Initialize graph by adding creating memory for it.
    **************************************************************** */
 init_graph( numnodes, numedges )
-INT numnodes ;
-INT numedges ;
+int numnodes ;
+int numedges ;
 {
-    INT i ;
+    int i ;
 
     /* allocate memory for channel graph array */
     changraphG = (CHANBOXPTR *) 
@@ -93,7 +93,7 @@ INT numedges ;
    Build graph by first adding nodes and node information to it.
    **************************************************************** */
 addNode( node, xc, yc ) 
-INT node, xc, yc ;
+int node, xc, yc ;
 {
     CHANBOXPTR nptr ;
     ASSERTNRETURN( 1 <= node && node <= numnodesG, "addNode",
@@ -108,11 +108,11 @@ INT node, xc, yc ;
    Build channel adjacency list by forming undirected graph.
    **************************************************************** */
 addEdge( node1, node2, HnotV, cell_lb, cell_rt ) 
-INT node1 ;
-INT node2 ;
+int node1 ;
+int node2 ;
 BOOL HnotV ;  /* TRUE if horizontal FALSE if vertical */
-INT cell_lb ; /* cell on left (bottom) for vert (horz) channel */
-INT cell_rt ; /* cell on right (top) for  vert (horz) channel */
+int cell_lb ; /* cell on left (bottom) for vert (horz) channel */
+int cell_rt ; /* cell on right (top) for  vert (horz) channel */
 {
     static edgeCountS = 0 ;  /* current number of edges */
     ADJPTR newfE,  /* new forward edge */
@@ -201,7 +201,7 @@ INT cell_rt ; /* cell on right (top) for  vert (horz) channel */
 
 /* returns the adjacency pointer(edge) given two node of channel graph */
 ADJPTR findAdjPtr( node1, node2 )
-INT node1, node2 ;
+int node1, node2 ;
 {
     ADJPTR curEdge ;
 
@@ -215,7 +215,7 @@ INT node1, node2 ;
     return( NULL ) ;
 } /* end findAdjPtr */
 
-INT compare_edges( edge1, edge2 )
+int compare_edges( edge1, edge2 )
 INFOPTR edge1, edge2 ;
 {
     /* explicitly enumerate cases to avoid wraparound */
@@ -250,7 +250,7 @@ INFOPTR edge ;
 
 build_trees()
 {
-    INT i ;
+    int i ;
     INFOPTR eptr ;     /* current edge */
     CELLBOXPTR cptr ;
 
@@ -308,19 +308,19 @@ build_trees()
 
 /* given an x and y find the closest edge to the right or top */
 INFOPTR get_closest_edge( x, y )
-INT x, y ;
+int x, y ;
 {
 
     INFOBOX lo, hi ;              /* set the bounds for the search */
     INFOPTR edge ;                /* current edge */
     INFOPTR closest_edge ;        /* save the closest edge */
     BOOL start ;                  /* true if we intersect interval */
-    INT dist ;                    /* current distance to edge */
-    INT closest_dist ;            /* best distance so far */
-    INT min ;                     /* minimum integer */
-    INT max ;                     /* maximum integer */
+    int dist ;                    /* current distance to edge */
+    int closest_dist ;            /* best distance so far */
+    int min ;                     /* minimum integer */
+    int max ;                     /* maximum integer */
 
-    /* need these since loc, and start are defined as INT * */
+    /* need these since loc, and start are defined as int * */
     /* they are defined that way because update edges will be */
     /* much easier */
     min = INT_MIN ;
@@ -377,19 +377,19 @@ INT x, y ;
 
 stretch_graph( stretch_edge, x, y )
 INFOPTR stretch_edge ;
-INT x, y ;
+int x, y ;
 {
     INFOBOX lo, hi ;              /* set the bounds for the search */
     INFOPTR edge ;                /* the current pointer */
     CHANBOXPTR nptr1 ;            /* pointer to node 1 info */
     CHANBOXPTR nptr2 ;            /* pointer to node 2 info */
-    INT location ;                /* location of the stretch_edge */
-    INT new_loc ;                 /* the new location of node */
-    INT delta ;                   /* the stretch or shrink amount */
-    INT min ;                     /* minimum integer */
-    INT max ;                     /* maximum integer */
+    int location ;                /* location of the stretch_edge */
+    int new_loc ;                 /* the new location of node */
+    int delta ;                   /* the stretch or shrink amount */
+    int min ;                     /* minimum integer */
+    int max ;                     /* maximum integer */
 
-    /* need these since loc, and start are defined as (INT *) */
+    /* need these since loc, and start are defined as (int *) */
     /* they are defined that way because update edges will be */
     /* much easier */
     min = INT_MIN ;

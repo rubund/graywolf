@@ -48,10 +48,10 @@ static char SccsId[] = "@(#) perimeter.c version 3.4 12/16/90" ;
 
 perimeter( A, numcorners )
 YBUSTBOXPTR A ;
-INT numcorners ;
+int numcorners ;
 {
 
-INT i , sum ;
+int i , sum ;
 
 sum = 0 ;
 for( i = 1 ; i <= numcorners ; i++ ) {

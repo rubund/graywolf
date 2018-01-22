@@ -61,7 +61,7 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Sat May 11 22:53:09 EDT 1991 - added a conditional compile
 		for HPUX.
 	    Oct 07, 1991 - fix #include sys/dir.h for SYS5 A/UX (RAWeier)
-            Oct 18, 1991 - change INT to BOOL in YopenFile (RAWeier)
+            Oct 18, 1991 - change int to BOOL in YopenFile (RAWeier)
 ----------------------------------------------------------------- */
 #ifndef lint
 static char SccsId[] = "@(#) file.c version 3.11 10/20/91" ;
@@ -117,7 +117,7 @@ char *pathname ;
 char *Yfile_slink( pathname )
 char *pathname ;
 {
-    INT len ;
+    int len ;
     static char buf[BUFSIZ] ;
 
     len = readlink( pathname, buf, BUFSIZ ) ;
@@ -158,8 +158,8 @@ FILE *Yfile_create_lock( filename, readNotWrite )
 char *filename ;
 BOOL readNotWrite ;
 {
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
+    int fd ;             /* file descriptor */
+    int status ;         /* return status */
     FILE *fp ;           /* file stream descriptor */
 
     if(!(YfileExists(filename))){ 
@@ -204,8 +204,8 @@ BOOL readNotWrite ;
 BOOL Yfile_test_lock( filename ) 
 char *filename ;
 {
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
+    int fd ;             /* file descriptor */
+    int status ;         /* return status */
 
     if(!(YfileExists(filename))){ 
 	/* file does not exist */
@@ -234,8 +234,8 @@ FILE *Yfile_create_lock( filename, readNotWrite )
 char *filename ;
 BOOL readNotWrite ;
 {
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
+    int fd ;             /* file descriptor */
+    int status ;         /* return status */
     FILE *fp ;           /* file stream descriptor */
 
     if(!(YfileExists(filename))){ 
@@ -279,8 +279,8 @@ BOOL readNotWrite ;
 BOOL Yfile_test_lock( filename ) 
 char *filename ;
 {
-    INT fd ;             /* file descriptor */
-    INT status ;         /* return status */
+    int fd ;             /* file descriptor */
+    int status ;         /* return status */
 
     if(!(YfileExists(filename))){ 
 	/* file does not exist */

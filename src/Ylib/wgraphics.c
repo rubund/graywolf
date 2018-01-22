@@ -47,17 +47,17 @@ DESCRIPTION:graphic drawing routines which only write files.
     ********************************************************
 CONTENTS:   TWinitWGraphics(desiredColors,numC,dataDir)
 		char **desiredColors, *datDir ;
-		INT  numC ;
+		int  numC ;
 	    TWcloseWGraphics()
 	    TWstartWFrame()
 	    TWflushWFrame()
 	    TWsetWFrame( number )
-		INT number ;
+		int number ;
 	    drawWPin( ref_num, x1,y1,x2,y2,color,label)
 	    drawWLine( ref_num,x1,y1,x2,y2,color,label)
 	    drawWRect( ref_num, x1,y1,x2,y2,color,label)
-		INT     ref_num ;
-		INT	x1,y1,x2,y2, color;
+		int     ref_num ;
+		int	x1,y1,x2,y2, color;
 		char	*label;
 DATE:	    Mar 21, 1989 - began as derivative of draw.c
 REVISIONS:  Thu Jan 24 20:20:32 PST 1991 - added missing return.
@@ -87,17 +87,17 @@ static char SccsId[] = "@(#) wgraphics.c version 3.8 8/12/91" ;
 /********** STATIC DEFINITIONS FOR WRITE FUNCTIONS *************/
 static  char *dirNameS ;      /* pathname including DATA directory */
 static  BOOL initS = FALSE ;  /* tells whether initialization performed */
-static  INT  frameCountS ;    /* current number of display frames */
+static  int  frameCountS ;    /* current number of display frames */
 static  BOOL frameOpenS ;     /* tells whether frame files are open */
 static  FILE *cellFileS = NULL ; /* cellfile pointer */   
 static  FILE *netFileS = NULL ;  /* net file pointer */
 static  FILE *symbFileS = NULL ; /* symbfile pointer */
-static  INT  numCellS = 0 ; /* cell counter */
-static  INT  numNetS = 0 ;  /* net counter */
-static  INT  numCharS = 0 ; /* symbol table counter */
+static  int  numCellS = 0 ; /* cell counter */
+static  int  numNetS = 0 ;  /* net counter */
+static  int  numCharS = 0 ; /* symbol table counter */
 
 BOOL TWinitWGraphics( numC, desiredColors)
-INT  numC ;
+int  numC ;
 char **desiredColors ;
 {
 
@@ -195,8 +195,8 @@ TWflushWFrame()
 {
     char dummy[5] ;
     UNSIGNED_INT nitems ;
-    INT numw ;
-    INT excess ;
+    int numw ;
+    int excess ;
 
     /* check to see if other files are open */
     if( frameOpenS ){
@@ -231,7 +231,7 @@ TWflushWFrame()
 } /* TWflushWFrame */
 
 TWsetWFrame( number )
-INT number ;
+int number ;
 {
     char fileName[LRECL] ;
 
@@ -256,8 +256,8 @@ INT number ;
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
 TWdrawWPin( ref_num, x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2, color;
+int     ref_num ; /* reference number */
+int	x1,y1,x2,y2, color;
 char	*label;
 {
     TWdrawWRect( ref_num, x1,y1,x2,y2,color,label) ;
@@ -265,13 +265,13 @@ char	*label;
 
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
 TWdrawWLine( ref_num,x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2,color ;
+int     ref_num ; /* reference number */
+int	x1,y1,x2,y2,color ;
 char	*label;
 {	
     DATABOX record ;
     UNSIGNED_INT nitems ;
-    INT numw ; /* number written */
+    int numw ; /* number written */
 
     /* fill up data record  file destination net file */
     record.ref = (UNSIGNED_INT) ref_num ;
@@ -291,7 +291,7 @@ char	*label;
 	/* now store in net file offset in table */
 	record.label = numCharS ;
 	/* now update offset to include this string */
-	numCharS += (INT) nitems ;
+	numCharS += (int) nitems ;
 	
     } else {
 	record.label = 0 ;
@@ -307,13 +307,13 @@ char	*label;
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
 TWdrawWRect( ref_num, x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2, color;
+int     ref_num ; /* reference number */
+int	x1,y1,x2,y2, color;
 char	*label;
 {
     DATABOX record ;
     UNSIGNED_INT nitems ;
-    INT numw ; /* number of records written */
+    int numw ; /* number of records written */
 
     /* fill up data record  file destination net file */
     record.ref = (UNSIGNED_INT) ref_num ;
@@ -332,7 +332,7 @@ char	*label;
 	/* now store in net file offset in table */
 	record.label = numCharS ;
 	/* now update offset to include this string */
-	numCharS += (INT) nitems ;
+	numCharS += (int) nitems ;
 	
     } else {
 	record.label = 0 ;

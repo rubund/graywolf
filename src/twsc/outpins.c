@@ -45,13 +45,13 @@ DESCRIPTION:output the pin (global route) information.
 CONTENTS:   outpins()
 	    do_outpins( ptr , flag )
 		PINBOXPTR ptr ;
-		INT flag ;
+		int flag ;
 	    do_left_pseudo_pins( ptr , channel , groupS_number )
 		PINBOXPTR ptr ;
-		INT channel , groupS_number ;
+		int channel , groupS_number ;
 	    do_right_pseudo_pins( ptr , channel , groupS_number )
 		PINBOXPTR ptr ;
-		INT channel , groupS_number ;
+		int channel , groupS_number ;
 	    do_left_vertical_channel( ptr )
 		PINBOXPTR ptr ;
 	    do_right_vertical_channel( ptr )
@@ -86,21 +86,21 @@ static char SccsId[] = "@(#) outpins.c (Yale) version 4.9 12/5/91" ;
 /* #define NSC */
 
 /* global variables */
-extern INT *root_G ;
-extern INT *count_G ;
-extern INT *stack_G ;
-extern INT *father_G ;
-extern INT Max_numPinsG ;
+extern int *root_G ;
+extern int *count_G ;
+extern int *stack_G ;
+extern int *father_G ;
+extern int Max_numPinsG ;
 extern BOOL new_row_formatG ;
 extern PINBOXPTR *vertex_G ;
 
 /* static definitions */
-static INT vtxS ;
-static INT *hashS ;
-static INT *groupS ;
-static INT numpinS ;
-static INT *rite_edgeS ;
-static INT *left_edgeS ;
+static int vtxS ;
+static int *hashS ;
+static int *groupS ;
+static int numpinS ;
+static int *rite_edgeS ;
+static int *left_edgeS ;
 static FILE *fpS ;
 static BOOL old_formatS = FALSE ;
 
@@ -121,8 +121,8 @@ CBOXPTR cellptr ;
 SEGBOXPTR seg ;
 PADBOXPTR pp1, pp2 ;
 char filename[64] ;
-INT i , a , b , net , row , padside ;
-INT upFlag , downFlag , groupS_index ;
+int i , a , b , net , row , padside ;
+int upFlag , downFlag , groupS_index ;
 extern char *strtok() ;
 
 if( old_formatS ){
@@ -130,10 +130,10 @@ if( old_formatS ){
     return ;
 }
 
-hashS  = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-groupS = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( INT ) ) ;
-rite_edgeS = (INT *)Ysafe_malloc( numChansG * sizeof( INT ) ) ;
-left_edgeS = (INT *)Ysafe_malloc( numChansG * sizeof( INT ) ) ;
+hashS  = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+groupS = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+rite_edgeS = (int *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
+left_edgeS = (int *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     cellptr = carrayG[ pairArrayG[row][ pairArrayG[row][0] ] ] ;
     rite_edgeS[row] = cellptr->cxcenter + cellptr->tileptr->right ;
@@ -293,15 +293,15 @@ TWCLOSE( fpS ) ;
 
 static do_outpins( ptr , flag )
 PINBOXPTR ptr ;
-INT flag ;
+int flag ;
 {
 
 
-INT x , y , channel , pinloc , groupS_number , layer , i ;
+int x , y , channel , pinloc , groupS_number , layer , i ;
 CBOXPTR cellptr ;
 PADBOXPTR pptr ;
 char *pinname , tmp_char[2] , *tmp_pinname ;
-INT length ;
+int length ;
 char master_name[128] , pin_id[128] , tmp_name[128] ;
 char instance_name[128] , p_name[128] , *tmp_string ;
 
@@ -457,11 +457,11 @@ PINBOXPTR ptr ;
 {
 
 
-INT x , y , channel , pinloc , groupS_number , layer , i ;
+int x , y , channel , pinloc , groupS_number , layer , i ;
 CBOXPTR cellptr ;
 PADBOXPTR pptr ;
 char *pinname , tmp_char[2] , *tmp_pinname ;
-INT length ;
+int length ;
 char master_name[128] , pin_id[128] , tmp_name[128] ;
 char instance_name[128] , p_name[128] , *tmp_string ;
 
@@ -516,11 +516,11 @@ return ;
 
 static do_left_pseudo_pins( ptr , channel , groupS_number )
 PINBOXPTR ptr ;
-INT channel , groupS_number ;
+int channel , groupS_number ;
 {
 
 
-INT x , y ;
+int x , y ;
 
 if( channel <= numRowsG ) {
     y = barrayG[channel]->bycenter - rowHeightG ;
@@ -556,11 +556,11 @@ netarrayG[ptr->net]->name , groupS_number , x , y ) ;
 
 static do_right_pseudo_pins( ptr , channel , groupS_number )
 PINBOXPTR ptr ;
-INT channel , groupS_number ;
+int channel , groupS_number ;
 {
 
 
-INT x , y ;
+int x , y ;
 
 if( channel == 1 ) {
     y = barrayG[1]->bycenter - rowHeightG ;
@@ -599,9 +599,9 @@ PINBOXPTR core_ptr ;
 SEGBOXPTR segptr ;
 ADJASEG *adj ;
 PADBOXPTR pptr ;
-INT groupS_number , layer , i ;
+int groupS_number , layer , i ;
 char tmp_char[2] , tmp_pinname[1024] ;
-INT length ;
+int length ;
 char master_name[128] , pin_id[128] , tmp_name[128] ;
 char instance_name[128] , p_name[128] , *tmp_string ;
 
@@ -681,9 +681,9 @@ PINBOXPTR core_ptr ;
 SEGBOXPTR segptr ;
 ADJASEG *adj ;
 PADBOXPTR pptr ;
-INT groupS_number , layer , i ;
+int groupS_number , layer , i ;
 char tmp_char[2] , *tmp_pinname ;
-INT length ;
+int length ;
 char master_name[128] , pin_id[128] , tmp_name[128] ;
 char instance_name[128] , p_name[128] , *tmp_string ;
 
@@ -741,14 +741,14 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 static do_bottom_channel( ptr )
 PINBOXPTR ptr ;
 {
-INT x , y , groupS_number , layer , i ;
+int x , y , groupS_number , layer , i ;
 char tmp_char[2] , *tmp_pinname ;
 ADJASEG *adj ;
 SEGBOXPTR segptr ;
 PINBOXPTR core_ptr ;
 PADBOXPTR pptr ;
-INT length ;
-INT padside ;
+int length ;
+int padside ;
 char master_name[128] , pin_id[128] , *tmp_name ;
 char instance_name[128] , p_name[128] , *tmp_string ;
 
@@ -827,14 +827,14 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 static do_top_channel( ptr )
 PINBOXPTR ptr ;
 {
-INT x , y , groupS_number , layer , i ;
+int x , y , groupS_number , layer , i ;
 char tmp_char[2] , *tmp_pinname ;
 ADJASEG *adj ;
 SEGBOXPTR segptr ;
 PINBOXPTR core_ptr ;
 PADBOXPTR pptr ;
-INT length ;
-INT padside ;
+int length ;
+int padside ;
 char master_name[128] , pin_id[128] , *tmp_name[128] ;
 char instance_name[128] , p_name[128] , *tmp_string ;
 
@@ -912,7 +912,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 
 char *find_layer( pinname, layer )
 char *pinname ;
-INT *layer ;
+int *layer ;
 {
     static char pinbufL[LRECL] ;
     char layer_buffer[2] ;

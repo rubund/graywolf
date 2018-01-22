@@ -60,18 +60,18 @@ static char SccsId[] = "@(#) steiner.c (Yale) version 4.7 1/20/91" ;
 #include "feeds.h"
 
 /* global variables */
-INT Max_numPinsG ;
-INT *add_st_flagG ;
-INT enough_built_in_feedG ;
+int Max_numPinsG ;
+int *add_st_flagG ;
+int enough_built_in_feedG ;
 
 /* global references */
-extern INT *rowfeed_penaltyG ;
+extern int *rowfeed_penaltyG ;
 extern BOOL absolute_minimum_feedsG ;
 SEGBOXPTR makeseg() ;
 
 /* static definitions */
 static PINBOXPTR   *vertexS ;
-static INT **costS , *lowcostS , *closestS , *components , max_pinS ;
+static int **costS , *lowcostS , *closestS , *components , max_pinS ;
 
 steiner()
 {
@@ -80,7 +80,7 @@ steiner()
 DBOXPTR dptr ;
 PINBOXPTR netptr ;
 SEGBOXPTR segptr ;
-INT net , row , i ;
+int net , row , i ;
 
 max_pinS = 0 ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
@@ -100,15 +100,15 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
     steinerHeadG[net]= (PINBOXPTR)Ysafe_calloc( 1, sizeof(PINBOX) ) ;
 }
 
-costS = (INT **)Ysafe_malloc( max_pinS * sizeof(INT *) ) ;
+costS = (int **)Ysafe_malloc( max_pinS * sizeof(int *) ) ;
 for( i = 1 ; i < max_pinS ; i++ ) {
-    costS[i] = (INT *)Ysafe_malloc( max_pinS * sizeof( INT ) ) ;
+    costS[i] = (int *)Ysafe_malloc( max_pinS * sizeof( int ) ) ;
 }
 
 vertexS    = (PINBOXPTR *)Ysafe_malloc( max_pinS * sizeof( PINBOXPTR ) ) ;
-lowcostS   = (INT *)Ysafe_calloc( max_pinS, sizeof(INT) ) ;
-closestS   = (INT *)Ysafe_calloc( max_pinS, sizeof(INT) ) ;
-components = (INT *)Ysafe_malloc( max_pinS * sizeof(INT) ) ;
+lowcostS   = (int *)Ysafe_calloc( max_pinS, sizeof(int) ) ;
+closestS   = (int *)Ysafe_calloc( max_pinS, sizeof(int) ) ;
+components = (int *)Ysafe_malloc( max_pinS * sizeof(int) ) ;
 
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
@@ -149,7 +149,7 @@ if( !absolute_minimum_feeds ) {
     }
 }
 #else
-add_st_flagG = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof(INT) ) ;
+add_st_flagG = (int *)Ysafe_malloc( ( numChansG + 1 ) * sizeof(int) ) ;
 if( !absolute_minimum_feedsG ) {
     enough_built_in_feedG = TRUE ;
     for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -209,8 +209,8 @@ PINBOXPTR startptr ;
 {
 
 PINBOXPTR netptr , iptr , jptr ;
-INT i , j , k , n , c , row , irow , jrow ;
-INT x_diff , min_costS , first_new ;
+int i , j , k , n , c , row , irow , jrow ;
+int x_diff , min_costS , first_new ;
 
 n = 0 ;
 for( netptr = startptr ; netptr ; netptr = netptr->next ) {
@@ -348,7 +348,7 @@ for( i = 2 ; i <= n ; i++ ) {
 redo_steiner()
 {
 
-INT net , i ;
+int net , i ;
 DBOXPTR dptr ;
 PINBOXPTR netptr , nextptr ;
 ADJASEGPTR adjptr , saveptr ;

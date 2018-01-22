@@ -72,15 +72,15 @@ extern char *Ystrclone(char *);
 #define  MINPRIMESIZE 23
 
 /* static global to this file only */
-static INT tablesize ;
+static int tablesize ;
 static YTABLEPTR *table ;
 
 
 YHASHPTR Yhash_table_create( numentries )
-INT numentries ;
+int numentries ;
 {
     YHASHPTR  hashtable ;
-    INT Yhash_table_size() ;
+    int Yhash_table_size() ;
 
     hashtable = YMALLOC( 1, YHASHBOX ) ;
     hashtable->size = tablesize = Yhash_table_size( numentries ) ;
@@ -91,7 +91,7 @@ INT numentries ;
     return(hashtable) ;
 } /* end Yhash_create */
 
-INT Yhash_table_get( hashtable )
+int Yhash_table_get( hashtable )
 YHASHPTR  hashtable ;
 {
     return(hashtable->size) ;
@@ -99,9 +99,9 @@ YHASHPTR  hashtable ;
 
 Yhash_table_delete(hashtable, userdelete )
 YHASHPTR  hashtable ;
-INT  (*userdelete)() ;
+int  (*userdelete)() ;
 {
-    INT i ;
+    int i ;
     YTABLEPTR hptr , zapptr ;
 
     table = hashtable->hash_table ;
@@ -127,14 +127,14 @@ char *Yhash_search(hashtable, key, data, operation )
 YHASHPTR  hashtable ;
 char *key ;
 VOIDPTR data ;
-INT operation ;
+int operation ;
 {
 
 #ifdef HASHFUNC1
-    INT     i ,
+    int     i ,
 	    len ;
 #else
-    INT     shift ;
+    int     shift ;
     char    *name ;
 #endif
     UNSIGNED_INT hsum = 0 ;
@@ -229,10 +229,10 @@ BOOL *new_flag ;
 {
 
 #ifdef HASHFUNC1
-    INT     i ,
+    int     i ,
 	    len ;
 #else
-    INT     shift ;
+    int     shift ;
     char    *name ;
 #endif
     UNSIGNED_INT hsum = 0 ;
@@ -301,10 +301,10 @@ BOOL *new_flag ;
 
 } /* end hash_add */
 
-INT Yhash_set_size(hashtable)
+int Yhash_set_size(hashtable)
 YHASHPTR  hashtable ;
 {
-    INT count = 0 ;
+    int count = 0 ;
     YTABLEPTR thread ;
 
     for( thread = hashtable->thread;thread;thread=thread->threadNext ){
@@ -314,14 +314,14 @@ YHASHPTR  hashtable ;
 }
 
 /*---------------------------- hash_table_size -------------------------*/
-INT Yhash_table_size( minEntries )
-INT minEntries;
+int Yhash_table_size( minEntries )
+int minEntries;
 {
-  INT   i;
+  int   i;
   BOOL  isPrime;
-  INT   prime;
-  INT   testPrime;
-  static INT   primes[PRIMECOUNT] =
+  int   prime;
+  int   testPrime;
+  static int   primes[PRIMECOUNT] =
               {  3,   5,   7,  11,  13,  17,  19,  23,  29,  31,
                 37,  41,  43,  47,  53,  59,  61,  67,  71,  73,
                 79,  83,  89,  97, 101, 103, 107, 109, 113, 127,

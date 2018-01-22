@@ -331,8 +331,8 @@ dxancerr()
 
 dump_anc()
 {
-    INT i ;
-    INT last ;
+    int i ;
+    int last ;
 
     last = YSINK ;
     fprintf( stderr, "The ancestors for the tiles:\n" ) ;
@@ -344,11 +344,11 @@ dump_anc()
 dslack( XNotY, center, length )
 BOOL XNotY ;
 BOOL center ;
-INT length ;
+int length ;
 {
-    INT i ;
-    INT count ;
-    INT value ;
+    int i ;
+    int count ;
+    int value ;
     NODEPTR nptr ;
     CELLBOXPTR cptr ;
     COMPACTPTR tptr ;
@@ -418,7 +418,7 @@ INT length ;
 } /* end dslack */
 
 dedges( cell, XnotY, forwardNotBack )
-INT cell ;
+int cell ;
 BOOL XnotY ;
 BOOL forwardNotBack ;
 {
@@ -484,8 +484,8 @@ dyancerr()
 
 check_xancestors()
 {
-    INT i ;
-    INT count ;
+    int i ;
+    int count ;
     COMPACTPTR tptr ;
     ECOMPBOXPTR eptr ;
 
@@ -521,8 +521,8 @@ check_xancestors()
 
 check_yancestors()
 {
-    INT i ;
-    INT count ;
+    int i ;
+    int count ;
     COMPACTPTR tptr ;
     ECOMPBOXPTR eptr ;
 

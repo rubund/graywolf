@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    acceptt.c                                       
 DESCRIPTION:accept routine used in simulated annealing
-CONTENTS:   acceptt( INT  )
+CONTENTS:   acceptt( int  )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 ----------------------------------------------------------------- */
@@ -57,7 +57,7 @@ static DOUBLE table1S[1024] , table2S[1024] , table3S[1024] ;
  
 init_table()
 {
-    INT i2 ;
+    int i2 ;
     table1S[0] = 1.0 ;
     table2S[0] = 1.0 ;
     table3S[0] = 1.0 ;
@@ -67,11 +67,11 @@ init_table()
 	table3S[ i2 ] = exp( -(DOUBLE) i2 / 8388608.0 ) ;
     }
 }
-INT acceptt( delta_cost )
-INT delta_cost ;
+int acceptt( delta_cost )
+int delta_cost ;
 {
 
-INT truth ;
+int truth ;
 DOUBLE fred ;
 register unsigned fract ;
 
@@ -89,7 +89,7 @@ if( fred >= 0.0 ) {
 	truth = 0 ;
     }
 } else {
-    fract = (INT)( -fred * 8388608.0 ) ;
+    fract = (int)( -fred * 8388608.0 ) ;
     if( (table1S[ (fract >> 20) & MASK ] * 
 		    table2S[ (fract >> 10) & MASK] * 
 		    table3S[ fract & MASK ]) > 

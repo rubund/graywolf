@@ -90,8 +90,8 @@ static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
 finalout()
 {
 
-INT c ;
-INT bbtop, bbbottom, bbleft, bbright ;
+int c ;
+int bbtop, bbbottom, bbleft, bbright ;
 
 /* dump the results of the placement to graphics file */
 G( graphics_dump() ) ;
@@ -212,7 +212,7 @@ return ;
 
 
 Output( cycle )
-INT cycle ;
+int cycle ;
 {
 
     if( cycle == 0 || cycle < doCompactionG / 2 ){
@@ -231,8 +231,8 @@ INT cycle ;
 prnt_cost( out_string ) 
 char *out_string ;
 {
-    INT xspan ;
-    INT yspan ;
+    int xspan ;
+    int yspan ;
 
     funccostG = findcost() ;
     OUT2("%s", out_string ) ;

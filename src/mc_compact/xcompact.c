@@ -558,10 +558,10 @@ COMPACTPTR *tileA , *tileB ;
 }
 
 load_ancestors( direction )
-INT direction ;
+int direction ;
 {
-    INT i ;			/* counter */
-    INT last ;			/* last tile in tileNode array */
+    int i ;			/* counter */
+    int last ;			/* last tile in tileNode array */
 
     last = YSINK ;
     switch( direction ){
@@ -591,10 +591,10 @@ INT direction ;
 static xforwardPath()
 {
 
-    INT j ;			/* current tile adjacent to node */
-    INT node ;			/* current node popped from the queue */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT currentValue ;		/* path value of node popped from queue */
+    int j ;			/* current tile adjacent to node */
+    int node ;			/* current node popped from the queue */
+    int setValue ;		/* the value of the path to this adj node */
+    int currentValue ;		/* path value of node popped from queue */
     COMPACTPTR nextptr ;	/* the tile record of the adj. node */
     ECOMPBOXPTR ptr ;		/* used to traverse edges of popped node */
     QUEUEPTR botqueue, queue ;	/* used to implement queue MACRO */
@@ -631,10 +631,10 @@ static xforwardPath()
 static xbackwardPath()
 {
 
-    INT j ;			/* current tile adjacent to node */
-    INT node ;			/* current node popped from the queue */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT currentValue ;		/* path value of node popped from queue */
+    int j ;			/* current tile adjacent to node */
+    int node ;			/* current node popped from the queue */
+    int setValue ;		/* the value of the path to this adj node */
+    int currentValue ;		/* path value of node popped from queue */
     COMPACTPTR nextptr ;	/* the tile record of the adj. node */
     ECOMPBOXPTR ptr ;		/* used to traverse edges of popped node */
     QUEUEPTR botqueue, queue ;	/* used to implement queue MACRO */
@@ -669,17 +669,17 @@ static xbackwardPath()
     }
 } /* end xbackwardPath */
 
-INT longestxPath( find_path )
+int longestxPath( find_path )
 BOOL find_path ;
 {
 
-    INT cell ;			/* current cell in question */
-    INT tile ;			/* one of the tiles of the adj. cell */
-    INT count ; 		/* number of iterations */
-    INT center ;		/* where center of cell is relative to path */
-    INT length ;		/* length of longest path */
-    INT setValue ;		/* the value of the path to this adj node */
-    INT siblingCenter ;		/* the value of the path to sibling of adj node */
+    int cell ;			/* current cell in question */
+    int tile ;			/* one of the tiles of the adj. cell */
+    int count ; 		/* number of iterations */
+    int center ;		/* where center of cell is relative to path */
+    int length ;		/* length of longest path */
+    int setValue ;		/* the value of the path to this adj node */
+    int siblingCenter ;		/* the value of the path to sibling of adj node */
     BOOL need_to_iterate_path ; /* if TRUE perform another round of longest path*/
     BOOL need_to_update_tiles;  /* whether tile x values need to be updated */
     NODEPTR nptr ;		/* used to traverse multi tiles */

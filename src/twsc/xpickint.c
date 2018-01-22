@@ -41,7 +41,7 @@
 FILE:	    xpickint.c                                       
 DESCRIPTION:pick a random number.
 CONTENTS:   XPICK_INT( l , u , c )
-		INT l , u , c ;
+		int l , u , c ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
@@ -56,10 +56,10 @@ static char SccsId[] = "@(#) xpickint.c (Yale) version 4.4 9/7/90" ;
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
 XPICK_INT( l , u , c )
-INT l , u , c ;
+int l , u , c ;
 {
 
-    INT d ;
+    int d ;
 
     if ( c < 0 ) {
 	return(-c) ;

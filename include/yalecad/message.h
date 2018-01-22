@@ -75,7 +75,7 @@ extern char *YmsgG ;
 				 }
 
 /* message routines */
-extern Ymessage_print( P3(INT messageType, char *routine, char *message) ) ;
+extern Ymessage_print( P3(int messageType, char *routine, char *message) ) ;
 /* 
 Function:
     Print a message to screen and/or to a file.  There are the following
@@ -117,13 +117,13 @@ Function:
     Increment the error count.
 */
 
-extern INT Ymessage_get_warncount() ;
+extern int Ymessage_get_warncount() ;
 /*
 Function:
     Returns the warning count.
 */
 
-extern INT Ymessage_get_errorcount() ;
+extern int Ymessage_get_errorcount() ;
 /*
 Function:
     Returns the error count.
@@ -143,7 +143,7 @@ Function:
     it does nothing.  Used in the OUT macros.
 */
 
-extern Ymessage_mode( P1(INT mode) ) ;
+extern Ymessage_mode( P1(int mode) ) ;
 /* 
 Function:
     Set the message mode.  It may be one of M_VERBOSE, M_NORMAL, or

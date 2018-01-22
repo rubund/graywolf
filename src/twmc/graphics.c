@@ -148,16 +148,16 @@ static BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
 static BOOL drawBinS = FALSE ;   /* whether or not to draw bins */
 static BOOL drawLabelS = FALSE ;  /* whether to draw labels or not */
 static BOOL ignoreStdMacroS=FALSE;/* normally draw the standard cell macros */
-static INT  selectCellS ;        /* the current selected cell  */
+static int  selectCellS ;        /* the current selected cell  */
 static BOOL auto_drawS = TRUE ;/* whether to draw immediately after exp.*/
 static BOOL drawNeighborS = TRUE; /* whether to draw neighborhoods */
 static BOOL cleanFileS = FALSE ;   /* whether we need to delete old files */
-static INT  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
+static int  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
 static BOOL drawBorderS = TRUE ; /* normal option - draw border otherwise cell tiles */
 static BOOL drawGlobeS = TRUE ; /* turn off global routing tiles */
 static BOOL drawGridS = TRUE ; /* draw the grid reference lines */
 static BOOL drawWireEstS ; /* whether to draw wire estimation */
-static INT  pinsizeS ;     /* size of the pin */
+static int  pinsizeS ;     /* size of the pin */
 static BOOL movedCellS ;   /* lets us know whether we have to update cellbins */
 static BOOL single_cell_moveS = FALSE ;
 static BOOL drawFS = FALSE ;
@@ -165,7 +165,7 @@ static BOOL drawFS = FALSE ;
 
 /* Forward references */
 
-INT draw_the_data() ;
+int draw_the_data() ;
 static draw_fs();
 static edit_cell();
 static edit_field_string();
@@ -174,7 +174,7 @@ static fix_the_cell();
 static fix_the_cell2();
 
 initMCGraphics( argc, argv, windowId )
-INT argc, windowId ;
+int argc, windowId ;
 char *argv[] ;
 {
 
@@ -233,13 +233,13 @@ char *argv[] ;
 
 setGraphicWindow() 
 {
-    INT  expand ;
-    INT  minx ;
-    INT  maxx ;
-    INT  miny ;
-    INT  maxy ;
-    INT  xc, yc ;      /* cell center */
-    INT  i ;           /* counter */
+    int  expand ;
+    int  minx ;
+    int  maxx ;
+    int  miny ;
+    int  maxy ;
+    int  xc, yc ;      /* cell center */
+    int  i ;           /* counter */
     CELLBOXPTR cptr ;  /* cell record pointer */
 
     regenorient( 1, endsuperG ) ; /* update bounding boxes if necessary */
@@ -261,7 +261,7 @@ setGraphicWindow()
     }
 
     expand = MAX( maxy - miny, maxx - minx ) ;
-    expand = (INT) (0.1 * (DOUBLE) expand ) ;
+    expand = (int) (0.1 * (DOUBLE) expand ) ;
     TWsetwindow( minx - expand, miny - expand, 
 	maxx + expand, maxy + expand ) ;
 } /* end setGraphicWindow */
@@ -270,7 +270,7 @@ setGraphicWindow()
 /* set what we are going to draw on a dump to the screen */
 /* placement data, compaction data , etc. are valid */
 set_graphic_context( context )
-INT context ;
+int context ;
 {
     if( context == PARTITION_PLACEMENT ){
 	/* after placement ignore drawing the standard macros */
@@ -283,11 +283,11 @@ INT context ;
 process_graphics()
 {
 
-    INT x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
-    INT x, y ;           /* coordinates from pointer */
-    INT i ;             /* temp variable */
-    INT selection ;     /* the users pick */
-    INT pick_cell() ;   /* get cell from user */
+    int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
+    int x, y ;           /* coordinates from pointer */
+    int i ;             /* temp variable */
+    int selection ;     /* the users pick */
+    int pick_cell() ;   /* get cell from user */
     char *reply ;       /* user reply to a querry */
     BOOL ok ;           /* loop until this value is true */
     char leftNotRight[2] ; /* reference to left or right side of core */
@@ -618,14 +618,14 @@ process_graphics()
 
 
 /* find the cell in question */
-INT pick_cell()
+int pick_cell()
 {
 
-    INT i ;
-    INT match_count ;        /* keep track of all cells that match */
-    INT x, y ;               /* coordinates picked by user */
-    INT cell ;               /* selected cell */
-    INT l, r, b, t ;         /* cell sides */
+    int i ;
+    int match_count ;        /* keep track of all cells that match */
+    int x, y ;               /* coordinates picked by user */
+    int cell ;               /* selected cell */
+    int l, r, b, t ;         /* cell sides */
 
     cell = 0 ;
     TWmessage("Pick cell by clicking any mouse button at center of cell");
@@ -695,20 +695,20 @@ INT pick_cell()
 
 /* the graphics program can draw the results at each desired */
 /* timestep. */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  x ;
-    INT  y ;
-    INT  pt ;
-    INT  max ;
-    INT  grid ;
-    INT  area ;
-    INT  offset ;
+    int  i ;
+    int  x ;
+    int  y ;
+    int  pt ;
+    int  max ;
+    int  grid ;
+    int  area ;
+    int  offset ;
     char *labelptr ;
     char label[LRECL] ;
-    INT  x0, x1, y0, y1 ;
+    int  x0, x1, y0, y1 ;
     PINBOXPTR  curPin ;
     BINBOXPTR  bp ;
     ANALOGPTR aptr ;
@@ -891,14 +891,14 @@ INT draw_the_data()
 
 twmc_draw_a_cell( cell )
 {
-    INT  pt ;
-    INT  xc, yc ;
-    INT  x, y ;
-    INT  type ;
-    INT  x0, x1, y0, y1 ;
-    INT  l, r, b, t ;
-    INT  *xvert ;
-    INT  *yvert ;
+    int  pt ;
+    int  xc, yc ;
+    int  x, y ;
+    int  type ;
+    int  x0, x1, y0, y1 ;
+    int  l, r, b, t ;
+    int  *xvert ;
+    int  *yvert ;
     char label[LRECL] ;
     char *labelptr ;
     CELLBOXPTR cptr ;
@@ -1010,11 +1010,11 @@ twmc_draw_a_cell( cell )
 static draw_fs( cptr )
 CELLBOXPTR cptr ;
 {
-    INT x[10], y[10] ;   /* only 10 points to an F */
-    INT l, b, r, t ;     /* bounding box points */
-    INT xout, yout ;     /* rotated points */
-    INT wid ;            /* with of the F */
-    INT pt ;             /* point counter */
+    int x[10], y[10] ;   /* only 10 points to an F */
+    int l, b, r, t ;     /* bounding box points */
+    int xout, yout ;     /* rotated points */
+    int wid ;            /* with of the F */
+    int pt ;             /* point counter */
     BOUNBOXPTR bounptr ; /* cell's boundary */
 
     bounptr = cptr->bounBox[0] ;
@@ -1022,7 +1022,7 @@ CELLBOXPTR cptr ;
     b = bounptr->b ;
     r = bounptr->r ;
     t = bounptr->t ;
-    wid = (INT) (0.25 * (DOUBLE)( t - b ) ) ;
+    wid = (int) (0.25 * (DOUBLE)( t - b ) ) ;
     /* now set the points */
     x[0] = l ;         y[0] = b ;
     x[1] = l ;         y[1] = t ;
@@ -1050,7 +1050,7 @@ CELLBOXPTR cptr ;
 
 /* draw the neighborhood of a cell if it exists */
 draw_neighbors( cell )
-INT cell ;
+int cell ;
 {
 
     CELLBOXPTR ptr ;
@@ -1114,7 +1114,7 @@ graphics_dump()
 } /* end graphics_dump() */
 
 static edit_cell( cell )
-INT cell ;
+int cell ;
 {
 
 #define NAMEF         3
@@ -1128,9 +1128,9 @@ INT cell ;
 #define ORIENTBASE    ORIENTF+1
 #define DIALOGNAME    "editcell"
 
-    INT i ;              /* counter */
-    INT offset ;         /* offset from base */
-    INT status ;         /* status from check_valid_orient */
+    int i ;              /* counter */
+    int offset ;         /* offset from base */
+    int status ;         /* status from check_valid_orient */
     char name[LRECL];    /* a scratch buffer for cellname */
     char cellnum[LRECL]; /* a scratch buffer for cellnum */
     char xcenter[LRECL]; /* a scratch buffer for xcenter */
@@ -1264,7 +1264,7 @@ INT cell ;
 
 static edit_field_string( dialog, field, string )
 TWDIALOGPTR dialog;    /* dialog record */
-INT field ;
+int field ;
 char *string ;
 {
     dialog[field].string = string ;
@@ -1273,8 +1273,8 @@ char *string ;
 
 static edit_field_case( dialog, field, initcase )
 TWDIALOGPTR dialog;    /* dialog record */
-INT field ;
-INT initcase ;
+int field ;
+int initcase ;
 {
     TWDIALOGPTR fptr;    /* current dialog record */
 
@@ -1285,7 +1285,7 @@ INT initcase ;
 set_graphics_wait_menu( menus )
 TWMENUBOX menus[] ;
 {
-    INT i ;   /* counter */
+    int i ;   /* counter */
     for( i = 0; i < TWNUMMENUS; i++ ){
 	/* look for the graphics wait menu */
 	if( strcmp( menus[i].item, "Graphics Wait") ==
@@ -1303,9 +1303,9 @@ TWMENUBOX menus[] ;
 }
 
 static fix_the_cell( cell )
-INT cell ;
+int cell ;
 {
-    INT i ; /* counter */
+    int i ; /* counter */
 
     /* turn off all rotational possibibilites */
     for( i = 0 ; i < 8 ; i++ ) {
@@ -1319,9 +1319,9 @@ INT cell ;
 } /* end fix_the_cell */
 
 static fix_the_cell2( cell )
-INT cell ;
+int cell ;
 {
-    INT x1, y1 ;
+    int x1, y1 ;
     char leftNotRight[2] ; /* reference to left or right side of core */
     char bottomNotTop[2] ; /* reference to bottom or top of core */
 

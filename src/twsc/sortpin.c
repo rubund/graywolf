@@ -43,21 +43,21 @@ FILE:	    sortpin.c
 DESCRIPTION:pin sorting functions.
 CONTENTS:  sortpin()
 	    sortpin1( cell )
-		INT cell ;
+		int cell ;
 	    sortpin2( cella, cellb )
-		INT cella, cellb ;
+		int cella, cellb ;
 	    shellsort( term , n )
 		PINBOXPTR term[] ;
-		INT n ;
+		int n ;
 	    shellsortx( term , n )
 		PINBOXPTR term[] ;
-		INT n ;
+		int n ;
 	    shellsorty( term , n )
 		PINBOXPTR term[] ;
-		INT n ;
+		int n ;
 	    shellsort_referx( worker , head , n )
 		FEED_SEG_PTR worker[] ;
-		INT n ;
+		int n ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to 
 		call sortpin1 which is used during a gateswap.  Also
@@ -79,11 +79,11 @@ static PINBOXPTR *sortArraySwapS ;
 sortpin()
 {
 
-    INT cell ;                      /* current cell */
-    INT maxpins ;                   /* maximum numpins over all pins */
+    int cell ;                      /* current cell */
+    int maxpins ;                   /* maximum numpins over all pins */
     CBOXPTR ptr ;                   /* current cell */
     BOOL pin_groups ;               /* true if swappable gates occur */
-    INT i;
+    int i;
 
     /* find the maximum number of pins on a cell for allocation */
     /* also see if pin groups exist on any of the cells */
@@ -124,10 +124,10 @@ sortpin()
 
 /* sort the pins of a single cell by net */
 sortpin1( cell )
-INT cell ;
+int cell ;
 {
 
-    INT j , n ;
+    int j , n ;
     CBOXPTR ptr ;
     PINBOXPTR pinptr ;
 
@@ -150,12 +150,12 @@ INT cell ;
 } /* end sortpin1 */
 
 sortpin2( cella, cellb )
-INT cella, cellb ;
+int cella, cellb ;
 {
 
-    INT j ;                                /* counter */
-    INT numpins_a ;                        /* number pins of cell a */
-    INT numpins_b ;                        /* number pins of cell b */
+    int j ;                                /* counter */
+    int numpins_a ;                        /* number pins of cell a */
+    int numpins_b ;                        /* number pins of cell b */
     CBOXPTR aptr ;                         /* pointer to cell a info */
     CBOXPTR bptr ;                         /* pointer to cell b info */
     PINBOXPTR pin ;                        /* the current pin */
@@ -206,11 +206,11 @@ INT cella, cellb ;
 
 shellsort( term , n )
 PINBOXPTR term[] ;
-INT n ;
+int n ;
 {
 
 PINBOXPTR ptr ;
-INT incr , i , j ;
+int incr , i , j ;
 
 for( incr = n / 2 ; incr > 0 ; incr /= 2 ) {
     for( i = incr + 1 ; i <= n ; i++ ) {
@@ -228,11 +228,11 @@ for( incr = n / 2 ; incr > 0 ; incr /= 2 ) {
 
 shellsortx( term , n )
 PINBOXPTR term[] ;
-INT n ;
+int n ;
 {
 
 PINBOXPTR pin ;
-INT incr , i , j ;
+int incr , i , j ;
 
 for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
     for( i = incr ; i <= n ; i++ ) {
@@ -249,11 +249,11 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 
 shellsorty( term , n )
 PINBOXPTR term[] ;
-INT n ;
+int n ;
 {
 
 PINBOXPTR pin ;
-INT incr , i , j ;
+int incr , i , j ;
 
 for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
     for( i = incr ; i <= n ; i++ ) {
@@ -270,23 +270,23 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 
 shellsort_referx( worker , head , n )
 FEED_SEG_PTR worker[] ;
-INT n ;
+int n ;
 {
 
 FEED_SEG_PTR ptr ;
-INT incr , i , j , mhead , endi , x1 , x2 ;
+int incr , i , j , mhead , endi , x1 , x2 ;
 
 mhead = head - 1 ;
 for( incr = n / 2 ; incr > 0 ; incr /= 2 ) {
     endi = n + mhead ;
     for( i = mhead + incr + 1 ; i <= endi ; i++ ) {
 	for( j = i - incr ; j > mhead ; j -= incr ) {
-	    if( worker[j]->refer ) { /* not a steiner poINT */
+	    if( worker[j]->refer ) { /* not a steiner point */
 		x1 = worker[j]->refer->xpos ;
 	    } else {
 		x1 = worker[j]->netptr->xpos ;
 	    }
-	    if( worker[j+incr]->refer ) { /* not a steiner poINT */
+	    if( worker[j+incr]->refer ) { /* not a steiner point */
 		x2 = worker[j+incr]->refer->xpos ;
 	    } else {
 		x2 = worker[j+incr]->netptr->xpos ;

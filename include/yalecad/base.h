@@ -19,7 +19,7 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
 	    Thu Jan 24 20:15:03 PST 1991 - added more vector routines.
 	    Mon Jan 28 01:34:49 EST 1991 - added P15
 	    Wed Feb  6 23:33:12 EST 1991 - modified VOIDPTR to be
-		of type INT *.
+		of type int *.
 	    Fri Mar 22 15:13:51 CST 1991 - added SHORT_LONG typedef
 		for large designs.
 	    Sun Apr 28 13:46:49 EDT 1991 - added YALLOCATE, and
@@ -81,9 +81,9 @@ static char Ybase_HId[] = "@(#) base.h version 1.34 3/5/92" ;
 #endif
 
 #if SIZEOF_VOID_P == 32
-typedef int INT ;
+ ;
 #elif SIZEOF_VOID_P == 64
-typedef long INT ;
+ ;
 #else
 ERROR: Cannot compile without knowing the size of a pointer.  See Ylib/include/base.h
 #endif
@@ -108,7 +108,7 @@ typedef long SHORT_LONG ;
 
 #define TBOOL int
 #define BOOL  int
-#define INT   int
+#define int   int
 #define UNSIGNED_INT unsigned int
 #define SHORT short
 #define FLOAT float
@@ -196,8 +196,8 @@ typedef void VOID ;
 #define  P9( a,b,c,d,e,f,g,h,i )
 #define P10( a,b,c,d,e,f,g,h,i,j  )
 #define P15( a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)
-typedef INT *VOIDPTR ;
-#define VOID INT
+typedef int *VOIDPTR ;
+#define VOID int
 
 #endif /* end PROTOTYPE_OK */
 
@@ -237,7 +237,7 @@ typedef INT *VOIDPTR ;
 #define RANDOM(limit)   (Yacm_random() % (limit))
 #define ROLL_THE_DICE() ((DOUBLE) RAND / (DOUBLE)0x7fffffff ) 
 #define LINE printf(" file : %s  line # %d\n", __FILE__,__LINE__);
-#define ROUND(value)  ( (INT)(value + 0.5)) 
+#define ROUND(value)  ( (int)(value + 0.5)) 
 
 /* Always include memory defintions */
 #include <yalecad/okmalloc.h>

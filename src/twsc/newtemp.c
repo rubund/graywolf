@@ -126,11 +126,11 @@ DOUBLE iternum ;
 
 /* test program for desired acceptance rate profile */
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
     DOUBLE d_ratio, calc_acceptance_rate() ;
-    INT i ;
+    int i ;
 
     init_acceptance_rate() ;
     for( i= 0; i<= 150; i++ ){

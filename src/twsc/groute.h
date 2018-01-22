@@ -6,7 +6,7 @@ CONTENTS:
 DATE:	    Mar 27, 1989 
 REVISIONS:  Fri Jan 25 23:47:24 PST 1991 - removed redundant variables.
 	    Fri Mar 22 15:16:41 CST 1991 - changed SHORT to
-		INT since it wasn't saving space and could
+		int since it wasn't saving space and could
 		be a problem for large designs.
 ----------------------------------------------------------------- */
 #ifndef GLOBE_H
@@ -83,12 +83,12 @@ ADJASEG ;
 typedef struct imp_box {
     char *pinname ;
     char *eqpinname ;
-    INT txpos ;
+    int txpos ;
     struct imp_box *next ;
     struct imp_box *prev ;
-    INT cell ;
-    INT xpos ;
-    INT terminal ;
+    int cell ;
+    int xpos ;
+    int terminal ;
 } IPBOX , *IPBOXPTR ;
 
 typedef struct feedcountbox {
@@ -111,33 +111,33 @@ EXTERN TGRIDPTR *TgridG ;
 EXTERN SEGBOXPTR *netsegHeadG ;
 EXTERN SEGBOXPTR *netsegTailG ;
 EXTERN DOUBLE mean_widthG ;
-EXTERN INT **pairArrayG ;
-EXTERN INT numnetsG ;
-EXTERN INT numSegsG ;
-EXTERN INT numSwSegsG ;
-EXTERN INT tracksG ;
-EXTERN INT *maxTrackG ;
-EXTERN INT *nmaxTrackG ;
-EXTERN INT max_tdensityG ;
-EXTERN INT gxstartG ;
-EXTERN INT gxstopG ;
-EXTERN INT blkleftG , blkriteG ;
-EXTERN INT gtopChanG , gbotChanG ;
-EXTERN INT uneven_cell_heightG ;
-EXTERN INT ffeedsG , track_pitchG ;
+EXTERN int **pairArrayG ;
+EXTERN int numnetsG ;
+EXTERN int numSegsG ;
+EXTERN int numSwSegsG ;
+EXTERN int tracksG ;
+EXTERN int *maxTrackG ;
+EXTERN int *nmaxTrackG ;
+EXTERN int max_tdensityG ;
+EXTERN int gxstartG ;
+EXTERN int gxstopG ;
+EXTERN int blkleftG , blkriteG ;
+EXTERN int gtopChanG , gbotChanG ;
+EXTERN int uneven_cell_heightG ;
+EXTERN int ffeedsG , track_pitchG ;
 
-EXTERN INT fdthrusG ; 
-EXTERN INT chan_node_noG ;
-EXTERN INT enough_built_in_feedG ;
-EXTERN INT *FeedInRowG ;
-EXTERN INT blk_most_leftG ;
-EXTERN INT blk_most_riteG ;
-EXTERN INT *row_rite_classG ;
-EXTERN INT *right_most_in_classG ;
-EXTERN INT hznode_sepG ;
-EXTERN INT add_Lcorner_feedG ;
-EXTERN INT average_feed_sepG ;
-EXTERN INT average_pin_sepG ;
+EXTERN int fdthrusG ; 
+EXTERN int chan_node_noG ;
+EXTERN int enough_built_in_feedG ;
+EXTERN int *FeedInRowG ;
+EXTERN int blk_most_leftG ;
+EXTERN int blk_most_riteG ;
+EXTERN int *row_rite_classG ;
+EXTERN int *right_most_in_classG ;
+EXTERN int hznode_sepG ;
+EXTERN int add_Lcorner_feedG ;
+EXTERN int average_feed_sepG ;
+EXTERN int average_pin_sepG ;
 EXTERN PINBOXPTR *steinerHeadG ;
 EXTERN FEED_DATA **feedpptrG ;
 EXTERN IPBOXPTR *impFeedsG ;

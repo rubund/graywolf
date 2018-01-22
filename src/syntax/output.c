@@ -64,7 +64,7 @@ static char SccsId[] = "@(#) output.c version 1.8 7/24/91" ;
 #include <yalecad/buster.h>
 
 // YcurTime() is not declared in any of the above
-extern char *YcurTime( INT * );
+extern char *YcurTime( int * );
 
 #define EXPECTEDNUMNETS         10009
 static int objectS = 0 ;       /* number of objects read */
@@ -171,7 +171,7 @@ add_instance()
 } /* end add_instance */
 
 set_bbox( left, right, bottom, top )
-INT left, right, bottom, top ;
+int left, right, bottom, top ;
 {
     minxS = left ;
     minyS = bottom ;
@@ -245,8 +245,8 @@ char *value ;
 check_sideplace( side )
 char *side ;
 {
-    INT numsides ;
-    INT i ;
+    int numsides ;
+    int i ;
 
     numsides = strlen( side ) ;
     for( i = 0 ; i < numsides; i++ ){

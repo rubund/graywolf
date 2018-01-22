@@ -62,8 +62,8 @@ REVISIONS:  Feb  9, 1990 - expanded ASCII character set.
 #define token(x)      x    /* makes it look like regular lex */
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
-static INT screen() ;
-static INT check_line_count() ;
+static int screen() ;
+static int check_line_count() ;
 
 # define YYNEWLINE 10
 yylex(){
@@ -132,7 +132,7 @@ fprintf(yyout,"bad switch yylook %d",nstr);
 ----------------------------------------------------------------- */
 static struct rw_table {  /* reserved word table */
     char *rw_name ;      /* pattern */
-    INT rw_yylex  ;      /* lex token number */
+    int rw_yylex  ;      /* lex token number */
 } rwtable[] = {
     "cap_match",         token(CAP_MATCH),
     "cap_upper_bound",   token(CAP_UPPER_BOUND),
@@ -150,9 +150,9 @@ static struct rw_table {  /* reserved word table */
     "timing",            token(TIMING)
 } ;
 
-static INT screen() 
+static int screen() 
 {
-    INT c ;
+    int c ;
     struct rw_table  *low = rwtable,        /* ptr to beginning */
 		     *mid ,  
 		     *high = END(rwtable) ;   /* ptr to end */
@@ -175,7 +175,7 @@ static INT screen()
 		
 } /* end screen function */
 
-static INT check_line_count( s ) 
+static int check_line_count( s ) 
 char *s ;
 {
     if( s ){

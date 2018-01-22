@@ -2,11 +2,11 @@
 FILE:	    uloop.c                                       
 DESCRIPTION:inner loop of the simulated annealing algorithm.
 CONTENTS:   uloop( limit )
-		INT limit ;
+		int limit ;
 	    make_movebox() ;
 	    save_uloop( fp )
 		FILE *fp ;
-	    INT read_uloop( fp )
+	    int read_uloop( fp )
 		FILE *fp ;
 DATE:	    Feb 5, 1988 
 REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
@@ -76,8 +76,8 @@ static char SccsId[] = "%Z% %M% version %I% %G%" ;
 #define HOWMANY   0
 #define pick_pos( a, b, c, d ) (  (*which_pickS)(a,b,c,d) )
 
-extern INT pick_position() ;
-static INT (*which_pickS)() = pick_position ;/* which new position func */
+extern int pick_position() ;
+static int (*which_pickS)() = pick_position ;/* which new position func */
 
 /* ----------------------------------------------------------------- 
    important global definitions - defined in custom.h 
@@ -108,10 +108,10 @@ static INT (*which_pickS)() = pick_position ;/* which new position func */
 #define CELL_INSTANCE_CHANGE                  9
 
 
-static INT  move_cntS = 0 ;
-static INT  acc_cntS = 0 ;
-static INT  dumpRatioS = 1 ; /* update screen after each outerloop */
-static INT  dumpCountS = 0 ; /* count number of outer loops */
+static int  move_cntS = 0 ;
+static int  acc_cntS = 0 ;
+static int  dumpRatioS = 1 ; /* update screen after each outerloop */
+static int  dumpCountS = 0 ; /* count number of outer loops */
 static DOUBLE total_costS, a_ratioS = 1.0 ;
 static DOUBLE TratioS = 0.0 ;
 static BOOL   controlOnS = TRUE ;
@@ -124,14 +124,14 @@ static DOUBLE avg_dtimeS ;  /* average random delta time */
 static DOUBLE num_dfuncS ;  /* number of delta wirelength samples */
 static DOUBLE avg_dfuncS ;  /* average random delta wirelength */
 
-static INT TempSelectSoftS[11]  = {
+static int TempSelectSoftS[11]  = {
     NULL,
     GROUP_MOVE, GROUP_MOVE, CELL_MOVE, CELL_MOVE,
     ASPECT_MOVE, ASPECT_MOVE, ROTATION_MOVE, PIN_MOVE,
     CELL_MOVE, CELL_MOVE
 } ;
 
-static INT TempSelectHardS[11]  = {
+static int TempSelectHardS[11]  = {
     NULL,
     GROUP_MOVE, GROUP_MOVE, CELL_MOVE, CELL_MOVE,
     GROUP_MOVE, CELL_MOVE, CELL_MOVE, ROTATION_MOVE,
@@ -142,7 +142,7 @@ static INT TempSelectHardS[11]  = {
    uloop - inner loop of simulated annealing algorithm.
 */
 uloop( limit )
-INT limit ;
+int limit ;
 {
 
 CELLBOXPTR acellptr , bcellptr ;
@@ -150,32 +150,32 @@ DOUBLE range , newAspect ;
 DOUBLE calc_core_factor(), calc_lap_factor() ;
 DOUBLE calc_time_factor() ;
 DOUBLE percentDone ;
-INT a , b ;
-INT attempts, i ;
-INT move_acceptted ;
-INT binX , binY, bpos, numcells_in_bin ;
-INT xb , yb , axcenter , aycenter ;
-INT newaor, newbor, aorient , borient ;
-INT proposed_move, selection, *moveSelection ;
-INT lowerBound, upperBound ;
+int a , b ;
+int attempts, i ;
+int move_acceptted ;
+int binX , binY, bpos, numcells_in_bin ;
+int xb , yb , axcenter , aycenter ;
+int newaor, newbor, aorient , borient ;
+int proposed_move, selection, *moveSelection ;
+int lowerBound, upperBound ;
 BOOL checkbinList() ;
 BOOL acc_move ;
 BOOL asp_move_possible ;
 FIXEDBOXPTR fixptr ;
-INT flip[NUMBER_MOVES+1] ;
-INT att[NUMBER_MOVES+1] ;
+int flip[NUMBER_MOVES+1] ;
+int att[NUMBER_MOVES+1] ;
 DOUBLE move_size[NUMBER_MOVES+1] ;
 
 /* temperature control definitions */
-INT         m1 = 1, m2 = 1;
+int         m1 = 1, m2 = 1;
 DOUBLE      dCp = 0.0;
 DOUBLE      temp, eval_ratio() ;
 
-INT temp_timer, time_to_update ; /* keeps track of when to update T */
+int temp_timer, time_to_update ; /* keeps track of when to update T */
 DOUBLE iter_time, accept_deviation, calc_acceptance_ratio() ;
 
-INT old_time, old_func ; /* keep track of previous value of penalties */
-INT delta_time, delta_func ; /* delta penalties */
+int old_time, old_func ; /* keep track of previous value of penalties */
+int delta_time, delta_func ; /* delta penalties */
 
 if( activecellsG <= 0 ){
     M( WARNMSG, "uloop", "No active cells found. Aborting placement\n" ) ;
@@ -232,7 +232,7 @@ if( ratioG > 0.34 ){
 /* determine upperBound based on temp */
 /* skip over group moves */
 /* linearize so moves turn on slowly */
-upperBound = 11 - (INT) (10.0 * ratioG)  ;
+upperBound = 11 - (int) (10.0 * ratioG)  ;
 upperBound = (upperBound <= 10) ? upperBound : 10 ; 
 upperBound = (upperBound >= 4) ? upperBound : 4 ; 
 /* end move selection possibilities */
@@ -374,10 +374,10 @@ while( attempts < limit ) {
 	    /* to make pin moves more efficient, use softPinArrayG */
 	    /* which keeps track of all softcells which have pins */
 	    /* which can move. softPinArrayG[0] holds size of array */
-	    if( (INT) softPinArrayG[HOWMANY] > 0 ){
+	    if( (int) softPinArrayG[HOWMANY] > 0 ){
 		proposed_move = SOFT_PIN_MOVE ;
 		/* pick one of the soft cells */
-		selection = PICK_INT( 1, (INT) softPinArrayG[HOWMANY] );
+		selection = PICK_INT( 1, (int) softPinArrayG[HOWMANY] );
 		/* now get cellptr */
 		acellptr = softPinArrayG[selection] ;
 
@@ -701,9 +701,9 @@ while( attempts < limit ) {
 	    running_avg, calc_acceptance_ratio(iter_time), a_ratioS, TG );
 	YgraphFlush( "graph_T" ) ;
 #endif
-	if( iterationG <= (INT) HIGHTEMP ) {
+	if( iterationG <= (int) HIGHTEMP ) {
 	    /* no change to damping factor */
-	} else if( iterationG <= (INT) TURNOFFT ) {
+	} else if( iterationG <= (int) TURNOFFT ) {
 	    accept_deviation *= ACCEPTDAMPFACTOR ; 
 	} else {
 	    accept_deviation *= ACCEPTDAMPFACTOR2 ;
@@ -831,8 +831,8 @@ if( controlOnS ){
 } /* end negative feedback controller code */
 
 /* reset penalties */
-penaltyG  = (INT) (lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
-timingcostG = (INT) (timeFactorG * (DOUBLE) timingpenalG ) ;
+penaltyG  = (int) (lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
+timingcostG = (int) (timeFactorG * (DOUBLE) timingpenalG ) ;
 
 total_costS = (DOUBLE) (funccostG + penaltyG + timingcostG ) ;
 ratioG = ( (DOUBLE) flipsG / (DOUBLE) attempts ) ;
@@ -939,8 +939,8 @@ DOUBLE *totalWire, *totalPenalty, *avg_time, *avg_func ;
 */
 make_movebox() 
 {
-    INT i ;
-    INT maxtiles ;
+    int i ;
+    int maxtiles ;
 
     maxtiles = get_tile_count() ;
 
@@ -993,10 +993,10 @@ FILE *fp ;
 /* ***************************************************************** 
    read_uloop - read uloop parameters for restart
 */
-INT read_uloop( fp )
+int read_uloop( fp )
 FILE *fp ;
 {
-    INT error = 0 ;
+    int error = 0 ;
 
     fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
     fscanf(fp,"%ld %ld %ld\n",&iterationG,&acc_cntS,&move_cntS);
@@ -1044,9 +1044,9 @@ initializeTemp()
 
 
 partition_pick( turn_on )
-INT turn_on ;
+int turn_on ;
 {
-    INT pick_partition_pos() ;
+    int pick_partition_pos() ;
     if( turn_on ){
 	which_pickS = pick_partition_pos ;
     } else {
@@ -1060,10 +1060,10 @@ set_dump_ratio( count )
 } /* end dump_ratio */
 
 static output_move_table( flip, att, move_size )
-INT *flip, *att ;
+int *flip, *att ;
 DOUBLE *move_size ;
 {
-    INT  i ;
+    int  i ;
     FILE *fp ;
     char filename[LRECL] ;
 

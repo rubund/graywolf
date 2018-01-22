@@ -122,7 +122,7 @@ output( fp )
 FILE *fp ;
 {
 
-    INT cell ;
+    int cell ;
     char filename[LRECL] ;
     CELLBOXPTR cellptr ;
 
@@ -205,7 +205,7 @@ output_pads( fp )
 FILE *fp ;
 {
 
-    INT cell ;
+    int cell ;
     BOOL save_state ;
     BOOL save_orient ;
     CELLBOXPTR cellptr ;
@@ -258,7 +258,7 @@ CELLBOXPTR cellptr ;
 static output_class_orient( cellptr )
 CELLBOXPTR cellptr ;
 {
-    INT i ;
+    int i ;
 
     fprintf( outS, "class %d ", cellptr->class ) ;
     fprintf( outS, "orientations " ) ;
@@ -276,10 +276,10 @@ CELLBOXPTR cellptr ;
 static output_pins( cellptr )
 CELLBOXPTR cellptr ;
 {
-    INT i ;                  /* counter */
-    INT x,  y ;              /* absolute coordinates */
-    INT instance ;           /* current instance */
-    INT howmany ;            /* number of equivalent pins */
+    int i ;                  /* counter */
+    int x,  y ;              /* absolute coordinates */
+    int instance ;           /* current instance */
+    int howmany ;            /* number of equivalent pins */
     PINBOXPTR pinptr ;       /* current pin */
     PINBOXPTR child ;        /* softcell child */
     SOFTBOXPTR spin ;        /* current softpin information */
@@ -325,7 +325,7 @@ CELLBOXPTR cellptr ;
 	if( pinptr->type == SOFTPINTYPE ){
 	    spin = pinptr->softinfo ;
 	    if( spin->children ){
-		howmany = (INT) spin->children[HOWMANY] ;
+		howmany = (int) spin->children[HOWMANY] ;
 	    } else {
 		howmany = 0 ;
 	    }
@@ -345,7 +345,7 @@ CELLBOXPTR cellptr ;
 static output_side_n_space( cellptr )
 CELLBOXPTR cellptr ;
 {
-    INT i ;           /* counter */
+    int i ;           /* counter */
     PADBOXPTR pad ;
 
     pad = cellptr->padptr ;
@@ -395,7 +395,7 @@ CELLBOXPTR cellptr ;
 static output_pad_groups( cellptr )
 CELLBOXPTR cellptr ;
 {
-    INT i, child, padnum ;
+    int i, child, padnum ;
     PADBOXPTR pad ;
     CELLBOXPTR cptr ;       /* temporary pointer to child cell rec */
 
@@ -471,24 +471,24 @@ output_vertices( fp, cellptr )
 FILE *fp ;
 CELLBOXPTR cellptr ;
 {
-    INT xc , yc ;
+    int xc , yc ;
     TILEBOXPTR tileptr ;
     BOUNBOXPTR bounptr ;         /* bounding box pointer */
-    INT *xvert ;                 /* the xvertices of cell */
-    INT *yvert ;                 /* the yvertices of cell */
+    int *xvert ;                 /* the xvertices of cell */
+    int *yvert ;                 /* the yvertices of cell */
     VERTBOXPTR vert ;            /* the cells vertices */
-    INT p ;
-    INT x, y ;
-    INT l, b ;
-    INT this_pt ;
-    INT inverse ;
-    INT old_orient ;
-    INT lowestp ;
-    INT limit ;
-    INT nextpos, nextneg ;
-    INT *temp_x ;
-    INT *temp_y ;
-    INT numpts ;
+    int p ;
+    int x, y ;
+    int l, b ;
+    int this_pt ;
+    int inverse ;
+    int old_orient ;
+    int lowestp ;
+    int limit ;
+    int nextpos, nextneg ;
+    int *temp_x ;
+    int *temp_y ;
+    int numpts ;
 
     xc = cellptr->xcenter ;
     yc = cellptr->ycenter ;
@@ -504,8 +504,8 @@ CELLBOXPTR cellptr ;
 		cellptr->orient ) ;
 
     /* allocate the space for reoordering the points of the macro */
-    temp_x = (INT *) Yvector_alloc( 1, numpts,sizeof(INT) ) ;
-    temp_y = (INT *) Yvector_alloc( 1, numpts,sizeof(INT) ) ;
+    temp_x = (int *) Yvector_alloc( 1, numpts,sizeof(int) ) ;
+    temp_y = (int *) Yvector_alloc( 1, numpts,sizeof(int) ) ;
     for( p = 1; p <= cellptr->numsides; p++ ){
 	/* rel position is a macro which calculates */
 	/* absolute pin loc - defined in relpos.h */
@@ -568,8 +568,8 @@ CELLBOXPTR cellptr ;
 	"couldn't find clockwise direction for boundary\n" ) ;
     }
     fprintf( fp, "\n" ) ;
-    Yvector_free( temp_x, 1, sizeof(INT) ) ;
-    Yvector_free( temp_y, 1, sizeof(INT) ) ;
+    Yvector_free( temp_x, 1, sizeof(int) ) ;
+    Yvector_free( temp_y, 1, sizeof(int) ) ;
 
 } /* end output_vertices */
 
@@ -586,7 +586,7 @@ static create_pl1()
     FILE *fpp1 ;
     CELLBOXPTR cellptr ;
     PADBOXPTR pad ;
-    INT cell, length, row ;
+    int cell, length, row ;
     char instance_name[LRECL], tmp_name[LRECL], *tmp_string;
     char filename[LRECL];
 
@@ -668,7 +668,7 @@ static print_four_corners( fp, cellptr )
 FILE *fp ;
 CELLBOXPTR cellptr ;
 {
-    INT xc , yc ;
+    int xc , yc ;
     BOUNBOXPTR bounptr ;         /* bounding box pointer */
 
     xc = cellptr->xcenter ;
@@ -696,7 +696,7 @@ static create_pin()
     CELLBOXPTR cellptr ;
     PADBOXPTR pad ;
     char filename[LRECL];
-    INT net, row ;
+    int net, row ;
     NETBOXPTR netptr ;
     PINBOXPTR pinptr ;
 

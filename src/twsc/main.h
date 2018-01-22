@@ -19,31 +19,31 @@ REVISIONS:  Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 
 EXTERN char *cktNameG ;
 
-EXTERN INT rowsG ;
-EXTERN INT attmaxG ;
-EXTERN INT maxCellOG ;
-EXTERN INT iterationG ;
+EXTERN int rowsG ;
+EXTERN int attmaxG ;
+EXTERN int maxCellOG ;
+EXTERN int iterationG ;
 
-EXTERN INT blkxspanG ;
-EXTERN INT blkyspanG ;
-EXTERN INT ffeedsG ;
-EXTERN INT lrtxspanG ;
-EXTERN INT lrtyspanG ;
-EXTERN INT ifrangeG ;
-EXTERN INT *fixarrayG ;
+EXTERN int blkxspanG ;
+EXTERN int blkyspanG ;
+EXTERN int ffeedsG ;
+EXTERN int lrtxspanG ;
+EXTERN int lrtyspanG ;
+EXTERN int ifrangeG ;
+EXTERN int *fixarrayG ;
 
 EXTERN FILE *fpoG ;
 
-EXTERN INT d_costG ;
-EXTERN INT resume_runG ;
-EXTERN INT implicit_pins_usedG ;
-EXTERN INT rowHeightG ;
-EXTERN INT fdthrusG ;
+EXTERN int d_costG ;
+EXTERN int resume_runG ;
+EXTERN int implicit_pins_usedG ;
+EXTERN int rowHeightG ;
+EXTERN int fdthrusG ;
 
 EXTERN DOUBLE TG ;
 EXTERN DOUBLE imprangeG ;
 EXTERN DOUBLE rowSepG ;
-EXTERN INT    rowSepAbsG ;
+EXTERN int    rowSepAbsG ;
 EXTERN DOUBLE stopdegG ;
 
 EXTERN unsigned Yrandom_seed() ;

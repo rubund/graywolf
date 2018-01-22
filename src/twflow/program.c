@@ -76,8 +76,8 @@ ADJPTR adjptr ;
     char command[LRECL] ;
     char window_name[LRECL] ;        /* the window name */
     OBJECTPTR obj ;                  /* current object */
-    INT i ;                          /* arg counter */
-    INT status ;                     /* program return status */
+    int i ;                          /* arg counter */
+    int status ;                     /* program return status */
     char **argv ;                    /* argument vector */
     BOOL stateSaved ;                /* whether graphics state was saved*/
 

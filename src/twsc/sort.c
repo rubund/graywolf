@@ -51,7 +51,7 @@ CONTENTS:   compare_cost( a , b )
 	    comparepinx( a , b )
 		PINBOXPTR *a , *b ;
 	    comparex( a , b )
-		INT *a , *b ;
+		int *a , *b ;
 	    cmpr_sx( aptr, bptr )
 		PINBOXPTR *aptr, *bptr ;
 	    cmpr_lx( aptr, bptr )
@@ -76,8 +76,8 @@ static char SccsId[] = "@(#) sort.c (Yale) version 4.3 9/7/90" ;
 typedef struct graph_edge_cost {
     SHORT node1 ;
     SHORT node2 ;
-    INT cost ;
-    INT channel ;
+    int cost ;
+    int channel ;
 }
 *EDGE_COST ,
 EDGE_COST_BOX ;
@@ -89,19 +89,19 @@ return( (*a)->cost - (*b)->cost ) ;
 }
 
 
-INT comparegdx( a , b )
+int comparegdx( a , b )
 CHANGRDPTR *a , *b ;
 {
 return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
 }
 
-INT comparetxpos( a , b )
+int comparetxpos( a , b )
 IPBOXPTR *a , *b ;
 {
 return( (*a)->txpos - (*b)->txpos ) ;
 }
 
-INT comparenptr( a , b )
+int comparenptr( a , b )
 FEED_SEG_PTR *a , *b ;
 {
 return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
@@ -113,15 +113,15 @@ PINBOXPTR *a , *b ;
 return( (*a)->xpos - (*b)->xpos ) ;
 }
 
-INT comparex( a , b )
-INT *a , *b ;
+int comparex( a , b )
+int *a , *b ;
 
 {
     return( carrayG[ *a ]->cxcenter - carrayG[ *b ]->cxcenter ) ;
 }
 
 
-INT cmpr_sx( aptr, bptr )
+int cmpr_sx( aptr, bptr )
 PINBOXPTR *aptr, *bptr ;
 {
 
@@ -135,7 +135,7 @@ if( (*aptr)->xpos > (*bptr)->xpos ) {
 }
 
 
-INT cmpr_lx( aptr, bptr )
+int cmpr_lx( aptr, bptr )
 PINBOXPTR *aptr, *bptr ;
 {
 
@@ -149,7 +149,7 @@ if( (*aptr)->xpos > (*bptr)->xpos ) {
 }
 
 
-INT cmpr_sy( aptr, bptr )
+int cmpr_sy( aptr, bptr )
 PINBOXPTR *aptr, *bptr ;
 {
 
@@ -163,7 +163,7 @@ if( (*aptr)->newy > (*bptr)->newy ) {
 }
 
 
-INT cmpr_ly( aptr, bptr )
+int cmpr_ly( aptr, bptr )
 PINBOXPTR *aptr, *bptr ;
 {
 

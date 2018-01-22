@@ -83,12 +83,12 @@ FILE *fout ;
 #ifndef AVOID
     char	hostname[256]	;
     char	*timestring ;
-    INT	text		;
-    INT	data		;
-    INT	vm_used		;
-    INT	vm_limit	;
-    INT	vm_soft_limit	;
-    INT elapsed_time    ;
+    int	text		;
+    int	data		;
+    int	vm_used		;
+    int	vm_limit	;
+    int	vm_soft_limit	;
+    int elapsed_time    ;
     DOUBLE	user		;
     DOUBLE	systemTime	;
     DOUBLE	scale		;
@@ -111,7 +111,7 @@ FILE *fout ;
     * Get the brk() value
     ***********************************************************/
     p = sbrk(0) ;
-    vm_used = ((INT) p) / 1024.0 + 0.5 ;
+    vm_used = ((int) p) / 1024.0 + 0.5 ;
 
     /***********************************************************
     * Get virtual memory limits

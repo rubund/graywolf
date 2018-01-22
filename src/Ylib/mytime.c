@@ -95,8 +95,8 @@ unsigned Yrandom_seed()
 {
     UNSIGNED_INT seed ;
     long t ;
-    INT  hsum ;
-    INT  shift ;
+    int  hsum ;
+    int  shift ;
     char buffer[LRECL],
 	 *name = buffer ;;
 

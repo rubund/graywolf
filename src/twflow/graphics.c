@@ -50,7 +50,7 @@ CONTENTS:   init_graphics()
 		OBJECTPTR obj ;
 		BOOL direction ;
 	    graphics_set_object( object )
-		INT find_obj()
+		int find_obj()
 DATE:	    May  7, 1989 - original coding.
 REVISIONS:  Jun 19, 1989 - added return for no graphics case.
 	    Jun 19, 1989 - added prompt toggle.  Added get_edge_from_user
@@ -82,7 +82,7 @@ static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
 
 static BOOL auto_drawS  = TRUE ;
 static BOOL promptS     = FALSE ;        /* whether to prompt for path */
-static INT selectedObjS = 0 ;            /* current selected object */
+static int selectedObjS = 0 ;            /* current selected object */
 static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 #ifndef NOGRAPHICS 
@@ -100,11 +100,11 @@ static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 #include <menus.h>
 
 init_graphics(argc,argv,windowId)
-INT argc ;
+int argc ;
 char *argv[] ;
-INT windowId ;
+int windowId ;
 {
-    INT draw_the_data() ;
+    int draw_the_data() ;
 
     if( !(graphicsG) ){
 	return ;
@@ -131,11 +131,11 @@ INT windowId ;
 } /* end init_graphics */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  color ;
+    int  i ;
+    int  color ;
     OBJECTPTR o ;
     DPTR   dptr ;
     ADJPTR eptr ;
@@ -185,9 +185,9 @@ INT draw_the_data()
 process_graphics()
 {
 
-    INT selection ;     /* the users pick */
-    INT find_obj() ;    /* find the users pick */
-    INT x, y ;          /* the picked point */
+    int selection ;     /* the users pick */
+    int find_obj() ;    /* find the users pick */
+    int x, y ;          /* the picked point */
 
     /* data might have changed so show user current config */
     /* any function other that the draw controls need to worry about */
@@ -295,7 +295,7 @@ BOOL direction ;
     ADJPTR adjptr ;
     ADJPTR start_edge ;
     ADJPTR findEdge() ;
-    INT edge_count ;
+    int edge_count ;
     char *answer ;
 
     while( TRUE ){ /* loop until user makes a selection */
@@ -347,18 +347,18 @@ BOOL direction ;
 
 /* the corresponding handshake to set the highlighted drawing object */
 graphics_set_object( object )
-INT object ;
+int object ;
 {
     selectedObjS = object ;     /* set the current selected object */
 } /* graphics_set_object */
 
 /* find the object in question */
-INT find_obj()
+int find_obj()
 {
 
-    INT i ;
-    INT x, y ;               /* coordinates picked by user */
-    INT obj ;               /* selected cell */
+    int i ;
+    int x, y ;               /* coordinates picked by user */
+    int obj ;               /* selected cell */
     OBJECTPTR o ;           /* pointer to object */
 
     obj = 0 ;
@@ -408,7 +408,7 @@ BOOL direction ;
 {
     ADJPTR adjptr ;
     ADJPTR findEdge() ;
-    INT node1, node2 ;
+    int node1, node2 ;
     char reply[LRECL] ;
 
     while( TRUE ){ /* loop until user makes a selection */

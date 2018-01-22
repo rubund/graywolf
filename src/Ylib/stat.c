@@ -42,16 +42,16 @@ FILE:	    stat.c
 DESCRIPTION:utility routines to calculate min, max, mean, and variance.
 CONTENTS:   DOUBLE Ystat_min( array, number_ele, size_ele  )
 		char *array ;
-		INT  num_ele, INT  size_ele ;
+		int  num_ele, int  size_ele ;
 	    DOUBLE Ystat_max( array, number_ele, size_ele  )
 		char *array ;
-		INT  num_ele, INT  size_ele ;
+		int  num_ele, int  size_ele ;
 	    DOUBLE Ystat_mean( array, number_ele, size_ele  )
 		char *array ;
-		INT  num_ele, INT  size_ele ;
+		int  num_ele, int  size_ele ;
 	    DOUBLE Ystat_var( array, number_ele, size_ele, mean  )
 		char *array ;
-		INT  num_ele, INT  size_ele ;
+		int  num_ele, int  size_ele ;
 		DOUBLE mean ;
 DATE:	    Mar  7, 1989 
 REVISIONS:  Sun Apr 21 21:21:58 EDT 1991 - renamed to Ystat_
@@ -66,14 +66,14 @@ static char SccsId[] = "@(#) stat.c (Yale) version 3.3 4/21/91" ;
 /* Given an array of number_elements of size_element, calculate min */
 DOUBLE Ystat_min( array, number_elements, size_element  )
 char *array ;
-INT  number_elements ;
-INT  size_element ;
+int  number_elements ;
+int  size_element ;
 {
 
-    INT i ;
+    int i ;
     DOUBLE min = DBL_MAX ;
     SHORT  *sarray ;
-    INT    *iarray ;
+    int    *iarray ;
     DOUBLE *darray ;
 
     switch( size_element ){
@@ -93,7 +93,7 @@ INT  size_element ;
 	}
 	break ;
     case 4:
-	iarray = (INT *) array ;
+	iarray = (int *) array ;
 	for( i=0;i<number_elements;i++){
 	    if( (DOUBLE) iarray[i] < min ){
 		min = (DOUBLE) iarray[i] ;
@@ -118,14 +118,14 @@ INT  size_element ;
 /* Given an array of number_elements of size size_element,calculate max */
 DOUBLE Ystat_max( array, number_elements, size_element  )
 char *array ;
-INT  number_elements ;
-INT  size_element ;
+int  number_elements ;
+int  size_element ;
 {
 
-    INT i ;
+    int i ;
     DOUBLE max = DBL_MIN ;
     SHORT  *sarray ;
-    INT    *iarray ;
+    int    *iarray ;
     DOUBLE *darray ;
 
     switch( size_element ){
@@ -145,7 +145,7 @@ INT  size_element ;
 	}
 	break ;
     case 4:
-	iarray = (INT *) array ;
+	iarray = (int *) array ;
 	for( i=0;i<number_elements;i++){
 	    if( (DOUBLE) iarray[i] > max ){
 		max = (DOUBLE) iarray[i] ;
@@ -170,14 +170,14 @@ INT  size_element ;
 /* Given an array of number_elements of size size_ele, calculate mean */
 DOUBLE Ystat_mean( array, number_elements, size_element  )
 char *array ;
-INT  number_elements ;
-INT  size_element ;
+int  number_elements ;
+int  size_element ;
 {
 
-    INT i ;
+    int i ;
     DOUBLE sum = 0.0 ;
     SHORT  *sarray ;
-    INT    *iarray ;
+    int    *iarray ;
     DOUBLE *darray ;
 
     switch( size_element ){
@@ -193,7 +193,7 @@ INT  size_element ;
 	}
 	break ;
     case 4:
-	iarray = (INT *) array ;
+	iarray = (int *) array ;
 	for( i=0;i<number_elements;i++){
 	    sum += (DOUBLE) iarray[i] ;
 	}
@@ -222,17 +222,17 @@ INT  size_element ;
 /* NOTE also need to give mean calculated from above */
 DOUBLE Ystat_var( array, number_elements, size_element, mean )
 char *array ;
-INT  number_elements ;
-INT  size_element ;
+int  number_elements ;
+int  size_element ;
 DOUBLE mean ;
 {
 
-    INT i ;
+    int i ;
     DOUBLE sum ;
     DOUBLE sum2 = 0.0 ;
     DOUBLE var ;
     SHORT  *sarray ;
-    INT    *iarray ;
+    int    *iarray ;
     DOUBLE *darray ;
 
     switch( size_element ){
@@ -251,7 +251,7 @@ DOUBLE mean ;
 	}
 	break ;
     case 4:
-	iarray = (INT *) array ;
+	iarray = (int *) array ;
 	for( i=0;i<number_elements;i++){
 	    sum = (DOUBLE) iarray[i] ;
 	    sum2 += sum * sum ;

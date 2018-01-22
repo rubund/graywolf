@@ -132,7 +132,7 @@ static no_move_message();
 static save_for_do();
 static update_macro();
 static graphics_dump();
-static INT pick_macro();
+static int pick_macro();
 static TILE_BOX *pick_tile();
 static ROW_BOX *pick_row();
 static BOOL edit_tiles();
@@ -144,13 +144,13 @@ static highlight_corner();
 static outm();
 
 initgraphics( argc, argv, windowId )
-INT argc, windowId ;
+int argc, windowId ;
 char *argv[] ;
 {
 
     char *host ;
     char *Ygetenv() ;
-    extern INT draw_the_data() ;
+    extern int draw_the_data() ;
 
 
     if( !(graphicsG) ){
@@ -188,13 +188,13 @@ char *argv[] ;
 
 
 /* how to draw the data */
-INT
+int
 draw_the_data()
 {
-    INT      i ;            /* counter */
-    INT      l, b, r, t ;   /* core dimensions */
-    INT      color ;        /* current color */
-    INT      macro ;        /* current macro */
+    int      i ;            /* counter */
+    int      l, b, r, t ;   /* core dimensions */
+    int      color ;        /* current color */
+    int      macro ;        /* current macro */
     char     label[LRECL] ; /* make a label buffer */
     char     *labelptr ;    /* pointer to current label */
     TILE_BOX *tileptr ;     /* current tile */
@@ -352,7 +352,7 @@ draw_the_data()
 static draw_tile( tileptr )
 TILE_BOX *tileptr ;     /* current tile */
 {
-    INT      color ;        /* current color */
+    int      color ;        /* current color */
     char     label[LRECL] ; /* make a label buffer */
     char     *labelptr ;    /* pointer to current label */
 
@@ -376,10 +376,10 @@ TILE_BOX *tileptr ;     /* current tile */
 } /* end draw_tile */
 
 static draw_macro( macro, color )
-INT macro ;
-INT color ;
+int macro ;
+int color ;
 {
-    INT i ;
+    int i ;
     char *labelptr ;        /* name of cell */
     char label[LRECL] ;     /* buffer for name */
     VERTEXPTR *vptr ;       /* current vertex array */
@@ -412,15 +412,15 @@ INT color ;
 static draw_fs( mptr )
 MACROPTR  mptr ;        /* current macro */
 {
-    INT i ;              /* counter */
-    INT x[10], y[10] ;   /* only 10 points to an F */
-    INT l, b, r, t ;     /* bounding box points */
+    int i ;              /* counter */
+    int x[10], y[10] ;   /* only 10 points to an F */
+    int l, b, r, t ;     /* bounding box points */
     VERTEXPTR pt_ptr ;   /* current point */
     VERTEXPTR *vptr ;    /* current vertex array */
-    INT xout, yout ;     /* rotated points */
-    INT wid ;            /* with of the F */
-    INT pt ;             /* point counter */
-    INT xc, yc ;         /* center of cell */
+    int xout, yout ;     /* rotated points */
+    int wid ;            /* with of the F */
+    int pt ;             /* point counter */
+    int xc, yc ;         /* center of cell */
 
     l = INT_MAX ;
     b = INT_MAX ;
@@ -444,7 +444,7 @@ MACROPTR  mptr ;        /* current macro */
 	    t = MAX( t, pt_ptr->x - xc ) ;
 	}
     }
-    wid = (INT) (0.25 * (DOUBLE)( t - b ) ) ;
+    wid = (int) (0.25 * (DOUBLE)( t - b ) ) ;
     /* now set the points */
     x[0] = l ;         y[0] = b ;
     x[1] = l ;         y[1] = t ;
@@ -473,8 +473,8 @@ MACROPTR  mptr ;        /* current macro */
 /* set the size of the graphics window */
 setGraphicWindow() 
 {
-    INT l, b, r, t ;
-    INT expand ;
+    int l, b, r, t ;
+    int expand ;
 
     get_core( &l, &b, &r, &t, TRUE ) ;
     expand = (int) (0.10 * (DOUBLE) (r - l) ) ;
@@ -497,17 +497,17 @@ void
 process_graphics()
 {
 
-    INT x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
-    INT x, y ;           /* coordinates from pointer */
-    INT i ;             /* temp variable */
-    INT rows ;          /* number of stdcell rows */
-    INT net ;           /* net for minimum spanning tree */
-    INT selection ;     /* the users pick */
-    INT temp ;          /* temporary variable for atoi calc */
-    INT minlength ;     /* minimum length of a tile */
+    int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
+    int x, y ;           /* coordinates from pointer */
+    int i ;             /* temp variable */
+    int rows ;          /* number of stdcell rows */
+    int net ;           /* net for minimum spanning tree */
+    int selection ;     /* the users pick */
+    int temp ;          /* temporary variable for atoi calc */
+    int minlength ;     /* minimum length of a tile */
     DOUBLE tempf ;      /* user reply transformed to float */
-    /* static INT pick_macro(); */ /* get macro from user */
-    INT pick_macro(); /* get macro from user */
+    /* static int pick_macro(); */ /* get macro from user */
+    int pick_macro(); /* get macro from user */
     char *reply ;       /* user reply to a querry */
     char filename[LRECL];/* file name */
     BOOL ok ;           /* loop until this value is true */
@@ -1215,7 +1215,7 @@ process_graphics()
 
 static last_chance()
 {
-    INT i ; /* counter */
+    int i ; /* counter */
 
     (void) sleep( (unsigned) 1 ) ;
     TWmessage( "If you wish to modify the rows, you have 10 secs. to click on top menu") ;
@@ -1236,7 +1236,7 @@ static no_move_message()
 }
 
 static save_for_do( save )
-INT save ;
+int save ;
 {
     char filename[LRECL] ;
     FILE *fp ;
@@ -1289,15 +1289,15 @@ static graphics_dump()
 
 
 /* find the macro in question */
-static INT pick_macro( twmsg )
+static int pick_macro( twmsg )
 char *twmsg ;
 {
 
-    INT i ;
-    INT match_count ;        /* keep track of all cells that match */
-    INT x, y ;               /* coordinates picked by user */
-    INT cell ;               /* selected cell */
-    INT l, r, b, t ;         /* cell sides */
+    int i ;
+    int match_count ;        /* keep track of all cells that match */
+    int x, y ;               /* coordinates picked by user */
+    int cell ;               /* selected cell */
+    int l, r, b, t ;         /* cell sides */
 
     if( twmsg ){
 	TWmessage( twmsg ) ;
@@ -1372,7 +1372,7 @@ char *twmsg ;
 static TILE_BOX *pick_tile( pmsg )
 char *pmsg ;
 {
-    INT x, y ;            /* the user's pick points */
+    int x, y ;            /* the user's pick points */
     TILE_BOX *tile ;      /* the current tile */
 
     if( pmsg ){
@@ -1396,7 +1396,7 @@ char *pmsg ;
 
 static ROW_BOX *pick_row()
 {
-    INT x, y ;            /* the user's pick points */
+    int x, y ;            /* the user's pick points */
     ROW_BOX  *rowptr  ;     /* current row being output */
     ROW_BOX  *segment ;     /* current segment being output */
     ROW_BOX  *get_rowptr(); /* get data structure */
@@ -1454,10 +1454,10 @@ static ROW_BOX *pick_row()
 #define NOMIRRORCASE MIRRORF+2 
 #define FWIDTH       15   /* field width */
 
-static INT get_row_height( answer )
+static int get_row_height( answer )
 TWDRETURNPTR answer ;  /* return from user */
 {
-    INT height ;
+    int height ;
 
     height = atoi( answer[ROWF].string ) ;
     if( height <= 0 ){
@@ -1468,10 +1468,10 @@ TWDRETURNPTR answer ;  /* return from user */
     return( height ) ;
 } /* end get_row_height */
 
-static INT get_row_sep( answer )
+static int get_row_sep( answer )
 TWDRETURNPTR answer ;  /* return from user */
 {
-    INT sep ;
+    int sep ;
 
     sep = atoi( answer[SEPF].string ) ;
     if( sep <= 0 ){
@@ -1487,10 +1487,10 @@ TWDRETURNPTR answer ;  /* return from user */
     return( sep ) ;
 } /* end get_row_sep */
 
-static INT get_maxrows( answer )
+static int get_maxrows( answer )
 TWDRETURNPTR answer ;  /* return from user */
 {
-    INT maxrows ;
+    int maxrows ;
 
     /* means the user change the field */
     maxrows = atoi( answer[MAXROWF].string ) ;
@@ -1502,15 +1502,15 @@ TWDRETURNPTR answer ;  /* return from user */
     return( maxrows ) ;
 } /* end get_maxrows */
 
-static INT update_tile_data( answer, field )
+static int update_tile_data( answer, field )
 TWDRETURNPTR answer ;  /* return from user */
-INT field ;
+int field ;
 {
-    INT sep ;
-    INT rows ;
-    INT maxrows ;
-    INT height ;
-    INT row_height ;
+    int sep ;
+    int rows ;
+    int maxrows ;
+    int height ;
+    int row_height ;
 
     switch( field ){
     case FORCECASE:
@@ -1587,11 +1587,11 @@ INT field ;
 static BOOL edit_tiles( tile )
 TILE_BOX *tile ;
  {
-    INT  temp ;            /* temporary answer from user */
-    INT  sep ;             /* channel separation */
-    INT  rows ;            /* number of rows */
-    INT  height ;          /* tile height */
-    INT  max_rows ;        /* maximum number of rows */
+    int  temp ;            /* temporary answer from user */
+    int  sep ;             /* channel separation */
+    int  rows ;            /* number of rows */
+    int  height ;          /* tile height */
+    int  max_rows ;        /* maximum number of rows */
     char tileName[FWIDTH]; /* a scratch buffer for tile name */
     char left[FWIDTH];     /* a scratch buffer for left tile side */
     char right[FWIDTH];    /* a scratch buffer for right tile side */
@@ -1845,7 +1845,7 @@ ROW_BOX *rowptr ;
     char top[FWIDTH];      /* a scratch buffer for top tile side */
     char bottom[FWIDTH];   /* a scratch buffer for bottom tile side */
     char class[FWIDTH];    /* a scratch buffer for the class */
-    INT  temp ;            /* calculate the class */
+    int  temp ;            /* calculate the class */
     TWDRETURNPTR answer ;  /* return from user */
 
     TWmessage( "Edit Row" ) ;
@@ -1910,13 +1910,13 @@ ROW_BOX *rowptr ;
 #define ORIENTF      13
 #define ORIENTBASE   14
 
-static INT update_macro_data( answer, field )
+static int update_macro_data( answer, field )
 TWDRETURNPTR answer ;  /* return from user */
-INT field ;
+int field ;
 {
-    INT pos ;
-    INT deltax, deltay ;
-    INT orient ;
+    int pos ;
+    int deltax, deltay ;
+    int orient ;
 
     deltax = 0 ;
     deltay = 0 ;
@@ -1975,9 +1975,9 @@ static edit_macro( macro, xoff, yoff )
     char ypos[FWIDTH];     /* a scratch buffer for ypos */
     char deltax[FWIDTH];   /* a scratch buffer for deltax */
     char deltay[FWIDTH];   /* a scratch buffer for deltay */
-    INT x, y ;             /* new coordinates */
-    INT pos ;              /* user's input */
-    INT old_orient ;       /* put orientation back if necessary */
+    int x, y ;             /* new coordinates */
+    int pos ;              /* user's input */
+    int old_orient ;       /* put orientation back if necessary */
 
 #ifdef DEVELOPDIALOG
     macro_dialogS = TWread_dialog( "macro.dialog" ) ;
@@ -2034,8 +2034,8 @@ static edit_macro( macro, xoff, yoff )
 
 
 get_global_pos( macro, l, b, r, t )
-INT macro ; 
-INT *l, *r, *b, *t ;
+int macro ; 
+int *l, *r, *b, *t ;
 {
 
     MACROPTR mptr ;
@@ -2048,11 +2048,11 @@ INT *l, *r, *b, *t ;
 } /* end get_global_pos */
 
 static update_vertices( macro, newxcenter, newycenter )
-INT macro, newxcenter, newycenter ;
+int macro, newxcenter, newycenter ;
 {
-    INT j ;
-    INT deltaX ;
-    INT deltaY ;
+    int j ;
+    int deltaX ;
+    int deltaY ;
     MACROPTR mptr ;
     VERTEXPTR vptr ;
 
@@ -2070,27 +2070,27 @@ INT macro, newxcenter, newycenter ;
 
 static rotate_vertices( mptr, orient )
 MACROPTR mptr ;
-INT orient ;
+int orient ;
 {
-    INT j, p ;
-    INT x, y ;
-    INT l, b ;
-    INT this_pt ;
-    INT inverse ;
-    INT old_orient ;
-    INT lowestp ;
-    INT limit ;
-    INT nextpos, nextneg ;
-    INT *temp_x ;
-    INT *temp_y ;
-    INT numpts ;
+    int j, p ;
+    int x, y ;
+    int l, b ;
+    int this_pt ;
+    int inverse ;
+    int old_orient ;
+    int lowestp ;
+    int limit ;
+    int nextpos, nextneg ;
+    int *temp_x ;
+    int *temp_y ;
+    int numpts ;
     VERTEXPTR vptr ;
 
     old_orient = mptr->orient ;
     numpts = mptr->num_vertices ;
     /* allocate the space for reoordering the points of the macro */
-    temp_x = (INT *) Ysafe_malloc( numpts * sizeof(INT) ) ;
-    temp_y = (INT *) Ysafe_malloc( numpts * sizeof(INT) ) ;
+    temp_x = (int *) Ysafe_malloc( numpts * sizeof(int) ) ;
+    temp_y = (int *) Ysafe_malloc( numpts * sizeof(int) ) ;
     /* first subtract off the center */
     for( j = 0; j < mptr->num_vertices; j++ ){
 	vptr = mptr->vertices[j] ;
@@ -2173,12 +2173,12 @@ INT orient ;
 } /* end rotate_vertices */
 
 static find_nearest_corner( macro, x, y, x_ret, y_ret )
-INT macro, x, y, *x_ret, *y_ret ;
+int macro, x, y, *x_ret, *y_ret ;
 {
-    INT j ;
-    INT dist ;
-    INT cdist ;
-    INT closest_pt ;
+    int j ;
+    int dist ;
+    int cdist ;
+    int closest_pt ;
     MACROPTR mptr ;
     VERTEXPTR vptr ;
 
@@ -2208,14 +2208,14 @@ INT macro, x, y, *x_ret, *y_ret ;
 
 
 static highlight_corner( macro, x, y )
-INT macro, x, y ;
+int macro, x, y ;
 {
-    INT l, b, r, t ;   /* the core */
-    INT xpand ;        /* blow up corner by this amount */
+    int l, b, r, t ;   /* the core */
+    int xpand ;        /* blow up corner by this amount */
 
     get_core( &l, &b, &r, &t, TRUE ) ;
     xpand = MIN( r - l, t - b ) ;
-    xpand = (INT) (0.025 * (DOUBLE) xpand ) ;
+    xpand = (int) (0.025 * (DOUBLE) xpand ) ;
     xpand = MAX( xpand, 1 ) ; /* don't let it go to zero */
     TWdrawCell( 0, x-xpand,y-xpand,x+xpand,y+xpand,TWBLACK, NULL ) ;
     TWflushFrame() ;
@@ -2226,7 +2226,7 @@ INT macro, x, y ;
 } /* end highlight_corner */
 
 static outm( errtype, routine, string )
-INT errtype ;
+int errtype ;
 char *routine ;
 char *string ;
 {

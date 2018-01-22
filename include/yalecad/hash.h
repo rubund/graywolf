@@ -24,28 +24,28 @@ typedef struct ytable_rec {
 typedef struct {
     YTABLEPTR *hash_table ;
     YTABLEPTR thread ;
-    INT size ;
+    int size ;
 } YHASHBOX, *YHASHPTR ;
 
-#define ENTER   (INT) 1
-#define FIND    (INT) 0
-#define DELETE  (INT) 2
+#define ENTER   (int) 1
+#define FIND    (int) 0
+#define DELETE  (int) 2
 
-extern YHASHPTR Yhash_table_create( P1(INT numentries) ) ;
+extern YHASHPTR Yhash_table_create( P1(int numentries) ) ;
 /*
 Function:
     Returns a hash table with the given number of entries.
     More that one hash table can coexist at the same time.
 */
 
-extern INT Yhash_table_get( P1( YHASHPTR  hashtable ) ) ;
+extern int Yhash_table_get( P1( YHASHPTR  hashtable ) ) ;
 /*
 Function:
     Returns the current size of hash table set by Yhash_table_create 
 */
 
 extern char *Yhash_search( P4(YHASHPTR  hashtable, char *key, VOIDPTR data,
-	INT operation ) ) ;
+	int operation ) ) ;
 /*
 Function:
     Hash table search routine.  Given a hashtable and a key, perform
@@ -76,7 +76,7 @@ Function:
 */
 
 
-extern Yhash_table_delete( P2(YHASHPTR  hashtable,INT (*userdelete)() ) ) ;
+extern Yhash_table_delete( P2(YHASHPTR  hashtable,int (*userdelete)() ) ) ;
 /*
 Function:
     Frees the memory associated with a hash table. The user
@@ -90,7 +90,7 @@ Function:
     }
 */
 
-extern INT Yhash_set_size( P1( YHASHPTR  hashtable ) ) ;
+extern int Yhash_set_size( P1( YHASHPTR  hashtable ) ) ;
 /*
 Function:
     Since this is a threaded hash table we can find the size of

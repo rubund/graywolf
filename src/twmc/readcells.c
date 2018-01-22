@@ -102,11 +102,11 @@ static char SccsId[] = "@(#) readcells.y version 3.15 3/6/92" ;
 #define sprint(x)      fprintf( stdout, "%s\n", x )
 #endif
 
-static INT line_countS ;
+static int line_countS ;
 static char bufferS[LRECL] ;
 
 typedef union {
-    INT ival ;
+    int ival ;
     char *string ;
     DOUBLE fval ;
 } YYSTYPE;

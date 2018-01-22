@@ -100,17 +100,17 @@ typedef struct {
     char *rule ;
     union {
 	BOOL bvalue ;
-	INT ivalue ;
+	int ivalue ;
 	DOUBLE fvalue ;
 	char *svalue ;
     } value ;
 } RULEBOX, *RULEPTR ;
 
 static YTREEPTR rule_treeS ;
-static INT numlayS = 0 ;
-static INT numviaS = 0 ;
-static INT alloc_layS = DEFAULT_LAYERS ;
-static INT alloc_viaS = DEFAULT_VIAS ;
+static int numlayS = 0 ;
+static int numviaS = 0 ;
+static int alloc_layS = DEFAULT_LAYERS ;
+static int alloc_viaS = DEFAULT_VIAS ;
 static char **layerArrayS = NIL(char **) ;
 static char **viaArrayS = NIL(char **) ;
 
@@ -121,7 +121,7 @@ static char **viaArrayS = NIL(char **) ;
 ----------------------------------------------------------------- */
 static struct ptable_rec {  /* reserved program table */
     char *program ;      /* program name */
-    INT  program_id ;    /* program id */
+    int  program_id ;    /* program id */
     char *suffix ;       /* program suffix */
 } pgmtableS[] = {
     "CMPT",	CMPT,	"cpar",
@@ -139,23 +139,23 @@ static struct ptable_rec {  /* reserved program table */
 typedef struct {
     char *parameter ;       /* the parameter keyword */
     char **tokens ;         /* the values of the parameter */
-    INT  numtokens ;        /* number of tokens */
-    INT  program ;          /* name of program */
+    int  numtokens ;        /* number of tokens */
+    int  program ;          /* name of program */
 } PARAM, *PARAMPTR ;
 
 static FILE *fpS = NIL(FILE *) ;
 static char copy_bufferS[LRECL] ;
 static char bufferS[LRECL] ;
-static INT  filter_idS = 0 ;
-static INT  prog_idS = 0 ;
-static INT  lineS = 0 ;
+static int  filter_idS = 0 ;
+static int  prog_idS = 0 ;
+static int  lineS = 0 ;
 static char filterNameS[5] ;
 static BOOL verboseS = TRUE ;
 
-static INT prog2id( program ) 
+static int prog2id( program ) 
 char *program ;
 {
-    INT c ;
+    int c ;
     struct ptable_rec *low = pgmtableS,          /* ptr to beginning */
 		      *mid ,  
 		      *high = END(pgmtableS) ;   /* ptr to end */
@@ -177,7 +177,7 @@ char *program ;
 } /* end prog2id function */
 
 static char *id2prog( id )
-INT id ;
+int id ;
 {
     if( id > 0 && id <= MAXID ){
 	return( pgmtableS[id-1].program ) ;
@@ -187,7 +187,7 @@ INT id ;
 } /* end id2prog */
 
 static char *id2suffix( id )
-INT id ;
+int id ;
 {
     if( id > 0 && id <= MAXID ){
 	return( pgmtableS[id-1].suffix ) ;
@@ -197,16 +197,16 @@ INT id ;
 } /* end id2prog */
 
 /* compare routine for design rule processing */
-static INT compare_rule( key1, key2 )
+static int compare_rule( key1, key2 )
 RULEPTR key1, key2 ;
 {
-    return( (INT)strcmp( key1->rule, key2->rule ) ) ;
+    return( (int)strcmp( key1->rule, key2->rule ) ) ;
 } /* end compare */
 
 static BOOL check_layer( layer )
 char *layer ;
 {
-    INT i ;        /* counter */
+    int i ;        /* counter */
 
     verboseS = FALSE ;
     if( Yreadpar_layer2id( layer ) ){
@@ -236,7 +236,7 @@ char type ;
     RULEPTR data ;
     RULEBOX data_buffer ;
     DOUBLE  fvalue ;   
-    INT     data_value ;
+    int     data_value ;
     char    key[LRECL] ;
 
     /* make the key */
@@ -269,7 +269,7 @@ char type ;
 	}
 	break ;
     case LAYER_T:
-	data->value.ivalue = (INT) value ;
+	data->value.ivalue = (int) value ;
 	break ;
     case WIDTH_T:
 	/* now calculate value */
@@ -302,7 +302,7 @@ char type ;
     RULEPTR data ;
     RULEBOX data_buffer ;
     DOUBLE  fvalue ;   
-    INT     data_value ;
+    int     data_value ;
     char    key[LRECL] ;
 
 
@@ -348,8 +348,8 @@ char type ;
 
 VOID Yreadpar_init( design_name, parfile, filter, abortFlag )
 char *design_name ;
-INT  parfile ;
-INT  filter ;
+int  parfile ;
+int  filter ;
 BOOL abortFlag ;
 {
     char *suffix ;              /* parameter file suffix */
@@ -357,8 +357,8 @@ BOOL abortFlag ;
     char filename[LRECL] ;      /* the file name */
     char *bufferptr ;
     char **tokens ;
-    INT  i ;                    /* counter */
-    INT  numtokens ;            /* number of tokens on a line */
+    int  i ;                    /* counter */
+    int  numtokens ;            /* number of tokens on a line */
     BOOL rule_section ;         /* true if rule section exists */
     char *data ;                /* rule data to be stored */
     static BOOL rules_unreadL=TRUE; /* false after the rules have been read */
@@ -514,8 +514,8 @@ BOOL abortFlag ;
 
 char **Yreadpar_next( lineptr, line, numtokens, onNotOff, wildcard )
 char **lineptr ;
-INT *line ;
-INT  *numtokens ;
+int *line ;
+int  *numtokens ;
 BOOL *onNotOff ;
 BOOL *wildcard ;
 {
@@ -599,10 +599,10 @@ BOOL *wildcard ;
 
 } /* end Yreadpar_next */
 
-static INT compare_parameter( key1, key2 )
+static int compare_parameter( key1, key2 )
 PARAMPTR key1, key2 ;
 {
-    return( (INT)strcmp( key1->parameter, key2->parameter ) ) ;
+    return( (int)strcmp( key1->parameter, key2->parameter ) ) ;
 } /* end compare */
 
 YPARPTR Yreadpar_file()
@@ -611,9 +611,9 @@ YPARPTR Yreadpar_file()
     YPARPTR  store ;              /* a tree with all the parameters */
     char *lineptr ;
     char **tokens ;
-    INT  numtokens ;
-    INT  line ;
-    INT  i ;                     /* counter */
+    int  numtokens ;
+    int  line ;
+    int  i ;                     /* counter */
     BOOL onNotOff ;
     BOOL wildcard ;
 
@@ -663,8 +663,8 @@ YPARPTR Yreadpar_file()
 char **Yreadpar_lookup( par_object, param, program, numtokens )
 YPARPTR par_object ;          /* parameter tree */
 char *param ;                 /* parameter */
-INT program ;                 /* program id */
-INT *numtokens ;              /* returns the number of tokens for parameter */
+int program ;                 /* program id */
+int *numtokens ;              /* returns the number of tokens for parameter */
 {
     PARAMPTR data ;           /* store this in the tree */
     PARAM key ;
@@ -819,14 +819,14 @@ char *object ;
 
 } /* end Yreadpar_layer_HnotV */
 
-INT Yreadpar_layer2id( object )
+int Yreadpar_layer2id( object )
 char *object ;
 {
     char  key[LRECL] ;
     RULEPTR data ;
     RULEBOX data_buffer ;
 
-    ERROR_CHECK(INT) ;
+    ERROR_CHECK(int) ;
     /* first build the key */
     sprintf( key, "%s:%c", object, LAYER_T ) ;
     data_buffer.rule = key ;
@@ -844,7 +844,7 @@ char *object ;
 } /* end Yreadpar_layer2id */
 
 char *Yreadpar_id2layer( layerid )
-INT layerid ;
+int layerid ;
 {
     ERROR_CHECK(char*) ;
     if( layerid > 0 && layerid <= numlayS ){
@@ -860,7 +860,7 @@ INT layerid ;
 
 } /* end Yreadpar_id2layer */
 
-INT Yreadpar_numlayers()
+int Yreadpar_numlayers()
 {
     return( numlayS ) ;
 } /* end Yreadpar_numlayers */
@@ -894,7 +894,7 @@ char *object1, *object2 ;
 } /* end Yreadpar_vianame */
 
 char *Yreadpar_viaId2name( viaid )
-INT viaid ;
+int viaid ;
 {
     ERROR_CHECK(char*) ;
     if( viaid > 0 && viaid <= numviaS ){

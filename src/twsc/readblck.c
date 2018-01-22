@@ -65,9 +65,9 @@ static char SccsId[] = "@(#) readblck.c (Yale) version 4.10 11/8/91" ;
 #include "readblck.h"
 
 /* global variable references */
-extern INT spacer_widthG ;
-extern INT vertical_pitchG ;
-extern INT total_row_lengthG ;
+extern int spacer_widthG ;
+extern int vertical_pitchG ;
+extern int total_row_lengthG ;
 
 #if SIZEOF_VOID_P == 64
 #define INTSCANSTR "%ld"
@@ -83,9 +83,9 @@ FILE *fp ;
 
 {
 
-INT test , block , class , height , row , width , row_sep_abs ;
-INT lowerL_x , upperR_x , lowerL_y , upperR_y ;
-INT shift_amount , deviation , left_edge , reference_point ;
+int test , block , class , height , row , width , row_sep_abs ;
+int lowerL_x , upperR_x , lowerL_y , upperR_y ;
+int shift_amount , deviation , left_edge , reference_point ;
 DOUBLE relLen , row_sep , avg_row_sep , avg_row_height ;
 BOOL comment ;
 char input[1024] ;
@@ -186,7 +186,7 @@ rewind( fp ) ;
 
 barrayG = (BBOXPTR *) Ysafe_malloc( (numRowsG + 1) * sizeof( BBOXPTR ) ) ;
 rowSepsG = (DOUBLE *) Ysafe_malloc( (numRowsG + 1) * sizeof( DOUBLE ) ) ;
-rowSepsAbsG = (INT *) Ysafe_malloc( (numRowsG + 1) * sizeof( INT ) ) ;
+rowSepsAbsG = (int *) Ysafe_malloc( (numRowsG + 1) * sizeof( int ) ) ;
 
 relativeLenG = (DOUBLE *) Ysafe_malloc( (numRowsG + 1) * sizeof(DOUBLE));
 for( block = 1 ; block <= numRowsG ; block++ ) {

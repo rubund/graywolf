@@ -111,7 +111,7 @@ static int  line_countS ;
 static char bufferS[LRECL] ;
 
 typedef union {
-    INT ival ;
+    int ival ;
     char *string ;
     double fval ;
 } YYSTYPE;

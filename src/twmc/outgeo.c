@@ -88,13 +88,13 @@ outgeo()
 {
 
 FILE *fp ;
-INT cell ;
-INT l, b, r, t, x , y , xc , yc ;
+int cell ;
+int l, b, r, t, x , y , xc , yc ;
 char filename[LRECL] ;
 CELLBOXPTR cellptr ;
 BOUNBOXPTR bounptr ;
-INT padmacroCounter ;
-INT  left_side, right_side, bottom_side, top_side ;
+int padmacroCounter ;
+int  left_side, right_side, bottom_side, top_side ;
 
 sprintf( filename, "%s.mgeo", cktNameG ) ;
 fp = TWOPEN( filename , "w", ABORT) ;
@@ -283,7 +283,7 @@ return ;
 
 static store_pad_loc( cellptr, l, r, b, t )
 CELLBOXPTR cellptr ;
-INT l, r, b, t ;
+int l, r, b, t ;
 {
     TILEBOXPTR tptr ;
 

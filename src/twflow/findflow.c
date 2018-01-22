@@ -67,8 +67,8 @@ BOOL general_mode, debug ;
 char *filename ;
 {
 
-    INT type ;                     /* design type */
-    INT find_design_type() ;
+    int type ;                     /* design type */
+    int find_design_type() ;
     char prefix[LRECL] ;
     char suffix[LRECL] ;
     FILE *fp ;
@@ -160,16 +160,16 @@ char *filename ;
 } /* end find_flow_file */
 
 /* call syntax if necessary and then read result */
-INT find_design_type()
+int find_design_type()
 {
     ADJBOX syntax_info ;
     FBOX infile ;
     FBOX outfile ;
-    INT status ;
-    INT numtokens ;
-    INT num_stdcell ;
-    INT num_macro ;
-    INT mode ;
+    int status ;
+    int numtokens ;
+    int num_stdcell ;
+    int num_macro ;
+    int mode ;
     FILE *fin ;
     char in_name[8] ;
     char out_name[8] ;

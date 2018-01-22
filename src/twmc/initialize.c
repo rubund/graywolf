@@ -156,23 +156,23 @@ static char SccsId[] = "@(#) initialize.c version 3.24 10/18/91" ;
 } \
 
 /* ######################  STATIC definitions ######################### */
-static INT  curCellTypeS ;  /* current cell type - ie, softcell,pad etc.*/
-static INT  cellinstanceS ; /* number of instances of current cell      */
-static INT  cornerCountS ;  /* current number of corners                */
-static INT  tileptAllocS ;  /* allocation allotted to tile structures   */
-static INT  xcenterS, ycenterS ;/* current cell center coordinates      */
-static INT  minxS, minyS ;  /* bounding box of current cell             */
-static INT  maxxS, maxyS ;  /* bounding box of current cell             */
-static INT  totPinS ;       /* total number of pins over all instances  */
-static INT  netAllocS ;     /* current space in netarray                */
-static INT  cellAllocS ;    /* current space in cellarray               */
-static INT  childAllocS ;   /* current space in current pptr->children  */
-static INT  instAllocS ;    /* current number of instance allocated     */
-static INT  equivpinS ;   /* total number of equivs for the current pin */
-static INT  totxS, totyS ;  /* counters for equiv pin postions          */
-static INT  numchildrenS ;  /* # of children in current pad or pingroup */
-static INT  numpingroupS ;  /* # of pingroups for this cell             */
-static INT cur_restrict_objS ; /* set by set_restrict type              */
+static int  curCellTypeS ;  /* current cell type - ie, softcell,pad etc.*/
+static int  cellinstanceS ; /* number of instances of current cell      */
+static int  cornerCountS ;  /* current number of corners                */
+static int  tileptAllocS ;  /* allocation allotted to tile structures   */
+static int  xcenterS, ycenterS ;/* current cell center coordinates      */
+static int  minxS, minyS ;  /* bounding box of current cell             */
+static int  maxxS, maxyS ;  /* bounding box of current cell             */
+static int  totPinS ;       /* total number of pins over all instances  */
+static int  netAllocS ;     /* current space in netarray                */
+static int  cellAllocS ;    /* current space in cellarray               */
+static int  childAllocS ;   /* current space in current pptr->children  */
+static int  instAllocS ;    /* current number of instance allocated     */
+static int  equivpinS ;   /* total number of equivs for the current pin */
+static int  totxS, totyS ;  /* counters for equiv pin postions          */
+static int  numchildrenS ;  /* # of children in current pad or pingroup */
+static int  numpingroupS ;  /* # of pingroups for this cell             */
+static int cur_restrict_objS ; /* set by set_restrict type              */
 static char *curCellNameS ; /* current cell name                        */
 static char *curPinNameS ;   /* current pin name                        */
 static BOOL portFlagS ; /* tells whether port(TRUE) or not(FALSE)       */
@@ -234,8 +234,8 @@ errorFlagS = FALSE ;
 analog_errorS = FALSE ;
 totPinS = 0 ;
 unique_classG = 0 ;
-net_cap_matchG = NIL(INT **) ;
-net_res_matchG = NIL(INT **) ;
+net_cap_matchG = NIL(int **) ;
+net_res_matchG = NIL(int **) ;
 scaleS = (DOUBLE) scale_dataG ;
 cornerCountS = 0 ;
 tileptAllocS = EXPECTEDCORNERS ;
@@ -257,7 +257,7 @@ cellarrayG = (CELLBOXPTR *)Ysafe_malloc(cellAllocS*sizeof(CELLBOXPTR));
 /* cleanup operations at the end of readcells */
 cleanupReadCells()
 {
-    INT cell ;           /* cell counter */
+    int cell ;           /* cell counter */
     PADBOXPTR padptr ;   /* current pad */
     CELLBOXPTR ptr ;     /* current pad cell */
 
@@ -340,8 +340,8 @@ addCell( cellName, cellType )
 char *cellName ;
 CELLTYPE  cellType ;
 {
-INT i ;
-INT *data ;
+int i ;
+int *data ;
 
 curCellNameS = cellName ; /* for error messages */
 curCellTypeS = cellType ;
@@ -357,7 +357,7 @@ ptrS = cellarrayG[totalcellsG] = (CELLBOXPTR)
     Ysafe_malloc( sizeof(CELLBOX) ) ;
 
 /* add cell to hash table */
-data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+data = (int *) Ysafe_malloc( sizeof(int) ) ;
 *data = totalcellsG ;
 if( Yhash_search( cellTableS, curCellNameS, (char *) data, ENTER ) ){
     sprintf( YmsgG, "Cellnames not unique:%s\n", curCellNameS ) ;
@@ -438,8 +438,8 @@ if( cellType == SOFTCELLTYPE ){
     if( cellType == PADGROUPTYPE ){
 	numchildrenS = 0 ;
 	childAllocS = EXPECTEDNUMPADS ;
-	pptrS->children = (INT *)
-	    Ysafe_malloc((childAllocS)*sizeof(INT));
+	pptrS->children = (int *)
+	    Ysafe_malloc((childAllocS)*sizeof(int));
 	pptrS->hierarchy  = ROOT;
 	numpadgroupsG++ ;
     } else { /* PADCELLTYPE */
@@ -489,8 +489,8 @@ if( curCellTypeS == CUSTOMCELLTYPE || curCellTypeS == SOFTCELLTYPE ||
 if( curCellTypeS == SOFTCELLTYPE || curCellTypeS == STDCELLTYPE ){
 } else if( curCellTypeS == PADGROUPTYPE){
     /* realloc size of children array to final size */
-    pptrS->children = (INT *)
-	Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(INT));
+    pptrS->children = (int *)
+	Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(int));
     pptrS->children[HOWMANY] = numchildrenS ;
 }
 if( cellinstanceS ){
@@ -507,7 +507,7 @@ if( cellinstanceS ){
 } /* end function endCell */
 
 /* ***************************************************************** */
-static INT findsidestr( side, direction )
+static int findsidestr( side, direction )
 char *side ;
 BOOL direction ;
 {
@@ -535,20 +535,20 @@ BOOL direction ;
 /* ***************************************************************** */
 
 fixCell( fixedType, xloc, lorR, yloc, borT, xloc2, lorR2, yloc2, borT2 )
-INT fixedType ;  /* valid types - neighborhood. point, group */
-INT xloc, yloc, xloc2, yloc2 ;
+int fixedType ;  /* valid types - neighborhood. point, group */
+int xloc, yloc, xloc2, yloc2 ;
 char *lorR, *borT, *lorR2, *borT2 ;
 {
 
-INT leftOrRight, bottomOrTop ;
-INT leftOrRight2, bottomOrTop2 ;
+int leftOrRight, bottomOrTop ;
+int leftOrRight2, bottomOrTop2 ;
 FIXEDBOXPTR fixptr ;
 
 if( scale_dataG ){
-    xloc  = (INT) ( (DOUBLE) xloc / scaleS )  ;
-    yloc  = (INT) ( (DOUBLE) yloc / scaleS ) ;
-    xloc2 = (INT) ( (DOUBLE) xloc2 / scaleS ) ;
-    yloc2 = (INT) ( (DOUBLE) yloc2 / scaleS ) ;
+    xloc  = (int) ( (DOUBLE) xloc / scaleS )  ;
+    yloc  = (int) ( (DOUBLE) yloc / scaleS ) ;
+    xloc2 = (int) ( (DOUBLE) xloc2 / scaleS ) ;
+    yloc2 = (int) ( (DOUBLE) yloc2 / scaleS ) ;
 }
 
 leftOrRight = findsidestr( lorR, FALSE ) ; /* left right */
@@ -613,12 +613,12 @@ if( fixedType != POINTFLAG ){
 } /* end fixCell */
 
 processCorners( numcorners )
-INT numcorners ;
+int numcorners ;
 {
 char *buster_msg ;           /* message string to used by buster */
-INT xx1, yy1, xx2, yy2 ;     /* temp points */
-INT k ;                      /* point counter */
-INT xsum, ysum ;             /* used to truncate cell correctly */
+int xx1, yy1, xx2, yy2 ;     /* temp points */
+int k ;                      /* point counter */
+int xsum, ysum ;             /* used to truncate cell correctly */
 TILEBOXPTR tile ;
 YBUSTBOXPTR busterptr ;      /* return record for busting routine */
 VERTBOXPTR vert ;            /* ptr to record of vertices of cell */
@@ -695,12 +695,12 @@ Ysafe_free( buster_msg ) ;
 /* since placepin always uses the x fields and not x_new */
 vert = ptrS->vertices = (VERTBOXPTR) Ysafe_malloc( sizeof(VERTBOX) ) ;
 /* the members of the structure */
-vert->x = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->x_orig = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->x_new = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->y = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->y_orig = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->y_new = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
+vert->x = (int *) Ysafe_malloc( (numcorners+1)*sizeof(int) ) ;
+vert->x_orig = (int *) Ysafe_malloc( (numcorners+1)*sizeof(int) ) ;
+vert->x_new = (int *) Ysafe_malloc( (numcorners+1)*sizeof(int) ) ;
+vert->y = (int *) Ysafe_malloc( (numcorners+1)*sizeof(int) ) ;
+vert->y_orig = (int *) Ysafe_malloc( (numcorners+1)*sizeof(int) ) ;
+vert->y_new = (int *) Ysafe_malloc( (numcorners+1)*sizeof(int) ) ;
 vert->numpins = (FLOAT *) Yvector_alloc( 1,numcorners,sizeof(FLOAT) ) ;
 for( k = 1 ; k <= numcorners ; k++ ) {
     vert->x[k] = vert->x_orig[k] = cornerArrayS[k].x - xcenterS ;
@@ -791,7 +791,7 @@ ptrS->orig_aspect = ptrS->aspect =
 /* ***************************************************************** */
 
 addCorner( xpos, ypos )
-INT xpos, ypos ;
+int xpos, ypos ;
 {
 if( ++cornerCountS >= tileptAllocS ){
     tileptAllocS = cornerCountS + 1 ;
@@ -806,8 +806,8 @@ if( scale_dataG ){
 	xpos = 0 ;
 	ypos = 1 ;
     } else {
-	xpos = (INT) ( (DOUBLE) xpos / scaleS ) ;
-	ypos = (INT) ( (DOUBLE) ypos / scaleS ) ;
+	xpos = (int) ( (DOUBLE) xpos / scaleS ) ;
+	ypos = (int) ( (DOUBLE) ypos / scaleS ) ;
     }
 }
 cornerArrayS[cornerCountS].x = xpos ;
@@ -820,7 +820,7 @@ maxyS = MAX( maxyS, ypos ) ;
 /* ***************************************************************** */
 
 initializeCorner( cell )
-INT cell ;
+int cell ;
 {
 ptrS = cellarrayG[cell] ;
 curCellTypeS = ptrS->celltype ;
@@ -829,7 +829,7 @@ cornerCountS = 0 ;
 /* ***************************************************************** */
 
 addClass( class )
-INT class ;
+int class ;
 {
 ERRORABORT() ;
 
@@ -843,7 +843,7 @@ if( ptrS->class >= 0 ){
 
 /* first in the list is the initial orientation */
 initOrient( orient )
-INT orient ;
+int orient ;
 {
 ERRORABORT() ;
 
@@ -854,7 +854,7 @@ addOrient( orient ) ;
 
 /* addOrient sets orientation valid for this cell */
 addOrient( orient )
-INT orient ;
+int orient ;
 {
 ERRORABORT() ;
 
@@ -867,7 +867,7 @@ ptrS->orientList[HOWMANYORIENT]++ ;
    a previous TimberWolf run.  
 */
 set_cur_orient( orient )
-INT orient ;
+int orient ;
 {
 ERRORABORT() ;
 
@@ -891,19 +891,19 @@ PINBOXPTR addPinAndNet( pinName, signal )
 char *pinName, *signal ;
 {
     static PINBOXPTR botpinS ; /* keep track of end of list */
-    INT *data, netx ;
+    int *data, netx ;
     BOOL notInTable ;
     PINBOXPTR pinptr ;
     NETBOXPTR netptr ;
 
     notInTable = TRUE ;
     totPinS++ ; /* count the pins over all instances */
-    if( data = (INT *) Yhash_search( netTableS, signal, NULL, FIND ) ){
+    if( data = (int *) Yhash_search( netTableS, signal, NULL, FIND ) ){
 	netx = *data ;
 	notInTable = FALSE ;
     } else {
 	/* else a new net load data holder */
-	data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	data = (int *) Ysafe_malloc( sizeof(int) ) ;
 	*data = netx = ++numnetsG ;
 	if( Yhash_search( netTableS, signal, (char*) data, ENTER )){
 	    sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
@@ -972,8 +972,8 @@ char *pinName, *signal ;
     /* allocate only size for one instance by default */
     pinptr->txpos      = 0 ;
     pinptr->typos      = 0 ;
-    pinptr->txpos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-    pinptr->typos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+    pinptr->txpos_orig = (int *) Ysafe_malloc( sizeof(int) ) ;
+    pinptr->typos_orig = (int *) Ysafe_malloc( sizeof(int) ) ;
     pinptr->newx     = 0    ;
     pinptr->newy     = 0    ;
     pinptr->flag     = 0    ;
@@ -989,11 +989,11 @@ char *pinName, *signal ;
 addPin( pinName, signal, layer, pinType )
 char *pinName ;
 char *signal ;
-INT layer ;
-INT pinType ;
+int layer ;
+int pinType ;
 {
-    INT side ;
-    INT howmany ;            /* number of children - equivs */
+    int side ;
+    int howmany ;            /* number of children - equivs */
     SOFTBOXPTR sptr ;        /* current soft information */
 
 
@@ -1024,10 +1024,10 @@ INT pinType ;
 	    return ;
 	}
 	/* reallocate space if necessary */
-	pinS->txpos_orig = (INT *) 
-	    Ysafe_realloc( pinS->txpos_orig,(cellinstanceS+1)*sizeof(INT));
-	pinS->typos_orig = (INT *) 
-	    Ysafe_realloc( pinS->typos_orig,(cellinstanceS+1)*sizeof(INT));
+	pinS->txpos_orig = (int *) 
+	    Ysafe_realloc( pinS->txpos_orig,(cellinstanceS+1)*sizeof(int));
+	pinS->typos_orig = (int *) 
+	    Ysafe_realloc( pinS->typos_orig,(cellinstanceS+1)*sizeof(int));
 	pinS->txpos = pinS->txpos_orig[cellinstanceS] = 0 ;
 	pinS->typos = pinS->typos_orig[cellinstanceS] = 0 ;
     } 
@@ -1050,7 +1050,7 @@ INT pinType ;
 	spinptrS->hierarchy = NONE ;
 	spinptrS->parent = NULL ;
 	/* build the restrict field and initialize HOWMANY [0] to 0 */
-	spinptrS->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
+	spinptrS->restrict1 = (int *) Ysafe_calloc( 1, sizeof(int) ) ;
 	spinptrS->permute = FALSE ;
 	spinptrS->fixed = FALSE ;
 	spinptrS->ordered = FALSE ;
@@ -1065,7 +1065,7 @@ INT pinType ;
 	/* add to this pin's children */
 	sptr = softpinS->softinfo ;
 	if( sptr->children ){
-	    howmany = (INT) sptr->children[HOWMANY] ;
+	    howmany = (int) sptr->children[HOWMANY] ;
 	    sptr->children = (PINBOXPTR *)
 		Ysafe_realloc( sptr->children,
 		    (++howmany+1) * sizeof(PINBOXPTR) ) ;
@@ -1085,10 +1085,10 @@ INT pinType ;
 /* ***************************************************************** */
 
 set_pin_pos( xpos, ypos )
-INT xpos, ypos ;
+int xpos, ypos ;
 {
-    INT side ;
-    INT howmany ;            /* number of children - equivs */
+    int side ;
+    int howmany ;            /* number of children - equivs */
 
     ERRORABORT() ;
 
@@ -1097,8 +1097,8 @@ INT xpos, ypos ;
 	    xpos = 0 ;
 	    ypos = 1 ;
 	} else {
-	    xpos = (INT) ( (DOUBLE) xpos / scaleS ) ;
-	    ypos = (INT) ( (DOUBLE) ypos / scaleS ) ;
+	    xpos = (int) ( (DOUBLE) xpos / scaleS ) ;
+	    ypos = (int) ( (DOUBLE) ypos / scaleS ) ;
 	}
     }
 
@@ -1124,7 +1124,7 @@ INT xpos, ypos ;
 
 static check_pos( pinname, xpos, ypos )
 char *pinname ;
-INT xpos, ypos ;
+int xpos, ypos ;
 {
     if( xpos < minxS || xpos > maxxS || ypos < minyS || ypos > maxyS ){
 	sprintf( YmsgG, "Pin:%s cell:%s @(%d,%d) is outside cell boundary\n",
@@ -1137,11 +1137,11 @@ INT xpos, ypos ;
 /* add an equivalent pin-updates the pin position to effective position */
 addEquivPin( pinName, layer, xpos, ypos, pinType )
 char *pinName ;
-INT layer ; 
-INT xpos, ypos ;
-INT pinType ;
+int layer ; 
+int xpos, ypos ;
+int pinType ;
 {
-    INT side ;
+    int side ;
     EQUIVPTR temp, eqptr ;
 
     curPinNameS = pinName ;
@@ -1154,8 +1154,8 @@ INT pinType ;
 		xpos = 0 ;
 		ypos = 1 ;
 	    } else {
-		xpos = (INT) ( (DOUBLE) xpos / scaleS ) ;
-		ypos = (INT) ( (DOUBLE) ypos / scaleS ) ;
+		xpos = (int) ( (DOUBLE) xpos / scaleS ) ;
+		ypos = (int) ( (DOUBLE) ypos / scaleS ) ;
 	    }
 	}
 
@@ -1188,14 +1188,14 @@ INT pinType ;
 	eqptr->next = NULL ;
     }
     if( cellinstanceS ){ /* more than one instance */
-	eqptr->txpos = (INT *) 
-	    Ysafe_realloc( eqptr->txpos,(cellinstanceS+1) * sizeof(INT) ) ;
-	eqptr->typos = (INT *) 
-	    Ysafe_realloc( eqptr->typos,(cellinstanceS+1) * sizeof(INT) ) ;
+	eqptr->txpos = (int *) 
+	    Ysafe_realloc( eqptr->txpos,(cellinstanceS+1) * sizeof(int) ) ;
+	eqptr->typos = (int *) 
+	    Ysafe_realloc( eqptr->typos,(cellinstanceS+1) * sizeof(int) ) ;
     } else {
 	/* by default only expect one instance */
-	eqptr->txpos      = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-	eqptr->typos      = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	eqptr->txpos      = (int *) Ysafe_malloc( sizeof(int) ) ;
+	eqptr->typos      = (int *) Ysafe_malloc( sizeof(int) ) ;
     }
     /* now load the data */
     eqptr->txpos[cellinstanceS] = xpos - xcenterS;
@@ -1208,7 +1208,7 @@ INT pinType ;
     eqptr->layer = layer ;
     if( pinType == ADDEQUIVTYPE ){
 	/* build the restrict field and initialize HOWMANY [0] to 0 */
-	eqptr->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
+	eqptr->restrict1 = (int *) Ysafe_calloc( 1, sizeof(int) ) ;
     } else {
 	eqptr->restrict1 = NULL ;
     }
@@ -1217,16 +1217,16 @@ INT pinType ;
 /* ***************************************************************** */
 
 set_restrict_type( object )
-INT object ;
+int object ;
 {
     cur_restrict_objS = object ;
 }
 /* ***************************************************************** */
 
 addSideRestriction( side )
-INT side ;
+int side ;
 {
-INT howmany ;
+int howmany ;
 SOFTBOXPTR spin ;
 EQUIVPTR eqptr ;
 
@@ -1246,23 +1246,23 @@ switch( cur_restrict_objS ){
     case PINGROUPTYPE:
 	spin = pingroupS->softinfo ;
 	howmany = ++(spin->restrict1[HOWMANY]) ;
-	spin->restrict1 = (INT *) Ysafe_realloc( spin->restrict1,
-	    (howmany+1)*sizeof(INT) ) ;
+	spin->restrict1 = (int *) Ysafe_realloc( spin->restrict1,
+	    (howmany+1)*sizeof(int) ) ;
 	spin->restrict1[howmany] = side ;
 	break ;
     case SOFTPINTYPE:
     case SOFTEQUIVTYPE:
 	spin = pinS->softinfo ;
 	howmany = ++(spin->restrict1[HOWMANY]) ;
-	spin->restrict1 = (INT *) Ysafe_realloc( spin->restrict1,
-	    (howmany+1)*sizeof(INT) ) ;
+	spin->restrict1 = (int *) Ysafe_realloc( spin->restrict1,
+	    (howmany+1)*sizeof(int) ) ;
 	spin->restrict1[howmany] = side ;
 	break ;
     case ADDEQUIVTYPE:
 	eqptr = softpinS->eqptr ;
 	howmany = ++(eqptr->restrict1[HOWMANY]) ;
-	eqptr->restrict1 = (INT *) Ysafe_realloc( eqptr->restrict1,
-	    (howmany+1)*sizeof(INT) ) ;
+	eqptr->restrict1 = (int *) Ysafe_realloc( eqptr->restrict1,
+	    (howmany+1)*sizeof(int) ) ;
 	eqptr->restrict1[howmany] = side ;
 	break ;
 } /* end switch on current object */
@@ -1321,7 +1321,7 @@ DOUBLE upper ;
 
 add_soft_array()
 {
-    INT i ;
+    int i ;
     PINBOXPTR *sarray ; 
     PINBOXPTR pin ;
 
@@ -1343,9 +1343,9 @@ char *pingroup ;
 BOOL permute ;
 {
 
-INT i ;
-INT curpingroup ;
-INT howmany ;  
+int i ;
+int curpingroup ;
+int howmany ;  
 PINBOXPTR *sarray ; 
 SOFTBOXPTR spin ;
 
@@ -1370,15 +1370,15 @@ if( cellinstanceS == 0 ){
 
     /* now initialize data */
     pingroupS->pinname    = pingroup ; /* allocated by yylex */
-    pingroupS->txpos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-    pingroupS->typos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+    pingroupS->txpos_orig = (int *) Ysafe_malloc( sizeof(int) ) ;
+    pingroupS->typos_orig = (int *) Ysafe_malloc( sizeof(int) ) ;
     pingroupS->type = PINGROUPTYPE ;
 
     pingroupS->soft_inst = (SOFTBOXPTR *) Ysafe_malloc( sizeof(SOFTBOXPTR) );
 } else {
     /* first find pingroup in softpin array */
     sarray = ptrS->softpins ;
-    howmany = (INT) sarray[HOWMANY] ;
+    howmany = (int) sarray[HOWMANY] ;
     pingroupS = NIL(PINBOXPTR) ;
     for( i = 1; i <= howmany; i++ ){
 	if( strcmp( pingroup, sarray[i]->pinname ) == STRINGEQ ){
@@ -1409,7 +1409,7 @@ spin->hierarchy = ROOT ;
 spin->lowerbound = 0.0 ;
 spin->upperbound = 1.0 ;
 spin->children = (PINBOXPTR *) Ysafe_malloc( sizeof(PINBOXPTR) ) ;
-spin->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
+spin->restrict1 = (int *) Ysafe_calloc( 1, sizeof(int) ) ;
 spin->parent = NULL ;
 
 } /* end start_pin_group */
@@ -1421,13 +1421,13 @@ char *pinName ;
 BOOL ordered ;  /* ordered flag is true if padgroup is fixed */
 {
 
-INT i ;
-INT howmany ;
+int i ;
+int howmany ;
 PINBOXPTR pin ;
 PINBOXPTR cpin ;
 SOFTBOXPTR spin ;
 SOFTBOXPTR pingroup_spin ;
-INT curpingroup ;
+int curpingroup ;
 
 ERRORABORT() ;
 
@@ -1457,7 +1457,7 @@ for( pin = ptrS->pinptr ; pin ; pin = pin->nextpin ){
 	spin->parent = pingroupS ;
 	/* now update any equivalent subpins to leaves */
 	if( spin->hierarchy == NONE && spin->children ){
-	    howmany = (INT) spin->children[HOWMANY] ;
+	    howmany = (int) spin->children[HOWMANY] ;
 	    for( i = 1; i <= howmany; i++ ){
 		cpin = spin->children[i] ;
 		if( cpin->type == SOFTEQUIVTYPE ){
@@ -1544,8 +1544,8 @@ addPadSide( side  )
 char *side ;
 {
 
-    INT numsides ;         /* length of side restriction string */
-    INT i ;                /* counter */
+    int numsides ;         /* length of side restriction string */
+    int i ;                /* counter */
 
     ERRORABORT() ;
 
@@ -1590,7 +1590,7 @@ add2padgroup( padName, ordered )
 char *padName ;
 BOOL ordered ;  /* ordered flag is true if pad is ordered in padgroup */
 {
-INT i, endofpads, endofgroups, endofcells ;
+int i, endofpads, endofgroups, endofcells ;
 
 ERRORABORT() ;
 endofpads = numcellsG + numpadsG ;
@@ -1609,9 +1609,9 @@ for (i = numcellsG + 1; i <= endofpads; ++i) {
 	/* check memory of pin array */
 	if( ++numchildrenS >= childAllocS ){
 	    childAllocS += EXPECTEDNUMPADS ;
-	    pptrS->children = (INT *)
+	    pptrS->children = (int *)
 		Ysafe_realloc( pptrS->children,
-		childAllocS * sizeof(INT) ) ;
+		childAllocS * sizeof(int) ) ;
 	}
 	pptrS->children[numchildrenS]  = i - endofcells ;
 	cellarrayG[i]->padptr->hierarchy = LEAF ;
@@ -1636,9 +1636,9 @@ for (i = endofpads; i <= endofgroups; ++i) {
 	/* check memory of pin array */
 	if( ++numchildrenS >= childAllocS ){
 	    childAllocS += EXPECTEDNUMPADS ;
-	    pptrS->children = (INT *)
+	    pptrS->children = (int *)
 		Ysafe_realloc( pptrS->children,
-		childAllocS * sizeof(INT) ) ;
+		childAllocS * sizeof(int) ) ;
 	}
 	pptrS->children[numchildrenS]  = i - endofcells ;
 	cellarrayG[i]->padptr->hierarchy = SUBROOT ;
@@ -1660,10 +1660,10 @@ add_cell_to_group( cellName )
 char *cellName ;
 {
 GLISTPTR tempCell ;
-INT cell, *data ;
+int cell, *data ;
 CELLBOXPTR cptr ;
 
-if(!(data = (INT *) Yhash_search( cellTableS, cellName, NULL, FIND ))){
+if(!(data = (int *) Yhash_search( cellTableS, cellName, NULL, FIND ))){
     sprintf( YmsgG, "Couldn't find cellname:%s for group\n",cellName );
     M(ERRMSG,"add_cell_to_group",YmsgG ) ;
     errorFlagS = TRUE ;
@@ -1712,8 +1712,8 @@ char *instName ;
 	    Ysafe_calloc( instAllocS, sizeof(TILEBOXPTR) ) ;
 	instS->bounBox = (BOUNBOXPTR **)  
 	    Ysafe_calloc( instAllocS, sizeof(BOUNBOXPTR *) ) ;
-	instS->numtile_inst = (INT *)      
-	    Ysafe_calloc( instAllocS, sizeof(INT) ) ;
+	instS->numtile_inst = (int *)      
+	    Ysafe_calloc( instAllocS, sizeof(int) ) ;
 	instS->vert_inst = (VERTBOXPTR *)      
 	    Ysafe_malloc( instAllocS*sizeof(VERTBOXPTR) ) ;
 	instS->name_inst = (char **)      
@@ -1728,8 +1728,8 @@ char *instName ;
 
 	/* now for softcells */
 	/* allocate arrays for instances */
-	instS->numsides = (INT *) 
-	    Ysafe_calloc( instAllocS, sizeof(INT) ) ;
+	instS->numsides = (int *) 
+	    Ysafe_calloc( instAllocS, sizeof(int) ) ;
 	/* store main instance in element 0 of arrays */
 	instS->numsides[0] = ptrS->numsides ;
     } else { /* realloc space for instances */
@@ -1740,14 +1740,14 @@ char *instName ;
 	    Ysafe_realloc(instS->tile_inst,instAllocS*sizeof(TILEBOXPTR));
 	instS->vert_inst = (VERTBOXPTR *)  
 	    Ysafe_realloc(instS->vert_inst,instAllocS*sizeof(VERTBOXPTR));
-	instS->numtile_inst = (INT *)  
-	    Ysafe_realloc( instS->numtile_inst, instAllocS*sizeof(INT) ) ;
+	instS->numtile_inst = (int *)  
+	    Ysafe_realloc( instS->numtile_inst, instAllocS*sizeof(int) ) ;
 	instS->bounBox = (BOUNBOXPTR **)  
 	    Ysafe_realloc(instS->bounBox,instAllocS*sizeof(BOUNBOXPTR *));
 	instS->name_inst = (char **)      
 	    Ysafe_realloc(instS->name_inst,instAllocS*sizeof(char *) ) ;
-	instS->numsides = (INT *)  
-	    Ysafe_realloc( instS->numsides,instAllocS*sizeof(INT));
+	instS->numsides = (int *)  
+	    Ysafe_realloc( instS->numsides,instAllocS*sizeof(int));
     }
     minxS = INT_MAX ;
     minyS = INT_MAX ;
@@ -1760,13 +1760,13 @@ char *instName ;
 
 } /* end add_cell_instance */
 
-INT get_tile_count()
+int get_tile_count()
 {
     return( tileptAllocS / 2 ) ;
 } /* end get_tile_count() */
 
 add_analog( numcorners )
-INT numcorners ;
+int numcorners ;
 {
     ERRORABORT() ;
     /* allocate space for array of instances */
@@ -1781,13 +1781,13 @@ INT numcorners ;
 
     /* now fill in data */
     if( numcorners >= 4 ){
-	analogS->x_contour = (INT *) Ysafe_malloc( numcorners * sizeof(INT)) ;
-	analogS->y_contour = (INT *) Ysafe_malloc( numcorners * sizeof(INT)) ;
+	analogS->x_contour = (int *) Ysafe_malloc( numcorners * sizeof(int)) ;
+	analogS->y_contour = (int *) Ysafe_malloc( numcorners * sizeof(int)) ;
 	analogS->num_corners = numcorners ;
 	cornerCountS = 0 ;
     } else {
-	analogS->x_contour = NIL(INT) ;
-	analogS->y_contour = NIL(INT) ;
+	analogS->x_contour = NIL(int) ;
+	analogS->y_contour = NIL(int) ;
 	analogS->num_corners = 0 ;
     }
     analogS->current = INIT_CURRENT ;
@@ -1797,7 +1797,7 @@ INT numcorners ;
 } /* end add_analog */
 
 add_pin_contour( x, y )
-INT x, y ;
+int x, y ;
 {
     if( cornerCountS >= analogS->num_corners ){
 	sprintf( YmsgG, "Incorrect number of vertices for pin:%s\n",
@@ -1840,13 +1840,13 @@ no_layer_change()
 
 process_pin()
 {
-    INT i ;                      /* point counter */
-    INT side ;                   /* current side for pin */
-    INT ptx, pty ;               /* current point of interest */
-    INT xpos, ypos ;             /* center of pin */
-    INT minx, miny, maxx, maxy ; /* bounding box of pin contour */
+    int i ;                      /* point counter */
+    int side ;                   /* current side for pin */
+    int ptx, pty ;               /* current point of interest */
+    int xpos, ypos ;             /* center of pin */
+    int minx, miny, maxx, maxy ; /* bounding box of pin contour */
     char *buster_msg ;           /* message string to used by buster */
-    INT xx1, yy1, xx2, yy2 ;     /* temp points */
+    int xx1, yy1, xx2, yy2 ;     /* temp points */
 
     ERRORABORT() ;
 

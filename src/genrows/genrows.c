@@ -102,23 +102,23 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 static ROW_BOX *set_of_rowsS , *last_rowptrS ;
 static VERTEX_BOX *vertex_listS , *last_vertexS ;
 
-static INT number_of_rows_addedS ;
-static INT number_of_segs_addedS ;
+static int number_of_rows_addedS ;
+static int number_of_segs_addedS ;
 
 /* core boundaries, as read in from the data */
-static INT cx1S , cy1S , cx2S , cy2S ;/* current values */
+static int cx1S , cy1S , cx2S , cy2S ;/* current values */
 
-static INT actual_row_heightS ;  /* row height in microns */
-static INT channel_separationS ; /* channel separation in microns */
-static INT min_lengthS ;         /* minimum valid row length */
-static INT total_row_lengthS ;   /* total row length of standard cells and feeds */
-static INT total_row_segmentS ;  /* number of row segments */
-static INT stdcell_lengthS ;    /* total row length of standard cells */
-static INT feed_lengthS = 0 ;       /* length of feeds */
+static int actual_row_heightS ;  /* row height in microns */
+static int channel_separationS ; /* channel separation in microns */
+static int min_lengthS ;         /* minimum valid row length */
+static int total_row_lengthS ;   /* total row length of standard cells and feeds */
+static int total_row_segmentS ;  /* number of row segments */
+static int stdcell_lengthS ;    /* total row length of standard cells */
+static int feed_lengthS = 0 ;       /* length of feeds */
 
 static YTREEPTR tile_memoryG ;
 static reset_tile_parameters();
-static INT compare_tiles();
+static int compare_tiles();
 
 #if SIZEOF_VOID_P == 64
 #define INTSCANSTR "%ld"
@@ -128,7 +128,7 @@ static INT compare_tiles();
 
 init_data_structures() 
 {
-    /*static INT compare_tiles() ;*/
+    /*static int compare_tiles() ;*/
 
     set_of_rowsS = NULL ;
     last_rowptrS = NULL ;
@@ -146,14 +146,14 @@ init_data_structures()
 set_feed_length( percent )
 DOUBLE percent ;
 {
-    feed_lengthS = (INT) ( percent / 100.0 * (DOUBLE) stdcell_lengthS ) ;
+    feed_lengthS = (int) ( percent / 100.0 * (DOUBLE) stdcell_lengthS ) ;
 } /* end set_feed_length */
 
 process_tiles()
 {
     TILE_BOX *tptr ;
-    INT llx , lly , urx , ury ;
-    INT counter = 0 ;
+    int llx , lly , urx , ury ;
+    int counter = 0 ;
 
     last_tileG = NULL ;
     tile_listG = NULL ;
@@ -248,10 +248,10 @@ print_blk_file()
     FILE *fpg ;     /* gen file */
     ROW_BOX *rowptr , *segment , *save_segment ;
     MACROPTR mptr ;  /* the current macro */
-    INT llx , urx , last_llx , last_urx , next_llx ;
-    INT r ;
-    INT i ;  /* counter */
-    INT pt ;  /* counter */
+    int llx , urx , last_llx , last_urx , next_llx ;
+    int r ;
+    int i ;  /* counter */
+    int pt ;  /* counter */
     char filename[LRECL] ;
     VERTEXPTR *vptr ;       /* current vertex array */
     VERTEXPTR pt_ptr ;      /* current point */
@@ -424,7 +424,7 @@ print_blk_file()
 print_tiles() 
 {
 
-    INT i ;
+    int i ;
     TILE_BOX *tileptr ;
 
     i = 0 ;
@@ -456,11 +456,11 @@ print_vertices()
 } /* end print_vertices */
 
 BOOL find_tile( llx , lly , urx , ury )
-INT *llx , *lly , *urx , *ury ;
+int *llx , *lly , *urx , *ury ;
 {
 
     VERTEX_BOX *vertex , *lvertex , *rvertex , *tvertex ;
-    INT lowest , left_edge , right_edge , top_edge ;
+    int lowest , left_edge , right_edge , top_edge ;
     BOOL found ; 
 
     /* find the leftmost of the lowest START vertices */
@@ -604,13 +604,13 @@ BOOL initial ;
     MACROPTR mptr ;
     TILE_BOX *tptr ;
     char string[LRECL] ;
-    INT vert_count ;
-    INT row_length ;
-    INT x , y , i , next_x , next_y ;
-    INT l, r, b, t ;
-    INT last_direction , num_vertices , next_direction ;
-    INT macro , check_macro ;
-    INT xgrid, ygrid ;
+    int vert_count ;
+    int row_length ;
+    int x , y , i , next_x , next_y ;
+    int l, r, b, t ;
+    int last_direction , num_vertices , next_direction ;
+    int macro , check_macro ;
+    int xgrid, ygrid ;
 
 
     /* I will assume that the input data is syntactically correct */
@@ -748,11 +748,11 @@ BOOL initial ;
 BOOL restore_state( fp ) 
 FILE *fp ;
 {
-    INT i ;
-    INT numtiles ;
-    INT cur_numtiles ;
-    INT start ;
-    INT diff ;
+    int i ;
+    int numtiles ;
+    int cur_numtiles ;
+    int start ;
+    int diff ;
     char string[LRECL] ;
     TILE_BOX *tptr ;
     TILE_BOX *newtile ;
@@ -831,9 +831,9 @@ FILE *fp ;
 save_state(fp)
 FILE *fp ;
 {
-    INT i ;
-    INT vert ;
-    INT cur_numtiles ;
+    int i ;
+    int vert ;
+    int cur_numtiles ;
     TILE_BOX *tptr ;
     MACROPTR mptr ;
     VERTEXPTR pt ;
@@ -893,11 +893,11 @@ process_vertices()
     VERTEXPTR *vptr ;
     MACROPTR mptr ;
     char string[LRECL] ;
-    INT vert_count ;
-    INT x , y , i , next_x , next_y ;
-    INT last_direction , num_vertices , next_direction ;
-    INT macro , check_macro ;
-    INT xgrid, ygrid ;
+    int vert_count ;
+    int x , y , i , next_x , next_y ;
+    int last_direction , num_vertices , next_direction ;
+    int macro , check_macro ;
+    int xgrid, ygrid ;
 
 
     for( macro = 1; macro <= num_macrosG; macro++ ){
@@ -1037,8 +1037,8 @@ process_vertices()
 
 build_macros()
 {
-    INT i ;
-    INT j ;
+    int i ;
+    int j ;
     MACROPTR mptr ;
     VERTEXPTR vptr ;
     MACRO_TILE *tptr ;
@@ -1093,8 +1093,8 @@ makerows()
     TILE_BOX *tileptr, *get_starting_tile() ;
     ROW_BOX *rowptr , *segment ;
     DOUBLE amount , total ;
-    INT row_length_so_far , count , actually_added , add_no_more_than ;
-    INT num_segments, llx, width ;
+    int row_length_so_far , count , actually_added , add_no_more_than ;
+    int num_segments, llx, width ;
     BOOL top_rows ;
 
 
@@ -1184,25 +1184,25 @@ BOOL convert_tile_to_rows( tileptr, add_no_more_than )
 	      rows which covers this region */
 /* returns the total length of rows generated for this tile */
 TILE_BOX *tileptr ;
-INT add_no_more_than ;
+int add_no_more_than ;
 {
 
-    INT llx , lly ;  /* lower left  x and y coordinates */
-    INT urx , ury ;  /* upper right x and y coordinates */
-    INT width ;
-    INT totalw ;
-    INT shortage ;
-    INT actual_row_height ;
-    INT channel_separation ;
+    int llx , lly ;  /* lower left  x and y coordinates */
+    int urx , ury ;  /* upper right x and y coordinates */
+    int width ;
+    int totalw ;
+    int shortage ;
+    int actual_row_height ;
+    int channel_separation ;
     ROW_BOX *rowptr , *saveptr ;
-    INT horiz_line , mismatch , overlap ;
-    INT row_segments_generated ;
-    INT chan_sep_below_row , row_height ;
-    INT half_chan_sep_above_row ;
-    INT chan_sep_above_row ;
-    INT limit ;
-    INT numrows ;
-    INT proposed_length ;
+    int horiz_line , mismatch , overlap ;
+    int row_segments_generated ;
+    int chan_sep_below_row , row_height ;
+    int half_chan_sep_above_row ;
+    int chan_sep_above_row ;
+    int limit ;
+    int numrows ;
+    int proposed_length ;
 
     /* form local variables for speed */
 
@@ -1279,7 +1279,7 @@ INT add_no_more_than ;
 		width = add_no_more_than - totalw ;
 	    } else {
 		/* we will round up or down to the closest row */
-		limit = (INT) ( (DOUBLE) 0.50 * (DOUBLE) width ) ;
+		limit = (int) ( (DOUBLE) 0.50 * (DOUBLE) width ) ;
 		if( proposed_length - add_no_more_than > limit ){
 		    /* we will be over limit if we add another row */
 		    break ;
@@ -1389,11 +1389,11 @@ INT add_no_more_than ;
 
 divide_tile( tile , horiz_line ) 
 TILE_BOX *tile ;
-INT horiz_line ;
+int horiz_line ;
 {
 
     TILE_BOX *new_tile ;
-    INT orig_top ;
+    int orig_top ;
 
     new_tile = (TILE_BOX *) Ysafe_malloc( sizeof(TILE_BOX) ) ;
     new_tile->next = tile->next ;
@@ -1431,11 +1431,11 @@ INT horiz_line ;
 
 divide_tilelr( tile , vert_line ) 
 TILE_BOX *tile ;
-INT vert_line ;
+int vert_line ;
 {
 
     TILE_BOX *new_tile ;
-    INT orig_right ;
+    int orig_right ;
 
     new_tile = (TILE_BOX *) Ysafe_malloc( sizeof(TILE_BOX) ) ;
     new_tile->next = tile->next ;
@@ -1473,11 +1473,11 @@ INT vert_line ;
 } /* end divide_tilelr */
 
 get_core( left, bottom, right, top, tileFlag )
-INT *left, *bottom, *right, *top ;
+int *left, *bottom, *right, *top ;
 BOOL tileFlag ;  /* if true include the tiles in core */
 {
 
-    INT l, r, b, t ;
+    int l, r, b, t ;
     TILE_BOX *tileptr ;
 
     /* expanded core is max over given core and tiles */
@@ -1512,7 +1512,7 @@ ROW_BOX  *get_rowptr()
 grid_rows()
 {
     ROW_BOX *rowptr , *segment ;
-    INT oldX, oldY ;
+    int oldX, oldY ;
 
     for( rowptr = set_of_rowsS ; rowptr ; rowptr = rowptr->next_row ){
 	oldX = rowptr->llx ;
@@ -1531,7 +1531,7 @@ grid_rows()
 } /* end grid_rows */
 
 set_minimum_length( length )
-INT length ;
+int length ;
 {
     TILE_BOX *tileptr ;      /* current tile */
 
@@ -1543,12 +1543,12 @@ INT length ;
 
 set_row_separation( channel_sep_relative, channel_sep_absolute )
 DOUBLE channel_sep_relative;
-INT channel_sep_absolute;
+int channel_sep_absolute;
 {
     TILE_BOX *tileptr ;      /* current tile */
 
     channel_separationS =
-	(INT) (channel_sep_relative *(DOUBLE) actual_row_heightS)
+	(int) (channel_sep_relative *(DOUBLE) actual_row_heightS)
 	+ channel_sep_absolute;
     for( tileptr=tile_listG;tileptr;tileptr=tileptr->next ){
 	tileptr->channel_separation = channel_separationS ;
@@ -1625,7 +1625,7 @@ remakerows()
 } /* end remakerows */
 
 init_vertex_list( left, bottom, right, top )
-INT left, bottom, right, top ;
+int left, bottom, right, top ;
 {
 
     /* start the vertex list */
@@ -1727,10 +1727,10 @@ BOOL freepts ;
 
 find_core()
 {
-    INT macro ;
-    INT left, rite, bot, top ;
-    INT i ;
-    INT num_vertices ;
+    int macro ;
+    int left, rite, bot, top ;
+    int i ;
+    int num_vertices ;
     MACROPTR mptr ;
     VERTEXPTR *vptr ;
     VERTEXPTR pt_ptr ;
@@ -1753,12 +1753,12 @@ find_core()
 } /* end find_core */
 
 BOOL snap_core( l, r, b, t )
-INT *l, *r, *b, *t ;
+int *l, *r, *b, *t ;
 {
-    INT width ;   /* new width of core */
-    INT height ;   /* new width of core */
-    INT numtiles ; /* number of tiles with rows */
-    INT total_sep ; /* total row separation */
+    int width ;   /* new width of core */
+    int height ;   /* new width of core */
+    int numtiles ; /* number of tiles with rows */
+    int total_sep ; /* total row separation */
     TILE_BOX *tileptr ; /* current tile */
 
     if( num_macrosG > 0 ){
@@ -1792,7 +1792,7 @@ INT *l, *r, *b, *t ;
 } /* end snap_core */
 
 set_core( left, right, bottom, top )
-INT left, right, bottom, top ;
+int left, right, bottom, top ;
 {
     cx1S = left ;
     cx2S = right ;
@@ -1802,12 +1802,12 @@ INT left, right, bottom, top ;
 
 check_overlap()
 {
-    INT macro ;
-    INT match ;
+    int macro ;
+    int match ;
     MACRO_TILE *tilea ;
     MACRO_TILE *tileb ;
-    INT projectX() ;
-    INT projectY() ;
+    int projectX() ;
+    int projectY() ;
 
     invalidG = FALSE ;
     for( macro = 1; macro <= num_macrosG; macro++ ){
@@ -1842,12 +1842,12 @@ check_overlap()
 
 } /********* end check of tiles ***********/
 
-static INT xspaceS = 0 ;
-static INT yspaceS = 0 ;
+static int xspaceS = 0 ;
+static int yspaceS = 0 ;
 
 /* function returns whether one cell projects onto another */
-INT projectX( tile1_left, tile1_right, tile2_left, tile2_right )
-INT tile1_left, tile1_right, tile2_left, tile2_right ;
+int projectX( tile1_left, tile1_right, tile2_left, tile2_right )
+int tile1_left, tile1_right, tile2_left, tile2_right ;
 {
     /* -----------------------------------------------------
        First check case 2nd tile larger than first 
@@ -1883,8 +1883,8 @@ INT tile1_left, tile1_right, tile2_left, tile2_right ;
 } /* end projectX */
 
 /* function returns whether one cell projects onto another */
-INT projectY( tile1_bot, tile1_top, tile2_bot, tile2_top )
-INT tile1_bot, tile1_top, tile2_bot, tile2_top ;
+int projectY( tile1_bot, tile1_top, tile2_bot, tile2_top )
+int tile1_bot, tile1_top, tile2_bot, tile2_top ;
 {
     /* -----------------------------------------------------
        First check to see if 2nd tile larger than first 
@@ -1920,9 +1920,9 @@ INT tile1_bot, tile1_top, tile2_bot, tile2_top ;
 }/* end projectY */
 
 #ifdef NEEDED
-static INT count_rows()
+static int count_rows()
 {
-    INT count ;           /* row counter */
+    int count ;           /* row counter */
     ROW_BOX *rowptr ;     /* current row */
 
     for( count=0,rowptr=set_of_rowsS;rowptr;rowptr=rowptr->next_row ){
@@ -1934,7 +1934,7 @@ static INT count_rows()
 
 calculate_numrows()
 {
-    INT l, r, b, t ;  /* dimensions of new core */
+    int l, r, b, t ;  /* dimensions of new core */
 
     if( num_macrosG <= 0 ){
 	/* first count rows and set bounds */
@@ -1967,7 +1967,7 @@ calculate_numrows()
     }
 } /* calculate_numrows */
 
-static INT compare_tiles( tile1, tile2 )
+static int compare_tiles( tile1, tile2 )
 TILE_BOX *tile1, *tile2 ;
 {
     /* sort by x then y */
@@ -1993,8 +1993,8 @@ static reset_tile_parameters()
     TILE_BOX *ntile ; /* the new tile */
     TILE_BOX *otile ; /* the old tile */
     TILE_BOX *match_tile ; /* the old tile with the most area in common*/
-    INT overlapx ;    /* type of x overlap */
-    INT overlapy ;    /* type of y overlap */
+    int overlapx ;    /* type of x overlap */
+    int overlapy ;    /* type of y overlap */
     FLOAT area ;        /* area of overlap between new and old tiles */
     FLOAT deltay ;       /* area of overlap in y direction */
     FLOAT largest_area ; /* old tile with largest amount of overlap */

@@ -42,10 +42,10 @@ FILE:	    dimbox.c
 DESCRIPTION:Incremental bounding box routines.
 CONTENTS:   new_dbox( antrmptr , costptr )
 		TEBOXPTR antrmptr ;
-		INT *costptr ;
+		int *costptr ;
 	    new_dbox2( antrmptr , bntrmptr , costptr )
 		TEBOXPTR antrmptr , bntrmptr ;
-		INT *costptr ;
+		int *costptr ;
 	    wire_boundary1( dimptr )
 		DBOXPTR dimptr ;
 	    check_validbound( dimptr , termptr , nextptr )
@@ -53,7 +53,7 @@ CONTENTS:   new_dbox( antrmptr , costptr )
 		TEBOXPTR termptr , nextptr ;
 	    wire_boundary2( c , dimptr )
 		DBOXPTR dimptr ;
-		INT c ;
+		int c ;
 	    dbox_pos( antrmptr ) 
 		TEBOXPTR antrmptr ;
 	    dbox_pos_swap( antrmptr ) 
@@ -73,14 +73,14 @@ static char SccsId[] = "@(#) dimbox.c (Yale) version 4.5 11/18/91" ;
 #include "standard.h"
 #define break_pt 5
 
-static INT prev_netS , curr_netS , test_newnetS ;
-static INT validLS , validRS , validBS , validTS ;
-static INT kS ;
+static int prev_netS , curr_netS , test_newnetS ;
+static int validLS , validRS , validBS , validTS ;
+static int kS ;
 static PINBOXPTR *memoptrS ;
 
 init_dimbox()
 {
-    INT maxpin, get_max_pin() ;
+    int maxpin, get_max_pin() ;
 
     maxpin = get_max_pin() ;
     memoptrS = (PINBOXPTR *)
@@ -91,7 +91,7 @@ init_dimbox()
 
 new_dbox( antrmptr , costptr )
 PINBOXPTR antrmptr ;
-INT *costptr ;
+int *costptr ;
 {
 
 register DBOXPTR  dimptr   ;
@@ -131,21 +131,21 @@ for( termptr = antrmptr ; termptr ; termptr = termptr->nextpin ) {
     dimptr->newhalfPy = dimptr->newymax - dimptr->newymin ;
 
     *costptr = *costptr + ( dimptr->newhalfPx - dimptr->halfPx +
-	    (INT)(vertical_wire_weightG * (DOUBLE)dimptr->newhalfPy) -
-	    (INT)(vertical_wire_weightG * (DOUBLE)dimptr->halfPy) );
+	    (int)(vertical_wire_weightG * (DOUBLE)dimptr->newhalfPy) -
+	    (int)(vertical_wire_weightG * (DOUBLE)dimptr->halfPy) );
 }
 }
 
 
 new_dbox2( antrmptr , bntrmptr , costptr )
 PINBOXPTR antrmptr , bntrmptr ;
-INT *costptr ;
+int *costptr ;
 {
 
 DBOXPTR  dimptr   ;
 PINBOXPTR termptr , nextptr ;
-INT anet , bnet ;
-INT aflag ;
+int anet , bnet ;
+int aflag ;
 
 if( antrmptr == PINNULL ) {
     new_dbox( bntrmptr , costptr ) ;
@@ -224,8 +224,8 @@ for( ; termptr ; termptr = nextptr ) {
     dimptr->newhalfPy = dimptr->newymax - dimptr->newymin ;
 
     *costptr = *costptr + ( dimptr->newhalfPx - dimptr->halfPx +
-	    (INT)(vertical_wire_weightG * (DOUBLE)dimptr->newhalfPy) -
-	    (INT)(vertical_wire_weightG * (DOUBLE)dimptr->halfPy) );
+	    (int)(vertical_wire_weightG * (DOUBLE)dimptr->newhalfPy) -
+	    (int)(vertical_wire_weightG * (DOUBLE)dimptr->halfPy) );
 }
 }
 
@@ -235,7 +235,7 @@ DBOXPTR dimptr ;
 {
 
 PINBOXPTR netptr ;
-INT x , y ;
+int x , y ;
 
 if( netptr = dimptr->pins ) {
     if( netptr->flag == 1 ) {
@@ -274,7 +274,7 @@ DBOXPTR dimptr ;
 PINBOXPTR termptr , nextptr ;
 {
 
-INT nux , nuy , x , y ;
+int nux , nuy , x , y ;
 
 nux = termptr->newx ;
 nuy = termptr->newy ;
@@ -357,11 +357,11 @@ if( nextptr == PINNULL || curr_netS != nextptr->net ) {
 
 wire_boundary2( c , dimptr )
 DBOXPTR dimptr ;
-INT c ;
+int c ;
 {
 
 PINBOXPTR netptr ;
-INT x , y , i ;
+int x , y , i ;
 
 if( c == 15 ) {
     for( i = 0 ; i <= kS-1 ; i++ ) {

@@ -57,7 +57,7 @@ static char SccsId[] = "@(#) usite2.c version 3.4 9/10/90" ;
 #include <custom.h>
 #include <yalecad/debug.h>
 
-static INT acellS, bcellS, mod_cellS ;
+static int acellS, bcellS, mod_cellS ;
 static CELLBOXPTR acellptrS ,    bcellptrS ;
 
 BOOL usite2( /* old_apos, new_apos, old_bpos, new_bpos */ )
@@ -68,11 +68,11 @@ PINBOXPTR anewtermptr , bnewtermptr ;
 MOVEBOXPTR pos ;         /* temp pointer for easier access */
 BINBOXPTR  modptr ;      
 
-INT cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
-INT oldBinX, oldBinY, limit, *oldCellList ;
-INT modBinX, modBinY, *modCellList ;
-INT i ;
-INT wire_chg ;
+int cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
+int oldBinX, oldBinY, limit, *oldCellList ;
+int modBinX, modBinY, *modCellList ;
+int i ;
+int wire_chg ;
 DOUBLE delta_wire ;
 
 /* ----------------------------------------------------------------- 
@@ -100,7 +100,7 @@ newbinpenal = binpenalG ;
 newbinpenal += overlap2( /* old_apos, new_apos, old_bpos, new_bpos */ ) ;
 
 /* scale newpenalty for feedback circuit */
-newpenalty = (INT) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) )  ;
+newpenalty = (int) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) )  ;
 
 upin_test(  anewtermptr, new_apos0G ) ;
 upin_test(  bnewtermptr, new_bpos0G ) ;
@@ -117,7 +117,7 @@ newtimepenal += calc_incr_time2( acellS, bcellS ) ;
 ASSERT( newtimepenal == dcalc_full_penalty(),"usite2","Timing woes\n" ) ;
 
 /* scale new timing penalty */
-newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+newtimepenalty = (int) ( timeFactorG * (DOUBLE) newtimepenal ) ;
 
 if( acceptt( penaltyG - newpenalty - wire_chg + 
     timingcostG - newtimepenalty )){
@@ -215,8 +215,8 @@ if( acceptt( penaltyG - newpenalty - wire_chg +
 	limit = ++modCellList[0] ;
 	if( limit >= modptr->space ){
 	    modptr->space += EXPCELLPERBIN ;
-	    modCellList = (INT *) Ysafe_realloc( modCellList,
-		modptr->space * sizeof(INT) ) ;
+	    modCellList = (int *) Ysafe_realloc( modCellList,
+		modptr->space * sizeof(int) ) ;
 	}
 	modCellList[limit] = acellS ;
 
@@ -262,8 +262,8 @@ if( acceptt( penaltyG - newpenalty - wire_chg +
 	limit = ++modCellList[0] ;
 	if( limit >= modptr->space ){
 	    modptr->space += EXPCELLPERBIN ;
-	    modCellList = (INT *) Ysafe_realloc( modCellList,
-		modptr->space * sizeof(INT) ) ;
+	    modCellList = (int *) Ysafe_realloc( modCellList,
+		modptr->space * sizeof(int) ) ;
 	}
 	modCellList[limit] = bcellS ;
 

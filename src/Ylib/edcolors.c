@@ -66,20 +66,20 @@ static char SccsId[] = "@(#) edcolors.c (Yale) version 1.8 12/15/91" ;
 #include "info.h"
 
 static TWDIALOGPTR fieldS ;
-static init_field( P8(INT field, INT row, INT column, INT str_len, char *string,
-		    INT type, INT color, INT group ) ) ;
+static init_field( P8(int field, int row, int column, int str_len, char *string,
+		    int type, int color, int group ) ) ;
 
 /* be able to turn off individual colors */
 TWtoggleColors()
 {
     char **colors ;      /* the standard color array */
-    INT  i ;             /* counter */
-    INT  numfields ;     /* number of dialog fields */
-    INT  numcolors ;     /* the number of colors in color array */
-    INT  row ;           /* current row of dialog */
-    INT  group ;         /* current case group of dialog */
-    INT  color ;         /* current color processed */
-    INT  field ;         /* current field of dialog */
+    int  i ;             /* counter */
+    int  numfields ;     /* number of dialog fields */
+    int  numcolors ;     /* the number of colors in color array */
+    int  row ;           /* current row of dialog */
+    int  group ;         /* current case group of dialog */
+    int  color ;         /* current color processed */
+    int  field ;         /* current field of dialog */
     BOOL *colorOn ;      /* whether each color is on */
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR answer ; /* return from user */
@@ -161,7 +161,7 @@ TWtoggleColors()
 
 static init_field( field, row, column, str_len, string, 
 type, color, group )
-INT field, row, column, str_len, type, color, group ;
+int field, row, column, str_len, type, color, group ;
 char *string ;
 {
     TWDIALOGPTR fptr;    /* current field of dialog */

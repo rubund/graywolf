@@ -43,7 +43,7 @@ DESCRIPTION:update temparature of the simulated annealing algorithm.
 CONTENTS:  DOUBLE calc_acceptance_ratio( iteration )
 		DOUBLE iteration ;
 	    init_acceptance_rate()
-	    INT compute_attprcel() 
+	    int compute_attprcel() 
 	    set_tw_speed( speed ) 
 		DOUBLE speed ;
 DATE:	    Dec 19, 1988 
@@ -121,7 +121,7 @@ DOUBLE iteration ;
     return( desired_ratio ) ;
 } /* end calc_acceptance ratio */
 
-INT compute_attprcel() 
+int compute_attprcel() 
 {
     DOUBLE attempts ;
 
@@ -140,7 +140,7 @@ INT compute_attprcel()
 	attempts = (DOUBLE) MINTUPDATE + 2.0 ;
     }
 
-    return((INT) attempts) ;
+    return((int) attempts) ;
 
 } /* end compute_attprcell */ 
 
@@ -155,11 +155,11 @@ DOUBLE speed ;
 
 /* test program for desired acceptance rate profile */
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
     DOUBLE d_ratio, calc_acceptance_rate() ;
-    INT i ;
+    int i ;
 
     init_acceptance_rate() ;
     for( i= 0; i<= 155; i++ ){

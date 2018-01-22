@@ -86,7 +86,7 @@ static YLIST allocate_list();
 static YLIST_EL allocate_list_el();
 static VOID free_list(P1(YLIST));
 static VOID free_list_el(P1(YLIST_EL));
-static INT def_comp(P2(VOIDPTR, VOIDPTR));
+static int def_comp(P2(VOIDPTR, VOIDPTR));
 
 
 /************************************************************************
@@ -146,7 +146,7 @@ YLIST Ylist_create()
 **************************************************************************/
 
 YLIST Ylist_create_with_parms(comp)
-INT (*comp)();
+int (*comp)();
 {
   YLIST list = allocate_list();
 
@@ -301,7 +301,7 @@ VOID Ylist_insert_in_order(list, data)
      VOIDPTR data;
 {
   YLIST_EL el;
-  INT tmp;
+  int tmp;
 
   for (el = Ylist_first(list);
        el && ((tmp = COMP(list, Ylist_data(el), data)) > 0);
@@ -401,7 +401,7 @@ YLIST list;
 VOID Ylist_delete(list, el, user_delete)
      YLIST list;
      YLIST_EL el;
-     INT (*user_delete)();
+     int (*user_delete)();
 {
   if (el->prev)
     el->prev->next = el->next;
@@ -436,7 +436,7 @@ VOID Ylist_delete(list, el, user_delete)
 BOOL Ylist_find_and_delete(list, data, user_delete )
      YLIST list;
      VOIDPTR data;
-     INT (*user_delete)();
+     int (*user_delete)();
 {
   YLIST_EL el;
   BOOL found_it = FALSE;
@@ -745,11 +745,11 @@ static VOID free_list_el(el)
 
 **************************************************************************/
 
-static INT def_comp(d1, d2)
+static int def_comp(d1, d2)
      VOIDPTR d1;
      VOIDPTR d2;
 {
-  return ( (INT) d1 - (INT) d2 ) ;
+  return ( (int) d1 - (int) d2 ) ;
 }   /*  def_comp  */
 
 
@@ -792,12 +792,12 @@ static VOID ph1();
 
 *****************************************************************************/
 
-INT main(argc, argv)
-     INT argc;
+int main(argc, argv)
+     int argc;
      char *argv[];
 {
   char c;
-  INT data;
+  int data;
   YLIST list;
   
   fprintf( stderr, "List testing program.  Enter ? to start\n" ) ;
@@ -864,7 +864,7 @@ static VOID Yprint_list(list)
 
   printf("\t");
   Ylist_for_all(list, el) {
-    printf("%d  ", (INT) Ylist_data(el));
+    printf("%d  ", (int) Ylist_data(el));
   } Ylist_for_all_end;
   printf("\n");
 }   /*  print_list  */

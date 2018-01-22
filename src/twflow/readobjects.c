@@ -83,12 +83,12 @@ static char SccsId[] = "@(#) readobjects.y version 2.5 4/21/91" ;
 #define YYDEBUG  1     /* condition compile for yacc debug */
 #endif
 
-static INT line_countS ;
+static int line_countS ;
 static char bufferS[LRECL] ;
 static char *filenameS ;
 
 typedef union {
-    INT ival ;
+    int ival ;
     char *string ;
     double fval ;
 } YYSTYPE;

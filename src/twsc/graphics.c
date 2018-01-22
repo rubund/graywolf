@@ -96,7 +96,7 @@ static char SccsId[] = "@(#) graphics.c version 4.21 5/15/92" ;
 #include <menus.h>
 
 
-extern INT actual_feed_thru_cells_addedG ;
+extern int actual_feed_thru_cells_addedG ;
 /* ***************************************************************** */
 static BOOL avoidDump = FALSE ;
 static BOOL drawPinS = FALSE ;   /* whether or not to draw pins */
@@ -108,27 +108,27 @@ static BOOL updateS = TRUE ;     /* normally in the update mode */
 static BOOL single_cell_moveS = FALSE ; /* whether we have single cell moves */
 static BOOL drawOrientS = FALSE ; /* whether to draw orientation mark */
 static BOOL initS = FALSE ;    /* true if all initialization complete */
-static INT  *heat_indexS ;     /* how much the cells are moving */
-static INT  *heat_attemptS ;     /* how many attempts during the run */
-static INT  heat_allocS ;     /* size of temperature index array */
-static INT  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
-static INT  pinsizeS ;     /* size of the pin */
+static int  *heat_indexS ;     /* how much the cells are moving */
+static int  *heat_attemptS ;     /* how many attempts during the run */
+static int  heat_allocS ;     /* size of temperature index array */
+static int  drawNetS = 0 ; /* draw nets 0:none 1...n:net >numnets:all */
+static int  pinsizeS ;     /* size of the pin */
 
 
 static draw_fs();
-extern VOID draw_a_cell( INT );
-extern INT draw_the_data() ;
+extern VOID draw_a_cell( int );
+extern int draw_the_data() ;
 
 initGraphics( argc, argv, windowId )
-INT argc ;
+int argc ;
 char *argv[] ;
-INT windowId ;
+int windowId ;
 {
 
     char *host ;
     char *Ygetenv() ;
-    extern INT horizontal_track_pitchG ;
-    extern INT vertical_track_pitchG ;
+    extern int horizontal_track_pitchG ;
+    extern int vertical_track_pitchG ;
 
     GRAPHICSABORT ;
 	
@@ -185,23 +185,23 @@ init_heat_index()
     GRAPHICSABORT ;
 
     heat_allocS = lastpadG + 1;
-    heat_indexS = (INT *) Ysafe_malloc( heat_allocS * sizeof(INT) ) ;
-    heat_attemptS = (INT *) Ysafe_malloc( heat_allocS * sizeof(INT) ) ;
+    heat_indexS = (int *) Ysafe_malloc( heat_allocS * sizeof(int) ) ;
+    heat_attemptS = (int *) Ysafe_malloc( heat_allocS * sizeof(int) ) ;
     reset_heat_index() ;
     initS = TRUE ;
 } /* end init_heat_index */
 
 expand_heat_index()
 {
-    INT oldnum, i;
+    int oldnum, i;
 
     GRAPHICSABORT ;
 
     oldnum = heat_allocS;
     heat_allocS = lastpadG + actual_feed_thru_cells_addedG + 1;
     if (oldnum < heat_allocS) {
-       heat_indexS = (INT *) Ysafe_realloc( heat_indexS, heat_allocS * sizeof(INT) ) ;
-       heat_attemptS = (INT *) Ysafe_realloc( heat_attemptS, heat_allocS * sizeof(INT) ) ;
+       heat_indexS = (int *) Ysafe_realloc( heat_indexS, heat_allocS * sizeof(int) ) ;
+       heat_attemptS = (int *) Ysafe_realloc( heat_attemptS, heat_allocS * sizeof(int) ) ;
        for( i = oldnum; i < heat_allocS ; i++ ){
 	   heat_indexS[i] = 0 ;
 	   heat_attemptS[i] = 0 ;
@@ -211,13 +211,13 @@ expand_heat_index()
 
 setGraphicWindow() 
 {
-    INT  expand ;
-    INT  minx ;
-    INT  maxx ;
-    INT  miny ;
-    INT  maxy ;
-    INT  xc, yc ;      /* cell center */
-    INT  i ;           /* counter */
+    int  expand ;
+    int  minx ;
+    int  maxx ;
+    int  miny ;
+    int  maxy ;
+    int  xc, yc ;      /* cell center */
+    int  i ;           /* counter */
     CBOXPTR cptr ;  /* cell record pointer */
 
     minx = INT_MAX ;
@@ -241,7 +241,7 @@ setGraphicWindow()
     }
 
     expand = MAX( maxy - miny, maxx - minx ) ;
-    expand = (INT) (0.1 * (DOUBLE) expand ) ;
+    expand = (int) (0.1 * (DOUBLE) expand ) ;
     TWsetwindow( minx - expand, miny - expand, 
 	maxx + expand, maxy + expand ) ;
 } /* end setGraphicWindow */
@@ -250,8 +250,8 @@ setGraphicWindow()
 process_graphics()
 {
 
-    INT x, y ;           /* coordinates from pointer */
-    INT selection ;     /* the users pick */
+    int x, y ;           /* coordinates from pointer */
+    int selection ;     /* the users pick */
     char *reply ;       /* user reply to a querry */
     BOOL ok ;           /* loop until this value is true */
 
@@ -419,15 +419,15 @@ process_graphics()
 
 /* the graphics program can draw the results at each desired */
 /* timestep. */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  x ;
-    INT  y ;
-    INT  l, r, b, t ;
-    INT  layer ;
-    INT last_cell ;     /* end of cells to be drawn */
+    int  i ;
+    int  x ;
+    int  y ;
+    int  l, r, b, t ;
+    int  layer ;
+    int last_cell ;     /* end of cells to be drawn */
     PINBOXPTR  curPin ;
     char *pinname, *find_layer( /* pinname, layer */ ) ;
 
@@ -508,15 +508,15 @@ INT draw_the_data()
 } /* end draw_the_data */
 
 VOID draw_a_cell( cell )
-INT cell ;
+int cell ;
 {
-    INT  x ;
-    INT  y ;
-    INT  l, r, b, t ;
-    INT  pt ;
-    INT  color ;
-    INT  cell_temp ; /* cell temperature */
-    INT  attempts ;
+    int  x ;
+    int  y ;
+    int  l, r, b, t ;
+    int  pt ;
+    int  color ;
+    int  cell_temp ; /* cell temperature */
+    int  attempts ;
     CBOXPTR cptr ;
     PADBOXPTR  padptr ;
     char label[LRECL] ;
@@ -569,7 +569,7 @@ INT cell ;
 	for( pt = 0; pt < padptr->numcorners; pt++ ){
 	    /* rel position is a macro which calculates */
 	    /* absolute pin loc - defined in relpos.h */
-	    REL_POS( (INT) cptr->corient, 
+	    REL_POS( (int) cptr->corient, 
 		l, b,                               /* result */
 		padptr->xpoints[pt],
 		padptr->ypoints[pt],             /* cell relative */
@@ -584,7 +584,7 @@ INT cell ;
 	r = cptr->tileptr->right ;
 	b = cptr->tileptr->bottom ;
 	t = cptr->tileptr->top ;
-	YtranslateT( &l, &b, &r, &t, (INT) cptr->corient ) ;
+	YtranslateT( &l, &b, &r, &t, (int) cptr->corient ) ;
 	l += x ;
 	r += x ;
 	b += y ;
@@ -600,11 +600,11 @@ INT cell ;
 static draw_fs( cptr )
 CBOXPTR cptr ;
 {
-    INT x[10], y[10] ;   /* only 10 points to an F */
-    INT l, b, r, t ;     /* bounding box points */
-    INT xout, yout ;     /* rotated points */
-    INT wid ;            /* with of the F */
-    INT pt ;             /* point counter */
+    int x[10], y[10] ;   /* only 10 points to an F */
+    int l, b, r, t ;     /* bounding box points */
+    int xout, yout ;     /* rotated points */
+    int wid ;            /* with of the F */
+    int pt ;             /* point counter */
     TIBOXPTR bounptr ;   /* cell's boundary */
 
     bounptr = cptr->tileptr ;
@@ -612,7 +612,7 @@ CBOXPTR cptr ;
     b = bounptr->bottom ;
     r = bounptr->right ;
     t = bounptr->top ;
-    wid = (INT) (0.25 * (DOUBLE)( t - b ) ) ;
+    wid = (int) (0.25 * (DOUBLE)( t - b ) ) ;
     /* now set the points */
     x[0] = l ;         y[0] = b ;
     x[1] = l ;         y[1] = t ;
@@ -628,7 +628,7 @@ CBOXPTR cptr ;
     for( pt = 0; pt <= 9; pt++ ){
 	/* rel position is a macro which calculates */
 	/* absolute pin loc - defined in relpos.h */
-	REL_POS( (INT) cptr->corient, 
+	REL_POS( (int) cptr->corient, 
 	    xout, yout,                              /* result */
 	    x[pt], y[pt],                        /* cell relative */
 	    cptr->cxcenter, cptr->cycenter ) ;   /* cell center */
@@ -639,14 +639,14 @@ CBOXPTR cptr ;
 } /* end draw_fs */
 
 erase_a_cell( cell, x, y )
-INT cell ;
-INT x, y ;
+int cell ;
+int x, y ;
 {
-    INT  i, j ;
-    INT  l, r, b, t ;
-    INT  block ;
-    INT  lobin, hibin ;
-    INT  *cells_in_bins ;
+    int  i, j ;
+    int  l, r, b, t ;
+    int  block ;
+    int  lobin, hibin ;
+    int  *cells_in_bins ;
     CBOXPTR cptr ;
 
     GRAPHICSABORT ;
@@ -701,7 +701,7 @@ BOOL drawFlag ;
 } /* end check_graphics */
 
 graphics_cell_update( cell )
-INT cell ;
+int cell ;
 {
     GRAPHICSABORT ;
     if( !(single_cell_moveS) || !(updateS) ){
@@ -715,7 +715,7 @@ INT cell ;
 } /* end graphics_cell_update */
 
 graphics_cell_attempt( cell )
-INT cell ;
+int cell ;
 {
     GRAPHICSABORT ;
     ASSERTNRETURN( cell > 0 && cell < heat_allocS, "graphics_cell_update",
@@ -725,7 +725,7 @@ INT cell ;
 
 reset_heat_index()
 {
-    INT i ; /* counter */
+    int i ; /* counter */
 
     GRAPHICSABORT ;
     for( i = 0; i < heat_allocS ; i++ ){

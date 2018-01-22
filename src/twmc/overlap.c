@@ -52,9 +52,9 @@ CONTENTS:   overlap( )
 	    add_penal( MOVEBOXPTR * )
 	    calc_wBins( MOVEBOXPTR * )
 	    calc_nBins( MOVEBOXPTR * )
-	    turn_wireest_on( INT )
+	    turn_wireest_on( int )
 	    find_orient() 
-	    setup_Bins( CELLBOXPTR, int, int, INT )
+	    setup_Bins( CELLBOXPTR, int, int, int )
 	    add2bin( MOVEBOXPTR * ) 
 DATE:	    Feb  2, 1988 
 REVISIONS:  Feb  5, 1988 - changed old_apos, new_apos, old_bpos,
@@ -92,20 +92,20 @@ static TILEBOXPTR tileptrS ;
 static MOVEBOXPTR posS ;
 static BINBOXPTR bptrS ;
 static xcS, ycS, orientS ;
-static INT minXS, maxXS, minYS, maxYS ;
-static INT newbinpenalS ;
-static INT xcostS, ycostS ;
-static INT (*calc_Bins)() ;/* remember which bin function */
-static INT (*wire_est)() ; /* remember which wire estimation function */
+static int minXS, maxXS, minYS, maxYS ;
+static int newbinpenalS ;
+static int xcostS, ycostS ;
+static int (*calc_Bins)() ;/* remember which bin function */
+static int (*wire_est)() ; /* remember which wire estimation function */
 
 /* global references */
-extern INT wireestxy( P3(MOVEBOXPTR pos,INT xc, INT yc) ) ;
-extern INT wireestxy2( P3(MOVEBOXPTR pos,INT xc, INT yc) ) ;
+extern int wireestxy( P3(MOVEBOXPTR pos,int xc, int yc) ) ;
+extern int wireestxy2( P3(MOVEBOXPTR pos,int xc, int yc) ) ;
 
 /* ***************************************************************** 
    ONE CELL OVERLAP CALCULATION 
 */
-INT overlap( /* old_aposG, new_aposG */ )
+int overlap( /* old_aposG, new_aposG */ )
 /* MOVEBOXPTR *old_aposG, *new_aposG ; */
 {
     register BINBOXPTR *fastbin ;
@@ -181,7 +181,7 @@ return( newbinpenalS ) ;
 /* ***************************************************************** 
    TWO CELL OVERLAP CALCULATION 
 */
-INT overlap2( /* old_aposG, new_aposG, old_bposG, new_bposG */ )
+int overlap2( /* old_aposG, new_aposG, old_bposG, new_bposG */ )
 /* MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ; */
 {
     register BINBOXPTR *fastbin ;
@@ -301,7 +301,7 @@ return( newbinpenalS ) ;
 /* ***************************************************************** 
    Update one cell move by transferring from nu to penalty fields 
 */
-INT update_overlap( /* old_aposG */ )
+int update_overlap( /* old_aposG */ )
 /* MOVEBOXPTR *old_aposG ; */
 {
     register BINBOXPTR *fastbin ;
@@ -329,7 +329,7 @@ for( x = minXS; x <= maxXS ; x++ ){
 /* ***************************************************************** 
    Update two cell move by transferring from nu to penalty fields 
 */
-INT update_overlap2( /* old_aposG, old_bposG */ )
+int update_overlap2( /* old_aposG, old_bposG */ )
 /* MOVEBOXPTR *old_apos, *old_bpos ; */
 {
     register BINBOXPTR *fastbin ;
@@ -379,8 +379,8 @@ for( x = minXS; x <= maxXS ; x++ ){
 sub_penal( cellpos )
 MOVEBOXPTR *cellpos ;
 {
-INT count, maxcount ;
-INT x, y ;
+int count, maxcount ;
+int x, y ;
 
 register BINBOXPTR *fastbin ;
 
@@ -537,8 +537,8 @@ for( count=1 ; count <= maxcount ; count++ ) {
 add_penal( cellpos )
 MOVEBOXPTR *cellpos ;
 {
-INT count, maxcount ;
-INT x, y ;
+int count, maxcount ;
+int x, y ;
 register BINBOXPTR *fastbin ;
 
 maxcount = cellpos[0]->numtiles ;
@@ -695,11 +695,11 @@ for( count=1 ; count <= maxcount ; count++ ) {
    Takes pointer to move box record as an argument
 */
 
-INT calc_wBins( cellpos )
+int calc_wBins( cellpos )
 MOVEBOXPTR *cellpos ;
 {
 
-INT count ;
+int count ;
 MOVEBOXPTR pos0 ;
 
 count = 0 ;
@@ -768,11 +768,11 @@ pos0->loaded_previously = FALSE ;
    DOES NOT use wire estimation in the calculation.
    Takes pointer to move box record as an argument
 */
-INT calc_nBins( cellpos )
+int calc_nBins( cellpos )
 MOVEBOXPTR *cellpos ;
 {
 
-INT count ;
+int count ;
 MOVEBOXPTR pos0 ;
 
 count = 0 ;
@@ -839,7 +839,7 @@ pos0->loaded_previously = FALSE ;
    the calc_Bins routine is set to calc_wBins.
 */
 turn_wireest_on( turn_on )
-INT turn_on ;
+int turn_on ;
 {
 
     if( turn_on ){
@@ -862,9 +862,9 @@ INT turn_on ;
 */
 setup_Bins( s_cellptr, s_xc, s_yc, s_orient )
 CELLBOXPTR s_cellptr ;
-INT s_xc ;
-INT s_yc ;
-INT s_orient ;
+int s_xc ;
+int s_yc ;
+int s_orient ;
 {
     cellptrS  = s_cellptr ;
     xcS  = s_xc ;
@@ -881,8 +881,8 @@ INT s_orient ;
 add2bin( cellpos )
 MOVEBOXPTR *cellpos ;
 {
-INT count, maxcount ;
-INT x, y ;
+int count, maxcount ;
+int x, y ;
 register BINBOXPTR *fastbin ;
 
 /* first get bin limits for tiles of this cell */

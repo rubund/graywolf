@@ -51,7 +51,7 @@ CONTENTS:   cglb_initial()
 	    rebuild_cbucket()
 	    check_cbucket()
 	    print_bucket( row )
-		INT row ;
+		int row ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
@@ -79,14 +79,14 @@ static HCAPPTR **HcapacityS ;
 static HCAPPTR **entryptS ;
 static int	entrysizeS ;
 static SEGBOXPTR *swLsegptrS ;
-static INT LswitchsegS , svalueS , evalueS ;
-static INT *crowdmaxS , glb_crowdmaxS , *node_rightS ;
+static int LswitchsegS , svalueS , evalueS ;
+static int *crowdmaxS , glb_crowdmaxS , *node_rightS ;
 static DOUBLE  ctrackContS , factor_hereS , factor_oneS , factor_twoS ;
 
 cglb_initial()
 {
 
-INT i , j , net , x , tilted_seg ;
+int i , j , net , x , tilted_seg ;
 PINBOXPTR ptr1 , ptr2 ;
 SEGBOXPTR segptr ;
 
@@ -97,7 +97,7 @@ factor_oneS = 0.5 ;
 factor_twoS = 0.2 ;
 svalueS = hznode_sepG * 4 / 10 ;
 evalueS = hznode_sepG * 6 / 10 ;
-node_rightS = (INT *)Ysafe_malloc( ( chan_node_noG + 1 ) * sizeof(INT) );
+node_rightS = (int *)Ysafe_malloc( ( chan_node_noG + 1 ) * sizeof(int) );
 node_rightS[1] = blkleftG + ( hznode_sepG + 1 ) / 2 ;
 for( i = 2 ; i <= chan_node_noG ; i++ ) {
     node_rightS[i] = node_rightS[i-1] + hznode_sepG ;
@@ -152,8 +152,8 @@ proj_tree_to_grid( )
 
 SEGBOXPTR segptr ;
 PINBOXPTR ptr1 , ptr2 , netptr ;
-INT lowV , highV , lowH , highH ;
-INT i , h , k , net ;
+int lowV , highV , lowH , highH ;
+int i , h , k , net ;
 
 for( net = 1 ; net <= numnetsG ; net++ ) {
     for( netptr = steinerHeadG[net]->next;netptr;netptr = netptr->next ) {
@@ -299,10 +299,10 @@ set_cbucket( )
 
 HCAPPTR hcaptr , headptr ;
 SEGBOXPTR segptr ;
-INT j , last_j , row , max , net ;
+int j , last_j , row , max , net ;
 
 glb_crowdmaxS = 0 ;
-crowdmaxS = (INT *)Ysafe_calloc( numRowsG + 1, sizeof(INT) ) ;
+crowdmaxS = (int *)Ysafe_calloc( numRowsG + 1, sizeof(int) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     max = 0 ;
     for( j = 1 ; j <= chan_node_noG ; j++ ) {
@@ -372,14 +372,14 @@ cglbroute()
 SEGBOXPTR segptr ;
 PINBOXPTR ptr1 , ptr2 ;
 HCAPPTR hcaptr , denptr , headptr ;
-INT trys , maxtrys ;
-INT i , h , k , nh , nk , luck ;
-INT intersect_max , cover_allmax ;
-INT lowH , highH , startH , endH , lowV , highV ;
-INT vt_beg , vt_end , nvt_beg , nvt_end ;
-INT new_SwValue , density ;
-INT range_one_diff , range_two_diff , diff_here ;
-INT back_one_diff , back_two_diff , next_one_diff , next_two_diff ;
+int trys , maxtrys ;
+int i , h , k , nh , nk , luck ;
+int intersect_max , cover_allmax ;
+int lowH , highH , startH , endH , lowV , highV ;
+int vt_beg , vt_end , nvt_beg , nvt_end ;
+int new_SwValue , density ;
+int range_one_diff , range_two_diff , diff_here ;
+int back_one_diff , back_two_diff , next_one_diff , next_two_diff ;
 DOUBLE penalty , ctrack_penalty , attperLseg ;
 DOUBLE penalty_here , penalty_one , penalty_two ;
 
@@ -389,7 +389,7 @@ attperLseg = 15.0 ;
 maxtrys = attperLseg * LswitchsegS ;
 
 while( ++trys < maxtrys ) {
-    luck = (INT)( (DOUBLE)LswitchsegS * ( (DOUBLE)RAND /
+    luck = (int)( (DOUBLE)LswitchsegS * ( (DOUBLE)RAND /
 				    (DOUBLE) 0x7fffffff ) ) + 1 ;
     segptr = swLsegptrS[ luck ] ;
     ptr1  = segptr->pin1ptr ;
@@ -653,7 +653,7 @@ while( ++trys < maxtrys ) {
 
 		if (density >= entrysizeS)
 		{
-		    INT row, j;
+		    int row, j;
 
 		    for( row = 1 ; row <= numRowsG ; row++ ) {
 		        entryptS[row] = (HCAPPTR *)Ysafe_realloc( entryptS[row],
@@ -696,7 +696,7 @@ while( ++trys < maxtrys ) {
 
 free_cglb_initial()
 {
-INT i , j , last_j , row ;
+int i , j , last_j , row ;
 
 Ysafe_free( node_rightS ) ;
 for( i = 1 ; i <= numRowsG ; i++ ) {
@@ -721,7 +721,7 @@ Ysafe_free( swLsegptrS ) ;
 reinitial_Hdensity()
 {
 
-INT i , j ;
+int i , j ;
 
 for( i = 1 ; i <= numRowsG ; i++ ) {
     for( j = 1 ; j <= chan_node_noG ; j++ ) {
@@ -734,7 +734,7 @@ for( i = 1 ; i <= numRowsG ; i++ ) {
 update_switchvalue()
 {
 
-INT net , x , tilted_seg ;
+int net , x , tilted_seg ;
 PINBOXPTR ptr1 , ptr2 , netptr ;
 SEGBOXPTR segptr ;
 
@@ -743,7 +743,7 @@ tilted_seg = 0 ;
 for( net = 1 ; net <= numnetsG ; net++ ) {
     for( netptr = steinerHeadG[net]->next;netptr; netptr = netptr->next ){
 	netptr->xpos = tearrayG[ netptr->newx ]->xpos ;
-	/* update the steiner poINT position according 
+	/* update the steiner point position according 
 	   to the reference pin position.               */
     }
     for( segptr = netsegHeadG[net]->next ; segptr ;
@@ -794,7 +794,7 @@ fprintf(fpoG," the number of switchable L segment = %d\n", LswitchsegS );
 
 rebuild_cbucket()
 {
-INT row , j , last_j ;
+int row , j , last_j ;
 HCAPPTR hcaptr , headptr ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -811,7 +811,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 	// array sizes accordingly.
 
 	if (hcaptr->density > entrysizeS) {
-	    INT lrow, k;
+	    int lrow, k;
 
 	    for( lrow = 1 ; lrow <= numRowsG ; lrow++ ) {
 	        entryptS[lrow] = (HCAPPTR *)Ysafe_realloc( entryptS[lrow],
@@ -845,7 +845,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 #ifdef DEBUG
 check_cbucket()
 {
-INT row, j ;
+int row, j ;
 HCAPPTR dptr , denptr ;
 
 for( row = 1 ; row <= numRowsG ; row++ ) {
@@ -866,9 +866,9 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 
 print_bucket( row )
-INT row ;
+int row ;
 {
-INT j ;
+int j ;
 HCAPPTR denptr ;
 FILE *fp ;
 

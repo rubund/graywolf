@@ -114,8 +114,8 @@ remove_violations()
 
 compact()
 {
-    INT length ;       /* length of longest path */
-    INT count ;        /* number of compaction cycles */
+    int length ;       /* length of longest path */
+    int count ;        /* number of compaction cycles */
     ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
     BOOL compactNotSat ; /* compaction criteria is not satisfied */
     BOOL xNotY_toggle ; /* toggle between x and y compaction. */
@@ -203,9 +203,9 @@ compact()
 
 
 freeGraph( direction ) 
-INT direction ;
+int direction ;
 {
-    INT i ;
+    int i ;
     ECOMPBOXPTR edge , saveEdge ;
 
     for( i=0 ; i<= last_tileG ; i++ ){
@@ -232,11 +232,11 @@ INT direction ;
     } /* end for loop */
 }
 
-INT path(direction)
-INT direction ;
+int path(direction)
+int direction ;
 {
-    INT node ;
-    INT source ;
+    int node ;
+    int source ;
 
 
     switch( direction ){
@@ -320,11 +320,11 @@ INT direction ;
 }
 
 cleanupGraph( direction ) 
-INT direction ;
+int direction ;
 {
-    INT i ;
+    int i ;
     ECOMPBOXPTR edge , match, saveNode ;
-    INT matchNode, sameNode ;
+    int matchNode, sameNode ;
 
     for( i=0 ; i<= last_tileG ; i++ ){
 	switch( direction ){
@@ -430,11 +430,11 @@ INT direction ;
 
 /* find bounding box of tiles */
 find_core( l, r, b, t )
-INT *l, *r, *b, *t ;
+int *l, *r, *b, *t ;
 {
 
-    INT i ;
-    INT expand ;
+    int i ;
+    int expand ;
     COMPACTPTR tile ;
 
     blocklG = INT_MAX ;
@@ -449,10 +449,10 @@ INT *l, *r, *b, *t ;
 	blockrG = MAX( blockrG, tile->r ) ;
 	blocktG = MAX( blocktG, tile->t ) ;
     }
-    expand = (INT) ( 0.25 * (DOUBLE) ABS(blockrG - blocklG) ) ;
+    expand = (int) ( 0.25 * (DOUBLE) ABS(blockrG - blocklG) ) ;
     *l = blocklG -= expand ;
     *r = blockrG += expand ;
-    expand = (INT) ( 0.25 * (DOUBLE) ABS(blocktG - blockbG) ) ;
+    expand = (int) ( 0.25 * (DOUBLE) ABS(blocktG - blockbG) ) ;
     *b = blockbG -= expand ;
     *t = blocktG += expand ;
 

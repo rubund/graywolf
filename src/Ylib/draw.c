@@ -51,73 +51,73 @@ DESCRIPTION:graphic drawing routine both screen and file.
 DATE:	    Jan 25, 1989 - major rewrite of version 1.0
 CONTENTS:   BOOL TWcheckServer()
 	    TWsetMode( mode ) 
-		INT mode ;
+		int mode ;
 	    BOOL TWinitGraphics(argc,argv,numC,colors,dumpOnly,menu,refresh_func)
-		INT  argc, numC, (*refresh_func)() ;
+		int  argc, numC, (*refresh_func)() ;
 		char *argv[], **colors ;
 		BOOL dumpOnly ;
 		TWMENUPTR menu ;
 	    BOOL TWinitParasite(argc,argv,numC,colors,dumpOnly,menu,refresh_func,w)
-		INT  argc, numC, (*refresh_func)() ;
+		int  argc, numC, (*refresh_func)() ;
 		char *argv[], **colors ;
 		BOOL dumpOnly ;
 		TWMENUPTR menu ;
 		Window w ;
 	    static BOOL TWinit(argc,argv,numC,desiredColors,dumpOnly,
 		menu,refresh_func)
-		INT  argc, numC, (*refresh_func)() ;
+		int  argc, numC, (*refresh_func)() ;
 		char *argv[], **colors ;
 		BOOL dumpOnly ;
 		TWMENUPTR menu ;
 	    TWINFOPTR TWgetDrawInfo() 
 	    TWsetDrawInfo( winheight, winwidth ) 
-		INT winheight, winwidth ;
+		int winheight, winwidth ;
 	    TWcloseGraphics()
 	    TWzoom()
 	    TWfullView()
 	    TWsetwindow( left, bottom, right, top ) 
-		INT left, bottom, right, top ;
+		int left, bottom, right, top ;
 	    TWtranslate()
 	    TWflushFrame()
 	    TWsync()
 	    static void initcolors( desiredColorArray, numC )
 		char **desiredColorArray ;
-		INT  numC ;
+		int  numC ;
 	    static startDFrame()
 	    static VOID drawDLine(ref,x1,y1,x2,y2,color,label)
-		INT	ref, color ;
-		register INT	x1,y1,x2,y2 ;
+		int	ref, color ;
+		register int	x1,y1,x2,y2 ;
 		char	*label ;
 	    static VOID drawDRect(ref,x1,y1,x2,y2,color,label)
-		INT	ref, color ;
-		register INT	x1,y1,x2,y2 ;
+		int	ref, color ;
+		register int	x1,y1,x2,y2 ;
 		char	*label ;
 	    TWarb_init()
 	    TWarb_addpt( xpos, ypos )
-		INT xpos, ypos ;
+		int xpos, ypos ;
 	    static VOID drawDArb( ref, color, label )
-		INT	ref, color ;
+		int	ref, color ;
 		char	*label ;
 	    TWhighLightRect( x1,y1,x2,y2 )
-		register INT	x1,y1,x2,y2 ;
+		register int	x1,y1,x2,y2 ;
 	    TWmoveRect( x1, y1, x2, y2, ptx, pty )
-		INT *x1, *y1, *x2, *y2, ptx, pty ;
+		int *x1, *y1, *x2, *y2, ptx, pty ;
 	    static XFontStruct *TWgetfont( fname, font )
 		Font *font ;
 	    TWstartFrame()
 	    static closeFrame()
 	    TWsetFrame( number )
-		INT number ;
+		int number ;
 	    static drawWLine( ref_num,x1,y1,x2,y2,color,label)
-		INT     ref_num ;
-		INT	x1,y1,x2,y2,color ;
+		int     ref_num ;
+		int	x1,y1,x2,y2,color ;
 		char	*label;
 	    static drawWRect( ref_num, x1,y1,x2,y2,color,label)
-		INT     ref_num ;
-		INT	x1,y1,x2,y2, color;
+		int     ref_num ;
+		int	x1,y1,x2,y2, color;
 		char	*label;
 	    static drawWArb( ref, color, label )
-		INT	ref, color ;
+		int	ref, color ;
 		char	*label ;
 REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Feb 21, 1989 - initial graphic routines.
@@ -214,14 +214,14 @@ static char SccsId[] = "@(#) draw.c (Yale) version 3.41 3/10/92" ;
 #define DIV_2           >> 1
 
 /****  THE MODES AND CHOICES *******/
-static  INT        modeS ; /* determines which mode we are in */
+static  int        modeS ; /* determines which mode we are in */
 
 /* the global routines - seen by outside world */
-VOID (*_TWdrawRect)(P7( INT ref_num, INT x1, INT y1, INT x2, INT y2, INT color,
+VOID (*_TWdrawRect)(P7( int ref_num, int x1, int y1, int x2, int y2, int color,
 		    char *label )) ;
-VOID (*_TWdrawLine)(P7( INT ref_num, INT x1, INT y1, INT x2, INT y2, INT color,
+VOID (*_TWdrawLine)(P7( int ref_num, int x1, int y1, int x2, int y2, int color,
 		    char *label )) ;
-VOID (*_TWdrawArb)(P3( INT ref_num, INT color, char *label )) ;
+VOID (*_TWdrawArb)(P3( int ref_num, int color, char *label )) ;
 
 
 /* the local routines seen by the routines in this file only */
@@ -231,28 +231,28 @@ static VOID drawDArb() ;
 static VOID drawWArb() ;
 static VOID drawDLine() ;
 static VOID drawWLine() ;
-static VOID initcolors( P2(char **desiredColorArray,INT  numC ) ) ;
+static VOID initcolors( P2(char **desiredColorArray,int  numC ) ) ;
 static closeFrame(P1(void)) ;
 static VOID set_viewing_transformation() ;
 extern VOID TW3Dperspective( P5(DOUBLE x, DOUBLE y, DOUBLE z, 
     DOUBLE *pX, DOUBLE *pY ) ) ;
-static BOOL TWinit( P7(INT argc,char *argv[],INT numC,char **desiredColors,
-		    BOOL dumpOnly, TWMENUPTR menu, INT (*refresh_func)() ) ) ;
-static VOID set_clip_window( P4(INT l, INT r, INT b, INT t) ) ;
+static BOOL TWinit( P7(int argc,char *argv[],int numC,char **desiredColors,
+		    BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)() ) ) ;
+static VOID set_clip_window( P4(int l, int r, int b, int t) ) ;
 
 /********** THE CRT ROUTINE STATIC DEFINITIONS *************/
 static TWINFO      infoBoxS ;          /* information for other modules*/
 static XColor      *colorArrayS ;      /* array of color available */
 static GC          *graphicContextS ;  /* array of color contexts */
-static INT         numColorS;          /* the number of colors in table */
-static INT         borderColorS=BLACK; /* the default border color */
+static int         numColorS;          /* the number of colors in table */
+static int         borderColorS=BLACK; /* the default border color */
 static Display     *dpyS;              /* the display connection */
 static Window      backS;              /* the back window */
 static Window      drawS;              /* the current window */
 static Window      parentS;            /* the parent window */
 static Colormap    cmapS ;             /* default color map */
 static Pixmap      pixmapS ;           /* offscreen copy of data */
-static INT         screenS;            /* the current screen */
+static int         screenS;            /* the current screen */
 static Font        fontS ;             /* selected font */
 static XFontStruct *fontinfoS ;        /* font information */
 static BOOL        fullViewS ;         /* used for zoom window */
@@ -284,25 +284,25 @@ static DOUBLE      v11S, v12S, v13S,
 #define INT_X		(1)
 #define INT_Y		(1)
 static DOUBLE      scaleFactorS = 1.0 ;/* scale data to screen dim.*/
-static INT         xoffsetS ;          /* data offset to x screen dim.*/
-static INT         yoffsetS ;          /* data offset to y screen dim.*/
+static int         xoffsetS ;          /* data offset to x screen dim.*/
+static int         yoffsetS ;          /* data offset to y screen dim.*/
 static DOUBLE      oldscaleFactorS ;   /* remember old for zoom */
-static INT         oldxoffsetS ;       /* remember x for zoom return */
-static INT         oldyoffsetS ;       /* remember y for zoom return */
+static int         oldxoffsetS ;       /* remember x for zoom return */
+static int         oldyoffsetS ;       /* remember y for zoom return */
 static unsigned int winwidthS ;        /* draw window width in pixels */
 static unsigned int winheightS ;       /* draw window height in pixels */
 static int 	   winxS ;             /* window origin x from ul */
 static int         winyS ;             /* window origin y from ul */
-static INT         leftS ;             /* left of user data */
-static INT         rightS ;            /* right of user data */
-static INT         topS ;              /* top of user data */
-static INT         bottomS ;           /* bottom of user data */
-static INT lS, rS, bS, tS ;            /* current user data */
-static INT arblS, arbrS, arbbS, arbtS ;/* current user data */
+static int         leftS ;             /* left of user data */
+static int         rightS ;            /* right of user data */
+static int         topS ;              /* top of user data */
+static int         bottomS ;           /* bottom of user data */
+static int lS, rS, bS, tS ;            /* current user data */
+static int arblS, arbrS, arbbS, arbtS ;/* current user data */
 /* used to draw arbitrary rectilinear shapes */
 #define EXPECTEDPTS 12
-static INT numptS ;          /* current number of points */
-static INT ptAllocS = 0 ;    /* size of point array */
+static int numptS ;          /* current number of points */
+static int ptAllocS = 0 ;    /* size of point array */
 static XPoint *ptS = NIL(XPoint *) ; /* array of pts for arb figure */
 
 
@@ -310,7 +310,7 @@ static XPoint *ptS = NIL(XPoint *) ; /* array of pts for arb figure */
 /********** STATIC DEFINITIONS FOR MIXED FUNCTIONS *************/
 static  char *dirNameS ;      /* pathname including DATA directory */
 static  BOOL initS = FALSE ;  /* tells whether initialization performed */
-static  INT  frameCountS ;    /* current number of display frames */
+static  int  frameCountS ;    /* current number of display frames */
 static  BOOL frameOpenS ;     /* tells whether frame files are open */
 
 BOOL TWcheckServer()
@@ -334,7 +334,7 @@ BOOL TWcheckServer()
 } /* end TWcheckServer */
 
 TWsetMode( mode ) 
-INT mode ;
+int mode ;
 {
     if( dumpOnlyS && mode != TWWRITEONLY ){
 	D( "TWsetMode",
@@ -373,13 +373,13 @@ INT mode ;
 
 /* start a new window system */
 BOOL TWinitGraphics(argc,argv,numC,colors,dumpOnly,menu,refresh_func)
-INT argc;
+int argc;
 char *argv[];
 char **colors ;
 BOOL dumpOnly ;
-INT  numC ;
+int  numC ;
 TWMENUPTR menu ;
-INT (*refresh_func)() ;
+int (*refresh_func)() ;
 {
     parasiteS = FALSE ;
 
@@ -390,14 +390,14 @@ INT (*refresh_func)() ;
 
 /* TWinitParasite takes over windows that were already opened */
 BOOL TWinitParasite(argc,argv,numC,colors,dumpOnly,menu,refresh_func,w)
-INT argc;
+int argc;
 char *argv[];
-INT  numC ;
+int  numC ;
 char **colors ;
 BOOL dumpOnly ;
 TWMENUPTR menu ;
-INT (*refresh_func)() ;
-INT w ;
+int (*refresh_func)() ;
+int w ;
 {
     parasiteS = TRUE ;
     backS = (Window) w ;
@@ -405,13 +405,13 @@ INT w ;
 } /* end TWinitParasite */
 
 static BOOL TWinit(argc,argv,numC,desiredColors,dumpOnly,menu,refresh_func)
-INT argc;
+int argc;
 char *argv[];
-INT  numC ;
+int  numC ;
 char **desiredColors ;
 BOOL dumpOnly ;
 TWMENUPTR menu ;
-INT (*refresh_func)() ;
+int (*refresh_func)() ;
 {
 
     XSetWindowAttributes attr;
@@ -421,14 +421,14 @@ INT (*refresh_func)() ;
     char *hostmon ;           /* the host name of display */
     char *Ygetenv() ;         /* get the environment variables */
     char *reply ;             /* get xdefaults */
-    INT depth;
+    int depth;
     BOOL saveflag ;
     Window root;
     XSizeHints hints ;	      /* setup hints for window manager */
     char *Yfixpath() ;
     char *winstr ; /* position of Xdefault window */
     long event_mask ;  /* used to set input selection to window */
-    INT  m ;       /* mask for determining window position*/
+    int  m ;       /* mask for determining window position*/
 
     dumpOnlyS = dumpOnly ; /* save for rest of execution */
     if(!(dirNameS = Ygetenv( "DATADIR" ))){
@@ -732,7 +732,7 @@ TWINFOPTR TWgetDrawInfo()
 
 
 TWsetDrawInfo( winheight, winwidth, pixmap ) 
-INT winheight, winwidth ;
+int winheight, winwidth ;
 Pixmap pixmap ;
 {
     infoBoxS.winwidth = winwidthS = winwidth ;
@@ -782,10 +782,10 @@ TWcloseGraphics()
 /* perform a zoom in main graphics window */
 TWzoom()
 {
-    INT x1, y1 ; /* first point of user zoom */
-    INT x2, y2 ; /* second point of user zoom */
-    INT left, right, bottom, top ; /* for calculating window */
-    INT span ;   /* span of design */
+    int x1, y1 ; /* first point of user zoom */
+    int x2, y2 ; /* second point of user zoom */
+    int left, right, bottom, top ; /* for calculating window */
+    int span ;   /* span of design */
 
     TWmessage( "[ZOOM]:Pick or enter first point of bounding box:" ) ;
     TWgetPt2( &x1, &y1 ) ;
@@ -847,9 +847,9 @@ TWfullView()
 
 /* set the window area for bar */
 TWsetwindow( left, bottom, right, top ) 
-INT left, bottom, right, top ;
+int left, bottom, right, top ;
 {
-    INT xspan, yspan ; /* span of data */
+    int xspan, yspan ; /* span of data */
     DOUBLE xscaleF, yscaleF ;  /* scale data to window span */
 
     if( modeS == TWWRITEONLY ){
@@ -912,9 +912,9 @@ INT left, bottom, right, top ;
 } /* end TWsetwindow */
 
 static VOID set_clip_window( left, right, bottom, top ) 
-INT left, right, bottom, top ;
+int left, right, bottom, top ;
 {
-    INT xspan, yspan ;
+    int xspan, yspan ;
 
     lS = left ; bS = bottom ;
     xspan = ABS( right - left ) ;
@@ -933,8 +933,8 @@ INT left, right, bottom, top ;
 
 TWtranslate()
 {
-    INT x1, y1 ;
-    INT last_xoff, last_yoff ;
+    int x1, y1 ;
+    int last_xoff, last_yoff ;
 
     if( fullViewS ){
 	/* only save full view window size */
@@ -953,8 +953,8 @@ TWtranslate()
     xoffsetS = - x1 ;
     yoffsetS = - y1 ;
     /* now center in screen - half of xspan */
-    xoffsetS += (INT) ( (DOUBLE) winwidthS / scaleFactorS / 2.0 ) ;
-    yoffsetS += (INT) ( (DOUBLE) winheightS / scaleFactorS / 2.0 );
+    xoffsetS += (int) ( (DOUBLE) winwidthS / scaleFactorS / 2.0 ) ;
+    yoffsetS += (int) ( (DOUBLE) winheightS / scaleFactorS / 2.0 );
     TWinforMenus() ; /* tell other module about info */
     TWforceRedraw() ;
     /* update clipping window */
@@ -991,7 +991,7 @@ TWsync()
 
 static VOID initcolors( desiredColorArray, numC )
 char **desiredColorArray ;
-INT  numC ;
+int  numC ;
 {
     unsigned long backgrd;
     unsigned long foregrd;
@@ -1000,8 +1000,8 @@ INT  numC ;
     GC       gc ;      /* temp for graphics context */
     char     *color ;
     XColor   ecolor ;  /* exact color - do need to use it */
-    INT      i, j, k ;
-    INT      pattern ;
+    int      i, j, k ;
+    int      pattern ;
     char     *stipple ;
     char     *TWstdStipple() ;
     char     row, bit ;
@@ -1190,7 +1190,7 @@ INT  numC ;
 } /* end initcolor */
 
 TWcolorXOR( color, exorFlag )
-INT color ;
+int color ;
 BOOL exorFlag ;
 {
     /* check to make sure color is valid */
@@ -1228,8 +1228,8 @@ static startDFrame()
 
 static VOID drawDLine(ref,x1,y1,x2,y2,color,label)
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
-INT	ref, color ;
-register INT	x1,y1,x2,y2 ;
+int	ref, color ;
+register int	x1,y1,x2,y2 ;
 char	*label ;
 {	
 
@@ -1260,10 +1260,10 @@ char	*label ;
     /* add users data offset */
     /* next scale coordinates to window */
     /* account for inversion of y axis */
-    x1 = (INT) ( (DOUBLE) (x1 + xoffsetS) * scaleFactorS ) ;
-    x2 = (INT) ( (DOUBLE) (x2 + xoffsetS) * scaleFactorS ) ;
-    y1 = winheightS - (INT) ( (DOUBLE) (y1 + yoffsetS) * scaleFactorS ) ;
-    y2 = winheightS - (INT) ( (DOUBLE) (y2 + yoffsetS) * scaleFactorS ) ;
+    x1 = (int) ( (DOUBLE) (x1 + xoffsetS) * scaleFactorS ) ;
+    x2 = (int) ( (DOUBLE) (x2 + xoffsetS) * scaleFactorS ) ;
+    y1 = winheightS - (int) ( (DOUBLE) (y1 + yoffsetS) * scaleFactorS ) ;
+    y2 = winheightS - (int) ( (DOUBLE) (y2 + yoffsetS) * scaleFactorS ) ;
     /* now draw line */
     XDrawLine( dpyS,drawS,graphicContextS[color], 
 	x1,y1,x2,y2 ) ;
@@ -1283,12 +1283,12 @@ static VOID drawDRect(ref,x1,y1,x2,y2,color,label)
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
 /* A border will be draw around the cell if specified black (default). */
-INT	ref, color ;
-register INT	x1,y1,x2,y2 ;
+int	ref, color ;
+register int	x1,y1,x2,y2 ;
 char	*label ;
 {	
     UNSIGNED_INT width, height ;
-    INT len ;
+    int len ;
 
     /* check to make sure color is valid */
     if( color <= 0 || color > numColorS ){
@@ -1315,10 +1315,10 @@ char	*label ;
     y1 += yoffsetS ;
     y2 += yoffsetS ;
     /* next scale coordinates to window */
-    x1 = (INT) ( (DOUBLE) x1 * scaleFactorS ) ;
-    x2 = (INT) ( (DOUBLE) x2 * scaleFactorS ) ;
-    y1 = (INT) ( (DOUBLE) y1 * scaleFactorS ) ;
-    y2 = (INT) ( (DOUBLE) y2 * scaleFactorS ) ;
+    x1 = (int) ( (DOUBLE) x1 * scaleFactorS ) ;
+    x2 = (int) ( (DOUBLE) x2 * scaleFactorS ) ;
+    y1 = (int) ( (DOUBLE) y1 * scaleFactorS ) ;
+    y2 = (int) ( (DOUBLE) y2 * scaleFactorS ) ;
     width = x2 - x1 ;
     height = y2 - y1 ;
     /* account for inversion of y axis */
@@ -1382,7 +1382,7 @@ TWarb_init()
 /* ***************************************************************** */
 
 TWarb_addpt( xpos, ypos )
-INT xpos, ypos ;
+int xpos, ypos ;
 {
 
     if( modeS == TWWRITEONLY || modeS == TWWRITENDRAW ){
@@ -1398,12 +1398,12 @@ INT xpos, ypos ;
     xpos += xoffsetS ;
     ypos += yoffsetS ;
     /* next scale coordinates to window */
-    xpos = (INT) ( (DOUBLE) xpos * scaleFactorS ) ;
-    ypos = (INT) ( (DOUBLE) ypos * scaleFactorS ) ;
+    xpos = (int) ( (DOUBLE) xpos * scaleFactorS ) ;
+    ypos = (int) ( (DOUBLE) ypos * scaleFactorS ) ;
     /* account for inversion of y axis */
     ypos = winheightS - ypos ;
     /* now points are in X coordinates */
-    if( xpos == (INT) ptS[numptS].x && ypos == (INT) ptS[numptS].y ){
+    if( xpos == (int) ptS[numptS].x && ypos == (int) ptS[numptS].y ){
 	/* avoid redundant points */
 	return ;
     }
@@ -1419,12 +1419,12 @@ INT xpos, ypos ;
 
 
 static VOID drawDArb( ref, color, label )
-INT	ref, color ;
+int	ref, color ;
 char	*label ;
 {
-    INT    i ;           /* counter */
-    INT    len ;         /* length of string if given */
-    INT x1, y1, x2, y2 ; /* bounding box of figure */
+    int    i ;           /* counter */
+    int    len ;         /* length of string if given */
+    int x1, y1, x2, y2 ; /* bounding box of figure */
     UNSIGNED_INT width ; /* width of font */
     XPoint *points ;     /* array starts from 1 not zero */
 
@@ -1451,13 +1451,13 @@ char	*label ;
 	ptS[numptS].x = ptS[1].x ;
 	ptS[numptS].y = ptS[1].y ;
     }
-    x1 = x2 = (INT) ptS[1].x ;
-    y1 = y2 = (INT) ptS[1].y ;
+    x1 = x2 = (int) ptS[1].x ;
+    y1 = y2 = (int) ptS[1].y ;
     for( i = 2; i <= numptS; i++ ){
-	x1 = MIN( x1, (INT) ptS[i].x ) ;
-	x2 = MAX( x2, (INT) ptS[i].x ) ;
-	y1 = MIN( y1, (INT) ptS[i].y ) ;
-	y2 = MAX( y2, (INT) ptS[i].y ) ;
+	x1 = MIN( x1, (int) ptS[i].x ) ;
+	x2 = MAX( x2, (int) ptS[i].x ) ;
+	y1 = MIN( y1, (int) ptS[i].y ) ;
+	y2 = MAX( y2, (int) ptS[i].y ) ;
     }
     if(!(fullViewS)){
 	/* clip if necessary for speed. Avoid interprocess communication */
@@ -1482,13 +1482,13 @@ char	*label ;
 	    width = XTextWidth( fontinfoS, label, len ) ;
 	    /* need image string so you can write on top of fill */
 	    /* calculate where we need to put the label */
-	    x1 = x2 = (INT) ptS[1].x ;
-	    y1 = y2 = (INT) ptS[1].y ;
+	    x1 = x2 = (int) ptS[1].x ;
+	    y1 = y2 = (int) ptS[1].y ;
 	    for( i = 2; i <= numptS; i++ ){
-		x1 = MIN( x1, (INT) ptS[i].x ) ;
-		x2 = MAX( x2, (INT) ptS[i].x ) ;
-		y1 = MIN( y1, (INT) ptS[i].y ) ;
-		y2 = MAX( y2, (INT) ptS[i].y ) ;
+		x1 = MIN( x1, (int) ptS[i].x ) ;
+		x2 = MAX( x2, (int) ptS[i].x ) ;
+		y1 = MIN( y1, (int) ptS[i].y ) ;
+		y2 = MAX( y2, (int) ptS[i].y ) ;
 	    }
 	    XDrawImageString( dpyS, drawS, graphicContextS[color], 
 		(x1+x2-width)/2, (y1+y2)/2, label, strlen(label) ) ;
@@ -1535,7 +1535,7 @@ BOOL TWget_rect_fill()
 
 TWhighLightRect( x1,y1,x2,y2 )
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
-register INT	x1,y1,x2,y2 ;
+register int	x1,y1,x2,y2 ;
 {	
     UNSIGNED_INT width, height ;
 
@@ -1545,10 +1545,10 @@ register INT	x1,y1,x2,y2 ;
     y1 += yoffsetS ;
     y2 += yoffsetS ;
     /* next scale coordinates to window */
-    x1 = (INT) ( (DOUBLE) x1 * scaleFactorS ) ;
-    x2 = (INT) ( (DOUBLE) x2 * scaleFactorS ) ;
-    y1 = (INT) ( (DOUBLE) y1 * scaleFactorS ) ;
-    y2 = (INT) ( (DOUBLE) y2 * scaleFactorS ) ;
+    x1 = (int) ( (DOUBLE) x1 * scaleFactorS ) ;
+    x2 = (int) ( (DOUBLE) x2 * scaleFactorS ) ;
+    y1 = (int) ( (DOUBLE) y1 * scaleFactorS ) ;
+    y2 = (int) ( (DOUBLE) y2 * scaleFactorS ) ;
     width = x2 - x1 ;
     height = y2 - y1 ;
     /* account for inversion of y axis */
@@ -1560,18 +1560,18 @@ register INT	x1,y1,x2,y2 ;
 } /* end TWhighLightRect */
 
 TWmoveRect( x1, y1, x2, y2, ptx, pty )
-INT *x1, *y1, *x2, *y2, ptx, pty ;
+int *x1, *y1, *x2, *y2, ptx, pty ;
 /* x1, y1, x2, y2 are all user data absolute coordinates */
 /* ptx and pty are the value of the pointer from TWgetPt */
 {
     BOOL press ;              /* tells whether button has been released */
     XEvent event ;            /* describes event */
     long event_mask ;         /* set events */
-    INT x, y ;                /* current position of pointer */
-    INT last_time ;           /* last time rectangle was moved */
-    INT dx_user, dy_user ;    /* rect pos rel to pointer in user scale */
-    INT dx_pix, dy_pix ;      /* rect pos rel to pointer in pixels */
-    INT oldx, oldy ;          /* rect pos rel to pointer in pixels */
+    int x, y ;                /* current position of pointer */
+    int last_time ;           /* last time rectangle was moved */
+    int dx_user, dy_user ;    /* rect pos rel to pointer in user scale */
+    int dx_pix, dy_pix ;      /* rect pos rel to pointer in pixels */
+    int oldx, oldy ;          /* rect pos rel to pointer in pixels */
     UNSIGNED_INT width_user ; /* width of rectangle user coordinates */
     UNSIGNED_INT height_user; /* height of rectangle user coordinates */
     UNSIGNED_INT width_pix ; /* width of rectangle pixel coordinates */
@@ -1584,12 +1584,12 @@ INT *x1, *y1, *x2, *y2, ptx, pty ;
     ptx += xoffsetS ;
     pty += yoffsetS ;
     /* next scale coordinates to window */
-    ptx  =       (INT) ( (DOUBLE) ptx * scaleFactorS ) ;
-    pty  =       (INT) ( (DOUBLE) pty * scaleFactorS ) ;
-    width_pix  = (INT) ( (DOUBLE) width_user * scaleFactorS ) ;
-    height_pix = (INT) ( (DOUBLE) height_user * scaleFactorS ) ;
-    dx_pix     = (INT) ( (DOUBLE) dx_user * scaleFactorS ) ;
-    dy_pix     = (INT) ( (DOUBLE) dy_user * scaleFactorS ) ;
+    ptx  =       (int) ( (DOUBLE) ptx * scaleFactorS ) ;
+    pty  =       (int) ( (DOUBLE) pty * scaleFactorS ) ;
+    width_pix  = (int) ( (DOUBLE) width_user * scaleFactorS ) ;
+    height_pix = (int) ( (DOUBLE) height_user * scaleFactorS ) ;
+    dx_pix     = (int) ( (DOUBLE) dx_user * scaleFactorS ) ;
+    dy_pix     = (int) ( (DOUBLE) dy_user * scaleFactorS ) ;
 
     /* account for inversion of y axis */
     pty = winheightS - pty ;
@@ -1668,9 +1668,9 @@ Font *font ;
 _TW3DdrawAxis( drawNotErase )
 BOOL drawNotErase ;
 {
-    INT xspan, yspan, zspan ;
-    INT c ;      /* string color */
-    INT xstring, ystring ;
+    int xspan, yspan, zspan ;
+    int c ;      /* string color */
+    int xstring, ystring ;
     DOUBLE X0, Y0, X, Y ;
 
     xspan = rightS - leftS ; 
@@ -1702,35 +1702,35 @@ BOOL drawNotErase ;
     /* next  (xspan,0,0) */
     TW3Dperspective( (DOUBLE)xspan, (DOUBLE)0, (DOUBLE)0, &X, &Y );
     /* draw X axis */
-    TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
+    TWdrawLine(0, (int)X0, (int)Y0, (int)X, (int)Y, 3, NIL(char *) ) ;
     /* draw label - find label coordinates */
-    xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
-    ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
+    xstring = ( (int) X0 + (int) X ) DIV_2 ;
+    ystring = ( (int) Y0 + (int) Y ) DIV_2 ;
     TWdrawString( xstring, ystring, c, "x" ) ;
 
     /* next  (0,yspan,0) */
     TW3Dperspective( (DOUBLE)0, (DOUBLE)yspan, (DOUBLE)0, &X, &Y );
     /* draw X axis */
-    TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
+    TWdrawLine(0, (int)X0, (int)Y0, (int)X, (int)Y, 3, NIL(char *) ) ;
     /* draw label - find label coordinates */
-    xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
-    ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
+    xstring = ( (int) X0 + (int) X ) DIV_2 ;
+    ystring = ( (int) Y0 + (int) Y ) DIV_2 ;
     TWdrawString( xstring, ystring, c, "y" ) ;
 
     /* next  (0,0,zspan) */
     TW3Dperspective( (DOUBLE)0, (DOUBLE)0, (DOUBLE)zspan, &X, &Y );
     /* draw X axis */
-    TWdrawLine(0, (INT)X0, (INT)Y0, (INT)X, (INT)Y, 3, NIL(char *) ) ;
+    TWdrawLine(0, (int)X0, (int)Y0, (int)X, (int)Y, 3, NIL(char *) ) ;
     /* draw label - find label coordinates */
-    xstring = ( (INT) X0 + (INT) X ) DIV_2 ;
-    ystring = ( (INT) Y0 + (INT) Y ) DIV_2 ;
+    xstring = ( (int) X0 + (int) X ) DIV_2 ;
+    ystring = ( (int) Y0 + (int) Y ) DIV_2 ;
     TWdrawString( xstring, ystring, c, "z" ) ;
 } /* end _TW3DdrawAxis */
 
 VOID TW3DsetCamera()
 {
-  INT x, y ;
-  INT oldx, oldy ;
+  int x, y ;
+  int oldx, oldy ;
   BOOL first_time = TRUE ;
   DOUBLE FOURPI = 720;
   DOUBLE mouseScaleX ;
@@ -1758,8 +1758,8 @@ VOID TW3DsetCamera()
 	  phiS += ( y - oldy ) * radiansPerDegreeS *mouseScaleY;
 	  /*
 	  sprintf(YmsgG, "Current settings: theta:%3d phi:%3d", 
-	    (INT) (thetaS / radiansPerDegreeS), 
-	    (INT) (phiS / radiansPerDegreeS) ) ;
+	    (int) (thetaS / radiansPerDegreeS), 
+	    (int) (phiS / radiansPerDegreeS) ) ;
 	  TWmessage(YmsgG) ;
 	  */
 	  oldx = x ; oldy = y ;
@@ -1776,8 +1776,8 @@ VOID TW3DsetCamera()
     xoffsetS = 0 ;
     yoffsetS = 0 ;
     /* now center in screen - half of xspan */
-    xoffsetS += (INT) ( (DOUBLE) winwidthS / scaleFactorS / 2.0 ) ;
-    yoffsetS += (INT) ( (DOUBLE) winheightS / scaleFactorS / 2.0 );
+    xoffsetS += (int) ( (DOUBLE) winwidthS / scaleFactorS / 2.0 ) ;
+    yoffsetS += (int) ( (DOUBLE) winheightS / scaleFactorS / 2.0 );
     TWinforMenus() ; /* tell other module about info */
     TWforceRedraw() ;
     _TW3DdrawAxis( TRUE ) ;
@@ -1889,9 +1889,9 @@ VOID TW3Dnormal_view()
 /*-------------------------
     Draws a 3 dimensional cube.
   -------------------------*/
-INT TW3DdrawCube(ref_num, x1, y1, z1, x2, y2, z2, color, label)
-INT ref_num, x1, y1, z1, x2, y2, z2 ;
-INT color;
+int TW3DdrawCube(ref_num, x1, y1, z1, x2, y2, z2, color, label)
+int ref_num, x1, y1, z1, x2, y2, z2 ;
+int color;
 char *label;
 {
     /* try it as a solid */
@@ -1961,22 +1961,22 @@ char *label;
 /* returns string size in user coordinate system */
 TWstringSize( string, width, height )
 char *string ;
-INT *width, *height ;
+int *width, *height ;
 {
-    INT len ;        /* length of string in characters */
-    INT pix_width ;  /* width of string in pixels */
-    INT pix_height ; /* height of string in pixels */
+    int len ;        /* length of string in characters */
+    int pix_width ;  /* width of string in pixels */
+    int pix_height ; /* height of string in pixels */
     len = strlen( string ) ;
     pix_width = XTextWidth( fontinfoS, string, len ) ;
     pix_height = fontinfoS->ascent + fontinfoS->descent ;
     /* now reverse scale of coordinates */
-    *width  = (INT) ( (DOUBLE) pix_width / scaleFactorS ) ;
-    *height = (INT) ( (DOUBLE) pix_height / scaleFactorS ) ;
+    *width  = (int) ( (DOUBLE) pix_width / scaleFactorS ) ;
+    *height = (int) ( (DOUBLE) pix_height / scaleFactorS ) ;
 
 }
 
 TWdrawString( x, y, color, label )
-INT x, y, color ;
+int x, y, color ;
 char *label ;
 {
     if( color <= 0 || color > numColorS ){
@@ -1998,8 +1998,8 @@ char *label ;
     /* add users data offset */
     /* next scale coordinates to window */
     /* account for inversion of y axis */
-    x = (INT) ( (DOUBLE) (x + xoffsetS) * scaleFactorS ) ;
-    y = winheightS - (INT) ( (DOUBLE) (y + yoffsetS) * scaleFactorS ) ;
+    x = (int) ( (DOUBLE) (x + xoffsetS) * scaleFactorS ) ;
+    y = winheightS - (int) ( (DOUBLE) (y + yoffsetS) * scaleFactorS ) ;
     if( label ){
 	if( *label != EOS ){
 	    XDrawImageString( dpyS, drawS, graphicContextS[color], 
@@ -2020,10 +2020,10 @@ char *label ;
 static  FILE *cellFileS = NULL ; /* cellfile pointer */   
 static  FILE *netFileS = NULL ;  /* net file pointer */
 static  FILE *symbFileS = NULL ; /* symbfile pointer */
-static  INT  numCellS = 0 ; /* cell counter */
-static  INT  numNetS = 0 ;  /* net counter */
-static  INT  numPinS = 0 ;  /* pin counter */
-static  INT  numCharS = 0 ; /* symbol table counter */
+static  int  numCellS = 0 ; /* cell counter */
+static  int  numNetS = 0 ;  /* net counter */
+static  int  numPinS = 0 ;  /* pin counter */
+static  int  numCharS = 0 ; /* symbol table counter */
 
 
 TWstartFrame()
@@ -2092,8 +2092,8 @@ static closeFrame()
 {
     char dummy[5] ;
     UNSIGNED_INT nitems ;
-    INT numw ;
-    INT excess ;
+    int numw ;
+    int excess ;
 
     if(!dirNameS){
 	return ;
@@ -2131,7 +2131,7 @@ static closeFrame()
 } /* closeFrame */
 
 TWsetFrame( number )
-INT number ;
+int number ;
 {
     char fileName[LRECL] ;
 
@@ -2159,13 +2159,13 @@ INT number ;
 /* *********  GENERIC WRITE ROUTINES **************  */
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
 static VOID drawWLine( ref_num,x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2,color ;
+int     ref_num ; /* reference number */
+int	x1,y1,x2,y2,color ;
 char	*label;
 {	
     DATABOX record ;
     UNSIGNED_INT nitems ;
-    INT numw ; /* number written */
+    int numw ; /* number written */
 
     if(!(colorOnS[color]) || !dirNameS ){
 	return ;
@@ -2200,7 +2200,7 @@ char	*label;
 	/* now store in net file offset in table */
 	record.label = numCharS ;
 	/* now update offset to include this string */
-	numCharS += (INT) nitems ;
+	numCharS += (int) nitems ;
 	
     } else {
 	record.label = 0 ;
@@ -2216,13 +2216,13 @@ char	*label;
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
 static VOID drawWRect( ref_num, x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2, color;
+int     ref_num ; /* reference number */
+int	x1,y1,x2,y2, color;
 char	*label;
 {
     DATABOX record ;
     UNSIGNED_INT nitems ;
-    INT numw ; /* number of records written */
+    int numw ; /* number of records written */
 
     if(!(colorOnS[color]) || !dirNameS ){
 	return ;
@@ -2256,7 +2256,7 @@ char	*label;
 	/* now store in net file offset in table */
 	record.label = numCharS ;
 	/* now update offset to include this string */
-	numCharS += (INT) nitems ;
+	numCharS += (int) nitems ;
 	
     } else {
 	record.label = 0 ;
@@ -2270,7 +2270,7 @@ char	*label;
 } /* end drawWRect */
 
 static VOID drawWArb( ref, color, label )
-INT	ref, color ;
+int	ref, color ;
 char	*label ;
 {
     YBUSTBOXPTR bustptr ;

@@ -14,9 +14,9 @@ REVISIONS:
 #define		EVEN	0
 
 typedef	struct d_field {
-    INT			x_lb	;
-    INT			x_ub	;
-    INT                 cell    ;
+    int			x_lb	;
+    int			x_ub	;
+    int                 cell    ;
     struct d_field	*prev	;
     struct d_field	*next	;
 } DFLD, *DFLDPTR ;
@@ -24,11 +24,11 @@ typedef	struct d_field {
 typedef	struct b_record {
     SHORT		state	;
     SHORT		number	;
-    INT			length	;
-    INT			x_lb	;
-    INT			x_ub	;
-    INT			y_lb	;
-    INT			y_ub	;
+    int			length	;
+    int			x_lb	;
+    int			x_ub	;
+    int			y_lb	;
+    int			y_ub	;
     struct d_field	*macro	;
 } BLOCK, *BLOCKPTR ;
 

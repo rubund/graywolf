@@ -41,7 +41,7 @@
 FILE:	    loadins.c                                       
 DESCRIPTION:initializes bins for overlap calculation
 CONTENTS:   loadbins( )
-	    INT calc_cellareas( BOOL ) - returns total cell area.
+	    int calc_cellareas( BOOL ) - returns total cell area.
 DATE:	    Feb 13, 1988 
 REVISIONS:  Nov 3,  1988 - added routingFlag override for doPartitionG
 		in calc_cell_areas and turned wire estimator off for
@@ -56,7 +56,7 @@ static char SccsId[] = "@(#) loadbins.c version 3.4 2/4/91" ;
 #include <custom.h>
 #include <yalecad/debug.h>
 
-static INT binAreaS ;
+static int binAreaS ;
 
 /* conditional compile for bintest */
 /* if defined the binpenalty should always remain equal to cell area */
@@ -68,10 +68,10 @@ BOOL wireAreaKnown ;
 
 CELLBOXPTR ptr ;
 BINBOXPTR bptr;
-INT cell ;
-INT x, y ;
-INT binX, binY, array_limit ;
-INT *cellList ;
+int cell ;
+int x, y ;
+int binX, binY, array_limit ;
+int *cellList ;
 
 
 /* belows set up the initial bin-penalty */
@@ -197,8 +197,8 @@ for( cell = 1 ; cell <= numcellsG; cell++ ) {
     array_limit = ++cellList[0] ;
     if( array_limit >= bptr->space ) {
 	bptr->space += EXPCELLPERBIN ;
-	cellList = bptr->cells = (INT *) Ysafe_realloc( bptr->cells,
-	    bptr->space * sizeof(INT) ) ; 
+	cellList = bptr->cells = (int *) Ysafe_realloc( bptr->cells,
+	    bptr->space * sizeof(int) ) ; 
     }
     cellList[array_limit] = cell ;
 
@@ -214,7 +214,7 @@ for( x= 0 ; x <= maxBinXG; x++ ) {
     }
 }
 /* scale penalty */
-penaltyG = (INT) ( lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
+penaltyG = (int) ( lapFactorG * sqrt( (DOUBLE) binpenalG ) ) ;
 
 return ;
 } /* end loadbins */
@@ -223,10 +223,10 @@ return ;
 /* ***************************************************************** 
    CALCULATE CELL AREAS
 */
-INT calc_cellareas( routingFlag )
+int calc_cellareas( routingFlag )
 BOOL routingFlag ;
 {
-    INT totArea, orient, cell, l, r, b, t, xc, yc ;
+    int totArea, orient, cell, l, r, b, t, xc, yc ;
     CELLBOXPTR  cellptr ;
     TILEBOXPTR  tileptr ;
     MOVEBOX pos_buf ;
@@ -285,7 +285,7 @@ BOOL routingFlag ;
    use static to make code more modular.  Only called a few times
    no problem with inefficiency.
 */
-INT get_bin_area() 
+int get_bin_area() 
 {
     return( binAreaS ) ;
 }

@@ -56,11 +56,11 @@ static char SccsId[] = "@(#) prboard.c version 3.6 4/18/91" ;
 grid_cells()
 {
 
-INT xcenter , ycenter, remainder ;
-INT cell ;
-INT old_left, old_bottom ;/* original xy center of cell before gridding */
-INT delta_x, delta_y ;       /* delta to move cell lower left to grid */
-INT left, right, bottom, top ;            /* sides of cell bounding box */
+int xcenter , ycenter, remainder ;
+int cell ;
+int old_left, old_bottom ;/* original xy center of cell before gridding */
+int delta_x, delta_y ;       /* delta to move cell lower left to grid */
+int left, right, bottom, top ;            /* sides of cell bounding box */
 CELLBOXPTR cellptr ;
 BOUNBOXPTR bounptr ;
 

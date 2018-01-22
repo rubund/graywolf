@@ -32,19 +32,19 @@ REVISIONS:
 EXTERN SWAPBOX *swap_group_listG ;
 EXTERN BOOL one_pin_feedthruG ;
 
-EXTERN INT maxCellOG ;
-EXTERN INT case_unequiv_pinG ;
-EXTERN INT celllenG ;
-EXTERN INT cells_per_clusterG ;
-EXTERN INT cluster_widthG ;
-EXTERN INT extra_cellsG ;
-EXTERN INT *fixLRBTG ;
-EXTERN INT last_pin_numberG ;
-EXTERN INT num_clustersG ;
+EXTERN int maxCellOG ;
+EXTERN int case_unequiv_pinG ;
+EXTERN int celllenG ;
+EXTERN int cells_per_clusterG ;
+EXTERN int cluster_widthG ;
+EXTERN int extra_cellsG ;
+EXTERN int *fixLRBTG ;
+EXTERN int last_pin_numberG ;
+EXTERN int num_clustersG ;
 EXTERN BOOL swappable_gates_existG ;
 
-EXTERN INT swap_netG ;
-EXTERN INT totallenG ;
+EXTERN int swap_netG ;
+EXTERN int totallenG ;
 EXTERN DOUBLE *padspaceG ;
 
 #undef EXTERN  

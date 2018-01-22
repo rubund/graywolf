@@ -46,29 +46,29 @@ CONTENTS:
 		FILE *fp ;
 	    read_control( fp )
 		FILE *fp ;
-	    INT eval_ratio(t)
+	    int eval_ratio(t)
 		DOUBLE *t;
 	    init_uloop()
 	    init_control(first)
-		INT first;
+		int first;
 	    pick_position(x,y,ox,oy,scale)
-		INT *x,*y,ox,oy;
+		int *x,*y,ox,oy;
 		DOUBLE scale ;
 	    update_window_size( iternum )
 		DOUBLE iternum ;
 	    uloop()
 	    rowcon()
 	    DOUBLE partition( C_initial,k_initial,p_initial,R_initial )
-		INT C_initial , k_initial , p_initial , R_initial ;
+		int C_initial , k_initial , p_initial , R_initial ;
 	    DOUBLE expected_value(C_initial,k_initial,p_initial,R_initial)
-		INT C_initial , k_initial , p_initial , R_initial ;
+		int C_initial , k_initial , p_initial , R_initial ;
 	    DOUBLE expected_svalue(C_initial,k_initial,
 		p_initial,R_initial ) 
-	    INT C_initial , k_initial , p_initial , R_initial ; 
+	    int C_initial , k_initial , p_initial , R_initial ; 
 	    DOUBLE compute_and_combination( C , k , p , R )
-		INT C , k , p , R ;
+		int C , k , p , R ;
 	    DOUBLE combination( numerator , denominator )
-		INT numerator , denominator ;
+		int numerator , denominator ;
 	    sanity_check()
 	    sanity_check2()
 	    sanity_check3()
@@ -144,8 +144,8 @@ DOUBLE finalRowControlG ;
 DOUBLE initialRowControlG ;
 
 /* global references */
-extern INT totalRG ;
-extern INT minxspanG ;
+extern int totalRG ;
+extern int minxspanG ;
 extern BOOL pairtestG ;
 extern BOOL no_feed_estG ;
 extern BOOL good_initial_placementG ;
@@ -156,13 +156,13 @@ DOUBLE expected_value() ;
 DOUBLE partition() ;
 DOUBLE compute_and_combination() ;
 DOUBLE combination() ;
-INT eval_ratio() ;
+int eval_ratio() ;
 
 /* static variables */
-static INT acc_cntS = 0 ;
-static INT move_cntS = 0 ;
-static INT f_cntS = 0;
-static INT cost_vectorS[13] = { 0,0,0,0,0,0,0,0,0,0,0,0,0 } ;
+static int acc_cntS = 0 ;
+static int move_cntS = 0 ;
+static int f_cntS = 0;
+static int cost_vectorS[13] = { 0,0,0,0,0,0,0,0,0,0,0,0,0 } ;
 static BOOL not_doneS = TRUE ;
 static BOOL first_fdsS = TRUE ;
 static BOOL first_capS = TRUE ;
@@ -197,26 +197,26 @@ uloop()
 FENCEBOXPTR fence ;
 CBOXPTR acellptr, bcellptr ; 
 BBOXPTR ablckptr , bblckptr ;
-INT flips , rejects , do_single_cell_move , bit_class ;
-INT axcenter , bxcenter , bycenter ; 
-INT aorient , borient ;
-INT blk , pairflips ;
-INT i , j , t , count , swaps, index, shift ;
-INT abin , bbin , fds , done , single_swap ;
+int flips , rejects , do_single_cell_move , bit_class ;
+int axcenter , bxcenter , bycenter ; 
+int aorient , borient ;
+int blk , pairflips ;
+int i , j , t , count , swaps, index, shift ;
+int abin , bbin , fds , done , single_swap ;
 DOUBLE target_row_penalty ;
 DOUBLE target_bin_penalty ;
 DOUBLE temp , percent_error ;
 DOUBLE dCp, delta , gswap_ratio ;
-INT m1,m2, trials ;
-INT num_accepts , gate_switches , gate_attempts ;
-INT last_flips , delta_func , delta_time ;
-INT temp_timer, time_to_update ; /* keeps track of when to update T */
+int m1,m2, trials ;
+int num_accepts , gate_switches , gate_attempts ;
+int last_flips , delta_func , delta_time ;
+int temp_timer, time_to_update ; /* keeps track of when to update T */
 DOUBLE iter_time, accept_deviation, calc_acceptance_ratio() ;
 DOUBLE num_time, num_func ;
 DOUBLE calc_time_factor() ; 
 /* 
     commented out variables 
-    INT reset_T ;
+    int reset_T ;
     DOUBLE old_T ;
 */
 
@@ -300,7 +300,7 @@ while( attemptsG < attmaxG ) {
     interchangable. Below we check if the cell#aG belongs to a swap_group
    ------------------------------------------------------------------------ */
     if( acellptr->num_swap_group > 0 ) {
-	INT sgroup;
+	int sgroup;
 	SGLISTPTR sglistptr;
 	i = PICK_INT( 0 , acellptr->num_swap_group - 1 ) ;
 	sglistptr = acellptr->swapgroups + i;
@@ -836,7 +836,7 @@ if( not_doneS || good_initial_placementG ) {
 	    }
 	}
 	roLenConG = (roLenConG > 1.0) ? roLenConG : 1.0 ;
-	penaltyG = (INT)( binpenConG * (DOUBLE) binpenalG + 
+	penaltyG = (int)( binpenConG * (DOUBLE) binpenalG + 
 				    roLenConG * (DOUBLE) rowpenalG ) ;
     } /* end !Equal_Width_CellsG */
 
@@ -853,8 +853,8 @@ return ;
 rowcon()
 {
 
-INT C , R , p_first , totalCells , cellsPerRow , temp_R ;
-INT over, under ;
+int C , R , p_first , totalCells , cellsPerRow , temp_R ;
+int over, under ;
 DOUBLE states , value , expect , variance ; 
 DOUBLE expectedExtraRowLength , rowControl , x , minDev ;
 
@@ -883,7 +883,7 @@ if( numcellsG > 5000 ) {
     rowControl = 0.0 ;
     do {
 	rowControl += 0.001 ;
-	C = (INT)( rowControl * (DOUBLE) totalCells / 2.0 ) ;
+	C = (int)( rowControl * (DOUBLE) totalCells / 2.0 ) ;
 	if( 2.0 * (DOUBLE)(C+1) - rowControl * totalCells <=
 			rowControl * totalCells - 2.0 * (DOUBLE) C ) {
 	    C++ ;
@@ -931,7 +931,7 @@ if( numcellsG > 5000 ) {
 		break ;
 	    }
 	}
-	C = (INT)( rowControl * (DOUBLE) totalCells / 2.0 ) ;
+	C = (int)( rowControl * (DOUBLE) totalCells / 2.0 ) ;
 	if( 2.0 * (DOUBLE)(C+1) - rowControl * totalCells <=
 			rowControl * totalCells - 2.0 * (DOUBLE) C ) {
 	    C++ ;
@@ -951,10 +951,10 @@ return ;
 
 
 DOUBLE partition( C_initial , k_initial , p_initial , R_initial )
-INT C_initial , k_initial , p_initial , R_initial ;
+int C_initial , k_initial , p_initial , R_initial ;
 {
 
-INT R , C , k , p , k_limit , p_limit ;
+int R , C , k , p , k_limit , p_limit ;
 DOUBLE states , equivs ;
 
 states = 0.0 ;
@@ -979,10 +979,10 @@ return( states ) ;
 
 
 DOUBLE expected_value( C_initial , k_initial , p_initial , R_initial )
-INT C_initial , k_initial , p_initial , R_initial ;
+int C_initial , k_initial , p_initial , R_initial ;
 {
 
-INT R , C , k , p , k_limit , p_limit ;
+int R , C , k , p , k_limit , p_limit ;
 DOUBLE value , equivs ;
 
 value = 0.0 ;
@@ -1007,10 +1007,10 @@ return( value ) ;
 
 
 DOUBLE expected_svalue( C_initial , k_initial , p_initial , R_initial )
-INT C_initial , k_initial , p_initial , R_initial ;
+int C_initial , k_initial , p_initial , R_initial ;
 {
 
-INT R , C , k , p , k_limit , p_limit ;
+int R , C , k , p , k_limit , p_limit ;
 DOUBLE value , equivs ;
 
 value = 0.0 ;
@@ -1035,10 +1035,10 @@ return( value ) ;
 
 
 DOUBLE compute_and_combination( C , k , p , R )
-INT C , k , p , R ;
+int C , k , p , R ;
 {
 
-INT numerator , denom1 , denom2 , temp ;
+int numerator , denom1 , denom2 , temp ;
 DOUBLE states ;
 
 states = 1.0  ;
@@ -1060,11 +1060,11 @@ return( states ) ;
 
 
 DOUBLE combination( numerator , denominator )
-INT numerator , denominator ;
+int numerator , denominator ;
 {
 
 DOUBLE states ;
-INT temp , denom1 , denom2 ;
+int temp , denom1 , denom2 ;
 
 states = 1.0  ;
 
@@ -1087,7 +1087,7 @@ return( states ) ;
 sanity_check()
 {
 
-INT *cellxptr , cell , center , block , bin , i ;
+int *cellxptr , cell , center , block , bin , i ;
 
 for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
     center = carrayG[cell]->cxcenter ;
@@ -1110,10 +1110,10 @@ return(0);
 sanity_check2()
 {
 
-INT *cellxptr , *clist ;
-INT block , bin , cell , i ;
+int *cellxptr , *clist ;
+int block , bin , cell , i ;
 
-clist = (INT *) Ysafe_malloc( (1 + numcellsG - extra_cellsG ) * sizeof( INT ) ) ;
+clist = (int *) Ysafe_malloc( (1 + numcellsG - extra_cellsG ) * sizeof( int ) ) ;
 for( i = 1 ; i <= numcellsG - extra_cellsG ; i++ ) {
     clist[i] = 0 ;
 }
@@ -1149,8 +1149,8 @@ return(0);
 sanity_check3()
 {
 
-INT *cellxptr ;
-INT block , bin , cell , i ;
+int *cellxptr ;
+int block , bin , cell , i ;
 
 for( block = 1 ; block <= numRowsG ; block++ ) {
     for( bin = 0 ; bin <= numBinsG ; bin++ ) {
@@ -1175,7 +1175,7 @@ return(0);
 }
 
 /* new evaluate ratio is a linear function of iterationG */
-INT eval_ratio( t )
+int eval_ratio( t )
 DOUBLE *t;
 {
     if( iterationG >= TURNOFFT ){
@@ -1189,9 +1189,9 @@ DOUBLE *t;
 }
 
 init_control(first)
-INT first;
+int first;
 {
-    INT i;
+    int i;
     DOUBLE tmp ;
 
     /* initialize move generation parameters */
@@ -1227,10 +1227,10 @@ INT first;
 
 
 pick_fence_position(x,y,fence)
-INT *x, *y ;
+int *x, *y ;
 FENCEBOX *fence ;
 {
-    register INT left,right;
+    register int left,right;
     BBOXPTR bblckptr ;
 
     *y = PICK_INT( fence->min_block , fence->max_block ) ;
@@ -1249,10 +1249,10 @@ FENCEBOX *fence ;
 }
 
 pick_position(x,y,ox,oy,scale)
-INT *x,*y,ox,oy;
+int *x,*y,ox,oy;
 DOUBLE scale ;
 {
-    register INT i,m,n,bleft,bright;
+    register int i,m,n,bleft,bright;
     DOUBLE tmp ;
     BBOXPTR bblckptr ;
 
@@ -1303,7 +1303,7 @@ DOUBLE iternum ;
 /*
     commented out variables 
     CBOXPTR ptr ;
-    INT cell ;
+    int cell ;
 */
 
     if( iternum <= HIGHTEMP ){
@@ -1334,11 +1334,11 @@ DOUBLE iternum ;
 	    ptr->fence->min_xpos = ptr->orig_xcenter - xalS ;
 	    ptr->fence->max_xpos = ptr->orig_xcenter + xalS ;
 	    if( yalS != min_yalphaS ) {
-		ptr->fence->min_block = ptr->orig_row - (INT) yalS ;
+		ptr->fence->min_block = ptr->orig_row - (int) yalS ;
 		if( ptr->fence->min_block < 1 ) {
 		    ptr->fence->min_block = 1 ;
 		}
-		ptr->fence->max_block = ptr->orig_row + (INT) yalS ;
+		ptr->fence->max_block = ptr->orig_row + (int) yalS ;
 		if( ptr->fence->max_block > numRowsG ) {
 		    ptr->fence->max_block = numRowsG ;
 		}
@@ -1365,7 +1365,7 @@ FILE *fp ;
 read_control( fp )
 FILE *fp ;
 {
-    INT junk ;
+    int junk ;
 
     fscanf(fp,"%ld %ld %ld\n",&pairtestG,&junk,&not_doneS);
     fscanf(fp,"%ld %ld %ld %ld\n",&acc_cntS,&move_cntS,&first_fdsS,&first_capS);
@@ -1376,11 +1376,11 @@ FILE *fp ;
 }
 
 tw_frozen( cost )
-INT cost ;
+int cost ;
 {
 
 DOUBLE diff , avg_first_set , avg_second_set ;
-INT i ;
+int i ;
 
 if( cost_vectorS[0] >= 12 ) {
     for( i = 2 ; i <= 12 ; i++ ) {

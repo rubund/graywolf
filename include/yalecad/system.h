@@ -22,8 +22,8 @@ Function:
     is the function to call upon failure.  It has no arguments.
     Ysystem return the system error code if failure; 0 otherwise.
 */
-extern INT Ysystem( P4(char *program,BOOL abortFlag,char *exec_statement,
-    INT (*abort_func)() ) ) ;
+extern int Ysystem( P4(char *program,BOOL abortFlag,char *exec_statement,
+    int (*abort_func)() ) ) ;
 
 /*
 YcopyFile -

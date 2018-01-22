@@ -50,13 +50,13 @@ static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
 #include <yalecad/file.h>
 #include <yalecad/message.h>
 
-INT Ysystem( program, abortFlag, exec_statement, abort_func )
+int Ysystem( program, abortFlag, exec_statement, abort_func )
 char *program ;
 BOOL abortFlag ;
 char *exec_statement ;
-INT  (*abort_func)() ;
+int  (*abort_func)() ;
 {
-    INT status ;        /* return status from program */
+    int status ;        /* return status from program */
 
     if( status = system( exec_statement ) ){
 	/* get status from exit routine */

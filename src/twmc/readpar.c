@@ -94,10 +94,10 @@ static BOOL readparamS = FALSE ;
 static BOOL graphFileS ;
 static BOOL originGivenS = FALSE ;
 static BOOL sc_outputS = FALSE ;
-static INT gOffsetXS = INT_MIN ;
-static INT gOffsetYS = INT_MIN ;
-static INT gridXS = INT_MIN ;
-static INT gridYS = INT_MIN ;
+static int gOffsetXS = INT_MIN ;
+static int gOffsetYS = INT_MIN ;
+static int gridXS = INT_MIN ;
+static int gridYS = INT_MIN ;
 
 
 
@@ -164,15 +164,15 @@ static init_read_par()
 
 
 static readparam( parfile )
-INT parfile ;
+int parfile ;
 {
 
-    INT test ;
-    INT speed ;
-    INT pins ;
-    INT line ;
-    INT length ;
-    INT numtokens ;
+    int test ;
+    int speed ;
+    int pins ;
+    int line ;
+    int length ;
+    int numtokens ;
     BOOL onNotOff ;
     BOOL wildcard ;
     char design[LRECL] ;
@@ -486,11 +486,11 @@ INT parfile ;
 static process_readpar()
 {
     char *layer ;             /* name of layer */
-    INT i ;                   /* counter */
-    INT pitch ;               /* the pitch of the layer */
-    INT numv_layers ;         /* number of vertical   layers */
-    INT numh_layers ;         /* number of horizontal layers */
-    INT num_layers ;          /* total number of layers */
+    int i ;                   /* counter */
+    int pitch ;               /* the pitch of the layer */
+    int numv_layers ;         /* number of vertical   layers */
+    int numh_layers ;         /* number of horizontal layers */
+    int num_layers ;          /* total number of layers */
 
     if( !(readparamS)){
 	M( ERRMSG, "process_readpar", "No parameter files found.  Must exit\n\n" ) ;
@@ -515,7 +515,7 @@ static process_readpar()
 
     for( i = 1; i <= num_layers; i++ ){
 	layer = Yreadpar_id2layer( i ) ;
-	pitch = (INT) Yreadpar_pitch( layer ) ;
+	pitch = (int) Yreadpar_pitch( layer ) ;
 
 	if( Yreadpar_layer_HnotV( layer ) ){
 	    track_spacingYG += pitch ;

@@ -42,12 +42,12 @@ FILE:	    io.c
 DESCRIPTION:This file contains routines for handling I/O.  The routines
 	    in this file build the graph.
 CONTENTS:   init( numobj )
-		INT numobj ;
+		int numobj ;
 	    add_object( pname, node )
 		char *pname ;
-		INT node ;
+		int node ;
 	    add_pdependency( fromNode ) 
-		INT fromNode ;
+		int fromNode ;
 	    add_path( pathname )
 		char *pathname ;
 	    set_file_type( type )
@@ -57,13 +57,13 @@ CONTENTS:   init( numobj )
 	    add_args( argument )
 		char *argument ;
 	    add_box( l, b, r, t )
-		INT l, b, r, t ;
+		int l, b, r, t ;
 	    start_edge( fromNode )
-		INT fromNode ;
+		int fromNode ;
 	    add_line( x1, y1, x2, y2 )
-		INT x1, y1, x2, y2 ;
+		int x1, y1, x2, y2 ;
 	    ADJPTR findEdge( from, to, direction )
-		INT from, to ;
+		int from, to ;
 		BOOL direction ;
 	    process_arcs()
 	    unmark_edges()
@@ -88,18 +88,18 @@ static char SccsId[] = "@(#) io.c version 2.2 4/21/91" ;
 #define OPTIONAL  '*'
 
 typedef struct ebox {
-    INT from ;                           /* from node for edge */
-    INT to ;                             /* to node for edge */
+    int from ;                           /* from node for edge */
+    int to ;                             /* to node for edge */
     char **argv ;                        /* argument vector */
-    INT  argc ;                          /* argument count */
+    int  argc ;                          /* argument count */
     FPTR ifiles ;                        /* list of files */
     FPTR ofiles ;                        /* list of files */
     DPTR dlist ;                         /* list of drawables */
     struct ebox *next ;                  /* list of drawables */
 } EDGEBOX, *EDGEPTR ;
 
-static INT curObjS ;                     /* counts the current object */
-static INT boxLS, boxRS, boxTS, boxBS ;  /* bounding box of objects */
+static int curObjS ;                     /* counts the current object */
+static int boxLS, boxRS, boxTS, boxBS ;  /* bounding box of objects */
 static BOOL errorFlagS = FALSE ;         /* records fault condition */
 static BOOL inputNotOutputS ;            /* the current filetype */
 static OBJECTPTR objS ;                  /* pointer to current obj */
@@ -123,9 +123,9 @@ setErrorFlag()
 /* ***************** ERROR HANDLING ****************************** */
 
 init( numobj )
-INT numobj ;
+int numobj ;
 {
-    INT i ;
+    int i ;
     OBJECTPTR o ;
 
     /* save number of objects in global for future use */
@@ -155,7 +155,7 @@ INT numobj ;
 /* create a new object */
 add_object( pname, node )
 char *pname ;
-INT node ;
+int node ;
 {
     ERRORABORT() ;
     if( ++curObjS != node || node > numobjectsG ){
@@ -170,7 +170,7 @@ INT node ;
 
 
 add_pdependency( fromNode ) 
-INT fromNode ;
+int fromNode ;
 {
     OBJECTPTR from, to ;
     ADJPTR    temp, newE ; /* edge temporary pointers */
@@ -234,7 +234,7 @@ BOOL type ;
 add_fdependency( file ) 
 char *file ;
 {
-    INT len ;
+    int len ;
     FPTR temp, newF ;
 
     ERRORABORT() ;
@@ -283,7 +283,7 @@ char *argument ;
 } /* end add_args */
 
 add_box( l, b, r, t )
-INT l, b, r, t ;
+int l, b, r, t ;
 {
     ERRORABORT() ;
 
@@ -305,7 +305,7 @@ INT l, b, r, t ;
     anyway.
 - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - */
 start_edge( fromNode )
-INT fromNode ;
+int fromNode ;
 {
     EDGEPTR temp ;
 
@@ -340,7 +340,7 @@ INT fromNode ;
 } /* end start_edge */
 
 add_line( x1, y1, x2, y2 )
-INT x1, y1, x2, y2 ;
+int x1, y1, x2, y2 ;
 {
 
     DPTR temp, dptr ;
@@ -368,7 +368,7 @@ INT x1, y1, x2, y2 ;
 } /* end add_line */
 
 ADJPTR findEdge( from, to, direction )
-INT from, to ;
+int from, to ;
 BOOL direction ;
 {
     ADJPTR adjptr ;
@@ -452,7 +452,7 @@ process_arcs()
 /* clean edges so everything must be checked */
 unmark_edges()
 {
-    INT i ;                   /* counter */
+    int i ;                   /* counter */
     OBJECTPTR o ;             /* object pointer */
     ADJPTR    adjptr ;        /* pointer to edge */
 
@@ -473,8 +473,8 @@ unmark_edges()
 
 set_window()
 {
-    INT xpand ;   /* make output look nice */
-    INT min, max ; /* make into square */
+    int xpand ;   /* make output look nice */
+    int min, max ; /* make into square */
 
     /* also set the drawing window */
     /* take min max to make window centered */

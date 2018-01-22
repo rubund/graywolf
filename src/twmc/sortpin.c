@@ -57,17 +57,17 @@ static char SccsId[] = "@(#) sortpin.c version 3.7 10/18/91" ;
 
 
 
-static INT comparePin() ;
+static int comparePin() ;
 
 
 sortpins()
 {
 
-    INT j , n , cell ;
+    int j , n , cell ;
     CELLBOXPTR ptr ;
     PINBOXPTR pin, *xpptr ;
-    /* static INT comparePin() ;*/
-    INT maxpins ;
+    /* static int comparePin() ;*/
+    int maxpins ;
 
 
     /* find maximum number of pins on a cell for allocation */
@@ -100,7 +100,7 @@ sortpins()
 } /* end sortpins */
 
 
-static INT comparePin( pinA , pinB )
+static int comparePin( pinA , pinB )
 PINBOXPTR *pinA , *pinB ;
 
 {

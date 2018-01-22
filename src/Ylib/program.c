@@ -41,7 +41,7 @@
 FILE:	    program.c                                       
 DESCRIPTION:miscellaneous program initialization functions
 CONTENTS:   
-	    YinitProgram(char *, char *, INT (*function) )
+	    YinitProgram(char *, char *, int (*function) )
 	    YexitPgm(int)
 	    char *YgetProgName()
 DATE:	    Jan 29, 1988 
@@ -111,10 +111,10 @@ char *YinitProgram(name,version,introTextFunction)
 
 /* exit program gracefully */
 YexitPgm(status)
-INT status ;
+int status ;
 {
 
-    INT     errorCount, 
+    int     errorCount, 
 	    warningCount,
 	    mode ;
     char    message[LRECL] ,

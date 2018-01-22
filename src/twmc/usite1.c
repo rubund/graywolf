@@ -63,10 +63,10 @@ CELLBOXPTR acellptr ;
 PINBOXPTR anewtermptr ;
 MOVEBOXPTR pos ;         /* temp pointer for easier access */
 
-INT cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
-INT a, i ;
-INT oldBinX, oldBinY, array_limit, *oldCellList ;
-INT wire_chg, time ;
+int cost , newpenalty, newbinpenal, newtimepenalty, newtimepenal ;
+int a, i ;
+int oldBinX, oldBinY, array_limit, *oldCellList ;
+int wire_chg, time ;
 DOUBLE delta_wire ;
 
 /* ----------------------------------------------------------------- 
@@ -85,7 +85,7 @@ newbinpenal = binpenalG ;
 newbinpenal += overlap( /* old_aposG, new_aposG */ ) ;
 
 /* scale new penalty for feedback circuit */
-newpenalty = (INT) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
+newpenalty = (int) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
 
 upin_test( anewtermptr, new_apos0G ) ;
 
@@ -99,7 +99,7 @@ newtimepenal += calc_incr_time( a ) ;
 ASSERT( newtimepenal == dcalc_full_penalty(),"usite1","Timing woes\n") ;
 
 /* scale new timing penalty */
-newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+newtimepenalty = (int) ( timeFactorG * (DOUBLE) newtimepenal ) ;
 
 wire_chg = cost - funccostG ;
 
@@ -131,8 +131,8 @@ if( acceptt( penaltyG - newpenalty - wire_chg +
 	    newbptrG->space += EXPCELLPERBIN ;
 	    /* need to worry about 2 info array positions */
 	    /* the 2 is assumed to avoid a subtraction */
-	    newCellListG = (INT *) Ysafe_realloc( newCellListG,
-		(newbptrG->space) *sizeof(INT) ) ; 
+	    newCellListG = (int *) Ysafe_realloc( newCellListG,
+		(newbptrG->space) *sizeof(int) ) ; 
 	}
 	newCellListG[array_limit] = a ;
 

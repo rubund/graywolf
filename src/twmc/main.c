@@ -115,16 +115,16 @@ static BOOL parasiteS;   /* whether window is a parasite */
 static BOOL padsOnlyS;  /* whether to place on pads */
 static BOOL batchS;     /* is TW in batch mode partition case */
 static BOOL debugS ;     /* whether to enable debug code */
-static INT  windowIdS ;  /* the master window id if given */
+static int  windowIdS ;  /* the master window id if given */
 static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 
 /* Forward declarations */
 
 VOID syntax();
-INT closegraphics();
+int closegraphics();
 
 main( argc , argv )
-INT argc ;
+int argc ;
 char *argv[] ;
 {
 
@@ -133,10 +133,10 @@ char *argv[] ;
 	    arguments[LRECL], /* pointer to argument options */
 	    *ptr,             /* pointer to argument options */
 	    *Ystrclone() ;
-    INT     yaleIntro(),
+    int     yaleIntro(),
 	    attempts,
 	    arg_count ;       /* argument counter */
-    INT     rememberWire, /* variables for writing history of run */
+    int     rememberWire, /* variables for writing history of run */
 	    rememberPenal,
 	    rememberRand ;
     BOOL    get_arg_string( P1(char *arguments) ) ;
@@ -575,7 +575,7 @@ char *argv[] ;
 
 } /* end main routine */
 
-INT yaleIntro() 
+int yaleIntro() 
 {
     fprintf(fpoG,"\n%s\n",YmsgG) ;
     fprintf(fpoG,"Authors: Carl Sechen, Bill Swartz, Kai-Win Lee\n");
@@ -592,10 +592,10 @@ INT yaleIntro()
 /* this routine takes information about run and write to history file */
 /* to accumulate data about runs */
 writeResults( wire, penal, rand )
-INT wire, penal, rand ;
+int wire, penal, rand ;
 {
     FILE *fpdebug ;
-    INT left_side, right_side, bottom_side, top_side ;
+    int left_side, right_side, bottom_side, top_side ;
     char filename[LRECL] ;
 
     funccostG = findcost() ;
@@ -615,7 +615,7 @@ INT wire, penal, rand ;
 
 /* close graphics window on fault */
 
-INT closegraphics( )
+int closegraphics( )
 {
     if( doGraphicsG ){
 	G( TWcloseGraphics() ) ;
@@ -648,7 +648,7 @@ BOOL get_arg_string( arguments )
 char *arguments ;
 {
     char temp[LRECL] ; /* used to build strings */
-    INT  window ;      /* current window ID */
+    int  window ;      /* current window ID */
 
     sprintf( arguments, "%s -", argv0G ) ;
     if( scale_dataG ){

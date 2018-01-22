@@ -41,7 +41,7 @@
 FILE:	    upinswap.c                                       
 DESCRIPTION:place pins on the cell.
 CONTENTS:   BOOL upinswap( a )
-		INT a ;
+		int a ;
 DATE:	    Mar 30, 1990 - new vertion of pinswap code.
 REVISIONS:  
 ----------------------------------------------------------------- */
@@ -57,14 +57,14 @@ static char SccsId[] = "@(#) upinswap.c version 3.3 9/5/90" ;
 #define CURVERTICES FALSE
 
 BOOL upinswap( a )
-INT a ;
+int a ;
 {
 
     CELLBOXPTR acellptr ;
     PINBOXPTR  pin, atermptr ;
     SOFTBOXPTR spin ;
-    INT cost, inst ;
-    INT newtimepenalty, newtimepenal ;
+    int cost, inst ;
+    int newtimepenalty, newtimepenal ;
 
     acellptr = cellarrayG[ a ] ;
     atermptr = acellptr->pinptr ;
@@ -84,7 +84,7 @@ INT a ;
     ASSERT(newtimepenal==dcalc_full_penalty(),"upinswap","Timing woes\n");
 
     /* scale new timing penalty */
-    newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+    newtimepenalty = (int) ( timeFactorG * (DOUBLE) newtimepenal ) ;
 
     if( acceptt( funccostG + timingcostG - cost - newtimepenalty )){
 
@@ -117,10 +117,10 @@ INT a ;
 
 
 check_pin( a )
-INT a ;
+int a ;
 {
-    INT x, y, l, r, t, b;
-    INT orient ;
+    int x, y, l, r, t, b;
+    int orient ;
     CELLBOXPTR acellptr ;
     PINBOXPTR pin ;
 

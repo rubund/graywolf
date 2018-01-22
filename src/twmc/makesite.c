@@ -49,12 +49,12 @@ DOUBLE val1 , val2 ;
 Vside( kArray, cellptr , x , yy1 , yy2 , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
-INT x , yy1 , yy2 , flag ;
+int x , yy1 , yy2 , flag ;
 {
 
 DOUBLE aspFactor , aspect , aspLB ;
-INT worstLen , pPinLocs , k , length , base ;
-INT TotSites ;
+int worstLen , pPinLocs , k , length , base ;
+int TotSites ;
 DOUBLE siteSpace ;
 
 length = ABS(yy2 - yy1) ;
@@ -66,7 +66,7 @@ if( aspLB + 0.01 > cellptr->aspUB ) {
     aspFactor = sqrt( aspLB / aspect ) ;
 }
 
-worstLen = (INT) (aspFactor * (DOUBLE) length) ;
+worstLen = (int) (aspFactor * (DOUBLE) length) ;
 if( (DOUBLE)(worstLen + 1) / aspFactor - (DOUBLE) length <
 		(DOUBLE) length - (DOUBLE) worstLen / aspFactor ) {
     worstLen++ ;
@@ -160,12 +160,12 @@ return( TotSites ) ;
 Hside( kArray, cellptr , xx1 , xx2 , y , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
-INT xx1 , xx2 , y , flag ;
+int xx1 , xx2 , y , flag ;
 {
 
 DOUBLE aspFactor , aspect , aspUB ;
-INT worstLen , pPinLocs , k , length , base ;
-INT TotSites ;
+int worstLen , pPinLocs , k , length , base ;
+int TotSites ;
 DOUBLE siteSpace ;
 
 length = ABS(xx2 - xx1) ;
@@ -176,7 +176,7 @@ if( cellptr->aspLB + 0.01 > aspUB ) {
 } else {
     aspFactor = sqrt( aspect / aspUB ) ;
 }
-worstLen = (INT) (aspFactor * (DOUBLE) length) ;
+worstLen = (int) (aspFactor * (DOUBLE) length) ;
 if( (DOUBLE)(worstLen + 1) / aspFactor - (DOUBLE) length <
 		(DOUBLE) length - (DOUBLE) worstLen / aspFactor ) {
     worstLen++ ;

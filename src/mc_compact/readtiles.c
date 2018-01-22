@@ -78,7 +78,7 @@ static char SccsId[] = "@(#) readtiles.y version 7.2 5/6/91" ;
 static int line_countS ;
 
 typedef union {
-    INT ival ;
+    int ival ;
     char *string ;
     double fval ;
 } YYSTYPE;

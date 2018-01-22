@@ -96,12 +96,12 @@ static check_routing();
 
 wireestxy( pos, xc, yc ) 
 MOVEBOXPTR pos ;
-INT xc, yc ;
+int xc, yc ;
 {
 
-    INT xs , xe , y ;
-    INT x , ys , ye ;
-    INT  left , right , bottom , top ;
+    int xs , xe , y ;
+    int x , ys , ye ;
+    int  left , right , bottom , top ;
     DOUBLE factor ;
 
     right  = pos->r += xc ;
@@ -222,9 +222,9 @@ INT xc, yc ;
     xe *= y ;
     ----------------------------------------------------------------- */
 
-    pos->l = pos->l - (INT) ( (DOUBLE) xs * (DOUBLE) y * 
+    pos->l = pos->l - (int) ( (DOUBLE) xs * (DOUBLE) y * 
 				    wireFactorXG * pos->lw );
-    pos->r = pos->r + (INT) ( (DOUBLE) xe * (DOUBLE) y * 
+    pos->r = pos->r + (int) ( (DOUBLE) xe * (DOUBLE) y * 
 				    wireFactorXG * pos->rw );
 
     if( right >= blockmxG && left <= blockmxG ) {
@@ -258,9 +258,9 @@ INT xc, yc ;
     ye *= x ;
     ----------------------------------------------------------------- */
 
-    pos->b = pos->b - (INT) ( (DOUBLE) ys * (DOUBLE) x * 
+    pos->b = pos->b - (int) ( (DOUBLE) ys * (DOUBLE) x * 
 				wireFactorYG * pos->bw );
-    pos->t = pos->t + (INT) ( (DOUBLE) ye * (DOUBLE) x * 
+    pos->t = pos->t + (int) ( (DOUBLE) ye * (DOUBLE) x * 
 				wireFactorYG * pos->tw );
     return ;
 } /* end wireestxy */
@@ -268,11 +268,11 @@ INT xc, yc ;
 
 wireestxy2( pos, xc, yc ) 
 MOVEBOXPTR pos ;
-INT xc, yc ;
+int xc, yc ;
 {
     DOUBLE l, r, b, t ;          /* four sides of the tile */
     DOUBLE xave, yave ;          /* average of a tile side */
-    INT    routing ;             /* amount of routing estimate for side */
+    int    routing ;             /* amount of routing estimate for side */
 
     pos->r += xc ;
     pos->l += xc ;
@@ -301,19 +301,19 @@ INT xc, yc ;
     yave = (b + t) / 2.0 ;
 
     /* now add the routing to the tile */
-    routing = (INT) ROUTING( l, yave, pos->lw ) ;
+    routing = (int) ROUTING( l, yave, pos->lw ) ;
     CHECK_ROUTING( routing ) ;
     pos->l -= routing ;
 
-    routing = (INT) ROUTING( r, yave, pos->rw ) ;
+    routing = (int) ROUTING( r, yave, pos->rw ) ;
     CHECK_ROUTING( routing ) ;
     pos->r += routing ;
 
-    routing = (INT) ROUTING( xave, b, pos->bw ) ;
+    routing = (int) ROUTING( xave, b, pos->bw ) ;
     CHECK_ROUTING( routing ) ;
     pos->b -= routing ;
 
-    routing = (INT) ROUTING( xave, t, pos->tw ) ;
+    routing = (int) ROUTING( xave, t, pos->tw ) ;
     CHECK_ROUTING( routing ) ;
     pos->t += routing ;
 
@@ -322,7 +322,7 @@ INT xc, yc ;
 BOOL read_wire_est( fp )
 FILE *fp ;
 {
-    INT max_pitch ;
+    int max_pitch ;
 
     fprintf( fpoG, "\nSVD fit parameters found.  Using:\n" ) ;
     HPI( fp,  &C0S ) ;
@@ -356,7 +356,7 @@ resize_wire_params()
 
 
 static check_routing( routing )
-INT *routing ;
+int *routing ;
 {
     if( *routing < 0 ){
 	/* 
@@ -385,10 +385,10 @@ FILE *fp ;
 /* ***************************************************************** 
    read_wireest - read wireest parameters for restart
 */
-INT read_wireest( fp )
+int read_wireest( fp )
 FILE *fp ;
 {
-    INT error = 0 ;
+    int error = 0 ;
 
     fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
     HPI( fp,  &C0S ) ;

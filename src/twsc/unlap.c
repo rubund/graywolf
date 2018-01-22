@@ -41,7 +41,7 @@
 FILE:	    unlap.c                                       
 DESCRIPTION:remove overlap between cells.
 CONTENTS:   unlap(flag)
-		INT flag ;
+		int flag ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
@@ -58,30 +58,30 @@ static char SccsId[] = "@(#) unlap.c (Yale) version 4.5 10/14/90" ;
 BOOL noPairsG ;
 
 /* global references */
-extern INT actual_feed_thru_cells_addedG ;
-extern INT extra_cellsG ;
+extern int actual_feed_thru_cells_addedG ;
+extern int extra_cellsG ;
 extern BOOL no_feed_at_endG ;
 extern BOOL rigidly_fixed_cellsG ;
 
 unlap(flag)
-INT flag ;
+int flag ;
 {
 
 CBOXPTR cellptr ;
-INT *num , i , cell_count , last , row , current , limit ;
-INT cell , block , k ;
-INT cell_left , left_edge , right_edge ;
-INT fixed , unfixed ;
-INT *left_queue , *right_queue , *center_queue ;
-INT max_cell_in_blk ;
-INT min_right_fixed_cell ;
-INT max_left_fixed_cell ;
-INT pair_array_index ;
-INT comparex() ;
+int *num , i , cell_count , last , row , current , limit ;
+int cell , block , k ;
+int cell_left , left_edge , right_edge ;
+int fixed , unfixed ;
+int *left_queue , *right_queue , *center_queue ;
+int max_cell_in_blk ;
+int min_right_fixed_cell ;
+int max_left_fixed_cell ;
+int pair_array_index ;
+int comparex() ;
 
 max_cell_in_blk = 0 ;
 
-num = (INT *) Ysafe_malloc( ( numRowsG + 1 ) * sizeof(INT) ) ;
+num = (int *) Ysafe_malloc( ( numRowsG + 1 ) * sizeof(int) ) ;
 for( block = 0 ; block <= numRowsG ; block++ ) {
     num[block] = 0 ;
 }
@@ -103,15 +103,15 @@ for( block = 1 ; block <= numRowsG ; block++ ) {
     }
 }
 
-pairArrayG = (INT **) Ysafe_malloc( ( numRowsG + 1 ) * sizeof(INT *) ) ;
+pairArrayG = (int **) Ysafe_malloc( ( numRowsG + 1 ) * sizeof(int *) ) ;
 for( block = 1 ; block <= numRowsG ; block++ ) {
     limit = 5 * max_cell_in_blk + (extra_cellsG / numRowsG) * 4 ;
-    pairArrayG[ block ] = (INT *) Ysafe_malloc( limit * sizeof( INT ) ) ;
+    pairArrayG[ block ] = (int *) Ysafe_malloc( limit * sizeof( int ) ) ;
     pairArrayG[block][0] = num[block] ;
 }
-left_queue = (INT *) Ysafe_malloc((max_cell_in_blk + 1) * sizeof(INT));
-right_queue = (INT *) Ysafe_malloc((max_cell_in_blk + 1) * sizeof(INT));
-center_queue = (INT *) Ysafe_malloc((max_cell_in_blk + 1) * sizeof(INT));
+left_queue = (int *) Ysafe_malloc((max_cell_in_blk + 1) * sizeof(int));
+right_queue = (int *) Ysafe_malloc((max_cell_in_blk + 1) * sizeof(int));
+center_queue = (int *) Ysafe_malloc((max_cell_in_blk + 1) * sizeof(int));
 
 for( cell = 1 ; cell <= numcellsG ; cell++ ) {
     if( carrayG[cell]->clength > 0 &&
@@ -129,7 +129,7 @@ for( cell = numcellsG + numtermsG + 1 ; cell <= k ; cell++ ) {
 
 for( block = 1 ; block <= numRowsG ; block++ ) {
     Yquicksort( (char *) ( pairArrayG[block] + 1 ) , 
-	pairArrayG[block][0] , sizeof( INT ), comparex ) ;
+	pairArrayG[block][0] , sizeof( int ), comparex ) ;
 }
 
 /* ------- Guarantees fixed-cell orderings now ------- */

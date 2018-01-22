@@ -41,10 +41,10 @@ typedef struct tree *YTREEPTR ;
 #define	SEARCH_CLOSEST		3
 
 /* ******************* BINARY TREE INCLUDE FILES ****************** */
-extern YTREEPTR Yrbtree_init( P1(INT (*compare_func)() ) ) ;
+extern YTREEPTR Yrbtree_init( P1(int (*compare_func)() ) ) ;
 /* 
 Arguments:
-    INT compare_func() ;
+    int compare_func() ;
 Function:
     Initializes a binary tree.  The user should supply a compare
     comparison function similar to the one used by the UNIX 
@@ -166,7 +166,7 @@ Function:
     Returns NULL when element > high_key or no match can be found.
 */
 
-extern INT Yrbtree_interval_size( P3(YTREEPTR tree,VOIDPTR low_key,
+extern int Yrbtree_interval_size( P3(YTREEPTR tree,VOIDPTR low_key,
 				    VOIDPTR high_key) ) ;
 /* 
 Arguments:
@@ -279,19 +279,19 @@ Function:
    unallocated using userDelete function
 */
 
-extern INT Yrbtree_size( P1(YTREEPTR tree) ) ;
+extern int Yrbtree_size( P1(YTREEPTR tree) ) ;
 /*
 Function:
    Find the total elements in the tree.
 */
 
-extern INT(*Yrbtree_get_compare( P1(YTREEPTR tree) ))() ;
+extern int(*Yrbtree_get_compare( P1(YTREEPTR tree) ))() ;
 /*
 Function:
    Returns a pointer to the tree's comparison function.
 */
 
-extern INT Yrbtree_verify( P1(YTREEPTR tree) ) ;
+extern int Yrbtree_verify( P1(YTREEPTR tree) ) ;
 /*
 Function:
    Exercise tree pointers by walking through the tree.
@@ -301,7 +301,7 @@ Function:
 */
 
 
-extern VOIDPTR Yrbtree_search_closest( P3(YTREEPTR tree,VOIDPTR key,INT func) ) ;
+extern VOIDPTR Yrbtree_search_closest( P3(YTREEPTR tree,VOIDPTR key,int func) ) ;
 /*
 Function:
    Finds the closest match for a given key.  Will return the exact
@@ -356,14 +356,14 @@ Function:
    a key.
 */
 
-extern VOID Yrbtree_resort( P2(YTREEPTR tree, INT (*compare_func)() )) ;
+extern VOID Yrbtree_resort( P2(YTREEPTR tree, int (*compare_func)() )) ;
 /*
 Function:
    Takes a tree and resorts the tree with a new comparison function.
    All search markers are reset to NIL.
 */
 
-extern YTREEPTR Yrbtree_copy( P2(YTREEPTR tree,INT (*compare_func)() ) );
+extern YTREEPTR Yrbtree_copy( P2(YTREEPTR tree,int (*compare_func)() ) );
 /*
 Function:
    Make a copy of a tree sorted with the given comparison function.

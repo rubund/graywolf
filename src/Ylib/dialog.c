@@ -126,62 +126,62 @@ static Window       wS;              /* the main TW display window */
 static Window       dialogS;         /* the dialog display window */
 static GC           *contextArrayS ; /* array of context window */
 static GC           reverseGCS ;     /* reverse gc for dialog  */
-static INT          screenS ;        /* the current screen */
+static int          screenS ;        /* the current screen */
 static UNSIGNED_INT backgrdS ;
 static UNSIGNED_INT foregrdS ;
-static INT          winwidthS ;      /* window width */
+static int          winwidthS ;      /* window width */
 static Window       *winS ;          /* contains info about menus */
 static XFontStruct  *fontinfoS ;     /* font information */
 static Font         fontS ;          /* current font */
 static int          xdS ;            /* origin of dialog window */
 static int          ydS ;            /* origin of dialog window */
-static INT          fwidthS ;        /* font width in pixels */
-static INT          fheightS ;       /* font height in pixels */
-static INT          numwinS ;        /* number of window in dialog box */
+static int          fwidthS ;        /* font width in pixels */
+static int          fheightS ;       /* font height in pixels */
+static int          numwinS ;        /* number of window in dialog box */
 static TWDRETURNPTR dataS ;          /* return data array */
 static TWDIALOGPTR  fieldS ;         /* the current dialog array */
 
 /* function definitions */
-static INT world2pix_x() ;
-static INT world2pix_y() ;
-static INT world2fonty() ;
-static INT pixlen() ;
-static set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
+static int world2pix_x() ;
+static int world2pix_y() ;
+static int world2fonty() ;
+static int pixlen() ;
+static set_stipple_font( P2(BOOL stippleOn, int font_change ) ) ;
 static debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
-static check_cases( P3( TWDIALOGPTR fieldp, INT select, 
-    			INT (*user_function)() )) ;
+static check_cases( P3( TWDIALOGPTR fieldp, int select, 
+    			int (*user_function)() )) ;
 static draw_fields( P1(TWDIALOGPTR fieldp) ) ;
 static TWfreeWindows() ;
 static find_font_boundary() ;
-static edit_field( P4( INT field, Window win, XEvent event,
-		    INT (*user_function)() ) ) ;
+static edit_field( P4( int field, Window win, XEvent event,
+		    int (*user_function)() ) ) ;
 
 /* build a dialog box and get info */
 TWDRETURNPTR TWdialog( fieldp, dialogname, user_function )
 TWDIALOGPTR fieldp ;
 char *dialogname ;
-INT (*user_function)() ;
+int (*user_function)() ;
 {
     UNSIGNED_INT white, black ;
-    INT i ;               /* counter */
+    int i ;               /* counter */
     long event_mask ;     /* set up event catching with this mask */
-    INT screenwidth ;     /* width of root window */
+    int screenwidth ;     /* width of root window */
     unsigned int widthd ; /* adjusted width of dialog screen */
-    INT screenheight ;    /* height of root window */
+    int screenheight ;    /* height of root window */
     unsigned int heightd ;/* adjusted height of dialog screen */
-    INT win_num ;         /* window counter */
-    INT time ;            /* current time */
+    int win_num ;         /* window counter */
+    int time ;            /* current time */
     TWDIALOGPTR fptr ;    /* current dialog field */
     TWDRETURNPTR dptr ;   /* current return field */
     BOOL press ;          /* tells whether button has been pushed */
     BOOL bw ;             /* tells whether display is color or not */
     BOOL foundWindow ;    /* used in window search to find match */
-    static INT lasttimeL; /* last time of exposure event */
+    static int lasttimeL; /* last time of exposure event */
     XEvent event ;        /* describes button event */
     Window win ;          /* temporary for selected window */
     Cursor cursor ;       /* cursor for typing */
     char *winstr ;        /* used for get user window default */
-    INT  m ;              /* mask for determining window position */
+    int  m ;              /* mask for determining window position */
     char resource[LRECL] ;/* look for match in database */
     XSizeHints hints ;	  /* setup hints for window manager */
     char *font ;          /* user font request */
@@ -231,8 +231,8 @@ INT (*user_function)() ;
 	if( ydS == 0 ) ydS++ ;
 	hints.flags = USPosition | USSize ;
     } else {
-	widthd  = (INT) (RATIO * (DOUBLE) screenwidth ) ;
-	heightd = (INT) (RATIO * (DOUBLE) screenheight ) ;
+	widthd  = (int) (RATIO * (DOUBLE) screenwidth ) ;
+	heightd = (int) (RATIO * (DOUBLE) screenheight ) ;
 	xdS = (screenwidth - widthd ) / 2 ;
 	ydS = (screenheight - heightd ) / 2 ;
 	hints.flags = PPosition | PSize ;
@@ -524,9 +524,9 @@ INT (*user_function)() ;
 
 static set_stipple_font( stippleOn, font_change )
 BOOL stippleOn ;
-INT font_change ;
+int font_change ;
 {
-    INT i ;        /* counter */
+    int i ;        /* counter */
 
     if( infoS->stipple ){
 	if( stippleOn ){
@@ -555,11 +555,11 @@ INT font_change ;
 /* check the case fields and set all member of group to false */
 static check_cases( fieldp, select, user_function )
 TWDIALOGPTR fieldp ;
-INT select ;
-INT (*user_function)() ;
+int select ;
+int (*user_function)() ;
 {
-    INT i ;               /* counter */
-    INT group ;           /* case group */
+    int i ;               /* counter */
+    int group ;           /* case group */
     TWDIALOGPTR fptr ;    /* current dialog field */
     TWDRETURNPTR dptr ;   /* current return field */
 
@@ -588,7 +588,7 @@ INT (*user_function)() ;
 static draw_fields( fieldp )
 TWDIALOGPTR fieldp ;
 {
-    INT i ;               /* counter */
+    int i ;               /* counter */
     TWDIALOGPTR fptr ;    /* current dialog field */
     TWDRETURNPTR dptr ;   /* current return field */
 
@@ -634,7 +634,7 @@ TWDIALOGPTR fieldp ;
 
 static TWfreeWindows()
 {
-    INT i, j ;              /* counters */
+    int i, j ;              /* counters */
 
     for( i = 0; winS[i] ; i++ ){
 	/* we must free window this way */
@@ -656,33 +656,33 @@ static find_font_boundary()
 
 /* tranforms the world coordinate character column format */
 /* to pixel coordinates */
-static INT world2pix_x( x )
+static int world2pix_x( x )
 {
     return( x * fwidthS ) ;
 } /* end world2pix_x */
 
-static INT world2pix_y( y )
+static int world2pix_y( y )
 {
     return( y * fheightS ) ;
 } /* end world2pix_y */
 
-static INT world2fonty( y )
+static int world2fonty( y )
 {
     return( (++y) * fheightS - fontinfoS->max_bounds.descent ) ;
 } /* end world2pix_y */
 	
 /* change length of string to pixel length */
-static INT pixlen( length )
-INT length ;
+static int pixlen( length )
+int length ;
 {
     return( fwidthS * length ) ;
 } /* end pixlen */
 
 static edit_field( field, win, event, user_function )
-INT field ;
+int field ;
 Window win ;
 XEvent event ;       /* describes the button event */
-INT (*user_function)() ;
+int (*user_function)() ;
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR dptr;   /* return field of dialog */
@@ -694,8 +694,8 @@ INT (*user_function)() ;
     char data[LRECL];       /* current value of users input */
     KeySym keysym ;         /* return of keysym from user */
     XComposeStatus status ; /* where a compose key was pressed */
-    INT strwidth ;          /* width of string in pixels */
-    INT dataCount ;         /* number of characters in user input */
+    int strwidth ;          /* width of string in pixels */
+    int dataCount ;         /* number of characters in user input */
 
     fptr = &( fieldS[field] ) ;
     dptr = &( dataS[field] ) ;
@@ -798,15 +798,15 @@ char *filename ;
     char group[LRECL] ;  /* for parsing case groups */
     char **tokens ;      /* for parsing menu file */
     char **colors ;      /* the standard color array */
-    INT  numtokens ;     /* number of tokens on line */
-    INT  group_num ;     /* number of case fields given */
-    INT  i ;             /* counter */
-    INT  line ;          /* line number of TWmenu file */
-    INT  length ;        /* length of string */
-    INT  numfields ;     /* number of dialog fields */
-    INT  curfield ;      /* current dialog field */
-    INT  case_label ;    /* current case field */
-    INT  numcolors ;     /* the number of colors in color array */
+    int  numtokens ;     /* number of tokens on line */
+    int  group_num ;     /* number of case fields given */
+    int  i ;             /* counter */
+    int  line ;          /* line number of TWmenu file */
+    int  length ;        /* length of string */
+    int  numfields ;     /* number of dialog fields */
+    int  curfield ;      /* current dialog field */
+    int  case_label ;    /* current case field */
+    int  numcolors ;     /* the number of colors in color array */
     BOOL found ;         /* whether color was found */
     TWDIALOGPTR fields;  /* dialog array information */
     TWDIALOGPTR fptr;    /* current field of dialog */
@@ -957,8 +957,8 @@ char *filename ;
 static debug_dialog( fieldp )
 TWDIALOGPTR fieldp ;
 {
-    INT i ;                   /* counter */
-    INT count ;               /* number of fields */
+    int i ;                   /* counter */
+    int count ;               /* number of fields */
     FILE *fp ;                /* file pointer */
     TWDIALOGPTR fptr ;        /* temporary pointer */
 

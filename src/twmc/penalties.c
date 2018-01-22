@@ -103,7 +103,7 @@ DOUBLE percentDone ;
 
     DOUBLE diff_lap, target_bin_penalty, bin_deviation ;
     DOUBLE sqrtCoreArea, sqrtBinPenal, lapCap ;
-    INT iter ;
+    int iter ;
     char filename[LRECL] ;
     FILE *fp ;
 
@@ -118,9 +118,9 @@ DOUBLE percentDone ;
 #   define NUMSAMPLE 15
 #   define RECIP_SAMPLE 0.06666666
     static  DOUBLE avg_devS[NUMSAMPLE] = { 0.0 } ;
-    static  INT    avgCountS = 0 ;
+    static  int    avgCountS = 0 ;
     DOUBLE  running_avg ;
-    INT     i ;
+    int     i ;
 
 
     /* **** overlap penalty controller **** */
@@ -211,7 +211,7 @@ DOUBLE percentDone ;
 DOUBLE calc_core_factor( percentDone ) 
 DOUBLE percentDone ;
 {
-    INT binArea, cellArea ;
+    int binArea, cellArea ;
     DOUBLE diff_core, target_core_error, core_deviation ;
     DOUBLE core_error ;
 

@@ -59,9 +59,9 @@ setpwates()
 TILEBOXPTR tileptr ;
 CELLBOXPTR cptr ;
 INSTBOXPTR instptr ;
-INT cell ;
-INT i ;
-INT numinstances ;
+int cell ;
+int i ;
+int numinstances ;
 
 for( cell = 1 ; cell <= numcellsG ; cell++ ) {
     cptr = cellarrayG[cell] ;

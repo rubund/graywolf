@@ -43,7 +43,7 @@ FILE:	    globroute.c
 DESCRIPTION:global routing functions.
 CONTENTS:   globroute()
 	    process_cross( segptr , status )
-		INT status ;
+		int status ;
 		SEGBOXPTR segptr ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
@@ -60,7 +60,7 @@ static char SccsId[] = "@(#) globroute.c (Yale) version 4.5 12/15/90" ;
 #include "main.h"
 
 /* global variables */
-extern INT Max_numPinsG ;
+extern int Max_numPinsG ;
 
 #define TOP 1
 #define BOT 0
@@ -68,10 +68,10 @@ extern INT Max_numPinsG ;
 globroute()
 {
 
-INT flips , attempts , net ;
-INT pick , number , attlimit ;
-INT found , trys , maxtrys ;
-INT x , x1 , x2 , channel ;
+int flips , attempts , net ;
+int pick , number , attlimit ;
+int found , trys , maxtrys ;
+int x , x1 , x2 , channel ;
 SEGBOXPTR segptr , *segment ;
 DENSITYPTR denptr ;
 PINBOXPTR netptr1 , netptr2 ;
@@ -98,7 +98,7 @@ while( ++attempts < attlimit ) {
 	printf(" tracks = %3d at attempts = %5d\n" ,tracksG ,attempts ) ;
     }
     do {
-	net = (INT) ( (DOUBLE) numnetsG * ( (DOUBLE) RAND / 
+	net = (int) ( (DOUBLE) numnetsG * ( (DOUBLE) RAND / 
 				      (DOUBLE) 0x7fffffff ) ) + 1 ;
     } while( net == numnetsG + 1 ) ;
     number = 0 ;
@@ -113,7 +113,7 @@ while( ++attempts < attlimit ) {
     trys = 0 ;
     while( ++trys <= maxtrys ) {
 	do {
-	    pick = (INT) ( (DOUBLE) number * ( (DOUBLE) RAND / 
+	    pick = (int) ( (DOUBLE) number * ( (DOUBLE) RAND / 
 					  (DOUBLE) 0x7fffffff ) ) + 1 ;
 	} while( pick == number + 1 ) ;
 	segptr = segment[ pick ] ;
@@ -160,11 +160,11 @@ return ;
 }
 
 process_cross( segptr , status )
-INT status ;
+int status ;
 SEGBOXPTR segptr ;
 {
 
-INT x1 , x2 ;
+int x1 , x2 ;
 PINBOXPTR pin1ptr , pin2ptr ;
 CHANGRDPTR ptr1 , ptr2 , ptr ;
 

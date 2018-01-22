@@ -75,10 +75,10 @@ static int getnumRows();
 readpar()
 {
 
-    INT line ;
-    INT temp ;
-    INT numtokens ;
-    INT numrows ;
+    int line ;
+    int temp ;
+    int numtokens ;
+    int numrows ;
     BOOL onNotOff ;
     BOOL wildcard ;
     BOOL feed_percent_default ;
@@ -134,7 +134,7 @@ readpar()
 		    err_msg("rowSep") ;
 		    continue ;
 		}
-		temp = (numtokens == 3) ? (INT)atof(tokens[2]) : 0;
+		temp = (numtokens == 3) ? (int)atof(tokens[2]) : 0;
 		set_row_separation( tempf, temp ) ;
 		row_sep_default = FALSE ;
 	    } else {
@@ -284,7 +284,7 @@ BOOL feed_percent_default, row_sep_default ;
 	    M( MSG, NULL, YmsgG ) ;
 
 	    if( row_sep_default ){
-		set_row_separation( tempf, (INT)0 ) ;
+		set_row_separation( tempf, (int)0 ) ;
 	    } else {
 		M( MSG,NULL,"Overridden by .par file value for row separation.\n" ) ;
 	    }
@@ -298,7 +298,7 @@ static int getnumRows()
 {
 
     char **tokens ;         /* for parsing menu file */
-    INT  numtokens ;        /* number of tokens on the line */
+    int  numtokens ;        /* number of tokens on the line */
     int  line ;             /* count lines in input file */
     char buffer[LRECL], *bufferptr = buffer ;
     char filename[LRECL];

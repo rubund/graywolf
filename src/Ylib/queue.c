@@ -123,9 +123,9 @@ YQUEUE *queue ;
     if( temp = queue->top_of_queue ){
 	for( ;temp; temp=temp->next ){
 #if SIZEOF_VOID_P == 64
-	    fprintf( stderr,"%ld ", (INT)temp->data ) ;
+	    fprintf( stderr,"%ld ", (int)temp->data ) ;
 #else
-	    fprintf( stderr,"%d ", (INT)temp->data ) ;
+	    fprintf( stderr,"%d ", (int)temp->data ) ;
 #endif
 	}
 	fprintf( stderr,"\n" ) ;

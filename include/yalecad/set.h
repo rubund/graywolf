@@ -35,18 +35,18 @@ static char YsetId[] = "@(#) set.h (Yale) version 1.7 2/15/91" ;
 #include <yalecad/base.h>
 
 typedef struct ysetlist {
-    INT              member ;/* Determining membership by finding match */
-    INT              node ;  /* name of node */
+    int              member ;/* Determining membership by finding match */
+    int              node ;  /* name of node */
     struct ysetlist  *next ; /* set is a threaded array */
     struct ysetlist  *prev ;
 } YSETLISTBOX, *YSETLISTPTR ;
 
 typedef struct {
-    INT  size ;              /* size of set */
-    INT  cardinality ;       /* number of members in the set */
-    INT  in_set ;            /* match for determining membership */
-    INT  lowerLimit ;        /* lower bound for set */
-    INT  upperLimit ;        /* upper bound for set */
+    int  size ;              /* size of set */
+    int  cardinality ;       /* number of members in the set */
+    int  in_set ;            /* match for determining membership */
+    int  lowerLimit ;        /* lower bound for set */
+    int  upperLimit ;        /* upper bound for set */
     YSETLISTPTR list ;       /* a list enumerating members of set */
     YSETLISTPTR *set ;       /* set is an array of YLISTBOXes */
 } YSET, *YSETPTR ;
@@ -72,10 +72,10 @@ Function:
     field as an indication of the element.
 */
 
-extern YSETPTR Yset_init( P2(INT lowerLimit, INT upperLimit ) ) ;
+extern YSETPTR Yset_init( P2(int lowerLimit, int upperLimit ) ) ;
 /* 
 Arguments:
-    INT lowerLimit, upperLimit ;
+    int lowerLimit, upperLimit ;
 Function:
     initialize set.  lowerLimit and upperLimit specify set boundaries.
     returns a pointer to the set data structure.
@@ -90,31 +90,31 @@ Function:
     allocated by YinitSet.
 */
 
-extern BOOL Yset_member( P2(YSETPTR set, INT node ) ) ;
+extern BOOL Yset_member( P2(YSETPTR set, int node ) ) ;
 /* 
 Arguments:
     YSETPTR set ;
-    INT node ;
+    int node ;
 Function:
     tests whether node is member of set.  Returns true if member;otherwise
     it returns false.
 */
 
-extern BOOL Yset_add( P2(YSETPTR set, INT node ) ) ;
+extern BOOL Yset_add( P2(YSETPTR set, int node ) ) ;
 /* 
 Arguments:
     YSETPTR set ;
-    INT node ;
+    int node ;
 Function:
     add node as member of set.  
     returns TRUE if this a new member of set FALSE if already a member.
 */
 
-extern Yset_delete( P2(YSETPTR set, INT node ) ) ;
+extern Yset_delete( P2(YSETPTR set, int node ) ) ;
 /* 
 Arguments:
     YSETPTR set ;
-    INT node ;
+    int node ;
 Function:
     removes node from set.  
 */

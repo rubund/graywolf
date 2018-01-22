@@ -45,7 +45,7 @@ DESCRIPTION:mimimum standard random number generator function.  This
 	    of the ACM.  See articles by L'Ecuyer and Park/Miller in
 	    June 1988 and October 1988 resp.
 CONTENTS:   
-	    INT acm_random()
+	    int acm_random()
 	    set_random_seed(int)
 DATE:	    Oct 27, 1988 
 REVISIONS:  Mar 21, 1989 - added get current value of random variable.
@@ -60,7 +60,7 @@ static char SccsId[] = "@(#) rand.c version 3.8 4/7/92" ;
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
 
-static INT randVarS = 1 ;                 /* random number */
+static int randVarS = 1 ;                 /* random number */
 
 #define A_RAND 16807                /* good generator multiplier */
 #define M_RAND 2147483647                 /* 2 ** 31 - 1 */
@@ -68,9 +68,9 @@ static INT randVarS = 1 ;                 /* random number */
 #define R_RAND 2836                       /* m mod a */
 
 /* returns a random number in [0..2**31 - 1] */
-INT Yacm_random() 
+int Yacm_random() 
 {
-    register INT k_rand ;
+    register int k_rand ;
 
     k_rand = randVarS / Q_RAND ;
     randVarS = A_RAND * (randVarS - k_rand * Q_RAND) - (k_rand * R_RAND) ;
@@ -82,7 +82,7 @@ INT Yacm_random()
 } /* end acm_random */
 
 Yset_random_seed( seed )
-INT seed ;
+int seed ;
 {
     seed = ABS(seed) ;
     if( seed == 0 ){
@@ -91,7 +91,7 @@ INT seed ;
     randVarS = seed ;
 } /* end set_random_seed */
 
-INT Yget_random_var()
+int Yget_random_var()
 {
     return( randVarS ) ;
 } /* end get_random_var */
@@ -103,7 +103,7 @@ INT Yget_random_var()
 
 main()
 {
-    INT n, randnum ;
+    int n, randnum ;
     Yset_random_seed( 1 ) ;
     for( n = 1; n <= 10000; n++ ){
 	randnum = Yacm_random() ;

@@ -41,26 +41,26 @@
 FILE:	    paths.c
 DESCRIPTION:output length of paths
 CONTENTS:   print_paths.
-	    INT calc_incr_time( cell ) 
-		INT cell ;
+	    int calc_incr_time( cell ) 
+		int cell ;
 	    update_time( cell ) 
-		INT cell ;
-	    INT calc_incr_time2( cella, cellb ) 
-		INT cella, cellb ;
+		int cell ;
+	    int calc_incr_time2( cella, cellb ) 
+		int cella, cellb ;
 	    update_time2() 
 	    init_path_set() 
 	    add2path_set( path ) 
-		INT  path ;
+		int  path ;
 	    PSETPTR enum_path_set()
 	    clear_path_set() 
 	    init_net_set() 
 	    add2net_set( net ) 
-		INT  net ;
+		int  net ;
 	    BOOL member_net_set( net )
 	    clear_net_set() 
-	    INT dcalc_full_penalty(newtimepenal)
-	    INT dcalc_path_len(path_num)
-		INT path_num ;
+	    int dcalc_full_penalty(newtimepenal)
+	    int dcalc_path_len(path_num)
+		int path_num ;
 DATE:	    Oct	22, 1988 
 REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Jan 29, 1989 - added \n's for pretty output.
@@ -97,23 +97,23 @@ extern  DOUBLE avg_timeG ;/* average random time penalty */
 extern  DOUBLE avg_funcG ;/* average random wirelength penalty */
 
 /* forward declarations */
-INT dcalc_min_path_len() ;
-INT dcalc_max_path_len() ;
-INT dcalc_path_len(INT, INT);
+int dcalc_min_path_len() ;
+int dcalc_max_path_len() ;
+int dcalc_path_len(int, int);
 
-static INT errorboundS = 0 ;
+static int errorboundS = 0 ;
 
 print_paths( ) 
 {
 
     char filename[LRECL] ;
-    INT i, pathLength ;
-    INT length ;
-    INT above, really_above, really_below, below, in ;
-    INT check, way_above, way_below ; 
-    INT really_way_above, really_way_below ;
-    INT *stat ;
-    INT xspan, yspan ;
+    int i, pathLength ;
+    int length ;
+    int above, really_above, really_below, below, in ;
+    int check, way_above, way_below ; 
+    int really_way_above, really_way_below ;
+    int *stat ;
+    int xspan, yspan ;
     PATHPTR pptr, get_path_list() ;
     GLISTPTR net ;
     DBOXPTR nptr ;
@@ -121,8 +121,8 @@ print_paths( )
     FILE *fp ;
     DOUBLE mean ;
     DOUBLE paths ;
-    INT num_paths ;
-    INT penaltyS ;
+    int num_paths ;
+    int penaltyS ;
 
     i = 0 ;
     above = 0 ;
@@ -139,7 +139,7 @@ print_paths( )
     num_paths = get_total_paths() ;
     /* allocate the an array for calculating statistics */
     if( num_paths ){
-	stat = (INT *) Ysafe_malloc( num_paths * sizeof(INT) ) ;
+	stat = (int *) Ysafe_malloc( num_paths * sizeof(int) ) ;
     }
     sprintf(filename, "%s.pth" , cktNameG ) ;
     fp = TWOPEN( filename , "w", ABORT ) ;
@@ -155,8 +155,8 @@ print_paths( )
 	for( net = pptr->nets ; net ; net = net->next ){
 	    nptr = netarrayG[net->p.net] ;
 	    fprintf( fp, "\t\t%s\n", nptr->name ) ;
-	    length = (INT)(horizontal_path_weightG * (DOUBLE) nptr->halfPx) +
-		 (INT)(vertical_path_weightG * (DOUBLE) nptr->halfPy) ;
+	    length = (int)(horizontal_path_weightG * (DOUBLE) nptr->halfPx) +
+		 (int)(vertical_path_weightG * (DOUBLE) nptr->halfPy) ;
 	    pathLength += length ;
 	    xspan += nptr->halfPx ;
 	    yspan += nptr->halfPy ;
@@ -187,14 +187,14 @@ print_paths( )
 	    if( check ) {
 		fprintf( fp, " pad" ) ;
 	    }
-	    if( pathLength < (INT)( 0.90 * (DOUBLE) pptr->lower_bound) ){
+	    if( pathLength < (int)( 0.90 * (DOUBLE) pptr->lower_bound) ){
 		below++ ;
 
 		if( !check ) {
 		    really_below++ ;
 		}
 	    }
-	    if( pathLength < (INT)( 0.80 * (DOUBLE) pptr->lower_bound) ){
+	    if( pathLength < (int)( 0.80 * (DOUBLE) pptr->lower_bound) ){
 		way_below++ ;
 		fprintf( fp, " OOS" ) ;
 		if( !check ) {
@@ -217,14 +217,14 @@ print_paths( )
 	    if( check ) {
 		fprintf( fp, " pad" ) ;
 	    }
-	    if( pathLength > (INT)( 1.10 * (DOUBLE) pptr->upper_bound) ){
+	    if( pathLength > (int)( 1.10 * (DOUBLE) pptr->upper_bound) ){
 		above++ ;
 
 		if( !check ) {
 		    really_above++ ;
 		}
 	    }
-	    if( pathLength > (INT)( 1.20 * (DOUBLE) pptr->upper_bound) ){
+	    if( pathLength > (int)( 1.20 * (DOUBLE) pptr->upper_bound) ){
 		way_above++ ;
 		fprintf( fp, " OOS" ) ;
 		if( !check ) {
@@ -246,8 +246,8 @@ print_paths( )
 	nptr = netarrayG[i] ;
 	fprintf( fp, "net %3d:%s xspan:%d yspan:%d length:%d numpins:%d",
 	    i, nptr->name, nptr->halfPx, nptr->halfPy, 
-	    (INT)(horizontal_path_weightG * (DOUBLE) nptr->halfPx) +
-		 (INT)(vertical_path_weightG * (DOUBLE) nptr->halfPy),
+	    (int)(horizontal_path_weightG * (DOUBLE) nptr->halfPx) +
+		 (int)(vertical_path_weightG * (DOUBLE) nptr->halfPy),
 	    nptr->numpins ) ;
 	if( nptr->ignore ){
 	    fprintf( fp, " ignored\n" ) ;
@@ -278,13 +278,13 @@ print_paths( )
 	fprintf( fp, "# of non-pad paths out of spec :%5d\n", 
 				really_way_above + really_way_below ) ;
 	fprintf( fp, "Min  length                    :%4.2le\n",
-	    Ystat_min( stat, num_paths, sizeof(INT) ) ) ;
+	    Ystat_min( stat, num_paths, sizeof(int) ) ) ;
 	fprintf( fp, "Max  length                    :%4.2le\n",
-	    Ystat_max( stat, num_paths, sizeof(INT) ) ) ;
-	mean = Ystat_mean( stat, num_paths, sizeof(INT) ) ;
+	    Ystat_max( stat, num_paths, sizeof(int) ) ) ;
+	mean = Ystat_mean( stat, num_paths, sizeof(int) ) ;
 	fprintf( fp, "Mean length                    :%4.2le\n", mean ) ;
 	fprintf( fp, "Standard Dev. length           :%4.2le\n",
-	    sqrt( Ystat_var( stat, num_paths, sizeof(INT),mean) ) ) ;
+	    sqrt( Ystat_var( stat, num_paths, sizeof(int),mean) ) ) ;
 	Ysafe_free( stat ) ;
     }
     TWCLOSE( fp ) ;
@@ -302,14 +302,14 @@ print_paths( )
     in the penalty.
 ----------------------------------------------------------------- */
 /* calculate the timing cost incrementally */
-INT calc_incr_time( cell ) 
-INT cell ;
+int calc_incr_time( cell ) 
+int cell ;
 {
-    INT newpenal ;        /* proposed move's timing penalty delta */
-    INT oldpenal ;        /* the old penalty of the nets that move */
-    INT path_num ;        /* name of path */
-    INT net ;             /* net of path */
-    INT length ;          /* path length incremental */
+    int newpenal ;        /* proposed move's timing penalty delta */
+    int oldpenal ;        /* the old penalty of the nets that move */
+    int path_num ;        /* name of path */
+    int net ;             /* net of path */
+    int length ;          /* path length incremental */
     GLISTPTR pptr ;       /* pointer to paths of a cell */
     GLISTPTR net_of_path ;
     PATHPTR path ;
@@ -336,13 +336,13 @@ INT cell ;
 	    if( member_net_set( net ) ){
 		/* this half - perimeter has changed use update */
 		/* calculate total change on path */
-		length = length + (INT) 
+		length = length + (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->newhalfPx ) ;
-		length = length - (INT) 
+		length = length - (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx ) ;
-		length = length + (INT) 
+		length = length + (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->newhalfPy ) ;
-		length = length - (INT) 
+		length = length - (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->halfPy ) ;
 	    } /* else this half - perimeter has not changed use old */
 	}
@@ -376,10 +376,10 @@ INT cell ;
 
 
 update_time( cell ) 
-INT cell ;
+int cell ;
 {
 
-    INT path_num ;        /* name of path */
+    int path_num ;        /* name of path */
     GLISTPTR pptr ;       /* pointer to paths of a cell */
     PATHPTR path ;
 
@@ -397,15 +397,15 @@ INT cell ;
 } /* end function update_time */
 
 /* calculate the timing cost incrementally for two cells */
-INT calc_incr_time2( cella, cellb ) 
-INT cella ;
-INT cellb ;
+int calc_incr_time2( cella, cellb ) 
+int cella ;
+int cellb ;
 {
-    INT newpenal ;        /* proposed move's timing penalty delta */
-    INT oldpenal ;        /* the old penalty of the nets that move */
-    INT path_num ;        /* name of path */
-    INT net ;             /* net of path */
-    INT length ;          /* path length incremental */
+    int newpenal ;        /* proposed move's timing penalty delta */
+    int oldpenal ;        /* the old penalty of the nets that move */
+    int path_num ;        /* name of path */
+    int net ;             /* net of path */
+    int length ;          /* path length incremental */
     GLISTPTR pptr ;       /* pointer to paths of a cell */
     GLISTPTR net_of_path ;
     PATHPTR path ;
@@ -445,13 +445,13 @@ INT cellb ;
 	    if( member_net_set( net ) ){
 		/* this half - perimeter has changed use update */
 		/* calculate total change on path */
-		length = length + (INT) 
+		length = length + (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->newhalfPx ) ;
-		length = length - (INT) 
+		length = length - (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx ) ;
-		length = length + (INT) 
+		length = length + (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->newhalfPy ) ;
-		length = length - (INT) 
+		length = length - (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->halfPy ) ;
 	    } /* else this half - perimeter has not changed use old */
 	}
@@ -514,12 +514,12 @@ Note: PSETBOX, PSETPTR definitions are in custom.h
 ----------------------------------------------------------------- */
 static PSETPTR path_set_listS ;   /* list is beginning of set as a list */
 static PSETPTR *path_set_arrayS ; /* set is an array of path set boxes */
-static INT path_set_countS ;      /* current set count */
+static int path_set_countS ;      /* current set count */
 
 /* initialize set */
 init_path_set() 
 {   
-    INT i ;
+    int i ;
 
     path_set_arrayS=(PSETPTR *)Ysafe_malloc((numpathsG+1)*sizeof(PSETPTR));
     for( i=0;i<=numpathsG;i++ ){
@@ -531,7 +531,7 @@ init_path_set()
 
 /* add a path to the set if not already in set */
 add2path_set( path ) 
-INT  path ;
+int  path ;
 {  
     PSETPTR temp, cpath ;
 
@@ -580,19 +580,19 @@ clear_path_set()
    Since we don't need to enumerate set we only need array to implement
    this set.  
 ----------------------------------------------------------------- */
-static INT *net_set_array ; /* set is an array of net set boxes */
-static INT net_set_count ;      /* current set count */
+static int *net_set_array ; /* set is an array of net set boxes */
+static int net_set_count ;      /* current set count */
 
 /* initialize set */
 init_net_set() 
 {   
-    net_set_array = (INT *) Ysafe_calloc((numnetsG+1), sizeof(INT) );
+    net_set_array = (int *) Ysafe_calloc((numnetsG+1), sizeof(int) );
     net_set_count = 1 ;
 } /* end initset */
 
 /* add a net to the set if not already in set */
 add2net_set( net ) 
-INT  net ;
+int  net ;
 {  
     if( net >= 1 || net <= numnetsG ){
 	/* current count make array member a valid member of set */
@@ -623,13 +623,13 @@ clear_net_set()
 #ifdef DEBUG
 /* *************** DEBUG FUNCTIONS *************************** */
 /* debug function to make sure calculation is correct */
-INT dcalc_full_penalty( newtimepenal )
-INT newtimepenal ;
+int dcalc_full_penalty( newtimepenal )
+int newtimepenal ;
 {
-    INT timingpenal ;
-    INT pathcount ;
-    INT length ;          /* path length incremental */
-    INT net ;             /* net of path */
+    int timingpenal ;
+    int pathcount ;
+    int length ;          /* path length incremental */
+    int net ;             /* net of path */
     GLISTPTR net_of_path ;
     PATHPTR path ;
     DBOXPTR dimptr ;
@@ -653,15 +653,15 @@ INT newtimepenal ;
 	    if( member_net_set( net ) ){
 		/* this half - perimeter has changed use update */
 		/* calculate total change on path */
-		length = length + (INT) 
+		length = length + (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->newhalfPx ) ;
-		length = length + (INT) 
+		length = length + (int) 
 			 (vertical_path_weightG * (DOUBLE) dimptr->newhalfPy) ;
 	    } else {
 		/* old length */
-		length = length + (INT) 
+		length = length + (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx) ;
-		length = length + (INT) 
+		length = length + (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->halfPy ) ;
 	    }
 	}
@@ -682,13 +682,13 @@ INT newtimepenal ;
     }
 }
 
-INT dcalc_path_len(path_num,verify_length)
-INT path_num ;
-INT verify_length ;
+int dcalc_path_len(path_num,verify_length)
+int path_num ;
+int verify_length ;
 {
 
-    INT net ;             /* net of path */
-    INT length ;          /* path length incremental */
+    int net ;             /* net of path */
+    int length ;          /* path length incremental */
     GLISTPTR net_of_path ;
     PATHPTR path ;
     DBOXPTR dimptr ;
@@ -705,15 +705,15 @@ INT verify_length ;
 	if( member_net_set( net ) ){
 	    /* this half - perimeter has changed use update */
 	    /* calculate total change on path */
-	    length = length + (INT) 
+	    length = length + (int) 
 		(horizontal_path_weightG * (DOUBLE) dimptr->newhalfPx);
-	    length = length + (INT) 
+	    length = length + (int) 
 		(vertical_path_weightG * (DOUBLE) dimptr->newhalfPy) ;
 	} else {
 	    /* old length */
-	    length = length + (INT) 
+	    length = length + (int) 
 		(horizontal_path_weightG * (DOUBLE) dimptr->halfPx ) ;
-	    length = length + (INT) 
+	    length = length + (int) 
 		(vertical_path_weightG * (DOUBLE) dimptr->halfPy ) ;
 	}
     }
@@ -726,14 +726,14 @@ INT verify_length ;
 }
 
 
-INT dpath_len( net_num, old_not_new )
-INT net_num ;
+int dpath_len( net_num, old_not_new )
+int net_num ;
 BOOL old_not_new ;
 {
 
-    INT net ;             /* net of path */
-    INT length ;          /* path length incremental */
-    INT timingpenal ;
+    int net ;             /* net of path */
+    int length ;          /* path length incremental */
+    int timingpenal ;
     GLISTPTR net_of_path ;
     PATHPTR path ;
     GLISTPTR pptr ;       /* pointer to paths of a cell */
@@ -753,16 +753,16 @@ BOOL old_not_new ;
 	    /* accumulate length of path */
 	    if( old_not_new ){
 		/* old length */
-		length = length + (INT) 
+		length = length + (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->halfPx ) ;
-		length = length + (INT) 
+		length = length + (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->halfPy ) ;
 	    } else {
 		/* this half - perimeter has changed use update */
 		/* calculate total change on path */
-		length = length + (INT) 
+		length = length + (int) 
 		    (horizontal_path_weightG * (DOUBLE) dimptr->newhalfPx);
-		length = length + (INT) 
+		length = length + (int) 
 		    (vertical_path_weightG * (DOUBLE) dimptr->newhalfPy) ;
 
 	    }
@@ -778,9 +778,9 @@ BOOL old_not_new ;
     } /* end for( pptr = netarrayyG[net_num]->paths... */
     return( timingpenal ) ;
 
-} /* end INT dpath_len() */
+} /* end int dpath_len() */
 
-INT dprint_error()
+int dprint_error()
 {
     sprintf( YmsgG, 
 	"\n\nWe found that the timing error was bound by :%d\n\n", 
@@ -792,8 +792,8 @@ INT dprint_error()
 dverify_nets()
 {
 
-    INT net ;             /* net of path */
-    INT per ;
+    int net ;             /* net of path */
+    int per ;
     DBOXPTR dimptr ;
 
     for( net=1; net <= numnetsG; net++ ){
@@ -807,8 +807,8 @@ dverify_nets()
 
 dprint_paths( cell )
 {
-    INT path_num ;        /* name of path */
-    INT net ;             /* net of path */
+    int path_num ;        /* name of path */
+    int net ;             /* net of path */
     GLISTPTR pptr ;       /* pointer to paths of a cell */
     GLISTPTR net_of_path ;
     PATHPTR path ;
@@ -841,7 +841,7 @@ dprint_paths( cell )
 
 dprint_net_set()
 {
-    INT net ;
+    int net ;
 
     fprintf( stderr, "Current net set:\n" ) ;
     for( net = 1; net <= numnetsG; net++ ){

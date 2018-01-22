@@ -16,37 +16,37 @@ REVISIONS:  Sun Feb 17 21:11:18 EST 1991 - moved numMacroG to pad.h
 #endif
 
 typedef struct macrobox {
-    INT mx ;
-    INT my ;
+    int mx ;
+    int my ;
 } MACROBOX ;
 
 typedef struct rowbox {
-    INT startx  ;
-    INT endx    ;
-    INT endx1   ;
-    INT startx2 ;
-    INT ypos    ;
-    INT desiredL ;
+    int startx  ;
+    int endx    ;
+    int endx1   ;
+    int startx2 ;
+    int ypos    ;
+    int desiredL ;
 } ROWBOX ;
 
 EXTERN MACROBOX *macroArrayG ;
 EXTERN ROWBOX *rowArrayG ;
 
-EXTERN INT max_blklengthG ;
-EXTERN INT route2actG;   /* added for placement adjusted for routing */
-EXTERN INT track_pitchG; /* used only if global routing is performed */
-EXTERN INT gridCellG;    /* used only if global routing is performed */
-EXTERN INT desiredLG ;
+EXTERN int max_blklengthG ;
+EXTERN int route2actG;   /* added for placement adjusted for routing */
+EXTERN int track_pitchG; /* used only if global routing is performed */
+EXTERN int gridCellG;    /* used only if global routing is performed */
+EXTERN int desiredLG ;
 EXTERN DOUBLE *macspaceG ;
 
-EXTERN INT *padArrayG ;
-EXTERN INT extraSpaceG ;
-EXTERN INT coreHeightG ;
-EXTERN INT coreWidthG ;
-EXTERN INT separationG ;
-EXTERN INT spaceG ;
-EXTERN INT maxHeight ;
-EXTERN INT lastG ;
+EXTERN int *padArrayG ;
+EXTERN int extraSpaceG ;
+EXTERN int coreHeightG ;
+EXTERN int coreWidthG ;
+EXTERN int separationG ;
+EXTERN int spaceG ;
+EXTERN int maxHeight ;
+EXTERN int lastG ;
 
 #undef EXTERN  
 

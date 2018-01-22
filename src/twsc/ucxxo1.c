@@ -41,7 +41,7 @@
 FILE:	    ucxxo1.c                                       
 DESCRIPTION:single cell move with orientation change.
 CONTENTS:   ucxxo1( bxcenter , bycenter , newaor )
-		INT bxcenter , bycenter , newaor ;
+		int bxcenter , bycenter , newaor ;
 DATE:	    Mar 27, 1989 
 REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
@@ -56,26 +56,26 @@ static char SccsId[] = "@(#) ucxxo1.c (Yale) version 4.7 2/23/92" ;
 #include "ucxxglb.h"
 #include <yalecad/debug.h>
 /*
-INT potential_errors , error_count , P_limit ;
+int potential_errors , error_count , P_limit ;
 */
 
 
 ucxxo1( bxcenter , bycenter , newaor )
-INT bxcenter , bycenter , newaor ;
+int bxcenter , bycenter , newaor ;
 {
 
 CBOXPTR acellptr ;
 TIBOXPTR atileptr ;
 PINBOXPTR antrmptr ;
 
-INT cost , error_light_is_on ;
-INT axcenter ;
-INT aleft , aright ;
-INT a1LoBin, a1HiBin, b1LoBin, b1HiBin ;
-INT startxa1 , endxa1 , startxb1 , endxb1 ;
-INT truth ;
-INT newtimepenal ;
-INT newpenal ;
+int cost , error_light_is_on ;
+int axcenter ;
+int aleft , aright ;
+int a1LoBin, a1HiBin, b1LoBin, b1HiBin ;
+int startxa1 , endxa1 , startxb1 , endxb1 ;
+int truth ;
+int newtimepenal ;
+int newpenal ;
 
 acellptr = carrayG[ aG ]    ; 
 axcenter = acellptr->cxcenter ; 
@@ -100,7 +100,7 @@ sub_penal( startxa1 , endxa1 , ablockG , a1LoBin , a1HiBin ) ;
 add_penal( startxb1 , endxb1 , bblockG , b1LoBin , b1HiBin ) ; 
 
 
-newpenal = (INT)(roLenConG * (DOUBLE) newrowpenalG +
+newpenal = (int)(roLenConG * (DOUBLE) newrowpenalG +
 				binpenConG * (DOUBLE) newbinpenalG );
 error_light_is_on = 0 ;
 if( newpenal - penaltyG > P_limitG ) {

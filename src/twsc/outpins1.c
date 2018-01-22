@@ -81,22 +81,22 @@ static char SccsId[] = "@(#) outpins1.c (Yale) version 1.3 4/18/91" ;
 char *strtok() ;
 
 /* global variables */
-extern INT *root_G ;
-extern INT *count_G ;
-extern INT *stack_G ;
-extern INT *father_G ;
-extern INT Max_numPinsG ;
+extern int *root_G ;
+extern int *count_G ;
+extern int *stack_G ;
+extern int *father_G ;
+extern int Max_numPinsG ;
 extern BOOL new_row_formatG ;
 extern PINBOXPTR *vertex_G ;
 extern char *find_layer() ;
 
 /* static definitions */
-static INT vtxS ;
-static INT *hashS ;
-static INT *groupS ;
-static INT numpinS ;
-static INT *rite_edgeS ;
-static INT *left_edgeS ;
+static int vtxS ;
+static int *hashS ;
+static int *groupS ;
+static int numpinS ;
+static int *rite_edgeS ;
+static int *left_edgeS ;
 static FILE *fpS ;
 
 static do_outpins();
@@ -118,10 +118,10 @@ int i , a , b , net , row , padside ;
 int upFlag , downFlag , group_index ;
 
 
-hashS  = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
-groupS = (INT *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
-rite_edgeS = (INT *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
-left_edgeS = (INT *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
+hashS  = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+groupS = (int *)Ysafe_malloc( 2 * Max_numPinsG * sizeof( int ) ) ;
+rite_edgeS = (int *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
+left_edgeS = (int *)Ysafe_malloc( numChansG * sizeof( int ) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     cellptr = carrayG[ pairArrayG[row][ pairArrayG[row][0] ] ] ;
     rite_edgeS[row] = cellptr->cxcenter + cellptr->tileptr->right ;

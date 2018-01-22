@@ -41,7 +41,7 @@
 FILE:	    uaspect.c                                       
 DESCRIPTION:change aspect ratio of cell
 CONTENTS:   BOOL uaspect( int, DOUBLE )
-		INT a ;
+		int a ;
 		DOUBLE newAspect ;
 DATE:	    Jan 30, 1988 
 REVISIONS:  Jul 22, 1988 - deleted aspect0 field in CELLBOX record.
@@ -65,7 +65,7 @@ static char SccsId[] = "@(#) uaspect.c version 3.5 4/27/91" ;
 #define NEWVERTICES TRUE
 
 BOOL uaspect( a , newAspect )
-INT a ;
+int a ;
 DOUBLE newAspect ;
 {
 
@@ -77,16 +77,16 @@ BOUNBOXPTR bounptr ;
 VERTBOXPTR vert ;
 SOFTBOXPTR spin ;
 DOUBLE aspFactor , val ;
-INT cost, newpenalty, newbinpenal ;
-INT Hdiv2, Wdiv2 ;
-INT site, aorient ;
-INT i, inst ;
-INT oleft, obottom, oright, otop ;
-INT newtimepenalty, newtimepenal ;
-INT *xorig ;
-INT *xnew ;
-INT *yorig ;
-INT *ynew ;
+int cost, newpenalty, newbinpenal ;
+int Hdiv2, Wdiv2 ;
+int site, aorient ;
+int i, inst ;
+int oleft, obottom, oright, otop ;
+int newtimepenalty, newtimepenal ;
+int *xorig ;
+int *xnew ;
+int *yorig ;
+int *ynew ;
 
 
 acellptr = cellarrayG[ a ]    ;
@@ -149,7 +149,7 @@ newbinpenal = binpenalG ;
 newbinpenal += overlap( /* old_apos, new_apos */ ) ;
 
 /* scale new penalty for feedback circuit */
-newpenalty = (INT) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
+newpenalty = (int) ( lapFactorG * sqrt( (DOUBLE) newbinpenal ) ) ;
 
 /* -------------- update the position of all pins --------------------- */
 /* update the positions of all the hardpins first */
@@ -176,7 +176,7 @@ newtimepenal += calc_incr_time( a ) ;
 ASSERT( newtimepenal == dcalc_full_penalty(),"uaspect","Timing woes\n") ;
 
 /* scale new timing penalty */
-newtimepenalty = (INT) ( timeFactorG * (DOUBLE) newtimepenal ) ;
+newtimepenalty = (int) ( timeFactorG * (DOUBLE) newtimepenal ) ;
 
 if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty
     - newtimepenalty )){
@@ -238,8 +238,8 @@ if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty
 
 initialize_aspect_ratios()
 {
-    INT i ;                        /* counter */
-    INT binX, binY ;               /* set initial bins */
+    int i ;                        /* counter */
+    int binX, binY ;               /* set initial bins */
     CELLBOXPTR cptr ;              /* current cell pointer */
 
     if( numsoftG > 0 || numstdcellG > 0 ){

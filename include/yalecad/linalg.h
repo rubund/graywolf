@@ -19,18 +19,18 @@ static char YlinAlgId[] = "@(#) linalg.h version 1.1 1/15/91" ;
 
 /* the matrix itself */
 typedef struct {
-    INT    rows ;
-    INT    columns ;
+    int    rows ;
+    int    columns ;
     DOUBLE **m ;  
 } YMBOX, *YMPTR ;
 
-extern YMPTR Ymatrix_create( P2(INT rows, INT columns ) ) ;
+extern YMPTR Ymatrix_create( P2(int rows, int columns ) ) ;
 extern YMPTR Ymatrix_free( P1( YMPTR mptr ) ) ;
 extern YMPTR Ymatrix_transpose( P1( YMPTR mptr ) ) ;
 extern YMPTR Ymatrix_mult( P2(YMPTR aptr, YMPTR bptr ) ) ;
 extern YMPTR Ymatrix_sub( P2(YMPTR aptr, YMPTR bptr ) ) ;
 extern Ymatrix_disp( P1(YMPTR mptr ) ) ;
-extern YMPTR Ymatrix_eye( P1(INT size ) ) ;
+extern YMPTR Ymatrix_eye( P1(int size ) ) ;
 extern Ymatrix_zero( P1(YMPTR matrix ) ) ;
 extern YMPTR Ymatrix_copy( P1(YMPTR input ) ) ;
 extern YMPTR Ymatrix_linv( P1(YMPTR aptr ) ) ;

@@ -12,8 +12,8 @@ REVISIONS:  Mar 27, 1989 - added to TimberWolfSC also added PSETBOX def.
 "@(#) readnets.h (Yale) version 4.4 3/7/91"
 ***************************************************************** */
 typedef struct psetrec {
-    INT  member; /* integer for determining membership */
-    INT  path ;  /* data */
+    int  member; /* integer for determining membership */
+    int  path ;  /* data */
     struct psetrec *next ;
 } PSETBOX, *PSETPTR ; /* path set record */
 

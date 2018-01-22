@@ -20,7 +20,7 @@ static char Ydset_h_SccsId[] = "@(#) dset.h version 1.6 3/28/92";
 
 typedef struct ydsetrec {
     YTREEPTR dtree ;            /* rbtree holding sets */
-    INT (*compare_func)() ;	/* how to compare functions in rbtree */
+    int (*compare_func)() ;	/* how to compare functions in rbtree */
     VOID (*user_delete)() ;	/* how to delete functions in rbtree */
     YTREEPTR superset_tree ;	/* tree to store the superset */
     YTREEPTR subset_tree ;	/* tree to store the subsets */
@@ -32,7 +32,7 @@ typedef struct ydsetrec {
   NOTE that the users comparison function will be similar to 
   comparison function used in the rbtree package.
   ---------------------------------------*/
-extern YDSETPTR Ydset_init( P1(INT (*compare_func)() ) ) ;
+extern YDSETPTR Ydset_init( P1(int (*compare_func)() ) ) ;
 /*
 Function:
     Initialize the union/find routines.  Returns back a set.
@@ -131,14 +131,14 @@ extern VOIDPTR Ydset_search( P2(YDSETPTR set,VOIDPTR data));
 
 /*---------------------------------------
   ---------------------------------------*/
-INT Ydset_subset_size( P2(YDSETPTR set, VOIDPTR data));
+int Ydset_subset_size( P2(YDSETPTR set, VOIDPTR data));
 /*
     returns the size of the subset data is an element of.
 */
 
 /*---------------------------------------
   ---------------------------------------*/
-extern INT Ydset_superset_size(P1(YDSETPTR set));
+extern int Ydset_superset_size(P1(YDSETPTR set));
 /*
   returns the size of the entire superset
 */
@@ -146,7 +146,7 @@ extern INT Ydset_superset_size(P1(YDSETPTR set));
 /*-----------------------
   Ydset_verify
   -----------------------*/
-extern INT Ydset_verify( P1(YDSETPTR set));
+extern int Ydset_verify( P1(YDSETPTR set));
 
 /*------------------------
   Ydset_dump

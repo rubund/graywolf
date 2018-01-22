@@ -61,9 +61,9 @@ finalcheck()
 NETBOXPTR netptr ;
 PINBOXPTR pinptr ;
 CELLBOXPTR ptr ;
-INT cell , net ;
-INT x , y , xc , yc ;
-INT orient ;
+int cell , net ;
+int x , y , xc , yc ;
+int orient ;
 
 fcostG  = 0 ;
 fwireG  = 0 ;
@@ -137,7 +137,7 @@ initcheck()
 
 NETBOXPTR netptr ;
 
-INT net ;
+int net ;
 
 icostG  = 0 ;
 iwireG  = 0 ;

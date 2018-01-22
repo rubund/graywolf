@@ -4,9 +4,9 @@ DESCRIPTION:Include file for the utility routine to break a
 	    rectilinear cell up into tiles.
 CONTENTS:   YBUSTBOXPTR Ybuster()
 		BUSTBOXPTR A , R ;
-	    INT Ybuster_init() ;
-	    INT Ybuster_addpt( x, y ) ;
-		INT x, y ;
+	    int Ybuster_init() ;
+	    int Ybuster_addpt( x, y ) ;
+		int x, y ;
 DATE:	    Aug  7, 1988 - rewrote to match new parser.
 REVISIONS:  May  1, 1990 - made sure we cannot match the 0 
 		record in the redundancy check for points.
@@ -24,8 +24,8 @@ static char YbusterId[] = "@(#) buster.h version 1.5 4/18/91" ;
 #include <yalecad/base.h>
 
 typedef struct ybustbox {
-    INT x ;
-    INT y ;
+    int x ;
+    int y ;
 } YBUSTBOX , *YBUSTBOXPTR ;
 
 
@@ -40,10 +40,10 @@ Function:
     into tiles.
 */
 
-extern Ybuster_addpt( P2( INT x, INT y ) ) ;
+extern Ybuster_addpt( P2( int x, int y ) ) ;
 /* 
 Arguments:
-    INT x, y ;
+    int x, y ;
 Function:
     Add a point to the current arbitrary figure.
 */

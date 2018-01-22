@@ -90,15 +90,15 @@ static BOOL draw3DS = FALSE ;
 static BOOL drawCriticalS = FALSE ;
 static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
-static INT  zspanS ;
+static int  zspanS ;
 
 init_graphics( argc, argv, windowId )
-INT argc, windowId ;
+int argc, windowId ;
 char *argv[] ;
 {
     char *host, *Ygetenv() ;
     int  xpandx, xpandy ;
-    INT draw_the_data() ;
+    int draw_the_data() ;
 
     /* we need to find host for display */
     if(!(host = Ygetenv("DISPLAY"))) {
@@ -147,12 +147,12 @@ BOOL flag ;
 } /* end set_draw_critical */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+int draw_the_data()
 {
 
-    INT  i ;
-    INT  toX, toY, fromX, fromY, sinkTile ;
-    INT  color ;
+    int  i ;
+    int  toX, toY, fromX, fromY, sinkTile ;
+    int  color ;
     static BOOL firstL = TRUE ;
     unsigned sleep() ;
     char label[LRECL] ;
@@ -387,7 +387,7 @@ process_graphics()
 {
 
     int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
-    INT x, y ;           /* coordinates from pointer */
+    int x, y ;           /* coordinates from pointer */
     int i ;            /* temp variable */
     int selection ;     /* the users pick */
     char *reply ;       /* user reply to a querry */
@@ -556,15 +556,15 @@ process_graphics()
 /* how to draw the channel graph */
 draw_changraph()
 {
-    INT i ;                        /* temp counter */
-    INT color ;                    /* color of edge */
+    int i ;                        /* temp counter */
+    int color ;                    /* color of edge */
     CHANBOXPTR nptr ;              /* pointer to channel graph */
     CHANBOXPTR node1 ;             /* pointer to channel graph */
     CHANBOXPTR node2 ;             /* pointer to channel graph */
     INFOPTR eptr ;                 /* current edge */
     char label_buf[LRECL] ;        /* buffer for labels */
     char *label ;                  /* label pointer */
-    INT x1, x2, y1, y2 ;           /* points of trace line */
+    int x1, x2, y1, y2 ;           /* points of trace line */
 
     /* first draw the nodes */
     for( i = 1; i <= numnodesG; i++ ){

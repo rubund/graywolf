@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    config2.c                                       
 DESCRIPTION:configures initial macro placement
-CONTENTS:   config2( INT, INT, double )
+CONTENTS:   config2( int, int, double )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 	    Feb 13, 1988 - passed modified number of bins to routine
@@ -63,14 +63,14 @@ static char SccsId[] = "@(#) config2.c version 3.3 9/5/90" ;
 #include <yalecad/debug.h>
 
 config2( numbinX, numbinY, wire_red_ratio )
-INT numbinX ;
-INT numbinY ;
+int numbinX ;
+int numbinY ;
 DOUBLE wire_red_ratio ;
 {
 
-    INT inst ;                      /* counter */
-    INT numinst ;                   /* number of cell instances */
-    INT l, r, b, t, cell, tempint, side, soft_count ;
+    int inst ;                      /* counter */
+    int numinst ;                   /* number of cell instances */
+    int l, r, b, t, cell, tempint, side, soft_count ;
     CELLBOXPTR cellptr ;
     TILEBOXPTR tileptr ;
     DOUBLE totalArea, temp ;
@@ -107,7 +107,7 @@ DOUBLE wire_red_ratio ;
     }
 
     temp = avg_funcG / wire_red_ratio ;
-    totNetLenG = (INT) temp ;
+    totNetLenG = (int) temp ;
     /* calculate number of softiles */
     soft_count=0 ;
     for( cell = 1; cell <= numcellsG ; cell++ ) {
@@ -118,24 +118,24 @@ DOUBLE wire_red_ratio ;
     fraction = (DOUBLE) soft_count / (DOUBLE) numcellsG ;
     temp1 = (DOUBLE) (totNetLenG) / 
 		(1.0 + (fraction / (sqrt( (DOUBLE) numcellsG )))) ;
-    totNetLenG = (INT) temp1 ;
+    totNetLenG = (int) temp1 ;
 
     if( coreGivenG == 0 ) {
-	blockrG = blocktG = (INT) sqrt( totalArea ) ;
+	blockrG = blocktG = (int) sqrt( totalArea ) ;
 	totChanLenG = perimG / 2 - (blockrG + blocktG) ;
 	temp = ((DOUBLE) totNetLenG / (DOUBLE) totChanLenG) /
 		    ((DOUBLE) layersFactorG) ; 
     } else {
-	r = t = (INT) sqrt( totalArea ) ;
+	r = t = (int) sqrt( totalArea ) ;
 	totChanLenG = perimG / 2 - (r + t) ;
 	temp = ((DOUBLE) totNetLenG / (DOUBLE) totChanLenG) /
 		    ((DOUBLE) layersFactorG) ; 
     }
 
-    side = (INT)(sqrt(((DOUBLE) totalArea) / (DOUBLE) numcellsG))  ;
+    side = (int)(sqrt(((DOUBLE) totalArea) / (DOUBLE) numcellsG))  ;
     OUT2("\n\nAVERAGE CELL SIDE WITHOUT ROUTING AREA: %d\n\n",side );
 
-    tempint = (INT)( temp ) + 3 ; /* d+1 tracks + roundoff */
+    tempint = (int)( temp ) + 3 ; /* d+1 tracks + roundoff */
     tempint += defaultTracksG ;
     tempint *= (track_spacingXG + track_spacingYG) / 2 ;
 

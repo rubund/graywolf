@@ -111,16 +111,16 @@ static char SccsId[] = "@(#) parser.c (Yale) version 4.40 5/15/92" ;
 #include <yalecad/debug.h>
 
 /* global variables */
-INT ECOs_existG = 0 ;
-INT orig_max_row_lengthG ;
+int ECOs_existG = 0 ;
+int orig_max_row_lengthG ;
 
-extern INT totalRG ;
-extern INT spacer_widthG ;
-extern INT *spacer_feedsG ;
-extern INT uniform_rowsG ;
-extern INT total_row_lengthG ;
-extern INT total_except_widthG ;
-extern INT approximately_fixed_factorG ;
+extern int totalRG ;
+extern int spacer_widthG ;
+extern int *spacer_feedsG ;
+extern int uniform_rowsG ;
+extern int total_row_lengthG ;
+extern int total_except_widthG ;
+extern int approximately_fixed_factorG ;
 extern BOOL fences_existG ;
 extern BOOL turn_off_checksG ;
 extern BOOL spacer_name_twfeedG ;
@@ -145,23 +145,23 @@ extern BOOL stand_cell_as_gate_arrayG ;
 } \
 
 /* ##########################  STATIC definitions ########################### */
-static INT  curCellTypeS ;        /* current cell type - ie, stdcell,pad etc. */
-static INT  curNetS ;             /* current net number                       */
-static INT  netAllocS ;           /* current space in netarray                */
-static INT  cellAllocS ;          /* current space in cellarray               */
-static INT  ptAllocS ;            /* current space in point arrays            */
-static INT  swapAllocS ;          /* current space in swap_group_listG        */
-static INT  totalCellS ;          /* current cell number and running total    */
-static INT  swap_groupS ;         /* current swap group number from hashtable */
-static INT  swap_nextS ;          /* next swap group number to assign	      */
-static INT  pin_typeS ;           /* current pin type                         */
-static INT  numchildrenS ;        /* # of children in current padgroup        */
-static INT  childAllocS ;         /* current space in current pptr->children  */
-static INT  minxS, maxxS ;        /* X bounding box for cell or pad           */
-static INT  minyS, maxyS ;        /* Y bounding box for cell or pad           */
+static int  curCellTypeS ;        /* current cell type - ie, stdcell,pad etc. */
+static int  curNetS ;             /* current net number                       */
+static int  netAllocS ;           /* current space in netarray                */
+static int  cellAllocS ;          /* current space in cellarray               */
+static int  ptAllocS ;            /* current space in point arrays            */
+static int  swapAllocS ;          /* current space in swap_group_listG        */
+static int  totalCellS ;          /* current cell number and running total    */
+static int  swap_groupS ;         /* current swap group number from hashtable */
+static int  swap_nextS ;          /* next swap group number to assign	      */
+static int  pin_typeS ;           /* current pin type                         */
+static int  numchildrenS ;        /* # of children in current padgroup        */
+static int  childAllocS ;         /* current space in current pptr->children  */
+static int  minxS, maxxS ;        /* X bounding box for cell or pad           */
+static int  minyS, maxyS ;        /* Y bounding box for cell or pad           */
 static char *curCellNameS ;       /* current cell name                        */
 static BOOL abortS = FALSE ;      /* switch allow us to find multiple errors  */
-static INT pin_group_light_is_onS;/* currently in a pin group at position cnt */
+static int pin_group_light_is_onS;/* currently in a pin group at position cnt */
 static BOOL need_swap_groupS;     /* pin_group called without swap_group      */
 static BOOL old_pad_formatS = FALSE;/* we need to do more work if old format  */
 static CBOXPTR ptrS ;             /* pointer to current cell box              */
@@ -170,7 +170,7 @@ static PADBOXPTR pptrS ;          /* the current pad box record               */
 static IPBOXPTR imptrS ;          /* current implicit feed ptr                */
 static YHASHPTR net_hash_tableS ; /* hash table for cross referencing nets    */
 static YHASHPTR swap_hash_tableS ;/* hash table for referencing swap_groups   */
-static INT transTableS[5][8] = {  /* translate from old pad format */
+static int transTableS[5][8] = {  /* translate from old pad format */
     { E, E, E, E, E, E, E, E   },   /* error state */
     { 6, 5, 4, 7, 1, 2, 3, 0   },   /* PADL state */
     { 1, 0, 3, 2, 6, 7, 4, 5   },   /* PADT state */
@@ -189,7 +189,7 @@ static get_stat_hints()
     char buffer[LRECL] ; /* temp storage */
     char *bufferptr ;    /* pointer to start of the line */
     char **tokens ;      /* tokenized line */
-    INT numtokens ;      /* number of tokens on the line */
+    int numtokens ;      /* number of tokens on the line */
 
 
     sprintf( buffer, "%s.stat", cktNameG ) ;
@@ -251,9 +251,9 @@ set_error_flag()
 
 initialize_parser()
 {
-    INT except ;          /* counter */
-    INT width ;           /* width of exception */
-    INT height ;          /* height of exception */
+    int except ;          /* counter */
+    int width ;           /* width of exception */
+    int height ;          /* height of exception */
     EXCEPTPTR exceptptr ; /* current exception */
 
     numcellsG = 0 ;
@@ -269,7 +269,7 @@ initialize_parser()
     pin_group_light_is_onS = 0 ;
     need_swap_groupS = FALSE ;
 
-    fixLRBTG  = (INT *) Ysafe_malloc( 4 * sizeof( INT ) ) ;
+    fixLRBTG  = (int *) Ysafe_malloc( 4 * sizeof( int ) ) ;
     fixLRBTG[0] = 0 ;
     fixLRBTG[1] = 0 ;
     fixLRBTG[2] = 0 ;
@@ -311,7 +311,7 @@ initialize_parser()
 
 addCell( cellname, celltype )
 char *cellname ;
-INT celltype ;
+int celltype ;
 {
     /* save current cell name and type for error messages */
     curCellNameS = cellname ;
@@ -391,8 +391,8 @@ INT celltype ;
 	    numpadgrpsG++ ;
 	    numchildrenS = 0 ;
 	    childAllocS = EXPECTEDNUMPADS ;
-	    pptrS->children = (INT *)
-		Ysafe_malloc((childAllocS)*sizeof(INT));
+	    pptrS->children = (int *)
+		Ysafe_malloc((childAllocS)*sizeof(int));
 	    pptrS->hierarchy  = ROOT;
 	} else { /* PADTYPE or PORTTYPE */
 	    pptrS->children = NULL;
@@ -410,10 +410,10 @@ INT celltype ;
 } /* end addCell */
 
 add_tile( left, bottom, right, top )
-INT left, bottom, right, top ;
+int left, bottom, right, top ;
 {
-    INT width ;         /* width of tile */
-    INT height ;        /* height of tile */
+    int width ;         /* width of tile */
+    int height ;        /* height of tile */
     TIBOXPTR tile ;     /* current tile */
 
     if( (right + left != 0  &&  right + left != 1) || left > 0 ) {
@@ -465,7 +465,7 @@ INT left, bottom, right, top ;
 } /* end add_tile */
 
 add_initial_orient( orient )
-INT orient ;
+int orient ;
 {
 
     ERRORABORT() ;
@@ -482,13 +482,13 @@ INT orient ;
 
 static char *add_swap_func()
 {
-    INT *data ;   /* pointer to allocated space for swap_group record */
+    int *data ;   /* pointer to allocated space for swap_group record */
 
     ERRORABORT() ;
 
     /* how to add the data to the hash table */
     /* create space for data */
-    data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+    data = (int *) Ysafe_malloc( sizeof(int) ) ;
     /* if data is not found in hash table update swap_groupS */
     *data = ++swap_nextS ;
     return( (char *) data ) ;
@@ -497,16 +497,16 @@ static char *add_swap_func()
 add_swap_group( swap_name )
 char *swap_name ;
 {
-    INT i ;            /* counter */
-    INT *groupptr ;    /* the return group from searching in hash table */
-    INT oldalloc ;     /* allocation before expanding the array */
+    int i ;            /* counter */
+    int *groupptr ;    /* the return group from searching in hash table */
+    int oldalloc ;     /* allocation before expanding the array */
     BOOL newflag ;     /* TRUE if this item has been added to hash table */
     SWAPBOX *swapptr ; /* pointer to the current swap group list */
     SGLIST *sglistptr ;
 
     ERRORABORT() ;
     swappable_gates_existG = TRUE ;
-    groupptr = (INT *)Yhash_add( swap_hash_tableS, swap_name, add_swap_func, &newflag ) ;
+    groupptr = (int *)Yhash_add( swap_hash_tableS, swap_name, add_swap_func, &newflag ) ;
     /* check to make sure all is well. newflag is set if swap_name wasn't in hashtable */
     if(!(groupptr) || (*groupptr <= 0)) {
 	sprintf(YmsgG, "Problem with swap hash table for group <%s>\n", swap_name );
@@ -564,8 +564,8 @@ char *swap_name ;
 
 add_pingroup()
 {
-    INT i ;    /* counter */
-    INT j ;    /* counter */
+    int i ;    /* counter */
+    int j ;    /* counter */
     SGLIST *sglistptr = NULL;
 
     ERRORABORT() ;
@@ -602,7 +602,7 @@ end_pingroup()
 
 static add_implicit_feed( pin_name, signal, layer, xpos, ypos )
 char *pin_name, *signal ;
-INT layer, xpos, ypos ;
+int layer, xpos, ypos ;
 {
 
     ERRORABORT() ;
@@ -636,12 +636,12 @@ INT layer, xpos, ypos ;
 
 static char *add_net_func()
 {
-    INT *data ;   /* pointer to allocated space for net record in hashtable */
+    int *data ;   /* pointer to allocated space for net record in hashtable */
 
     ERRORABORT() ;
     /* how to add the data to the hash table */
     /* create space for data */
-    data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+    data = (int *) Ysafe_malloc( sizeof(int) ) ;
     /* if data is not found in hash table update numnetsG */
     *data = ++numnetsG ;
     return( (char *) data ) ;
@@ -649,7 +649,7 @@ static char *add_net_func()
 
 static char *add_pin_func()
 {
-    INT *data ;   /* pointer to allocated space for pin_grp_hash record */
+    int *data ;   /* pointer to allocated space for pin_grp_hash record */
 
     ERRORABORT() ;
 
@@ -661,10 +661,10 @@ static char *add_pin_func()
 
 add_pin( pin_name, signal, layer, xpos, ypos )
 char *pin_name, *signal ;
-INT layer, xpos, ypos ;
+int layer, xpos, ypos ;
 {
-    INT *netreturn ;          /* net number found in hash table */
-    INT newflag ;
+    int *netreturn ;          /* net number found in hash table */
+    int newflag ;
     BOOL notInTable ;         /* net added to table if true */
     DBOXPTR nptr ;            /* the current net record */
     PINLISTPTR pin_ptr ;      /* pointer to current pinlistgroup */
@@ -713,7 +713,7 @@ INT layer, xpos, ypos ;
 
     ptrS->numterms++ ;
     /* add to netlist */
-    netreturn = (INT *)Yhash_add( net_hash_tableS, signal, add_net_func, &notInTable ) ;
+    netreturn = (int *)Yhash_add( net_hash_tableS, signal, add_net_func, &notInTable ) ;
     /* check to make sure all is well. notInTable is set if signal wasn't in hashtable */
     if(!(netreturn)){
 	sprintf( YmsgG, "Trouble adding signal:%s to hash table\n", signal ) ;
@@ -862,10 +862,10 @@ INT layer, xpos, ypos ;
 } /* end add_pin */
 
 static check_pin( xpos, ypos, pinname )
-INT xpos, ypos ;
+int xpos, ypos ;
 char *pinname ;
 {
-    INT layer ;
+    int layer ;
     char *find_layer() ;
     TIBOXPTR tptr ;   /* current tileptr */
 
@@ -890,11 +890,11 @@ char *pinname ;
 
 add_equiv( equiv_name, layer, eq_xpos, eq_ypos, unequiv_flag )
 char *equiv_name ;
-INT layer, eq_xpos, eq_ypos ;
+int layer, eq_xpos, eq_ypos ;
 BOOL unequiv_flag ;
 {
-    INT xpos ;                 /* position of pin */
-    INT ypos ;                 /* position of pin */
+    int xpos ;                 /* position of pin */
+    int ypos ;                 /* position of pin */
     char *pname ;              /* temp for swapping names */
     static EQ_NBOXPTR eqptrL ; /* current equivalent pointer */
 
@@ -969,7 +969,7 @@ BOOL unequiv_flag ;
 
 add_port( portname, signal, layer, xpos, ypos )
 char *portname, *signal ;
-INT xpos, ypos ;
+int xpos, ypos ;
 {
     ERRORABORT() ;
     addCell( portname, PORTTYPE ) ;
@@ -988,7 +988,7 @@ INT xpos, ypos ;
 
 
 static layer_test( layer )
-INT layer ;
+int layer ;
 {
     if( layer != 0 && layer != 1 && layer != 2 && layer != 3 ) {
 	M( ERRMSG, "layer_test", "Currently, a layer number ");
@@ -1002,19 +1002,19 @@ INT layer ;
 } /* end layer_test */
 
 init_legal_blocks( numblocks )
-INT numblocks ;
+int numblocks ;
 {
     ERRORABORT() ;
     ptrS->cclass = 0 ;
 } /* end init_legal_blocks */
 
 add_legal_blocks( block_class )
-INT block_class ;
+int block_class ;
 {
-    INT  row ;            /* row counter */
-    INT  shift ;          /* used to calculate bit class */
-    INT  index ;          /* used to calculate class */
-    INT  bit_class ;      /* used to calculate class */
+    int  row ;            /* row counter */
+    int  shift ;          /* used to calculate bit class */
+    int  index ;          /* used to calculate class */
+    int  bit_class ;      /* used to calculate class */
     BOOL found ;          /* used to search for row */
 
     if( block_class > 256 ) {
@@ -1051,7 +1051,7 @@ set_mirror_flag()
 } /* end set_mirror_flag */
 
 add_orient( orient )
-INT orient ;
+int orient ;
 {
     ERRORABORT() ;
     /* this is for the current cell */
@@ -1060,7 +1060,7 @@ INT orient ;
 
 fix_placement( fixed_type, from, fixed_loc, block )
 char *fixed_type, *fixed_loc ;
-INT from, block;
+int from, block;
 {
     FENCEBOXPTR fence ;              /* current fence */
     BOOL approx_fixed = FALSE ;
@@ -1149,11 +1149,11 @@ INT from, block;
 add_extra_cells()
 {
 
-    INT row ;                 /* row counter */
-    INT pin ;                 /* pin counter */
-    INT slack ;               /* excess row length */
-    INT target ;               /* target total row length */
-    INT avg_width ;           /* average except width */
+    int row ;                 /* row counter */
+    int pin ;                 /* pin counter */
+    int slack ;               /* excess row length */
+    int target ;               /* target total row length */
+    int avg_width ;           /* average except width */
     char buffer[LRECL] ;      /* temp buffer */
     IPBOXPTR imptr ;          /* current implicit feed ptr */
 
@@ -1257,26 +1257,26 @@ add_extra_cells()
     }	
 } /* end add_extra_cells */
 
-static INT free_swap_data( data )
-INT *data ;
+static int free_swap_data( data )
+int *data ;
 {
     Ysafe_free( data ) ;
 } /* free_swap_data */
 
 static trans_tile( ptr, orient )
 CBOXPTR ptr ;
-INT orient ;
+int orient ;
 {
-    INT l,r,b,t ;         /* needed for orientation calc. */
+    int l,r,b,t ;         /* needed for orientation calc. */
     TIBOXPTR tptr ;       /* tilebox ptr */
 
     /* rotate the tiles to proper orientation */
     tptr = ptr->tileptr ;
     /* need to assign to variable since tileptr values are short */
-    l = (INT) tptr->left ;
-    r = (INT) tptr->right ;
-    b = (INT) tptr->bottom ;
-    t = (INT) tptr->top ;
+    l = (int) tptr->left ;
+    r = (int) tptr->right ;
+    b = (int) tptr->bottom ;
+    t = (int) tptr->top ;
     YtranslateT( &l, &b, &r, &t, orient ) ;
     tptr->left   = (SHORT) l ;
     tptr->right  = (SHORT) r ;
@@ -1287,10 +1287,10 @@ INT orient ;
 } /* end trans_tile */
 
 static build_pad_group( side, sidename, padgroupname )
-INT side ;
+int side ;
 char *sidename, *padgroupname ;
 {
-    INT cell ;            /* cell counter */
+    int cell ;            /* cell counter */
     BOOL build_padgroup ; /* whether to build group or not */
     CBOXPTR ptr ;         /* current cell pointer */
 
@@ -1321,21 +1321,21 @@ char *sidename, *padgroupname ;
 
 cleanup_readcells()
 {
-    INT trl ;             /* total_row_length */
-    INT row ;             /* row counter */
-    INT cell ;            /* cell counter */
-    INT cell1 ;           /* look for match */
-    INT cell2 ;           /* look for match */
-    INT xpos ;            /* temp for pin calc */
-    INT ypos ;            /* temp for pin calc */
-    INT block ;           /* block counter */
-    INT orient ;          /* current orientation */
-    INT impcount ;        /* count implicit feeds */
-    INT inverse ;         /* inv. orient to get back to bottom */
-    INT b1, l1, r1, t1 ;  /* coordinates of pads */
-    INT b2, l2, r2, t2 ;  /* coordinates of pads */
-    INT total_desire  ;
-    INT deviate_by_row  ;
+    int trl ;             /* total_row_length */
+    int row ;             /* row counter */
+    int cell ;            /* cell counter */
+    int cell1 ;           /* look for match */
+    int cell2 ;           /* look for match */
+    int xpos ;            /* temp for pin calc */
+    int ypos ;            /* temp for pin calc */
+    int block ;           /* block counter */
+    int orient ;          /* current orientation */
+    int impcount ;        /* count implicit feeds */
+    int inverse ;         /* inv. orient to get back to bottom */
+    int b1, l1, r1, t1 ;  /* coordinates of pads */
+    int b2, l2, r2, t2 ;  /* coordinates of pads */
+    int total_desire  ;
+    int deviate_by_row  ;
     BOOL bogus_rows;      /* true if we have bogus rows */
     BOOL xFlag ;          /* true if unsymmetric in x */        
     BOOL yFlag ;           /* true if unsymmetric in y */
@@ -1822,15 +1822,15 @@ init_corners()
 
     ERRORABORT() ;
     /* assume a rectangle */
-    pptrS->xpoints = (INT *) Ysafe_malloc( 4 * sizeof(INT) ) ;
-    pptrS->ypoints = (INT *) Ysafe_malloc( 4 * sizeof(INT) ) ;
+    pptrS->xpoints = (int *) Ysafe_malloc( 4 * sizeof(int) ) ;
+    pptrS->ypoints = (int *) Ysafe_malloc( 4 * sizeof(int) ) ;
     ptAllocS = 4 ;
 } /* end init_corners */
 
 add_corner( x, y )
-INT x, y ;
+int x, y ;
 {
-    INT pt ;    /* point counter */
+    int pt ;    /* point counter */
 
     minxS = MIN( x, minxS ) ;
     maxxS = MAX( x, maxxS ) ;
@@ -1841,10 +1841,10 @@ INT x, y ;
     pt = ++(pptrS->numcorners) ;
     if( pt >= ptAllocS ){
 	ptAllocS += 2 ;
-	pptrS->xpoints = (INT *) 
-	    Ysafe_realloc( pptrS->xpoints, ptAllocS * sizeof(INT) ) ;
-	pptrS->ypoints = (INT *) 
-	    Ysafe_realloc( pptrS->ypoints, ptAllocS * sizeof(INT) ) ;
+	pptrS->xpoints = (int *) 
+	    Ysafe_realloc( pptrS->xpoints, ptAllocS * sizeof(int) ) ;
+	pptrS->ypoints = (int *) 
+	    Ysafe_realloc( pptrS->ypoints, ptAllocS * sizeof(int) ) ;
     }
     /* store 0..numcorners-1 */
     pptrS->xpoints[--pt] = x ;
@@ -1853,11 +1853,11 @@ INT x, y ;
 
 process_corners()
 {
-    INT xcenter ; /* center of cell */
-    INT ycenter ; /* center of cell */
-    INT pt ;      /* point counter */
-    INT xsum ;    /* sum of min and max in x */
-    INT ysum ;    /* sum of min and max in y */
+    int xcenter ; /* center of cell */
+    int ycenter ; /* center of cell */
+    int pt ;      /* point counter */
+    int xsum ;    /* sum of min and max in x */
+    int ysum ;    /* sum of min and max in y */
 
     ERRORABORT() ;
 
@@ -1895,8 +1895,8 @@ process_corners()
 add_padside( padside )
 char *padside ;
 {
-    INT numsides ;         /* length of side restriction string */
-    INT i ;                /* counter */
+    int numsides ;         /* length of side restriction string */
+    int i ;                /* counter */
 
     ERRORABORT() ;
 
@@ -2048,7 +2048,7 @@ add2padgroup( padName, ordered )
 char *padName ;
 BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 {
-    INT i, endofpads, endofgroups ;
+    int i, endofpads, endofgroups ;
 
     ERRORABORT() ;
     endofpads = numcellsG + numtermsG - numpadgrpsG ;
@@ -2066,9 +2066,9 @@ BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 	    /* check memory of pin array */
 	    if( ++numchildrenS >= childAllocS ){
 		childAllocS += EXPECTEDNUMPADS ;
-		pptrS->children = (INT *)
+		pptrS->children = (int *)
 		    Ysafe_realloc( pptrS->children,
-		    childAllocS * sizeof(INT) ) ;
+		    childAllocS * sizeof(int) ) ;
 	    }
 	    pptrS->children[numchildrenS]  = i - numcellsG - numMacroG ;
 	    carrayG[i]->padptr->hierarchy = LEAF    ;
@@ -2093,9 +2093,9 @@ BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 	    /* check memory of pin array */
 	    if( ++numchildrenS >= childAllocS ){
 		childAllocS += EXPECTEDNUMPADS ;
-		pptrS->children = (INT *)
+		pptrS->children = (int *)
 		    Ysafe_realloc( pptrS->children,
-		    childAllocS * sizeof(INT) ) ;
+		    childAllocS * sizeof(int) ) ;
 	    }
 	    pptrS->children[numchildrenS] = i - numcellsG - numMacroG ;
 	    carrayG[i]->padptr->hierarchy     = SUBROOT ;
@@ -2118,8 +2118,8 @@ end_padgroup()
     ERRORABORT() ;
 
     /* realloc size of children array to final size */
-    pptrS->children = (INT *)
-	Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(INT));
+    pptrS->children = (int *)
+	Ysafe_realloc( pptrS->children,(numchildrenS+1) * sizeof(int));
     pptrS->children[HOWMANY] = numchildrenS ;
     // if( numchildrenS <= 1 ){
     if( numchildrenS < 1 ){

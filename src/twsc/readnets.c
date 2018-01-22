@@ -88,11 +88,11 @@ static char SccsId[] = "@(#) readnets.y (Yale) version 4.12 4/21/91" ;
 #define YYDEBUG  1          /* condition compile for yacc debug */
 #endif /* DEBUG */
 
-static INT line_countS ;
-static INT netS ;      /* current net being processed */
+static int line_countS ;
+static int netS ;      /* current net being processed */
 static char bufferS[LRECL] ;
 static BOOL abortFlagS = FALSE ;
-static INT total_num_pathS = 0 ;
+static int total_num_pathS = 0 ;
 static GLISTPTR netPtrS ;
 static YHASHPTR net_hash_tableS ;
 static PATHPTR pathPtrS = NULL ;  /* start of path list */
@@ -100,7 +100,7 @@ static PATHPTR curPathS ; /* current bottom of path list so list */
 			/* is in order given by user debug easier */
 
 typedef union {
-    INT ival ;
+    int ival ;
     char *string ;
     double fval ;
 } YYSTYPE;
@@ -315,7 +315,7 @@ FILE *fp ;
 } /* end readnets */
 
 static free_net_data( data )
-INT *data ;
+int *data ;
 {
     Ysafe_free( data ) ;
 } /* free_swap_data */
@@ -323,9 +323,9 @@ INT *data ;
 process_net_rec( netname ) 
 char *netname ;
 {
-    INT *data ;
+    int *data ;
 
-    if(!(data = (INT *) Yhash_search( net_hash_tableS, netname, NULL, FIND ))){
+    if(!(data = (int *) Yhash_search( net_hash_tableS, netname, NULL, FIND ))){
 	bad_net( netname, FALSE ) ; /* not fatal */
 	netS = 0 ;
     } else {
@@ -369,7 +369,7 @@ add_path( pathFlag, net )
 BOOL pathFlag ;
 char *net ;
 {
-    INT *data ;
+    int *data ;
     GLISTPTR tempNetPtr ;
     
     if( pathFlag == STARTPATH ){
@@ -391,7 +391,7 @@ char *net ;
 	    (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
 	netPtrS->next = tempNetPtr ;
     }
-    if( data = (INT *) Yhash_search( net_hash_tableS , net, NULL, FIND)){
+    if( data = (int *) Yhash_search( net_hash_tableS , net, NULL, FIND)){
 	/* get data from field */
 	netPtrS->p.net = *data ;
     } else {
@@ -405,11 +405,11 @@ char *net ;
 } /* end add_path */
 
 end_path(lower_bound, upper_bound, priority )
-INT lower_bound, upper_bound, priority ;
+int lower_bound, upper_bound, priority ;
 {
     GLISTPTR nets, path_ptr, tempPath ;
     DBOXPTR dimptr ;
-    INT net_number ;
+    int net_number ;
 
     if( abortFlagS ){
 	return ;
@@ -445,7 +445,7 @@ INT lower_bound, upper_bound, priority ;
 
 check_paths()
 {
-    INT i ;             /* counter */
+    int i ;             /* counter */
     DBOXPTR nptr ;      /* traverse the nets */
 
     /* first make sure that the nets in paths are not ignored */
@@ -464,7 +464,7 @@ check_paths()
 
 build_path_array()
 {
-    INT i ;
+    int i ;
     PATHPTR curPtr ;
 
     
@@ -481,16 +481,16 @@ PATHPTR get_path_list()
     return( pathPtrS ) ;
 } /* end get_path_list */
 
-INT get_total_paths()
+int get_total_paths()
 {
     return( total_num_pathS ) ;
 } /* end get_total_paths */
 
 add_paths_to_cells()
 {
-    INT i ;
-    INT net_number ;
-    INT total_cells ;
+    int i ;
+    int net_number ;
+    int total_cells ;
     PSETPTR pathlist, enum_path_set() ;
     CBOXPTR ptr ;
     GLISTPTR  path_ptr, tempPath ;

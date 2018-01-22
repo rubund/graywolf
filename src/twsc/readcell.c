@@ -108,7 +108,7 @@ static char SccsId[] = "@(#) readcell.y (Yale) version 4.16 8/13/91" ;
 static char bufferS[LRECL] ;
 
 typedef union {
-    INT ival ;
+    int ival ;
     char *string ;
     DOUBLE fval ;
 } YYSTYPE;

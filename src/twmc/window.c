@@ -43,7 +43,7 @@ DESCRIPTION:new window limiter routines due to Jimmy Lamm
 CONTENTS:   DOUBLE eval_ratio(percentWindow)
 		DOUBLE *percentWindow ;
 	    init_control()
-	    pick_position(INT *, INT *, int, int)
+	    pick_position(int *, int *, int, int)
 	    update_control(a)
 	    fix_window()
 	    update_window_size( iteration )
@@ -96,7 +96,7 @@ static DOUBLE log_tabS[TABLIMIT];
 static DOUBLE tauXS, tauYS ; /* exp. decay time constants for window */
 
 DOUBLE eval_ratio( iteration )
-INT iteration ;
+int iteration ;
 {
     if( iteration >= TURNOFFT ){
 	return( (DOUBLE) 1.0 ) ;
@@ -113,7 +113,7 @@ INT iteration ;
 init_control(first)
 BOOL first ;
 {
-    INT i;
+    int i;
     DOUBLE area ;
 
 #define FRACTION  0.10
@@ -163,9 +163,9 @@ BOOL first ;
    pick_positon - pick place to move within range limiter.
 */
 pick_position(x,y,ox,oy)
-INT *x,*y,ox,oy;
+int *x,*y,ox,oy;
 {
-    register INT i,m,n;
+    register int i,m,n;
 
     /* get exponentially distributed random number around old x */
     for (i=0; i<2; i++) {
@@ -237,11 +237,11 @@ DONEX:  *x = n;
    still using range limiter.
 */
 pick_neighborhood(x,y,ox,oy,fixptr)
-INT *x,*y,ox,oy;
+int *x,*y,ox,oy;
 FIXEDBOXPTR fixptr ;
 {
-    register INT i,m,n;
-    INT xjump, yjump ;
+    register int i,m,n;
+    int xjump, yjump ;
 
 #define DIV_2   >> 1 
 
@@ -388,10 +388,10 @@ FILE *fp ;
 /* ***************************************************************** 
    read_window - read window parameters for restart
 */
-INT read_window( fp )
+int read_window( fp )
 FILE *fp ;
 {
-    INT errors = 0 ;
+    int errors = 0 ;
     if( fp ){  /* if file pointer given restore from file */
 	fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
 	fscanf(fp,"%lf %lf %lf\n",&xalS,&yalS,&ratioG);

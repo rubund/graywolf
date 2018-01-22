@@ -58,7 +58,7 @@ PSIDEBOX   *pSideArray ;
 {
 
 TILEBOXPTR tileptr ;
-INT side , left , right , bottom , top ;
+int side , left , right , bottom , top ;
 
 for( tileptr = ptr->tiles;tileptr; tileptr = tileptr->next ) {
     left = ptr->xcenter + tileptr->left ;

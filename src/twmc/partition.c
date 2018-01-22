@@ -98,28 +98,28 @@ static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
 #define  NUMROWKEYWORD  "rows"
 #define  ROWKEYWORD     "row"
 
-static INT tlengthS ;                 /* total length of stdcells */
-static INT cheightS ;                 /* height of stdcell */
-static INT num_classeS ;	      /* number of cell classes */
-static INT *classS ;	      	      /* cell class name */
-static INT *lbS ;	              /* lower bound of cell class length */
-static INT *ubS ;	              /* upper bound of cell class length */
+static int tlengthS ;                 /* total length of stdcells */
+static int cheightS ;                 /* height of stdcell */
+static int num_classeS ;	      /* number of cell classes */
+static int *classS ;	      	      /* cell class name */
+static int *lbS ;	              /* lower bound of cell class length */
+static int *ubS ;	              /* upper bound of cell class length */
 
 static DOUBLE rowSepS ;               /* row separation, relative */
 static DOUBLE rowSepAbsS ;            /* row separation, absolute */
 
 static BOOL dataValidS = FALSE ;      /* used to avoid invalid request */
 
-static INT num_macroS ;               /* number of macros output */
+static int num_macroS ;               /* number of macros output */
 
 /* Forward declaration */
 
-extern INT closegraphics();
+extern int closegraphics();
 
 config_rows()
 {
     DOUBLE read_par_file() ;     /* get default from user */
-    INT left, right, bottom, top;/* core area */
+    int left, right, bottom, top;/* core area */
     char *Yrelpath() ;
     char *pathname ;
     char *twdir ;       /* path of TimberWolf directory */
@@ -190,9 +190,9 @@ read_stat_file()
     char input[LRECL] ;
     char *bufferptr ;
     char **tokens ;
-    INT  class ;
-    INT  numtokens ;
-    INT  class_count ;
+    int  class ;
+    int  numtokens ;
+    int  class_count ;
     FILE *fin ;
 
     /***********************************************************
@@ -211,9 +211,9 @@ read_stat_file()
 	    cheightS = atoi( tokens[1] ) ;
 	} else if( strcmp( tokens[0], "num_classes" ) == STRINGEQ ){
 	    num_classeS = atoi( tokens[1] ) ;
-	    classS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-	    lbS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
-	    ubS = YVECTOR_MALLOC( 1, num_classeS, INT ) ;
+	    classS = YVECTOR_MALLOC( 1, num_classeS, int ) ;
+	    lbS = YVECTOR_MALLOC( 1, num_classeS, int ) ;
+	    ubS = YVECTOR_MALLOC( 1, num_classeS, int ) ;
 	} else if( strcmp( tokens[0], "class" ) == STRINGEQ ){
 	    class = atoi( tokens[1] ) ;
 	    classS[++class_count] = class ;
@@ -229,8 +229,8 @@ DOUBLE read_par_file()
 {
     char *bufferptr ;
     char **tokens ;      /* for parsing menu file */
-    INT  numtokens ;
-    INT  line ; /* line number of TWmenu file */
+    int  numtokens ;
+    int  line ; /* line number of TWmenu file */
     BOOL onNotOff ;
     BOOL wildcard ;
 
@@ -275,13 +275,13 @@ output_partition()
 
 #define  RELATIVE_TO_CURPOS  1
 
-    INT i ;
+    int i ;
     long delta ;             /* how far to jump backwards */
-    INT error ;              /* error code returned from fseek */
-    INT x, y ;               /* pin positions */
-    INT xc, yc ;             /* cell center */
-    INT instance ;           /* current cell instance */
-    INT line ;               /* current line number */
+    int error ;              /* error code returned from fseek */
+    int x, y ;               /* pin positions */
+    int xc, yc ;             /* cell center */
+    int instance ;           /* current cell instance */
+    int line ;               /* current line number */
     BOOL found ;             /* find mc keywords */
     FILE *fp ;
     char filename[LRECL] ;
@@ -335,16 +335,16 @@ output_partition()
 
 
 build_mver_file( left, right, bottom, top )
-INT left, right, bottom, top ;
+int left, right, bottom, top ;
 {
     CELLBOXPTR cellptr ;
     FILE *fp ;
     char filename[LRECL] ;
-    INT type ;
-    INT i, k, cell ;
-    INT xc, yc ;
-    INT x, y ;
-    INT separation ;
+    int type ;
+    int i, k, cell ;
+    int xc, yc ;
+    int x, y ;
+    int separation ;
     BOUNBOXPTR bounptr ;         /* bounding box pointer */
 
     /* ######### Create genrows file and exec genrows ######### */
@@ -360,7 +360,7 @@ INT left, right, bottom, top ;
 	fprintf( fp, "class %d lb %d ub %d\n", classS[i], lbS[i], ubS[i] ) ;
     }
     fprintf( fp, "actual_row_height %d\n", cheightS ) ;
-    separation = (INT) ( (DOUBLE) cheightS * rowSepS + rowSepAbsS) ;
+    separation = (int) ( (DOUBLE) cheightS * rowSepS + rowSepAbsS) ;
     fprintf( fp, "channel_separation %d\n", separation ) ;
     fprintf( fp, "min_length %d\n", (right-left) / 5 ) ;
     fprintf( fp, "core %d %d %d %d\n", left, bottom, right, top ) ;
@@ -401,9 +401,9 @@ read_gen_file()
     char filename[LRECL] ;
     char buffer[LRECL], *bufferptr ;
     char **tokens ;     /* for parsing file */
-    INT  numtokens, line ;
-    INT  cell ;          /* current cell number */
-    INT  type ;          /* current cell type */
+    int  numtokens, line ;
+    int  cell ;          /* current cell number */
+    int  type ;          /* current cell type */
     CELLBOXPTR cellptr ; /* current cell */
     BOOL abort ; /* whether to abort program */
     FILE *fp ;

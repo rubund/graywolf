@@ -55,20 +55,20 @@ static char SccsId[] = "@(#) mst.c (Yale) version 1.5 1/24/92" ;
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>
 
-static    INT numpinS ;          /* allocation of memory */
-static    INT *nodeXS ;          /* array of x locations for pins */
-static    INT *nodeYS ;          /* array of y locations for pins */
-static    INT *lowcostS ;        /* array of lowest cost for neighbor */
-static    INT *closestS ;        /* array of closest neighbor for pin */
-static    INT countS ;           /* number of pins for this net */
-static    INT colorS = TWRED ;   /* default color is red */
+static    int numpinS ;          /* allocation of memory */
+static    int *nodeXS ;          /* array of x locations for pins */
+static    int *nodeYS ;          /* array of y locations for pins */
+static    int *lowcostS ;        /* array of lowest cost for neighbor */
+static    int *closestS ;        /* array of closest neighbor for pin */
+static    int countS ;           /* number of pins for this net */
+static    int colorS = TWRED ;   /* default color is red */
 
 #define	SQUARE(a)    ((a)*(a))
 #define	INF	     INT_MAX
 
 static cost(i,j)
 /* return the square of the Euclidian distance of 2 points */
-INT i, j ;
+int i, j ;
 {
 	if (i==j){
 	    return INF;
@@ -77,13 +77,13 @@ INT i, j ;
 } /* end cost */
 
 Ymst_init( numpins )
-INT numpins ;
+int numpins ;
 {
     numpinS = numpins ;
-    nodeXS = YMALLOC( numpins, INT ) ;
-    nodeYS = YMALLOC( numpins, INT ) ;
-    lowcostS = YMALLOC( numpins+1, INT ) ;
-    closestS = YCALLOC( numpins+1,INT ) ;
+    nodeXS = YMALLOC( numpins, int ) ;
+    nodeYS = YMALLOC( numpins, int ) ;
+    lowcostS = YMALLOC( numpins+1, int ) ;
+    closestS = YCALLOC( numpins+1,int ) ;
     countS = 0 ;
 } /* end Ymst_init() */
 
@@ -101,7 +101,7 @@ Ymst_clear()
 } /* end Yclear_mst() */
 
 Ymst_addpt( x, y )
-INT x, y ;
+int x, y ;
 {
     if( countS >= numpinS ){
 	fprintf( stderr, "Out of space - update number of pins for MST\n"); 
@@ -114,12 +114,12 @@ INT x, y ;
 
 Ymst_draw()
 {
-    INT mincost ;             /* minimum cost for pin */
-    INT closest_pt ;          /* closest neighbor for pin */
-    INT i ;                   /* a counter */
-    INT j ;                   /* a counter */
-    INT k ;                   /* a counter */
-    INT c ;                   /* temp for cost */
+    int mincost ;             /* minimum cost for pin */
+    int closest_pt ;          /* closest neighbor for pin */
+    int i ;                   /* a counter */
+    int j ;                   /* a counter */
+    int k ;                   /* a counter */
+    int c ;                   /* temp for cost */
 
     for( i = 1 ; i < countS; i++) {
 	closestS[i] = 0 ;
@@ -149,15 +149,15 @@ Ymst_draw()
 } /* end Ymst_draw() */
 
 Ymst_enumerate( x1, y1, x2, y2, startFlag )
-INT *x1, *y1, *x2, *y2 ;
+int *x1, *y1, *x2, *y2 ;
 BOOL startFlag ;
 {
-    INT mincost ;             /* minimum cost for pin */
-    INT closest_pt ;          /* closest neighbor for pin */
-    INT j ;                   /* a counter */
-    INT k ;                   /* a counter */
-    INT c ;                   /* temp for cost */
-    static INT i ;            /* keep track of the edge */
+    int mincost ;             /* minimum cost for pin */
+    int closest_pt ;          /* closest neighbor for pin */
+    int j ;                   /* a counter */
+    int k ;                   /* a counter */
+    int c ;                   /* temp for cost */
+    static int i ;            /* keep track of the edge */
 
     if( startFlag ){
 	for( i = 1 ; i < countS; i++) {

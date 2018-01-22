@@ -3,7 +3,7 @@ FILE:	    relpos.h
 DESCRIPTION:macro definition for relative position to global position.
 CONTENTS:   REL_POS( orient_R, globalY_R, globalX_R,
 		relativeX_R, relativeY_R, cellX_R, cellY_R ) ;
-	    INT orient_R, globalY_R, globalX_R, relativeX_R, 
+	    int orient_R, globalY_R, globalX_R, relativeX_R, 
 		relativeY_R, cellX_R, cellY_R ;
 DATE:	    Jun 30, 1988 
 REVISIONS:  Aug 13, 1990 - moved to library for MC.
@@ -141,20 +141,20 @@ EXTERN BOOL Ytrans_yflagG ;
 
 /* global function definitions */
 
-extern VOID Ytranslate( P5(INT *l,INT *b,INT *r,INT *t, INT orient) ) ; 
-extern VOID Ytranslatef( P5(DOUBLE *l,DOUBLE *b,DOUBLE *r,DOUBLE *t, INT orient));
-extern VOID Ytrans_init( P5(INT l,INT b,INT r,INT t, INT new_orient ) ) ;
-extern INT Ytrans_inv_orient( P1(INT orient ) ) ;
-extern VOID YtranslateC( P5(INT *l,INT *b,INT *r,INT *t, INT orient) ) ; 
-extern VOID YtranslateT( P5(INT *l,INT *b,INT *r,INT *t, INT orient) ) ; 
-extern VOID Ytrans_rel_pos(P7(INT ort,INT *gX,INT *gY,INT lX,INT lY,INT cx,INT cy));
+extern VOID Ytranslate( P5(int *l,int *b,int *r,int *t, int orient) ) ; 
+extern VOID Ytranslatef( P5(DOUBLE *l,DOUBLE *b,DOUBLE *r,DOUBLE *t, int orient));
+extern VOID Ytrans_init( P5(int l,int b,int r,int t, int new_orient ) ) ;
+extern int Ytrans_inv_orient( P1(int orient ) ) ;
+extern VOID YtranslateC( P5(int *l,int *b,int *r,int *t, int orient) ) ; 
+extern VOID YtranslateT( P5(int *l,int *b,int *r,int *t, int orient) ) ; 
+extern VOID Ytrans_rel_pos(P7(int ort,int *gX,int *gY,int lX,int lY,int cx,int cy));
 /*
-extern VOID Ytrans_rel_post(P7(INT ort,INT *X,INT *Y,INT lX,INT lY,INT cx,INT cy));
+extern VOID Ytrans_rel_post(P7(int ort,int *X,int *Y,int lX,int lY,int cx,int cy));
 */
 extern VOID Ytrans_boun_init( P1(void) ) ;
-extern VOID Ytrans_boun_add( P2(INT x,INT y ) ) ;
-extern VOID Ytrans_boun( P4(INT orient,INT xc,INT yc,BOOL use_new_orient ) ) ;
-extern BOOL Ytrans_boun_pt( P2(INT *x_ret,INT *y_ret ) ) ;
+extern VOID Ytrans_boun_add( P2(int x,int y ) ) ;
+extern VOID Ytrans_boun( P4(int orient,int xc,int yc,BOOL use_new_orient ) ) ;
+extern BOOL Ytrans_boun_pt( P2(int *x_ret,int *y_ret ) ) ;
 extern VOID Ytrans_boun_free( P1(void) ) ;
 
 

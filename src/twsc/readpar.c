@@ -88,19 +88,19 @@ static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
 #include <yalecad/yreadpar.h>
 
 /* globals variable definitions */
-INT attprcelG ;
-INT core_widthG ;
-INT core_heightG ;
-INT core_xstartG ;
-INT core_ystartG ;
-INT spacer_widthG = -1 ;
-INT *spacer_feedsG ;
-INT vertical_pitchG = 0 ;
-INT total_row_lengthG ;
-INT vertical_track_pitchG = 0 ;
-INT horizontal_track_pitchG = 0 ;
-INT approximately_fixed_factorG = 1 ;
-INT global_routing_iterationsG = 0 ;
+int attprcelG ;
+int core_widthG ;
+int core_heightG ;
+int core_xstartG ;
+int core_ystartG ;
+int spacer_widthG = -1 ;
+int *spacer_feedsG ;
+int vertical_pitchG = 0 ;
+int total_row_lengthG ;
+int vertical_track_pitchG = 0 ;
+int horizontal_track_pitchG = 0 ;
+int approximately_fixed_factorG = 1 ;
+int global_routing_iterationsG = 0 ;
 BOOL no_feed_estG = TRUE ;
 BOOL placement_improveG = TRUE ;
 BOOL intel_debugG = FALSE ;
@@ -160,7 +160,7 @@ static init_read_par()
     try_not_to_add_explicit_feedsG = FALSE ;
     vertical_track_on_cell_edgeG = FALSE ;
     no_feed_at_endG = TRUE ;
-    spacer_feedsG = (INT *) Ysafe_malloc( 101 * sizeof(INT) ) ;
+    spacer_feedsG = (int *) Ysafe_malloc( 101 * sizeof(int) ) ;
     spacer_feedsG[0] = 0 ;
     metal2_pitchG = 0.0 ;
     core_widthG  = 0 ;
@@ -179,15 +179,15 @@ static init_read_par()
 } /* end init_read_par */
 
 static readparam( parfile )
-INT parfile ;
+int parfile ;
 {
 
-    INT test ;
-    INT speed ;
-    INT pins ;
-    INT spacer_tmp ;
-    INT line ;
-    INT numtokens ;
+    int test ;
+    int speed ;
+    int pins ;
+    int spacer_tmp ;
+    int line ;
+    int numtokens ;
     BOOL onNotOff ;
     BOOL wildcard ;
     char **tokens ;
@@ -579,7 +579,7 @@ INT parfile ;
 	} else if( strcmp( tokens[0],"rowSep") == STRINGEQ ){
 	    if( numtokens >= 2 ) {
 		rowSepG = atof( tokens[1] ) ; 
-		rowSepAbsG = (numtokens == 3) ? (INT) atof( tokens[2] ) : 0 ; 
+		rowSepAbsG = (numtokens == 3) ? (int) atof( tokens[2] ) : 0 ; 
 	    } else {
 		err_msg("rowSep") ;
 	    }
@@ -690,11 +690,11 @@ static process_readpar()
 {
 
 char *layer ;             /* name of layer */
-INT i ;                   /* counter */
-INT pitch ;               /* the pitch of the layer */
-INT numv_layers ;         /* number of vertical   layers */
-INT numh_layers ;         /* number of horizontal layers */
-INT num_layers ;          /* total number of layers */
+int i ;                   /* counter */
+int pitch ;               /* the pitch of the layer */
+int numv_layers ;         /* number of vertical   layers */
+int numh_layers ;         /* number of horizontal layers */
+int num_layers ;          /* total number of layers */
 
 if( abortS ){
     OUT1( "Errors found in the .par file.  Must exit\n\n" ) ;
@@ -821,7 +821,7 @@ return ;
 
 yaleIntro() 
 {
-    INT i ;
+    int i ;
 
     fprintf(fpoG,"\n%s\n",YmsgG) ;
     fprintf(fpoG,"Row-Based Placement and Global Routing Program\n");
@@ -836,7 +836,7 @@ yaleIntro()
     /* inialize variables */
     randomSeedG  = (unsigned) Yrandom_seed() ;
 
-    fixarrayG = (INT *) NULL ;
+    fixarrayG = (int *) NULL ;
     ffeedsG = 0 ;
     macspaceG = (DOUBLE *) Ysafe_malloc( 24 * sizeof(DOUBLE) ) ;
     for( i = 1 ; i <= 15 ; i++ ) {

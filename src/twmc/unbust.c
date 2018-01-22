@@ -41,7 +41,7 @@
 FILE:	    unbust.c                                       
 DESCRIPTION:routine which combines busted tiles for output
 CONTENTS:   unbust()
-	    initPts( INT , char *, INT )
+	    initPts( int , char *, int )
 DATE:	    Jan 29, 1988 
 REVISIONS:  Aug 16, 1989 - rewrote using new general algorithm.
 	    Sep 19, 1989 - now debug uses stderr.
@@ -70,17 +70,17 @@ static char SccsId[] = "@(#) unbust.c version 3.7 1/20/91" ;
 #define EXPECTEDNUMPINS  4
 
 typedef struct {
-    INT tile ;    /* tile that point is attached */
-    INT x ;       /* x position of point */
-    INT y ;       /* y position of point */
-    INT Vnum ;    /* position in VPts array */
-    INT Hnum ;    /* position in HPts array */
-    INT order ;   /* order that points should be output - negative means invalid */
+    int tile ;    /* tile that point is attached */
+    int x ;       /* x position of point */
+    int y ;       /* y position of point */
+    int Vnum ;    /* position in VPts array */
+    int Hnum ;    /* position in HPts array */
+    int order ;   /* order that points should be output - negative means invalid */
     BOOL marked ; /* point has been used */
 } POINTBOX, *POINTPTR ;
 
-static INT numptS ;           /* number of total points for figure */
-static INT ptAllocS ;         /* number of space allocated for points */
+static int numptS ;           /* number of total points for figure */
+static int ptAllocS ;         /* number of space allocated for points */
 static POINTPTR *VptS = NULL ;/* vertical point array */
 static POINTPTR *HptS ;       /* horizontal point array */
 static YBUSTBOXPTR resultS ;  /* result array */
@@ -88,13 +88,13 @@ static BOOL addptS = FALSE ;  /* whether to add points to figures or not*/
 
 
 
-static INT find_next_state() ;
-static INT remove_redundant_points() ; 
-static INT find_next_state();
-static INT sortbyXY();
-static INT sortbyYX();
-static INT sortbyorder();
-static INT remove_redundant_points(); 
+static int find_next_state() ;
+static int remove_redundant_points() ; 
+static int find_next_state();
+static int sortbyXY();
+static int sortbyYX();
+static int sortbyorder();
+static int remove_redundant_points(); 
 static add_vpts();
 static chek_vpt();
 static add_hpts();
@@ -104,7 +104,7 @@ static chek_hpt();
 
 
 
-static INT nextStateS[5][5] = 
+static int nextStateS[5][5] = 
 {
     /* ERROR state - E  */  E, E, E, E, E,
     /* UP    state - T  */  E, L, T, R, /* B */ E,
@@ -149,20 +149,20 @@ YBUSTBOXPTR unbust()
 
      POINTPTR cur_pt ;  /* current point record */
      POINTPTR next_pt ; /* next point record */
-     INT sortbyXY() ;   /* sort horizontal points */
-     INT sortbyYX() ;   /* sort vertical points */
-     INT sortbyorder() ;/* final sort */
-     INT i ;            /* counter */
-     INT count ;            /* counter */
-     INT cur_state ;    /* current state */
-     INT next_state ;   /* next state */
-     INT limit ;        /* used to detect loops */
-     INT order ;        /* used to order the points */
-     INT given_num_pts ;/* number of points user gave us */
-     INT points_removed;/* number of redundant points removed */
+     int sortbyXY() ;   /* sort horizontal points */
+     int sortbyYX() ;   /* sort vertical points */
+     int sortbyorder() ;/* final sort */
+     int i ;            /* counter */
+     int count ;            /* counter */
+     int cur_state ;    /* current state */
+     int next_state ;   /* next state */
+     int limit ;        /* used to detect loops */
+     int order ;        /* used to order the points */
+     int given_num_pts ;/* number of points user gave us */
+     int points_removed;/* number of redundant points removed */
 /*
-     static INT find_next_state() ;
-     static INT remove_redundant_points() ; 
+     static int find_next_state() ;
+     static int remove_redundant_points() ; 
 */
 
      /* initialize 0 record */
@@ -306,14 +306,14 @@ YBUSTBOXPTR unbust()
 } /* end unbust */
 
 /* find the next valid state */
-static INT find_next_state( cur_state, cur_pt, next_pt )
-INT cur_state ;
+static int find_next_state( cur_state, cur_pt, next_pt )
+int cur_state ;
 POINTPTR cur_pt ;
 POINTPTR *next_pt ;
 {
-    INT hpoint ;   /* position of point in HptS */
-    INT vpoint ;   /* position of point in HptS */
-    INT try ;      /* used to test each possibility */
+    int hpoint ;   /* position of point in HptS */
+    int vpoint ;   /* position of point in HptS */
+    int try ;      /* used to test each possibility */
     POINTPTR try_pt ; /* this is a candidate point */
 
 
@@ -412,9 +412,9 @@ POINTPTR *next_pt ;
 } /* end get_next_state */
 
 addPt( tile, x, y )
-INT tile, x, y ;
+int tile, x, y ;
 {
-    INT i ;                   /* counter */
+    int i ;                   /* counter */
     POINTPTR ptr ;            /* current point */
 
     /* reallocate space if necessary */
@@ -446,7 +446,7 @@ INT tile, x, y ;
 } /* end addPt */
 
 addPts( cell, l, r, b, t ) 
-INT cell, l, r, b, t ; 
+int cell, l, r, b, t ; 
 {
     addPt( cell, l, b ) ;
     addPt( cell, l, t ) ;
@@ -459,7 +459,7 @@ INT cell, l, r, b, t ;
 initPts( addpoint_flag )
 BOOL addpoint_flag ;
 {
-    INT i ;     /* counter */
+    int i ;     /* counter */
 
     numptS = 0 ;
     /* set addpoint static flag */
@@ -486,7 +486,7 @@ BOOL addpoint_flag ;
 } /* end initPts */
 
 /* sort by x first then y */
-static INT sortbyXY( pointA , pointB )
+static int sortbyXY( pointA , pointB )
 POINTPTR *pointA , *pointB ;
 {
     if( (*pointA)->x != (*pointB)->x ){
@@ -498,7 +498,7 @@ POINTPTR *pointA , *pointB ;
 } /* end sortbyXY */
 
 /* sort by y first then x */
-static INT sortbyYX( pointA , pointB )
+static int sortbyYX( pointA , pointB )
 POINTPTR *pointA , *pointB ;
 {
     if( (*pointA)->y != (*pointB)->y ){
@@ -510,23 +510,23 @@ POINTPTR *pointA , *pointB ;
 } /* end sortbyYX */
 
 /* sort by order */
-static INT sortbyorder( pointA , pointB )
+static int sortbyorder( pointA , pointB )
 POINTPTR *pointA , *pointB ;
 {
     return( (*pointA)->order - (*pointB)->order ) ;
 } /* end sortbyorder */
 
-static INT remove_redundant_points( pt_array ) 
+static int remove_redundant_points( pt_array ) 
 POINTPTR *pt_array ;
 {
     POINTPTR ptptr ;           /* pointer to point record */
     POINTPTR *tempArray ;      /* temporary pointer for manipulating points */
-    INT oldX ;                 /* last x point */
-    INT oldY ;                 /* last y point */
-    INT redundant ;            /* number of redundant points */
-    INT i ;                    /* counter */
-    INT top ;                  /* top of the point array */
-    INT bottom ;               /* bottom of the point array */
+    int oldX ;                 /* last x point */
+    int oldY ;                 /* last y point */
+    int redundant ;            /* number of redundant points */
+    int i ;                    /* counter */
+    int top ;                  /* top of the point array */
+    int bottom ;               /* bottom of the point array */
     BOOL no_ignored_pts ;      /* invalid points exist in the array */
     POINTPTR oldptr ;          /* the last irredundant point */
 
@@ -589,19 +589,19 @@ POINTPTR *pt_array ;
 } /* end remove_redundant_points */
 
 static add_vpts( numpts )
-INT numpts ;
+int numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
     POINTPTR tile2ptr ;         /* temp pointer to a point */
     POINTPTR tile3ptr ;         /* temp pointer to a point */
     POINTPTR tile4ptr ;         /* temp pointer to a point */
-    INT  i ;                    /* point counter */
-    INT  j ;                    /* point counter */
-    INT  oldX ;                 /* used to find vertical points */
-    INT  tile1 ;                /* tile1ptr's tile */
-    INT  tile2 ;                /* tile2ptr's tile */
-    INT  tile3 ;                /* tile3ptr's tile */
-    INT  tile4 ;                /* tile4ptr's tile */
+    int  i ;                    /* point counter */
+    int  j ;                    /* point counter */
+    int  oldX ;                 /* used to find vertical points */
+    int  tile1 ;                /* tile1ptr's tile */
+    int  tile2 ;                /* tile2ptr's tile */
+    int  tile3 ;                /* tile3ptr's tile */
+    int  tile4 ;                /* tile4ptr's tile */
     BOOL newTiles ;             /* when true load 4 points otherwise load two */
 
     newTiles = TRUE ;
@@ -751,19 +751,19 @@ POINTPTR tile1, tile2, tile3, tile4 ;
 
 
 static add_hpts( numpts )
-INT numpts ;
+int numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
     POINTPTR tile2ptr ;         /* temp pointer to a point */
     POINTPTR tile3ptr ;         /* temp pointer to a point */
     POINTPTR tile4ptr ;         /* temp pointer to a point */
-    INT  i ;                    /* point counter */
-    INT  j ;                    /* point counter */
-    INT  oldY ;                 /* used to find horizontal points */
-    INT  tile1 ;                /* tile1ptr's tile */
-    INT  tile2 ;                /* tile2ptr's tile */
-    INT  tile3 ;                /* tile3ptr's tile */
-    INT  tile4 ;                /* tile4ptr's tile */
+    int  i ;                    /* point counter */
+    int  j ;                    /* point counter */
+    int  oldY ;                 /* used to find horizontal points */
+    int  tile1 ;                /* tile1ptr's tile */
+    int  tile2 ;                /* tile2ptr's tile */
+    int  tile3 ;                /* tile3ptr's tile */
+    int  tile4 ;                /* tile4ptr's tile */
     BOOL newTiles ;             /* when true load 4 points otherwise load two */
 
     newTiles = TRUE ;
@@ -914,7 +914,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
  dump_pts( pt )
  POINTPTR *pt ;
  {
-    INT i ;
+    int i ;
     POINTPTR ptr ;
 
     D( "dump_pts",

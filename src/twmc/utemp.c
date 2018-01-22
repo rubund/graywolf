@@ -63,16 +63,16 @@ static char SccsId[] = "@(#) utemp.c version 3.6 4/6/92" ;
 #include <yalecad/debug.h>
 
 utemp( attempts, multi_cell_moves )
-INT attempts ;
+int attempts ;
 BOOL multi_cell_moves ;
 {
 
-    INT i ;
+    int i ;
     DOUBLE calc_lap_factor( P1(DOUBLE percentDone) ) ;
 
 
     /****************** main annealing loop ***************** */
-    while( iterationG < (INT) LASTTEMP ){
+    while( iterationG < (int) LASTTEMP ){
 	iterationG++ ; /* next iteration */
 	/* write iteration to the screen if not verbose */
 	if(!(verboseG )){
@@ -88,7 +88,7 @@ BOOL multi_cell_moves ;
     }
 
     /* **** overlap penalty controller **** */
-    if( iterationG <= (INT) LASTTEMP ){
+    if( iterationG <= (int) LASTTEMP ){
 	iterationG++ ; /* next iteration */
 	lapFactorG = calc_lap_factor( (DOUBLE) 3.0 ) ;
 	funccostG = findcost() ;

@@ -38,8 +38,8 @@ static char YreadParId[] = "@(#) yreadpar.h version 1.4 4/18/91" ;
 typedef YTREEPTR YPARPTR ;
 typedef YTREEBOX YPARBOX ;
 
-extern VOID Yreadpar_init( P4(char *design_name, INT  program,
-				INT  filter, BOOL abortFlag ) ) ;
+extern VOID Yreadpar_init( P4(char *design_name, int  program,
+				int  filter, BOOL abortFlag ) ) ;
 /* ******************* READPAR ROUTINES ****************** */
 /* 
 Function:
@@ -57,8 +57,8 @@ Function:
     relating to this file.
 */
 
-extern char **Yreadpar_next( P5(char **lineptr,INT *line,
-    INT *numtokens,BOOL *onNotOff,BOOL *wildcard)) ;
+extern char **Yreadpar_next( P5(char **lineptr,int *line,
+    int *numtokens,BOOL *onNotOff,BOOL *wildcard)) ;
 /* 
 Function:
     Reads a parameter one line at a time ignoring comments. Returns
@@ -80,7 +80,7 @@ Function:
 */
 
 extern char **Yreadpar_lookup( P4(YPARPTR par_object, char *param,
-			    INT program, INT *numtokens )) ;
+			    int program, int *numtokens )) ;
 /* 
 Function:
     Given a par object, and a program id, look up the given parameter.
@@ -104,14 +104,14 @@ extern DOUBLE Yreadpar_layer_cap( P1(char *object) ) ;
 
 extern BOOL Yreadpar_layer_HnotV( P1(char *object) ) ;
 
-extern INT Yreadpar_layer2id( P1(char *object) ) ;
+extern int Yreadpar_layer2id( P1(char *object) ) ;
 
-extern char *Yreadpar_id2layer( P1(INT layerid) ) ;
+extern char *Yreadpar_id2layer( P1(int layerid) ) ;
 
-extern INT Yreadpar_numlayers() ;
+extern int Yreadpar_numlayers() ;
 
 extern char *Yreadpar_vianame( P2(char *object1, char *object2) ) ;
 
-extern char *Yreadpar_viaId2name( P1(INT viaid) ) ;
+extern char *Yreadpar_viaId2name( P1(int viaid) ) ;
 
 #endif /* YREADPAR_H */

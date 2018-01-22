@@ -16,7 +16,7 @@ Function:
     Clone a string by allocating memory.  User must free memory when done.
 */
 
-extern char **Ystrparser( P3(char *str, char *delimiters,INT *numtokens ) ) ;
+extern char **Ystrparser( P3(char *str, char *delimiters,int *numtokens ) ) ;
 /*
 Function:
     This string parsing function uses strtok to break up the string
@@ -41,17 +41,17 @@ Function:
 */
 #ifndef __GNUC__
 extern char *strcat( P2( char *str1, char *str2 ) ) ; 
-extern char *strncat( P3( char *str1, char *str2, INT n ) ) ; 
+extern char *strncat( P3( char *str1, char *str2, int n ) ) ; 
 extern char *strcpy( P2( char *str1, char *str2 ) ) ; 
-extern char *strncpy( P3( char *str1, char *str2, INT n) ) ; 
+extern char *strncpy( P3( char *str1, char *str2, int n) ) ; 
 extern char *strtok( P2( char *str, char *delimiters ) ) ; 
 extern char *strchr(  P2( char *str, char c ) ) ; 
 extern char *strrchr( P2( char *str, char c ) ) ; 
 extern char *index( P2( char *str, char c ) ) ; 
 extern char *rindex( P2( char *str, char c ) ) ; 
 extern unsigned int  strlen( P1( char *str) ) ; 
-extern INT  strcmp( P2( char *str1, char *str2 ) ) ; 
-extern INT  strncmp( P3( char *str1, char *str2, INT n ) ) ; 
+extern int  strcmp( P2( char *str1, char *str2 ) ) ; 
+extern int  strncmp( P3( char *str1, char *str2, int n ) ) ; 
 #endif  /* __GNUCC__ */
 
 #endif  /* YSTRING_H */

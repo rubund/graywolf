@@ -59,12 +59,12 @@ static char SccsId[] = "@(#) io.c version 7.5 5/21/92" ;
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 
-static INT boxLS, boxRS, boxTS, boxBS ;  /* bounding box of tiles */
-static INT celLS, celRS, celTS, celBS ;  /* bounding box of cur cell */
-static INT curCellS = 0 ;                /* current cell */
-static INT curTileS = 0 ;                /* current tile */
-static INT xcS, ycS ;                    /* current cell center */
-static INT int_largeS, int_smallS ;      /* used because of compiler bugs */
+static int boxLS, boxRS, boxTS, boxBS ;  /* bounding box of tiles */
+static int celLS, celRS, celTS, celBS ;  /* bounding box of cur cell */
+static int curCellS = 0 ;                /* current cell */
+static int curTileS = 0 ;                /* current tile */
+static int xcS, ycS ;                    /* current cell center */
+static int int_largeS, int_smallS ;      /* used because of compiler bugs */
 static BOOL errorFlagS = FALSE ;         /* records fault condition */
 static BOOL curCellTypeS ;               /* hard or soft type */
 static BOOL multiS ;                     /* cell has multiple tiles ??? */
@@ -87,9 +87,9 @@ setErrorFlag()
 }
 /* ***************** ERROR HANDLING ****************************** */
 init( numtiles, numcells )
-INT numtiles, numcells ;
+int numtiles, numcells ;
 {
-    INT i ;
+    int i ;
 
     /* save number of tiles in global for future use */
     numtilesG = numtiles ;
@@ -131,11 +131,11 @@ INT numtiles, numcells ;
 
 final_tiles()
 {
-    INT i ;        		/* counter */
-    INT space ;        		/* counter */
-    INT count ;        		/* counter */
-    INT minx, maxx ;            /* min and max x nodes of cell */
-    INT miny, maxy ;            /* min and max y nodes of cell */
+    int i ;        		/* counter */
+    int space ;        		/* counter */
+    int count ;        		/* counter */
+    int minx, maxx ;            /* min and max x nodes of cell */
+    int miny, maxy ;            /* min and max y nodes of cell */
     BOOL multi ;		/* is tile one of multitile cell */
     NODEPTR aptr ;		/* current node */
     COMPACTPTR tptr ;		/* current tile */
@@ -163,7 +163,7 @@ final_tiles()
 
     /* allocate space for tileNode array */
     newArray = (COMPACTPTR *) Ysafe_malloc( space * sizeof(COMPACTPTR) ); 
-    ancestorG = (INT *) Ysafe_malloc( space * sizeof(INT) ) ;
+    ancestorG = (int *) Ysafe_malloc( space * sizeof(int) ) ;
     count = 0 ;
     for( i=1;i<=numcellsG;i++ ){
 	for( aptr = cellarrayG[i]->tiles;aptr; aptr = aptr->next ){
@@ -260,10 +260,10 @@ final_tiles()
 
 /* set the current cell */
 initCell( celltype, cellnum, x, y, xoffset, yoffset )
-INT celltype ;
-INT cellnum ;
-INT x, y ;
-INT xoffset, yoffset ;
+int celltype ;
+int cellnum ;
+int x, y ;
+int xoffset, yoffset ;
 {
     ERRORABORT() ;
     if( ++curCellS > numcellsG ){
@@ -290,7 +290,7 @@ INT xoffset, yoffset ;
 } /* end initCell */
 
 init_extra_tile( cell, type )
-INT cell ;
+int cell ;
 {
     curTileS = numtilesG ;
     numtilesG++ ;
@@ -306,8 +306,8 @@ INT cell ;
 } /* init_extra_tile */
 
 /* initialize tile */
-INT addtile( l, r, b, t )
-INT l, r, b, t ;
+int addtile( l, r, b, t )
+int l, r, b, t ;
 {
     COMPACTPTR tptr ;
     NODEPTR    temp, nptr ;
@@ -395,7 +395,7 @@ endCell()
 
 process_tiles()
 {
-    INT i ;
+    int i ;
     COMPACTPTR t ;
     CELLBOXPTR cptr ;
 
@@ -457,7 +457,7 @@ process_tiles()
 addSourceNSink()
 {
     COMPACTPTR source, sink ;
-    INT x ;
+    int x ;
 
     /* We do this little piece of code since a couple of stupid compilers */
     /* can't do math correctly.  Gcc being one of them. */
@@ -560,9 +560,9 @@ addSourceNSink()
    **************************************************************** */
 output()
 {
-    INT c ;
-    INT tile ;
-    INT old_cell ;
+    int c ;
+    int tile ;
+    int old_cell ;
     FILE *fp ;
     COMPACTPTR t ;
     CELLBOXPTR cptr ;

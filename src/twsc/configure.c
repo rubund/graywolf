@@ -72,31 +72,31 @@ static char SccsId[] = "@(#) configure.c (Yale) version 4.12 3/19/91" ;
  */
 #define MAXMACRO 50 
 
-INT totalRG ;
+int totalRG ;
 BOOL doubleback_rows_start_at_oneG ;
 
-extern INT individual_rowSepsG ;
-extern INT total_row_lengthG ;
+extern int individual_rowSepsG ;
+extern int total_row_lengthG ;
 extern DOUBLE indentG ;
 extern DOUBLE *relativeLenG ;
 extern DOUBLE *rowSepsG ;
-extern INT *rowSepsAbsG ;
+extern int *rowSepsAbsG ;
 
 /* static definitions */
-static INT heightS ;
-static INT widthS ;
-static INT mttshiftS ;
-static INT mbbshiftS ;
+static int heightS ;
+static int widthS ;
+static int mttshiftS ;
+static int mbbshiftS ;
 
 
 configure() 
 {
 
-INT block ;
-INT pad ;
-INT row ;
-INT macro ;
-INT totalBlock ;
+int block ;
+int pad ;
+int row ;
+int macro ;
+int totalBlock ;
 DOUBLE ratio ;
 BBOXPTR *oldbarray ;
 BBOXPTR boxptr ;
@@ -104,26 +104,26 @@ DOUBLE totalF ;
 DOUBLE modulation ;
 DOUBLE constant ;
 DOUBLE dsumS ;
-INT topRowY , centerY ;
-INT k ;
-INT macNumber ;
-INT trow ;
-INT brow ;
-INT rows ;
-INT bot ;
-INT left ;
-INT edge ;
-INT rite ;
-INT top ;
-INT padside ;
-INT middleRow ;
-INT URmacro , Rmacro ;
-INT count_mtt , count_mbb ;
-INT Mf ;
-INT rowcenter ;
-INT rowtop ;
-INT l, r, b, t ;
-INT xc, yc ;
+int topRowY , centerY ;
+int k ;
+int macNumber ;
+int trow ;
+int brow ;
+int rows ;
+int bot ;
+int left ;
+int edge ;
+int rite ;
+int top ;
+int padside ;
+int middleRow ;
+int URmacro , Rmacro ;
+int count_mtt , count_mbb ;
+int Mf ;
+int rowcenter ;
+int rowtop ;
+int l, r, b, t ;
+int xc, yc ;
 CBOXPTR padptr ;
 TIBOXPTR tptr ;
 
@@ -245,7 +245,7 @@ if( numRowsG > 1 ) {
     }
     topRowY = rowArrayG[numRowsG].ypos ;
     centerY = (topRowY + rowArrayG[1].ypos) / 2 ;
-    Mf = (INT) ( (DOUBLE) totalRG / totalF ) ;
+    Mf = (int) ( (DOUBLE) totalRG / totalF ) ;
 
     dsumS = 0.0 ;
     for( r = 1 ; r <= numRowsG ; r++ ) {
@@ -257,12 +257,12 @@ if( numRowsG > 1 ) {
 
     constant = 1.0 + (1.0 - indentG) * (1.0 - dsumS) ;
     for( r = 1 ; r <= numRowsG ; r++ ) {
-	rowArrayG[r].endx = (INT)((DOUBLE) Mf * 
+	rowArrayG[r].endx = (int)((DOUBLE) Mf * 
 				    constant * relativeLenG[r]);
 	modulation = 1.0 + (1.0 - indentG) * ( 
 			  ((DOUBLE)(ABS(rowArrayG[r].ypos - centerY)) / 
 			   (DOUBLE)(topRowY - centerY)) - dsumS);
-	rowArrayG[r].desiredL = (INT) ( 
+	rowArrayG[r].desiredL = (int) ( 
 		    (DOUBLE) Mf * relativeLenG[r] * modulation ) ;
     }
 } else {
@@ -292,7 +292,7 @@ middleRow = numRowsG / 2 ;
 if (padArrayG) {
     Ysafe_free(padArrayG);
 }
-padArrayG = (INT *) Ysafe_malloc( (numtermsG + 1) * sizeof( INT ) ) ;
+padArrayG = (int *) Ysafe_malloc( (numtermsG + 1) * sizeof( int ) ) ;
 for( pad = 1 ; pad <= numtermsG ; pad++ ) {
     padArrayG[pad] = 0 ;
 }
@@ -339,7 +339,7 @@ for( macro = 1 ; macro <= numMacroG ; macro++ ) {
     r = tptr->right ;
     b = tptr->bottom ;
     t = tptr->top ;
-    YtranslateT( &l, &b, &r, &t, (INT) padptr->corient ) ;
+    YtranslateT( &l, &b, &r, &t, (int) padptr->corient ) ;
     heightS = t - b ;
     widthS  = r - l ;
 
@@ -688,7 +688,7 @@ for( macro = 1 ; macro <= numMacroG ; macro++ ) {
     r = tptr->right ;
     b = tptr->bottom ;
     t = tptr->top ;
-    YtranslateT( &l, &b, &r, &t, (INT) padptr->corient ) ;
+    YtranslateT( &l, &b, &r, &t, (int) padptr->corient ) ;
     edge = macroArrayG[macro].mx + r ;
     if( edge > coreWidthG ) {
 	coreWidthG = edge ;
@@ -710,7 +710,7 @@ for( pad = numcellsG + 1 ; pad <= lastpadG ; pad++ ) {
 	r = tptr->right ;
 	b = tptr->bottom ;
 	t = tptr->top ;
-	YtranslateT( &l, &b, &r, &t, (INT) padptr->corient ) ;
+	YtranslateT( &l, &b, &r, &t, (int) padptr->corient ) ;
 	if( t - b > heightS ){
 	    heightS = t - b ;
 	}
@@ -748,7 +748,7 @@ if( count_mbb > 0 ) {
 	    r = tptr->right ;
 	    b = tptr->bottom ;
 	    t = tptr->top ;
-	    YtranslateT( &l, &b, &r, &t, (INT) padptr->corient ) ;
+	    YtranslateT( &l, &b, &r, &t, (int) padptr->corient ) ;
 	    heightS = t - b ;
 	    widthS  = r - l ;
 
@@ -772,7 +772,7 @@ for( pad = numcellsG + 1 ; pad <= lastpadG ; pad++ ) {
 	r = tptr->right ;
 	b = tptr->bottom ;
 	t = tptr->top ;
-	YtranslateT( &l, &b, &r, &t, (INT) padptr->corient ) ;
+	YtranslateT( &l, &b, &r, &t, (int) padptr->corient ) ;
 	if( t - b > heightS ){
 	    heightS = t - b ;
 	}
@@ -804,7 +804,7 @@ if( count_mtt > 0 ) {
 	    r = tptr->right ;
 	    b = tptr->bottom ;
 	    t = tptr->top ;
-	    YtranslateT( &l, &b, &r, &t, (INT) padptr->corient ) ;
+	    YtranslateT( &l, &b, &r, &t, (int) padptr->corient ) ;
 	    heightS = t - b ;
 	    widthS  = r - l ;
 
@@ -887,9 +887,9 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 
 	ratio = (DOUBLE) barrayG[block - 1]->blength / (DOUBLE) 
 	     (barrayG[block - 1]->blength + barrayG[block]->blength) ;
-	barrayG[block]->desire = 1 + (INT)((1.0 - ratio) * 
+	barrayG[block]->desire = 1 + (int)((1.0 - ratio) * 
 				    rowArrayG[row].desiredL) ;
-	barrayG[block - 1]->desire = 1 + (INT)(ratio * 
+	barrayG[block - 1]->desire = 1 + (int)(ratio * 
 				    rowArrayG[row].desiredL) ;
 	barrayG[block]->oldsize = 0 ;
     } else {
@@ -956,11 +956,11 @@ return ;
 random_placement()
 {
 
-INT cell , row , borient ,  blk , widthS ;
-INT block ;
-INT empty ;
-INT *filledTo ;
-INT *endRow ;
+int cell , row , borient ,  blk , widthS ;
+int block ;
+int empty ;
+int *filledTo ;
+int *endRow ;
 CBOXPTR cellptr ;
 
 /*
@@ -968,8 +968,8 @@ CBOXPTR cellptr ;
  *  real random cell placement
  */
 
-filledTo = (INT *) Ysafe_malloc( (numRowsG + 1) * sizeof( INT ) ) ;
-endRow = (INT *) Ysafe_malloc( (numRowsG + 1) * sizeof( INT ) ) ;
+filledTo = (int *) Ysafe_malloc( (numRowsG + 1) * sizeof( int ) ) ;
+endRow = (int *) Ysafe_malloc( (numRowsG + 1) * sizeof( int ) ) ;
 for( row = 1 ; row <= numRowsG ; row++ ) {
     filledTo[row] = barrayG[row]->bxcenter + barrayG[row]->bleft ;
     endRow[row]  = barrayG[row]->bxcenter + barrayG[row]->bright ;
@@ -1055,9 +1055,9 @@ return ;
 
 /*  used for split rows only, which we don't allow any more
 RtoB( row , from )
-INT row , from ;
+int row , from ;
 {
-    INT y , block , block1 , block2 , endx1 , startx2 ;
+    int y , block , block1 , block2 , endx1 , startx2 ;
 
     y = rowArrayG[row].ypos ;
     block1 = 0 ;

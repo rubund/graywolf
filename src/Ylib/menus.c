@@ -42,14 +42,14 @@ FILE:	    menus.c
 DESCRIPTION:graphic drawing routines for handling menus
     There are two windows of interest in this file:
 	wS - parent window is the large TW drawing window.
-	menuS - INT small window at the top of the large TW window.
+	menuS - int small window at the top of the large TW window.
     The name of the menus are displayed in the menuS window but when 
     a menu is selected it is draw in the large wS window.  The 
     variables which have top in their name refer to the menuS window and
     variable with entry in their name refer to the menu entry pixmaps
     which are drawn in the large window.
 CONTENTS:   TWinforMenus( )
-	    INT TWsaveState()
+	    int TWsaveState()
 	    TWrestoreState()
 	    BOOL TWinitMenuWindow( menu_fields, parasite )
 		TWMENUPTR menu_fields ;
@@ -58,15 +58,15 @@ CONTENTS:   TWinforMenus( )
 	    static set_window_lights( flag )
 		BOOL flag ;
 	    static checkwindow_lights()
-	    INT TWcheckMouse()
+	    int TWcheckMouse()
 	    TWgetPt( x, y )
-		INT *x, *y ;
+		int *x, *y ;
 	    TWmessage( message )
 		char *message ;
 	    char *TWgetString( directions )
 		char *directions ;
 	    BOOL TWgetPt2( x, y )
-		INT *x, *y ;
+		int *x, *y ;
 	    BOOL TWcheckExposure()
 	    BOOL TWinterupt()
 	    TWcheckReconfig()
@@ -156,22 +156,22 @@ typedef struct {
     Window   top_window ;            /* heading window for menu */
     Window   *window ;               /* window for each menu entry */
     char     *name ;                 /* the name of this menu */
-    INT      xpos ;                  /* x pos of entry menu in messageW */
-    INT      name_len ;              /* name length of top menu */
-    INT      pix_len ;               /* pixlength of top menu entry */
-    INT      entry_wid ;             /* width in pix of max menu entry */
-    INT      numentries ;            /* number of entries in menu */
-    INT      *function ;             /* function number of each entry */
+    int      xpos ;                  /* x pos of entry menu in messageW */
+    int      name_len ;              /* name length of top menu */
+    int      pix_len ;               /* pixlength of top menu entry */
+    int      entry_wid ;             /* width in pix of max menu entry */
+    int      numentries ;            /* number of entries in menu */
+    int      *function ;             /* function number of each entry */
     char     **entry ;               /* name of each menu entry */
-    INT      *entry_len ;            /* len of each menu entry */
-    INT      *xpos_adj ;             /* position of each menu entry str */
-    INT      width ;                 /* width of menu entry */
+    int      *entry_len ;            /* len of each menu entry */
+    int      *xpos_adj ;             /* position of each menu entry str */
+    int      width ;                 /* width of menu entry */
     BOOL     *bool_entry ;           /* tells whether entry is boolean */
     BOOL     *state ;                /* state of this window entry */
-    INT      *function2 ;            /* alternate function for boolean */
+    int      *function2 ;            /* alternate function for boolean */
     char     **entry2 ;              /* for Boolean entries */
-    INT      *xpos_adj2 ;            /* position of alternate menu entry*/
-    INT      *entry_len2 ;           /* len of each menu entry */
+    int      *xpos_adj2 ;            /* position of alternate menu entry*/
+    int      *entry_len2 ;           /* len of each menu entry */
     BOOL     *enabled ;              /* whether menu item is enable or not */
 } MENUBOX, *MENUPTR ;
 
@@ -183,19 +183,19 @@ static Window       backS;           /* the backing window */
 static Window       messageS;        /* the message display window */
 static GC           menuGCS ;        /* graphics context for menus */
 static GC           menuRGCS ;       /* reverse gc for turning on menus */
-static INT          screenS ;        /* the current screen */
+static int          screenS ;        /* the current screen */
 static UNSIGNED_INT backgrdS ;
 static UNSIGNED_INT foregrdS ;
-static INT          winwidthS ;      /* window width */
+static int          winwidthS ;      /* window width */
 static MENUPTR      *menuArrayS ;    /* contains info about menus */
 static XFontStruct  *fontinfoS ;     /* font information */
 static Font         fontS ;          /* current font */
-static INT          numMenuS ;       /* number of menus */
-static INT          stepsizeS ;      /* spacing between menus in x direction */
+static int          numMenuS ;       /* number of menus */
+static int          stepsizeS ;      /* spacing between menus in x direction */
 static BOOL         parasiteS=FALSE; /* whether this menu init is a parasite */
 static Pixmap       pixmapS ;        /* offscreen copy of data */
 static BOOL         three_button_mouseS ; /* whether 3 button mouse */
-static INT          message_timeoutS ;/* how long to wait in message window */
+static int          message_timeoutS ;/* how long to wait in message window */
 static char persistent_messageS[LRECL];/* stores persistent message */
 static BOOL persistenceS = TRUE ;    /* whether message is persistent */
 
@@ -215,7 +215,7 @@ static BOOL persistenceS = TRUE ;    /* whether message is persistent */
 
 /* define static functions */
 static set_window_lights( P1(BOOL flag) ) ;
-static resize_windows( P2( INT winwidth, INT winheight ) ) ;
+static resize_windows( P2( int winwidth, int winheight ) ) ;
 static debug_menus( P1(TWMENUPTR menu_field) ) ;
 static draw_persistent_message( P1(char *message) ) ;
 
@@ -238,7 +238,7 @@ TWinforMenus( )
 
 } /* end set StaticInfo */
 
-INT TWsaveState()
+int TWsaveState()
 {
     /* turn off all event reporting to these windows */
     XSelectInput(dpyS,drawS,NoEventMask) ;
@@ -248,7 +248,7 @@ INT TWsaveState()
     set_window_lights( FALSE ) ;
     /* next flush event queue by calling XSync with discard true */
     XSync( dpyS, TRUE ) ;
-    return( (INT) backS ) ;
+    return( (int) backS ) ;
 } /* end TWgetWindowId */
 
 TWrestoreState()
@@ -334,15 +334,15 @@ TWMENUPTR menu_fields ;
     MENUPTR menuptr ;  /* temporary for speed */
     TWMENUPTR mptr ;   /* current field of the menu fields */
     UNSIGNED_INT white, black ;
-    INT  menu ; /* counter for menus */
-    INT  items ; /* counter for menu items */
-    INT  length ; /* length of string */
-    INT  i, j ;   /* counters */
-    INT  strwidth ; /* temp for calculating width of string in pixels */
-    INT  xpos ;      /* temp to calculate xposition of menu */
-    INT  halfstep ;       /* half the calculated stepsize */
-    INT  entry_width ;    /* size of entry pixmap in pixels */
-    INT  entry ;          /* keep count of entries in each menu */
+    int  menu ; /* counter for menus */
+    int  items ; /* counter for menu items */
+    int  length ; /* length of string */
+    int  i, j ;   /* counters */
+    int  strwidth ; /* temp for calculating width of string in pixels */
+    int  xpos ;      /* temp to calculate xposition of menu */
+    int  halfstep ;       /* half the calculated stepsize */
+    int  entry_width ;    /* size of entry pixmap in pixels */
+    int  entry ;          /* keep count of entries in each menu */
     long event_mask ;     /* set up event catching with this mask */
     Atom menuAtom ; /* need to store menu property */
     Atom messageAtom ; /* need to store message property */
@@ -350,7 +350,7 @@ TWMENUPTR menu_fields ;
     Atom actual ;      /* actual atom return from XGetWindowProperty */
     char windowIdString[LRECL] ; /* buffer for window id string */
     char *prop;       /* used to retrieve the property added to window */
-    INT junk1, junk2 ; /* ignore junk */
+    int junk1, junk2 ; /* ignore junk */
     char *reply ;      /* reply back from Xdefaults */
 
     /* get static information from main draw module */
@@ -518,11 +518,11 @@ TWMENUPTR menu_fields ;
 	    /* now create entry array for each menu entry string */
 	    menuptr->entry = YMALLOC( menuptr->numentries, char * ) ;
 	    /* now create function array for each entry window */
-	    menuptr->function = YMALLOC( menuptr->numentries, INT ) ;
+	    menuptr->function = YMALLOC( menuptr->numentries, int ) ;
 	    /* now create adjusted position array for each menu entry */
-	    menuptr->xpos_adj = YMALLOC( menuptr->numentries, INT ) ;
+	    menuptr->xpos_adj = YMALLOC( menuptr->numentries, int ) ;
 	    /* now create name len array for each menu entry */
-	    menuptr->entry_len = YMALLOC( menuptr->numentries, INT ) ;
+	    menuptr->entry_len = YMALLOC( menuptr->numentries, int ) ;
 	    /* now create enabled array for each entry window */
 	    menuptr->enabled = YMALLOC( menuptr->numentries, BOOL ) ;
 
@@ -531,10 +531,10 @@ TWMENUPTR menu_fields ;
 	    menuptr->bool_entry = YMALLOC( menuptr->numentries, BOOL ) ;
 	    menuptr->state = YMALLOC( menuptr->numentries, BOOL ) ;
 	    menuptr->entry2 = YMALLOC( menuptr->numentries, char * ) ;
-	    menuptr->function2 = YCALLOC( menuptr->numentries, INT ) ;
-	    menuptr->xpos_adj2 = YMALLOC( menuptr->numentries, INT ) ;
+	    menuptr->function2 = YCALLOC( menuptr->numentries, int ) ;
+	    menuptr->xpos_adj2 = YMALLOC( menuptr->numentries, int ) ;
 	    /* now create name len array for each menu entry */
-	    menuptr->entry_len2 = YMALLOC( menuptr->numentries, INT ) ;
+	    menuptr->entry_len2 = YMALLOC( menuptr->numentries, int ) ;
 	    entry = 0 ; /* reset entry */
 	    /* now update position of next menu */
 	    xpos += stepsizeS ;
@@ -590,7 +590,7 @@ TWMENUPTR menu_fields ;
 
 TWdrawMenus()
 {
-    INT i ;
+    int i ;
     MENUPTR menuptr ;
 
     XClearWindow( dpyS, menuS ) ;
@@ -609,7 +609,7 @@ TWdrawMenus()
 static set_window_lights( flag )
 BOOL flag ;
 {
-    INT i ;            /* window counter */
+    int i ;            /* window counter */
     MENUPTR menuptr ;  /* pointer to current window */
     long event_mask ;  /* used to set input selection to window */
 
@@ -633,7 +633,7 @@ BOOL flag ;
 static BOOL checkwindow_lights()
 {
     long event_mask ;  /* used to set input selection to window */
-    INT i ;            /* window counter */
+    int i ;            /* window counter */
     MENUPTR menuptr ;  /* menu pointer */
     Window win ;       /* match window */
     BOOL foundWindow;  /* flag to match window */
@@ -695,24 +695,24 @@ static BOOL checkwindow_lights()
 
 /* check to see mouse button was click.  If true put up appropriate */
 /* menu and return value to user */
-INT TWcheckMouse()
+int TWcheckMouse()
 {
     BOOL foundWindow ;      /* used in window search to find match */
     XEvent event ;          /* describes button event */
-    INT i ;                 /* menu desired by user */
-    INT x ;                 /* pixel location button was pushed */
-    INT menu_requested ;    /* the menu the user requested */
+    int i ;                 /* menu desired by user */
+    int x ;                 /* pixel location button was pushed */
+    int menu_requested ;    /* the menu the user requested */
     long event_mask ;       /* setup menus */
     Window win ;            /* temporary for selected menu window */
     MENUPTR menuptr ;       /* temporary for selected menu record */
     BOOL press ;            /* tells whether button has been pushed */
     GC menu_GC ;            /* normal menu graphics context */
     GC reverse_menuGC ;     /* reverse menu context */
-    static INT last_timeL=0;/* the last time we interupted */
-    static INT last_commandL = CANCEL ; /* the last command issued */
-    static INT countL = 0 ; 		/* the last command issued */
+    static int last_timeL=0;/* the last time we interupted */
+    static int last_commandL = CANCEL ; /* the last command issued */
+    static int countL = 0 ; 		/* the last command issued */
 
-    INT cur_time ;          /* the current time since start of process */
+    int cur_time ;          /* the current time since start of process */
 
     /* now avoid looking for interuptions all the time */
     /* it take too much time*/
@@ -987,10 +987,10 @@ INT TWcheckMouse()
 } /* end TWcheckMouse */
 
 TWdisableMenu( menu_item )
-INT menu_item ;
+int menu_item ;
 {
-    INT      menu ;            /* counter */
-    INT      entry ;           /* counter */
+    int      menu ;            /* counter */
+    int      entry ;           /* counter */
     MENUPTR menuptr ;          /* temporary for selected menu record */
 
     for( menu = 0 ; menu < numMenuS; menu++ ){
@@ -1009,10 +1009,10 @@ INT menu_item ;
 } /* end TWdisableMenu() */
 
 TWenableMenu( menu_item )
-INT menu_item ;
+int menu_item ;
 {
-    INT      menu ;            /* counter */
-    INT      entry ;           /* counter */
+    int      menu ;            /* counter */
+    int      entry ;           /* counter */
     MENUPTR menuptr ;          /* temporary for selected menu record */
 
     for( menu = 0 ; menu < numMenuS; menu++ ){
@@ -1031,11 +1031,11 @@ INT menu_item ;
 } /* end TWenableMenu() */
 
 TWgetPt( x, y )
-INT *x, *y ;
+int *x, *y ;
 {
     BOOL press ;            /* tells whether button has been pushed */
     XEvent event ;          /* describes button event */
-    INT xtemp, ytemp ;      /* pixel location button was pushed */
+    int xtemp, ytemp ;      /* pixel location button was pushed */
     long event_mask ;       /* setup menus */
     
     /* turn on event mask for main drawing window - known as drawS */
@@ -1061,8 +1061,8 @@ INT *x, *y ;
 	    /* account for inversion of y axis */
 	    ytemp = infoS->winheight - ytemp ;
 	    /* now reverse scale of coordinates */
-	    xtemp = (INT) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
-	    ytemp = (INT) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
+	    xtemp = (int) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
+	    ytemp = (int) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
 	    /* now apply data offset */
 	    *x = xtemp - infoS->xoffset ;
 	    *y = ytemp - infoS->yoffset ;
@@ -1102,7 +1102,7 @@ BOOL flag ;
 static draw_persistent_message( non_persistent_message )
 char *non_persistent_message ;
 {
-    INT fwidth ; /* font width */
+    int fwidth ; /* font width */
     char *message ;   /* message to output */
 
     XClearWindow( dpyS, messageS ) ;
@@ -1135,10 +1135,10 @@ char *directions ;
     static char data[LRECL];/* current value of users input */
     KeySym keysym ;         /* return of keysym from user */
     XComposeStatus status ; /* where a compose key was pressed */
-    INT strwidth ;          /* width of string in pixels */
-    INT dataCount ;         /* number of characters in user input */
-    INT cur_time ;          /* the current time */
-    INT start_time ;        /* the start or last activity time */
+    int strwidth ;          /* width of string in pixels */
+    int dataCount ;         /* number of characters in user input */
+    int cur_time ;          /* the current time */
+    int start_time ;        /* the start or last activity time */
 
     event_mask = KeyPressMask ;
     XSelectInput(dpyS,messageS,event_mask);
@@ -1231,7 +1231,7 @@ char *directions ;
 /* or from the using the mouse */
 /* returns TRUE if entered from keyboard, false from mouse */
 BOOL TWgetPt2( x, y )
-INT *x, *y ;
+int *x, *y ;
 {
     BOOL press ;                /* tells whether button has been pushed */
     BOOL ok ;                     /* whether keyboard input is ok */
@@ -1239,7 +1239,7 @@ INT *x, *y ;
     XEvent event ;                /* describes button event */
     long event_mask ;             /* setup input */
     char **tokens;                /* for parsing keyboard data */
-    INT numtokens ;               /* number of tokens in keyboard str */
+    int numtokens ;               /* number of tokens in keyboard str */
     char *reply ;                 /* answer from user */
     
     /* turn on event mask for main drawing window - known as wS */
@@ -1320,12 +1320,12 @@ TWmouse_tracking_start()
 /* get the current mouse position */
 /* returns true if position has changed */
 BOOL TWmouse_tracking_pt( x, y )
-INT *x, *y ;
+int *x, *y ;
 {
     XEvent event ;            /* describes event */
-    INT xtemp, ytemp ;        /* current position of pointer */
+    int xtemp, ytemp ;        /* current position of pointer */
     BOOL changed ;            /* whether position has changed */
-    static INT xoldL, yoldL;  /* position from previous call */
+    static int xoldL, yoldL;  /* position from previous call */
 
     xtemp = xoldL ;           /* restore old point */
     ytemp = yoldL ;           /* restore old point */
@@ -1348,8 +1348,8 @@ INT *x, *y ;
     /* account for inversion of y axis */
     ytemp = infoS->winheight - ytemp ;
     /* now reverse scale of coordinates */
-    xtemp = (INT) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
-    ytemp = (INT) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
+    xtemp = (int) ( (DOUBLE) xtemp / infoS->scaleFactor ) ;
+    ytemp = (int) ( (DOUBLE) ytemp / infoS->scaleFactor ) ;
     /* now apply data offset */
     *x = xtemp - infoS->xoffset ;
     *y = ytemp - infoS->yoffset ;
@@ -1385,8 +1385,8 @@ BOOL TWcheckExposure()
 
     BOOL exposed ;          /* tells whether window has been covered */
     XEvent event ;          /* describes event */
-    INT time ;              /* current time */
-    static INT lasttimeL ;  /* last time of exposure event */
+    int time ;              /* current time */
+    static int lasttimeL ;  /* last time of exposure event */
 
     exposed = FALSE ;
     /* XSync( dpyS, FALSE ) ;*/ /* allow program to catch up */
@@ -1435,8 +1435,8 @@ BOOL TWcheckExposure()
 /* if we are using TWinterupt we which to turn off menu subwindows */
 BOOL TWinterupt()
 {
-    static INT last_timeL=0; /* the last time we interupted */
-    INT cur_time ;          /* the current time since start of process */
+    static int last_timeL=0; /* the last time we interupted */
+    int cur_time ;          /* the current time since start of process */
     BOOL press ;            /* tells whether button has been pushed */
     XEvent event ;          /* describes button event */
 
@@ -1462,9 +1462,9 @@ BOOL TWinterupt()
 /* update windows if configuration changes */
 TWcheckReconfig()
 {
-    INT height ;              /* height of current backing window */
+    int height ;              /* height of current backing window */
     XEvent event ;            /* describes configuration event */
-    INT winwidth, winheight ; /* size of window */
+    int winwidth, winheight ; /* size of window */
     BOOL redraw = FALSE ;     /* whether to redraw or not */
 
     height = infoS->winheight + 2 * MENUHEIGHT ;
@@ -1492,7 +1492,7 @@ TWcheckReconfig()
     }
     if( redraw ){
 	D( "TWcheckReconfig",
-	    {   INT time ;
+	    {   int time ;
 		(void) YcurTime( &time ) ;
 		fprintf( stderr,"TWcheckReconfig redraw:@time = %d\n",
 		time);
@@ -1509,11 +1509,11 @@ TWcheckReconfig()
 
 
 static resize_windows( winwidth, winheight )
-INT winwidth, winheight ;
+int winwidth, winheight ;
 {
-    INT halfstep ;            /* menu half spacing */
-    INT xpos ;                /* position of menu */
-    INT i, j ;                /* counters */
+    int halfstep ;            /* menu half spacing */
+    int xpos ;                /* position of menu */
+    int i, j ;                /* counters */
     MENUPTR menuptr ;       /* temporary for selected menu record */
 
     /* change size of draw window */
@@ -1575,7 +1575,7 @@ INT winwidth, winheight ;
 
 TWfreeMenuWindows()
 {
-    INT i, j ;              /* counters */
+    int i, j ;              /* counters */
     MENUPTR menuptr ;       /* temporary for selected menu record */
 
     for( i = 0; i < numMenuS ; i++ ){
@@ -1604,9 +1604,9 @@ char *filename ;
 {
     char buffer[LRECL], *bufferptr ;
     char **tokens ;         /* for parsing menu file */
-    INT  numtokens ;        /* number of tokens on the line */
-    INT  line ;             /* count lines in input file */
-    INT  item ;             /* number of menu fields */
+    int  numtokens ;        /* number of tokens on the line */
+    int  line ;             /* count lines in input file */
+    int  item ;             /* number of menu fields */
     FILE *fp ;              /* open file pointer */
     TWMENUPTR menu_fields;  /* array of menu information */
     TWMENUPTR mptr;         /* current menu item */
@@ -1726,9 +1726,9 @@ static char *cap_item( sptr )
 char *sptr ;
 {
     static char bufferL[LRECL] ;
-    INT len ;                 /* string length */
-    INT j ;                   /* counter */
-    INT pos ;                 /* position in buffer */
+    int len ;                 /* string length */
+    int j ;                   /* counter */
+    int pos ;                 /* position in buffer */
 
     /* always capitialize the item */
     len = strlen( sptr ) ;
@@ -1752,8 +1752,8 @@ char *sptr ;
 static debug_menus( menu_field )
 TWMENUPTR menu_field ;
 {
-    INT i ;                   /* counter */
-    INT count ;               /* number of fields */
+    int i ;                   /* counter */
+    int count ;               /* number of fields */
     char label[LRECL] ;       /* copy of the menu item */
     FILE *fp ;                /* file pointer */
     TWMENUPTR mptr ;        /* temporary pointer */

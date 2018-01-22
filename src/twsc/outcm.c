@@ -68,8 +68,8 @@ outcm()
 char filename[64] ;
 FILE *fp ;
 PINBOXPTR netptr ;
-INT net , x , local_pin_count , pin_count ;
-INT cell , row , length , xstart ;
+int net , x , local_pin_count , pin_count ;
+int cell , row , length , xstart ;
 
 
 sprintf( filename , "%s.cm" , cktNameG ) ;
@@ -128,8 +128,8 @@ FILE *fp ;
 {
 
 CBOXPTR ptr ;
-INT net , x , pin_count , pin ;
-INT cell , row , length , xstart ;
+int net , x , pin_count , pin ;
+int cell , row , length , xstart ;
 
 
 fscanf(fp, INTSCANSTR, &pin_count ) ;

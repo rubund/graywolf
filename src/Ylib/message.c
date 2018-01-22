@@ -44,10 +44,10 @@ DESCRIPTION:message processing routines
 	    in redirecting the output of messages to the screen as well
 	    as keeping track of program errors and warnings.
 CONTENTS:   Ymessage_print( messageType, routine, messageString )
-		INT messageType ;
+		int messageType ;
 		char *routine, *messageString ;
-	    INT Ymessage_get_warncount()
-	    INT Ymessage_get_errorcount()
+	    int Ymessage_get_warncount()
+	    int Ymessage_get_errorcount()
 	    Ymessage_warncount()
 	    Ymessage_errorcount()
 	    Ymessage_output( messageString )
@@ -55,7 +55,7 @@ CONTENTS:   Ymessage_print( messageType, routine, messageString )
 	    Ymessage_init( fileptr )
 		FILE *fileptr ;
 	    Ymessage_mode( mode )
-		INT mode ;
+		int mode ;
 	    Ymessage_flush()
 	    Ymessage_close()
 
@@ -83,8 +83,8 @@ static char SccsId[] = "@(#) message.c version 3.6 3/7/91" ;
 #include <yalecad/message.h>
 #include <yalecad/file.h>
 
-static INT errorCountS = 0;
-static INT warningCountS = 0;
+static int errorCountS = 0;
+static int warningCountS = 0;
 static FILE *foutS = NULL ;         /* open output file */
 static FILE *outS = NULL ;          /* redirected out file */
 static BOOL verboseS = FALSE ;
@@ -97,7 +97,7 @@ char *YmsgG = message_bufS ;
 
 
 Ymessage_print( messageType, routine, messageString )
-INT messageType ;
+int messageType ;
 char *routine ;
 char *messageString ;
 {
@@ -177,12 +177,12 @@ Ymessage_error_count()
     errorCountS++ ;
 }/* end Ymessage_error_count */
 
-INT Ymessage_get_warncount()
+int Ymessage_get_warncount()
 {
     return(warningCountS);
 } /*end Ymessage_get_warncount */
 
-INT Ymessage_get_errorcount()
+int Ymessage_get_errorcount()
 {
     return(errorCountS);
 } /*end Ymessage_get_errorcount */
@@ -207,7 +207,7 @@ FILE *fileptr ;
 } /* end Ymessage_init */
 
 Ymessage_mode( mode )
-INT mode ;
+int mode ;
 {
     if( mode == M_VERBOSE ){
 	verboseS = TRUE ;

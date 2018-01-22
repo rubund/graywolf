@@ -53,38 +53,38 @@ static char SccsId[] = "@(#) twstats.c version 3.3 9/5/90" ;
 #include <yalecad/debug.h>
 
 #define MAXPININFO 100
-static INT maxpinS = 0 ;
+static int maxpinS = 0 ;
 
 
 twstats()
 {
-    INT temp ;
+    int temp ;
     DOUBLE reduction ;
 
 OUT3("\nInitial Wiring Cost: %d   Final Wiring Cost: %d\n",
 						icostG , fcostG ) ;
 if( icostG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE)fcostG / (DOUBLE)icostG * 100.0 ) ;
+    temp = 100 - (int)( (DOUBLE)fcostG / (DOUBLE)icostG * 100.0 ) ;
     OUT2("############ Percent Wire Cost Reduction: %d\n\n", temp ) ;
 }
 
 OUT3("\nInitial Wire Length: %d   Final Wire Length: %d\n",
 					    iwireG, fwireG ) ;
 if( icostG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE) fwireG / (DOUBLE) iwireG * 100.0 ) ;
+    temp = 100 - (int)( (DOUBLE) fwireG / (DOUBLE) iwireG * 100.0 ) ;
     OUT2("*********** Percent Wire Length Reduction: %d\n\n", temp ) ;
 }
 
 OUT3("\nInitial Horiz. Wire: %d   Final Horiz. Wire: %d\n",
 					    iwirexG , fwirexG ) ;
 if( iwirexG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE)fwirexG / (DOUBLE)iwirexG * 100.0 ) ;
+    temp = 100 - (int)( (DOUBLE)fwirexG / (DOUBLE)iwirexG * 100.0 ) ;
     OUT2("$$$$$$$$$ Percent H-Wire Length Reduction: %d\n\n", temp ) ;
 }
 OUT3("\nInitial Vert. Wire: %d   Final Vert. Wire: %d\n",
 					    iwireyG , fwireyG ) ;
 if( iwireyG != 0 ) {
-    temp = 100 - (INT)( (DOUBLE)fwireyG / (DOUBLE)iwireyG * 100.0 ) ;
+    temp = 100 - (int)( (DOUBLE)fwireyG / (DOUBLE)iwireyG * 100.0 ) ;
     OUT2("@@@@@@@@@ Percent V-Wire Length Reduction: %d\n\n", temp ) ;
 }
 
@@ -105,10 +105,10 @@ if( avg_funcG > 0 ){
 return ;
 }
 
-static INT printPinS = 0 ;
+static int printPinS = 0 ;
 
 set_print_pin( pin )
-INT pin ;
+int pin ;
 {
     printPinS = pin ;
 }
@@ -117,8 +117,8 @@ prnt_netinfo()
 {
 
 SHORT numpins ;
-INT net_pin_num[ MAXPININFO+1 ] ;
-INT n, net, cell ;
+int net_pin_num[ MAXPININFO+1 ] ;
+int n, net, cell ;
 NETBOXPTR dimptr ;
 PINBOXPTR termptr ;
 

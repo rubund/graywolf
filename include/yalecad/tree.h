@@ -15,8 +15,8 @@ static char treeId[] = "@(#) tree.h version 1.3 10/9/90" ;
 #ifndef RBTREE_H
 typedef struct tree {
     char       *root ;                  /* the root of the tree */
-    INT        (*compare_func)() ;     /* how to compare two keys */
-    INT        offset ;                /* how to get the key */
+    int        (*compare_func)() ;     /* how to compare two keys */
+    int        offset ;                /* how to get the key */
 } YTREEBOX, *YTREEPTR ;
 #endif
 
@@ -31,11 +31,11 @@ typedef struct tree {
 }
 
 /* ******************* BINARY TREE INCLUDE FILES ****************** */
-extern YTREEPTR Ytree_init( P2(INT compare_func(), INT offset ) ) ;
+extern YTREEPTR Ytree_init( P2(int compare_func(), int offset ) ) ;
 /* 
 Arguments:
-    INT compare_func() ;
-    INT offset ;
+    int compare_func() ;
+    int offset ;
 Function:
     Initializes a binary tree.  The user should supply a compare
     comparison function similar to the one used by the UNIX 

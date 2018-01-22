@@ -32,26 +32,26 @@ REVISIONS:
 #define MIXED         0x3
 
 typedef struct abox { 
-    INT    *x_contour       ;  /* x coordinates of pin contour          */
-    INT    *y_contour       ;  /* y coordinates of pin contour          */
-    INT    num_corners      ;  /* number of vertices in pin contour     */
+    int    *x_contour       ;  /* x coordinates of pin contour          */
+    int    *y_contour       ;  /* y coordinates of pin contour          */
+    int    num_corners      ;  /* number of vertices in pin contour     */
     FLOAT  current          ;  /* current for the pin                   */
     FLOAT  power            ;  /* power  for the pin                    */
     BOOL   no_layer_change  ;  /* whether layer change are allowed      */
 } ANALOGBOX, *ANALOGPTR ;
 
 typedef struct common_pt {
-    INT num_pins        ;  /* number of pins in this common point */
-    INT *common_set     ;  /* set of pins in the common point */
-    INT *cap_match      ;  /* pins that must match cap. for each cpt.*/
-    INT *res_match      ;  /* pins that must match res. for each cpt.*/
+    int num_pins        ;  /* number of pins in this common point */
+    int *common_set     ;  /* set of pins in the common point */
+    int *cap_match      ;  /* pins that must match cap. for each cpt.*/
+    int *res_match      ;  /* pins that must match res. for each cpt.*/
 } COMMONBOX, *COMMONPTR ;
 
 typedef struct analognet {
     DOUBLE cap_upper_bound  ;  /* capacitance upper bound */
     DOUBLE res_upper_bound  ;  /* resistance upper bound */
-    INT net_type     	    ;  /* noisy, sensitive, shielding */
-    INT num_common_points   ;  /* number of common points for the net */
+    int net_type     	    ;  /* noisy, sensitive, shielding */
+    int num_common_points   ;  /* number of common points for the net */
     COMMONPTR  *common_pts  ;  /* array of the common points */
     DOUBLE max_drop         ;  /* max voltage drop */
 } ANETBOX, *ANETPTR ;

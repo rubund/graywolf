@@ -149,7 +149,7 @@ char *signal ;
 } /* end addNet */
 
 set_bbox( left, right, bottom, top )
-INT left, right, bottom, top ;
+int left, right, bottom, top ;
 {
     DOUBLE width, height ;
 
@@ -165,7 +165,7 @@ INT left, right, bottom, top ;
 output( fp )
 FILE *fp ;
 {
-    INT g ;
+    int g ;
 
     if( total_std_cellS > 0 ){
 	average_cell_heightS = total_cell_heightS / 
@@ -186,13 +186,13 @@ FILE *fp ;
 
 
     /* the first instance take as a rectangle - initially a square */
-    g = (INT) sqrt( core_areaS ) ;
+    g = (int) sqrt( core_areaS ) ;
     fprintf( fp, "cluster 1 name core\n" ) ;
     fprintf( fp, "corners 4 0 0   0 %d  %d %d   %d 0\n", g, g, g, g ) ;
     write_softpins( fp ) ;
 
     /* for the second instance use an L shape */
-    g = (INT) sqrt( core_areaS / 3.0 ) ;
+    g = (int) sqrt( core_areaS / 3.0 ) ;
     if( g > 2 ){
 	fprintf( fp, "instance core_L\n" ) ;
 	fprintf( fp, "corners 6 " ) ;
@@ -206,7 +206,7 @@ FILE *fp ;
     }
     
     /* for the third instance use a T shape */
-    g = (INT) sqrt( core_areaS / 4.0 ) ;
+    g = (int) sqrt( core_areaS / 4.0 ) ;
     if( g > 2 ){
 	fprintf( fp, "instance core_T\n" ) ;
 	fprintf( fp, "corners 8 " ) ;
@@ -223,7 +223,7 @@ FILE *fp ;
 
 #ifdef USHAPE
     /* for the third instance use a U shape */
-    g = (INT) sqrt( core_areaS / 5.0 ) ;
+    g = (int) sqrt( core_areaS / 5.0 ) ;
     if( g > 2 ){
 	fprintf( fp, "instance core_U\n" ) ;
 	fprintf( fp, "corners 8 " ) ;
@@ -240,7 +240,7 @@ FILE *fp ;
 #endif
 
     /* for the fourth instance use a modified L shape */
-    g = (INT) sqrt( core_areaS / 5.0 ) ;
+    g = (int) sqrt( core_areaS / 5.0 ) ;
     if( g > 2 ){
 	fprintf( fp, "instance core_L2\n" ) ;
 	fprintf( fp, "corners 6 " ) ;
@@ -282,8 +282,8 @@ read_par()
     char input[LRECL] ;
     char *bufferptr ;
     char **tokens ;
-    INT  numtokens ;
-    INT  line ;
+    int  numtokens ;
+    int  line ;
     BOOL onNotOff ;
     BOOL wildcard ;
     BOOL found ;
@@ -317,7 +317,7 @@ read_par()
 update_stats( fp )
 FILE *fp ;
 {
-    fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);
+    fprintf( fp, "tot_length:%d\n", (int)total_cell_lenS);
     fprintf( fp, "num_soft:1\n" ) ;
-    fprintf( fp, "cell_height:%d\n", (INT) average_cell_heightS);
+    fprintf( fp, "cell_height:%d\n", (int) average_cell_heightS);
 } /* end update_stats */

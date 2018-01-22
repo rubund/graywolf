@@ -78,13 +78,13 @@ savewolf( forceSave )
 BOOL forceSave ; /* if true save parameters regardless of time */
 {
 
-INT  m ;
+int  m ;
 FILE *fp ;
 char filename[LRECL] ;
 char file1[LRECL] ;
 char file2[LRECL] ;
-INT cell , terminal ;
-INT count ;
+int cell , terminal ;
+int count ;
 CELLBOXPTR cellptr ;
 PINBOXPTR  *sarray ;
 PINBOXPTR  pin ;
@@ -174,13 +174,13 @@ FILE *fp ;
 {
 
 #define HOWMANY  0
-INT i, cell, orient, site, terminal;
-INT xcenter , ycenter, error ;
-INT oleft , oright , obottom , otop , Hdiv2 , Wdiv2 ;
-INT number_of_cells, inst ;
+int i, cell, orient, site, terminal;
+int xcenter , ycenter, error ;
+int oleft , oright , obottom , otop , Hdiv2 , Wdiv2 ;
+int number_of_cells, inst ;
 DOUBLE aspect , aspFactor , val ;
 DOUBLE percentDone ;
-DOUBLE eval_ratio( P1(INT iterationG) ) ;
+DOUBLE eval_ratio( P1(int iterationG) ) ;
 CELLBOXPTR ptr ;
 TILEBOXPTR tileptr1 ;
 PINBOXPTR *sarray ; /* array of the current softpins */
@@ -188,11 +188,11 @@ PINBOXPTR term ;
 INSTBOXPTR instptr ;
 BOUNBOXPTR bounptr ;
 VERTBOXPTR vert ;
-INT *xorig ;
-INT *xnew ;
-INT *yorig ;
-INT *ynew ;
-INT howmany ;
+int *xorig ;
+int *xnew ;
+int *yorig ;
+int *ynew ;
+int howmany ;
 
 error = 0 ;
 error += read_uloop( fp ) ;
@@ -254,7 +254,7 @@ while( fscanf( fp , " %d %d %d %d ", &cell , &orient ,
 	    term->typos_orig[inst] = term->typos ;
 	}
 
-	howmany = (INT) ptr->softpins[HOWMANY] ;
+	howmany = (int) ptr->softpins[HOWMANY] ;
 	/* set each pin's correct instance */
 	for( i = 1 ; i <= howmany; i++ ){
 	    term = ptr->softpins[i] ;
@@ -362,9 +362,9 @@ HPI(fp,d)
 FILE *fp;			/* high precision input */
 DOUBLE *d;
 {
-    INT numread ;
+    int numread ;
 
-    numread = (INT) fscanf(fp,"%s\n",YmsgG);
+    numread = (int) fscanf(fp,"%s\n",YmsgG);
     if( numread != 1 ){
 	M( ERRMSG, "HPI", "Could not read data.  FATAL must abort\n" ) ;
 	closegraphics() ;

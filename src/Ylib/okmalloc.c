@@ -49,12 +49,12 @@ CONTENTS:
 	    static status_t  heapDispose (ptr)
 		char_p ptr;
 	    static status_t  allocateRegion (min_size)
-		INT min_size;
+		int min_size;
 	    static status_t  heapInit (initial_size)
-		INT initial_size;
+		int initial_size;
 	    static status_t  heapNew (ptr, req_size)
 		char_p  *ptr;
-		INT   req_size;
+		int   req_size;
 	    +++++++++ END HEAP MANAGEMENT ROUTINES ++++++++++++ 
 	      USER  CALLS FOR C RUN TIME LIBRARY 
 	    VOID Ysafe_free(ptr)
@@ -69,12 +69,12 @@ CONTENTS:
 	    char *Ysafe_realloc(ptr, bytes)
 		char *ptr;
 		long bytes;
-	    INT YgetCurMemUse()
-	    INT YcheckMemObj(ptr)
+	    int YgetCurMemUse()
+	    int YcheckMemObj(ptr)
 		char *ptr ;
-	    INT Yinit_memsize(memsize)
-		INT memsize ;
-	    INT YgetListSize(ptr, offsetPtr)
+	    int Yinit_memsize(memsize)
+		int memsize ;
+	    int YgetListSize(ptr, offsetPtr)
 		char *ptr ;     
 		char *offsetPtr ;
 	    YdebugMemory( flag )
@@ -82,17 +82,17 @@ CONTENTS:
 	    Ypmemerror( s )
 		char *s ;
 	    YcheckDebug( where )
-		INT where ; 
+		int where ; 
 	    char *Yvector_alloc( lo, hi, size )
-		INT size, lo, hi ;
+		int size, lo, hi ;
 	    char *Yvector_calloc( lo, hi, size )
-		INT size, lo, hi ;
+		int size, lo, hi ;
 	    char *Yvector_realloc( array_orig, lo, hi, size )
 	    VOIDPTR array_orig ;
-		INT size, lo, hi ;
+		int size, lo, hi ;
 	    VOID Yvector_free( array, lo, size )
 		VOIDPTR array ;
-		INT lo, size ;
+		int lo, size ;
 DATE:	    Feb  2, 1988 
 REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Feb 22, 1989 - added new memory check for debugger.
@@ -194,11 +194,11 @@ static char SccsId[] = "@(#) okmalloc.c (Yale) version 3.24 3/6/92" ;
 #define  char_p            char *
 
 typedef  struct {
-            INT              size;
+            int              size;
          }  header_t;
 
 typedef  struct {
-            INT              all;
+            int              all;
          }  status_t;
 
 typedef  struct block_type {
@@ -208,32 +208,32 @@ typedef  struct block_type {
                   struct block_type   *link;
                   struct block_type   *back;
                } zero_case;
-               INT              data;
+               int              data;
             } case_of_two;
          }  block_t, *block_p;
 
-typedef  INT              region_head_t, *region_head_p;
+typedef  int              region_head_t, *region_head_p;
 
 typedef  struct {
-            INT             size;
+            int             size;
          }  trailer_t, *trailer_p;
 
 typedef  struct {
             block_t          avail;
             block_p          alloc_rover;
             region_head_p    highest_region;
-            INT              cnt_blks;
-            INT              max_blks;
+            int              cnt_blks;
+            int              max_blks;
          }  zone_t;
 
 static  zone_t       zoneS ;
 static status_t      statuS;
 static BOOL heapNotStartedS = TRUE;
-static INT totalAllocationS = 0 ;
+static int totalAllocationS = 0 ;
 static BOOL debugFlagS = FALSE ;
-static INT inUseS = 0 ;
-static INT regionSizeS = DFL_REGION_SIZE ;
-static INT max_usedS = 0 ;
+static int inUseS = 0 ;
+static int regionSizeS = DFL_REGION_SIZE ;
+static int max_usedS = 0 ;
 
 #ifdef MEM_DEBUG
 
@@ -268,15 +268,15 @@ char_p        ptr;
 
 /*  Begin procedure heap dispose.  */
 
-   headPtr = (block_p) ((INT) ptr - sizeof(header_t));
+   headPtr = (block_p) ((int) ptr - sizeof(header_t));
    inUseS += headPtr->head.size ;
-   tail = (trailer_p) ( ((INT)headPtr) - headPtr->head.size - sizeof(trailer_t));
+   tail = (trailer_p) ( ((int)headPtr) - headPtr->head.size - sizeof(trailer_t));
    if ((headPtr->head.size > 0) || (headPtr->head.size != tail->size)) {
      st.all = heap_bad_block;
      return (st);
    } else if( debugFlagS ) {
 	/* set the old memory to -1 */	
-	headPtr = (block_p) ((INT) ptr - sizeof(header_t));
+	headPtr = (block_p) ((int) ptr - sizeof(header_t));
 	/* find number of words; - 2 accounts for header and trailer */
 	l = ABS( headPtr->head.size ) / sizeof(long) - 2 ;
 	for(i=(long *) ptr;l>0;i++, l--){
@@ -285,9 +285,9 @@ char_p        ptr;
    }
 
    headPtr->head.size *= -1;
-   tail = (trailer_p) ( ((INT)headPtr) - sizeof(trailer_t));
+   tail = (trailer_p) ( ((int)headPtr) - sizeof(trailer_t));
    if (tail->size > 0) {
-      check = (block_p) ( ((INT)headPtr) - tail->size);
+      check = (block_p) ( ((int)headPtr) - tail->size);
       higher = check->case_of_two.zero_case.link;
       lower = check->case_of_two.zero_case.back;
       higher->case_of_two.zero_case.back = lower;
@@ -296,7 +296,7 @@ char_p        ptr;
       headPtr = check;
    }
 
-  check = (block_p) ( ((INT)headPtr) + headPtr->head.size);
+  check = (block_p) ( ((int)headPtr) + headPtr->head.size);
   if (check->head.size > 0) {
       if (zoneS.alloc_rover == (block_p) &(check->head.size)) {
          zoneS.alloc_rover = (block_p) &(headPtr->head.size);
@@ -307,7 +307,7 @@ char_p        ptr;
       lower->case_of_two.zero_case.link = higher;
       headPtr->head.size += check->head.size;
    }
-   tail = (trailer_p) ( ((INT)headPtr) + headPtr->head.size - sizeof(trailer_t));
+   tail = (trailer_p) ( ((int)headPtr) + headPtr->head.size - sizeof(trailer_t));
    tail->size = headPtr->head.size;
    headPtr->case_of_two.zero_case.link = zoneS.avail.case_of_two.zero_case.link;
    headPtr->case_of_two.zero_case.back = (block_p) &(zoneS.avail);
@@ -339,17 +339,17 @@ char_p        ptr;
 /* ---------- Utility Routines ---------- */
 
 static status_t  allocateRegion (min_size)
-INT            min_size;
+int            min_size;
 {
-typedef  INT   *tag_p;
+typedef  int   *tag_p;
 
    status_t      st;
    block_p        head;
    trailer_p      tail;
-   INT            allocation;
-   INT            pageSize;
-   INT            i;
-   INT            *memory;
+   int            allocation;
+   int            pageSize;
+   int            i;
+   int            *memory;
 
 /*  Begin procedure allocate region.  */
 #ifndef SYS5
@@ -360,7 +360,7 @@ typedef  INT   *tag_p;
    if( min_size < expected_size ){
 	min_size = expected_size ;
    } 
-   allocation = min_size + 2*sizeof(INT);
+   allocation = min_size + 2*sizeof(int);
    allocation += pageSize - (allocation % pageSize) ;
    totalAllocationS += allocation ;
    head = (block_p) sbrk(0) ;
@@ -396,35 +396,35 @@ typedef  INT   *tag_p;
    }
    if( debugFlagS ){ 
        /* initialize all bytes of memory to 1 to catch bugs */
-       memory = (INT *) head ;
+       memory = (int *) head ;
        for( i=0;i<allocation/4;i++){
 	    memory[i] = -1 ;
        }
    } 
 
-   inUseS += allocation - 2*sizeof(INT) ;
-   tail = (trailer_p) ((INT) head + allocation - sizeof(INT));
+   inUseS += allocation - 2*sizeof(int) ;
+   tail = (trailer_p) ((int) head + allocation - sizeof(int));
    if (zoneS.highest_region != NULL) {
-      if (zoneS.highest_region + ABS(*zoneS.highest_region) == (INT *) head) {
+      if (zoneS.highest_region + ABS(*zoneS.highest_region) == (int *) head) {
          *zoneS.highest_region = *zoneS.highest_region - allocation;
-         head = (block_p) ((INT) head - sizeof(INT));
+         head = (block_p) ((int) head - sizeof(int));
       } else {
-         zoneS.highest_region = (INT *) head;
+         zoneS.highest_region = (int *) head;
          *zoneS.highest_region = -allocation;
-         head = (block_p) ((INT) head + sizeof(INT));
-         allocation = allocation - 2*sizeof(INT);
+         head = (block_p) ((int) head + sizeof(int));
+         allocation = allocation - 2*sizeof(int);
       }
    } else {
-      zoneS.highest_region = (INT *) head;
+      zoneS.highest_region = (int *) head;
       *zoneS.highest_region = -allocation;
-      head = (block_p) ((INT) head + sizeof(INT));
-      allocation = allocation - 2*sizeof(INT);
+      head = (block_p) ((int) head + sizeof(int));
+      allocation = allocation - 2*sizeof(int);
    }
 
    tail->size = *zoneS.highest_region;
-   tail = (trailer_p) ((INT) head + allocation - sizeof(INT));
+   tail = (trailer_p) ((int) head + allocation - sizeof(int));
    head->head.size = tail->size = -allocation;
-   head = (block_p) ((INT) head + sizeof(INT));
+   head = (block_p) ((int) head + sizeof(int));
    st = heapDispose (head);
    zoneS.alloc_rover = zoneS.avail.case_of_two.zero_case.link;
    st.all = heap_ok;
@@ -434,11 +434,11 @@ typedef  INT   *tag_p;
 
 /* -------- heap_init -------- */
 static status_t  heapInit (initial_size)
-INT           initial_size;
+int           initial_size;
 {
    status_t     st;
    block_p       block;
-   INT           allocation;
+   int           allocation;
 
 /*  Begin procedure heap init.  */
 
@@ -471,13 +471,13 @@ INT           initial_size;
 /* -------- heap_new --------- */
 static status_t  heapNew (ptr, req_size MEM_DEBUG1 )
 char_p        *ptr;
-INT           req_size;
+int           req_size;
 MEM_DEBUG2
 {
    status_t       st;
-   INT            excess;
-   INT            allocation;
-   INT            block_size;
+   int            excess;
+   int            allocation;
+   int            block_size;
    block_p        new_block;
    block_p        check;
    trailer_p      trailer;
@@ -507,17 +507,17 @@ MEM_DEBUG2
             block_size = check->head.size;
          } else {
             check->head.size = excess;
-            trailer = (trailer_p) ((INT) check + excess - sizeof(trailer_t));
+            trailer = (trailer_p) ((int) check + excess - sizeof(trailer_t));
             trailer->size = excess;
-            check = (block_p) ((INT) check + excess);
+            check = (block_p) ((int) check + excess);
          }
          check->head.size = -block_size;
-         trailer = (trailer_p) ((INT) check + block_size - sizeof(trailer_t));
+         trailer = (trailer_p) ((int) check + block_size - sizeof(trailer_t));
          trailer->size = -block_size;
          *ptr = (char_p) &(check->case_of_two.data);
 #ifdef MEM_DEBUG
 	 {  
-	    INT len ;
+	    int len ;
 	    char alloc_name[BUFSIZ] ;
 	    MEMOBJPTR name_data ;
 	    if( file ){
@@ -563,10 +563,10 @@ VOID Ydump_mem()
 #ifdef MEM_DEBUG
     FILE *fp ;
     MEMOBJPTR	mem_p ;
-    static INT dump_noL = 0 ;
+    static int dump_noL = 0 ;
     char filename[LRECL] ;
-    INT sum_allocated ;
-    INT size ;
+    int sum_allocated ;
+    int size ;
 
     sum_allocated = 0 ;
     sprintf( filename, "mem.data.%d", ++dump_noL ) ;
@@ -627,7 +627,7 @@ MEM_DEBUG2
 
 
 char *Ysafe_malloc(bytes MEM_DEBUG1 )
-INT bytes;
+int bytes;
 MEM_DEBUG2
 {
    char *ptr;
@@ -644,8 +644,8 @@ MEM_DEBUG2
 }
 
 char *Ysafe_calloc(num_entries, bytes MEM_DEBUG1 )
-INT num_entries;
-INT bytes;
+int num_entries;
+int bytes;
 MEM_DEBUG2 
 {
    char *ptr;
@@ -670,13 +670,13 @@ MEM_DEBUG2
 
 char *Ysafe_realloc(ptr, bytes MEM_DEBUG1 )
 VOIDPTR ptr;
-INT bytes;
+int bytes;
 MEM_DEBUG2
 {
 
    char               *ptr2;
-   INT                oldSize;
-   INT                i;
+   int                oldSize;
+   int                i;
    block_p            headPtr;
    trailer_p          tail;
 
@@ -684,8 +684,8 @@ MEM_DEBUG2
    ptr2 = Ysafe_malloc(bytes MEM_DEBUG1 );
 
    /* get current size of ptr */
-   headPtr = (block_p) ((INT) ptr - sizeof(header_t));
-   tail = (trailer_p) ( ((INT)headPtr) - headPtr->head.size
+   headPtr = (block_p) ((int) ptr - sizeof(header_t));
+   tail = (trailer_p) ( ((int)headPtr) - headPtr->head.size
 	   - sizeof(trailer_t));
    if ((headPtr->head.size > 0) || (headPtr->head.size != tail->size)) {
        errno = heap_bad_block ;
@@ -708,34 +708,34 @@ MEM_DEBUG2
 }
 
 VOID Yinit_memsize( memsize )
-INT memsize ;
+int memsize ;
 {
     regionSizeS = memsize ;
 } /* end Yinit_memsize */
 
 /* getCurMemUse - returns the current allocated memory by user */
-INT YgetCurMemUse()
+int YgetCurMemUse()
 {
     return(inUseS) ;
 }
 
 /* getMaxMemUse - returns the maximum allocated memory by user */
-INT YgetMaxMemUse()
+int YgetMaxMemUse()
 {
     return(max_usedS) ;
 }
 
 /* checkMemObj(ptr) - returns the size of the object pointed to */
 /* returns size in bytes.  returns -1 if invalid object */
-INT YcheckMemObj(ptr)
+int YcheckMemObj(ptr)
 char *ptr ;
 {
    block_p            headPtr;
    trailer_p          tail;
 
    /* get current size of ptr */
-   headPtr = (block_p) ((INT) ptr - sizeof(header_t));
-   tail = (trailer_p) ( ((INT)headPtr) - headPtr->head.size
+   headPtr = (block_p) ((int) ptr - sizeof(header_t));
+   tail = (trailer_p) ( ((int)headPtr) - headPtr->head.size
 	   - sizeof(trailer_t));
    if ((headPtr->head.size > 0) || (headPtr->head.size != tail->size)) {
       return(-1) ;
@@ -744,10 +744,10 @@ char *ptr ;
 } /* end checkMemObj */
 
 /* checkDebug call checkMemObj so it can be used in debugger */
-INT YcheckDebug( where )
+int YcheckDebug( where )
 VOIDPTR where ; /* must be integer to work in dbx */
 {
-    INT size ;
+    int size ;
 
     if( (size = YcheckMemObj( (char *) where )) == -1 ){
 	fprintf( stderr, "Memory has been damaged\n" ) ;
@@ -760,18 +760,18 @@ VOIDPTR where ; /* must be integer to work in dbx */
 /* getListSize(ptr,offset) - returns the size of a linked-list */
 /* returns size in bytes.  returns -1 if invalid object */
 /* example.  getListSize(netPtr,&(netPtr->next) ) ;  */
-INT YgetListSize(ptr, offsetPtr)
+int YgetListSize(ptr, offsetPtr)
 char *ptr ;     /* pointer to beginning of list structure */
 char *offsetPtr ;  /* pointer to "next" field within structure */
 {
    block_p            headPtr;
    trailer_p          tail;
-   INT		      recordCount = 0 ;
-   INT		      memInUse = 0 ;
-   INT		      offset ;
-   INT		      limit ;    /* max number of records */
-   INT                *intPtr ;
-   INT                temp ;
+   int		      recordCount = 0 ;
+   int		      memInUse = 0 ;
+   int		      offset ;
+   int		      limit ;    /* max number of records */
+   int                *intPtr ;
+   int                temp ;
 
    /* first calculate offset of next field */
    offset = offsetPtr - ptr ;
@@ -779,8 +779,8 @@ char *offsetPtr ;  /* pointer to "next" field within structure */
    /* calculate limit to detect circular link list */
    /* the max number of records = MaxMemory/sizeof(record)
    /* need current size of ptr for calculation */
-   headPtr = (block_p) ((INT) ptr - sizeof(header_t));
-   tail = (trailer_p) ( ((INT)headPtr) - headPtr->head.size
+   headPtr = (block_p) ((int) ptr - sizeof(header_t));
+   tail = (trailer_p) ( ((int)headPtr) - headPtr->head.size
       - sizeof(trailer_t));
    if ((headPtr->head.size > 0) || (headPtr->head.size != tail->size)) {
        return(-1) ;
@@ -793,8 +793,8 @@ char *offsetPtr ;  /* pointer to "next" field within structure */
 
    while( ptr ) {   /* perform check while pointer is not null */
        	
-       headPtr = (block_p) ((INT) ptr - sizeof(header_t));
-       tail = (trailer_p) ( ((INT)headPtr) - headPtr->head.size
+       headPtr = (block_p) ((int) ptr - sizeof(header_t));
+       tail = (trailer_p) ( ((int)headPtr) - headPtr->head.size
              - sizeof(trailer_t));
        if ((headPtr->head.size > 0) || (headPtr->head.size != tail->size)) {
 	    if( debugFlagS ){
@@ -811,7 +811,7 @@ char *offsetPtr ;  /* pointer to "next" field within structure */
 
        /* update pointer */
        /* calculate addresss of next field */
-       intPtr = (INT *) (ptr + offset) ;
+       intPtr = (int *) (ptr + offset) ;
        /* next line does indirect addressing - contents of */
        /* field is put in temp.  Note we use char point but */
        /* we need all four bytes of the next field for new pointer */
@@ -847,7 +847,7 @@ BOOL flag ;
 /* use standard calls to malloc, calloc, etc */
 
 char *Ysafe_malloc(size)
-INT size;
+int size;
 {
     char *p;
 
@@ -863,7 +863,7 @@ INT size;
 
 char *Ysafe_realloc(obj, size)
 VOIDPTR obj;
-INT size;
+int size;
 {
     char *p;
 
@@ -878,7 +878,7 @@ INT size;
 
 
 char *Ysafe_calloc(num, size)
-INT size, num;
+int size, num;
 {
     char *p;
 
@@ -907,23 +907,23 @@ VOIDPTR ptr;
 
 /* ***********DUMMY ROUTINES TO RESOLVE GLOBALS **************** */
 /* see above for normal use */
-INT YgetCurMemUse()
+int YgetCurMemUse()
 {
     return(0) ;
 }
 
-INT YgetMaxMemUse()
+int YgetMaxMemUse()
 {
     return(0) ;
 }
 
-INT YcheckMemObj(ptr)
+int YcheckMemObj(ptr)
 char *ptr ;
 {
    return(0) ;
 }
 
-INT YgetListSize(ptr, offsetPtr)
+int YgetListSize(ptr, offsetPtr)
 char *ptr ;     /* pointer to beginning of list structure */
 char *offsetPtr ;  /* pointer to "next" field within structure */
 {
@@ -931,19 +931,19 @@ char *offsetPtr ;  /* pointer to "next" field within structure */
 }
 
 VOID YdebugMemory( flag )
-INT flag ;
+int flag ;
 {
     return ;
 }
 
-INT YcheckDebug( where )
+int YcheckDebug( where )
 VOIDPTR where ; 
 {
     return ( INT_MAX ) ;
 } /* end checkDebug */
 
 VOID Yinit_memsize( memsize )
-INT memsize ;
+int memsize ;
 {
     return ;
 } /* end Yinit_memsize */
@@ -988,7 +988,7 @@ char *s ;
 /* *******  memory convenience functions  ******* */
 /* ALLOCATE an array [lo..hi] of the given size not initialized */
 char *Yvector_alloc( lo, hi, size MEM_DEBUG1 )
-INT size, lo, hi ;
+int size, lo, hi ;
 MEM_DEBUG2
 {
     char *array_return ;
@@ -1003,7 +1003,7 @@ MEM_DEBUG2
 
 /* ALLOCATE an array [lo..hi] of the given size initialized to zero */
 char *Yvector_calloc( lo, hi, size MEM_DEBUG1 )
-INT size, lo, hi ;
+int size, lo, hi ;
 MEM_DEBUG2
 {
     char *array_return ;
@@ -1019,7 +1019,7 @@ MEM_DEBUG2
 /* REALLOCATE an array [lo..hi] of the given size no initialization */
 char *Yvector_realloc( array_orig, lo, hi, size MEM_DEBUG1 )
 VOIDPTR array_orig ;
-INT size, lo, hi ;
+int size, lo, hi ;
 MEM_DEBUG2
 {
     char *adj_array ;          /* put back the offset */
@@ -1037,7 +1037,7 @@ MEM_DEBUG2
 
 VOID Yvector_free( array, lo, size MEM_DEBUG1 )
 VOIDPTR array ;
-INT lo, size ;
+int lo, size ;
 MEM_DEBUG2
 {
     Ysafe_free( ((char *)array) + lo * size MEM_DEBUG1 ) ;
@@ -1047,7 +1047,7 @@ MEM_DEBUG2
 #ifdef TEST 
 
 typedef struct {
-    INT bogus_dude ;
+    int bogus_dude ;
     DOUBLE narly ;
     char *awesome ;
 } MEMDATA, *MEMDATAPTR ;

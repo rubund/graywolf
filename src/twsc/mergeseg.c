@@ -45,7 +45,7 @@ CONTENTS:   mergeseg( netptr )
 		NBOX *netptr ;
 	    mergedge( netptr, direction )
 		NBOX *netptr ;
-		INT direction ;
+		int direction ;
 	    rplacseg( netptr, oldnode, newnode )
 		PINBOXPTR netptr, oldnode, newnode ;
 	    set_steiner_flag( ptr1, ptr2, ptr3 , stptr )
@@ -74,16 +74,16 @@ static char SccsId[] = "@(#) mergeseg.c (Yale) version 4.4 12/15/90" ;
 #define EAST  4
 
 /* global variables */
-extern INT *add_st_flagG ;
+extern int *add_st_flagG ;
 
 /* external routines */
-extern INT cmpr_sx(), cmpr_lx(), cmpr_sy(), cmpr_ly() ;
+extern int cmpr_sx(), cmpr_lx(), cmpr_sy(), cmpr_ly() ;
 extern SEGBOX *makeseg() ;
 extern PINBOXPTR makeSTpt() , xmedianfun(), ymedianfun() ;
 
 /* static definitions */
 static PINBOXPTR nthptrS[30], sthptrS[30], wstptrS[30], estptrS[30] ;
-static INT nthS, sthS, wstS, estS ;
+static int nthS, sthS, wstS, estS ;
 
 
 /*------------------------------------------------------------------* 
@@ -98,7 +98,7 @@ PINBOXPTR netptr ;
 PINBOXPTR ptr ;
 ADJASEG *adj ;
 SEGBOX *segptr ;
-INT x, y ;
+int x, y ;
 
 wstS = estS = nthS = sthS = 0 ;
 x = netptr->xpos ;
@@ -133,10 +133,10 @@ mergedge( netptr, EAST  ) ;
 
 mergedge( netptr, direction )
 PINBOXPTR netptr ;
-INT direction ;
+int direction ;
 {
 PINBOXPTR stptr, astptr, *dirptr, xmedian, ymedian ;
-INT i, n, (*funcptr)() ;
+int i, n, (*funcptr)() ;
 
 if( direction == NORTH ) {
     dirptr = nthptrS ;
@@ -266,7 +266,7 @@ if( hiptr->row > stptr->row ) {
     if( stptr->row > loptr->row ) {
 	stptr->flag = 1 ;
     } else { /* stptr->row == loptr->row */
-	if( (INT) loptr->pinloc == BOTCELL ) {
+	if( (int) loptr->pinloc == BOTCELL ) {
 	    stptr->flag = 1 ;
 	} else {
 	    stptr->flag = 0 ;
@@ -280,7 +280,7 @@ if( hiptr->row > stptr->row ) {
 	    stptr->flag = 0 ;
 	}
     } else { /* hiptr->row == stptr->row == loptr->row */
-	if( hiptr->pinloc == TOPCELL && (INT) loptr->pinloc == BOTCELL ) {
+	if( hiptr->pinloc == TOPCELL && (int) loptr->pinloc == BOTCELL ) {
 	    stptr->flag = 1 ;
 	} else {
 	    stptr->flag = 0 ;
@@ -316,7 +316,7 @@ if( hiptr->row > stptr->row ) {
     if( stptr->row > loptr->row ) {
 	stptr->flag = 1 ;
     } else { /* stptr->row == loptr->row */
-	if( (INT) loptr->pinloc == BOTCELL ) {
+	if( (int) loptr->pinloc == BOTCELL ) {
 	    stptr->flag = 1 ;
 	}
     }
@@ -326,7 +326,7 @@ if( hiptr->row > stptr->row ) {
 	    stptr->flag = 1 ;
 	}
     } else { /* hiptr->row == stptr->row == loptr->row */
-	if( hiptr->pinloc == TOPCELL && (INT) loptr->pinloc == BOTCELL ) {
+	if( hiptr->pinloc == TOPCELL && (int) loptr->pinloc == BOTCELL ) {
 	    stptr->flag = 1 ;
 	}
     }
