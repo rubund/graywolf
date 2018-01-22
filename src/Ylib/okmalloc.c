@@ -844,8 +844,15 @@ BOOL flag ;
   *--------------------------------------------------------------
 */
 
-/* use standard calls to malloc, calloc, etc */
 void Yvector_free( void* array, int lo, int size)
+{
+    char *p;
+       Ysafe_free( ((char *)array) + lo * size) ;
+} /* end Yvector_free */
+
+
+/* use standard calls to malloc, calloc, etc */
+char * Ysafe_malloc (int size)
 {
     char *p;
 
@@ -890,7 +897,7 @@ void Ysafe_free(void *ptr)
     return;
 }
 
-/*void Ysafe_cfree(void* ptr)
+void Ysafe_cfree(void* ptr)
 {
     cfree(ptr);
     return;
@@ -1015,13 +1022,6 @@ char *Yvector_realloc( void *array_orig, int lo, int hi, int size  )
 
 } /* end Yvector_realloc */
 
-VOID Yvector_free( array, lo, size MEM_DEBUG1 )
-VOIDPTR array ;
-int lo, size ;
-MEM_DEBUG2
-{
-    Ysafe_free( ((char *)array) + lo * size MEM_DEBUG1 ) ;
-} /* end Yvector_free */
 
 /* ************************* TEST ROUTINES ******************************** */
 #ifdef TEST 

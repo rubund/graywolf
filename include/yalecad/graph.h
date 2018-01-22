@@ -35,10 +35,10 @@ typedef struct graph_edge *YEDGEPTR;
   Thus, the user edge weight function is optional and only
   should be used if the user need dynamic edge weights.
   -------------------------------------------------------------*/
-extern YGRAPHPTR Ygraph_init(P4(INT(*compare_node)(),
-                                INT(*compare_edge)(),
-                                INT(*user_edge_weight)(),
-                                int flags));
+extern YGRAPHPTR Ygraph_init(int(*compare_node)(),
+                                int(*compare_edge)(),
+                                int(*user_edge_weight)(),
+                                int flags);
 /*
 Arguments:
 int (*compare_node)() - users node data comparison function

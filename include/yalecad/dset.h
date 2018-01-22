@@ -11,14 +11,12 @@ REVISIONS:  Sun Dec  8 23:30:16 EST 1991 - removed indirection
 #ifndef YDSET_H
 #define YDSET_H
 
-#include <globals.h>
+#ifndef lint
+static char Ydset_h_SccsId[] = "@(#) dset.h version 1.6 3/28/92";
+#endif
 
-typedef struct dset_element {
-  VOIDPTR data ;
-  int rank ;
-  int size;
-  struct dset_element *parent ;
-} ELEMENT, *ELEMENTPTR ;
+#include <yalecad/base.h>
+#include <yalecad/rbtree.h>
 
 typedef struct ydsetrec {
     YTREEPTR dtree ;            /* rbtree holding sets */

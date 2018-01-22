@@ -66,8 +66,8 @@ static char SccsId[] = "@(#) edcolors.c (Yale) version 1.8 12/15/91" ;
 #include "info.h"
 
 static TWDIALOGPTR fieldS ;
-static init_field( P8(int field, int row, int column, int str_len, char *string,
-		    int type, int color, int group ) ) ;
+void init_field( int field, int row, int column, int str_len, char *string,
+		    int type, int color, int group )  ;
 
 /* be able to turn off individual colors */
 void TWtoggleColors()

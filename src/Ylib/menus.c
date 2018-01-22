@@ -214,10 +214,8 @@ static BOOL persistenceS = TRUE ;    /* whether message is persistent */
 #define SLEEPTIME   (unsigned) 2     /* sleep for two seconds */
 
 /* define static functions */
-static set_window_lights( P1(BOOL flag) ) ;
-static resize_windows( P2( int winwidth, int winheight ) ) ;
+void resize_windows( int winwidth, int winheight  ) ;
 static debug_menus( P1(TWMENUPTR menu_field) ) ;
-static draw_persistent_message( P1(char *message) ) ;
 
 
 /* get information from main draw routine and set it */
@@ -603,8 +601,7 @@ void TWdrawMenus()
 } /* end TWdrawMenus */
 
 /* turn top window entering and leaving lights */
-void  set_window_lights( flag )
-BOOL flag ;
+void  set_window_lights( BOOL flag )
 {
     int i ;            /* window counter */
     MENUPTR menuptr ;  /* pointer to current window */
@@ -1093,8 +1090,7 @@ void TWmessagePersistence(BOOL flag)
     }
 } /* end TWmessagePersistence() */
 
-void draw_persistent_message( non_persistent_message )
-char *non_persistent_message ;
+void draw_persistent_message( char *non_persistent_message )
 {
     int fwidth ; /* font width */
     char *message ;   /* message to output */

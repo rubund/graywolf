@@ -105,12 +105,12 @@ extern BOOL Yreadpar_layer_HnotV( P1(char *object) ) ;
 
 int Yreadpar_layer2id( P1(char *object) ) ;
 
-extern char *Yreadpar_id2layer( P1(INT layerid) ) ;
+extern char *Yreadpar_id2layer( P1(int layerid) ) ;
 
 int Yreadpar_numlayers() ;
 
 extern char *Yreadpar_vianame( P2(char *object1, char *object2) ) ;
 
-extern char *Yreadpar_viaId2name( P1(INT viaid) ) ;
+char *Yreadpar_viaId2name( int viaid ) ;
 
 #endif /* YREADPAR_H */

@@ -232,12 +232,12 @@ static VOID drawWArb() ;
 static VOID drawDLine() ;
 static VOID drawWLine() ;
 static VOID initcolors( P2(char **desiredColorArray,int  numC ) ) ;
-static closeFrame(P1(void)) ;
+void closeFrame() ;
 static VOID set_viewing_transformation() ;
 extern VOID TW3Dperspective( P5(DOUBLE x, DOUBLE y, DOUBLE z, 
     DOUBLE *pX, DOUBLE *pY ) ) ;
-static BOOL TWinit( P7(int argc,char *argv[],int numC,char **desiredColors,
-		    BOOL dumpOnly, TWMENUPTR menu, int (*refresh_func)() ) ) ;
+static BOOL TWinit( int argc,char **argv,int numC,char **desiredColors,
+		    BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)()  ) ;
 static VOID set_clip_window( P4(int l, int r, int b, int t) ) ;
 
 /********** THE CRT ROUTINE STATIC DEFINITIONS *************/
@@ -371,7 +371,7 @@ void TWsetMode( int mode )
 } /* end TWsetMode */
 
 /* start a new window system */
-BOOL TWinitGraphics(int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)())
+BOOL TWinitGraphics(int argc, char **argv, int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)())
 {
     parasiteS = FALSE ;
 
@@ -381,14 +381,14 @@ BOOL TWinitGraphics(int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, voi
 } /* end TWinitGraphics */
 
 /* TWinitParasite takes over windows that were already opened */
-BOOL TWinitParasite(int numC,char **colors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)(), int w)
+BOOL TWinitParasite(int argc, char **argv, int numC,char **colors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)(), int w)
 {
     parasiteS = TRUE ;
     backS = (Window) w ;
     return(TWinit(argc,argv,numC,colors,dumpOnly,menu,refresh_func));
 } /* end TWinitParasite */
 
-BOOL TWinit(int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)())
+BOOL TWinit(int argc, char **argv, int numC, char **desiredColors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)())
 {
 
     XSetWindowAttributes attr;

@@ -79,7 +79,7 @@ extern  void _TW3DdrawAxis( BOOL drawNotErase ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
-BOOL TWinitGraphics( int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)());
+BOOL TWinitGraphics(int argc, char **argv, int numC, char *colors[], BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)());
 /* 
 Function:
     Initialization of graphics package.  Needs to be called first.
@@ -102,7 +102,7 @@ Function:
     for numC arg and use include file <yalecad/colors.h>.
 */
 
-BOOL TWinitParasite(int numC, char **colors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)(), int w);
+BOOL TWinitParasite(int argc, char **argv, int numC, char **colors, BOOL dumpOnly, TWMENUPTR menu, void (*refresh_func)(), int w);
 /*
 Function:
     Take over the control of a window already created by
@@ -501,7 +501,7 @@ Function:
     Finished arbitrary point and draws it to the screen.
 */
 
-extern TWarb_fill( P1(BOOL flag ) ) ;
+void TWarb_fill( BOOL flag ) ;
 /*
 Function:
     If flag is true, arbitrary figures (both 2D and 3D) will be filled.

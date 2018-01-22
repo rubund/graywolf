@@ -868,8 +868,7 @@ char *object1, *object2 ;
 
 } /* end Yreadpar_vianame */
 
-char *Yreadpar_viaId2name( viaid )
-int viaid ;
+char *Yreadpar_viaId2name( int viaid )
 {
     ERROR_CHECK(char*) ;
     if( viaid > 0 && viaid <= numviaS ){
