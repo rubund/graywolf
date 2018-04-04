@@ -54,7 +54,7 @@ static char SccsId[] = "@(#) project.c (Yale) version 1.1 11/20/91" ;
 static INT xspaceS = 0 ;
 static INT yspaceS = 0 ;
 
-Yproject_space( xspace, yspace )
+void Yproject_space( xspace, yspace )
 INT xspace, yspace ;
 {
     xspaceS = xspace ;

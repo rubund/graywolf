@@ -116,7 +116,7 @@ static INT num_macroS ;               /* number of macros output */
 
 extern INT closegraphics();
 
-config_rows()
+void config_rows()
 {
     DOUBLE read_par_file() ;     /* get default from user */
     INT left, right, bottom, top;/* core area */
@@ -183,7 +183,7 @@ config_rows()
     placepads() ;
 } /* end config_rows */
 
-read_stat_file()
+void read_stat_file()
 {
 
     char filename[LRECL] ;
@@ -270,7 +270,7 @@ DOUBLE read_par_file()
 } /* end read_par_file */
 
 
-output_partition()
+void output_partition()
 {
 
 #define  RELATIVE_TO_CURPOS  1
@@ -334,7 +334,7 @@ output_partition()
 } /* end of prnt_data */
 
 
-build_mver_file( left, right, bottom, top )
+void build_mver_file( left, right, bottom, top )
 INT left, right, bottom, top ;
 {
     CELLBOXPTR cellptr ;
@@ -396,7 +396,7 @@ INT left, right, bottom, top ;
     
 
 
-read_gen_file()
+void read_gen_file()
 {
     char filename[LRECL] ;
     char buffer[LRECL], *bufferptr ;

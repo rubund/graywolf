@@ -62,7 +62,7 @@ extern INT left_row_boundaryG ;
 extern INT row_extentG ;
 extern BOOL exclude_noncrossbus_padsG ;
 
-handle_crossbuses()
+void handle_crossbuses()
 {
 
 PINBOXPTR netptr ;
@@ -487,7 +487,7 @@ return ;
 
 
 
-check_violations()
+void check_violations()
 {
 
 FENCEBOXPTR fence ;
@@ -589,7 +589,7 @@ return ;
 
 
 
-reduce_violations()
+void reduce_violations()
 {
 
 FENCEBOXPTR fence , save_fence ;

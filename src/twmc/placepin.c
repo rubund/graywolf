@@ -134,32 +134,32 @@ static BOOL softequivS ;      /* true if soft equivs are present */
 BOOL contiguous_pinsG = TRUE ;
 
 /* ****** static FUNCTION definitions ******** */
-static find_optimal_locations( P1(BOOL newVertFlag ));
+static void find_optimal_locations( P1(BOOL newVertFlag ));
 static INT find_cost_for_a_side( P5( PINBOXPTR pin, INT side, DOUBLE lb, DOUBLE ub, BOOL spacing_restricted )) ;
-static determine_bbox( P2( INT net, INT cell )) ;
-static place_pin( P4( PINBOXPTR pin, INT pos, INT tiebreak, INT side ) ) ;
-static place_children( P5( PINBOXPTR pin, INT side, DOUBLE lb, DOUBLE ub,
+static void determine_bbox( P2( INT net, INT cell )) ;
+static void place_pin( P4( PINBOXPTR pin, INT pos, INT tiebreak, INT side ) ) ;
+static void place_children( P5( PINBOXPTR pin, INT side, DOUBLE lb, DOUBLE ub,
 			    BOOL spacing_restricted ) ) ;
-static set_hardpin_pos( P2( PINBOXPTR pin, BOOL newVertFlag ) );
-static sort_softpins() ;
+static void set_hardpin_pos( P2( PINBOXPTR pin, BOOL newVertFlag ) );
+static void sort_softpins() ;
 static INT compare_pins( P2( PINBOXPTR *pinptr1, PINBOXPTR *pinptr2 ) ) ;
 static INT sort_by_pos( P2( PINBOXPTR *pinptr1, PINBOXPTR *pinptr2 ) ) ;
-static install_pin_groups( P1( PINBOXPTR pin ) ) ;
-static permute_pg( P1( PINBOXPTR pin ) ) ;
-static space_pins() ;
-static place_soft_equivs() ;
-static find_next_free_spotm( P3( SIDEBOXPTR sideptr, PINBOXPTR pin, INT *pos )) ;
+static void install_pin_groups( P1( PINBOXPTR pin ) ) ;
+static void permute_pg( P1( PINBOXPTR pin ) ) ;
+static void space_pins() ;
+static void place_soft_equivs() ;
+static void find_next_free_spotm( P3( SIDEBOXPTR sideptr, PINBOXPTR pin, INT *pos )) ;
 static BOOL find_next_free_spotg(P3( SIDEBOXPTR sideptr, PINBOXPTR pin, INT *pos )) ;
-static init_side_array( P1( BOOL newVertFlag ) ) ;
-static side_to_global() ;
-static find_hardpin_side()  ;
+static void init_side_array( P1( BOOL newVertFlag ) ) ;
+static void side_to_global() ;
+static void find_hardpin_side()  ;
 
 /* ****** global FUNCTION definitions ******** */
-extern init_wire_est() ;
-extern set_up_pinplace() ;
-extern set_pin_verbosity( P1(BOOL flag ) ) ;
-extern update_pins( P1( BOOL initialFlag ) ) ;
-extern print_pins( P3( char *message , PINBOXPTR *array , INT howmany ) ) ;
+extern void init_wire_est() ;
+extern void set_up_pinplace() ;
+extern void set_pin_verbosity( P1(BOOL flag ) ) ;
+extern void update_pins( P1( BOOL initialFlag ) ) ;
+extern void print_pins( P3( char *message , PINBOXPTR *array , INT howmany ) ) ;
 extern INT *find_pin_sides( P1( INT cell ) ) ;
 extern INT find_tile_side( P3( INT center, INT loc, INT direction ) ) ;
 /* ################################################################## */
@@ -172,7 +172,7 @@ extern INT find_tile_side( P3( INT center, INT loc, INT direction ) ) ;
  pins along the sides and returns all answers in the pin->t?pos_new
  fields.  No calculation to funccost or timing penalty is performed.
 ____________________________________________________________________*/
-placepin( cell, newVertFlag )
+void placepin( cell, newVertFlag )
 INT cell ;
 BOOL newVertFlag ; /* use the x_new field if true otherwise use x field */
 {
@@ -222,7 +222,7 @@ BOOL newVertFlag ; /* use the x_new field if true otherwise use x field */
 } /* end placepins */
 /* ***************************************************************** */
 
-static find_optimal_locations( newVertFlag )
+static void find_optimal_locations( newVertFlag )
 BOOL newVertFlag ;
 {
     INT i, j ;               /* pin counters */
@@ -542,7 +542,7 @@ BOOL spacing_restricted ;
 /* ***************************************************************** */
 
 /* find the bounding box of this net without this cell */
-static determine_bbox( net, cell )
+static void determine_bbox( net, cell )
 INT net ;  /* calculate this net */
 INT cell ; /* exclude this cell */
 {
@@ -600,7 +600,7 @@ INT cell ; /* exclude this cell */
 /* ***************************************************************** */
 
 /**** SET XPOS OF THE PIN TO DESIRED POSITION.  *****/
-static place_pin( pin, pos, tiebreak, side )
+static void place_pin( pin, pos, tiebreak, side )
 PINBOXPTR pin;
 INT       pos;
 INT       tiebreak;
@@ -617,7 +617,7 @@ INT       side;
 
 /**** RECURSIVELY SET THE SIDE OF ALL CHILDREN OF THE ROOT PIN TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL POSITION */
-static place_children( pin, side, lb, ub, spacing_restricted )
+static void place_children( pin, side, lb, ub, spacing_restricted )
 PINBOXPTR pin ;
 INT side ;
 DOUBLE lb, ub ;
@@ -711,7 +711,7 @@ BOOL spacing_restricted ;
 /* ***************************************************************** */
 
 /**** SET XPOS OF THE PIN TO DESIRED POSITION.  *****/
-static set_hardpin_pos( pin, newVertFlag )
+static void set_hardpin_pos( pin, newVertFlag )
 PINBOXPTR pin;
 BOOL newVertFlag ;
 {
@@ -750,7 +750,7 @@ BOOL newVertFlag ;
 			   PIN SORTING ROUTINES
 ***********************************************************************/
 
-static sort_softpins()
+static void sort_softpins()
 {
     INT i ;                /* pin counter */
     INT pos ;              /* position in place array */
@@ -912,7 +912,7 @@ PINBOXPTR *pinptr1, *pinptr2 ;
 /* ***************************************************************** */
 
 /* install the pin groups and set numpinS */
-static install_pin_groups( pin )
+static void install_pin_groups( pin )
 PINBOXPTR pin ;
 {
     INT i ;                      /* pin counter */
@@ -951,7 +951,7 @@ PINBOXPTR pin ;
 } /* end install_pin_groups */
 /* ***************************************************************** */
 
-static permute_pg( pin )
+static void permute_pg( pin )
 PINBOXPTR pin ;
 {
     INT j, k ;                /* used to reverse pins */
@@ -1023,7 +1023,7 @@ PINBOXPTR pin ;
 } /* end permute_pg */
 /* ***************************************************************** */
 
-static space_pins()
+static void space_pins()
 {
 
     INT i ;                     /* counter on pins */
@@ -1148,7 +1148,7 @@ static space_pins()
 
 } /* end space_pins */
 
-static place_soft_equivs()
+static void place_soft_equivs()
 {
     INT i ;                     /* counter on pins */
     INT j ;
@@ -1215,7 +1215,7 @@ static place_soft_equivs()
 } /* end place_softequivs */
 
 /* minimize the amount of overflow on this side */
-static find_next_free_spotm( sideptr, pin, pos )
+static void find_next_free_spotm( sideptr, pin, pos )
 SIDEBOXPTR sideptr ;
 PINBOXPTR pin ;
 INT *pos ;
@@ -1330,7 +1330,7 @@ INT *pos ;
 } /* find_next_free_spotg */
 /* ***************************************************************** */
 
-static side_to_global()
+static void side_to_global()
 {
     INT     i;
     INT     side ;
@@ -1406,7 +1406,7 @@ static side_to_global()
     } /* end for loop */
 } /* end side_to_global() */
 
-set_up_pinplace()
+void set_up_pinplace()
 {
     INT i ;                       /* counter */
     INT j ;                       /* counter */
@@ -1513,7 +1513,7 @@ set_up_pinplace()
 
 } /* end set_up_pinplace */
 
-static init_side_array( newVertFlag )
+static void init_side_array( newVertFlag )
 BOOL newVertFlag ; /* use _new fields if true use x, y otherwise */
 {
 
@@ -1591,7 +1591,7 @@ BOOL newVertFlag ; /* use _new fields if true use x, y otherwise */
 } /* end init_side_array() */
 
 /* find the side that the hardpin is nearest. */
-static find_hardpin_side() 
+static void find_hardpin_side() 
 {
     
     INT i ;                        /* counter */
@@ -1655,7 +1655,7 @@ static find_hardpin_side()
 } /* end find_hardpin_side() */
 
 
-update_pins( initialFlag )  /* initialize pin placement */
+void update_pins( initialFlag )  /* initialize pin placement */
 BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
 {
     INT howmany ;        /* number of cells with soft pins */
@@ -1711,7 +1711,7 @@ BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
     } /* end test on existence of soft cells */
 } /* initial pinplace */
 
-set_pin_verbosity( flag ) 
+void set_pin_verbosity( flag ) 
 BOOL flag ;
 {
     tell_overflowS = flag ;
@@ -1824,7 +1824,7 @@ INT center, loc, direction ;
     return( 0 ) ;
 } /* end find_tile_side */
 
-init_wire_est()
+void init_wire_est()
 {
     INT i ;                       /* counter */
     INT j ;                       /* counter */
@@ -1866,7 +1866,7 @@ init_wire_est()
 
 /* ***************************************************************** */
 #ifdef DEBUG
-print_pins( message, array, howmany )
+void print_pins( message, array, howmany )
 char *message ;
 PINBOXPTR *array ;
 INT howmany ;

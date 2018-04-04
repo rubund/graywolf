@@ -9,6 +9,7 @@ REVISIONS:  Tue Oct 23 01:29:24 EDT 1990 - added string prototypes.
 #define YSTRING_H
 
 #include <yalecad/base.h>
+#include <string.h>
 
 extern char *Ystrclone( P1(char *str) ) ;
 /* 

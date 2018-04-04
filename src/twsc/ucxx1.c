@@ -57,7 +57,7 @@ static char SccsId[] = "@(#) ucxx1.c (Yale) version 4.7 2/23/92" ;
 #include <yalecad/debug.h>
 
 
-ucxx1( bxcenter , bycenter )
+INT ucxx1( bxcenter , bycenter )
 INT bxcenter , bycenter ;
 {
 

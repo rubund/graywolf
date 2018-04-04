@@ -88,13 +88,13 @@ static DOUBLE bdylengthS ;
 
 
 
-static check_routing();
+static void check_routing();
 
 
 
 /*******************************************************************/
 
-wireestxy( pos, xc, yc ) 
+void wireestxy( pos, xc, yc ) 
 MOVEBOXPTR pos ;
 INT xc, yc ;
 {
@@ -266,7 +266,7 @@ INT xc, yc ;
 } /* end wireestxy */
 /*********************************************************************/
 
-wireestxy2( pos, xc, yc ) 
+void wireestxy2( pos, xc, yc ) 
 MOVEBOXPTR pos ;
 INT xc, yc ;
 {
@@ -346,7 +346,7 @@ FILE *fp ;
 
 } /* end read_wire_est */
 
-resize_wire_params()
+void resize_wire_params()
 {
     blocklS = (DOUBLE) blocklG ;
     blockbS = (DOUBLE) blockbG ;
@@ -355,7 +355,7 @@ resize_wire_params()
 } /* end resize_wire_params */
 
 
-static check_routing( routing )
+static void check_routing( routing )
 INT *routing ;
 {
     if( *routing < 0 ){
@@ -370,7 +370,7 @@ INT *routing ;
 /* ***************************************************************** 
    save_wireest - save wireest parameters for restart
 */
-save_wireest( fp )
+void save_wireest( fp )
 FILE *fp ;
 {
     fprintf(fp,"# wireest parameters:\n") ;

@@ -70,7 +70,7 @@ static void permute_pads();
 			   PAD SORTING ROUTINES
 *******************************************************************************/
 
-sort_pads()
+void sort_pads()
 {
     INT i ;                /* pad counter */
     INT pos ;              /* position in place array */

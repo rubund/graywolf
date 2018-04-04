@@ -60,6 +60,7 @@ static char SccsId[] = "@(#) hash.c version 3.11 12/15/91" ;
 #endif
 
 #include <stdio.h>
+#include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
@@ -97,7 +98,7 @@ YHASHPTR  hashtable ;
     return(hashtable->size) ;
 }
 
-Yhash_table_delete(hashtable, userdelete )
+void Yhash_table_delete(hashtable, userdelete )
 YHASHPTR  hashtable ;
 INT  (*userdelete)() ;
 {

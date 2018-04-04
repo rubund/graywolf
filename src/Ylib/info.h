@@ -56,7 +56,7 @@ typedef struct {
 EXTERN INT TWsafe_wait_timeG ;/* time to wait before redraw */
 
 extern TWINFOPTR TWgetDrawInfo() ; /* TW library routines use this */
-extern TWsetDrawInfo( P3( INT winheight, INT winwidth, Pixmap pixmap )) ;
+extern void TWsetDrawInfo( P3( INT winheight, INT winwidth, Pixmap pixmap )) ;
 extern Window TWgetWindowId( P2(Display *dpy, Window backwindow) ) ;
 extern BOOL TWinitMenuWindow( P1(TWMENUPTR menu_fields) ) ;
 extern XFontStruct *TWgetfont( P2(char *fname, Font *font) ) ;

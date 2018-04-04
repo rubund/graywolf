@@ -151,7 +151,7 @@ extern INT Ydset_verify( P1(YDSETPTR set));
 /*------------------------
   Ydset_dump
   ------------------------*/
-extern Ydset_dump(P2( YDSETPTR set, VOID (*printFunc)() ) );
+extern void Ydset_dump(P2( YDSETPTR set, VOID (*printFunc)() ) );
 
 #endif /* YDSET_H */
 

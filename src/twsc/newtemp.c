@@ -75,7 +75,7 @@ static DOUBLE alphaS ;    /* exponential decay constant for high temp */
 static DOUBLE betaS ;     /* exponential decay constant for low temp */
 
 /* calculate static exponential time constants */
-init_acceptance_rate()
+void init_acceptance_rate()
 {
     /* determine alpha */
     alphaS =  - log( CRITRATIO ) / HIGHTEMP ;

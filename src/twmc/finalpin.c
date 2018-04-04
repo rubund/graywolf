@@ -55,7 +55,7 @@ static char SccsId[] = "@(#) finalpin.c version 3.6 4/3/92" ;
 #define EXPECTEDNUMSITES  500
 
 
-finalpin()
+void finalpin()
 {
 
 }
@@ -71,7 +71,7 @@ static INT Wdiv2S ;                /* used to calculate diff from orig */
 static INT instS ;                 /* used to calculate diff from orig */
 
 /* perform a low temperature anneal on pins */
-final_pin_place()
+void final_pin_place()
 {
 
     INT i ;               /* counter */
@@ -163,7 +163,7 @@ final_pin_place()
 /* ***************************************************************** */
 
 
-update_sites( cellptr )
+void update_sites( cellptr )
 CELLBOXPTR cellptr ;
 {
 
@@ -493,7 +493,7 @@ CELLBOXPTR cellptr ;
 
 } /* end update_sites */
 
-find_closest_site( cellptr, sitePtr, curSidePins, numsoftpins, 
+void find_closest_site( cellptr, sitePtr, curSidePins, numsoftpins, 
     firstSite, lastSite )
 CELLBOXPTR cellptr ;
 CONTENTPTR *sitePtr ;
@@ -786,7 +786,7 @@ INT numsites ;
     return( sites ) ;
 } /* end check_alloc */
 
-static set_pin_n_site( site_array, pin, site )
+static void set_pin_n_site( site_array, pin, site )
 CONTENTPTR *site_array ;
 PINBOXPTR pin ;
 INT site ;
@@ -809,7 +809,7 @@ INT site ;
 /* ****************************************************************** */
 
 
-static init_hard_struct( cellptr )
+static void init_hard_struct( cellptr )
 CELLBOXPTR cellptr ;
 {
     INT oright, otop ;             /* calculate difference from bbox */
@@ -839,7 +839,7 @@ CELLBOXPTR cellptr ;
     Wdiv2S = ROUND( val ) / 2 ;
 } /* end init_hard_struct */
 
-static find_new_hard_pos( pin )
+static void find_new_hard_pos( pin )
 PINBOXPTR pin ;
 {
     DOUBLE val ;

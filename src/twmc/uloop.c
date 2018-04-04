@@ -170,7 +170,7 @@ static DOUBLE avg_dfuncS ;  /* average random delta wirelength */
 
 
 
-static output_move_table();
+static void output_move_table();
 
 
 
@@ -191,7 +191,7 @@ static INT TempSelectHardS[11]  = {
 /* ***************************************************************** 
    uloop - inner loop of simulated annealing algorithm.
 */
-uloop( limit )
+void uloop( limit )
 INT limit ;
 {
 
@@ -963,7 +963,7 @@ return ;
 
 
 /* initializes random wiring and overlap statistics */
-initStatCollection()
+void initStatCollection()
 {
     avgsG = 0.0 ;
     avg_funcG = 0.0 ;
@@ -977,7 +977,7 @@ initStatCollection()
 } /* end initStatCollection */
 /* ***************************************************************** */
 
-getStatistics( totalWire, totalPenalty, avg_time, avg_func )
+void getStatistics( totalWire, totalPenalty, avg_time, avg_func )
 DOUBLE *totalWire, *totalPenalty, *avg_time, *avg_func ;
 {
     *totalWire = totalwireS ;
@@ -994,7 +994,7 @@ DOUBLE *totalWire, *totalPenalty, *avg_time, *avg_func ;
 		softcells only use old_aposG[1] and new_aposG[1]
 		    since they can have only one tile.
 */
-make_movebox() 
+void make_movebox() 
 {
     INT i ;
     INT maxtiles ;
@@ -1039,7 +1039,7 @@ make_movebox()
 /* ***************************************************************** 
    save_uloop - save uloop parameters for restart
 */
-save_uloop( fp )
+void save_uloop( fp )
 FILE *fp ;
 {
     fprintf(fp,"# uloop parameters:\n") ;
@@ -1083,13 +1083,13 @@ FILE *fp ;
 
 } /* end read_uloop */
 
-set_dump_ratio( count )
+void set_dump_ratio( count )
 {
     dumpRatioS = count ;
 } /* end dump_ratio */
 
 
-static output_move_table( flip, att, move_size )
+static void output_move_table( flip, att, move_size )
 INT *flip, *att ;
 DOUBLE *move_size ;
 {

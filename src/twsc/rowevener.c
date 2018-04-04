@@ -129,7 +129,7 @@ return ;
 }
 
 
-decide_right_most_in_class()
+void decide_right_most_in_class()
 {
 
 INT n , row , row_right ;

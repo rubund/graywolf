@@ -57,6 +57,7 @@ static char SccsId[] = "@(#) readblck.c (Yale) version 4.10 11/8/91" ;
 
 #define READBLCK_VARS
 
+#include <string.h>
 #include "standard.h"
 #include "main.h"
 #include "parser.h"
@@ -78,7 +79,7 @@ extern INT total_row_lengthG ;
 /* global variables */
 
 
-readblck( fp )
+void readblck( fp )
 FILE *fp ;
 
 {

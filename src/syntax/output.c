@@ -87,14 +87,14 @@ static BOOL count_portS ;      /* whether a pin is a port */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 static DOUBLE cellAreaS = 0 ;  /* area of the macro cells */
 /* *************************************************************** */
-init()
+void init()
 {
     /* get ready for parsing */
     /* make hash table for nets */
     netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
 } /* end init */
 
-addCell( celltype, cellname )
+void addCell( celltype, cellname )
 int celltype ;
 char *cellname ;
 {
@@ -127,7 +127,7 @@ char *cellname ;
 
 } /* end addCell */
 
-addNet( signal )
+void addNet( signal )
 char *signal ;
 {
     int *data ;
@@ -153,24 +153,24 @@ char *signal ;
 
 } /* end addNet */
 
-addEquiv()
+void addEquiv()
 {
     equivS++ ;
 } /* end addEquiv */
 
-addUnEquiv()
+void addUnEquiv()
 {
     unequivS++ ;
 } /* end addUnEquiv */
 
-add_instance()
+void add_instance()
 {
     if( celltypeS == HARDCELLTYPE || celltypeS == SOFTCELLTYPE ){
 	numinstanceS++ ;
     }
 } /* end add_instance */
 
-set_bbox( left, right, bottom, top )
+void set_bbox( left, right, bottom, top )
 INT left, right, bottom, top ;
 {
     minxS = left ;
@@ -179,7 +179,7 @@ INT left, right, bottom, top ;
     maxyS = top ;
 } /* end set_bbox */
 
-start_pt( x, y )
+void start_pt( x, y )
 int x, y ;
 {
     Ybuster_init() ;
@@ -190,7 +190,7 @@ int x, y ;
     maxyS = y ;
 } /* end start_pt */
 
-add_pt( x, y )
+void add_pt( x, y )
 int x, y ;
 {
     Ybuster_addpt( x, y ) ;
@@ -200,7 +200,7 @@ int x, y ;
     maxyS = MAX( y, maxyS ) ;
 } /* end add_pt */
 
-processCorners()
+void processCorners()
 {
     YBUSTBOXPTR bustptr ;        /* get a tile from Ybuster */
     DOUBLE this_cell ;           /* area of the current tile */
@@ -222,7 +222,7 @@ processCorners()
     }
 } /* end processCorners */
 
-check_xloc( value )
+void check_xloc( value )
 char *value ;
 {
     if( (strcmp( value, "L" ) != STRINGEQ ) && strcmp( value, "R" ) != STRINGEQ ){
@@ -232,7 +232,7 @@ char *value ;
     Ysafe_free( value ) ;
 } /* end check_xloc */
 
-check_yloc( value )
+void check_yloc( value )
 char *value ;
 {
     if( (strcmp( value, "B" ) != STRINGEQ ) && strcmp( value, "T" ) != STRINGEQ ){
@@ -242,7 +242,7 @@ char *value ;
     Ysafe_free( value ) ;
 } /* end check_xloc */
 
-check_sideplace( side )
+void check_sideplace( side )
 char *side ;
 {
     INT numsides ;
@@ -266,13 +266,13 @@ char *side ;
     Ysafe_free( side ) ;
 } /* end check_sideplace */
 
-set_pinname( pinname )
+void set_pinname( pinname )
 char *pinname ;
 {
     strcpy( cur_pinnameS, pinname ) ;
 } /* end set_pinname */
 
-check_pos( xpos, ypos ) 
+void check_pos( xpos, ypos ) 
 int xpos, ypos ;
 {
 
@@ -286,7 +286,7 @@ int xpos, ypos ;
 /* ***************************************************************** 
     OUTPUT routine - output the results.
    **************************************************************** */
-output()
+void output()
 {
     char *yctime = (char *)YcurTime(NULL);
     fprintf( fpoG, "TIMESTAMP:%s\n", yctime ) ;

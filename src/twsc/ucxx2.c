@@ -65,7 +65,7 @@ static char SccsId[] = "@(#) ucxx2.c (Yale) version 4.10 4/2/92" ;
 
 static INT anxcenterS , bnxcenterS ;
 
-ucxx2( )
+INT ucxx2( )
 {
 
 CBOXPTR acellptr , bcellptr ;
@@ -241,7 +241,7 @@ if( truth ) {
 }
 
 
-find_new_pos()
+void find_new_pos()
 {
 
 INT newA_l , newA_r , newB_l , newB_r ;

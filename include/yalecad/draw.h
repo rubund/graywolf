@@ -77,7 +77,7 @@ extern VOID (*_TWdrawArb)(P3( INT ref_num, INT color, char *label )) ;
     TWdrawLine(ref_num,(INT)X1,(INT)Y1,(INT)X2,(INT)Y2,color, label) ; \
 }
 
-extern  _TW3DdrawAxis( P1(BOOL drawNotErase) ) ;
+extern  void _TW3DdrawAxis( P1(BOOL drawNotErase) ) ;
 
 
 /******** FUNCTIONS NORMALLY USED BY GRAPHIC PROGRAM USERS *********/
@@ -115,14 +115,14 @@ Function:
     It is found by calling TWsaveState in the calling processs.
 */
 
-extern TWcloseGraphics() ;
+extern void TWcloseGraphics() ;
 /* 
 Function:
     Closes graphics display and performs cleanup operations.
     Should be performed before end of program.
 */
 
-extern TWsetMode( P1(INT mode) ) ;
+extern void TWsetMode( P1(INT mode) ) ;
 /* 
 Function:
     Allows user to change mode during run.  Helpful to dump the current
@@ -212,7 +212,7 @@ Function:
     Label is optional - a label is attached to figure if non-null.
 */
 
-extern TWarb_init() ;
+extern void TWarb_init() ;
 /*
 Arguments:
     none
@@ -220,7 +220,7 @@ Function:
     Start a new arbitrary figure.
 */
 
-extern TWarb_addpt( P2( INT xpos, INT ypos ) ) ;
+extern void TWarb_addpt( P2( INT xpos, INT ypos ) ) ;
 /*
 Function:
     Add a new point to the current arbitrary figure 
@@ -240,7 +240,7 @@ Function:
 */
 
 /* copy pixmap to screen and flush screen output buffer */
-extern TWflushFrame() ;
+extern void TWflushFrame() ;
 /*
 Arguments: None.
 Function:
@@ -249,7 +249,7 @@ Function:
     after all TWdraws have performed.
 */
 
-extern TWstartFrame() ;
+extern void TWstartFrame() ;
 /*
 Arguments: None.
 Function:
@@ -259,21 +259,21 @@ Function:
 */
 
 /********** ROUTINES USED BY SCREEN GRAPHICS ONLY ******************/
-extern TWzoom() ;
+extern void TWzoom() ;
 /* 
 Arguments: None
 Function:
     Performs a zoom in main graphics window.
 */
 
-extern TWtranslate() ;
+extern void TWtranslate() ;
 /* 
 Arguments: None
 Function:
     Translate center to picked or entered point in main graphics window.
 */
 
-extern TWfullView() ;
+extern void TWfullView() ;
 /* 
 Arguments: None
 Function:
@@ -281,14 +281,14 @@ Function:
     determined by TWsetWindow.
 */
 
-extern TWsetwindow( P4( INT left, INT bottom, INT right, INT top ) ) ; 
+extern void TWsetwindow( P4( INT left, INT bottom, INT right, INT top ) ) ; 
 /* 
 Function:
     set the boundary of the visible window according to user coordinates
     Must call this function before draws.
 */
 
-extern TWcolorXOR( P2( INT color, BOOL exorFlag ) ) ;
+extern void TWcolorXOR( P2( INT color, BOOL exorFlag ) ) ;
 /* 
 Function:
     set a particular colors draw function.  If exorFlag is set to TRUE,
@@ -297,13 +297,13 @@ Function:
     over any current contents blocking the view.  The default is copy mode.
 */
 
-extern TWhighLightRect( P4( INT x1,INT y1,INT x2,INT y2 )) ;
+extern void TWhighLightRect( P4( INT x1,INT y1,INT x2,INT y2 )) ;
 /* 
 Function:
     Highlight the given area in black.
 */
 
-extern TWsync( ) ;
+extern void TWsync( ) ;
 /* 
 Arguments: None
 Function:
@@ -312,7 +312,7 @@ Function:
     internally in the graphics module.
 */
 
-extern TWmoveRect( P6( INT *x1, INT *y1, INT *x2, INT *y2, INT ptx, INT pty )) ;
+extern void TWmoveRect( P6( INT *x1, INT *y1, INT *x2, INT *y2, INT ptx, INT pty )) ;
 /*
 Function:
     Draw ghost figure of rectangle as the user moves it on the screen.
@@ -335,14 +335,14 @@ Function:
     value corresponding to the function value given in the menu file.
 */
 
-extern TWgetPt( P2( INT *x, INT *y )) ;
+extern void TWgetPt( P2( INT *x, INT *y )) ;
 /* 
 Function:
     Wait for user to enter point with a mouse pointer.  Returns x,y
     position of pointer when clicked in user coordinate system.
 */
 
-extern TWmessage( P1( char *message ) ) ;
+extern void TWmessage( P1( char *message ) ) ;
 /* 
 Function:
     Write messsage to the message window.
@@ -383,7 +383,7 @@ Function:
     the window ID which is needed in the TWinitParasite argument list.
 */
 
-extern TWrestoreState() ;
+extern void TWrestoreState() ;
 /* 
 Arguments:None 
 Function:
@@ -392,7 +392,7 @@ Function:
 */
 
 /* check to see if main window has been requested to change size */
-extern TWcheckReconfig() ;
+extern void TWcheckReconfig() ;
 /* 
 Arguments:None 
 Function:
@@ -403,7 +403,7 @@ Function:
 */
 
 
-extern TWsetFrame( P1(INT number) ) ;
+extern void TWsetFrame( P1(INT number) ) ;
 /* 
 Function:
     Set the dump file to the given frame number.  Valid frame numbers start
@@ -421,7 +421,7 @@ Function:
     menus.
 */
 
-extern TWforceRedraw() ;
+extern void TWforceRedraw() ;
 /* 
 Function:
     This function forces a redraw by sending an exposure event
@@ -429,7 +429,7 @@ Function:
     exposure events.
 */
 
-extern TWdrawString( P4(INT x, INT y, INT color, char *label ) ) ;
+extern void TWdrawString( P4(INT x, INT y, INT color, char *label ) ) ;
 /* 
 Function:
     Draw a string left justified from the given location.
@@ -481,7 +481,7 @@ Function:
     Draws a line in 3 dimensions.
 */
 
-extern INT TW3DdrawCube( P9(INT ref_num, INT x1, INT y1, INT z1,
+extern void TW3DdrawCube( P9(INT ref_num, INT x1, INT y1, INT z1,
     INT x2, INT y2, INT z2, INT color, char *label ) ) ;
 /* 
 Function:
@@ -506,7 +506,7 @@ Function:
     Finished arbitrary point and draws it to the screen.
 */
 
-extern TWarb_fill( P1(BOOL flag ) ) ;
+extern void TWarb_fill( P1(BOOL flag ) ) ;
 /*
 Function:
     If flag is true, arbitrary figures (both 2D and 3D) will be filled.

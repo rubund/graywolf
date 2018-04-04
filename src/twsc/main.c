@@ -132,6 +132,8 @@ extern INT longest_row_lengthG ;
 extern INT largest_delta_row_lenG ;
 extern INT total_row_lengthG ;
 
+extern void readnets(FILE* fp);
+
 /* static variables */
 static INT routing_loopS ;
 static INT *save_cell_xS ;
@@ -473,6 +475,7 @@ closegraphics() ;
 
 YexitPgm(PGMOK);
 
+return 0;
 } /* end main */
 
 
@@ -1006,7 +1009,7 @@ return ;
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

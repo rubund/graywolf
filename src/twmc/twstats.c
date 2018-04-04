@@ -56,7 +56,7 @@ static char SccsId[] = "@(#) twstats.c version 3.3 9/5/90" ;
 static INT maxpinS = 0 ;
 
 
-twstats()
+void twstats()
 {
     INT temp ;
     DOUBLE reduction ;
@@ -107,13 +107,13 @@ return ;
 
 static INT printPinS = 0 ;
 
-set_print_pin( pin )
+void set_print_pin( pin )
 INT pin ;
 {
     printPinS = pin ;
 }
 
-prnt_netinfo() 
+void prnt_netinfo() 
 {
 
 SHORT numpins ;
@@ -174,7 +174,7 @@ OUT2( "The maximum number of pins on a single net is: %d\n", maxpinS ) ;
 
 } /* end prnt_netinfo */
 
-get_max_pin()
+INT get_max_pin()
 {
     return( maxpinS ) ;
 } /* end get_max_pin */

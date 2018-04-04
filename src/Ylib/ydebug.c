@@ -137,7 +137,7 @@ BOOL YdebugAssert()
     return( debugFlagS ) ;
 } /* end YdebugAssert */
 
-YdebugWrite()
+void YdebugWrite()
 {
     ROUTINEPTR data ;              /* the data in the tree */
     FILE *fp ;                   /* write to the debug file */
@@ -160,7 +160,7 @@ YdebugWrite()
     }
 }
 
-YsetDebug( flag )
+void YsetDebug( flag )
 BOOL flag ;
 {
 
@@ -215,7 +215,7 @@ BOOL debugOn ;
     return( data ) ;
 } /* end make_data_debug */
 
-YfixDebug( ptr, type )
+void YfixDebug( ptr, type )
 char *ptr ;
 INT type ;
 {
