@@ -50,8 +50,6 @@ REVISIONS:  Fri Mar 22 16:23:46 CST 1991 - now avoid upair
 	    Fri Sep  6 15:20:48 CDT 1991 - now place pads during
 		pairwise swaps.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "main.h"

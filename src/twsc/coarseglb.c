@@ -61,8 +61,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 		enough room for pads.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "groute.h"

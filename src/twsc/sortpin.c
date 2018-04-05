@@ -63,8 +63,6 @@ REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to
 		call sortpin1 which is used during a gateswap.  Also
 		added new sortpin2 for gateswap between two cells.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "groute.h"

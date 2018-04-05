@@ -47,8 +47,6 @@ CONTENTS:   calc_cell_width()
 DATE:	    July 26, 1991 
 ----------------------------------------------------------------- */
 
-#ifndef VMS
-#endif
 
 #define PADKEYWORD          "pad"
 #define RELATIVE_TO_CURPOS  1

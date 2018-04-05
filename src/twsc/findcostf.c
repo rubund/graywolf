@@ -52,8 +52,6 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 	    Wed Sep 11 11:18:19 CDT 1991 - modified
 		for new global routing algorith.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "groute.h"

@@ -49,8 +49,6 @@ REVISIONS:  Wed Jan  2 10:55:01 CST 1991 - moved DEC code to parser.c
 	    Wed Sep 11 11:25:16 CDT 1991 - updated for
 		new global router algorithm (feeds).
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #define READBLCK_VARS
 

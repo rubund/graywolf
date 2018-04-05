@@ -60,8 +60,6 @@ REVISIONS:  Fri Jan 25 23:45:25 PST 1991 - added user meter.
 	    Thu Aug 22 22:27:18 CDT 1991 - Carl made changes
 		for rigidly fixed cells.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 
 #include "standard.h"

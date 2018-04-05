@@ -53,8 +53,6 @@ REVISIONS:  Aug 30, 1989 - removed lastimp error.
 		dynamic.
 	    Wed Jan 16 14:26:44 PST 1991 - removed re_buildimp
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "groute.h"

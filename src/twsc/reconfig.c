@@ -51,8 +51,6 @@ REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 	    Wed Sep 11 11:27:46 CDT 1991 - added user
 		output info for blocks.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "readpar.h"

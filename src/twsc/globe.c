@@ -81,8 +81,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue May 12 22:23:31 EDT 1992 - fixed problem with orientation
 		movement and added placement_improve switch.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #define GLOBE_VARS
 

@@ -49,8 +49,6 @@ REVISIONS:  Wed Mar 13 13:48:30 CST 1991 - make sure the .blk
 		and the .res file are consistent.
 	    Thu Sep 19 16:36:02 EDT 1991 - added more error checking.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include <string.h>
 #include "standard.h"

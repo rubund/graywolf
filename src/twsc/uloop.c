@@ -80,8 +80,6 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #define UCXXGLB_VARS
 

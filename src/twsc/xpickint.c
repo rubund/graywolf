@@ -45,8 +45,6 @@ CONTENTS:   XPICK_INT( l , u , c )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include <yalecad/base.h>
 

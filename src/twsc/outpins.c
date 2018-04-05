@@ -68,8 +68,6 @@ REVISIONS:  Thu Feb  7 00:10:27 EST 1991 - now also support old
 	    Thu Dec  5 21:58:34 EST 1991 - fixed problem with
 		macro cell output pins.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include <string.h>
 #include "standard.h"

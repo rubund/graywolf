@@ -59,8 +59,6 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 	    Wed Sep 11 11:19:25 CDT 1991 - modified
 		for new global router.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 
 #include "standard.h"

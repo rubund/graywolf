@@ -62,8 +62,6 @@ CONTENTS:   outpins()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include <string.h>
 #include "standard.h"
