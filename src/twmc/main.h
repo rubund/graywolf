@@ -30,9 +30,6 @@ REVISIONS:  Aug  7, 1988 - added control flags for pads.
 	    Sat Feb 23 00:22:35 EST 1991 - added defines for TOMUS.
 	    Wed May  1 16:42:30 EDT 1991 - removed defines for TOMUS.
 ----------------------------------------------------------------- */
-/* *****************************************************************
-   static char SccsId[] = "@(#) main.h version 3.7 5/1/91" ;
-***************************************************************** */
 #ifndef MAIN_H
 #define MAIN_H
 

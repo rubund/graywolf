@@ -6,9 +6,6 @@ REVISIONS:  Thu Jan 17 00:46:38 PST 1991 - added side to RTILEBOX
 		and added the TILE macro definitions.
 	    Wed May  1 19:16:12 EDT 1991 - added switchbox definition.
 ----------------------------------------------------------------- */
-/* *****************************************************************
-   static char SccsId[] = "@(#) dens.h version 3.5 5/1/91" ;
-***************************************************************** */
 #ifndef DENS_H
 #define DENS_H
 
