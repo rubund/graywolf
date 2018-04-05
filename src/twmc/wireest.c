@@ -51,9 +51,6 @@ REVISIONS:  Mar 29, 1989 - changed tileptr argument to pos.
 	    Thu Mar  7 01:49:31 EST 1991 - now save wireestimation
 		parameters.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wireest.c version 3.6 3/7/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

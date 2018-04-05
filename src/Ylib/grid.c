@@ -66,9 +66,6 @@ DATE:	    Oct 27, 1989
 REVISIONS:  Thu Apr 18 00:39:45 EDT 1991 - renamed functions so
 		that names were consistent.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) grid.c version 1.4 4/18/91" ;
-#endif
 
 #include <yalecad/base.h>
 

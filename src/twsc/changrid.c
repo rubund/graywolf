@@ -48,9 +48,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Wed Aug 28 14:27:04 EDT 1991 - added more debug.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) changrid.c (Yale) version 4.5 8/29/91" ;
-#endif
 #endif
 
 #include "standard.h"

@@ -79,9 +79,6 @@ REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 	    Sun May  5 14:27:53 EDT 1991 - fixed problem with orienting
 		bounboxes.  Had used wrong translation function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) genorient.c (Yale) version 3.13 5/5/91" ;
-#endif
 
 #include <custom.h>
 #include <pads.h>

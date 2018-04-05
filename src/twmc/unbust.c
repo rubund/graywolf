@@ -52,9 +52,6 @@ REVISIONS:  Aug 16, 1989 - rewrote using new general algorithm.
 		of buster.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) unbust.c version 3.7 1/20/91" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/buster.h>

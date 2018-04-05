@@ -46,9 +46,6 @@ REVISIONS:  Sun Jan 20 21:31:36 PST 1991 - ported to AIX.
 	    Thu Apr 18 01:18:32 EDT 1991 - now changed where to 
 		look for the flow files.  User can override.
 ---------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findflow.c version 1.4 4/18/91" ;
-#endif
 
 #include <stdio.h>
 

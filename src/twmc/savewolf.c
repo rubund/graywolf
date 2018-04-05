@@ -63,9 +63,6 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 		reorigin.
 	    Mon Sep 16 22:23:04 EDT 1991 - fixed for R6000.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) savewolf.c version 3.12 9/16/91" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>

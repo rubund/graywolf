@@ -83,9 +83,6 @@ REVISIONS:  Oct 20, 1990 - fixed problem with graphics close.
 	    Thu Nov  7 23:03:57 EST 1991 - fixed problem with picking
 		best global route criteria and added new row evener.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c (Yale) version 4.38 5/15/92" ;
-#endif
 
 #define MAIN_VARS  
 #include "standard.h"

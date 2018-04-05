@@ -82,9 +82,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		movement and added placement_improve switch.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) globe.c (Yale) version 4.24 5/12/92" ;
-#endif
 #endif
 
 #define GLOBE_VARS

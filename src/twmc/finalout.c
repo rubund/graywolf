@@ -72,9 +72,6 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 	    Wed Jul 24 20:48:13 CDT 1991 - now always wait for
 		user at the end of annealing if requested.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

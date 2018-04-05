@@ -69,9 +69,6 @@ REVISIONS:  Apr  1, 1990 - added check_funccost() ;
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) debug2.c (Yale) version 4.7 12/15/90" ;
-#endif
 #endif
 
 #include "standard.h"

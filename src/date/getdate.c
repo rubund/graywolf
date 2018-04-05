@@ -45,9 +45,6 @@
 #define LRECL 256
 #define EOS   '\0'
 
-#ifndef lint
-static char SccsId[] = "@(#) getdate.c version 1.2 5/12/90" ;
-#endif
 
 /* this small program creates a file called date.h */
 /* which contains a define statement with the current time */

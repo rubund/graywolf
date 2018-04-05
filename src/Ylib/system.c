@@ -43,9 +43,6 @@ DESCRIPTION:system routines
 DATE:	    Apr 26, 1990 
 REVISIONS:  May 12, 1990 - added move file and getenv.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
-#endif
 
 #include <yalecad/file.h>
 #include <yalecad/message.h>

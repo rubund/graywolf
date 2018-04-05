@@ -80,9 +80,6 @@ REVISIONS:  Sep 18, 1989 - added row gridding to algorithm.
 	    Tue Sep 24 00:47:00 EDT 1991 - output core into
 		.gen file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/base.h>

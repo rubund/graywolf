@@ -51,9 +51,6 @@ REVISIONS:  Fri Mar 22 16:23:46 CST 1991 - now avoid upair
 		pairwise swaps.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) upair.c (Yale) version 4.12 5/12/92" ;
-#endif
 #endif
 
 #include "standard.h"

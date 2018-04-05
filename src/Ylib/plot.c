@@ -47,9 +47,6 @@ DATE:	    Feb 13, 1988 REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Apr 29, 1990 - added message.h
 	    Fri Jan 18 18:38:36 PST 1991 - fixed to run on AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) plot.c version 1.6 12/9/91" ;
-#endif
 
 #include <stdarg.h>
 #include <string.h>

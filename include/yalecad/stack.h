@@ -5,9 +5,6 @@ CONTENTS:
 DATE:	    Dec  6, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char StackSccsId[] = "@(#) stack.h version 1.3 10/9/90" ;
-#endif
 
 #ifndef STACK_H
 

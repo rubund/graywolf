@@ -79,9 +79,6 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Fri Nov  8 01:08:41 EST 1991 - rewrote pad output file
 		for easier understanding.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) paths.c version 4.12 4/2/92" ;
-#endif
 
 /* #define ZERO_CHECK */
 

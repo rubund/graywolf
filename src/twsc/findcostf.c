@@ -53,9 +53,6 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 		for new global routing algorith.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findcostf.c (Yale) version 4.18 4/2/92" ;
-#endif
 #endif
 
 #include "standard.h"

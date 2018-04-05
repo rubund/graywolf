@@ -48,9 +48,6 @@ CONTENTS:
 DATE:	    Oct 23, 1988
 REVISIONS:  Apr 27, 1989 - changed to Y prefix and added time in seconds.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) time.c version 3.3 8/28/90" ;
-#endif
 
 #include <time.h>
 #include <yalecad/base.h>

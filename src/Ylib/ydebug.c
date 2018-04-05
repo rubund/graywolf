@@ -67,9 +67,6 @@ REVISIONS: Apr 10, 1990 - rewrote debug routines so that each individual
 	    Tue Feb  4 15:31:28 EST 1992 - added return_code variable to
 		Ydebug so you can switch it in the debugger if necessary.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) ydebug.c (Yale) version 3.15 2/7/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/rbtree.h>

@@ -71,9 +71,6 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Fri Jan 18 18:32:01 PST 1991 - updated output format.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) paths.c version 3.9 4/21/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

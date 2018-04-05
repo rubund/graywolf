@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readnets.c <- readnets_yacc <- readnets_lex
@@ -68,9 +65,6 @@ REVISIONS:  Jan 29, 1989 - changed to msgG and added \n's.
 		and fixed for new library names.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readnets.y (Yale) version 4.12 4/21/91" ;
-#endif
 #endif
 
 #include <yalecad/message.h>

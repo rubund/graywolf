@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readobjects.c <- readobjects.y <- readobjects.l
@@ -66,9 +63,6 @@ REVISIONS:  Apr 20, 1989 - original coding.
 		made output prettier for syntax errors.
 	    Sun Apr 21 22:38:38 EDT 1991 - added missing close file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readobjects.y version 2.5 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <globals.h>

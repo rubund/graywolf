@@ -127,9 +127,6 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Wed Feb 26 03:54:12 EST 1992 - added persistent windows and
 		added dim features.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) menus.c (Yale) version 3.36 2/26/92" ;
-#endif
 
 #ifndef NOGRAPHICS 
 

@@ -57,9 +57,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cglbroute.c (Yale) version 4.5 12/15/90" ;
-#endif
 #endif
 
 #include "standard.h"

@@ -48,9 +48,6 @@ REVISIONS:  Feb 5, 1988 - changed old_apos, new_apos to global
 	    Oct 21, 1988 - changed to sqrt of overlap penalty.
 	    Nov 25, 1988 - added timing driven code
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) usite1.c version 3.4 9/10/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

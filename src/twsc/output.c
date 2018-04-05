@@ -56,9 +56,6 @@ REVISIONS:  July 15, 1989
 		cell file.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) output.c (Yale) version 4.14 9/23/91" ;
-#endif
 #endif
 
 /* #define DEC  */

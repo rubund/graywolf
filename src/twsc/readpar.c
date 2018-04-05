@@ -66,9 +66,6 @@ REVISIONS:  Nov 23, 1990 - now use new readpar library function.
 		maximally.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
-#endif
 #endif
 
 #define READPAR_VARS

@@ -46,9 +46,6 @@ CONTENTS:  char *Yrelpath( known_path, rel_path )
 DATE:	    Apr 18, 1989 
 REVISIONS:  May  8, 1989 - updated to handle ../../ constructs.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) relpath.c version 3.2 8/28/90" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

@@ -62,9 +62,6 @@ REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 		enough room for pads.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) coarseglb.c (Yale) version 4.10 12/9/91" ;
-#endif
 #endif
 
 #include "standard.h"

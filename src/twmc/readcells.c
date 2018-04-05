@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readcells.c <- readcells_yacc <- readcells_lex
@@ -83,9 +80,6 @@ REVISIONS:  Oct 27, 1988 - modified fixed and group cell code.
 	    Thu Aug 22 22:10:09 CDT 1991 - fixed problem with
 		fixed cells moving during pairwise flips.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readcells.y version 3.15 3/6/92" ;
-#endif
 
 #include <string.h>
 #include <yalecad/string.h>

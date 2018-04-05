@@ -61,9 +61,6 @@
 		    Sat Apr 18 11:29:50 EDT 1992 - added compactor
 			program entry - CMPT.
    ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) yreadpar.c (Yale) version 1.6 10/1/91" ;
-#endif
 
 #include <string.h>
 #include <yalecad/file.h>

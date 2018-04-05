@@ -55,9 +55,6 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 	    May  3, 1989 - changed to Y prefixes.
 	    May  6, 1989 - added no graphics compile switch
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) xcompact.c version 7.2 11/10/90" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

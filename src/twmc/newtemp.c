@@ -57,9 +57,6 @@ REVISIONS:  Feb 25, 1989 - allow negative iterations by setting
 	    Mon Feb  4 02:14:30 EST 1991 - reset the number of attempts
 		and added quickroute function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) newtemp.c version 3.4 2/4/91" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>

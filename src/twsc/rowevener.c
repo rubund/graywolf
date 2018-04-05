@@ -52,9 +52,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) rowevener.c (Yale) version 4.7 12/5/91" ;
-#endif
 #endif
 
 #include "standard.h"

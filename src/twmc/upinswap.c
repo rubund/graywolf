@@ -45,9 +45,6 @@ CONTENTS:   BOOL upinswap( a )
 DATE:	    Mar 30, 1990 - new vertion of pinswap code.
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) upinswap.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <initialize.h>

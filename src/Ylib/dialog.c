@@ -67,9 +67,6 @@ REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 	    Thu Jan 30 02:55:16 EST 1992 - added window manager hints
 		and now allow different font for dialog box.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) dialog.c version 3.15 3/6/92" ;
-#endif
 
 #ifndef NOGRAPHICS 
 

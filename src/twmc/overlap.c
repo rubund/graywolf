@@ -68,9 +68,6 @@ REVISIONS:  Feb  5, 1988 - changed old_apos, new_apos, old_bpos,
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 	    Mon Feb  4 02:15:23 EST 1991 - added new wire estimator.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) overlap.c version 3.6 4/18/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/file.h>

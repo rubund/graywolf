@@ -44,9 +44,6 @@ CONTENTS:   acceptt( INT  )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) acceptt.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

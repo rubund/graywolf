@@ -64,9 +64,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) sort.c (Yale) version 4.3 9/7/90" ;
-#endif
 #endif
 
 #include "standard.h"

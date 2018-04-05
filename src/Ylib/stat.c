@@ -56,9 +56,6 @@ CONTENTS:   DOUBLE Ystat_min( array, number_ele, size_ele  )
 DATE:	    Mar  7, 1989 
 REVISIONS:  Sun Apr 21 21:21:58 EDT 1991 - renamed to Ystat_
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) stat.c (Yale) version 3.3 4/21/91" ;
-#endif
 
 #include <yalecad/base.h>
 

@@ -61,9 +61,6 @@ REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal
 	    Apr 09, 1989 - fixed bug in pick_position and 
 		pick_neighborhood so that cells can't jump outside region.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) window.c version 3.6 11/26/90" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>

@@ -45,9 +45,6 @@ CONTENTS:
 DATE:	    Aug 17, 1988 
 REVISIONS:  Jan 29, 1989 - changed msg to YmsgG and added \n's.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) mergecell.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

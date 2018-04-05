@@ -64,9 +64,6 @@ REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to
 		added new sortpin2 for gateswap between two cells.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) sortpin.c (Yale) version 4.3 9/7/90" ;
-#endif
 #endif
 
 #include "standard.h"

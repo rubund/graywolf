@@ -58,9 +58,6 @@ REVISIONS:  Oct 21, 1989 - changed memoptrS to a pointer rather than
 	    Apr 23, 1990 - added assertion to make sure half perimeter
 		does not go negative.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) unet.c (Yale) version 3.6 11/23/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
