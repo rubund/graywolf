@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char SccsId[] = "@(#) makesite.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

@@ -52,9 +52,6 @@ REVISIONS:  Jun 19, 1989 - shortened designName to $ for substitution.
 	    Sun Apr 21 22:37:20 EDT 1991 - changed windowId to @WINDOWID
 		and added @FLOWDIR.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) program.c version 2.3 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

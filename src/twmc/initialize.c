@@ -116,9 +116,6 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 	    Fri Oct 18 00:06:37 EDT 1991 - moved buster code to library
 		and updated for new NIL definition.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) initialize.c version 3.24 10/18/91" ;
-#endif
 
 #include <string.h>
 #include <custom.h>

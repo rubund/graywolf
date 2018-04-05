@@ -47,9 +47,6 @@ REVISIONS:  Tue Mar 19 16:22:56 CST 1991 - fixed crash when
 		there are no routing tracks in a channel.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) urcost.c (Yale) version 4.4 3/19/91" ;
-#endif
 #endif
 
 #include "standard.h"

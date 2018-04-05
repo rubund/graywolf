@@ -54,9 +54,6 @@ REVISIONS:  Aug 30, 1989 - removed lastimp error.
 	    Wed Jan 16 14:26:44 PST 1991 - removed re_buildimp
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) buildimp.c (Yale) version 4.9 11/7/91" ;
-#endif
 #endif
 
 #include "standard.h"

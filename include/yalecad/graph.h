@@ -8,9 +8,6 @@ REVISIONS:
 #ifndef YGRAPH_H
 #define YGRAPH_H
 
-#ifndef lint
-static char YgraphId[] = "@(#) Graph.h version 1.8 8/19/91";
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/deck.h>

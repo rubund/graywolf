@@ -48,9 +48,6 @@ CONTENTS:   Ylog_msg( message )
 DATE:	    May  7, 1989 - original coding.
 REVISIONS:  Aug  7, 1989 - Moved to libary.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) log.c version 1.2 8/28/90" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

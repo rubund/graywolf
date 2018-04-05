@@ -53,9 +53,6 @@ REVISIONS:  Jul 22, 1988 - deleted aspect0 field in CELLBOX record.
 	    Sat Apr 27 01:09:01 EDT 1991 - fixed problem with aspect
 		ratio and added aspect ratio initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uaspect.c version 3.5 4/27/91" ;
-#endif
 
 #include <custom.h>
 #include <initialize.h>

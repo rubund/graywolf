@@ -8,9 +8,6 @@ REVISIONS:
 #ifndef YLINALG_H
 #define YLINALG_H
 
-#ifndef lint
-static char YlinAlgId[] = "@(#) linalg.h version 1.1 1/15/91" ;
-#endif
 
 #define YEPSILON  1.0E-12
 #define YMIN     -1.0E-38

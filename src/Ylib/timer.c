@@ -47,9 +47,6 @@ DATE:	    Oct 04, 1990
 REVISIONS:  
 	    Apr 01, 1991 - added SYS5 (A/UX) support  (RAWeier)
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) timer.c version 4.3 10/25/91" ;
-#endif
 
  
 #include <yalecad/base.h>

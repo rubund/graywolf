@@ -106,9 +106,6 @@ REVISIONS:  July 21, 1988 - reversed order of softpin and aspect ratio
 	    Sat Nov 23 21:21:49 EST 1991 - began working with automatically
 		setting move strategy.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) uloop.c version 3.14 4/6/92" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>

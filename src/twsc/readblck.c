@@ -50,9 +50,6 @@ REVISIONS:  Wed Jan  2 10:55:01 CST 1991 - moved DEC code to parser.c
 		new global router algorithm (feeds).
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readblck.c (Yale) version 4.10 11/8/91" ;
-#endif
 #endif
 
 #define READBLCK_VARS

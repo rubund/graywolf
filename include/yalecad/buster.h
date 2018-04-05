@@ -17,9 +17,6 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 #ifndef YBUSTER_H
 #define YBUSTER_H
 
-#ifndef lint
-static char YbusterId[] = "@(#) buster.h version 1.5 4/18/91" ;
-#endif
 
 #include <yalecad/base.h>
 

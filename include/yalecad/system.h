@@ -7,9 +7,6 @@ REVISIONS:
 #ifndef YSYSTEM_H
 #define YSYSTEM_H
 
-#ifndef lint
-static char Ysystem_HId[] = "@(#) system.h version 1.1 3/5/92" ;
-#endif
 
 /*
 Ysystem -

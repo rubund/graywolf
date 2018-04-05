@@ -49,9 +49,6 @@ REVISIONS:  Jan 29, 1989 - changed msg to msgG and added \n's.
 	    Sun Nov  4 13:22:21 EST 1990 - added new debug function
 		for displaying cell slacks.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug2.c version 7.1 11/10/90" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

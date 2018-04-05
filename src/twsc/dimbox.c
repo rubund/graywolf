@@ -65,9 +65,6 @@ REVISIONS:  May 19, 1989 by Carl --- for gate swaps
 		with check_validbound.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) dimbox.c (Yale) version 4.5 11/18/91" ;
-#endif
 #endif
 
 #include "standard.h"

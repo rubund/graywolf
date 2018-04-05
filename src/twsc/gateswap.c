@@ -49,9 +49,6 @@ REVISIONS:  Apr  1, 1990 - fixed gateswap routine by changing sortpins
 		the cell pin listx instead of pina and pinb.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) gateswap.c (Yale) version 4.6 2/23/92" ;
-#endif
 #endif
 
 #include <string.h>

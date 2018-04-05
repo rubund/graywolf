@@ -68,9 +68,6 @@ REVISIONS:  Feb  7, 1990 - took total row length out of procedure calls.
 		orientation and now follow control menu convention.
 	    Sat Sep 21 15:37:36 EDT 1991 - added memory capability.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) draw.c (Yale) version 3.22 5/14/92" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

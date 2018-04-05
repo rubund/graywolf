@@ -74,9 +74,6 @@ REVISIONS:  Mar  8, 1988 - added lambda and init_acc ;
 	    Fri Oct 18 00:15:59 EDT 1991 - now scale block when calling
 		TimberWolf recursively.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readpar.c version 3.20 11/23/91" ;
-#endif
 
 #include <string.h>
 #include <custom.h>

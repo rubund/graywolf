@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readnets.c <- readnets_yacc <- readnets_lex
@@ -68,9 +65,6 @@ REVISIONS:  Jan 29, 1989 - changed to YmsgG and added \n's.
 		and finalized analog input format.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readnets.y version 3.8 3/6/92" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

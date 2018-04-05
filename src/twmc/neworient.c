@@ -43,9 +43,6 @@ DESCRIPTION:pick a new orientation.
 DATE:	    Jan 29, 1988 
 REVISIONS:  Thu Apr 18 01:37:39 EDT 1991 - added check_valid_orientation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) neworient.c version 3.4 4/18/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

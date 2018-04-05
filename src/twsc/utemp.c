@@ -61,9 +61,6 @@ REVISIONS:  Fri Jan 25 23:45:25 PST 1991 - added user meter.
 		for rigidly fixed cells.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) utemp.c (Yale) version 4.19 4/5/92" ;
-#endif
 #endif
 
 

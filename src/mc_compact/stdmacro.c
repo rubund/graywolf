@@ -49,9 +49,6 @@ REVISIONS:  May  3, 1989 - changed to Y prefixes.
 	    Jun 21, 1989 - changed swap to exchange only x positions.
 	    May  4, 1990 - updated the functionality of Yset_init.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) stdmacro.c version 7.3 2/15/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

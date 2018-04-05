@@ -48,9 +48,6 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		debug mode.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) uc0.c (Yale) version 4.6 2/23/92" ;
-#endif
 #endif
 
 #include "standard.h"

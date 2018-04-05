@@ -45,9 +45,6 @@ CONTENTS:
 DATE:	    Jan 21, 1990 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) multi.c version 7.3 5/21/92" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

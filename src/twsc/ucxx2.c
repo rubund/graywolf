@@ -54,9 +54,6 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		capability.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxx2.c (Yale) version 4.10 4/2/92" ;
-#endif
 #endif
 
 #include "ucxxglb.h"

@@ -38,9 +38,6 @@
  *
  */
 
-#ifndef lint
-static char SccsId[] = "@(#) quicksort.c version 3.3 3/6/92" ;
-#endif
 
 /* modified version of @(#)qsort.c 4.2 (Berkeley) 3/9/83 */
 

@@ -63,9 +63,6 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 		a flow directory.  Also added show_flows call.
 	    Sun Apr 21 22:36:29 EDT 1991 - now find the flow directory.
 ---------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
-#endif
 
 #include <stdio.h>
 #include <signal.h>

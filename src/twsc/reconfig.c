@@ -52,9 +52,6 @@ REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 		output info for blocks.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) reconfig.c (Yale) version 4.11 4/2/92" ;
-#endif
 #endif
 
 #include "standard.h"

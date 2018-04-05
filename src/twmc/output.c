@@ -84,9 +84,6 @@ REVISIONS:  Aug 10, 1988 - add compile switch for Dahe.
 		groups.
 	    Mon Aug 12 16:57:04 CDT 1991 - create sc output files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) output.c version 3.16 3/6/92" ;
-#endif
 
 #include <custom.h>
 #include <pads.h>

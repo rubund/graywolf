@@ -45,9 +45,6 @@ CONTENTS:
 DATE:	    May  8, 1989 - original coding.
 REVISIONS:  Apr 29, 1990 - added message.h
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) getftime.c version 1.3 8/28/90" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>

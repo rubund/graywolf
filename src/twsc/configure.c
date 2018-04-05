@@ -50,9 +50,6 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
 		problem with rowSep.
 ----------------------------------------------------------------- */
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) configure.c (Yale) version 4.12 3/19/91" ;
-#endif
 #endif
 
 #define CONFIG_VARS

@@ -52,9 +52,6 @@ REVISIONS:  Wed Jan 30 14:11:50 EST 1991 - added Ytrans_init and
 	    Sat Nov 23 21:07:47 EST 1991 - added boundary translation
 		functions.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) trans.c version 1.5 3/6/92" ;
-#endif
 
 #define  YTRANS_DEFS
 #include <yalecad/base.h>

@@ -74,9 +74,6 @@ REVISIONS:  Sep 30, 1988 - added incWarningCount & incErrorCount
 		system.  Modified names to make it easier.
 	    Thu Mar  7 01:27:48 EST 1991 - now always flush stdout.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) message.c version 3.6 3/7/91" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/base.h>

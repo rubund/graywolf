@@ -48,9 +48,6 @@ DATE:	    July 26, 1991
 ----------------------------------------------------------------- */
 
 #ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
-#endif
 #endif
 
 #define PADKEYWORD          "pad"

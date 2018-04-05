@@ -50,9 +50,6 @@ REVISIONS:  Thu Jan 17 00:49:52 PST 1991 - now read side information.
 	    Wed May  1 19:17:23 EDT 1991 - added switchbox keyword
 		so we can ignore these areas during wire estimation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) gmain.c version 3.8 5/1/91" ;
-#endif
 
 #define DENS_DEFS
 

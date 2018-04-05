@@ -65,9 +65,6 @@ REVISIONS:  Thu Jan 24 20:20:32 PST 1991 - added missing return.
 	    Mon Aug 12 15:57:17 CDT 1991 - fixed problem with routine
 		names.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wgraphics.c version 3.8 8/12/91" ;
-#endif
 
 #include <stdio.h>
 #include <string.h>
