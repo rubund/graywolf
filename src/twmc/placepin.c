@@ -70,9 +70,6 @@ REVISIONS:  Apr 23, 1990 - working version of softpin placement for
 	    Wed Jun  5 15:43:33 CDT 1991 - changed REL_POS to REL_POST
 		for accuracy.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) placepin.c version 3.18 11/23/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

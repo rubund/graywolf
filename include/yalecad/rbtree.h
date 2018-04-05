@@ -17,9 +17,6 @@ REVISIONS:  Oct  8, 1990 - added prototypes and tree size.
 #ifndef RBTREE_H
 #define RBTREE_H
 
-#ifndef lint
-static char YrbtreeId[] = "@(#) rbtree.h version 1.20 5/22/92" ;
-#endif
 
 #include <yalecad/base.h>
 

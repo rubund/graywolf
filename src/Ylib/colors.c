@@ -51,9 +51,6 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Fri Jan 18 18:38:36 PST 1991 - fixed to run on AIX.
 	    Fri Jan 25 15:41:25 PST 1991 - fixed to run on HPUX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) colors.c version 3.8 2/26/92" ;
-#endif
 
 #include <yalecad/base.h>
 

@@ -59,9 +59,6 @@ REVISIONS:  May 25, 1989 - added needtoExecute to handle case of no
 	    Fri Feb 22 23:55:29 EST 1991 - fixed new library rename.
 	    Sun Apr 21 22:33:53 EDT 1991 - now allow optional files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

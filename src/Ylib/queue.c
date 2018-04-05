@@ -55,9 +55,6 @@ CONTENTS:  YinitQueue( queue, node )
 DATE:	    Mar 16, 1989 
 REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) queue.c (Yale) version 3.4 12/15/91" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/queue.h>

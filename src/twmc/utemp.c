@@ -54,9 +54,6 @@ REVISIONS:  Dec 3, 1988 - added output info for timing.
 	    Oct 14,1990 - added overlap iterations.
 	    Fri Jan 25 18:09:20 PST 1991 - removed unnecessary globals.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) utemp.c version 3.6 4/6/92" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>

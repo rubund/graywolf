@@ -73,9 +73,6 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Fri Jan 25 16:16:50 PST 1991 - fixed to run on HPUX.
 	    Mon Sep 16 22:20:09 EDT 1991 - fixed to run on R6000.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cleanup.c version 3.13 11/2/91" ;
-#endif
 
 #include <yalecad/cleanup.h>
 

@@ -46,9 +46,6 @@ REVISIONS:  Jul 21, 1988 - fixed softcell code.
 	    Oct 25, 1988 - remove weights from funccost
 	    Mar 30, 1989 - changed tile datastructure.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findcheck.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/relpos.h>

@@ -46,9 +46,6 @@ DATE:	    Jun 21, 1989
 REVISIONS:  Thu Oct 17 11:09:03 EDT 1991 - renamed functions according
 		to convention. Added mst_color function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) mst.c (Yale) version 1.5 1/24/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>

@@ -91,9 +91,6 @@ REVISIONS:  Sep  7, 1988 - fixed argument mismatch to utemp.
 	    Wed Jun  5 16:28:05 CDT 1991 - added condition for
 		initializing aspect ratios.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
-#endif
 
 #include <string.h>
 

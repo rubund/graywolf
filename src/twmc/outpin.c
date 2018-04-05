@@ -65,9 +65,6 @@ REVISIONS:  Apr 25, 1989 - ignore 1 pin nets - causes global router to
 	    Sat May 11 22:41:38 EDT 1991 - automatically move pad
 		pins to correct channel.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) outpin.c version 3.11 5/11/91" ;
-#endif
 
 #include <string.h>
 #include <custom.h>

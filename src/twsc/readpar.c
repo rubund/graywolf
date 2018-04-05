@@ -65,11 +65,6 @@ REVISIONS:  Nov 23, 1990 - now use new readpar library function.
 	    Fri Nov  8 01:13:18 EST 1991 - added even the rows
 		maximally.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readpar.c (Yale) version 4.26 5/12/92" ;
-#endif
-#endif
 
 #define READPAR_VARS
 #define NOTSPECIFIED -1

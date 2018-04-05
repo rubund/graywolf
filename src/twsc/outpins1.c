@@ -62,11 +62,6 @@ CONTENTS:   outpins()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outpins1.c (Yale) version 1.3 4/18/91" ;
-#endif
-#endif
 
 #include <string.h>
 #include "standard.h"

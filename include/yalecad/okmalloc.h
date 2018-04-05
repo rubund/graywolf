@@ -7,9 +7,6 @@ REVISIONS:
 #ifndef YOKMALLOC_H
 #define YOKMALLOC_H
 
-#ifndef lint
-static char Yokmalloc_HId[] = "@(#) okmalloc.h version 1.1 3/5/92" ;
-#endif
 
 /* memory definitions - for portability and ease of use */
 #ifndef MEM_DEBUG

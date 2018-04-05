@@ -68,11 +68,6 @@ REVISIONS:  Thu Feb  7 00:10:27 EST 1991 - now also support old
 	    Thu Dec  5 21:58:34 EST 1991 - fixed problem with
 		macro cell output pins.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outpins.c (Yale) version 4.9 12/5/91" ;
-#endif
-#endif
 
 #include <string.h>
 #include "standard.h"

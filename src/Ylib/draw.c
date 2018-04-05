@@ -173,9 +173,6 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Thu Mar  5 17:01:09 EST 1992 - added clipping for faster draw
 		during zoom.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) draw.c (Yale) version 3.41 3/10/92" ;
-#endif
 
 #ifndef NOGRAPHICS
 

@@ -125,9 +125,6 @@ REVISIONS:  Sep 25, 1988 - converted to common utility.
 	    Tue Jan  7 18:03:31 EST 1992 - fixed memory manager
 		on the MAC.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) okmalloc.c (Yale) version 3.24 3/6/92" ;
-#endif
 
 #include	<stdio.h>
 #include	<unistd.h>

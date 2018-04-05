@@ -47,9 +47,6 @@ REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Mar 30, 1989 - changed tile datastructure.
 	    Apr 23, 1990 - moved graph routines to library.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 /* #include <stdarg.h> */

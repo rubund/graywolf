@@ -49,11 +49,6 @@ REVISIONS:  Wed Mar 13 13:48:30 CST 1991 - make sure the .blk
 		and the .res file are consistent.
 	    Thu Sep 19 16:36:02 EDT 1991 - added more error checking.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
-#endif
-#endif
 
 #include <string.h>
 #include "standard.h"

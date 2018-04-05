@@ -53,9 +53,6 @@ REVISIONS:  Jan 29, 1989 - removed message about pad limited designs.
 	    Thu Aug 29 15:44:00 CDT 1991 - added overflow processing
 		code.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) configpads.c version 3.10 11/23/91" ;
-#endif
 
 #include <custom.h>
 #include <pads.h>

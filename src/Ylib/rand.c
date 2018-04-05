@@ -53,9 +53,6 @@ REVISIONS:  Mar 21, 1989 - added get current value of random variable.
 	    Tue Apr  7 09:37:53 EDT 1992 - now you don't need to initialize
 		random number generator if you don't care.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) rand.c version 3.8 4/7/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>

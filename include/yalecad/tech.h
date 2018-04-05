@@ -7,9 +7,6 @@ REVISIONS:
 #ifndef YTECH_H
 #define YTECH_H
 
-#ifndef lint
-static char YassignId[] = "@(#) tech.h (Yale) version 1.1 10/22/90" ;
-#endif
 
 #include <yalecad/base.h>
 

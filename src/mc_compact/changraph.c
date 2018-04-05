@@ -46,9 +46,6 @@ REVISIONS:  Fri Mar 29 14:16:57 EST 1991 - added cell edge tree data
 		structure.
 	    Mon Aug 12 16:44:05 CDT 1991 - updated for new Yrbtree_init.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) changraph.c (Yale) version 1.4 5/21/92" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/message.h>

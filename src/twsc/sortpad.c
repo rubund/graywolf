@@ -50,9 +50,6 @@ REVISIONS:  Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 	    Tue Mar 12 17:09:30 CST 1991 - fixed initialization problem
 		with permute_pads.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) sortpad.c version 4.6 3/12/91" ;
-#endif
 
 #include <standard.h>
 #include <pads.h>

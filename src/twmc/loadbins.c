@@ -49,9 +49,6 @@ REVISIONS:  Nov 3,  1988 - added routingFlag override for doPartitionG
 	    May 11, 1989 - eliminated routing Flag override.
 	    Mon Feb  4 02:11:27 EST 1991 - added new wire estimator function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) loadbins.c version 3.4 2/4/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

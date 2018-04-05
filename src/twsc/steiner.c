@@ -49,11 +49,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Sun Jan 20 21:47:52 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) steiner.c (Yale) version 4.7 1/20/91" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"

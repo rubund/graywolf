@@ -62,9 +62,6 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 	    Fri Mar 29 14:25:29 EST 1991 - now save the critical
 		path.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) compactor.c version 7.3 3/29/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

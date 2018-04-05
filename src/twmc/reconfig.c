@@ -52,9 +52,6 @@ REVISIONS:  Jan  20, 1989 - added findcost call to update new wirelength
 	    Sun May  5 14:23:51 EDT 1991 - added reorigin and now
 		allow user to set origin.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) reconfig.c version 3.6 5/5/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

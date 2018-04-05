@@ -46,9 +46,6 @@ DATE:	    Dec 13, 1990
 REVISIONS:  Thu Dec 20 00:02:54 EST 1990 - made net cap and res.
 		matches work.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
-#endif
 
 #include <custom.h>
 #include <analog.h>

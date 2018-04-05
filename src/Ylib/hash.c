@@ -55,9 +55,6 @@ REVISIONS:  Nov  6, 1988 - added user defined hash delete function.
 	    Thu Apr 18 00:40:49 EDT 1991 - renamed functions for
 		consistency.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) hash.c version 3.11 12/15/91" ;
-#endif
 
 #include <stdio.h>
 #include <string.h>

@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char SccsId[] = "@(#) perimeter.c version 3.4 12/16/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/buster.h>

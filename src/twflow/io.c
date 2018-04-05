@@ -75,9 +75,6 @@ REVISIONS:  Jun 19, 1989 - added unmark_edges to insure auto_flow
 		be executed FIFO.
 	    Sun Apr 21 22:35:40 EDT 1991 - now allow optional files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) io.c version 2.2 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <globals.h>

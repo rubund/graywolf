@@ -54,9 +54,6 @@ REVISIONS:  Jun 21, 1990 - added graphics abort macro.
 	    Tue May  7 00:09:43 EDT 1991 - added TWsetFrame 
 		initialization and draw orientation markers.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c version 4.21 5/15/92" ;
-#endif
 
 #include "standard.h"
 #include "main.h"

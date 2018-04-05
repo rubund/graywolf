@@ -63,9 +63,6 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Oct 07, 1991 - fix #include sys/dir.h for SYS5 A/UX (RAWeier)
             Oct 18, 1991 - change INT to BOOL in YopenFile (RAWeier)
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) file.c version 3.11 10/20/91" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/base.h>

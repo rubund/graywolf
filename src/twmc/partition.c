@@ -76,9 +76,6 @@ REVISIONS:  May 24, 1989 - added stdcell configuration code.
 	    Fri Oct 18 00:09:45 EDT 1991 - eliminated read_blk_file.
 		Instead, to find core we read it using read_gen_file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
-#endif
 
 #include <custom.h>
 #include <partition.h>

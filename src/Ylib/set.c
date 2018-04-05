@@ -66,9 +66,6 @@ REVISIONS:  Dec  4, 1989 added YsetSize and made Yenumerate a macro.
 	    May  8, 1990 - fixed error messages.
 	    Fri Feb 15 15:36:27 EST 1991 - renamed the set functions.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) set.c version 3.8 12/15/91" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
