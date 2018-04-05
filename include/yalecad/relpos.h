@@ -11,9 +11,6 @@ REVISIONS:  Aug 13, 1990 - moved to library for MC.
 		the truncated center regardless of orientation 
 		with the addtion of the REL_POST MACROs.
 ----------------------------------------------------------------- */
-/* *****************************************************************
-   static char SccsId[] = "@(#) relpos.h version 1.5 3/16/92" ;
-***************************************************************** */
 
 /* ----------------------------------------------------------------- 
     The following is a macro which calculates the global pin position

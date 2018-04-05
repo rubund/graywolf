@@ -9,9 +9,6 @@ REVISIONS:  Sun Dec 16 00:40:28 EST 1990 - moved net routines to
 	    Thu Mar  7 01:48:21 EST 1991 - added more definitions
 		for byacc.
 ----------------------------------------------------------------- */
-/* *****************************************************************
-   static char SccsId[] = "@(#) readnets.h version 3.6 3/6/92" ;
-***************************************************************** */
 #include <analog.h>
 #define STARTPATH  1   /* flag for start of path */
 #define CONTPATH   0   /* flag for continuing path */

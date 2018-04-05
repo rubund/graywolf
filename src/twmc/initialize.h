@@ -5,9 +5,6 @@ CONTENTS:
 DATE:	    March 15, 1990 
 REVISIONS:  Wed Dec 19 19:38:46 EST 1990 - added analog pin type.
 ----------------------------------------------------------------- */
-/* *****************************************************************
-   static char SccsId[] = "@(#) initialize.h version 3.4 12/19/90" ;
-***************************************************************** */
 #ifndef INITIALIZE_H
 #define INITIALIZE_H
 
