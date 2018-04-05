@@ -48,8 +48,6 @@ REVISIONS:  Apr  1, 1990 - fixed gateswap routine by changing sortpins
 		txpos fields.  Needed to pass the beginning of
 		the cell pin listx instead of pina and pinb.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include <string.h>
 #include "ucxxglb.h"

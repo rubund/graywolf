@@ -57,8 +57,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Tue Jan 15 20:30:05 PST 1991 - changed frees to Ysafe_frees.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "groute.h"

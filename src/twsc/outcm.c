@@ -46,8 +46,6 @@ CONTENTS:   outcm()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include "groute.h"

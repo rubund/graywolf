@@ -65,8 +65,6 @@ REVISIONS:  Nov 23, 1990 - now use new readpar library function.
 	    Fri Nov  8 01:13:18 EST 1991 - added even the rows
 		maximally.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #define READPAR_VARS
 #define NOTSPECIFIED -1

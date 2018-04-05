@@ -64,8 +64,6 @@ REVISIONS:  Jan 29, 1989 - changed to msgG and added \n's.
 	    Thu Apr 18 01:55:39 EDT 1991 - added debug function
 		and fixed for new library names.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include <yalecad/message.h>
 #include <yalecad/debug.h>

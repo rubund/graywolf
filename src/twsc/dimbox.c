@@ -64,8 +64,6 @@ REVISIONS:  May 19, 1989 by Carl --- for gate swaps
 	    Mon Nov 18 16:28:30 EST 1991 - fixed initialization problem
 		with check_validbound.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #define break_pt 5

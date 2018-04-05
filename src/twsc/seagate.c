@@ -44,8 +44,6 @@ CONTENTS:
 DATE:	    Apr  7, 1990 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 
 #include "standard.h"

@@ -46,8 +46,6 @@ CONTENTS:  DOUBLE calc_acceptance_ratio( iternum )
 DATE:	    Dec 19, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "standard.h"
 #include <yalecad/debug.h>

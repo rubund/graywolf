@@ -58,8 +58,6 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #define EXTRA_BIN 0.50
 #define MAXNUMPINS    100		/* WPS */

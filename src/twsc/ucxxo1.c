@@ -47,8 +47,6 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
 		debug mode.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "ucxxglb.h"
 #include <yalecad/debug.h>

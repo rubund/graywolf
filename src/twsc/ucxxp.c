@@ -45,8 +45,6 @@ CONTENTS:   ucxxp( a , b , anxcenter , bnxcenter )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#endif
 
 #include "ucxxglb.h"
 #include <yalecad/debug.h>
