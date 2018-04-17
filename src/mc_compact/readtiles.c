@@ -254,7 +254,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readtiles_l.h" *******************/
 /* ********************* #include "readtiles_l.h" *******************/
 
-readtiles()
+void readtiles()
 { 
     char filename[LRECL] ;
 #ifdef YYDEBUG
@@ -272,7 +272,7 @@ readtiles()
 
 } /* end readtiles */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.mvio:", cktNameG );
@@ -283,7 +283,7 @@ char    *s;
     setErrorFlag() ;
 }
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      

@@ -81,7 +81,7 @@ INT Yacm_random()
 
 } /* end acm_random */
 
-Yset_random_seed( seed )
+void Yset_random_seed( seed )
 INT seed ;
 {
     seed = ABS(seed) ;
@@ -101,7 +101,7 @@ INT Yget_random_var()
 
 /* test whether generator works correctly. */
 
-main()
+int main()
 {
     INT n, randnum ;
     Yset_random_seed( 1 ) ;
@@ -111,6 +111,8 @@ main()
     printf( "The final value is randnum:%d\n", randnum ) ;
     printf( "It should be 1043618065 if everything is correct.\n" ) ;
     printf( "See article.\n\n" ) ;
+
+    return 0;
 }
 
 #endif /* TEST */

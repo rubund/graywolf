@@ -76,7 +76,7 @@ Function:
 */
 
 
-extern Yhash_table_delete( P2(YHASHPTR  hashtable,INT (*userdelete)() ) ) ;
+extern void Yhash_table_delete( P2(YHASHPTR  hashtable,INT (*userdelete)() ) ) ;
 /*
 Function:
     Frees the memory associated with a hash table. The user

@@ -166,14 +166,14 @@ static BOOL drawFS = FALSE ;
 /* Forward references */
 
 INT draw_the_data() ;
-static draw_fs();
-static edit_cell();
-static edit_field_string();
-static edit_field_case();
-static fix_the_cell();
-static fix_the_cell2();
+static void draw_fs();
+static void edit_cell();
+static void edit_field_string();
+static void edit_field_case();
+static void fix_the_cell();
+static void fix_the_cell2();
 
-initMCGraphics( argc, argv, windowId )
+void initMCGraphics( argc, argv, windowId )
 INT argc, windowId ;
 char *argv[] ;
 {
@@ -231,7 +231,7 @@ char *argv[] ;
 
 } /* end initMCGraphics */
 
-setGraphicWindow() 
+void setGraphicWindow() 
 {
     INT  expand ;
     INT  minx ;
@@ -269,7 +269,7 @@ setGraphicWindow()
 
 /* set what we are going to draw on a dump to the screen */
 /* placement data, compaction data , etc. are valid */
-set_graphic_context( context )
+void set_graphic_context( context )
 INT context ;
 {
     if( context == PARTITION_PLACEMENT ){
@@ -280,7 +280,7 @@ INT context ;
 } /* end set_graphic_context */ 
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     INT x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
@@ -889,7 +889,7 @@ INT draw_the_data()
 
 } /* end draw_the_data */
 
-twmc_draw_a_cell( cell )
+void twmc_draw_a_cell( cell )
 {
     INT  pt ;
     INT  xc, yc ;
@@ -1007,7 +1007,7 @@ twmc_draw_a_cell( cell )
 
 } /* end TWdrawCell */
 
-static draw_fs( cptr )
+static void draw_fs( cptr )
 CELLBOXPTR cptr ;
 {
     INT x[10], y[10] ;   /* only 10 points to an F */
@@ -1049,7 +1049,7 @@ CELLBOXPTR cptr ;
 } /* end draw_fs */
 
 /* draw the neighborhood of a cell if it exists */
-draw_neighbors( cell )
+void draw_neighbors( cell )
 INT cell ;
 {
 
@@ -1090,7 +1090,7 @@ INT cell ;
 } /* end draw_neighbors */
 
 /* avoid dump when we don't want it */
-dsetDump( flag )
+void dsetDump( flag )
 BOOL flag ;
 {
     avoidDump = flag ;
@@ -1103,7 +1103,7 @@ BOOL dgetDump()
 }
 
 /* dumps the data to a file for future study */
-graphics_dump() 
+void graphics_dump() 
 {
     /* now change mode to dump to file */
     TWsetMode(1) ;
@@ -1113,7 +1113,7 @@ graphics_dump()
     TWsetMode(0) ;
 } /* end graphics_dump() */
 
-static edit_cell( cell )
+static void edit_cell( cell )
 INT cell ;
 {
 
@@ -1262,7 +1262,7 @@ INT cell ;
 } /* end edit_tiles */
 
 
-static edit_field_string( dialog, field, string )
+static void edit_field_string( dialog, field, string )
 TWDIALOGPTR dialog;    /* dialog record */
 INT field ;
 char *string ;
@@ -1271,7 +1271,7 @@ char *string ;
 
 } /* end edit_field_string */
 
-static edit_field_case( dialog, field, initcase )
+static void edit_field_case( dialog, field, initcase )
 TWDIALOGPTR dialog;    /* dialog record */
 INT field ;
 INT initcase ;
@@ -1282,7 +1282,7 @@ INT initcase ;
 
 } /* end edit_field_case */
 
-set_graphics_wait_menu( menus )
+void set_graphics_wait_menu( menus )
 TWMENUBOX menus[] ;
 {
     INT i ;   /* counter */
@@ -1302,7 +1302,7 @@ TWMENUBOX menus[] ;
     }
 }
 
-static fix_the_cell( cell )
+static void fix_the_cell( cell )
 INT cell ;
 {
     INT i ; /* counter */
@@ -1318,7 +1318,7 @@ INT cell ;
     cellarrayG[cell]->orientList[HOWMANYORIENT] = 1 ;
 } /* end fix_the_cell */
 
-static fix_the_cell2( cell )
+static void fix_the_cell2( cell )
 INT cell ;
 {
     INT x1, y1 ;

@@ -87,7 +87,7 @@ static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
 #define NOCONSTRAINTS    FALSE
 #define CONSTRAINTS      TRUE
 
-finalout()
+void finalout()
 {
 
 INT c ;
@@ -211,7 +211,7 @@ return ;
 
 
 
-Output( cycle )
+void Output( cycle )
 INT cycle ;
 {
 
@@ -228,7 +228,7 @@ INT cycle ;
 } /* end Output */
 
 /* print out the current cost to the user */
-prnt_cost( out_string ) 
+void prnt_cost( out_string ) 
 char *out_string ;
 {
     INT xspan ;
@@ -259,7 +259,7 @@ char *out_string ;
 
 }/* end print_current_cost */
 
-check_graphics()
+void check_graphics()
 {
     if( doGraphicsG && wait_for_userG ){
 	G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;

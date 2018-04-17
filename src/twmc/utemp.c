@@ -62,7 +62,7 @@ static char SccsId[] = "@(#) utemp.c version 3.6 4/6/92" ;
 #include <temp.h>
 #include <yalecad/debug.h>
 
-utemp( attempts, multi_cell_moves )
+void utemp( attempts, multi_cell_moves )
 INT attempts ;
 BOOL multi_cell_moves ;
 {

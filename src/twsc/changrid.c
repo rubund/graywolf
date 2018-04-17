@@ -56,7 +56,7 @@ static char SccsId[] = "@(#) changrid.c (Yale) version 4.5 8/29/91" ;
 #include "standard.h"
 #include "groute.h"
 
-changrid( )
+void changrid( )
 {
 
 CHANGRDPTR **gdptr , grdptr , cgdptr , ngdptr ;
@@ -220,7 +220,7 @@ Ysafe_free( PinInChan ) ;
 }
 
 
-pre_findrcost()
+void pre_findrcost()
 {
 
 SEGBOXPTR segptr ;

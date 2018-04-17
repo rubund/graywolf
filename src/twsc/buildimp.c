@@ -68,7 +68,7 @@ INT comparetxpos() ;
 extern BOOL ignore_feedsG ;	/* Treat feedthroughs as width 0 */
 
 
-buildimp( )
+void buildimp( )
 {
 
 IPBOXPTR *impinptr , imptr ;
@@ -174,7 +174,7 @@ Ysafe_free( feasible_feednum ) ;
 }
 
 
-link_imptr( )
+void link_imptr( )
 {
 INT i , row , *Aray ;
 CBOXPTR cellptr ;
@@ -196,7 +196,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 
 
-decide_boundary( )
+void decide_boundary( )
 {
 
 INT row , fcx , fcl , lcx , lcr , lcl ;
@@ -236,7 +236,7 @@ gxstopG  = xstop  ;
 }
 
 
-fixwolf( )
+void fixwolf( )
 {
 
 INT j , last_j ;
@@ -256,7 +256,7 @@ return ;
 }
 
 
-addfeed( row , pos , feednum ) 
+void addfeed( row , pos , feednum ) 
 INT row , pos , feednum ;
 {
 CBOXPTR cellptr ;

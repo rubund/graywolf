@@ -139,12 +139,12 @@ extern BOOL doubleback_rows_start_at_oneG ;
 static BOOL abortS = FALSE ;
 static BOOL readparamS = FALSE ;
 
-static init_read_par();
-static readparam();
-static process_readpar();
-static err_msg();
+static void init_read_par();
+static void readparam();
+static void process_readpar();
+static void err_msg();
 
-readParFile()
+void readParFile()
 {
     init_read_par() ;
     readparam( TWSC ) ;
@@ -152,7 +152,7 @@ readParFile()
     process_readpar() ;
 }
 
-static init_read_par()
+static void init_read_par()
 {
     /* initialization of variables */
     SGGRG = FALSE ;
@@ -178,7 +178,7 @@ static init_read_par()
     file_conversionG = FALSE ;
 } /* end init_read_par */
 
-static readparam( parfile )
+static void readparam( parfile )
 INT parfile ;
 {
 
@@ -686,7 +686,7 @@ INT parfile ;
 } /* end  readparam */
 
 
-static process_readpar()
+static void process_readpar()
 {
 
 char *layer ;             /* name of layer */
@@ -819,7 +819,7 @@ if( track_pitchG != NOTSPECIFIED ) {
 return ;
 } /* end process_readpar */
 
-yaleIntro() 
+void yaleIntro() 
 {
     INT i ;
 
@@ -867,7 +867,7 @@ yaleIntro()
 
 } /* end yaleIntro */
 
-static err_msg( keyword ) 
+static void err_msg( keyword ) 
 char *keyword ;
 {
     OUT2("The value for %s was", keyword );

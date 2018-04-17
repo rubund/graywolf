@@ -69,7 +69,7 @@ static char SccsId[] = "@(#) compactor.c version 7.3 3/29/91" ;
 #include <compact.h>
 #include <yalecad/debug.h>
 
-remove_violations()
+void remove_violations()
 {
     ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
 
@@ -112,7 +112,7 @@ remove_violations()
 } /* end remove_violations */
 
 
-compact()
+void compact()
 {
     INT length ;       /* length of longest path */
     INT count ;        /* number of compaction cycles */
@@ -202,7 +202,7 @@ compact()
 } /* end compact */
 
 
-freeGraph( direction ) 
+void freeGraph( direction ) 
 INT direction ;
 {
     INT i ;
@@ -319,7 +319,7 @@ INT direction ;
     }
 }
 
-cleanupGraph( direction ) 
+void cleanupGraph( direction ) 
 INT direction ;
 {
     INT i ;
@@ -429,7 +429,7 @@ INT direction ;
 }
 
 /* find bounding box of tiles */
-find_core( l, r, b, t )
+void find_core( l, r, b, t )
 INT *l, *r, *b, *t ;
 {
 
