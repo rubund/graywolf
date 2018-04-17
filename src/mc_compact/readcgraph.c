@@ -262,7 +262,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcgraph_l.h" *******************/
 
 
-void read_cgraph()
+read_cgraph()
 { 
     char filename[LRECL] ;
 #ifdef YYDEBUG
@@ -281,7 +281,7 @@ void read_cgraph()
 
 } /* end read_cgraph */
 
-void yyerror(s)
+yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.mrte:", cktNameG );
@@ -292,7 +292,7 @@ char    *s;
     abortS = TRUE ;
 }
 
-int yywrap()
+yywrap()
 {
     return(1);
 }                      

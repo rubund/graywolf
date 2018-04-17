@@ -76,7 +76,7 @@ INT i, j ;
 	return( SQUARE(nodeXS[i]-nodeXS[j])+SQUARE(nodeYS[i]-nodeYS[j]) );
 } /* end cost */
 
-void Ymst_init( numpins )
+Ymst_init( numpins )
 INT numpins ;
 {
     numpinS = numpins ;
@@ -87,7 +87,7 @@ INT numpins ;
     countS = 0 ;
 } /* end Ymst_init() */
 
-void Ymst_free()
+Ymst_free()
 {
     YFREE(nodeXS) ;
     YFREE(nodeYS) ;	
@@ -95,12 +95,12 @@ void Ymst_free()
     YFREE(lowcostS) ;	
 } /* end Ymst_free() */
 
-void Ymst_clear()
+Ymst_clear()
 {
     countS = 0 ;
 } /* end Yclear_mst() */
 
-void Ymst_addpt( x, y )
+Ymst_addpt( x, y )
 INT x, y ;
 {
     if( countS >= numpinS ){
@@ -112,7 +112,7 @@ INT x, y ;
     countS++ ;
 } /* end Ymst_addpt() */
 
-void Ymst_draw()
+Ymst_draw()
 {
     INT mincost ;             /* minimum cost for pin */
     INT closest_pt ;          /* closest neighbor for pin */
@@ -148,7 +148,7 @@ void Ymst_draw()
 
 } /* end Ymst_draw() */
 
-void Ymst_enumerate( x1, y1, x2, y2, startFlag )
+Ymst_enumerate( x1, y1, x2, y2, startFlag )
 INT *x1, *y1, *x2, *y2 ;
 BOOL startFlag ;
 {
@@ -194,7 +194,7 @@ BOOL startFlag ;
 
 } /* end Ymst_enumerate() */
 
-void Ymst_color( color )
+Ymst_color( color )
 {
     colorS = color ;
 } /* end Ymst_color */

@@ -88,7 +88,7 @@ static INT chip_width_penaltyS ;
 static INT *est_min_ratioS ;
 
 
-void feedest()
+feedest()
 {
 
 DOUBLE ratio ;
@@ -246,7 +246,7 @@ estimate_pass_thru_penalty( 1 , numRowsG ) ;
 
 }
 
-void re_estimate_feed_penalty()
+re_estimate_feed_penalty()
 {
 
 INT i , n , row , row_rite , excess_fd , *old_penalty ;
@@ -317,7 +317,7 @@ Ysafe_free( old_penalty );
 }
 
 #ifdef Carl
-void estimate_pass_thru_penalty( row1 , row2 )
+estimate_pass_thru_penalty( row1 , row2 )
 INT row1 , row2 ;
 {
 
@@ -346,7 +346,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 }
 #else
 
-void estimate_pass_thru_penalty( row1 , row2 )
+estimate_pass_thru_penalty( row1 , row2 )
 INT row1 , row2 ;
 {
 
@@ -388,7 +388,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 #endif
 
 
-void update_feedest( net )
+update_feedest( net )
 INT net ;
 {
 
@@ -502,7 +502,7 @@ estimate_pass_thru_penalty( botrow , toprow ) ;
 }
 
 
-void free_up_feedest_malloc()
+free_up_feedest_malloc()
 {
 
 Ysafe_free( fd_estimateS ) ;
@@ -513,7 +513,7 @@ Ysafe_free( est_min_ratioS ) ;
 }
 
 
-void update_segment_data( segptr )
+update_segment_data( segptr )
 SEGBOXPTR segptr ;
 {
 PINBOXPTR ptr1 , ptr2 ;
@@ -632,7 +632,7 @@ return( segptr ) ;
 }
 
 
-void dbg_cost()
+dbg_cost()
 {
 FILE *fp ;
 INT row ;
@@ -651,7 +651,7 @@ TWCLOSE(fp) ;
 }
 
 
-void dbx_fdpen()
+dbx_fdpen()
 {
 
 FILE *fp ;

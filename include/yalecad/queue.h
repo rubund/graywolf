@@ -22,7 +22,7 @@ typedef struct {
 } YQUEUE ;
 
 /* *********** FIFO routines *************** */
-extern void YinitQueue( P2(YQUEUE *queue, char *node ) ) ;
+extern YinitQueue( P2(YQUEUE *queue, char *node ) ) ;
 /* 
 Arguments:
     YQUEUE *queue ;
@@ -40,7 +40,7 @@ Function:
     Returns the users pointer to the first element in the FIFO.
 */
 
-extern void Yadd2Queue( P2(YQUEUE *queue, char *node ) ) ;
+extern Yadd2Queue( P2(YQUEUE *queue, char *node ) ) ;
 /* 
 Arguments:
     YQUEUE *queue ;
@@ -59,7 +59,7 @@ Function:
 */
 
 /* debug function to dump the contents of the queue */
-extern void YdumpQueue( P1(YQUEUE *queue ) ) ;
+extern YdumpQueue( P1(YQUEUE *queue ) ) ;
 /* 
 Arguments:
     YQUEUE *queue ;

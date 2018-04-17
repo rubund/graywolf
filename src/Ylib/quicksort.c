@@ -52,7 +52,7 @@ static  INT	mthresh;		/* MTHRESHold in chars */
 static  INT	(*compare_fun)();	/* comparison function */
 
 
-static void qst();
+static qst();
 
 
 #define         compar(a,b)  (  (*compare_fun)(a,b) )
@@ -138,7 +138,7 @@ VOID Yquicksort(base, n, size, compare )
  * (And there are only three places where this is done).
  */
 
-static void qst(base, max)
+static qst(base, max)
 	char *base, *max;
 {
 	register char c, *i, *j, *jj;

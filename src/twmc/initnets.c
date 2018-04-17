@@ -52,11 +52,9 @@ static char SccsId[] = "@(#) initnets.c version 1.5 10/18/91" ;
 
 #include <custom.h>
 #include <analog.h>
-#include <string.h>
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
 #include <readnets.h>  /* redefine yacc and lex globals */
-#include <initnets.h>
 
 #define HOWMANY      0
 
@@ -74,7 +72,7 @@ static ANETPTR aptrS ;      /* current analog net information record */
 static COMMONPTR commonS ;  /* current common point record */
 
 /* initialization before parsing nets */
-void init_nets()
+init_nets()
 {
     YHASHPTR getNetTable() ;
     numpathsG = 0 ;
@@ -85,7 +83,7 @@ void init_nets()
 
 
 /* cleanup after parsing nets */
-void cleanup_nets()
+cleanup_nets()
 {
     if( abortFlagS ){
 	closegraphics() ;
@@ -97,7 +95,7 @@ void cleanup_nets()
     add_paths_to_cells() ;
 } /* end cleanup_nets */
 
-void set_net_error()
+set_net_error()
 {
     abortFlagS = TRUE ;
 } /* end set_net_error */
@@ -127,7 +125,7 @@ char *netname ;
     }
 } /* end find_net */
 
-void add_path( pathFlag, net )
+add_path( pathFlag, net )
 BOOL pathFlag ;
 char *net ;
 {
@@ -166,7 +164,7 @@ char *net ;
 
 } /* end add_path */
 
-void end_path(lower_bound, upper_bound, priority )
+end_path(lower_bound, upper_bound, priority )
 INT lower_bound, upper_bound, priority ;
 {
     GLISTPTR nets, path_ptr, tempPath ;
@@ -206,7 +204,7 @@ INT lower_bound, upper_bound, priority ;
 } /* end function end_path */
 
 
-void build_path_array()
+build_path_array()
 {
     INT i ;
     PATHPTR curPtr ;
@@ -228,7 +226,7 @@ INT get_total_paths()
     return( total_num_pathS ) ;
 } /* end get_total_paths */
 
-void add_paths_to_cells()
+add_paths_to_cells()
 {
     INT i, j ;
     INT howmany ;
@@ -272,7 +270,7 @@ void add_paths_to_cells()
     }
 } /* end add_paths_to_cells */
 
-void init_analog( net )
+init_analog( net )
 char *net ;
 {
     INT  anet ;
@@ -292,19 +290,19 @@ char *net ;
 
 } /* end init_analog */
 
-void set_cap_upper_bound( cap )
+set_cap_upper_bound( cap )
 DOUBLE cap ;
 {
     aptrS->cap_upper_bound = cap ;
 } /* end set_cap_upper_bound */
 
-void set_res_upper_bound( res )
+set_res_upper_bound( res )
 DOUBLE res ;
 {
     aptrS->res_upper_bound = res ;
 } /* end set_res_upper_bound */
 
-void set_net_type( net_type )
+set_net_type( net_type )
 INT net_type ;
 {
     switch( net_type ){
@@ -320,13 +318,13 @@ INT net_type ;
     }
 } /* end set_net_type */
 
-void set_max_voltage_drop( drop )
+set_max_voltage_drop( drop )
 DOUBLE drop ;
 {
     aptrS->max_drop = drop ;
 } /* end set_max_voltage_drop */
 
-void add_common_pt()
+add_common_pt()
 {
 
     INT pt ;         /* current number of common pts */
@@ -343,9 +341,9 @@ void add_common_pt()
     }
     commonS = aptrS->common_pts[pt-1] = 
 	(COMMONPTR) Ysafe_calloc( 1, sizeof(COMMONBOX) ) ;
-    commonS->common_set = NIL(INT *) ;
-    commonS->cap_match = NIL(INT *) ;
-    commonS->res_match = NIL(INT *) ;
+    commonS->common_set = NIL(INT) ;
+    commonS->cap_match = NIL(INT) ;
+    commonS->res_match = NIL(INT) ;
     commonS->num_pins = 0 ;
 
 } /* end common_pt */
@@ -369,7 +367,7 @@ char *pin ;
     return( 0 ) ;
 }
 
-void add2common( cell, pin )
+add2common( cell, pin )
 char *cell ;
 char *pin ;
 {
@@ -402,7 +400,7 @@ char *pin ;
 
 } /* add2common */
 
-void common_cap( cell, pin )
+common_cap( cell, pin )
 char *cell ;
 char *pin ;
 {
@@ -435,7 +433,7 @@ char *pin ;
 
 } /* end common_cap */
 
-void common_res( cell, pin )
+common_res( cell, pin )
 char *cell ;
 char *pin ;
 {
@@ -468,7 +466,7 @@ char *pin ;
 } /* end common_res */
 
 
-void start_net_capmatch( netname )
+start_net_capmatch( netname )
 char *netname ;
 {
     INT net ;         /* index in netarray */
@@ -487,7 +485,7 @@ char *netname ;
     match[1] = net ;
 } /* end start_net_capmatch */
 
-void add_net_capmatch( netname )
+add_net_capmatch( netname )
 char *netname ;
 {
     INT net ;         /* index in netarray */
@@ -504,7 +502,7 @@ char *netname ;
     net_cap_matchG[numcapmatchS][howmany] = net ;
 } /* end add_netcapmatch */
 
-void start_net_resmatch( netname )
+start_net_resmatch( netname )
 char *netname ;
 {
     INT net ;         /* index in netarray */
@@ -523,7 +521,7 @@ char *netname ;
     match[1] = net ;
 } /* end start_net_resmatch */
 
-void add_net_resmatch( netname )
+add_net_resmatch( netname )
 char *netname ;
 {
     INT net ;         /* index in netarray */

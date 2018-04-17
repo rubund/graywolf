@@ -71,7 +71,6 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 #include <yalecad/string.h>
 #include <yalecad/debug.h>
 #include <globals.h>
-#include "readpar.h"
 
 /* NOTE ****** macros cannot overlap !!! ****** */
 
@@ -82,17 +81,15 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 	 functionality. ---Carl Sechen  */
 
 
-/* Forward declarations */
-void syntax(void);
 
 
-int main( argc, argv )
+main( argc, argv )
 int  argc ;
 char *argv[] ;
 {
 
     FILE *fp ;
-    void yaleIntro() ;
+    int yaleIntro() ;
     char filename[LRECL] ; /* used for input filename */
     char *ptr ;     /* used to parse command line */
     int  windowId ; /* window id */
@@ -279,11 +276,10 @@ char *argv[] ;
 
     YexitPgm( PGMOK ) ;
 
-    return 0;
 } /* end main */
 
 
-void yaleIntro() 
+yaleIntro() 
 {
 
     fprintf(stdout,"\n%s\n",YmsgG) ;
@@ -293,7 +289,7 @@ void yaleIntro()
 } /* end yaleIntro */
 
 /* give user correct syntax */
-void syntax()
+syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

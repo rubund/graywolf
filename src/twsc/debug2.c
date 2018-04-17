@@ -94,7 +94,7 @@ extern INT *min_feed , *FeedInRow ;
 
 
 
-void dbx_adj( net )
+dbx_adj( net )
 INT net ;
 {
 
@@ -122,7 +122,7 @@ for( netptr = netarrayG[net]->pins; netptr ;netptr = netptr->next ) {
 TWCLOSE(fp) ;
 }
 
-void dbx_netseg( net1 , net2 )
+dbx_netseg( net1 , net2 )
 INT net1 , net2 ;
 {
 
@@ -149,7 +149,7 @@ for( net = net1 ; net <= net2 ; net++ ) {
 TWCLOSE(fp) ;
 }
 
-void dbx_seg( segptr )
+dbx_seg( segptr )
 SEGBOXPTR segptr ;
 {
 
@@ -169,7 +169,7 @@ TWCLOSE(fp) ;
 }
 
 
-void dbx_feed( row1 , row2 )
+dbx_feed( row1 , row2 )
 INT row1 , row2 ;
 {
 
@@ -245,7 +245,7 @@ TWCLOSE(fp) ;
 }
 
 
-void dbx_imp( row1 , row2 )
+dbx_imp( row1 , row2 )
 INT row1 , row2 ;
 {
 
@@ -275,7 +275,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 TWCLOSE(fp) ;
 }
 
-void dbx_funcost()
+dbx_funcost()
 {
 
 INT net , cost , minx , miny , maxx , maxy ;
@@ -312,7 +312,7 @@ if( cost != funccostG ) {
 }
 }
 
-void mst_graph( net1 , net2 )
+mst_graph( net1 , net2 )
 INT net1 , net2 ;
 {
 
@@ -407,7 +407,7 @@ TWCLOSE(fp) ;
 
 
 
-void dbx_fdasgn( row )
+dbx_fdasgn( row )
 INT row ;
 {
 
@@ -480,7 +480,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 
 
-void check_cost()
+check_cost()
 {
 
     CBOXPTR ptr ;

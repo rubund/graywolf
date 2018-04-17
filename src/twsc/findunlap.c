@@ -88,7 +88,7 @@ extern INT *feeds_in_rowG ;
 static INT *row_lengthS ;
 static BOOL first_passS = TRUE ;
 
-void findunlap(flag)
+findunlap(flag)
 INT flag ;
 {
 
@@ -372,7 +372,7 @@ return ;
 
 
 
-void even_the_rows(flag,even_the_rows_max)
+even_the_rows(flag,even_the_rows_max)
 INT flag ;
 BOOL even_the_rows_max ;
 {
@@ -580,7 +580,7 @@ return ;
 
 
 
-void gate_arrayG_even_the_rows(flag)
+gate_arrayG_even_the_rows(flag)
 INT flag ;
 {
 
@@ -809,7 +809,7 @@ return ;
 
 
 
-INT row_cost( long_row , short_row , width )
+row_cost( long_row , short_row , width )
 INT long_row , short_row , width ;
 {
 
@@ -822,7 +822,7 @@ return( cost ) ;
 
 
 
-void find_last_6_moveable_cells( row, cell1, cell2, cell3, cell4, cell5, cell6) 
+find_last_6_moveable_cells( row, cell1, cell2, cell3, cell4, cell5, cell6) 
 INT row ;
 INT *cell1 , *cell2 , *cell3 , *cell4 , *cell5 , *cell6 ;
 {
@@ -924,7 +924,7 @@ return ;
 
 
 
-INT find_longest_row()
+find_longest_row()
 {
 INT row ;
 INT num_trys ;
@@ -962,7 +962,7 @@ return(row) ;
 */
 
 
-INT find_shortest_row( long_row )
+find_shortest_row( long_row )
 INT long_row ;
 {
 INT row ;
@@ -991,7 +991,7 @@ return(short_row) ;
 }
 
 
-void determine_unequal_rows( short_row, long_row )
+determine_unequal_rows( short_row, long_row )
 INT *short_row, *long_row ;
 {
     INT row ;
@@ -1016,7 +1016,7 @@ INT *short_row, *long_row ;
 
 
 
-void even_the_rows_2( iteration )
+even_the_rows_2( iteration )
 INT iteration ;
 {
 
@@ -1255,7 +1255,7 @@ return ;
 
 
 
-INT check_row_length()
+check_row_length()
 {
 
 INT longest , row , shortest ;
@@ -1302,7 +1302,7 @@ if( gate_arrayG ) {
 
 
 
-void findunlap2()
+findunlap2()
 {
 
 CBOXPTR cellptr ;

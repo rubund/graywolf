@@ -73,7 +73,7 @@ SEGBOXPTR makeseg() ;
 static PINBOXPTR   *vertexS ;
 static INT **costS , *lowcostS , *closestS , *components , max_pinS ;
 
-void steiner()
+steiner()
 {
 
 
@@ -204,7 +204,7 @@ Ysafe_free( add_st_flagG ) ;
 }
 
 
-void make_net_Tree( startptr )
+make_net_Tree( startptr )
 PINBOXPTR startptr ;
 {
 
@@ -345,7 +345,7 @@ for( i = 2 ; i <= n ; i++ ) {
 
 
 #ifdef EVEN_ROW
-void redo_steiner()
+redo_steiner()
 {
 
 INT net , i ;

@@ -89,7 +89,7 @@ extern INT actual_feed_thru_cells_addedG ;
 extern BOOL no_feed_at_endG ;
 extern BOOL ignore_feedsG ;
 
-void coarseglb() 
+coarseglb() 
 {
 
 INT shift ;
@@ -154,7 +154,7 @@ free_cglb_data( ) ;
 }
 
 
-void assign_row_to_pin()
+assign_row_to_pin()
 {
 
 CBOXPTR cellptr ;
@@ -172,7 +172,7 @@ for( i = 1 ; i <= numcellsG ; i++ ) {
 
 
     
-void set_up_grid( )
+set_up_grid( )
 {
 
 INT i , j , x , row_rite ;
@@ -278,7 +278,7 @@ for( cell = numcellsG + 1 ; cell <= lastpadG ; cell++ ) {
 }
 }
 
-void initialize_feed_need()
+initialize_feed_need()
 {
 
 INT i , row ;
@@ -296,7 +296,7 @@ feed_config() ;
 }
 
 
-void feed_config( )
+feed_config( )
 {
 
 INT row , cell , cxcenter , k ;
@@ -324,7 +324,7 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 }
 
 
-INT set_node( x )
+set_node( x )
 INT x ;
 {
 
@@ -341,7 +341,7 @@ if( h < 1 ) {
 }
 
 
-void compute_feed_diff( iteration )
+compute_feed_diff( iteration )
 INT iteration ;
 {
 
@@ -404,7 +404,7 @@ for( i = 1 ; i <= numRowsG ; i++ ) {
 }
 
 
-void space_for_feed( )
+space_for_feed( )
 {
 
 PINBOXPTR pinptr ;
@@ -526,7 +526,7 @@ return( shiftFlag ) ;
 }
 
 
-void update_feed_config( iteration )
+update_feed_config( iteration )
 INT iteration ;
 {
 
@@ -655,7 +655,7 @@ if( rowsG == 0 && blk_most_riteG >= right_Pads_left_edgeS ) {
 }
 
 
-void no_of_feedthru_cells()
+no_of_feedthru_cells()
 {
 
 INT i , row , n , difference , lastcell_rite , total_feedthrus ;
@@ -697,7 +697,7 @@ return( total_feedthrus ) ;
 }
 
 
-void addin_feedcell()
+addin_feedcell()
 {
 
 INT row , i , k , r , last , feednum , row_left ;
@@ -822,7 +822,7 @@ TWCLOSE(fp) ;
 }
 
 
-void final_feed_config( )
+final_feed_config( )
 {
 
 IPBOXPTR imptr ;
@@ -881,7 +881,7 @@ printf("\n  longest Row is:%d   Its length is:%d\n",
 }
 
 
-void free_cglb_data()
+free_cglb_data()
 {
 
 INT i , net ;

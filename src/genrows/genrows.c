@@ -92,7 +92,6 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #include <yalecad/buster.h>
 #include <yalecad/rbtree.h>
 #include <globals.h>
-#include "genrows.h"
 
 #define NOTOUCH    0
 #define OVERLAP1   1
@@ -118,7 +117,7 @@ static INT stdcell_lengthS ;    /* total row length of standard cells */
 static INT feed_lengthS = 0 ;       /* length of feeds */
 
 static YTREEPTR tile_memoryG ;
-static void reset_tile_parameters();
+static reset_tile_parameters();
 static INT compare_tiles();
 
 #if SIZEOF_VOID_P == 64
@@ -127,7 +126,7 @@ static INT compare_tiles();
 #define INTSCANSTR "%d"
 #endif
 
-void init_data_structures() 
+init_data_structures() 
 {
     /*static INT compare_tiles() ;*/
 
@@ -144,13 +143,13 @@ void init_data_structures()
     tile_memoryG = Yrbtree_init( compare_tiles ) ;
 } /* end init_data_structures */
 
-void set_feed_length( percent )
+set_feed_length( percent )
 DOUBLE percent ;
 {
     feed_lengthS = (INT) ( percent / 100.0 * (DOUBLE) stdcell_lengthS ) ;
 } /* end set_feed_length */
 
-void process_tiles()
+process_tiles()
 {
     TILE_BOX *tptr ;
     INT llx , lly , urx , ury ;
@@ -217,7 +216,7 @@ void process_tiles()
 
 } /* end process_tiles */
 
-void check_tiles()
+check_tiles()
 {
 
     TILE_BOX *tile1 , *tile2 ;
@@ -239,7 +238,7 @@ void check_tiles()
 
 
 
-void print_blk_file() 
+print_blk_file() 
 {
 
     /*  output the rows; check for multiple row segments - if there
@@ -422,7 +421,7 @@ void print_blk_file()
     return ;
 } /* end print_blk_file */
 
-void print_tiles() 
+print_tiles() 
 {
 
     INT i ;
@@ -439,7 +438,7 @@ void print_tiles()
     return ;
 } /* end print_tiles */
 
-void print_vertices()
+print_vertices()
 {
     /* for debug only */
 
@@ -829,7 +828,7 @@ FILE *fp ;
     return( TRUE ) ;
 }
 
-void save_state(fp)
+save_state(fp)
 FILE *fp ;
 {
     INT i ;
@@ -886,7 +885,7 @@ FILE *fp ;
 
 } /* end save_state */
 
-void process_vertices()
+process_vertices()
 {
 
     VERTEXPTR check_vertex , vertex ;
@@ -1036,7 +1035,7 @@ void process_vertices()
     return ;
 } /* end process_vertices */
 
-void build_macros()
+build_macros()
 {
     INT i ;
     INT j ;
@@ -1088,7 +1087,7 @@ void build_macros()
 } /* end build_macros */
 
 
-void makerows()
+makerows()
 {
 
     TILE_BOX *tileptr, *get_starting_tile() ;
@@ -1388,7 +1387,7 @@ INT add_no_more_than ;
     return( totalw ) ;
 } /* end convert_tile_to_rows */
 
-void divide_tile( tile , horiz_line ) 
+divide_tile( tile , horiz_line ) 
 TILE_BOX *tile ;
 INT horiz_line ;
 {
@@ -1430,7 +1429,7 @@ INT horiz_line ;
 
 } /* end divide_tile */
 
-void divide_tilelr( tile , vert_line ) 
+divide_tilelr( tile , vert_line ) 
 TILE_BOX *tile ;
 INT vert_line ;
 {
@@ -1473,7 +1472,7 @@ INT vert_line ;
 
 } /* end divide_tilelr */
 
-void get_core( left, bottom, right, top, tileFlag )
+get_core( left, bottom, right, top, tileFlag )
 INT *left, *bottom, *right, *top ;
 BOOL tileFlag ;  /* if true include the tiles in core */
 {
@@ -1510,7 +1509,7 @@ ROW_BOX  *get_rowptr()
     return( set_of_rowsS ) ;
 } /* end get_rowptr */
 
-void grid_rows()
+grid_rows()
 {
     ROW_BOX *rowptr , *segment ;
     INT oldX, oldY ;
@@ -1531,7 +1530,7 @@ void grid_rows()
     }
 } /* end grid_rows */
 
-void set_minimum_length( length )
+set_minimum_length( length )
 INT length ;
 {
     TILE_BOX *tileptr ;      /* current tile */
@@ -1542,7 +1541,7 @@ INT length ;
     }
 } /* end set_minimum_length */
 
-void set_row_separation( channel_sep_relative, channel_sep_absolute )
+set_row_separation( channel_sep_relative, channel_sep_absolute )
 DOUBLE channel_sep_relative;
 INT channel_sep_absolute;
 {
@@ -1556,7 +1555,7 @@ INT channel_sep_absolute;
     }
 } /* end set_row_separation */
 
-void set_spacing()
+set_spacing()
 {
     TILE_BOX *tileptr ;      /* current tile */
 
@@ -1586,7 +1585,7 @@ BOOL force_tiles()
     return( FALSE ) ;
 } /* end force_tiles */
 
-void check_user_data()
+check_user_data()
 {
     if( min_lengthS < spacingG ){
 	M( ERRMSG, "check_user_errors", 
@@ -1595,7 +1594,7 @@ void check_user_data()
     }
 } /* end check_user_errors */
 
-void remakerows()
+remakerows()
 {
     ROW_BOX *freerow, *freeseg ;      /* used to free data */
     ROW_BOX *segptr ;                 /* traverse segments freeing them */
@@ -1625,7 +1624,7 @@ void remakerows()
 
 } /* end remakerows */
 
-void init_vertex_list( left, bottom, right, top )
+init_vertex_list( left, bottom, right, top )
 INT left, bottom, right, top ;
 {
 
@@ -1663,7 +1662,7 @@ TILE_BOX *tile ;
     Ysafe_free( tile ) ;
 } /* end free_tile */
 
-void free_structures( allpts )
+free_structures( allpts )
 BOOL allpts ;
 {
 
@@ -1685,7 +1684,7 @@ BOOL allpts ;
     }
 }
 
-void update_tile_memory( free_flag )
+update_tile_memory( free_flag )
 BOOL free_flag ;
 {
     TILE_BOX *tile ;
@@ -1702,7 +1701,7 @@ BOOL free_flag ;
     }
 } /* end update_tile_memory */
 
-void recalculate( freepts )
+recalculate( freepts )
 BOOL freepts ;
 {
     BOOL previous_invalid_state ;
@@ -1726,7 +1725,7 @@ BOOL freepts ;
     }
 } /* end recalculate */
 
-void find_core()
+find_core()
 {
     INT macro ;
     INT left, rite, bot, top ;
@@ -1792,7 +1791,7 @@ INT *l, *r, *b, *t ;
     return( TRUE ) ;
 } /* end snap_core */
 
-void set_core( left, right, bottom, top )
+set_core( left, right, bottom, top )
 INT left, right, bottom, top ;
 {
     cx1S = left ;
@@ -1801,7 +1800,7 @@ INT left, right, bottom, top ;
     cy2S = top ;
 } /* end set_core */
 
-void check_overlap()
+check_overlap()
 {
     INT macro ;
     INT match ;
@@ -1933,7 +1932,7 @@ static INT count_rows()
 } /* end count_rows */
 #endif /* NEEDED */
 
-void calculate_numrows()
+calculate_numrows()
 {
     INT l, r, b, t ;  /* dimensions of new core */
 
@@ -1986,7 +1985,7 @@ TILE_BOX *tile1, *tile2 ;
 } /* end compare_tiles */
 
 
-static void reset_tile_parameters()
+static reset_tile_parameters()
 {
 
     TILE_BOX lo ;     /* low sentinel */

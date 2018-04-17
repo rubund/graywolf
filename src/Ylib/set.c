@@ -110,7 +110,7 @@ INT lowerLimit, upperLimit ;
     return( set ) ;
 } /* end Yset_init */
 
-void Yset_free( set ) 
+Yset_free( set ) 
 YSETPTR set ;
 {   
     INT i ;
@@ -224,7 +224,7 @@ INT node ;
 } /* end Yset_delete */
 	
 /* To clear set we only need to update in_set number and to null list */
-void Yset_empty( set ) 
+Yset_empty( set ) 
 YSETPTR set ;
 {
     set->in_set++ ;
@@ -234,7 +234,7 @@ YSETPTR set ;
 
 
 /* Set complementation */
-void Yset_comp( set ) 
+Yset_comp( set ) 
 YSETPTR set ;
 {
 

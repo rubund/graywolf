@@ -86,16 +86,16 @@ static INT  output_typeS ;      /* describe the type of circuit */
 
 
 
-static void output_pin();
+static output_pin();
 static INT find_cell();
-static void process_analog_net();
+static process_analog_net();
 static INT find_cell();
-static void output_matches();
+static output_matches();
 
 
 
 
-void outpin()
+outpin()
 {
 
     INT net ;               /* counter */
@@ -132,7 +132,7 @@ void outpin()
 } /* end outpins */
 
 
-static void output_pin( pinptr )
+static output_pin( pinptr )
 PINBOXPTR pinptr ;
 {
     INT i ;              /* softpin counter */
@@ -258,7 +258,7 @@ PINBOXPTR pinptr ;
     }
 } /* end output_pin */
 
-static void process_analog_net( netptr )
+static process_analog_net( netptr )
 NETBOXPTR netptr ;
 {
     INT i, j ;           /* counters */
@@ -372,7 +372,7 @@ INT side ;
     return( side2cellS[side] ) ;
 } /* end getPadMacroNum */
 
-void setPadMacroNum( side, cellnum )
+setPadMacroNum( side, cellnum )
 INT side ;
 INT cellnum ;
 {
@@ -423,7 +423,7 @@ INT get_circuit_type()
     return( output_typeS ) ;
 } /* end get_circuit_type */
 
-static void output_matches()
+static output_matches()
 {
     INT i, j ;
     INT net ;

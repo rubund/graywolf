@@ -74,7 +74,7 @@ static char SccsId[] = "@(#) savewolf.c version 3.12 9/16/91" ;
 
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
-void savewolf( forceSave )
+savewolf( forceSave )
 BOOL forceSave ; /* if true save parameters regardless of time */
 {
 
@@ -351,14 +351,14 @@ if( error ){ /* abort restart */
 }
 } /* end TW_oldinput */
 
-void HPO(fp,d)
+HPO(fp,d)
 FILE *fp;			/* high precision output */
 DOUBLE d;
 {
     fprintf(fp,"%34.32le\n",d);
 } /* end HPO */
 
-void HPI(fp,d)
+HPI(fp,d)
 FILE *fp;			/* high precision input */
 DOUBLE *d;
 {

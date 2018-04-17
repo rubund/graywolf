@@ -77,7 +77,6 @@ static char SccsId[] = "@(#) readnets.y version 3.8 3/6/92" ;
 #include <yalecad/message.h>
 #include <yalecad/string.h>
 #include <readnets.h>  /* redefine yacc and lex globals */
-#include <initnets.h>
 
 #undef REJECT          /* undefine TWMC macro for lex's version */ 
 #define YYDEBUG  1     /* condition compile for yacc debug */
@@ -338,7 +337,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readnets_l.h" *******************/
 /* ********************* #include "readnets_l.h" *******************/
 
-void readnets( fp )
+readnets( fp )
 FILE *fp ;
 { 
 #ifdef YYDEBUG
@@ -358,7 +357,7 @@ FILE *fp ;
 
 } /* end readnets */
 
-void yyerror(s)
+yyerror(s)
 char    *s;
 {
     extern char *cktNameG ;
@@ -372,7 +371,7 @@ char    *s;
     set_net_error() ;
 }
 
-INT yywrap()
+yywrap()
 {
     return(1);
 }                      

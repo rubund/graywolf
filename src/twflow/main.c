@@ -85,10 +85,7 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #define NULLWINDOW      0
 #define VERSION         "2.1" 
 
-/* Forward declarations */
-void syntax(void);
-
-INT main( argc , argv )
+main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -280,12 +277,11 @@ char *argv[] ;
 	YexitPgm(PGMOK);
     }
 
-    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-void syntax()
+syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
@@ -320,7 +316,7 @@ VOID yaleIntro()
 } /* end yaleIntro */
 
 
-void show_flows()
+show_flows()
 {
    char command[LRECL] ; 
    /* now show user the flow directories */ 

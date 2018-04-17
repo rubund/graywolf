@@ -57,12 +57,12 @@ REVISIONS:  Dec  7, 1990 - add | for National.
 #define token(x)      x    /* makes it look like regular lex */
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
-static INT screen() ;
-static void check_line_count() ;
+static screen() ;
+static check_line_count() ;
 static INT line_countS = 0 ;
 
 # define YYNEWLINE 10
-INT yylex(){
+yylex(){
 int nstr; extern int yyprevious;
 while((nstr = yylook()) >= 0)
 yyfussy: switch(nstr){
@@ -203,7 +203,7 @@ static int screen()
 		
 } /* end screen function */
 
-static void check_line_count( s ) 
+static int check_line_count( s ) 
 char *s ;
 {
     if( s ){
@@ -520,7 +520,7 @@ char *yysptr = yysbuf;
 int *yyfnd;
 extern struct yysvf *yyestate;
 int yyprevious = YYNEWLINE;
-void yylook(){
+yylook(){
 	register struct yysvf *yystate, **lsp;
 	register struct yywork *yyt;
 	struct yysvf *yyz;
@@ -671,7 +671,7 @@ void yylook(){
 # endif
 		}
 	}
-INT yyback(p, m)
+yyback(p, m)
 	int *p;
 {
 if (p==0) return(0);
@@ -689,14 +689,14 @@ yyinput(){
 #endif
 	return(input());
 	}
-void yyoutput(c)
+yyoutput(c)
   int c; {
 #ifdef linux
 	if (yyout == NULL) yyout = stdout;
 #endif
 	output(c);
 	}
-void yyunput(c)
+yyunput(c)
    int c; {
 	unput(c);
 	}

@@ -81,12 +81,12 @@ static CELLBOXPTR ptrS ;                 /* pointer to current cell */
     } \
 } \
 
-void setErrorFlag()
+setErrorFlag()
 {
     errorFlagS = TRUE ;
 }
 /* ***************** ERROR HANDLING ****************************** */
-void init( numtiles, numcells )
+init( numtiles, numcells )
 INT numtiles, numcells ;
 {
     INT i ;
@@ -129,7 +129,7 @@ INT numtiles, numcells ;
     }
 } /* end init */
 
-void final_tiles()
+final_tiles()
 {
     INT i ;        		/* counter */
     INT space ;        		/* counter */
@@ -259,7 +259,7 @@ void final_tiles()
 } /* end final_tiles */
 
 /* set the current cell */
-void initCell( celltype, cellnum, x, y, xoffset, yoffset )
+initCell( celltype, cellnum, x, y, xoffset, yoffset )
 INT celltype ;
 INT cellnum ;
 INT x, y ;
@@ -289,7 +289,7 @@ INT xoffset, yoffset ;
     multiS = 0 ;
 } /* end initCell */
 
-void init_extra_tile( cell, type )
+init_extra_tile( cell, type )
 INT cell ;
 {
     curTileS = numtilesG ;
@@ -372,7 +372,7 @@ INT l, r, b, t ;
 
 } /* end addtile */
 
-void endCell()
+endCell()
 {
     ERRORABORT() ;
     /* update the bounding box of the cell */
@@ -393,7 +393,7 @@ void endCell()
     }
 } /* end endCell */
 
-void process_tiles()
+process_tiles()
 {
     INT i ;
     COMPACTPTR t ;
@@ -454,7 +454,7 @@ void process_tiles()
 } /* end process_tiles */
 
 /* ADD source and sink nodes to both x and y graphs */
-void addSourceNSink()
+addSourceNSink()
 {
     COMPACTPTR source, sink ;
     INT x ;
@@ -558,7 +558,7 @@ void addSourceNSink()
 /* ***************************************************************** 
     OUTPUT routine - output the results.
    **************************************************************** */
-void output()
+output()
 {
     INT c ;
     INT tile ;

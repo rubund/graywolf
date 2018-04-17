@@ -96,7 +96,7 @@ static char typeS[8] ;
 char *YmsgG = message_bufS ;
 
 
-void Ymessage_print( messageType, routine, messageString )
+Ymessage_print( messageType, routine, messageString )
 INT messageType ;
 char *routine ;
 char *messageString ;
@@ -166,13 +166,13 @@ char *messageString ;
 } /* end message_print */
 
 /* increment the static variable */
-void Ymessage_warn_count()
+Ymessage_warn_count()
 {
     warningCountS++ ;
 } /* end message_warn_count */
 
 /* increment the static variable */
-void Ymessage_error_count()
+Ymessage_error_count()
 {
     errorCountS++ ;
 }/* end Ymessage_error_count */
@@ -187,7 +187,7 @@ INT Ymessage_get_errorcount()
     return(errorCountS);
 } /*end Ymessage_get_errorcount */
 
-void Ymessage_output( messageString )
+Ymessage_output( messageString )
 char *messageString ;
 {
 
@@ -200,13 +200,13 @@ char *messageString ;
 
 } /* end message_output */
 
-void Ymessage_init( fileptr )
+Ymessage_init( fileptr )
 FILE *fileptr ;
 {
      foutS = fileptr ;
 } /* end Ymessage_init */
 
-void Ymessage_mode( mode )
+Ymessage_mode( mode )
 INT mode ;
 {
     if( mode == M_VERBOSE ){
@@ -229,7 +229,7 @@ BOOL Ymessage_get_mode()
     return( modeS ) ;
 } /* end Ymessage_get_mode */
 
-void Ymessage_flush()
+Ymessage_flush()
 {
     if( outS ){
 	fflush(outS) ;
@@ -240,7 +240,7 @@ void Ymessage_flush()
     fflush( stdout ) ;
 } /* end Ymessage_flush */
 
-void Ymessage_close()
+Ymessage_close()
 {
     if( foutS ){
 	TWCLOSE(foutS) ;

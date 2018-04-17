@@ -103,7 +103,7 @@ ELEMENTPTR ptr;
 } /* end dset_free_element() */
 
 /* delete all the trees associated with set */
-static void dset_free_trees( dset )
+static dset_free_trees( dset )
 YDSETPTR dset ;
 {
   if ( dset->superset_tree ) {
@@ -650,7 +650,7 @@ YDSETPTR dset ;
 /*------------------------
   Ydset_dump
   ------------------------*/
-void Ydset_dump(dset,printFunc)
+Ydset_dump(dset,printFunc)
 YDSETPTR dset;
 VOID (*printFunc)();
 {
@@ -736,7 +736,7 @@ BOOL startFlag;
 /*------------------------
   Ydset_dump_tree
   ------------------------*/
-void Ydset_dump_tree(dset,print_key)
+Ydset_dump_tree(dset,print_key)
 YDSETPTR dset;
 VOID (*print_key)();
 {

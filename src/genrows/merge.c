@@ -57,12 +57,12 @@ static char SccsId[] = "@(#) merge.c (Yale) version 3.5 5/14/92" ;
 
 
 
-static void check_max_length();
-static void merge_adjacent_tiles();
+static check_max_length();
+static merge_adjacent_tiles();
 
 
 
-void merge_tiles()
+merge_tiles()
 {
     TILE_BOX *tileptr ; /* current tile */
 
@@ -73,7 +73,7 @@ void merge_tiles()
     }
 } /* end merge_tiles */
 
-void merge_upward( begin_tile )
+merge_upward( begin_tile )
 TILE_BOX *begin_tile ;
 {
     INT left ;          /* left edge of merge tile */
@@ -224,7 +224,7 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_upward */
 
-void merge_downward( begin_tile )
+merge_downward( begin_tile )
 TILE_BOX *begin_tile ;
 {
     INT left ;          /* left edge of merge tile */
@@ -377,7 +377,7 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_downward */
 
-void merge_right( begin_tile )
+merge_right( begin_tile )
 TILE_BOX *begin_tile ;
 {
     INT bottom ;        /* bottom edge of merge tile */
@@ -524,7 +524,7 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_right */
 
-void merge_left( begin_tile )
+merge_left( begin_tile )
 TILE_BOX *begin_tile ;
 {
     INT bottom ;        /* bottom edge of merge tile */
@@ -668,7 +668,7 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_left */
 
-static void check_max_length( tileptr )
+static check_max_length( tileptr )
 TILE_BOX *tileptr ;
 {
     INT length ;              /* length of tile */
@@ -678,7 +678,7 @@ TILE_BOX *tileptr ;
 
 }/* end check_max_length */
 
-void renumber_tiles()
+renumber_tiles()
 {
     INT count ;              /* count the tiles */
     TILE_BOX *tileptr ;      /* current tile */
@@ -688,7 +688,7 @@ void renumber_tiles()
     }
 } /* end renumber_tiles() */
 
-static void merge_adjacent_tiles()
+static merge_adjacent_tiles()
 {
 
     TILE_BOX *tileptr1 , *tileptr2 , *tileptr ;
@@ -732,7 +732,7 @@ REDO:
     return ;
 }/* end merge_adjacent_tiles */
 
-void dtiles()
+dtiles()
 {
     TILE_BOX *tptr ;      /* current tile */
 

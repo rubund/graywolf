@@ -324,7 +324,7 @@ EXTERN DOUBLE timeFactorG ;
 #undef EXTERN  
 
 /* *********************** PROTOTYPES FOR TWSC ******************** */
-extern void init_table( P1(void) ) ;
+extern init_table( P1(void) ) ;
 extern BOOL acceptt( P3(INT d_wire,INT d_time,INT d_penal) ) ;
 extern BOOL accept_greedy( P3(INT d_wire,INT d_time,INT d_penal) ) ;
 

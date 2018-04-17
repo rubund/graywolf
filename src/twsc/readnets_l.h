@@ -60,10 +60,10 @@ REVISIONS:  Mar 29, 1989 - added to TimberWolfSC.
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
 static INT screen() ;
-static void check_line_count() ;
+static INT check_line_count() ;
 
 # define YYNEWLINE 10
-INT yylex(){
+yylex(){
 int nstr; extern int yyprevious;
 while((nstr = yylook()) >= 0)
 yyfussy: switch(nstr){
@@ -162,7 +162,7 @@ static INT screen()
 		
 } /* end screen function */
 
-static void check_line_count( s ) 
+static INT check_line_count( s ) 
 char *s ;
 {
     if( s ){
@@ -478,7 +478,7 @@ char *yysptr = yysbuf;
 int *yyfnd;
 extern struct yysvf *yyestate;
 int yyprevious = YYNEWLINE;
-INT yylook(){
+yylook(){
 	register struct yysvf *yystate, **lsp;
 	register struct yywork *yyt;
 	struct yysvf *yyz;
@@ -628,7 +628,7 @@ INT yylook(){
 # endif
 		}
 	}
-INT yyback(p, m)
+yyback(p, m)
 	int *p;
 {
 if (p==0) return(0);
@@ -640,20 +640,20 @@ while (*p)
 return(0);
 }
 	/* the following are only used in the lex library */
-INT yyinput(){
+yyinput(){
 #ifdef linux
 	if (yyin == NULL) yyin = stdin;
 #endif
 	return(input());
 	}
-void yyoutput(c)
+yyoutput(c)
   int c; {
 #ifdef linux
 	if (yyout == NULL) yyout = stdout;
 #endif
 	output(c);
 	}
-void yyunput(c)
+yyunput(c)
    int c; {
 	unput(c);
 	}

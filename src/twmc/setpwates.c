@@ -53,7 +53,7 @@ static char SccsId[] = "@(#) setpwates.c version 3.4 2/4/91" ;
 #include <custom.h>
 #include <yalecad/debug.h>
 
-void setpwates()
+setpwates()
 {
 
 TILEBOXPTR tileptr ;

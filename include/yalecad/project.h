@@ -24,7 +24,7 @@ static char Yproject_HId[] = "@(#) project.h version 1.2 3/5/92" ;
 ( YprojectX((t1_l),(t1_r),(t2_l),(t2_r) ) ? \
   YprojectY((t1_b),(t1_t),(t2_b),(t2_t) ) : 0 )
 
-extern void Yproject_space( P2(INT xspace, INT yspace ) ) ;
+extern Yproject_space( P2(INT xspace, INT yspace ) ) ;
 
 extern INT YprojectX( P4( INT tile1_left, INT tile1_right,
 		          INT tile2_left, INT  tile2_right ) ) ;

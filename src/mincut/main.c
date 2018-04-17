@@ -63,17 +63,13 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include "globals.h"
-#include "output.h"
 
 #include "config-build.h"
 
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
-/* Forward declarations */
-void syntax(void);
-
-INT main( argc , argv )
+main( argc , argv )
 int argc ;
 char *argv[] ;
 {
@@ -83,7 +79,7 @@ char *argv[] ;
     char command[LRECL] ;
     char *ptr ;
     int  arg_count ;
-    void yaleIntro() ;
+    int  yaleIntro() ;
     int  debug ;
     FILE *fp ;
     char *twdir, *Ygetenv() ;
@@ -169,12 +165,11 @@ char *argv[] ;
 
     YexitPgm( PGMOK ) ;
 
-    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-void syntax()
+syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
@@ -184,7 +179,7 @@ void syntax()
    YexitPgm(PGMFAIL);
 } /* end syntax */
 
-void yaleIntro() 
+yaleIntro() 
 {
     int i ;
 

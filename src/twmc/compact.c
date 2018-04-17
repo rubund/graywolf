@@ -91,7 +91,7 @@ static char SccsId[] = "@(#) compact.c version 3.12 5/5/91" ;
 #define SCELLKEYWORD     "stdcell"
 #define TILEKEYWORD      "l"
 
-void compact( compactFlag )
+compact( compactFlag )
 BOOL compactFlag ; /* signals use of compaction */
 {
     char filename[LRECL] ;
@@ -341,7 +341,7 @@ BOOL compactFlag ; /* signals use of compaction */
 #define HOWMANY 0
 
 /* need accurate cell centers in density calculation */
-void get_cell_centers( cell, xc, yc )
+get_cell_centers( cell, xc, yc )
 INT cell ;
 INT *xc, *yc ;
 {

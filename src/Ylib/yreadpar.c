@@ -703,8 +703,8 @@ char *object1, *object2 ;
 	    object1, object2 );
 	M( ERRMSG, "Yreadpar_spacing", YmsgG ) ;
 	M( ERRMSG, NULL, "\tDefaulting to zero.\n\n" ) ;
-    }
 	return( 0 ) ;
+    }
 
 } /* end Yreadpar_spacing */
 
@@ -765,8 +765,8 @@ char *object ;
 	    object );
 	M( ERRMSG, "Yreadpar_layer_res", YmsgG ) ;
 	M( ERRMSG, NULL, "\tDefaulting to zero.\n\n" ) ;
-    }
 	return( 0 ) ;
+    }
 
 } /* end Yreadpar_layer_res */
 
@@ -789,8 +789,8 @@ char *object ;
 	    object );
 	M( ERRMSG, "Yreadpar_layer_cap", YmsgG ) ;
 	M( ERRMSG, NULL, "\tDefaulting to zero.\n\n" ) ;
-    }
 	return( (DOUBLE) 0.0 ) ;
+    }
 
 } /* end Yreadpar_layer_cap */
 
@@ -814,8 +814,8 @@ char *object ;
 	    object );
 	M( ERRMSG, "Yreadpar_layer_HnotV", YmsgG ) ;
 	M( ERRMSG, NULL, "\tDefaulting to horizontal.\n\n" ) ;
-    }
 	return( TRUE ) ;
+    }
 
 } /* end Yreadpar_layer_HnotV */
 
@@ -838,8 +838,8 @@ char *object ;
 	    object );
 	M( ERRMSG, "Yreadpar_layer2id", YmsgG ) ;
 	M( ERRMSG, NULL, "\tDefaulting to horizontal.\n\n" ) ;
-    }
 	return( TRUE ) ;
+    }
 
 } /* end Yreadpar_layer2id */
 
@@ -888,8 +888,8 @@ char *object1, *object2 ;
 	    "Could not find a via between layers %s and %s.\n",
 	    object1, object2 );
 	M( ERRMSG, "Yreadpar_vianame", YmsgG ) ;
-    }
 	return( NIL(char *) ) ;
+    }
 
 } /* end Yreadpar_vianame */
 

@@ -92,10 +92,10 @@ static INT iwireS ;
 static INT iwirexS ;
 static INT iwireyS ;
 static INT print_pinS = 0 ;
-static void spread_equal_cells();
-static void spread_cells();
+static spread_equal_cells();
+static spread_cells();
 
-INT findcost()
+findcost()
 {
 INT block , bin ;
 FILE *fp ;
@@ -713,7 +713,7 @@ feeds_in_rowG = (INT *) Ysafe_calloc( 1+numRowsG,sizeof(INT) );
 return( cost ) ;
 } /* end findcost */
 
-static void spread_equal_cells()
+static spread_equal_cells()
 {
 
 FILE *tp ;
@@ -806,7 +806,7 @@ D( "equal_width_cells",
 
 
 
-static void spread_cells()
+static spread_cells()
 {
 
 INT bin, cell ;
@@ -862,7 +862,7 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 
   
 
-void create_cell( )
+create_cell( )
 { 
 
 FILE *fpr ;
@@ -934,7 +934,7 @@ exit( 0 ) ;
 
 
 
-void find_net_sizes()
+find_net_sizes()
 {
 
 PINBOXPTR netptr ;
@@ -999,12 +999,12 @@ Ysafe_free(  num_nets_of_size ) ;
 return ;
 }
 
-INT get_max_pin()
+get_max_pin()
 {
     return( maxpinS ) ;
 } /* end get_max_pin */
 
-void set_print_pin( pins )
+set_print_pin( pins )
 INT pins ;
 {
     print_pinS = pins ;

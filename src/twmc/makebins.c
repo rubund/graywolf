@@ -55,7 +55,7 @@ static char SccsId[] = "@(#) makebins.c version 3.3 9/5/90" ;
 #include <custom.h>
 #include <yalecad/debug.h>
 
-void makebins( numbins )
+makebins( numbins )
 INT numbins ;
 {
 

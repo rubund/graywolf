@@ -90,7 +90,7 @@ extern BOOL stand_cell_as_gate_arrayG ;
 /* static definitions */
 static char a_lineS[LRECL] ;
 
-void output()
+output()
 {
 
 FILE *fpp1 , *fpp2 ;
@@ -312,7 +312,7 @@ return ;
 
 
 
-void final_free_up()
+final_free_up()
 {
 INT i, j, k, row, pin, net, cell, chan, track ;
 CBOXPTR cellptr ;
@@ -439,7 +439,7 @@ Ysafe_free( netsegHeadG ) ;
 
 
 
-void create_cel_file()
+create_cel_file()
 {
 
 
@@ -514,7 +514,7 @@ TWCLOSE(fpoG2) ;
 
 
 
-void add_new_line( x_rel , block , fixed_ptr , fp )
+add_new_line( x_rel , block , fixed_ptr , fp )
 INT x_rel , block ;
 char *fixed_ptr ;
 FILE *fp ;
@@ -527,7 +527,7 @@ return ;
 
 
 
-INT load_a_lineS(fp)
+load_a_lineS(fp)
 FILE *fp ;
 {
 
@@ -550,7 +550,7 @@ if( (int) (tmp = fgetc(fp)) != EOF ) {
 }
 
 /* ******************************************************************** */
-void density()
+density()
 {
     /* set all the cells at density */
     INT row ;

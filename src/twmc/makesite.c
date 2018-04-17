@@ -46,7 +46,7 @@ static char SccsId[] = "@(#) makesite.c version 3.3 9/5/90" ;
 
 DOUBLE val1 , val2 ;
 
-INT Vside( kArray, cellptr , x , yy1 , yy2 , flag )
+Vside( kArray, cellptr , x , yy1 , yy2 , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
 INT x , yy1 , yy2 , flag ;
@@ -157,7 +157,7 @@ return( TotSites ) ;
 
 
 
-INT Hside( kArray, cellptr , xx1 , xx2 , y , flag )
+Hside( kArray, cellptr , xx1 , xx2 , y , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
 INT xx1 , xx2 , y , flag ;

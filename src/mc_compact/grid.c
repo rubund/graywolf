@@ -52,7 +52,7 @@ static char SccsId[] = "@(#) grid.c version 7.2 5/6/91" ;
 #include <compact.h>
 #include <yalecad/debug.h>
 
-void grid_data()
+grid_data()
 {
 
     int xcenter , ycenter, remainder ;

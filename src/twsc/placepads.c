@@ -95,12 +95,12 @@ static char SccsId[] = "@(#) placepads.c version 4.15 5/12/92" ;
 extern INT **pairArrayG ;
 
 /* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static void find_optimum_locations( P1(void) ) ;
-static void place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
-static void place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
+static find_optimum_locations( P1(void) ) ;
+static place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
+static place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
 static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
    BOOL spacing_restricted ) ) ;
-static void find_core( P1(void) ) ;
+static find_core( P1(void) ) ;
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static BOOL virtualCoreS = FALSE ;
@@ -116,7 +116,7 @@ It must also adhere to user-specified restrictions on side, position,
 spacing and ordering.
 ____________________________________________________________________*/
 
-void placepads()
+placepads()
 {
     if( padspacingG == EXACT_PADS ){
 	return ;
@@ -155,7 +155,7 @@ void placepads()
 } /* end placepads */
 /* ***************************************************************** */
 
-static void find_optimum_locations()
+static find_optimum_locations()
 {
     INT i ;                  /* pad counter */
     INT side ;               /* loop thru valid sides */
@@ -414,7 +414,7 @@ BOOL spacing_restricted ;
  **** are set in those routines.  Otherwise set sumposS and sumtieS
  **** to their proper values.
  ***/
-static void place_pad( pad, bestside )
+static place_pad( pad, bestside )
 PADBOXPTR pad ;
 INT bestside ;
 {
@@ -452,7 +452,7 @@ INT bestside ;
 
 /**** RECURSIVELY SET THE PADSIDE OF ALL CHILDREN OF THE ROOT PAD TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL CXCENTER */
-static void place_children( pad, side, lb, ub, spacing_restricted )
+static place_children( pad, side, lb, ub, spacing_restricted )
 PADBOXPTR pad ;
 INT side ;
 DOUBLE lb, ub ;
@@ -539,7 +539,7 @@ BOOL spacing_restricted ;
 
 /* ***************************************************************** */
 #ifdef DEBUG
-void print_pads( message, array, howmany )
+print_pads( message, array, howmany )
 char *message ;
 PADBOXPTR *array ;
 INT howmany ;
@@ -570,7 +570,7 @@ INT howmany ;
 /* ***************************************************************** */
 
 
-static void find_core()
+static find_core()
 {
     INT minx, maxx ;
     INT miny, maxy ;
@@ -651,7 +651,7 @@ static void find_core()
 } /* end FindCore */
 
 /* turn virtual core on and off */
-void setVirtualCore( flag )
+setVirtualCore( flag )
 BOOL flag ;
 {
     virtualCoreS = flag ;
@@ -659,7 +659,7 @@ BOOL flag ;
 
 
 /* given a cell it returns bounding box of cell in global coordinates */
-void get_global_pos( cell, l, b, r, t )
+get_global_pos( cell, l, b, r, t )
 INT cell ; 
 INT *l, *r, *b, *t ;
 {
@@ -681,7 +681,7 @@ INT *l, *r, *b, *t ;
 
 } /* end get_global_pos */
 
-void placepads_retain_side( flag )
+placepads_retain_side( flag )
 BOOL flag;
 {
     retain_sideS = flag ;

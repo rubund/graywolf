@@ -157,7 +157,6 @@ DOUBLE partition() ;
 DOUBLE compute_and_combination() ;
 DOUBLE combination() ;
 INT eval_ratio() ;
-void rowcon();
 
 /* static variables */
 static INT acc_cntS = 0 ;
@@ -184,7 +183,7 @@ static DOUBLE row_capS = 99.0 ;
 static DOUBLE a_ratioS;
 static DOUBLE total_costS;
 
-void init_uloop()
+init_uloop()
 {
     not_doneS = 1;
     acc_cntS = move_cntS ;
@@ -192,7 +191,7 @@ void init_uloop()
 } /* end init_uloop */
 
 
-void uloop()
+uloop()
 {
 
 FENCEBOXPTR fence ;
@@ -851,7 +850,7 @@ return ;
 
 
 
-void rowcon()
+rowcon()
 {
 
 INT C , R , p_first , totalCells , cellsPerRow , temp_R ;
@@ -1085,7 +1084,7 @@ return( states ) ;
 }
 
 
-INT sanity_check()
+sanity_check()
 {
 
 INT *cellxptr , cell , center , block , bin , i ;
@@ -1108,7 +1107,7 @@ return(0);
 }
 
 
-INT sanity_check2()
+sanity_check2()
 {
 
 INT *cellxptr , *clist ;
@@ -1147,7 +1146,7 @@ return(0);
 }
 
 
-INT sanity_check3()
+sanity_check3()
 {
 
 INT *cellxptr ;
@@ -1189,7 +1188,7 @@ DOUBLE *t;
     return((ratioG < AC4) ? 0 : 1);
 }
 
-void init_control(first)
+init_control(first)
 INT first;
 {
     INT i;
@@ -1249,7 +1248,7 @@ FENCEBOX *fence ;
     return;
 }
 
-void pick_position(x,y,ox,oy,scale)
+pick_position(x,y,ox,oy,scale)
 INT *x,*y,ox,oy;
 DOUBLE scale ;
 {
@@ -1297,7 +1296,7 @@ DOUBLE scale ;
 }
 
 /* change range limiter according to iterationG number */
-void update_window_size( iternum )
+update_window_size( iternum )
 DOUBLE iternum ;
 {
 
@@ -1352,7 +1351,7 @@ DOUBLE iternum ;
     */
 }
 
-void save_control( fp )
+save_control( fp )
 FILE *fp ;
 {
     fprintf(fp,"%d 0 %d\n",pairtestG,not_doneS);
@@ -1363,7 +1362,7 @@ FILE *fp ;
     fprintf(fp,"%f %f %f\n",avg_timeG, avg_funcG, timeFactorG);
 }
 
-void read_control( fp )
+read_control( fp )
 FILE *fp ;
 {
     INT junk ;
@@ -1376,7 +1375,7 @@ FILE *fp ;
     fscanf(fp,"%lf %lf %lf\n",&avg_timeG, &avg_funcG, &timeFactorG);
 }
 
-INT tw_frozen( cost )
+tw_frozen( cost )
 INT cost ;
 {
 

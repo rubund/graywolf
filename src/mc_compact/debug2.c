@@ -57,7 +57,7 @@ static char SccsId[] = "@(#) debug2.c version 7.1 11/10/90" ;
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 
-void dumpxGraph()
+dumpxGraph()
 {
     int  i ;
     ECOMPBOXPTR eptr ;
@@ -135,7 +135,7 @@ COMPACTPTR *xGraph ;
 
 }
 
-void dumpyGraph()
+dumpyGraph()
 {
     int  i ;
     ECOMPBOXPTR eptr ;
@@ -227,7 +227,7 @@ int direction ;
     return( NULL ) ;
 }
 
-void dycons()
+dycons()
 {
     int  i, bcons ;
     ECOMPBOXPTR eptr, eptr2 ;
@@ -275,7 +275,7 @@ void dycons()
 
 
 
-void dsort( numtiles, XNotY )
+dsort( numtiles, XNotY )
 int numtiles ;
 BOOL XNotY ;
 {
@@ -311,7 +311,7 @@ BOOL XNotY ;
 
 }  /* end numtiles */
 
-void dxancerr()
+dxancerr()
 {
     int i ;
 
@@ -329,7 +329,7 @@ void dxancerr()
     }
 }
 
-void dump_anc()
+dump_anc()
 {
     INT i ;
     INT last ;
@@ -341,7 +341,7 @@ void dump_anc()
     }
 } /* dump_anc */
 
-void dslack( XNotY, center, length )
+dslack( XNotY, center, length )
 BOOL XNotY ;
 BOOL center ;
 INT length ;
@@ -417,7 +417,7 @@ INT length ;
     }
 } /* end dslack */
 
-void dedges( cell, XnotY, forwardNotBack )
+dedges( cell, XnotY, forwardNotBack )
 INT cell ;
 BOOL XnotY ;
 BOOL forwardNotBack ;
@@ -463,7 +463,7 @@ BOOL forwardNotBack ;
     fprintf( stderr, "\n\n" ) ;
 }
 
-void dyancerr()
+dyancerr()
 {
     int i ;
 
@@ -482,7 +482,7 @@ void dyancerr()
 }
 
 
-void check_xancestors()
+check_xancestors()
 {
     INT i ;
     INT count ;
@@ -519,7 +519,7 @@ void check_xancestors()
     }
 } /* end check_xancestors */
 
-void check_yancestors()
+check_yancestors()
 {
     INT i ;
     INT count ;

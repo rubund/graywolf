@@ -63,7 +63,7 @@ static char SccsId[] = "@(#) queue.c (Yale) version 3.4 12/15/91" ;
 #include <yalecad/queue.h>
 
 /* initialize queue */
-void YinitQueue( queue, node ) 
+YinitQueue( queue, node ) 
 YQUEUE *queue ;
 char *node ;
 {   
@@ -92,7 +92,7 @@ YQUEUE *queue ;
 } /* end YtopQueue */
 
 /* add a vertex to the end of the queue */
-void Yadd2Queue( queue, node ) 
+Yadd2Queue( queue, node ) 
 YQUEUE *queue ;
 char *node ;
 {  
@@ -114,7 +114,7 @@ YQUEUE *queue ;
 }
 
 /* debug function to dump the contents of the queue */
-void YdumpQueue( queue ) 
+YdumpQueue( queue ) 
 YQUEUE *queue ;
 {
     YQUEUEPTR temp ; 

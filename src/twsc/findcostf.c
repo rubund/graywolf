@@ -82,7 +82,7 @@ static void installf();
 INT recompute_wirecost() ;
 INT recompute_timecost() ;
 
-INT findcostf()
+findcostf()
 {
 TIBOXPTR tileptr1 ;
 CBOXPTR cellptr1 ;
@@ -330,7 +330,7 @@ return;
 
 
 
-void install_clusters()
+install_clusters()
 {
 
 INT row , n , i , bin , i_error , delta_bin , length_in_row , cell ;
@@ -432,7 +432,7 @@ return;
 
 
 
-void place_clusters()
+place_clusters()
 {
 
 INT bin , cell , row , c , count ;

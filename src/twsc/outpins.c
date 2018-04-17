@@ -106,14 +106,14 @@ static BOOL old_formatS = FALSE ;
 
 char *find_layer( /* pinname, layer */ ) ;
 
-static void do_outpins();
-static void do_macropins();
-static void do_left_vertical_channel();
-static void do_right_vertical_channel();
-static void do_bottom_channel();
-static void do_top_channel();
+static do_outpins();
+static do_macropins();
+static do_left_vertical_channel();
+static do_right_vertical_channel();
+static do_bottom_channel();
+static do_top_channel();
 
-void outpins()
+outpins()
 {
 
 PINBOXPTR ptr1 , ptr2 , ptr ;
@@ -291,7 +291,7 @@ TWCLOSE( fpS ) ;
  * 9. layer                                                          *
  *-------------------------------------------------------------------*/
 
-static void do_outpins( ptr , flag )
+static do_outpins( ptr , flag )
 PINBOXPTR ptr ;
 INT flag ;
 {
@@ -452,7 +452,7 @@ fprintf(fpS,"%s %d %s %s %d %d %d %d %d\n" ,
 return ;
 }
 
-static void do_macropins( ptr )
+static do_macropins( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -514,7 +514,7 @@ fprintf(fpS,"%s %d %s %s %d %d %d %d %d\n" ,
 return ;
 }
 
-static void do_left_pseudo_pins( ptr , channel , groupS_number )
+static do_left_pseudo_pins( ptr , channel , groupS_number )
 PINBOXPTR ptr ;
 INT channel , groupS_number ;
 {
@@ -554,7 +554,7 @@ netarrayG[ptr->net]->name , groupS_number , x , y ) ;
 }
 
 
-static void do_right_pseudo_pins( ptr , channel , groupS_number )
+static do_right_pseudo_pins( ptr , channel , groupS_number )
 PINBOXPTR ptr ;
 INT channel , groupS_number ;
 {
@@ -591,7 +591,7 @@ netarrayG[ptr->net]->name , groupS_number , x , y ) ;
 #endif
 }
 
-static void do_left_vertical_channel( ptr )
+static do_left_vertical_channel( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -673,7 +673,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static void do_right_vertical_channel( ptr )
+static do_right_vertical_channel( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -738,7 +738,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static void do_bottom_channel( ptr )
+static do_bottom_channel( ptr )
 PINBOXPTR ptr ;
 {
 INT x , y , groupS_number , layer , i ;
@@ -824,7 +824,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static void do_top_channel( ptr )
+static do_top_channel( ptr )
 PINBOXPTR ptr ;
 {
 INT x , y , groupS_number , layer , i ;
@@ -937,7 +937,7 @@ INT *layer ;
 } /* end find_layer */
 
 
-void set_pin_format( flag )
+set_pin_format( flag )
 BOOL flag ;
 {
     old_formatS = flag ;

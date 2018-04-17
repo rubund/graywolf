@@ -83,7 +83,7 @@ PINBOXPTR depth_first_search() ;
 static INT *segcountS ;
 static SEGBOXPTR **chan_segS ;
 
-void assgn_channel_to_seg()
+assgn_channel_to_seg()
 {
 
 PINBOXPTR ptr1 , ptr2 ;
@@ -138,7 +138,7 @@ Ysafe_free( maxcount ) ;
 }
 
 
-void free_chan_seg()
+free_chan_seg()
 {
 INT i ;
 
@@ -150,7 +150,7 @@ Ysafe_free( segcountS ) ;
 
 }
 
-void remove_overlap_segment( net )
+remove_overlap_segment( net )
 INT net ;
 {
 
@@ -196,7 +196,7 @@ if( check_connectivity( net ) == 0 ) {
 }
 
 
-void rm_segm_overlap( checkseg , m )
+rm_segm_overlap( checkseg , m )
 SEGBOXPTR *checkseg ;
 INT m ;
 {
@@ -372,7 +372,7 @@ return( NULL ) ;
 }
 
 
-void replace_seg( netptr, oldnode, newnode )
+replace_seg( netptr, oldnode, newnode )
 PINBOXPTR netptr , oldnode , newnode ;
 {
 ADJASEGPTR adj, tmpadj ;
@@ -409,7 +409,7 @@ if( netptr->row != newnode->row ) {
 }
 
 
-void add_adj( segptr, node )
+add_adj( segptr, node )
 SEGBOXPTR segptr ;
 PINBOXPTR node ;
 {
@@ -422,7 +422,7 @@ node->adjptr->next = adjptr ;
 }
 
 
-void check_overlap_at_pin( ptr )
+check_overlap_at_pin( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -532,7 +532,7 @@ for( adj = ptr->adjptr ; adj->next ; ) {
 }
 
 
-INT check_connectivity( net )
+check_connectivity( net )
 INT net ;
 {
 INT correctness = 1 ;
@@ -558,7 +558,7 @@ for( ptr =  hdptr ; ptr ; ptr = ptr->next ) {
 return( correctness ) ;
 }
 
-void depth_first_check( ptr , oldedge )
+depth_first_check( ptr , oldedge )
 PINBOXPTR ptr ;
 SEGBOXPTR oldedge ;
 {

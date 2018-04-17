@@ -69,7 +69,7 @@ static char SccsId[] = "@(#) gmain.c version 3.8 5/1/91" ;
 
 
 
-static void free_routing_tiles();
+static free_routing_tiles();
 
 
 /* --------------------------------------------------------------------
@@ -82,7 +82,7 @@ static void free_routing_tiles();
 	from the global router and build the routing tiles.  We will
 	update the routing tiles in this file.
 -------------------------------------------------------------------- */
-void gmain( updateNotChan )
+gmain( updateNotChan )
 BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
 {
     char filename[LRECL] ;
@@ -235,12 +235,12 @@ BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
 } /* end gmain */
 
 
-void init_routing_tiles()
+init_routing_tiles()
 {
     routingTilesG = NULL ;
 } /* end init_routing_tiles */
 
-static void free_routing_tiles()
+static free_routing_tiles()
 {
     INT cell ;              /* cell counter */
     RTILEBOXPTR freeptr ;   /* free tile */

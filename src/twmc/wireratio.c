@@ -64,7 +64,7 @@ static char SccsId[] = "@(#) wireratio.c version 3.9 3/10/92" ;
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_linalg.h>
 
-static void gsl_matrix_disp( mptr, rows, cols )
+gsl_matrix_disp( mptr, rows, cols )
 gsl_matrix *mptr ;
 int rows, cols;
 {
@@ -79,7 +79,7 @@ int rows, cols;
     fprintf( stderr, "\n" ) ;
 } /* end gsl_matrix_disp */
 
-static void gsl_vector_disp( vptr, rows )
+gsl_vector_disp( vptr, rows )
 gsl_vector *vptr ;
 int rows;
 {
@@ -91,7 +91,7 @@ int rows;
     fprintf( stderr, "\n" ) ;
 } /* end gsl_vector_disp */
 
-static void set_pins( A, center, loc, tile_side, sidepins, count )
+static set_pins( A, center, loc, tile_side, sidepins, count )
 gsl_matrix *A ;              /* the matrix holding x y positions */
 INT    center ;
 INT    loc ;
@@ -116,7 +116,7 @@ INT    count ;
     }
 } /* end  set_pins */
 
-void adapt_wire_estimator()
+adapt_wire_estimator()
 {
     INT i ;                 /* coefficient counter */
     INT cell ;              /* cell counter */

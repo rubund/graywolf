@@ -66,7 +66,7 @@ static char SccsId[] = "@(#) xcompact.c version 7.2 11/10/90" ;
 
 static PICKETPTR  botPickS ;
 
-void buildXGraph()
+buildXGraph()
 {
     int i ;                    /* counter */
     int overlapx ;             /* overlap conditions in x direction */
@@ -225,7 +225,7 @@ void buildXGraph()
 
 } /* end buildXGraph */
 
-void formxEdge( fromNode, toNode ) 
+formxEdge( fromNode, toNode ) 
 int fromNode ;
 int toNode ;
 {
@@ -298,7 +298,7 @@ int toNode ;
     ASSERT( newE->constraint >= 0, "formxEdge", YmsgG ) ;
 }
 
-void initxPicket() 
+initxPicket() 
 {
     COMPACTPTR sink, source, node ;
     int i ;
@@ -334,7 +334,7 @@ void initxPicket()
     
 
 
-void update_xpicket( i, lowerLimit, upperLimit )
+update_xpicket( i, lowerLimit, upperLimit )
 int i ;
 PICKETPTR lowerLimit, upperLimit ;
 {
@@ -545,7 +545,7 @@ int tile1_bot, tile1_top, tile2_bot, tile2_top ;
 }/* end projectY */
 
 /* sort by x first then y */
-int sortbyXY( tileA , tileB )
+sortbyXY( tileA , tileB )
 COMPACTPTR *tileA , *tileB ;
 
 {
@@ -557,7 +557,7 @@ COMPACTPTR *tileA , *tileB ;
     }
 }
 
-void load_ancestors( direction )
+load_ancestors( direction )
 INT direction ;
 {
     INT i ;			/* counter */
@@ -588,7 +588,7 @@ INT direction ;
     }
 }
 
-static void xforwardPath()
+static xforwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -628,7 +628,7 @@ static void xforwardPath()
     } /* end loop on queue */
 } /* end xforwardPath */
 
-static void xbackwardPath()
+static xbackwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -835,7 +835,7 @@ BOOL find_path ;
     return( length ) ;
 } /* end longestxPath */
 
-void dxpick()
+dxpick()
 {
     PICKETPTR curPick ;
     printf("Bottom to top pickets:\n" ) ;

@@ -89,7 +89,7 @@ static char SccsId[] = "@(#) genorient.c (Yale) version 3.13 5/5/91" ;
 #include <yalecad/relpos.h>
 
 /* genorient works on range [lowerBound..upperBound] inclusive */
-void genorient(lowerBound, upperBound)
+genorient(lowerBound, upperBound)
 INT lowerBound, upperBound ;
 {
 
@@ -277,7 +277,7 @@ INT lowerBound, upperBound ;
 /* regenorient works on range [lowerBound..upperBound] inclusive */
 /* recalculates the bounding boxes and updates all the views */
 /* works in an incremental manner */
-void regenorient(lowerBound, upperBound)
+regenorient(lowerBound, upperBound)
 INT lowerBound, upperBound ;
 {
 
@@ -325,7 +325,7 @@ INT lowerBound, upperBound ;
 
 
 /* trans_bbox - translate bounding box into 8 views */
-void trans_bbox( ptr ) 
+trans_bbox( ptr ) 
 CELLBOXPTR ptr ;
 {
 
@@ -355,7 +355,7 @@ BOUNBOXPTR boun0, bounptr ;
 } /* end trans_bbox() */ 
 
 /* allocate space for and load termarray */
-void loadTermArray()
+loadTermArray()
 {
     INT net ;
     PINBOXPTR pinptr ;
@@ -368,7 +368,7 @@ void loadTermArray()
     }
 } /* end loadTermArray */
 
-void translate_numpins( ptr ) 
+translate_numpins( ptr ) 
 CELLBOXPTR ptr ;
 {
     INT pt ;                        /* point counter */

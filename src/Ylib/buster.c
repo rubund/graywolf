@@ -222,7 +222,7 @@ YBUSTBOXPTR Ybuster()
 } /* end buster */
 /* ***************************************************************** */
 
-void Ybuster_addpt( xpos, ypos )
+Ybuster_addpt( xpos, ypos )
 INT xpos, ypos ;
 {
     if( xpos == ptS[cornerCountS].x && ypos == ptS[cornerCountS].y ){
@@ -239,7 +239,7 @@ INT xpos, ypos ;
 } /* end add_arb_pt */
 /* ***************************************************************** */
 
-void Ybuster_init()
+Ybuster_init()
 {
     /* allocate memory if needed */
     if(!(ptS)){
@@ -255,7 +255,7 @@ void Ybuster_init()
 } /* end Ybuster_init */
 /* ***************************************************************** */
 
-void Ybuster_free()
+Ybuster_free()
 {
     /* free allocate memory */
     if(ptS){
@@ -364,7 +364,7 @@ INT xx1, yy1, xx2, yy2 ;
     return( FALSE ) ;
 } /* end Ybuster_check_rect */
 
-void Ybuster_check_rect_init( user_string )
+Ybuster_check_rect_init( user_string )
 char *user_string ;
 {
     cur_stateS = S_STATE ;

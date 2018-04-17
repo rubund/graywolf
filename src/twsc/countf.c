@@ -77,7 +77,7 @@ static INT est_final_feedS ;
 static INT **row_mapS ;
 static BOOL num_callS = FALSE ;
 
-void countf()
+countf()
 {
 
 PINBOXPTR netptr ;
@@ -264,7 +264,7 @@ return( value * fdWidthG ) ;
 
 
 
-void prep_feed_count_1()
+prep_feed_count_1()
 {
 
 INT row ;
@@ -288,7 +288,7 @@ return ;
 }
 
 
-void prep_feed_count()
+prep_feed_count()
 {
 
 INT row ;
@@ -310,7 +310,7 @@ return ;
 
 
 
-void insert_row( flag )
+insert_row( flag )
 INT flag ;
 {
 
@@ -384,7 +384,7 @@ return ;
 
 
 
-void feed_situation( row , net )
+feed_situation( row , net )
 INT row , net ;
 {
 

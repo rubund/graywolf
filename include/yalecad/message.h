@@ -75,7 +75,7 @@ extern char *YmsgG ;
 				 }
 
 /* message routines */
-extern void Ymessage_print( P3(INT messageType, char *routine, char *message) ) ;
+extern Ymessage_print( P3(INT messageType, char *routine, char *message) ) ;
 /* 
 Function:
     Print a message to screen and/or to a file.  There are the following
@@ -105,13 +105,13 @@ WARNMSG   Normal                    Written to stderr.  Warning count inc.
     YmsgG is a global pointer to a character buffer workspace.
 */
 
-extern void Ymessage_warn_count() ;
+extern Ymessage_warn_count() ;
 /*
 Function:
     Increment the warning count.
 */
 
-extern void Ymessage_error_count() ;
+extern Ymessage_error_count() ;
 /*
 Function:
     Increment the error count.
@@ -129,13 +129,13 @@ Function:
     Returns the error count.
 */
 
-extern void Ymessage_init( P1(FILE *fileptr) ) ;
+extern Ymessage_init( P1(FILE *fileptr) ) ;
 /*
 Function:
     Redirects the messages to the given file.
 */
 
-extern void Ymessage_output( P1(char *messageString ) ) ;
+extern Ymessage_output( P1(char *messageString ) ) ;
 /* 
 Function:
     Output message to screen if verbose mode has been set or
@@ -143,7 +143,7 @@ Function:
     it does nothing.  Used in the OUT macros.
 */
 
-extern void Ymessage_mode( P1(INT mode) ) ;
+extern Ymessage_mode( P1(INT mode) ) ;
 /* 
 Function:
     Set the message mode.  It may be one of M_VERBOSE, M_NORMAL, or
@@ -156,13 +156,13 @@ Function:
     Returns the state of the message mode switch.
 */
 
-extern void Ymessage_flush() ;
+extern Ymessage_flush() ;
 /* 
 Function:
     Flush the buffered output.
 */
 
-extern void Ymessage_close() ;
+extern Ymessage_close() ;
 /* 
 Function:
     Close the output streams.

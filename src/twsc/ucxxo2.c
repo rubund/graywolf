@@ -59,7 +59,7 @@ static char SccsId[] = "@(#) ucxxo2.c (Yale) version 4.8 2/23/92" ;
 #include "readpar.h"
 #include <yalecad/debug.h>
 
-INT ucxxo2( newaor , newbor )
+ucxxo2( newaor , newbor )
 INT newaor , newbor ;
 {
 

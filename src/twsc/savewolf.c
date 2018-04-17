@@ -55,7 +55,6 @@ static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
 #endif
 #endif
 
-#include <string.h>
 #include "standard.h"
 #include "main.h"
 #include "groute.h"
@@ -70,7 +69,7 @@ static char SccsId[] = "@(#) savewolf.c (Yale) version 4.6 9/19/91" ;
 #define INTSCANSTR "%d"
 #endif
 
-void savewolf(flag)
+savewolf(flag)
 INT flag ;
 {
 
@@ -141,7 +140,7 @@ rename(file1, file2);
 return ;
 }
 
-void TW_oldin( fp )
+TW_oldin( fp )
 FILE *fp ;
 {
 

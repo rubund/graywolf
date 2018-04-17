@@ -58,7 +58,6 @@ static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
 
 #include <string.h>
 #include "globals.h"
-#include "output.h"
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/hash.h>
@@ -85,14 +84,14 @@ static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
 /* *************************************************************** */
-void init()
+init()
 {
     /* get ready for parsing */
     /* make hash table for nets */
     netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
 } /* end init */
 
-void addCell( celltype, cellname )
+addCell( celltype, cellname )
 int celltype ;
 char *cellname ;
 {
@@ -108,7 +107,7 @@ char *cellname ;
 
 } /* end addCell */
 
-void addNet( signal )
+addNet( signal )
 char *signal ;
 {
     NETPTR data ;
@@ -149,7 +148,7 @@ char *signal ;
     }
 } /* end addNet */
 
-void set_bbox( left, right, bottom, top )
+set_bbox( left, right, bottom, top )
 INT left, right, bottom, top ;
 {
     DOUBLE width, height ;
@@ -163,7 +162,7 @@ INT left, right, bottom, top ;
     total_std_cellS++ ;
 } /* end set_bbox */
 
-void output( fp )
+output( fp )
 FILE *fp ;
 {
     INT g ;
@@ -256,7 +255,7 @@ FILE *fp ;
 
 } /* end output */
 
-void write_softpins( fp )
+write_softpins( fp )
 FILE *fp ;
 {
     YTABLEPTR thread ;
@@ -278,7 +277,7 @@ FILE *fp ;
     fprintf( fp, "\n" ) ;
 } /* end write_softpins */
 
-void read_par()
+read_par()
 {
     char input[LRECL] ;
     char *bufferptr ;
@@ -315,7 +314,7 @@ void read_par()
     }
 } /* end readpar */
 
-void update_stats( fp )
+update_stats( fp )
 FILE *fp ;
 {
     fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);

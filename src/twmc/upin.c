@@ -64,7 +64,7 @@ static char SccsId[] = "@(#) upin.c version 3.4 1/30/91" ;
 
 #define BREAK_PT2   6
 
-void upin_test( termptr, pos )
+upin_test( termptr, pos )
 PINBOXPTR termptr ;
 MOVEBOXPTR pos ;
 {
@@ -89,7 +89,7 @@ MOVEBOXPTR pos ;
     }
 } /* end upin_test */
 
-void upin_accept( termptr )
+upin_accept( termptr )
 PINBOXPTR termptr ;
 {
 

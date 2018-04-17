@@ -77,21 +77,21 @@ INT  (*abort_func)() ;
     return( 0 ) ;
 } /* end Ysystem */
 
-void YcopyFile( sourcefile, destfile )
+YcopyFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
     sprintf( YmsgG, "/bin/cp %s %s", sourcefile, destfile ) ;
     Ysystem( "Ylib/YcopyFile", ABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-void YmoveFile( sourcefile, destfile )
+YmoveFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
     sprintf( YmsgG, "/bin/mv %s %s", sourcefile, destfile ) ;
     Ysystem( "Ylib/YmoveFile", ABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-void Yrm_files( files )
+Yrm_files( files )
 char *files ;
 {
     sprintf( YmsgG, "/bin/rm -rf %s", files ) ;

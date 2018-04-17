@@ -22,7 +22,7 @@ Function:
     starts the elapsed timer.
 */
 
-extern void YexitPgm( P1(INT status) ) ;
+extern YexitPgm( P1(INT status) ) ;
 /* 
 Function:
     Exit a program gracefully.  It always outputs a message with

@@ -116,7 +116,7 @@ INT a ;
 } /* end upinswap */
 
 
-void check_pin( a )
+check_pin( a )
 INT a ;
 {
     INT x, y, l, r, t, b;

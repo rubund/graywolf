@@ -68,7 +68,7 @@ static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
 
 #define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
 
-int main( argc , argv )
+main( argc , argv )
 int argc ;
 char *argv[] ;
 {
@@ -239,12 +239,11 @@ if( graphicsG ){
 }
 YexitPgm(PGMOK);
 
-    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-void syntax()
+syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

@@ -67,7 +67,7 @@ extern INT **pairArrayG ;
 extern BOOL orientation_optimizationG ;
 extern BOOL placement_improveG ;
 
-void upair()
+upair()
 {
 
 CBOXPTR acellptr, bcellptr ; 
@@ -302,7 +302,7 @@ return;
 }
 
 
-INT eval_range( acellptr , bcellptr, axc , anxc , bxc , bnxc )
+eval_range( acellptr , bcellptr, axc , anxc , bxc , bnxc )
 CBOXPTR acellptr , bcellptr ;
 INT axc , anxc , bxc , bnxc ;
 {

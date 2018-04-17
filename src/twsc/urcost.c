@@ -56,7 +56,7 @@ static char SccsId[] = "@(#) urcost.c (Yale) version 4.4 3/19/91" ;
 #include "groute.h"
 #include <yalecad/debug.h>
 
-void urcost( segptr )
+urcost( segptr )
 SEGBOXPTR segptr ;
 {
 

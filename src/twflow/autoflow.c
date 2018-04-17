@@ -73,7 +73,7 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #define ERROR        -1         /* error from YgetFileTime() */
 static INT objectS ;            /* the last program that was run */
 
-void auto_flow()
+auto_flow()
 {
 
     ADJPTR     adjptr ;         /* current edge in graph */
@@ -126,7 +126,7 @@ void auto_flow()
 
 } /* end autoflow */
 
-void exec_single_prog()
+exec_single_prog()
 {
     ADJPTR     adjptr ;         /* current edge in graph */
     ADJPTR     get_edge_from_user(); /* decides which way to travel */
@@ -185,7 +185,7 @@ void exec_single_prog()
     G( draw_the_data() ) ;
 } /* end exec_single_prog */
 
-void report_problem( adjptr )
+report_problem( adjptr )
 ADJPTR adjptr ;
 {
     sprintf( YmsgG, "Trouble executing %s", 
@@ -271,7 +271,7 @@ ADJPTR adjptr ;
 } /* end BOOL check_dependencies */
 
 /* allow graphics loop to change the object */
-void autoflow_set_object( object )
+autoflow_set_object( object )
 INT object ;
 {
     objectS = object ;

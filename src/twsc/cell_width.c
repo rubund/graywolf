@@ -78,7 +78,7 @@ static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
 extern INT extra_cellsG ;
 
 static INT compare_cell_length();
-static void read_pads(); 
+static read_pads(); 
 
 
 
@@ -112,7 +112,7 @@ CBOXPTR c1;
 
 
 
-void calc_cells_width()
+calc_cells_width()
 {
 
 FILE *fp;     /*--- file pointer to stdcell.comp ---*/
@@ -560,7 +560,7 @@ return(EQUAL);
 /****************************************************************************/
 
 
-static void read_pads( fp ) 
+static read_pads( fp ) 
 FILE *fp ;
 {
     char buffer[LRECL], *bufferptr ;

@@ -29,7 +29,7 @@ typedef struct ybustbox {
 } YBUSTBOX , *YBUSTBOXPTR ;
 
 
-extern void Ybuster_init() ;
+extern Ybuster_init() ;
 /* 
 Arguments:
     none
@@ -40,7 +40,7 @@ Function:
     into tiles.
 */
 
-extern void Ybuster_addpt( P2( INT x, INT y ) ) ;
+extern Ybuster_addpt( P2( INT x, INT y ) ) ;
 /* 
 Arguments:
     INT x, y ;
@@ -61,7 +61,7 @@ Function:
 	ptr[3].x, ptr[3].y if ptr is the returned pointer.
 */
 
-extern void Ybuster_free() ;
+extern Ybuster_free() ;
 /* 
 Arguments:
     none

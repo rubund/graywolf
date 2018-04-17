@@ -67,7 +67,7 @@ static char SccsId[] = "@(#) debug.c (Yale) version 4.5 9/7/90" ;
 #include "groute.h"
 #include "pads.h"
 
-void cellbox_data( first_cell , last_cell )
+cellbox_data( first_cell , last_cell )
 INT first_cell , last_cell ;
 {
 
@@ -96,7 +96,7 @@ TWCLOSE( fp ) ;
 }
 
 
-void cellterm_data( first_cell , last_cell )
+cellterm_data( first_cell , last_cell )
 INT first_cell , last_cell ;
 {
 
@@ -146,7 +146,7 @@ TWCLOSE( fp ) ;
 }
 
 
-void dbx_terminal( first_net , last_net )
+dbx_terminal( first_net , last_net )
 INT first_net , last_net ;
 {
 
@@ -170,7 +170,7 @@ TWCLOSE( fp ) ;
 }
 
 
-void dbx_grd( ptr1 , ptr2 )
+dbx_grd( ptr1 , ptr2 )
 CHANGRDPTR ptr1 , ptr2 ;
 {
 
@@ -190,7 +190,7 @@ if( flag == 1 ) {
 }
 }
 
-void pairCheck( first_row , last_row )
+pairCheck( first_row , last_row )
 INT first_row , last_row ;
 {
 
@@ -239,7 +239,7 @@ TWCLOSE( fp ) ;
 
 
 
-void dbx_track( start_chan , end_chan )
+dbx_track( start_chan , end_chan )
 INT start_chan , end_chan ;
 {
 INT chan ;

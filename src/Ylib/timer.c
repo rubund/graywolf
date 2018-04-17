@@ -64,7 +64,7 @@ static char SccsId[] = "@(#) timer.c version 4.3 10/25/91" ;
 static INT base_timeS = 0 ;       /* the time in seconds at the start */
 static INT milli_timeS ;         /* the millisecond part of the start */
 /* initialize the timer */
-void Ytimer_start()
+Ytimer_start()
 {
 #ifdef SYS5
     struct tms tp ;
@@ -79,7 +79,7 @@ void Ytimer_start()
 } /* end Ytimer_start */
 
 /* this is the time elapsed since the timer start in milliseconds */
-void Ytimer_elapsed( time_elapsed )
+Ytimer_elapsed( time_elapsed )
 INT *time_elapsed ;
 {
 #ifdef SYS5

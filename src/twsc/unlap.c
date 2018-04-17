@@ -63,7 +63,7 @@ extern INT extra_cellsG ;
 extern BOOL no_feed_at_endG ;
 extern BOOL rigidly_fixed_cellsG ;
 
-void unlap(flag)
+unlap(flag)
 INT flag ;
 {
 

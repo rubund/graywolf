@@ -56,7 +56,7 @@ static char SccsId[] = "@(#) selectpin.c version 3.3 9/5/90" ;
 #include <yalecad/debug.h>
 
 
-void selectpin( acellptr )
+BOOL selectpin( acellptr )
 CELLBOXPTR acellptr ;
 {
 

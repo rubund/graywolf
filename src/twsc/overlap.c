@@ -72,7 +72,7 @@ static char SccsId[] = "@(#) overlap.c (Yale) version 4.3 9/7/90" ;
 
 #include "ucxxglb.h"
 
-void new_old( c )
+new_old( c )
 INT c ;
 {
 
@@ -172,7 +172,7 @@ if( ablockG != bblockG ) {
 */
 
 
-void old_assgnto_new1( alobin , ahibin , anewlobin , anewhibin )
+old_assgnto_new1( alobin , ahibin , anewlobin , anewhibin )
 INT alobin , ahibin , anewlobin , anewhibin ;
 {
 
@@ -198,7 +198,7 @@ if( ablockG == bblockG ) {
 }
     
 
-void new_assgnto_old1( alobin , ahibin , anewlobin , anewhibin )
+new_assgnto_old1( alobin , ahibin , anewlobin , anewhibin )
 INT alobin , ahibin , anewlobin , anewhibin ;
 {
 
@@ -223,7 +223,7 @@ if( ablockG == bblockG ) {
 } 
 }
 
-void old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,
+old_assgnto_new2( a1lobin , a1hibin , a2lobin , a2hibin ,
 		  b1lobin , b1hibin , b2lobin , b2hibin )
 INT a1lobin , a1hibin , a2lobin , a2hibin ;
 INT b1lobin , b1hibin , b2lobin , b2hibin ;
@@ -256,7 +256,7 @@ if( ablockG == bblockG ) {
 }
 	 
 
-void new_assgnto_old2( a1lobin , a1hibin , a2lobin , a2hibin ,
+new_assgnto_old2( a1lobin , a1hibin , a2lobin , a2hibin ,
 		  b1lobin , b1hibin , b2lobin , b2hibin )
 INT a1lobin , a1hibin , a2lobin , a2hibin ;
 INT b1lobin , b1hibin , b2lobin , b2hibin ;
@@ -289,7 +289,7 @@ if( ablockG == bblockG ) {
 }
 
 
-void sub_penal( startx , endx , block , LoBin , HiBin )
+sub_penal( startx , endx , block , LoBin , HiBin )
 INT startx , endx , block , LoBin , HiBin ;
 {
 
@@ -322,7 +322,7 @@ if( LoBin == HiBin ) {
 }
 }
 
-void add_penal( startx , endx , block , LoBin , HiBin )
+add_penal( startx , endx , block , LoBin , HiBin )
 INT startx , endx , block , LoBin , HiBin ;
 {
 
@@ -355,7 +355,7 @@ if( LoBin == HiBin ) {
 }
 
 
-void term_newpos( antrmptr , xcenter , ycenter , newaor )
+term_newpos( antrmptr , xcenter , ycenter , newaor )
 PINBOXPTR antrmptr ;
 INT xcenter , ycenter , newaor ;
 {

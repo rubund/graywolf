@@ -105,8 +105,6 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #include <yalecad/debug.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/file.h>
-#include <yalecad/system.h>
-#include "readpar.h"
 
 #define  VERSION            "v2.2"
 #define  EXPECTEDMEMORY     (1024 * 1024) 
@@ -120,14 +118,12 @@ static BOOL debugS ;     /* whether to enable debug code */
 static INT  windowIdS ;  /* the master window id if given */
 static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 
-extern void make_movebox(void);
-
 /* Forward declarations */
 
 VOID syntax();
 INT closegraphics();
 
-INT main( argc , argv )
+main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -577,7 +573,6 @@ char *argv[] ;
     Ymessage_close() ;
     YexitPgm(OK) ;
 
-    return 0;
 } /* end main routine */
 
 INT yaleIntro() 
@@ -592,12 +587,11 @@ INT yaleIntro()
     fprintf(stdout,"         Dahe Chen, and Jimmy Lam\n"); 
     fprintf(stdout,"         Yale University\n");
 
-    return 0;
 } /* end yaleIntro */
 
 /* this routine takes information about run and write to history file */
 /* to accumulate data about runs */
-void writeResults( wire, penal, rand )
+writeResults( wire, penal, rand )
 INT wire, penal, rand ;
 {
     FILE *fpdebug ;
@@ -626,7 +620,6 @@ INT closegraphics( )
     if( doGraphicsG ){
 	G( TWcloseGraphics() ) ;
     }
-    return 0;
 } /* end closegraphics */
 
 /* give user correct syntax */
@@ -705,7 +698,7 @@ BOOL get_batch_mode()
     return( batchS ) ;
 } /* end get_batch_mode */
 
-void set_wiring_reduction( reduction )
+set_wiring_reduction( reduction )
 DOUBLE reduction ;
 {
     wire_red_ratioS = reduction ;

@@ -72,7 +72,7 @@ static DOUBLE betaS ;     /* exponential decay constant for low temp */
 static DOUBLE speedS ;    /* multiply attempts per cell by this factor */
 
 /* calculate static exponential time constants */
-void init_acceptance_rate()
+init_acceptance_rate()
 {
     /* determine alpha */
     alphaS =  - log( CRITRATIO ) / HIGHTEMP ;
@@ -144,7 +144,7 @@ INT compute_attprcel()
 
 } /* end compute_attprcell */ 
 
-void set_tw_speed( speed ) 
+set_tw_speed( speed ) 
 DOUBLE speed ;
 {
     speedS = speed ;
@@ -154,7 +154,7 @@ DOUBLE speed ;
 #ifdef TESTRATIO
 
 /* test program for desired acceptance rate profile */
-INT main( argc , argv )
+main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -167,6 +167,5 @@ char *argv[] ;
 	printf( "%4.2le\n" , d_ratio ) ;
     }
 
-    return 0;
 } /* end main */
 #endif /* TESTRATIO */

@@ -60,7 +60,7 @@ INT potential_errors , error_count , P_limit ;
 */
 
 
-INT ucxxo1( bxcenter , bycenter , newaor )
+ucxxo1( bxcenter , bycenter , newaor )
 INT bxcenter , bycenter , newaor ;
 {
 

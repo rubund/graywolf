@@ -74,7 +74,7 @@ static int findxerror();
 static int findyerror();
 
 
-void moveStrategy( violations ) 
+moveStrategy( violations ) 
 ERRORPTR violations ;
 {
     COMPACTPTR tileL, tileR, tileB, tileT ;
@@ -277,7 +277,7 @@ ERRORPTR violations ;
 } /* end moveStrategy */
 
 /* HOW to update the tiles of the cells */
-void update_cell_tiles( cell, deltax, deltay ) 
+update_cell_tiles( cell, deltax, deltay ) 
 int cell, deltax, deltay ;
 {
     CELLBOXPTR cellptr ;
@@ -311,7 +311,7 @@ int cell, deltax, deltay ;
 
 } /* end update_cell_tiles */
 
-void dcheck_pos( cell ) 
+BOOL dcheck_pos( cell ) 
 int cell ;
 {
 
@@ -343,7 +343,7 @@ int cell ;
     
 } /* end dcheck_pos */
 
-static int  find_bound( tile, avoid, direction )
+static int find_bound( tile, avoid, direction )
 COMPACTPTR tile ;
 int avoid ;    /* avoid finding tile that you have error (cell #) */
 int direction ;
@@ -429,7 +429,6 @@ int direction ;
 
     /* now calculate how far the tile can move based on slack */
     switch( direction ){
-        // FIXME: use enum, so compiler can detect that there are only 4 directions
 	case XFORWARD:
 	    return( tile->r + minslack ) ;
 	case XBACKWARD:
@@ -437,7 +436,6 @@ int direction ;
 	case YFORWARD:
 	    return( tile->t + minslack ) ;
 	case YBACKWARD:
-        default:
 	    return( tile->b - minslack ) ;
     } /* end switch */
 

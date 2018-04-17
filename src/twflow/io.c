@@ -83,7 +83,6 @@ static char SccsId[] = "@(#) io.c version 2.2 4/21/91" ;
 #include <globals.h>
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
-#include "io.h"
 
 #define START     "start"
 #define OPTIONAL  '*'
@@ -117,13 +116,13 @@ static EDGEPTR edgeListS = NULL ;        /* list of drawable edges */
     } \
 } \
 
-void setErrorFlag()
+setErrorFlag()
 {
     errorFlagS = TRUE ;
 }
 /* ***************** ERROR HANDLING ****************************** */
 
-void init( numobj )
+init( numobj )
 INT numobj ;
 {
     INT i ;
@@ -154,7 +153,7 @@ INT numobj ;
 } /* end init */
 
 /* create a new object */
-void add_object( pname, node )
+add_object( pname, node )
 char *pname ;
 INT node ;
 {
@@ -170,7 +169,7 @@ INT node ;
 } /* end add_object */
 
 
-void add_pdependency( fromNode ) 
+add_pdependency( fromNode ) 
 INT fromNode ;
 {
     OBJECTPTR from, to ;
@@ -218,7 +217,7 @@ INT fromNode ;
 
 } /* end add_pdependency */
 
-void add_path( pathname )
+add_path( pathname )
 char *pathname ;
 {
     ERRORABORT() ;
@@ -226,13 +225,13 @@ char *pathname ;
 } /* end add_path */
 
 /* set file type */
-void set_file_type( type )
+set_file_type( type )
 BOOL type ;
 {
     inputNotOutputS = type ;
 } /* end set_file_type */
 
-void add_fdependency( file ) 
+add_fdependency( file ) 
 char *file ;
 {
     INT len ;
@@ -274,7 +273,7 @@ char *file ;
     newF->fname = file ;
 } /* end add_fdependency */
 
-void add_args( argument )
+add_args( argument )
 char *argument ;
 {
     ERRORABORT() ;
@@ -283,7 +282,7 @@ char *argument ;
     edgeListS->argv[edgeListS->argc++] = argument ;
 } /* end add_args */
 
-void add_box( l, b, r, t )
+add_box( l, b, r, t )
 INT l, b, r, t ;
 {
     ERRORABORT() ;
@@ -305,7 +304,7 @@ INT l, b, r, t ;
     data but we want to make it easy for the user.  It's not much trouble
     anyway.
 - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void start_edge( fromNode )
+start_edge( fromNode )
 INT fromNode ;
 {
     EDGEPTR temp ;
@@ -340,7 +339,7 @@ INT fromNode ;
     
 } /* end start_edge */
 
-void add_line( x1, y1, x2, y2 )
+add_line( x1, y1, x2, y2 )
 INT x1, y1, x2, y2 ;
 {
 
@@ -392,7 +391,7 @@ BOOL direction ;
 
 /* process lines */
 /* Now add the drawn lines to the graph data structure */
-void process_arcs()
+process_arcs()
 {
     ADJPTR adjptr ;
     EDGEPTR edge ;
@@ -451,7 +450,7 @@ void process_arcs()
 } /* end process_arcs */
 
 /* clean edges so everything must be checked */
-void unmark_edges()
+unmark_edges()
 {
     INT i ;                   /* counter */
     OBJECTPTR o ;             /* object pointer */
@@ -472,7 +471,7 @@ void unmark_edges()
 
 #include <yalecad/draw.h>
 
-void set_window()
+set_window()
 {
     INT xpand ;   /* make output look nice */
     INT min, max ; /* make into square */

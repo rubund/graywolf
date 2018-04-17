@@ -84,7 +84,6 @@ static char SccsId[] = "@(#) readpar.c version 3.20 11/23/91" ;
 #include <yalecad/file.h>
 #include <yalecad/string.h>
 #include <yalecad/yreadpar.h>
-#include "readpar.h"
 
 #define DEFAULTLAMBDA 0.1
 #define INIT_ACCEPTANCE 0.99999
@@ -103,14 +102,14 @@ static INT gridYS = INT_MIN ;
 
 
 
-static void init_read_par();
-static void readparam();
-static void process_readpar();
-static void err_msg();
+static init_read_par();
+static readparam();
+static process_readpar();
+static err_msg();
 
 
 
-void readpar()
+readpar()
 {
     init_read_par() ;
     readparam( TWMC ) ;
@@ -118,7 +117,7 @@ void readpar()
     process_readpar() ;
 }
 
-static void init_read_par()
+static init_read_par()
 {
     /* set the default values */
     offsetG     = 0  ;
@@ -164,7 +163,7 @@ static void init_read_par()
 
 
 
-static void readparam( parfile )
+static readparam( parfile )
 INT parfile ;
 {
 
@@ -484,7 +483,7 @@ INT parfile ;
     }
 } /* end readpar */
 
-static void process_readpar()
+static process_readpar()
 {
     char *layer ;             /* name of layer */
     INT i ;                   /* counter */
@@ -676,7 +675,7 @@ static void process_readpar()
     return ;
 } /* end process_readpar */
 
-static void err_msg( keyword ) 
+static err_msg( keyword ) 
 char *keyword ;
 {
     OUT2("The value for %s was", keyword );

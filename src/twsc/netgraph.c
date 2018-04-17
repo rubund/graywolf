@@ -93,7 +93,7 @@ static INT *first_indexS = NULL;
 static PINBOXPTR **z_S ;
 static EDGE_COST *edge_dataS ;
 
-void netgraph_free_up()
+netgraph_free_up()
 {
 
 Ysafe_free( count_G ) ; count_G = NULL ;
@@ -103,7 +103,7 @@ Ysafe_free( stack_G ) ; stack_G = NULL ;
 Ysafe_free( vertex_G ) ; vertex_G = NULL ;
 }
 
-void postFeedAssgn()
+postFeedAssgn()
 {
 
 INT net , i , row , botrow , toprow , last_i ;
@@ -193,7 +193,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-void rebuild_netgraph( net )
+rebuild_netgraph( net )
 INT net ;
 {
 
@@ -392,7 +392,7 @@ return ;
 *   pins such that there are only one edge incident on them          *
 *--------------------------------------------------------------------*/
 
-void remove_unnecessary_feed( net , flag )
+remove_unnecessary_feed( net , flag )
 INT net , flag ;
 {
 
@@ -760,7 +760,7 @@ return ;
 }
 
 
-INT find_set_name( v )
+find_set_name( v )
 INT v ;
 {
 
@@ -785,7 +785,7 @@ return( v ) ;
  * Hopcroft and Ullman page 129 to 139 for this algorithm of    *
  * Union and Find problem.                                      *
  *--------------------------------------------------------------*/
-void do_set_union( i , j )
+do_set_union( i , j )
 INT i , j ;
 {
 
@@ -803,7 +803,7 @@ count_G[large] += count_G[small] ;
 }
 
 
-void switchable_or_not()
+switchable_or_not()
 {
 
 SEGBOXPTR segptr ;
@@ -837,7 +837,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-void free_z_memory()
+free_z_memory()
 {
 
 INT i , j , last_i ;
@@ -863,7 +863,7 @@ if ( edge_dataS != NULL ) {
 
 
 
-void postFeedAssgn_carl()
+postFeedAssgn_carl()
 {
 
 INT net , i , row , botrow , toprow , last_i ;
@@ -960,7 +960,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 
 
-void rebuild_netgraph_carl( net )
+rebuild_netgraph_carl( net )
 INT net ;
 {
 

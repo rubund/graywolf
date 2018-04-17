@@ -110,7 +110,7 @@ INT iteration ;
 /* ***************************************************************** 
    init_control - initialize range limiter.
 */
-void init_control(first)
+init_control(first)
 BOOL first ;
 {
     INT i;
@@ -162,7 +162,7 @@ BOOL first ;
 /* ***************************************************************** 
    pick_positon - pick place to move within range limiter.
 */
-void pick_position(x,y,ox,oy)
+pick_position(x,y,ox,oy)
 INT *x,*y,ox,oy;
 {
     register INT i,m,n;
@@ -236,7 +236,7 @@ DONEX:  *x = n;
    pick_neighborhood - pick place to move within neighborhood while
    still using range limiter.
 */
-void pick_neighborhood(x,y,ox,oy,fixptr)
+pick_neighborhood(x,y,ox,oy,fixptr)
 INT *x,*y,ox,oy;
 FIXEDBOXPTR fixptr ;
 {
@@ -327,7 +327,7 @@ FIXEDBOXPTR fixptr ;
     *y = n;
 } /* end pick_neighborhood */
 
-void update_window_size( iteration )
+update_window_size( iteration )
 DOUBLE iteration ;
 {
     if( iteration <= HIGHTEMP ){
@@ -357,7 +357,7 @@ DOUBLE iteration ;
    
 }
 
-void fix_window()
+fix_window()
 {
     /*** set window to minimum for low temp anneal ***/
     xalS = min_xalphaS;
@@ -372,7 +372,7 @@ static DOUBLE ws_xalS;
 static DOUBLE ws_yalS;
 static DOUBLE ws_ratioS ;
 
-void save_window( fp )
+save_window( fp )
 FILE *fp ;
 {
     if( fp ){  /* if a file pointer is given write to file */

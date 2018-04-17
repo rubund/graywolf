@@ -236,7 +236,7 @@ if( acceptt( funccostG + penaltyG + timingcostG - cost - newpenalty
 
 
 
-void initialize_aspect_ratios()
+initialize_aspect_ratios()
 {
     INT i ;                        /* counter */
     INT binX, binY ;               /* set initial bins */

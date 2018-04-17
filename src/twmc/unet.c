@@ -74,14 +74,14 @@ static INT kS ;
 
 
 
-static void check_validbound();
-static void wire_boundary2();
-static void wire_boundary1();
+static check_validbound();
+static wire_boundary2();
+static wire_boundary1();
 
 
 
 
-void init_unet()
+init_unet()
 {
     INT maxpin, get_max_pin() ;
 
@@ -279,7 +279,7 @@ PINBOXPTR antrmptr , bntrmptr ;
     return( cost ) ;
 } /* end unet2 */
 
-static void check_validbound( netptr , termptr , nextptr )
+static check_validbound( netptr , termptr , nextptr )
 NETBOXPTR netptr ;
 PINBOXPTR termptr , nextptr ;
 {
@@ -365,7 +365,7 @@ PINBOXPTR termptr , nextptr ;
     }
 } /* end check_validbound */
 
-static void wire_boundary2( c , netptr )
+static wire_boundary2( c , netptr )
 NETBOXPTR netptr ;
 INT c ;
 {
@@ -761,7 +761,7 @@ INT c ;
     }
 } /* end wire_boundary2 */
 
-static void wire_boundary1( netptr )
+static wire_boundary1( netptr )
 NETBOXPTR netptr ;
 {
 

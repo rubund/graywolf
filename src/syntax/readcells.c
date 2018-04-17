@@ -803,7 +803,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcells_l.h" *******************/
 /* ********************* #include "readcells_l.h" *******************/
 
-void readcells( fp )
+readcells( fp )
 FILE *fp ;
 { 
 #ifdef YYDEBUG
@@ -822,7 +822,7 @@ FILE *fp ;
 
 } /* end readcells */
 
-void yyerror(s)
+yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.cel:", cktNameG );
@@ -832,7 +832,7 @@ char    *s;
     M( MSG,"yacc", YmsgG ) ;
 } /* end yyerror */
 
-INT yywrap()
+yywrap()
 {
     return(1);
 }                      
