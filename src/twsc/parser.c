@@ -1278,10 +1278,10 @@ INT orient ;
     b = (INT) tptr->bottom ;
     t = (INT) tptr->top ;
     YtranslateT( &l, &b, &r, &t, orient ) ;
-    tptr->left   = (SHORT) l ;
-    tptr->right  = (SHORT) r ;
-    tptr->bottom = (SHORT) b ;
-    tptr->top    = (SHORT) t ;
+    tptr->left   = (INT) l ;
+    tptr->right  = (INT) r ;
+    tptr->bottom = (INT) b ;
+    tptr->top    = (INT) t ;
     ptr->clength = r - l ;
     ptr->cheight = t - b ;
 } /* end trans_tile */
