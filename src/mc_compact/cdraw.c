@@ -548,7 +548,7 @@ process_graphics()
 
     } 
 
-    TWmessage("Continuing - to interupt program click on top menu window") ;
+    TWmessage("Continuing - to interrupt program click on top menu window") ;
 
 } /* end process_graphics */
 

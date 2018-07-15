@@ -170,7 +170,7 @@ INT windowId ;
     TWdrawCell( 0, 0,0,11,11, TWBLUE, INTRO ) ;
     setGraphicWindow() ;
     TWdrawMenus() ;
-    TWmessage("To interupt program click on top menu window") ;
+    TWmessage("To interrupt program click on top menu window") ;
     TWflushFrame() ;
     /* use TWinterupt to turn off window enter/leave lights */
     TWinterupt() ;
@@ -410,7 +410,7 @@ process_graphics()
 	}
 
     } 
-    TWmessage("Continuing - to interupt program click on top menu window") ;
+    TWmessage("Continuing - to interrupt program click on top menu window") ;
     /* use TWinterupt to turn off window enter/leave lights */
     TWinterupt() ;
 
@@ -686,7 +686,7 @@ graphics_dump()
     TWsetMode(0) ;
 }
 
-/* see if uses wishes an interupt otherwise just draw the data */
+/* see if uses wishes an interrupt otherwise just draw the data */
 check_graphics( drawFlag )
 BOOL drawFlag ;
 {

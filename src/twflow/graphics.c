@@ -259,7 +259,7 @@ process_graphics()
 	    TWzoom() ;
 	    break ;
 	case AUTOFLOW:
-	    autoflowG = TRUE ; /* used to interupt auto flow */
+	    autoflowG = TRUE ; /* used to interrupt auto flow */
 	    auto_flow() ;
 	    break ;
 	case PICK_PGM:
@@ -283,7 +283,7 @@ process_graphics()
 	    draw_the_data() ;
 	}
     } 
-    TWmessage("Continuing - to interupt program click on top menu window") ;
+    TWmessage("Continuing - to interrupt program click on top menu window") ;
 
 } /* end process_graphics */
 

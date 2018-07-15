@@ -220,7 +220,7 @@ char *argv[] ;
     TWsetwindow( 0, 0, 10, 10 ) ;
     TWsetFrame(0) ;
     TWdrawCell( 0, 0,0,11,11, BINCOLOR, INTRO ) ;
-    TWmessage("To interupt program click on top menu window") ;
+    TWmessage("To interrupt program click on top menu window") ;
     TWflushFrame() ;
     selectCellS = 0 ; /* initialize to no selected cells */
     /* use TWinterupt to turn off window enter/leave lights */
@@ -610,7 +610,7 @@ process_graphics()
 
     /* update all costs */
     funccostG = findcost() ;
-    TWmessage("Continuing - to interupt program click on top menu window") ;
+    TWmessage("Continuing - to interrupt program click on top menu window") ;
     /* use TWinterupt to turn off window enter/leave lights */
     TWinterupt() ;
 
