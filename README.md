@@ -22,3 +22,15 @@ Install procedure
 cmake .   
 make  
 sudo make install  
+
+
+Contributions
+-------------
+
+There are two main branches: *master* and *dev*. Since people expect *master*
+to be stable in a "production environment", any ground-breaking
+changes/refactoring must be merged into *dev*. Please do not open pull-request
+towards *master* for these changes.
+
+Pull requests targeting specific bugfixes need to be merged into both *master*
+and *dev*, so it is ok to open a pull request for either of them.
