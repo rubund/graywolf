@@ -48,9 +48,6 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 		syntax.
 	    Fri Jan 25 17:57:06 PST 1991 - added debug flag to syntax.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 1.6 2/23/91" ;
-#endif
 
 #define MAIN_VARS
 

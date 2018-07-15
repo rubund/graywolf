@@ -72,9 +72,6 @@
 
 #include <yalecad/heap.h>
 
-#ifndef lint
-static char Yheap_Id[] = "@(#) heap.c version 1.8 12/15/91";
-#endif
 
 /****************************************************************************
   

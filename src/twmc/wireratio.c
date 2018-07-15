@@ -52,9 +52,6 @@ REVISIONS:  Fri Jan 25 18:15:36 PST 1991 - added numpins to equations
 	    Wed May  1 19:18:55 EDT 1991 - added switchbox field 
 		so we can ignore these areas during wire estimation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wireratio.c version 3.9 3/10/92" ;
-#endif
 
 #include <custom.h> 
 #include <dens.h> 

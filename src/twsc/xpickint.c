@@ -45,11 +45,6 @@ CONTENTS:   XPICK_INT( l , u , c )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) xpickint.c (Yale) version 4.4 9/7/90" ;
-#endif
-#endif
 
 #include <yalecad/base.h>
 

@@ -62,9 +62,6 @@ REVISIONS:  Jun 19, 1989 - added return for no graphics case.
 	    Sat Feb 23 04:51:29 EST 1991 - added parasite mode.
 	    Sun Apr 21 22:35:09 EDT 1991 - updated to the convention.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

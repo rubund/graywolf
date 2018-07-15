@@ -55,9 +55,6 @@ REVISIONS:  Oct 24, 1988 - fixed +1 error.  Now check for graph
 		when cells completely cover each other.  We now always
 		return 0 for minslack in X and Y backward searches.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) movestrat.c version 7.2 2/17/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

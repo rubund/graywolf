@@ -8,9 +8,6 @@ REVISIONS:
 #ifndef TREE_H
 #define TREE_H
 
-#ifndef lint
-static char treeId[] = "@(#) tree.h version 1.3 10/9/90" ;
-#endif
 
 #ifndef RBTREE_H
 typedef struct tree {

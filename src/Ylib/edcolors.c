@@ -47,9 +47,6 @@ REVISIONS:  Dec  7, 1990 - updated for new dialog procedure.
 	    Wed May  1 18:56:14 EDT 1991 - added toggle for arb fill.
 	    Sun Nov  3 12:52:21 EST 1991 - fixed gcc complaints.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) edcolors.c (Yale) version 1.8 12/15/91" ;
-#endif
 
 #ifndef NOGRAPHICS
 

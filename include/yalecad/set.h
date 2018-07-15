@@ -28,9 +28,6 @@ REVISIONS:  Dec  4, 1989 added Yset_size and made Yenumerate a macro.
 #ifndef SET_H
 #define SET_H
 
-#ifndef lint
-static char YsetId[] = "@(#) set.h (Yale) version 1.7 2/15/91" ;
-#endif
 
 #include <yalecad/base.h>
 

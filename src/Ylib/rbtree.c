@@ -81,9 +81,6 @@ REVISIONS:  Apr 19, 1990 - Added Yrbtree_dump()
 	    Wed Feb 26 03:55:15 EST 1992 - fixed problem with successor routines
 		when passed nilS.
  ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) rbtree.c (Yale) version 3.38 4/18/92" ;
-#endif
 
 #define YTREE_H_DEFS
 

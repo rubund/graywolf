@@ -51,9 +51,6 @@ REVISIONS:  Apr 30, 1989 - modified program for new library and
 	    Fri Mar 29 14:17:51 EST 1991 - added DEBUGX switch and
 		added path deck initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
-#endif
 
 #include <stdio.h>
 #include <signal.h>

@@ -52,9 +52,6 @@ REVISIONS:  Apr 25, 1989 - added graphics loop to program.
 	    Fri Mar 29 14:13:22 EST 1991 - temp fix for 2D graphics
 		avoids arbitrary edge explosion.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cdraw.c version 7.5 3/29/91" ;
-#endif
 
 #ifndef NOGRAPHICS 
 

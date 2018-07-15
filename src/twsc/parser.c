@@ -85,9 +85,6 @@ REVISIONS:  Mon Nov 19 04:04:18 EST 1990 - added temperature
 	    Wed Sep 11 11:21:42 CDT 1991 - fixed for
 		new global router feed problem.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) parser.c (Yale) version 4.40 5/15/92" ;
-#endif
 
 /* #define MITLL */
 

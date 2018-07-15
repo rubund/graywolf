@@ -54,9 +54,6 @@ REVISIONS:  Original Version      -WS
 		problem with Ydset_enumerate_parents.
 	    Sun Dec 15 02:28:14 EST 1991 - added dset_dump_tree.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) dset.c version 1.13 2/3/92";
-#endif
      
 #define  YDSET_DEFS
 #include <yalecad/base.h>

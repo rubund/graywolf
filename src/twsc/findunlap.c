@@ -59,11 +59,6 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 	    Wed Sep 11 11:19:25 CDT 1991 - modified
 		for new global router.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findunlap.c (Yale) version 4.14 4/2/92" ;
-#endif
-#endif
 
 
 #include "standard.h"

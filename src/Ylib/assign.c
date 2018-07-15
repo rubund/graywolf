@@ -44,9 +44,6 @@ DATE:	    Jan 26, 1990 - modified mighty code.
 REVISIONS:  Sun Nov  3 12:49:49 EST 1991 - made assign more
 		memory efficient by using YVECTOR routines.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) assign.c (Yale) version 1.4 4/16/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/message.h>

@@ -35,9 +35,6 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
 #ifndef YBASE_H
 #define YBASE_H
 
-#ifndef lint
-static char Ybase_HId[] = "@(#) base.h version 1.34 3/5/92" ;
-#endif
 
 
 /* Take care of prototyping first, so system file can include it */

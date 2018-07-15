@@ -45,9 +45,6 @@ CONTENTS:   twstats( )
 DATE:	    Feb 29, 1988 
 REVISIONS:  Jan 30, 1989 - added number of net info at beginning of run.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) twstats.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

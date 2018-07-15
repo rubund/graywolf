@@ -56,9 +56,6 @@ REVISIONS:  Apr 23, 1990 - added error checking for soft pins and
 		of T shaped cells. Now finds correct side.
 	    Wed Feb 13 23:35:07 EST 1991 - renamed set routines.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) findside.c version 3.5 2/13/91" ;
-#endif
 
 #include <custom.h>
 #include <initialize.h>

@@ -56,9 +56,6 @@ REVISIONS:  Dec  4, 1988 - added initialization for next compaction cycle.
 		graph constraint compaction.
 	    Mon May  6 22:37:01 EDT 1991 - make sure window is correct.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) movestrat2.c version 7.9 5/6/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>

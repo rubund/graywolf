@@ -65,9 +65,6 @@
 		    Fri Feb 22 23:34:38 EST 1991 - fixed Ydeck_pop 
 			Ydeck_dequeue when queue is empty.
    ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) deck.c (Yale) version 1.17 1/22/92" ;
-#endif
 
 #include <yalecad/deck.h>
 

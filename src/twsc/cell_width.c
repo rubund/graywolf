@@ -47,11 +47,6 @@ CONTENTS:   calc_cell_width()
 DATE:	    July 26, 1991 
 ----------------------------------------------------------------- */
 
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
-#endif
-#endif
 
 #define PADKEYWORD          "pad"
 #define RELATIVE_TO_CURPOS  1

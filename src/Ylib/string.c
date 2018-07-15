@@ -58,9 +58,6 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Wed Apr 17 23:37:19 EDT 1991 - fixed logic problem with
 		Yremove_lblanks.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) string.c version 3.8 2/29/92" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>

@@ -79,9 +79,6 @@ REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 		options when only a fraction of the pins to pads have
 		connections to the core.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) placepads.c version 4.15 5/12/92" ;
-#endif
 
 #define PAD_VARS
 

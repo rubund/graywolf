@@ -76,9 +76,6 @@ REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
 	    Wed Jul 24 20:43:22 CDT 1991 - added delete function 
 		for fixing cells.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) fixcell.c version 3.9 11/23/91" ;
-#endif
 
 #include <string.h>
 #include <custom.h>

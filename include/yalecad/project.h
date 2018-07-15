@@ -8,9 +8,6 @@ REVISIONS:  Thu Mar  5 03:41:11 EST 1992 - added very useful
 #ifndef YPROJECT_H
 #define YPROJECT_H
 
-#ifndef lint
-static char Yproject_HId[] = "@(#) project.h version 1.2 3/5/92" ;
-#endif
 
 
 #define NOTOUCH       0               /* tiles don't touch or overlap */

@@ -55,9 +55,6 @@ REVISIONS:
 	    Apr 23, 1990 - Now calculate total area based on all 
 		instances so that the wire estimation will be correct.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) config2.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

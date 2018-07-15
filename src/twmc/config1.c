@@ -68,9 +68,6 @@ REVISIONS:
 		after each configuration change.
 	    Thu Oct 17 11:47:32 EDT 1991 - added initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) config1.c version 3.10 10/18/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>

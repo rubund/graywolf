@@ -62,11 +62,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue Mar 12 17:08:44 CST 1991 - added back missing
 		computation.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) feedest.c (Yale) version 4.9 3/12/91" ;
-#endif
-#endif
 
 #define FEEDS_VARS
 

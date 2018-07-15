@@ -55,11 +55,6 @@ REVISIONS:  July 15, 1989
 	    Tue Aug 13 12:47:54 CDT 1991 - fixed create new
 		cell file.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) output.c (Yale) version 4.14 9/23/91" ;
-#endif
-#endif
 
 /* #define DEC  */
 /* added on 06/01/90 Sury */

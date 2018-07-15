@@ -80,9 +80,6 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 	    Thu Aug 22 22:10:09 CDT 1991 - fixed problem with
 		fixed cells moving during pairwise flips.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c (Yale) version 3.17 10/18/91" ;
-#endif
 
 #ifndef NOGRAPHICS
 
