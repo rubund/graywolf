@@ -1,8 +1,4 @@
-#ifdef linux
 #include <stdio.h>
-#else
-# include "stdio.h"
-#endif
 # define U(x) ((x)&0377)
 # define NLSTATE yyprevious=YYNEWLINE
 # define BEGIN yybgin = yysvec + 1 +
@@ -21,11 +17,7 @@ int yyleng; extern char yytext[];
 int yymorfg;
 extern char *yysptr, yysbuf[];
 int yytchar;
-#ifdef linux
 FILE *yyin =NULL, *yyout =NULL;
-#else
-FILE *yyin ={stdin}, *yyout ={stdout};
-#endif
 extern int yylineno;
 struct yysvf { 
 	struct yywork *yystoff;
@@ -527,10 +519,8 @@ yylook(){
 # endif
 	char *yylastch;
 	/* start off machines */
-#ifdef linux
 	if (yyin == NULL) yyin = stdin;
 	if (yyout == NULL) yyout = stdout;
-#endif
 # ifdef LEXDEBUG
 	debug = 0;
 # endif
@@ -679,16 +669,12 @@ return(0);
 }
 	/* the following are only used in the lex library */
 yyinput(){
-#ifdef linux
 	if (yyin == NULL) yyin = stdin;
-#endif
 	return(input());
 	}
 yyoutput(c)
   int c; {
-#ifdef linux
 	if (yyout == NULL) yyout = stdout;
-#endif
 	output(c);
 	}
 yyunput(c)
