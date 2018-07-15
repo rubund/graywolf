@@ -100,7 +100,7 @@ Function:
     NULL if nothing is in the tree or if no match to the key is found.
 */
 
-extern Ytree_insert( P2(YTREEPTR tree, char *data ) ) ;
+extern void Ytree_insert( P2(YTREEPTR tree, char *data ) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;

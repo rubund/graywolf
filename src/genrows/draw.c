@@ -87,6 +87,7 @@ static char SccsId[] = "@(#) draw.c (Yale) version 3.22 5/14/92" ;
 #include <yalecad/message.h>
 #include <yalecad/dialog.h>
 #include <yalecad/relpos.h>
+#include "genrows.h"
 
 #define FCOLOR   TWYELLOW
 
@@ -124,33 +125,36 @@ static TWDIALOGPTR macro_dialogS ;
 
 #include <menus.h>
 
-static draw_tile();
-static draw_macro();
-static draw_fs();
-static last_chance();
-static no_move_message();
-static save_for_do();
-static update_macro();
-static graphics_dump();
+static void draw_tile();
+static void draw_macro();
+static void draw_fs();
+static void last_chance();
+static void no_move_message();
+static void save_for_do();
+static void update_macro();
+static void graphics_dump();
 static INT pick_macro();
 static TILE_BOX *pick_tile();
 static ROW_BOX *pick_row();
 static BOOL edit_tiles();
-static edit_macro();
-static update_vertices();
-static rotate_vertices();
-static find_nearest_corner();
-static highlight_corner();
-static outm();
+static void edit_macro();
+static void update_vertices();
+static void rotate_vertices();
+static void find_nearest_corner();
+static void highlight_corner();
+static void outm();
 
-initgraphics( argc, argv, windowId )
+/* forward declarations */
+void edit_row(ROW_BOX* rowptr );
+
+void initgraphics( argc, argv, windowId )
 INT argc, windowId ;
 char *argv[] ;
 {
 
     char *host ;
     char *Ygetenv() ;
-    extern INT draw_the_data() ;
+    void draw_the_data() ;
 
 
     if( !(graphicsG) ){
@@ -188,7 +192,7 @@ char *argv[] ;
 
 
 /* how to draw the data */
-INT
+void
 draw_the_data()
 {
     INT      i ;            /* counter */
@@ -349,7 +353,7 @@ draw_the_data()
 } /* end draw_the_data */
 /* ***************************************************************** */
 
-static draw_tile( tileptr )
+static void draw_tile( tileptr )
 TILE_BOX *tileptr ;     /* current tile */
 {
     INT      color ;        /* current color */
@@ -375,7 +379,7 @@ TILE_BOX *tileptr ;     /* current tile */
 		   color, labelptr ) ;
 } /* end draw_tile */
 
-static draw_macro( macro, color )
+static void draw_macro( macro, color )
 INT macro ;
 INT color ;
 {
@@ -409,7 +413,7 @@ INT color ;
     }
 } /* end draw_macro */
 
-static draw_fs( mptr )
+static void draw_fs( mptr )
 MACROPTR  mptr ;        /* current macro */
 {
     INT i ;              /* counter */
@@ -471,7 +475,7 @@ MACROPTR  mptr ;        /* current macro */
 } /* end draw_fs */
 
 /* set the size of the graphics window */
-setGraphicWindow() 
+void setGraphicWindow() 
 {
     INT l, b, r, t ;
     INT expand ;
@@ -1213,7 +1217,7 @@ process_graphics()
 
 } /* end process_graphics */
 
-static last_chance()
+static void last_chance()
 {
     INT i ; /* counter */
 
@@ -1230,12 +1234,12 @@ static last_chance()
     }
 } /* end last_chance */
 
-static no_move_message()
+static void no_move_message()
 {
     TWmessage("Macro moves/core changes not allowed in partitioning");
 }
 
-static save_for_do( save )
+static void save_for_do( save )
 INT save ;
 {
     char filename[LRECL] ;
@@ -1251,7 +1255,7 @@ INT save ;
     TWCLOSE( fp ) ;
 } /* end undo */
 
-static update_macro()
+static void update_macro()
 {
     char filename[LRECL] ;
     FILE *fp ;
@@ -1276,7 +1280,7 @@ static update_macro()
 } /* update_macro */
 
 /* dumps the data to a file for future study */
-static graphics_dump() 
+static void graphics_dump() 
 {
     /* now change mode to dump to file */
     TWsetMode(1) ;
@@ -1502,7 +1506,7 @@ TWDRETURNPTR answer ;  /* return from user */
     return( maxrows ) ;
 } /* end get_maxrows */
 
-static INT update_tile_data( answer, field )
+static void update_tile_data_wrap( answer, field )
 TWDRETURNPTR answer ;  /* return from user */
 INT field ;
 {
@@ -1582,6 +1586,12 @@ INT field ;
 	}
 	break ;
     } /* end switch */
+}
+
+static INT update_tile_data(TWDRETURNPTR answer, INT field )
+{
+    update_tile_data_wrap( answer, field );
+    return 0; // return value is ignored
 }
 
 static BOOL edit_tiles( tile )
@@ -1711,7 +1721,7 @@ TILE_BOX *tile ;
 	    /* means the user change the field */
 	    temp = get_row_height( answer ) ;
 	    if( temp <= 0 ){
-		return ;
+		return FALSE;
 	    }
 	    tile->actual_row_height = temp ;
 	}
@@ -1721,7 +1731,7 @@ TILE_BOX *tile ;
 	    if( rows < 0 ){ 
 		outm( ERRMSG, "edit_tile",
 		"Invalid number of rows.  Must be non-negative" ) ;
-		return ;
+		return FALSE;
 	    }
 	    /* now calculate the channel separation for this tile */
 	    height = tile->ury - tile->lly ;
@@ -1742,7 +1752,7 @@ TILE_BOX *tile ;
 	    if( rows < 0 ){ 
 		outm( ERRMSG, "edit_tile",
 		"Invalid number of rows.  Must be non-negative" ) ;
-		return ;
+		return FALSE;
 	    }
 	    /* now calculate the channel separation for this tile */
 	    height = tile->ury - tile->lly ;
@@ -1763,7 +1773,7 @@ TILE_BOX *tile ;
 	    if( temp <= 0 ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid minimum length.  Must be greater than zero" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->min_length = temp ;
 	}
@@ -1773,12 +1783,12 @@ TILE_BOX *tile ;
 	    if( temp < tile->llx  ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid end of row.  Must be greater than tile left" );
-		return ;
+		return FALSE;
 	    }
 	    if( temp > tile->urx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid end of row.  Must be less than tile right" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->max_length = temp - tile->llx - tile->row_start ;
 	}
@@ -1788,12 +1798,12 @@ TILE_BOX *tile ;
 	    if( temp < tile->llx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid start of row.  Must be greater than tile left") ;
-		return ;
+		return FALSE;
 	    }
 	    if( temp > tile->urx ){
 		outm( ERRMSG, "edit_tile",
 		"Invalid start of row.  Row must start before end of tile" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->row_start = temp - tile->llx ;
 	    /* now modify the width of the tile accordingly */
@@ -1815,7 +1825,7 @@ TILE_BOX *tile ;
 	    if( temp <= 0 ){
 		outm( ERRMSG, "edit_tile",
 		    "ERROR:Invalid class.  Must be greater than zero" ) ;
-		return ;
+		return FALSE;
 	    }
 	    tile->class = temp ;
 	}
@@ -1826,7 +1836,7 @@ TILE_BOX *tile ;
 } /* end edit_tiles */
 
 
-edit_row( rowptr )
+void edit_row( rowptr )
 ROW_BOX *rowptr ;
 {
 
@@ -1967,7 +1977,7 @@ INT field ;
     }
 } /* end update_macro_data */
 
-static edit_macro( macro, xoff, yoff )
+static void edit_macro( macro, xoff, yoff )
 {
     TWDRETURNPTR answer ;  /* return from user */
     MACROPTR mptr ;        /* current macro information */
@@ -2033,7 +2043,7 @@ static edit_macro( macro, xoff, yoff )
 } /* end edit_macro */
 
 
-get_global_pos( macro, l, b, r, t )
+void get_global_pos( macro, l, b, r, t )
 INT macro ; 
 INT *l, *r, *b, *t ;
 {
@@ -2047,7 +2057,7 @@ INT *l, *r, *b, *t ;
     *t = mptr->top + mptr->ycenter ;
 } /* end get_global_pos */
 
-static update_vertices( macro, newxcenter, newycenter )
+static void update_vertices( macro, newxcenter, newycenter )
 INT macro, newxcenter, newycenter ;
 {
     INT j ;
@@ -2068,7 +2078,7 @@ INT macro, newxcenter, newycenter ;
     mptr->ycenter = newycenter ;
 } /* end update_vertices */
 
-static rotate_vertices( mptr, orient )
+static void rotate_vertices( mptr, orient )
 MACROPTR mptr ;
 INT orient ;
 {
@@ -2172,7 +2182,7 @@ INT orient ;
 
 } /* end rotate_vertices */
 
-static find_nearest_corner( macro, x, y, x_ret, y_ret )
+static void find_nearest_corner( macro, x, y, x_ret, y_ret )
 INT macro, x, y, *x_ret, *y_ret ;
 {
     INT j ;
@@ -2207,7 +2217,7 @@ INT macro, x, y, *x_ret, *y_ret ;
 } /* end find_nearest_corner */
 
 
-static highlight_corner( macro, x, y )
+static void highlight_corner( macro, x, y )
 INT macro, x, y ;
 {
     INT l, b, r, t ;   /* the core */
@@ -2225,7 +2235,7 @@ INT macro, x, y ;
 
 } /* end highlight_corner */
 
-static outm( errtype, routine, string )
+static void outm( errtype, routine, string )
 INT errtype ;
 char *routine ;
 char *string ;

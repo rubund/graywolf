@@ -76,7 +76,7 @@ static char SccsId[] = "@(#) sortpin.c (Yale) version 4.3 9/7/90" ;
 static PINBOXPTR *sortArrayS ;          /* the normal array for sorting */
 static PINBOXPTR *sortArraySwapS ;
 
-sortpin()
+void sortpin()
 {
 
     INT cell ;                      /* current cell */
@@ -149,7 +149,7 @@ INT cell ;
     return ;
 } /* end sortpin1 */
 
-sortpin2( cella, cellb )
+void sortpin2( cella, cellb )
 INT cella, cellb ;
 {
 
@@ -204,7 +204,7 @@ INT cella, cellb ;
     return ;
 } /* end sortpin2 */
 
-shellsort( term , n )
+void shellsort( term , n )
 PINBOXPTR term[] ;
 INT n ;
 {
@@ -226,7 +226,7 @@ for( incr = n / 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-shellsortx( term , n )
+void shellsortx( term , n )
 PINBOXPTR term[] ;
 INT n ;
 {
@@ -247,7 +247,7 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-shellsorty( term , n )
+void shellsorty( term , n )
 PINBOXPTR term[] ;
 INT n ;
 {
@@ -268,7 +268,7 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-shellsort_referx( worker , head , n )
+void shellsort_referx( worker , head , n )
 FEED_SEG_PTR worker[] ;
 INT n ;
 {

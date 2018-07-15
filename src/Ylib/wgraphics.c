@@ -129,7 +129,7 @@ char **desiredColors ;
 } /* end function TWinitWGraphics */
 
 
-TWcloseWGraphics()
+void TWcloseWGraphics()
 {
 
     if(!(initS )){
@@ -145,7 +145,7 @@ TWcloseWGraphics()
 
 } /* end TWcloseGraphics */
 
-TWstartWFrame()
+void TWstartWFrame()
 {
     char filename[LRECL] ;
     char dummy[5] ;
@@ -191,7 +191,7 @@ TWstartWFrame()
 } /* end startWFrame */
 
 /* write size of data at end of files and close them if frames are open */
-TWflushWFrame()
+void TWflushWFrame()
 {
     char dummy[5] ;
     UNSIGNED_INT nitems ;
@@ -230,7 +230,7 @@ TWflushWFrame()
 
 } /* TWflushWFrame */
 
-TWsetWFrame( number )
+void TWsetWFrame( number )
 INT number ;
 {
     char fileName[LRECL] ;
@@ -255,7 +255,7 @@ INT number ;
 /* *********  GENERIC WRITE ROUTINES **************  */
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-TWdrawWPin( ref_num, x1,y1,x2,y2,color,label)
+void TWdrawWPin( ref_num, x1,y1,x2,y2,color,label)
 INT     ref_num ; /* reference number */
 INT	x1,y1,x2,y2, color;
 char	*label;
@@ -264,7 +264,7 @@ char	*label;
 } /* end drawWPin */
 
 /* draw a one pixel tall line segment from x1,y1 to x2,y2 */
-TWdrawWLine( ref_num,x1,y1,x2,y2,color,label)
+void TWdrawWLine( ref_num,x1,y1,x2,y2,color,label)
 INT     ref_num ; /* reference number */
 INT	x1,y1,x2,y2,color ;
 char	*label;
@@ -306,7 +306,7 @@ char	*label;
 
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-TWdrawWRect( ref_num, x1,y1,x2,y2,color,label)
+void TWdrawWRect( ref_num, x1,y1,x2,y2,color,label)
 INT     ref_num ; /* reference number */
 INT	x1,y1,x2,y2, color;
 char	*label;

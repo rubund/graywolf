@@ -92,13 +92,13 @@ static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
 static INT  zspanS ;
 
-init_graphics( argc, argv, windowId )
+void init_graphics( argc, argv, windowId )
 INT argc, windowId ;
 char *argv[] ;
 {
     char *host, *Ygetenv() ;
     int  xpandx, xpandy ;
-    INT draw_the_data() ;
+    void draw_the_data() ;
 
     /* we need to find host for display */
     if(!(host = Ygetenv("DISPLAY"))) {
@@ -134,7 +134,7 @@ char *argv[] ;
     }
 }
 
-set_draw_critical( flag ) 
+void set_draw_critical( flag ) 
 BOOL flag ;
 {
 
@@ -147,7 +147,7 @@ BOOL flag ;
 } /* end set_draw_critical */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+void draw_the_data()
 {
 
     INT  i ;
@@ -383,7 +383,7 @@ INT draw_the_data()
 } /* end draw_the_data */
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     int x1, y1, x2, y2 ; /* coordinates for fixing cells and neighhds */
@@ -554,7 +554,7 @@ process_graphics()
 
 
 /* how to draw the channel graph */
-draw_changraph()
+void draw_changraph()
 {
     INT i ;                        /* temp counter */
     INT color ;                    /* color of edge */

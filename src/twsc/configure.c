@@ -89,7 +89,7 @@ static INT mttshiftS ;
 static INT mbbshiftS ;
 
 
-configure() 
+void configure() 
 {
 
 INT block ;
@@ -953,7 +953,7 @@ return ;
 
 
 
-random_placement()
+void random_placement()
 {
 
 INT cell , row , borient ,  blk , widthS ;

@@ -99,12 +99,12 @@ static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 #include <menus.h>
 
-init_graphics(argc,argv,windowId)
+void init_graphics(argc,argv,windowId)
 INT argc ;
 char *argv[] ;
 INT windowId ;
 {
-    INT draw_the_data() ;
+    void draw_the_data() ;
 
     if( !(graphicsG) ){
 	return ;
@@ -131,7 +131,7 @@ INT windowId ;
 } /* end init_graphics */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+void draw_the_data()
 {
 
     INT  i ;
@@ -182,7 +182,7 @@ INT draw_the_data()
 
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     INT selection ;     /* the users pick */
@@ -346,7 +346,7 @@ BOOL direction ;
 
 
 /* the corresponding handshake to set the highlighted drawing object */
-graphics_set_object( object )
+void graphics_set_object( object )
 INT object ;
 {
     selectedObjS = object ;     /* set the current selected object */

@@ -76,6 +76,7 @@ static char SccsId[] = "@(#) readnets.y (Yale) version 4.12 4/21/91" ;
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include <yalecad/hash.h>
+#include <string.h>
 #include "readnets.h"  /* redefine yacc and lex globals */
 #include "standard.h"  
 #include "main.h"  
@@ -274,12 +275,12 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readnets_l.h" *******************/
 
 
-static free_net_data();
-static bad_net();
+static void free_net_data();
+static void bad_net();
 char *Ystrclone();
 
 
-readnets( fp )
+void readnets( fp )
 FILE *fp ;
 { 
     /* static free_net_data() ; */
@@ -314,13 +315,13 @@ FILE *fp ;
 
 } /* end readnets */
 
-static free_net_data( data )
+static void free_net_data( data )
 INT *data ;
 {
     Ysafe_free( data ) ;
 } /* free_swap_data */
 
-process_net_rec( netname ) 
+void process_net_rec( netname ) 
 char *netname ;
 {
     INT *data ;
@@ -334,21 +335,21 @@ char *netname ;
     
 } /* end process_net_rec */
 
-ignore_net()
+void ignore_net()
 {
     if( netS ){
 	netarrayG[netS]->ignore = 1 ;
     }
 } /* end ignore_net */
 
-ignore_route()
+void ignore_route()
 {
     if( netS ){
 	netarrayG[netS]->ignore = -1 ;
     }
 } /* end ignore_route */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.net:", cktNameG );
@@ -360,12 +361,12 @@ char    *s;
     abortFlagS = TRUE ;
 }
 
-yywrap()
+INT yywrap()
 {
     return(1);
 }                      
 
-add_path( pathFlag, net )
+void add_path( pathFlag, net )
 BOOL pathFlag ;
 char *net ;
 {
@@ -404,7 +405,7 @@ char *net ;
 
 } /* end add_path */
 
-end_path(lower_bound, upper_bound, priority )
+void end_path(lower_bound, upper_bound, priority )
 INT lower_bound, upper_bound, priority ;
 {
     GLISTPTR nets, path_ptr, tempPath ;
@@ -443,7 +444,7 @@ INT lower_bound, upper_bound, priority ;
 	
 } /* end function end_path */
 
-check_paths()
+void check_paths()
 {
     INT i ;             /* counter */
     DBOXPTR nptr ;      /* traverse the nets */
@@ -462,7 +463,7 @@ check_paths()
 } /* check_paths */
 
 
-build_path_array()
+void build_path_array()
 {
     INT i ;
     PATHPTR curPtr ;
@@ -486,7 +487,7 @@ INT get_total_paths()
     return( total_num_pathS ) ;
 } /* end get_total_paths */
 
-add_paths_to_cells()
+void add_paths_to_cells()
 {
     INT i ;
     INT net_number ;
@@ -530,7 +531,7 @@ add_paths_to_cells()
     }
 }
 
-static bad_net( net, fatal )
+static void bad_net( net, fatal )
 char *net ;
 BOOL fatal ;
 {

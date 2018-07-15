@@ -119,7 +119,7 @@ static INT wkS ;
 static LONG global_wire_lengthS ;
 static INT swap_limitS ;
 
-globe() 
+void globe() 
 {
 
 INT row , net , cost , last_cost , swaps , found , total_final_cost ;
@@ -306,13 +306,13 @@ return(ok) ;
 }
 
 
-globe_free_up()
+void globe_free_up()
 {
     netgraph_free_up();
 }
 
 
-preFeedAssgn()
+void preFeedAssgn()
 {
 
 SEGBOXPTR segptr , nextptr ;
@@ -346,7 +346,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-free_static_in_globe()
+void free_static_in_globe()
 {
 
 INT i ;
@@ -362,7 +362,7 @@ Ysafe_free( total_feed_in_the_rowG ) ;
 
 
 #ifdef CARL_NEW
-FeedAssgn( row )
+void FeedAssgn( row )
 INT row ;
 {
 
@@ -713,7 +713,7 @@ return ;
 }
 #else
 
-FeedAssgn( row )
+void FeedAssgn( row )
 INT row ;
 {
 
@@ -890,7 +890,7 @@ for( k = 1 ; k <= chan_node_no ; k++ ) {
 #endif
 
 
-row_seg_intersect( ptr1 , ptr2 , segptr )
+void row_seg_intersect( ptr1 , ptr2 , segptr )
 PINBOXPTR ptr1 , ptr2 ;
 SEGBOXPTR segptr ;
 {
@@ -917,7 +917,7 @@ workerS[ wkS ]->segptr = segptr ;
 }
 
 
-copy_workerS_field( aptr, bptr )
+void copy_workerS_field( aptr, bptr )
 FEED_SEG_PTR aptr, bptr ;
 {
 aptr->netptr = bptr->netptr ;
@@ -927,7 +927,7 @@ aptr->segptr = bptr->segptr ;
 
 
 #ifdef CARL_NEW
-assgn_impin( imptr , fsptr , row )
+void assgn_impin( imptr , fsptr , row )
 IPBOXPTR imptr ;
 FEED_SEG_PTR fsptr ;
 {
@@ -997,7 +997,7 @@ if( strncmp( carrayG[netptr->cell]->cname, "twfeed", 6 ) == STRINGEQ ){
 }
 }
 #else
-assgn_impin( imptr , fsptr , row )
+void assgn_impin( imptr , fsptr , row )
 IPBOXPTR imptr ;
 FEED_SEG_PTR fsptr ;
 {
@@ -1045,7 +1045,7 @@ netptr->eqptr->pinname = imptr->eqpinname ;
 }
 
 
-local_Assgn( row , node )
+void local_Assgn( row , node )
 INT row , node ;
 {
 
@@ -1160,7 +1160,7 @@ feedptr[node]->needed = 0 ;
 
 
 
-unequiv_pin_pre_processing()
+void unequiv_pin_pre_processing()
 {
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
@@ -1217,7 +1217,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-relax_padPins_pinloc()
+void relax_padPins_pinloc()
 {
 INT i ;
 PINBOXPTR pinptr ;
@@ -1234,7 +1234,7 @@ for( i = lastpadG ; i > numcellsG ; i-- ) {
 }
 
 
-relax_unequiv_pinloc()
+void relax_unequiv_pinloc()
 {
 DBOXPTR dimptr ;
 PINBOXPTR ptr ;
@@ -1256,7 +1256,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-check_unequiv_connectivity()
+void check_unequiv_connectivity()
 {
 INT net, channel, correctness ;
 ADJASEG *adj ;
@@ -1406,7 +1406,7 @@ BOOL perim_flag ;
 
 
 
-improve_place_sequential( row , index )
+void improve_place_sequential( row , index )
 INT row , index ;
 {
 
@@ -1620,7 +1620,7 @@ if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal,
 }
 
 
-cell_rotate( row , index )
+INT cell_rotate( row , index )
 INT row , index ;
 {
 
@@ -1776,7 +1776,7 @@ if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal,
 }
 } /* end cell_rotate() */
 
-elim_unused_feedsSC()
+void elim_unused_feedsSC()
 {
 
 CBOXPTR ptr , cellptr , first_cptr , last_cptr ;
@@ -1872,7 +1872,7 @@ Ysafe_free( row_len );
 return ;
 }
  
-rebuild_nextpin()
+void rebuild_nextpin()
 {
     INT net, cell ;
     PINBOXPTR netptr , cnetptr ;
@@ -1905,7 +1905,7 @@ rebuild_nextpin()
     }
 } /* end rebuild_nextpin */
 
-rebuild_cell_paths()
+void rebuild_cell_paths()
 {
     INT i ;
     CBOXPTR ptr ;

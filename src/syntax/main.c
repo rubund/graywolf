@@ -66,7 +66,10 @@ static char SccsId[] = "@(#) main.c version 1.6 2/23/91" ;
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.1"
 
-main( argc , argv )
+/* Forward declarations */
+void syntax(void);
+
+int main( argc , argv )
 int argc ;
 char *argv[] ;
 {
@@ -76,7 +79,7 @@ char *argv[] ;
     char filename2[LRECL] ;
     char *ptr ;
     int  arg_count ;
-    int  yaleIntro() ;
+    void yaleIntro() ;
     int  debug ;
     FILE *fp ;
 
@@ -154,11 +157,12 @@ char *argv[] ;
 
     YexitPgm( PGMOK ) ;
 
+    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
@@ -168,7 +172,7 @@ syntax()
    YexitPgm(PGMFAIL);
 } /* end syntax */
 
-yaleIntro() 
+void yaleIntro() 
 {
     int i ;
 

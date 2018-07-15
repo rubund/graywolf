@@ -74,14 +74,14 @@ static BOOL graphFilesS = TRUE ;
 
 static INT findType();
 
-Yplot_control( toggle )
+void Yplot_control( toggle )
 BOOL toggle ;
 {
     graphFilesS = toggle ;
 } /* end YgraphControl */
 
 /* graph init uses variable number of arguments */
-Yplot_init( int dval, ... )
+void Yplot_init( int dval, ... )
 {
 
     va_list ap ;
@@ -108,7 +108,7 @@ Yplot_init( int dval, ... )
 }
 
 /* graph init uses variable number of arguments */
-Yplot_heading( int dval, ... )
+void Yplot_heading( int dval, ... )
 {
 
     va_list ap ;
@@ -157,7 +157,7 @@ Yplot_heading( int dval, ... )
     va_end(ap) ;
 }
 
-Yplot_close()
+void Yplot_close()
 {
     INT i ;
 
@@ -180,7 +180,7 @@ Yplot_close()
 /* This is what argument list looks like - use it to pass any type */
 /* of variable to graph */
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 
-Yplot( int dval, ... ) 
+void Yplot( int dval, ... ) 
 {
     va_list ap ;
     char *gName ;

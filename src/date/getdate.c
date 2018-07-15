@@ -39,6 +39,8 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define LRECL 256
 #define EOS   '\0'
@@ -91,4 +93,5 @@ if( date ){
 fprintf(fp,"#define DATE \"@\(#\) Yale compilation date:unknown\"\n") ;
 fclose(fp) ;
 
+return 0;
 } /* end main */

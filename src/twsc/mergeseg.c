@@ -215,7 +215,7 @@ if( n == 0 ) {
 }
 
 
-rplacseg( netptr, oldnode, newnode )
+void rplacseg( netptr, oldnode, newnode )
 PINBOXPTR netptr, oldnode, newnode ;
 {
 ADJASEG *adj, *tmpadj ;
@@ -244,7 +244,7 @@ update_segment_data( segptr ) ;
 }
 
 
-set_steiner_flag( ptr1, ptr2, ptr3 , stptr )
+void set_steiner_flag( ptr1, ptr2, ptr3 , stptr )
 PINBOXPTR ptr1, ptr2, ptr3, stptr ;
 {
 PINBOXPTR hiptr, loptr ;
@@ -290,7 +290,7 @@ if( hiptr->row > stptr->row ) {
 }
 
 
-recheck_steiner_flag( stptr )
+void recheck_steiner_flag( stptr )
 PINBOXPTR stptr ;
 {
 ADJASEG *adj ;

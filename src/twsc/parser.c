@@ -179,11 +179,11 @@ static INT transTableS[5][8] = {  /* translate from old pad format */
 } ;
 
 
-static layer_test();
-static check_pin();
+static void layer_test();
+static void check_pin();
 
 /* ###################### END STATIC definitions ############################ */
-static get_stat_hints()
+static void get_stat_hints()
 {
     FILE *fp ;           /* current file */
     char buffer[LRECL] ; /* temp storage */
@@ -244,12 +244,12 @@ static get_stat_hints()
 
 } /* end get_stat_hints */
 
-set_error_flag()
+void set_error_flag()
 {
     abortS = TRUE ;
 } /* set_error_flag */
 
-initialize_parser()
+void initialize_parser()
 {
     INT except ;          /* counter */
     INT width ;           /* width of exception */
@@ -309,7 +309,7 @@ initialize_parser()
 
 } /* initialize_parser */
 
-addCell( cellname, celltype )
+void addCell( cellname, celltype )
 char *cellname ;
 INT celltype ;
 {
@@ -409,7 +409,7 @@ INT celltype ;
 
 } /* end addCell */
 
-add_tile( left, bottom, right, top )
+void add_tile( left, bottom, right, top )
 INT left, bottom, right, top ;
 {
     INT width ;         /* width of tile */
@@ -464,7 +464,7 @@ INT left, bottom, right, top ;
 
 } /* end add_tile */
 
-add_initial_orient( orient )
+void add_initial_orient( orient )
 INT orient ;
 {
 
@@ -562,7 +562,7 @@ char *swap_name ;
 
 } /* end add_swap_group */
 
-add_pingroup()
+void add_pingroup()
 {
     INT i ;    /* counter */
     INT j ;    /* counter */
@@ -590,7 +590,7 @@ add_pingroup()
 
 } /* end add_pingroup */
 
-end_pingroup()
+void end_pingroup()
 {
     pin_group_light_is_onS = 0 ;
 
@@ -600,7 +600,7 @@ end_pingroup()
     if (need_swap_groupS == TRUE) swap_groupS = 0;
 } /* end end_pingroup */
 
-static add_implicit_feed( pin_name, signal, layer, xpos, ypos )
+static void add_implicit_feed( pin_name, signal, layer, xpos, ypos )
 char *pin_name, *signal ;
 INT layer, xpos, ypos ;
 {
@@ -659,7 +659,7 @@ static char *add_pin_func()
     return( (char *) data ) ;
 } /* end add_swap_func */
 
-add_pin( pin_name, signal, layer, xpos, ypos )
+void add_pin( pin_name, signal, layer, xpos, ypos )
 char *pin_name, *signal ;
 INT layer, xpos, ypos ;
 {
@@ -861,7 +861,7 @@ INT layer, xpos, ypos ;
 
 } /* end add_pin */
 
-static check_pin( xpos, ypos, pinname )
+static void check_pin( xpos, ypos, pinname )
 INT xpos, ypos ;
 char *pinname ;
 {
@@ -888,7 +888,7 @@ char *pinname ;
     }
 } /* end check_pin */
 
-add_equiv( equiv_name, layer, eq_xpos, eq_ypos, unequiv_flag )
+void add_equiv( equiv_name, layer, eq_xpos, eq_ypos, unequiv_flag )
 char *equiv_name ;
 INT layer, eq_xpos, eq_ypos ;
 BOOL unequiv_flag ;
@@ -987,7 +987,7 @@ INT xpos, ypos ;
 
 
 
-static layer_test( layer )
+static void layer_test( layer )
 INT layer ;
 {
     if( layer != 0 && layer != 1 && layer != 2 && layer != 3 ) {
@@ -1001,14 +1001,14 @@ INT layer ;
     }
 } /* end layer_test */
 
-init_legal_blocks( numblocks )
+void init_legal_blocks( numblocks )
 INT numblocks ;
 {
     ERRORABORT() ;
     ptrS->cclass = 0 ;
 } /* end init_legal_blocks */
 
-add_legal_blocks( block_class )
+void add_legal_blocks( block_class )
 INT block_class ;
 {
     INT  row ;            /* row counter */
@@ -1043,14 +1043,14 @@ INT block_class ;
     ptrS->cbclass[index] += bit_class ;
 } /* end add_legal_blocks */
 
-set_mirror_flag()
+void set_mirror_flag()
 {
     ERRORABORT() ;
     /* this is for the current cell */
     ptrS->orflag = 0 ;
 } /* end set_mirror_flag */
 
-add_orient( orient )
+void add_orient( orient )
 INT orient ;
 {
     ERRORABORT() ;
@@ -1058,7 +1058,7 @@ INT orient ;
     ptrS->corient = orient ;
 } /* end add_orient */
 
-fix_placement( fixed_type, from, fixed_loc, block )
+void fix_placement( fixed_type, from, fixed_loc, block )
 char *fixed_type, *fixed_loc ;
 INT from, block;
 {
@@ -1146,7 +1146,7 @@ INT from, block;
     }
 } /* end fix_placement */
 
-add_extra_cells()
+void add_extra_cells()
 {
 
     INT row ;                 /* row counter */
@@ -1257,13 +1257,13 @@ add_extra_cells()
     }	
 } /* end add_extra_cells */
 
-static INT free_swap_data( data )
+static void free_swap_data( data )
 INT *data ;
 {
     Ysafe_free( data ) ;
 } /* free_swap_data */
 
-static trans_tile( ptr, orient )
+static void trans_tile( ptr, orient )
 CBOXPTR ptr ;
 INT orient ;
 {
@@ -1286,7 +1286,7 @@ INT orient ;
     ptr->cheight = t - b ;
 } /* end trans_tile */
 
-static build_pad_group( side, sidename, padgroupname )
+static void build_pad_group( side, sidename, padgroupname )
 INT side ;
 char *sidename, *padgroupname ;
 {
@@ -1319,7 +1319,7 @@ char *sidename, *padgroupname ;
     }
 } /* end build_pad_group() */
 
-cleanup_readcells()
+void cleanup_readcells()
 {
     INT trl ;             /* total_row_length */
     INT row ;             /* row counter */
@@ -1791,7 +1791,7 @@ cleanup_readcells()
 } /* end cleanup_readcells */
 
 
-not_supported( object )
+void not_supported( object )
 char *object ;
 {
     sprintf( YmsgG, "%s is not supported -- sorry!\n", object ) ;
@@ -1804,7 +1804,7 @@ YHASHPTR get_net_table()
     return( net_hash_tableS ) ;
 } /* end get_net_table */
 
-add_eco()
+void add_eco()
 {
     ERRORABORT() ;
     ECOs_existG++ ;
@@ -1813,7 +1813,7 @@ add_eco()
 
 /* ***************************************************************** */
 /* added below for pad capability */
-init_corners()
+void init_corners()
 {
     minxS = INT_MAX ;
     maxxS = INT_MIN ;
@@ -1827,7 +1827,7 @@ init_corners()
     ptAllocS = 4 ;
 } /* end init_corners */
 
-add_corner( x, y )
+void add_corner( x, y )
 INT x, y ;
 {
     INT pt ;    /* point counter */
@@ -1851,7 +1851,7 @@ INT x, y ;
     pptrS->ypoints[pt] = y ;
 } /* end add_corner */
 
-process_corners()
+void process_corners()
 {
     INT xcenter ; /* center of cell */
     INT ycenter ; /* center of cell */
@@ -1892,7 +1892,7 @@ process_corners()
 } /* end process_corners */
 
 
-add_padside( padside )
+void add_padside( padside )
 char *padside ;
 {
     INT numsides ;         /* length of side restriction string */
@@ -1973,7 +1973,7 @@ char *padside ;
     } 
 } /* end add_padside */
 
-add_sidespace( lower, upper )
+void add_sidespace( lower, upper )
 DOUBLE lower, upper ;
 {
     ERRORABORT() ;
@@ -2014,14 +2014,14 @@ DOUBLE lower, upper ;
 /* ***************************************************************** */
 
 /* set whether a pad group can be permuted */
-setPermutation( permuteFlag ) 
+void setPermutation( permuteFlag ) 
 {
     ERRORABORT() ;
     pptrS->permute = permuteFlag ;
 } /* end setPermutation */
 /* ***************************************************************** */
 
-set_old_format( padside )
+void set_old_format( padside )
 char *padside ;
 {
     ERRORABORT() ;
@@ -2044,7 +2044,7 @@ char *padside ;
 } /* set_old_format */
 
 /* add this pad to the current pad group */
-add2padgroup( padName, ordered ) 
+void add2padgroup( padName, ordered ) 
 char *padName ;
 BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 {

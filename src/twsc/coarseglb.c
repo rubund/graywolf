@@ -79,6 +79,9 @@ static char SccsId[] = "@(#) coarseglb.c (Yale) version 4.10 12/9/91" ;
 static INT *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;
 static INT *feed_shortS , half_hzsepS , right_Pads_left_edgeS ;
 
+/* local functions */
+static int space_for_feed(void);
+
 /* global definitions */
 INT longest_row_lengthG ;
 
@@ -89,7 +92,7 @@ extern INT actual_feed_thru_cells_addedG ;
 extern BOOL no_feed_at_endG ;
 extern BOOL ignore_feedsG ;
 
-coarseglb() 
+void coarseglb() 
 {
 
 INT shift ;
@@ -154,7 +157,7 @@ free_cglb_data( ) ;
 }
 
 
-assign_row_to_pin()
+void assign_row_to_pin()
 {
 
 CBOXPTR cellptr ;
@@ -172,7 +175,7 @@ for( i = 1 ; i <= numcellsG ; i++ ) {
 
 
     
-set_up_grid( )
+void set_up_grid( )
 {
 
 INT i , j , x , row_rite ;
@@ -278,7 +281,7 @@ for( cell = numcellsG + 1 ; cell <= lastpadG ; cell++ ) {
 }
 }
 
-initialize_feed_need()
+void initialize_feed_need()
 {
 
 INT i , row ;
@@ -296,7 +299,7 @@ feed_config() ;
 }
 
 
-feed_config( )
+void feed_config( )
 {
 
 INT row , cell , cxcenter , k ;
@@ -324,7 +327,7 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 }
 
 
-set_node( x )
+INT set_node( x )
 INT x ;
 {
 
@@ -341,7 +344,7 @@ if( h < 1 ) {
 }
 
 
-compute_feed_diff( iteration )
+void compute_feed_diff( iteration )
 INT iteration ;
 {
 
@@ -404,7 +407,7 @@ for( i = 1 ; i <= numRowsG ; i++ ) {
 }
 
 
-space_for_feed( )
+static int space_for_feed(void)
 {
 
 PINBOXPTR pinptr ;
@@ -526,7 +529,7 @@ return( shiftFlag ) ;
 }
 
 
-update_feed_config( iteration )
+void update_feed_config( iteration )
 INT iteration ;
 {
 
@@ -655,7 +658,7 @@ if( rowsG == 0 && blk_most_riteG >= right_Pads_left_edgeS ) {
 }
 
 
-no_of_feedthru_cells()
+void no_of_feedthru_cells()
 {
 
 INT i , row , n , difference , lastcell_rite , total_feedthrus ;
@@ -697,7 +700,7 @@ return( total_feedthrus ) ;
 }
 
 
-addin_feedcell()
+void addin_feedcell()
 {
 
 INT row , i , k , r , last , feednum , row_left ;
@@ -822,7 +825,7 @@ TWCLOSE(fp) ;
 }
 
 
-final_feed_config( )
+void final_feed_config( )
 {
 
 IPBOXPTR imptr ;
@@ -881,7 +884,7 @@ printf("\n  longest Row is:%d   Its length is:%d\n",
 }
 
 
-free_cglb_data()
+void free_cglb_data()
 {
 
 INT i , net ;

@@ -79,12 +79,12 @@ static char SccsId[] = "@(#) outgeo.c version 3.6 6/5/91" ;
 
 
 
-static store_pad_loc();
+static void store_pad_loc();
 
 
 
 
-outgeo()
+void outgeo()
 {
 
 FILE *fp ;
@@ -281,7 +281,7 @@ return ;
 
 } /* end outgeo */
 
-static store_pad_loc( cellptr, l, r, b, t )
+static void store_pad_loc( cellptr, l, r, b, t )
 CELLBOXPTR cellptr ;
 INT l, r, b, t ;
 {
