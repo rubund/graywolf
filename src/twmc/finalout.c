@@ -75,6 +75,7 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 
 #include <custom.h>
 #include <yalecad/debug.h>
+#include <yalecad/draw.h>
 
 /* redefine flags for easier reading */
 #define VIOLATIONSONLY   FALSE

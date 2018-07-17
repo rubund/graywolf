@@ -58,10 +58,7 @@ REVISIONS:  Jan  20, 1989 - added findcost call to update new wirelength
 
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 
-void reconfigure( numbinX, numbinY, newCoreArea )
-INT numbinX ;
-INT numbinY ;
-DOUBLE newCoreArea ;
+void reconfigure( INT numbinX, INT numbinY, DOUBLE newCoreArea )
 {
 
     DOUBLE factor ;

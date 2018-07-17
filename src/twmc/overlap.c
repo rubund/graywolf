@@ -835,8 +835,7 @@ pos0->loaded_previously = FALSE ;
    calc_wBins routine and calc_nBins routine.  In this case,
    the calc_Bins routine is set to calc_wBins.
 */
-void turn_wireest_on( turn_on )
-INT turn_on ;
+void turn_wireest_on( INT turn_on )
 {
 
     if( turn_on ){

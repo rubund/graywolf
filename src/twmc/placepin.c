@@ -1708,8 +1708,7 @@ BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
     } /* end test on existence of soft cells */
 } /* initial pinplace */
 
-void set_pin_verbosity( flag ) 
-BOOL flag ;
+void set_pin_verbosity( BOOL flag ) 
 {
     tell_overflowS = flag ;
 } /* end set_pin_verbosity */

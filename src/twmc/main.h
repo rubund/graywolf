@@ -144,5 +144,12 @@ VOID updateFixedCells( BOOL initializeFlag );
 void loadbins(BOOL wireAreaKnown);
 void placepads();
 void resize_wire_params();
+void reconfigure( INT numbinX, INT numbinY, DOUBLE newCoreArea );
+INT calc_cellareas(BOOL routingFlag );
+void graphics_dump();
+INT draw_the_data();
+void turn_wireest_on( INT turn_on );
+void set_pin_verbosity( BOOL flag );
+void process_graphics();
 
 #endif /* MAIN_H */

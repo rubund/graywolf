@@ -219,8 +219,7 @@ return ;
 /* ***************************************************************** 
    CALCULATE CELL AREAS
 */
-INT calc_cellareas( routingFlag )
-BOOL routingFlag ;
+INT calc_cellareas(BOOL routingFlag )
 {
     INT totArea, orient, cell, l, r, b, t, xc, yc ;
     CELLBOXPTR  cellptr ;

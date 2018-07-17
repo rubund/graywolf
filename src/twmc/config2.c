@@ -59,10 +59,7 @@ REVISIONS:
 #include <custom.h>
 #include <yalecad/debug.h>
 
-config2( numbinX, numbinY, wire_red_ratio )
-INT numbinX ;
-INT numbinY ;
-DOUBLE wire_red_ratio ;
+void config2(INT numbinX, INT numbinY, DOUBLE wire_red_ratio )
 {
 
     INT inst ;                      /* counter */
