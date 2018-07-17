@@ -83,6 +83,7 @@ static INT cur_stateS ;        /* current state direction of edge */
 static char *user_messageS;    /* output message on error */
 /* ################## END STATIC definitions ########################## */
 static BOOL check_rect( P4(INT xx1, INT yy1, INT xx2, INT yy2 ) ) ;
+BOOL Ybuster_check_rect(INT xx1, INT yy1, INT xx2, INT yy2 );
 
 YBUSTBOXPTR Ybuster()
 {
@@ -312,8 +313,7 @@ char *user_string ;
 /* ***************************************************************** */
 /* detect problems with clockwise rotation pattern */
 
-BOOL Ybuster_check_rect( xx1, yy1, xx2, yy2 )
-INT xx1, yy1, xx2, yy2 ;
+BOOL Ybuster_check_rect(INT xx1, INT yy1, INT xx2, INT yy2 )
 {
     INT next_state ;           /* the next direction of the edge */
     static INT errorArrayL[6] =
