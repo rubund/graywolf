@@ -648,8 +648,7 @@ VOID syntax()
 
 /* used to TimberWolfMC recursively for the overflow case */
 /* returns windowid if graphics are on and window is passed */
-BOOL get_arg_string( arguments )
-char *arguments ;
+BOOL get_arg_string( char *arguments )
 {
     char temp[LRECL] ; /* used to build strings */
     INT  window ;      /* current window ID */

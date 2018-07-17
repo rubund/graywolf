@@ -59,8 +59,7 @@ static INT binAreaS ;
 /* if defined the binpenalty should always remain equal to cell area */
 /* #define BINTEST */
 
-loadbins(wireAreaKnown)
-BOOL wireAreaKnown ;
+void loadbins(BOOL wireAreaKnown)
 {
 
 CELLBOXPTR ptr ;

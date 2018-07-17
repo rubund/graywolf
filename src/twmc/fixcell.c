@@ -99,8 +99,7 @@ static INT newyspanS ;
 static INT oldxspanS ;
 static INT oldyspanS ;
 
-VOID updateFixedCells( initializeFlag )
-BOOL initializeFlag ;
+VOID updateFixedCells( BOOL initializeFlag )
 {
 
     INT i ;

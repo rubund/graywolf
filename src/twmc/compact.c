@@ -75,6 +75,8 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 #include <yalecad/file.h>
 #include <yalecad/string.h>
 #include <yalecad/relpos.h>
+#include <yalecad/system.h>
+#include <yalecad/program.h>
 
 #include "config-build.h"
 

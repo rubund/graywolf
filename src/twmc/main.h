@@ -136,4 +136,13 @@ EXTERN BOOL verboseG ;
 
 #undef EXTERN
 
+BOOL get_arg_string( char *arguments );
+
+void makebins( INT numbins );
+
+VOID updateFixedCells( BOOL initializeFlag );
+void loadbins(BOOL wireAreaKnown);
+void placepads();
+void resize_wire_params();
+
 #endif /* MAIN_H */
