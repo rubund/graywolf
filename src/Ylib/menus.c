@@ -1508,8 +1508,7 @@ void TWcheckReconfig()
 } /* end TWcheckReconfig */
 
 
-static resize_windows( winwidth, winheight )
-INT winwidth, winheight ;
+static void resize_windows( INT winwidth, INT winheight )
 {
     INT halfstep ;            /* menu half spacing */
     INT xpos ;                /* position of menu */

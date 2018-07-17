@@ -51,6 +51,7 @@ REVISIONS:  Thu Oct 17 11:09:03 EDT 1991 - renamed functions according
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>
+#include <yalecad/file.h>
 
 static    INT numpinS ;          /* allocation of memory */
 static    INT *nodeXS ;          /* array of x locations for pins */
@@ -63,7 +64,7 @@ static    INT colorS = TWRED ;   /* default color is red */
 #define	SQUARE(a)    ((a)*(a))
 #define	INF	     INT_MAX
 
-static cost(i,j)
+static int cost(i,j)
 /* return the square of the Euclidian distance of 2 points */
 INT i, j ;
 {
@@ -191,7 +192,7 @@ BOOL startFlag ;
 
 } /* end Ymst_enumerate() */
 
-void Ymst_color( color )
+void Ymst_color( int color )
 {
     colorS = color ;
 } /* end Ymst_color */

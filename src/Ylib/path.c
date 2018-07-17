@@ -55,6 +55,7 @@ REVISIONS:  Sep 15, 1989 - replaced which with my own version.
 #include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/string.h>
+#include <yalecad/file.h>
 
 #undef  LRECL
 #define LRECL	BUFSIZ
