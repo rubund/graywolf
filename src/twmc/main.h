@@ -174,5 +174,8 @@ void output_partition();
 void find_core_boundary( INT *left, INT *right, INT *bottom, INT *top );
 void finalcheck();
 void initcheck();
+void initializeCorner( INT cell );
+void addCorner( INT xpos, INT ypos );
+void processCorners( INT numcorners );
 
 #endif /* MAIN_H */

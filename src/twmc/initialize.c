@@ -610,8 +610,7 @@ if( fixedType != POINTFLAG ){
 
 } /* end fixCell */
 
-void processCorners( numcorners )
-INT numcorners ;
+void processCorners( INT numcorners )
 {
 char *buster_msg ;           /* message string to used by buster */
 INT xx1, yy1, xx2, yy2 ;     /* temp points */
@@ -788,8 +787,7 @@ ptrS->orig_aspect = ptrS->aspect =
 } /* end processCorners */
 /* ***************************************************************** */
 
-void addCorner( xpos, ypos )
-INT xpos, ypos ;
+void addCorner( INT xpos, INT ypos )
 {
 if( ++cornerCountS >= tileptAllocS ){
     tileptAllocS = cornerCountS + 1 ;
@@ -817,8 +815,7 @@ maxyS = MAX( maxyS, ypos ) ;
 } /* end addCorner */
 /* ***************************************************************** */
 
-void initializeCorner( cell )
-INT cell ;
+void initializeCorner( INT cell )
 {
 ptrS = cellarrayG[cell] ;
 curCellTypeS = ptrS->celltype ;
