@@ -532,10 +532,8 @@ BOOL direction ;
 
 /* ***************************************************************** */
 
-void fixCell( fixedType, xloc, lorR, yloc, borT, xloc2, lorR2, yloc2, borT2 )
-INT fixedType ;  /* valid types - neighborhood. point, group */
-INT xloc, yloc, xloc2, yloc2 ;
-char *lorR, *borT, *lorR2, *borT2 ;
+void fixCell( INT fixedType, INT xloc, char *lorR, INT yloc, char *borT, INT xloc2, char *lorR2, INT yloc2, char *borT2 )
+//INT fixedType ;  /* valid types - neighborhood. point, group */
 {
 
 INT leftOrRight, bottomOrTop ;

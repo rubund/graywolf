@@ -177,5 +177,8 @@ void initcheck();
 void initializeCorner( INT cell );
 void addCorner( INT xpos, INT ypos );
 void processCorners( INT numcorners );
+void regenorient(INT lowerBound, INT upperBound);
+void set_dump_ratio( int count );
+VOID determine_origin( INT *x, INT *y, char *left_not_right, char *bottom_not_top );
 
 #endif /* MAIN_H */

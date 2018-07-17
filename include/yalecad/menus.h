@@ -19,5 +19,7 @@ INT TWsaveState();
 
 void TWrestoreState();
 
+BOOL TWinterupt();
+
 #endif /*INC_MENUS_H*/
 

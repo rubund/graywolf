@@ -94,6 +94,9 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 #include <yalecad/dialog.h>
 #include <yalecad/system.h>
 #include <menus.h>
+#include <yalecad/menus.h>
+#include <yalecad/edcolors.h>
+#include <initialize.h>
 
 
 #define CELLEST     0
@@ -169,6 +172,8 @@ static void edit_field_string();
 static void edit_field_case();
 static void fix_the_cell();
 static void fix_the_cell2();
+
+void set_graphics_wait_menu( TWMENUBOX menus[] );
 
 void initMCGraphics( argc, argv, windowId )
 INT argc, windowId ;
@@ -1278,8 +1283,7 @@ INT initcase ;
 
 } /* end edit_field_case */
 
-void set_graphics_wait_menu( menus )
-TWMENUBOX menus[] ;
+void set_graphics_wait_menu( TWMENUBOX menus[] )
 {
     INT i ;   /* counter */
     for( i = 0; i < TWNUMMENUS; i++ ){

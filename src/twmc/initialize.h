@@ -16,4 +16,6 @@ REVISIONS:  Wed Dec 19 19:38:46 EST 1990 - added analog pin type.
 #define ADDEQUIVTYPE     6
 #define ANALOGPINTYPE    7
 
+void fixCell( INT fixedType, INT xloc, char *lorR, INT yloc, char *borT, INT xloc2, char *lorR2, INT yloc2, char *borT2 );
+
 #endif /* INITIALIZE_H */

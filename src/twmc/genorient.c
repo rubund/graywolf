@@ -278,8 +278,7 @@ INT lowerBound, upperBound ;
 /* regenorient works on range [lowerBound..upperBound] inclusive */
 /* recalculates the bounding boxes and updates all the views */
 /* works in an incremental manner */
-void regenorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+void regenorient(INT lowerBound, INT upperBound)
 {
 
     INT cell ;

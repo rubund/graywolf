@@ -508,10 +508,8 @@ build_soft_array()
 /* In fixing a cell, determine which side of the core to reference */
 /* cell so that changes to the position of the cell due to core size */
 /* changes will be minimized. */
-VOID
-determine_origin( x, y, left_not_right, bottom_not_top )
-INT *x, *y ; /* point of reference */
-char *left_not_right, *bottom_not_top ;
+VOID determine_origin( INT *x, INT *y, char *left_not_right, char *bottom_not_top )
+//INT *x, *y ; /* point of reference */
 {
     if( *x <= blockmxG ){
 	strcpy( left_not_right, "L" ) ;
