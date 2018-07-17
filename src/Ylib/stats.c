@@ -51,6 +51,7 @@ REVISIONS:  Oct  4, 1990 - added elaspse time for the mips machine.
 ----------------------------------------------------------------- */
 
 #include	<yalecad/base.h>
+#include	<yalecad/timer.h>
 
 #ifdef VMS
 #define AVOID
