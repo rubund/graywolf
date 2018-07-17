@@ -46,6 +46,7 @@ REVISIONS:
 ----------------------------------------------------------------- */
 
 #include <custom.h>
+#include <yalecad/rand.h>
 #include <yalecad/debug.h>
 
 #define MASK 0x3ff

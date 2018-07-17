@@ -58,6 +58,9 @@ REVISIONS:  Jan 29, 1989 - removed message about pad limited designs.
 #include <pads.h>
 #include <yalecad/debug.h>
 #include <yalecad/relpos.h>
+#include <yalecad/quicksort.h>
+
+#include "configpads.h"
 
 /* ***************** STATIC FUNCTION DEFINITIONS ******************* */
 static BOOL check_overflow( P1(BOOL retain_pad_groups) ) ;
@@ -523,12 +526,7 @@ BOOL spacing_restricted ;
 } /* end child_constraints */
 /* ***************************************************************** */
 
-void calc_constraints( pad, side, lb, ub, spacing_restricted,lowpos, uppos )
-PADBOXPTR pad ;
-INT side ;
-DOUBLE *lb, *ub ;
-BOOL *spacing_restricted ;
-INT *lowpos, *uppos ;
+void calc_constraints( PADBOXPTR pad, INT side, DOUBLE *lb, DOUBLE *ub, BOOL *spacing_restricted, INT *lowpos, INT *uppos )
 {
     DOUBLE lowbound, hibound ;
 

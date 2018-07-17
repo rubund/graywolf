@@ -51,6 +51,7 @@ REVISIONS:
 #include <yalecad/debug.h>
 #include <yalecad/string.h>
 #include <yalecad/file.h>
+#include <yalecad/quicksort.h>
 
 #define CURWT      1
 #define PRIORWT    1
