@@ -167,5 +167,10 @@ int findcost();
 void wirecosts();
 void reorigin();
 void update_pins( BOOL initialFlag );
+void outgeo();
+void output( FILE *fp );
+void outpin();
+void output_partition();
+void find_core_boundary( INT *left, INT *right, INT *bottom, INT *top );
 
 #endif /* MAIN_H */

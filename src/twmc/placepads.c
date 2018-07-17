@@ -572,8 +572,7 @@ void setVirtualCore( BOOL flag )
 
 /* function finds and returns core boundary region including cells */
 /* which overlap the core region */
-void find_core_boundary( left, right, bottom, top )
-INT *left, *right, *bottom, *top ;
+void find_core_boundary( INT *left, INT *right, INT *bottom, INT *top )
 {
     BOOL rememberFlag ;
 

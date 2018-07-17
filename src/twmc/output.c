@@ -115,8 +115,7 @@ static void create_pin();
 
 
 
-void output( fp )
-FILE *fp ;
+void output( FILE *fp )
 {
 
     INT cell ;
