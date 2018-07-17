@@ -172,5 +172,7 @@ void output( FILE *fp );
 void outpin();
 void output_partition();
 void find_core_boundary( INT *left, INT *right, INT *bottom, INT *top );
+void finalcheck();
+void initcheck();
 
 #endif /* MAIN_H */

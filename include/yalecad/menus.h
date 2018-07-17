@@ -15,5 +15,9 @@ BOOL TWmouse_tracking_end();
 
 BOOL TWmouse_tracking_pt( INT *x, INT *y );
 
+INT TWsaveState();
+
+void TWrestoreState();
+
 #endif /*INC_MENUS_H*/
 

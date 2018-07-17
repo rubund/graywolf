@@ -53,11 +53,15 @@ REVISIONS:  Thu Jan 17 00:49:52 PST 1991 - now read side information.
 
 #define DENS_DEFS
 
+#include <unistd.h>
 #include <custom.h>
 #include <dens.h>
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 #include <yalecad/string.h>
+#include <yalecad/menus.h>
+#include <yalecad/system.h>
+#include <yalecad/program.h>
 
 #include "config-build.h"
 

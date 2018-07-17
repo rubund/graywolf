@@ -52,7 +52,7 @@ REVISIONS:  Jul 21, 1988 - fixed softcell code.
 #include <yalecad/debug.h>
 
 
-finalcheck()
+void finalcheck()
 {
 
 NETBOXPTR netptr ;
@@ -129,7 +129,7 @@ return;
 
 
 
-initcheck()
+void initcheck()
 {
 
 NETBOXPTR netptr ;
