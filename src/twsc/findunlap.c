@@ -69,6 +69,9 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
+INT find_shortest_row( long_row );
+INT row_cost( long_row , short_row , width );
+
 /* globals */
 INT largest_delta_row_lenG ;
 extern INT **pairArrayG ;

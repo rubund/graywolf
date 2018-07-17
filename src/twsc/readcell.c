@@ -700,7 +700,7 @@ char    *s;
     set_error_flag() ;
 } /* end yyerror */
 
-INT yywrap()
+int yywrap()
 {
     return(1);
 }                      

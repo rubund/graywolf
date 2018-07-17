@@ -88,6 +88,8 @@ static INT *first_indexS = NULL;
 static PINBOXPTR **z_S ;
 static EDGE_COST *edge_dataS ;
 
+INT find_set_name( v );
+
 void netgraph_free_up()
 {
 

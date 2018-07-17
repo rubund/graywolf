@@ -73,6 +73,7 @@ REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 /* static definitions */
 static INT *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;
 static INT *feed_shortS , half_hzsepS , right_Pads_left_edgeS ;
+INT set_node( x );
 
 /* local functions */
 static int space_for_feed(void);

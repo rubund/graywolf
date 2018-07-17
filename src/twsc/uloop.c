@@ -154,6 +154,8 @@ DOUBLE combination() ;
 INT eval_ratio() ;
 void rowcon();
 
+INT tw_frozen( cost );
+
 /* static variables */
 static INT acc_cntS = 0 ;
 static INT move_cntS = 0 ;

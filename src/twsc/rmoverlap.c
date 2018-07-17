@@ -70,6 +70,8 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #include "standard.h"
 #include "groute.h"
 
+INT check_connectivity( net );
+
 /* global variable references */
 extern BOOL connectFlagG ;
 PINBOXPTR depth_first_search() ;

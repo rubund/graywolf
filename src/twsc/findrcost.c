@@ -59,6 +59,8 @@ static INT **cedgebinS ;
 static INT cedge_binwidthS ;
 static INT num_edgebinS ;
 
+INT facing_cellheight( pin , row , pinloc , status );
+
 void findrcost()
 {
 

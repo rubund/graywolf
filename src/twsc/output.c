@@ -85,6 +85,8 @@ extern BOOL stand_cell_as_gate_arrayG ;
 /* static definitions */
 static char a_lineS[LRECL] ;
 
+INT load_a_lineS(fp);
+
 void output()
 {
 

@@ -782,7 +782,7 @@ char    *s;
     setErrorFlag() ;
 }
 
-INT yywrap()
+int yywrap()
 {
     return(1);
 }                      

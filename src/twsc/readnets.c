@@ -353,7 +353,7 @@ char    *s;
     abortFlagS = TRUE ;
 }
 
-INT yywrap()
+int yywrap()
 {
     return(1);
 }                      

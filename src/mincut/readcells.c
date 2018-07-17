@@ -820,7 +820,7 @@ char    *s;
     M( MSG,"yacc", YmsgG ) ;
 } /* end yyerror */
 
-INT yywrap()
+int yywrap()
 {
     return(1);
 }                      

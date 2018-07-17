@@ -97,6 +97,8 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #define CARL_NEW
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
+INT cell_rotate( row , index );
+
 /* global variables */
 BOOL connectFlagG ;
 

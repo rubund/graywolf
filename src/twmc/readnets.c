@@ -366,7 +366,7 @@ char    *s;
     set_net_error() ;
 }
 
-INT yywrap()
+int yywrap()
 {
     return(1);
 }                      

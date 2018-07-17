@@ -173,7 +173,7 @@ static struct rw_table {  /* reserved word table */
     "unequiv",             token(UNEQUIV)
 } ;
 
-static int screen() 
+static INT screen() 
 {
     int c ;
     struct rw_table  *low = rwtable,        /* ptr to beginning */
