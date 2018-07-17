@@ -49,9 +49,7 @@ REVISIONS:
 #include <custom.h>
 #include <yalecad/debug.h>
 
-watesides( ptr, pSideArray )
-CELLBOXPTR ptr ;
-PSIDEBOX   *pSideArray ;
+void watesides( CELLBOXPTR ptr, PSIDEBOX *pSideArray )
 {
 
 TILEBOXPTR tileptr ;

@@ -88,16 +88,18 @@ static CELLBOXPTR cellptrS ;
 static TILEBOXPTR tileptrS ;
 static MOVEBOXPTR posS ;
 static BINBOXPTR bptrS ;
-static xcS, ycS, orientS ;
+static int xcS, ycS, orientS ;
 static INT minXS, maxXS, minYS, maxYS ;
 static INT newbinpenalS ;
 static INT xcostS, ycostS ;
-static INT (*calc_Bins)() ;/* remember which bin function */
+static void (*calc_Bins)() ;/* remember which bin function */
 static INT (*wire_est)() ; /* remember which wire estimation function */
 
 /* global references */
 extern INT wireestxy( P3(MOVEBOXPTR pos,INT xc, INT yc) ) ;
 extern INT wireestxy2( P3(MOVEBOXPTR pos,INT xc, INT yc) ) ;
+void sub_penal( MOVEBOXPTR *cellpos );
+void add_penal( MOVEBOXPTR *cellpos );
 
 /* ***************************************************************** 
    ONE CELL OVERLAP CALCULATION 
@@ -106,7 +108,7 @@ INT overlap( /* old_aposG, new_aposG */ )
 /* MOVEBOXPTR *old_aposG, *new_aposG ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 
 /* ----------------------------------------------------------------- 
@@ -182,7 +184,7 @@ INT overlap2( /* old_aposG, new_aposG, old_bposG, new_bposG */ )
 /* MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 
 /* ----------------------------------------------------------------- 
@@ -302,7 +304,7 @@ void update_overlap( /* old_aposG */ )
 /* MOVEBOXPTR *old_aposG ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 /* ----------------------------------------------------------------- 
    Perform overlap update for OLD A - NEW A pair
@@ -330,7 +332,7 @@ void update_overlap2( /* old_aposG, old_bposG */ )
 /* MOVEBOXPTR *old_apos, *old_bpos ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 /* ----------------------------------------------------------------- 
    Perform overlap update for OLD A - NEW B pair
@@ -373,8 +375,7 @@ for( x = minXS; x <= maxXS ; x++ ){
    Subtract penalty from bins.  
    Takes pointer to move box record as an argument
 */
-void sub_penal( cellpos )
-MOVEBOXPTR *cellpos ;
+void sub_penal( MOVEBOXPTR *cellpos )
 {
 INT count, maxcount ;
 INT x, y ;
@@ -531,8 +532,7 @@ for( count=1 ; count <= maxcount ; count++ ) {
    Add penalty to bins. 
    Takes pointer to move box record as an argument
 */
-void add_penal( cellpos )
-MOVEBOXPTR *cellpos ;
+void add_penal( MOVEBOXPTR *cellpos )
 {
 INT count, maxcount ;
 INT x, y ;
