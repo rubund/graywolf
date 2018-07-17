@@ -61,6 +61,7 @@ REVISIONS:  Apr 23, 1990 - added error checking for soft pins and
 #include <initialize.h>
 #include <yalecad/debug.h>
 #include <yalecad/set.h>
+#include <findside.h>
 
 #define HOWMANY 0
 
@@ -120,10 +121,7 @@ return( kmin ) ;
 
 
 /* load the side with a pin count and add factor */
-loadside( pSideArray, side , factor )
-PSIDEBOX  *pSideArray ;
-INT side ;
-DOUBLE factor ;
+void loadside( PSIDEBOX *pSideArray, INT side , DOUBLE factor )
 {
 
 pSideArray[side].pincount += factor ;
@@ -132,9 +130,7 @@ return ;
 } /* end loadside */
 
 
-load_soft_pins( ptr, pSideArray )
-CELLBOXPTR ptr ;
-PSIDEBOX *pSideArray ;
+void load_soft_pins( CELLBOXPTR ptr, PSIDEBOX *pSideArray )
 {
 
     INT i ;                        /* counter */

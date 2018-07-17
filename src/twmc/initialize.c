@@ -126,6 +126,7 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
 #include <yalecad/string.h>
+#include <findside.h>
 
 
 /* below is what we expect to be a large floorplanning input */
