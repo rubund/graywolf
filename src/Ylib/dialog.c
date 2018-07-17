@@ -140,9 +140,9 @@ static TWDRETURNPTR dataS ;          /* return data array */
 static TWDIALOGPTR  fieldS ;         /* the current dialog array */
 
 /* function definitions */
-static INT world2pix_x() ;
-static INT world2pix_y() ;
-static INT world2fonty() ;
+static INT world2pix_x(int) ;
+static INT world2pix_y(int) ;
+static INT world2fonty(int) ;
 static INT pixlen() ;
 static void set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
 static void debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
@@ -151,8 +151,7 @@ static void check_cases( P3( TWDIALOGPTR fieldp, INT select,
 static void draw_fields( P1(TWDIALOGPTR fieldp) ) ;
 static void TWfreeWindows() ;
 static void find_font_boundary() ;
-static void edit_field( P4( INT field, Window win, XEvent event,
-		    INT (*user_function)() ) ) ;
+static void edit_field( P4( INT field, Window win, XEvent event, INT (*user_function)() ) ) ;
 
 /* build a dialog box and get info */
 TWDRETURNPTR TWdialog( fieldp, dialogname, user_function )
@@ -520,9 +519,7 @@ INT (*user_function)() ;
 
 } /* end TWdialog */
 
-static set_stipple_font( stippleOn, font_change )
-BOOL stippleOn ;
-INT font_change ;
+static void set_stipple_font( BOOL stippleOn, INT font_change )
 {
     INT i ;        /* counter */
 
@@ -583,8 +580,7 @@ INT (*user_function)() ;
 
 } /* end check_cases */
 
-static draw_fields( fieldp )
-TWDIALOGPTR fieldp ;
+static void draw_fields( TWDIALOGPTR fieldp )
 {
     INT i ;               /* counter */
     TWDIALOGPTR fptr ;    /* current dialog field */
@@ -654,17 +650,17 @@ static void find_font_boundary()
 
 /* tranforms the world coordinate character column format */
 /* to pixel coordinates */
-static INT world2pix_x( x )
+static INT world2pix_x( int x )
 {
     return( x * fwidthS ) ;
 } /* end world2pix_x */
 
-static INT world2pix_y( y )
+static INT world2pix_y( int y )
 {
     return( y * fheightS ) ;
 } /* end world2pix_y */
 
-static INT world2fonty( y )
+static INT world2fonty( int y )
 {
     return( (++y) * fheightS - fontinfoS->max_bounds.descent ) ;
 } /* end world2pix_y */
@@ -676,11 +672,7 @@ INT length ;
     return( fwidthS * length ) ;
 } /* end pixlen */
 
-static edit_field( field, win, event, user_function )
-INT field ;
-Window win ;
-XEvent event ;       /* describes the button event */
-INT (*user_function)() ;
+static void edit_field( INT field, Window win, XEvent event, INT (*user_function)() )
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR dptr;   /* return field of dialog */
