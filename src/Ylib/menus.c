@@ -1316,8 +1316,7 @@ void TWmouse_tracking_start()
 
 /* get the current mouse position */
 /* returns true if position has changed */
-BOOL TWmouse_tracking_pt( x, y )
-INT *x, *y ;
+BOOL TWmouse_tracking_pt( INT *x, INT *y )
 {
     XEvent event ;            /* describes event */
     INT xtemp, ytemp ;        /* current position of pointer */

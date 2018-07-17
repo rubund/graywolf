@@ -192,6 +192,8 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 #include <yalecad/buster.h>
 #include <yalecad/dbinary.h>
 #include <yalecad/project.h>
+#include <yalecad/program.h>
+#include <yalecad/menus.h>
 
 #define YDRAW_VARS
 #include "info.h"
