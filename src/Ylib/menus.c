@@ -144,6 +144,7 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>
+#include <yalecad/timer.h>
 #include "info.h"
 
 #define DEFAULT_TIMEOUT      10 * 1000       /* 10 seconds to timeout on message window */

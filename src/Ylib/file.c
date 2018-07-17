@@ -68,6 +68,7 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 #include <yalecad/base.h>
 #include <yalecad/file.h>
 #include <yalecad/message.h>
+#include <yalecad/program.h>
 
 #define SERROR  0
 
