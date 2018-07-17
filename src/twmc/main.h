@@ -155,5 +155,8 @@ void savewolf( BOOL forceSave );
 INT closegraphics();
 void grid_cells();
 void compact( BOOL compactFlag );
+void set_determine_side( BOOL flag );
+void set_graphic_context( INT context );
+void config_rows();
 
 #endif /* MAIN_H */

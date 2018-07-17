@@ -266,8 +266,7 @@ void setGraphicWindow()
 
 /* set what we are going to draw on a dump to the screen */
 /* placement data, compaction data , etc. are valid */
-void set_graphic_context( context )
-INT context ;
+void set_graphic_context( INT context )
 {
     if( context == PARTITION_PLACEMENT ){
 	/* after placement ignore drawing the standard macros */

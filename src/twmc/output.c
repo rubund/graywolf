@@ -458,8 +458,7 @@ CELLBOXPTR cellptr ;
     }
 } /* end output_fixed */
 
-void set_determine_side( flag )
-BOOL flag ;
+void set_determine_side( BOOL flag )
 {
     determine_sideS = flag ;
 } /* end set_determine_side */
