@@ -71,8 +71,7 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
-void savewolf( forceSave )
-BOOL forceSave ; /* if true save parameters regardless of time */
+void savewolf( BOOL forceSave )
 {
 
 INT  m ;

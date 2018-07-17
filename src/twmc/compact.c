@@ -91,8 +91,7 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 #define SCELLKEYWORD     "stdcell"
 #define TILEKEYWORD      "l"
 
-void compact( compactFlag )
-BOOL compactFlag ; /* signals use of compaction */
+void compact( BOOL compactFlag )
 {
     char filename[LRECL] ;
     char *Yrelpath() ;

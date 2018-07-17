@@ -151,5 +151,9 @@ INT draw_the_data();
 void turn_wireest_on( INT turn_on );
 void set_pin_verbosity( BOOL flag );
 void process_graphics();
+void savewolf( BOOL forceSave );
+INT closegraphics();
+void grid_cells();
+void compact( BOOL compactFlag );
 
 #endif /* MAIN_H */
