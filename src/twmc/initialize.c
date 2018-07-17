@@ -153,6 +153,13 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
     } \
 } \
 
+#define ERRORABORTINT() \
+{ \
+    if( errorFlagS ){ \
+	return -1; /* don't do any work for errors */ \
+    } \
+} \
+
 /* ######################  STATIC definitions ######################### */
 static INT  curCellTypeS ;  /* current cell type - ie, softcell,pad etc.*/
 static INT  cellinstanceS ; /* number of instances of current cell      */
@@ -334,9 +341,7 @@ Ybuster_free() ;
 /* ***************************************************************** */
 
 /* add another cell to cell list and initialize fields */
-void addCell( cellName, cellType )
-char *cellName ;
-CELLTYPE  cellType ;
+void addCell( char * cellName, CELLTYPE cellType )
 {
 INT i ;
 INT *data ;
@@ -845,8 +850,7 @@ addOrient( orient ) ;
 /* ***************************************************************** */
 
 /* addOrient sets orientation valid for this cell */
-void addOrient( orient )
-INT orient ;
+void addOrient( INT orient )
 {
 ERRORABORT() ;
 
@@ -858,10 +862,9 @@ ptrS->orientList[HOWMANYORIENT]++ ;
 /* if this routine is called it means we are reading the input of
    a previous TimberWolf run.  
 */
-set_cur_orient( orient )
-INT orient ;
+int set_cur_orient( INT orient )
 {
-ERRORABORT() ;
+ERRORABORTINT() ;
 
 ptrS->orient = orient ;
 } /* end set_cur_orient */
@@ -1570,7 +1573,7 @@ char *side ;
 /* ***************************************************************** */
 
 /* set whether a pad group can be permuted */
-void setPermutation( permuteFlag ) 
+void setPermutation( int permuteFlag ) 
 {
 ERRORABORT() ;
 pptrS->permute = permuteFlag ;

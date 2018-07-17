@@ -20,4 +20,10 @@ void fixCell( INT fixedType, INT xloc, char *lorR, INT yloc, char *borT, INT xlo
 
 void addClass( INT class );
 
+void addCell( char * cellName, CELLTYPE cellType );
+
+void endCell();
+
+void addOrient( INT orient );
+
 #endif /* INITIALIZE_H */

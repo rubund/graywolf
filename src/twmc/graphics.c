@@ -175,6 +175,8 @@ static void fix_the_cell();
 static void fix_the_cell2();
 
 void set_graphics_wait_menu( TWMENUBOX menus[] );
+void twmc_draw_a_cell( int cell );
+void draw_neighbors( INT cell );
 
 void initMCGraphics( argc, argv, windowId )
 INT argc, windowId ;
@@ -891,7 +893,7 @@ INT draw_the_data()
 
 } /* end draw_the_data */
 
-void twmc_draw_a_cell( cell )
+void twmc_draw_a_cell( int cell )
 {
     INT  pt ;
     INT  xc, yc ;
@@ -1051,8 +1053,7 @@ CELLBOXPTR cptr ;
 } /* end draw_fs */
 
 /* draw the neighborhood of a cell if it exists */
-void draw_neighbors( cell )
-INT cell ;
+void draw_neighbors( INT cell )
 {
 
     CELLBOXPTR ptr ;
