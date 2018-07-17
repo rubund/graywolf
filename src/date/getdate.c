@@ -49,9 +49,7 @@
 /* this small program creates a file called date.h */
 /* which contains a define statement with the current time */
 
-main( argc , argv )
-int argc ;
-char *argv ;
+int main( int argc , char ** argv )
 {
 
 FILE        *fp ;
@@ -81,13 +79,13 @@ if( date ){
     /* get rid of newline character */
     len = strlen( date ) ;
     date[len-1] = EOS ;
-    fprintf(fp,"#define DATE \"@\(#\) Yale compilation date:%s\"\n",date);
+    fprintf(fp,"#define DATE \"@(#) Yale compilation date:%s\"\n",date);
     fclose(fp) ;
     exit(0) ;
 } 
 
 /* errors - give unknown date */
-fprintf(fp,"#define DATE \"@\(#\) Yale compilation date:unknown\"\n") ;
+fprintf(fp,"#define DATE \"@(#) Yale compilation date:unknown\"\n") ;
 fclose(fp) ;
 
 return 0;
