@@ -53,7 +53,7 @@ REVISIONS:
 #include <yalecad/debug.h>
 
 
-wirecosts()
+void wirecosts()
 {
 
 NETBOXPTR dimptr ;

@@ -60,7 +60,7 @@ REVISIONS:  Oct 22, 1988 - now take square root of the penalty
 #include <yalecad/relpos.h>
 #include <yalecad/debug.h>
 
-findcost()
+int findcost()
 {
 
 NETBOXPTR netptr ;

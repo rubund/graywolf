@@ -1652,8 +1652,8 @@ static void find_hardpin_side()
 } /* end find_hardpin_side() */
 
 
-void update_pins( initialFlag )  /* initialize pin placement */
-BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
+void update_pins( BOOL initialFlag )  /* initialize pin placement */
+//BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
 {
     INT howmany ;        /* number of cells with soft pins */
     INT i ;              /* counter */

@@ -163,5 +163,9 @@ void setVirtualCore( BOOL flag );
 void gmain( BOOL updateNotChan );
 void rmain( BOOL constraint_flag );
 void adapt_wire_estimator();
+int findcost();
+void wirecosts();
+void reorigin();
+void update_pins( BOOL initialFlag );
 
 #endif /* MAIN_H */
