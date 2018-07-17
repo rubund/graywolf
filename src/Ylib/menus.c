@@ -219,6 +219,7 @@ static void resize_windows( P2( INT winwidth, INT winheight ) ) ;
 static void debug_menus( P1(TWMENUPTR menu_field) ) ;
 static void draw_persistent_message( P1(char *message) ) ;
 
+void TWcheckReconfig();
 
 /* get information from main draw routine and set it */
 void TWinforMenus( )
@@ -1459,7 +1460,7 @@ BOOL TWinterupt()
 } /* end TWinterupt */
 
 /* update windows if configuration changes */
-TWcheckReconfig()
+void TWcheckReconfig()
 {
     INT height ;              /* height of current backing window */
     XEvent event ;            /* describes configuration event */
