@@ -64,6 +64,7 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/program.h>
+#include <yalecad/timer.h>
  
 static char programName[LRECL];
 static char progVersion[LRECL];
