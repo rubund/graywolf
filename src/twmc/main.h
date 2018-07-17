@@ -158,5 +158,10 @@ void compact( BOOL compactFlag );
 void set_determine_side( BOOL flag );
 void set_graphic_context( INT context );
 void config_rows();
+void print_paths();
+void setVirtualCore( BOOL flag );
+void gmain( BOOL updateNotChan );
+void rmain( BOOL constraint_flag );
+void adapt_wire_estimator();
 
 #endif /* MAIN_H */

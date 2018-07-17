@@ -565,8 +565,7 @@ INT howmany ;
 
 
 /* turn virtual core on and off */
-void setVirtualCore( flag )
-BOOL flag ;
+void setVirtualCore( BOOL flag )
 {
     virtualCoreS = flag ;
 } /* end set Virtual core */

@@ -79,8 +79,8 @@ static void free_routing_tiles();
 	from the global router and build the routing tiles.  We will
 	update the routing tiles in this file.
 -------------------------------------------------------------------- */
-void gmain( updateNotChan )
-BOOL updateNotChan ;  /* if true update routing tiles otherwise normal */
+void gmain( BOOL updateNotChan )
+  /* if updateNotChan true update routing tiles otherwise normal */
 {
     char filename[LRECL] ;
     char *Yrelpath() ;
