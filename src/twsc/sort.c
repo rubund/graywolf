@@ -77,8 +77,7 @@ typedef struct graph_edge_cost {
 *EDGE_COST ,
 EDGE_COST_BOX ;
 
-// INT compare_cost( a , b )  FIXME: Changing to INT causes different end result. Check
-compare_cost( a , b )
+INT compare_cost( a , b )
 EDGE_COST *a , *b ;
 {
 return( (*a)->cost - (*b)->cost ) ;
@@ -103,8 +102,7 @@ FEED_SEG_PTR *a , *b ;
 return( (*a)->netptr->xpos - (*b)->netptr->xpos ) ;
 }
 
-// INT comparepinx( a , b )  FIXME: Changing to INT causes different end result. Check
-comparepinx( a , b )
+INT comparepinx( a , b )
 PINBOXPTR *a , *b ;
 {
 return( (*a)->xpos - (*b)->xpos ) ;
