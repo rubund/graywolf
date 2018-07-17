@@ -821,8 +821,7 @@ cornerCountS = 0 ;
 } /* end initializeCorner */
 /* ***************************************************************** */
 
-void addClass( class )
-INT class ;
+void addClass( INT class )
 {
 ERRORABORT() ;
 

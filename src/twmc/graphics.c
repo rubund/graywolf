@@ -84,6 +84,7 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 #ifndef NOGRAPHICS
 
 #include <string.h>
+#include <unistd.h>
 #include <custom.h>
 #include <dens.h>
 #include <analog.h>
