@@ -88,6 +88,7 @@ REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/dialog.h>
+#include <yalecad/time.h>
 #include "info.h"
 
 #define WHITE       1                /* white parent gc is one in array */
