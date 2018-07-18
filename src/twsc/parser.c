@@ -806,7 +806,7 @@ INT layer, xpos, ypos ;
     if( pin_group_light_is_onS > 0 ) {
 
 	pin_ptr = (PINLISTPTR) Yhash_add( swap_group_listG[swap_groupS].pin_grp_hash,
-		ptrS->cname, add_pin_func, &newflag ) ;
+		ptrS->cname, add_pin_func, (BOOL *) &newflag ) ;
 
 	if (newflag) {
 	   /* This is the first pin group for this swap group in this cell */
@@ -977,11 +977,9 @@ BOOL unequiv_flag ;
     }
 } /* end add_equiv */
 
-add_port( portname, signal, layer, xpos, ypos )
-char *portname, *signal ;
-INT xpos, ypos ;
+int add_port(char *portname, char *signal, int layer, INT xpos, INT ypos )
 {
-    ERRORABORT() ;
+    ERRORABORTINT() ;
     addCell( portname, PORTTYPE ) ;
     add_tile( 0, 0, 0, 0 ) ;
     /* now perform overrides */
@@ -1794,7 +1792,7 @@ void cleanup_readcells()
     }
 
     if( swappable_gates_existG ) {
-	Yhash_table_delete( swap_hash_tableS, free_swap_data ) ;
+	Yhash_table_delete( swap_hash_tableS, (INT  (*)()) free_swap_data ) ;
     }
 
     return ;
