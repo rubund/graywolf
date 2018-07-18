@@ -584,7 +584,7 @@ return ;
 
 
 
-void reduce_violations()
+int reduce_violations()
 {
 
 FENCEBOXPTR fence , save_fence ;
