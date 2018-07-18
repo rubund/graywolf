@@ -57,10 +57,12 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 /* global variables */
 extern INT Max_numPinsG ;
 
+void process_cross(SEGBOXPTR segptr, INT status);
+
 #define TOP 1
 #define BOT 0
 
-globroute()
+void globroute()
 {
 
 INT flips , attempts , net ;
@@ -154,9 +156,7 @@ fflush(fpoG);
 return ;
 }
 
-process_cross( segptr , status )
-INT status ;
-SEGBOXPTR segptr ;
+void process_cross(SEGBOXPTR segptr, INT status )
 {
 
 INT x1 , x2 ;

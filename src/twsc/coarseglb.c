@@ -83,6 +83,9 @@ void feed_config( );
 void compute_feed_diff( INT iteration );
 void update_feed_config( INT iteration );
 INT no_of_feedthru_cells();
+void addin_feedcell();
+void final_feed_config();
+void free_cglb_data();
 
 /* global definitions */
 INT longest_row_lengthG ;
