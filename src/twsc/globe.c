@@ -1253,7 +1253,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-void check_unequiv_connectivity()
+int check_unequiv_connectivity()
 {
 INT net, channel, correctness ;
 ADJASEG *adj ;
