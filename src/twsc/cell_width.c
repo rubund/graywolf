@@ -81,22 +81,19 @@ static void read_pads();
 /*------------ User defined print routine to print out the tree ------------*/
 /*--------------------------------------------------------------------------*/
 
-INT print_cell_name(c1)
-CBOXPTR c1;
+void print_cell_name(CBOXPTR c1)
 {
  return;
 }
 
 
-INT print_cell_length(c1)
-CBOXPTR c1;
+void print_cell_length(CBOXPTR c1)
 {
   return;
 }
 
 
-INT print_cell_pins(c1)
-CBOXPTR c1;
+void print_cell_pins(CBOXPTR c1)
 {
   return ;
 }
