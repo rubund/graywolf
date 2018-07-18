@@ -1,6 +1,7 @@
 
 
 add_executable(graywolf autoflow.c findflow.c graphics.c io.c main.c program.c readobjects.c ${CMAKE_SOURCE_DIR}/src/date/date.c)
+set_target_properties(graywolf PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 
 target_link_libraries(graywolf ycadgraywolf)
 target_link_libraries(graywolf X11)
