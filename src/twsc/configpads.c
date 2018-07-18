@@ -76,6 +76,8 @@ static void resort_place_array( P1(void) ) ;
 static void child_constraints(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL s));
 static void place_variable( P3(INT first,INT numpads,INT side) ) ;
 
+void calc_constraints( PADBOXPTR pad, INT side, DOUBLE *lb, DOUBLE *ub, BOOL *spacing_restricted, INT *lowpos, INT *uppos );
+
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static INT overflowS[5] ;          /* amount of overflow on each side */
 static INT side_lengthS[5] ;       /* sum of pad lengths on a side */
@@ -528,12 +530,7 @@ BOOL spacing_restricted ;
 } /* end child_constraints */
 /* ***************************************************************** */
 
-void calc_constraints( pad, side, lb, ub, spacing_restricted,lowpos, uppos )
-PADBOXPTR pad ;
-INT side ;
-DOUBLE *lb, *ub ;
-BOOL *spacing_restricted ;
-INT *lowpos, *uppos ;
+void calc_constraints( PADBOXPTR pad, INT side, DOUBLE *lb, DOUBLE *ub, BOOL *spacing_restricted, INT *lowpos, INT *uppos )
 {
     DOUBLE lowbound, hibound ;
 

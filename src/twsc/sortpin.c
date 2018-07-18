@@ -71,6 +71,9 @@ REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to
 static PINBOXPTR *sortArrayS ;          /* the normal array for sorting */
 static PINBOXPTR *sortArraySwapS ;
 
+void shellsort( PINBOXPTR term[] , INT n );
+void sortpin1( INT cell );
+
 void sortpin()
 {
 
@@ -118,8 +121,7 @@ void sortpin()
 
 
 /* sort the pins of a single cell by net */
-sortpin1( cell )
-INT cell ;
+void sortpin1( INT cell )
 {
 
     INT j , n ;
@@ -199,9 +201,7 @@ INT cella, cellb ;
     return ;
 } /* end sortpin2 */
 
-void shellsort( term , n )
-PINBOXPTR term[] ;
-INT n ;
+void shellsort( PINBOXPTR term[] , INT n )
 {
 
 PINBOXPTR ptr ;
@@ -263,9 +263,7 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-void shellsort_referx( worker , head , n )
-FEED_SEG_PTR worker[] ;
-INT n ;
+void shellsort_referx( FEED_SEG_PTR worker[] , int head , INT n )
 {
 
 FEED_SEG_PTR ptr ;
