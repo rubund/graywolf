@@ -562,7 +562,7 @@ static int yylook(){
 				}
 # endif
 			yyr = yyt;
-			if ( (int)yyt > (int)yycrank){
+			if ( (INT)yyt > (INT)yycrank){
 				yyt = yyr + yych;
 				if (yyt <= yytop && yyt->verify+yysvec == yystate){
 					if(yyt->advance+yysvec == YYLERR)	/* error transitions */
@@ -572,7 +572,7 @@ static int yylook(){
 					}
 				}
 # ifdef YYOPTIM
-			else if((int)yyt < (int)yycrank) {		/* r < yycrank */
+			else if((INT)yyt < (INT)yycrank) {		/* r < yycrank */
 				yyt = yyr = yycrank+(yycrank-yyt);
 # ifdef LEXDEBUG
 				if(debug)fprintf(yyout,"compressed state\n");
