@@ -316,11 +316,11 @@ INT l, r, b, t ;
     COMPACTPTR tptr ;
     NODEPTR    temp, nptr ;
 
-    ERRORABORTINT() ;
+    ERRORABORTINT();
     if( ++curTileS > numtilesG ){
 	setErrorFlag() ;
 	M(ERRMSG, "addtile", "Problem with number of tiles\n" ) ;
-	return ;
+	return -1;
     }
     tptr = tileNodeG[curTileS] ;
     /* save relative positions */
