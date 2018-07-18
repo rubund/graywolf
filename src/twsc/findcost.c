@@ -90,6 +90,9 @@ static INT print_pinS = 0 ;
 static void spread_equal_cells();
 static void spread_cells();
 
+void create_cell();
+void find_net_sizes();
+
 INT findcost()
 {
 INT block , bin ;
