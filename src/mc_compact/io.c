@@ -67,6 +67,7 @@ static BOOL curCellTypeS ;               /* hard or soft type */
 static BOOL multiS ;                     /* cell has multiple tiles ??? */
 static CELLBOXPTR ptrS ;                 /* pointer to current cell */
 
+void addSourceNSink();
 
 /* ***************** ERROR HANDLING ****************************** */
 /* ERRORABORT is a macro which forces routines not to do any work */
@@ -75,6 +76,13 @@ static CELLBOXPTR ptrS ;                 /* pointer to current cell */
 { \
     if( errorFlagS ){ \
 	return ; /* don't do any work for errors */ \
+    } \
+} \
+
+#define ERRORABORTINT() \
+{ \
+    if( errorFlagS ){ \
+	return -1; /* don't do any work for errors */ \
     } \
 } \
 
@@ -286,8 +294,7 @@ INT xoffset, yoffset ;
     multiS = 0 ;
 } /* end initCell */
 
-void init_extra_tile( cell, type )
-INT cell ;
+void init_extra_tile(INT cell, int type )
 {
     curTileS = numtilesG ;
     numtilesG++ ;
@@ -309,7 +316,7 @@ INT l, r, b, t ;
     COMPACTPTR tptr ;
     NODEPTR    temp, nptr ;
 
-    ERRORABORT() ;
+    ERRORABORTINT() ;
     if( ++curTileS > numtilesG ){
 	setErrorFlag() ;
 	M(ERRMSG, "addtile", "Problem with number of tiles\n" ) ;

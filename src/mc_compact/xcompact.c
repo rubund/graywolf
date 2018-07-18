@@ -61,6 +61,10 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 #include <yalecad/message.h>
 
 
+void formxEdge(int fromNode, int toNode );
+void initxPicket();
+void update_xpicket(int i, PICKETPTR lowerLimit, PICKETPTR upperLimit );
+
 static PICKETPTR  botPickS ;
 
 void buildXGraph()
@@ -222,9 +226,7 @@ void buildXGraph()
 
 } /* end buildXGraph */
 
-void formxEdge( fromNode, toNode ) 
-int fromNode ;
-int toNode ;
+void formxEdge(int fromNode, int toNode ) 
 {
     COMPACTPTR e1, e2 ;
     ECOMPBOXPTR temp, newE ;
@@ -331,9 +333,7 @@ void initxPicket()
     
 
 
-void update_xpicket( i, lowerLimit, upperLimit )
-int i ;
-PICKETPTR lowerLimit, upperLimit ;
+void update_xpicket(int i, PICKETPTR lowerLimit, PICKETPTR upperLimit )
 {
     PICKETPTR t, temp, curPick ;
     COMPACTPTR newtile ;         /* new tile to be added to picket */

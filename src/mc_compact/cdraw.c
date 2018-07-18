@@ -89,6 +89,8 @@ static BOOL drawEdgeLabelS = FALSE ;
 static BOOL drawChanGraphS = TRUE ;
 static INT  zspanS ;
 
+void draw_changraph();
+
 void init_graphics( argc, argv, windowId )
 INT argc, windowId ;
 char *argv[] ;
@@ -107,14 +109,14 @@ char *argv[] ;
     if( windowId ){
 	/* init windows as a parasite */
 	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
+	    FALSE, MENU,  (int (*)()) draw_the_data, windowId ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
 	}
     } else {
 	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data ))){
+	    FALSE, MENU, (int (*)()) draw_the_data ))){
 	    M(ERRMSG,"init_graphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;

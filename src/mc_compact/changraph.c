@@ -111,7 +111,7 @@ BOOL HnotV ;  /* TRUE if horizontal FALSE if vertical */
 INT cell_lb ; /* cell on left (bottom) for vert (horz) channel */
 INT cell_rt ; /* cell on right (top) for  vert (horz) channel */
 {
-    static edgeCountS = 0 ;  /* current number of edges */
+    static int edgeCountS = 0 ;  /* current number of edges */
     ADJPTR newfE,  /* new forward edge */
            temp ;  /* temporary pointer to relink adjacency list */
     ADJPTR findAdjPtr() ; /* returns an edge given two nodes */

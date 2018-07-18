@@ -75,10 +75,10 @@ static DOUBLE best_areaS = 1.0E30 ;
 
 
 static void x_center();
-static void calc_xslacks();
+static void calc_xslacks( int cur_cell );
 static void update_xslacks();
 static void y_center();
-static void calc_yslacks();
+static void calc_yslacks( int cur_cell );
 static void update_yslacks();
 static INT sortby_xslack();
 
@@ -333,7 +333,7 @@ static void x_center()
 
 } /* end center_x */
 
-static void calc_xslacks( cur_cell )
+static void calc_xslacks( int cur_cell )
 {
     INT i ; 			/* counter */
     INT xmin ;			/* max of all the minimums of a cell */
@@ -661,7 +661,7 @@ static void y_center()
 
 } /* end y_center */
 
-static void calc_yslacks( cur_cell )
+static void calc_yslacks( int cur_cell )
 {
     INT i ; 			/* counter */
     INT ymin ;			/* max of all the minimums of a cell */

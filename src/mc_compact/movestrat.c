@@ -70,6 +70,7 @@ static int find_bound();
 static int findxerror();
 static int findyerror();
 
+void update_cell_tiles(int cell, int deltax, int deltay );
 
 void moveStrategy( violations ) 
 ERRORPTR violations ;
@@ -274,8 +275,7 @@ ERRORPTR violations ;
 } /* end moveStrategy */
 
 /* HOW to update the tiles of the cells */
-void update_cell_tiles( cell, deltax, deltay ) 
-int cell, deltax, deltay ;
+void update_cell_tiles(int cell, int deltax, int deltay ) 
 {
     CELLBOXPTR cellptr ;
     COMPACTPTR t ;
