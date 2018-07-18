@@ -60,6 +60,9 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 
 static INT anxcenterS , bnxcenterS ;
 
+void find_new_pos();
+void add_cell(INT ** cellptr , INT c );
+
 INT ucxx2( )
 {
 
@@ -309,8 +312,7 @@ return ;
 }
  
 
-add_cell( cellptr , c ) 
-INT **cellptr , c ;
+void add_cell(INT ** cellptr , INT c ) 
 {
 
 INT k ;

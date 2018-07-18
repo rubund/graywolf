@@ -83,6 +83,8 @@ static SEGBOXPTR **chan_segS ;
 void rm_segm_overlap(SEGBOXPTR *checkseg , INT m );
 void replace_seg(PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode );
 void add_adj(SEGBOXPTR segptr, PINBOXPTR node );
+void check_overlap_at_pin(PINBOXPTR ptr );
+void depth_first_check(PINBOXPTR ptr , SEGBOXPTR oldedge );
 
 void assgn_channel_to_seg()
 {
@@ -418,8 +420,7 @@ node->adjptr->next = adjptr ;
 }
 
 
-void check_overlap_at_pin( ptr )
-PINBOXPTR ptr ;
+void check_overlap_at_pin(PINBOXPTR ptr )
 {
 
 PINBOXPTR aptr , bptr ;
@@ -553,9 +554,7 @@ for( ptr =  hdptr ; ptr ; ptr = ptr->next ) {
 return( correctness ) ;
 }
 
-void depth_first_check( ptr , oldedge )
-PINBOXPTR ptr ;
-SEGBOXPTR oldedge ;
+void depth_first_check(PINBOXPTR ptr , SEGBOXPTR oldedge )
 {
 PINBOXPTR nextptr ;
 SEGBOXPTR segptr ;
