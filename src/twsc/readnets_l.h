@@ -621,7 +621,7 @@ static int yylook(){
 # endif
 		}
 	}
-static int yyback(p, m)
+static int yyback(int *p, int m)
 	int *p;
 {
 if (p==0) return(0);
