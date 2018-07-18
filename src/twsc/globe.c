@@ -116,7 +116,7 @@ static INT wkS ;
 static LONG global_wire_lengthS ;
 static INT swap_limitS ;
 
-void globe() 
+int globe() 
 {
 
 INT row , net , cost , last_cost , swaps , found , total_final_cost ;
