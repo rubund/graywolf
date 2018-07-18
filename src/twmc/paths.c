@@ -81,6 +81,8 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 
 INT dcalc_min_path_len();
 INT dcalc_max_path_len();
+void add2path_set( INT path );
+void clear_path_set();
 
 void print_paths( ) 
 {
@@ -509,8 +511,7 @@ void init_path_set()
 } /* end initset */
 
 /* add a path to the set if not already in set */
-void add2path_set( path ) 
-INT  path ;
+void add2path_set( INT path ) 
 {  
     PSETPTR temp, cpath ;
 
@@ -582,7 +583,7 @@ INT  net ;
     }
 } /* end add2net_set */
 
-BOOL member_net_set( net )
+BOOL member_net_set( int net )
 /* test for membership */
 {
     if( net_set_array[net] == net_set_count ){
