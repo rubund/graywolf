@@ -151,7 +151,7 @@ INT windowId ;
     if( windowId ){
 	/* init windows as a parasite */
 	if(!(TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE,menuS, draw_the_data, windowId ))){
+	    FALSE,menuS, (INT (*)()) draw_the_data, windowId ))){
 	    M(ERRMSG,"initGraphics","Aborting graphics.");
 	    doGraphicsG = FALSE ;
 	    avoidDump = TRUE ;
@@ -160,7 +160,7 @@ INT windowId ;
     } else {
 	/* init window as a master */
 	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),FALSE,
-	    menuS,draw_the_data ))){
+	    menuS, (INT (*)()) draw_the_data ))){
 	    M(ERRMSG,"initGraphics","Aborting graphics.");
 	    doGraphicsG = FALSE ;
 	    avoidDump = TRUE ;

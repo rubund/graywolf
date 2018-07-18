@@ -144,6 +144,20 @@ void add_tile(INT left, INT bottom, INT right, INT top );
     } \
 } \
 
+#define ERRORABORTINT() \
+{ \
+    if( abortS ){ \
+	return -1; /* don't do any work for errors */ \
+    } \
+} \
+
+#define ERRORABORTPOINTER() \
+{ \
+    if( abortS ){ \
+	return NULL; /* don't do any work for errors */ \
+    } \
+} \
+
 /* ##########################  STATIC definitions ########################### */
 static INT  curCellTypeS ;        /* current cell type - ie, stdcell,pad etc. */
 static INT  curNetS ;             /* current net number                       */
@@ -481,7 +495,7 @@ static char *add_swap_func()
 {
     INT *data ;   /* pointer to allocated space for swap_group record */
 
-    ERRORABORT() ;
+    ERRORABORTPOINTER() ;
 
     /* how to add the data to the hash table */
     /* create space for data */
@@ -491,8 +505,7 @@ static char *add_swap_func()
     return( (char *) data ) ;
 } /* end add_swap_func */
 
-add_swap_group( swap_name )
-char *swap_name ;
+void add_swap_group(char * swap_name )
 {
     INT i ;            /* counter */
     INT *groupptr ;    /* the return group from searching in hash table */
@@ -635,7 +648,7 @@ static char *add_net_func()
 {
     INT *data ;   /* pointer to allocated space for net record in hashtable */
 
-    ERRORABORT() ;
+    ERRORABORTPOINTER() ;
     /* how to add the data to the hash table */
     /* create space for data */
     data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
@@ -646,9 +659,9 @@ static char *add_net_func()
 
 static char *add_pin_func()
 {
-    INT *data ;   /* pointer to allocated space for pin_grp_hash record */
+    PINLIST *data ;   /* pointer to allocated space for pin_grp_hash record */
 
-    ERRORABORT() ;
+    ERRORABORTPOINTER() ;
 
     /* how to add the data to the hash table */
     /* create space for data */
