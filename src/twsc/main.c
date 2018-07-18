@@ -147,6 +147,7 @@ static DOUBLE ave_row_sepS ; /* the row separation for a run */
 void install_swap_pass_thrus(PINBOXPTR netptr);
 void incorporate_ECOs();
 void syntax();
+void init_utemp();
 
 int main(INT argc , char *argv[] )
 {
