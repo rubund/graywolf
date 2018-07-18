@@ -117,6 +117,13 @@ static INT feed_lengthS = 0 ;       /* length of feeds */
 static YTREEPTR tile_memoryG ;
 static void reset_tile_parameters();
 static INT compare_tiles();
+void grid_rows();
+void set_spacing();
+void init_vertex_list(INT left, INT bottom, INT right, INT top );
+void free_structures( BOOL allpts );
+void update_tile_memory( BOOL free_flag );
+void find_core();
+void check_overlap();
 
 #if SIZEOF_VOID_P == 64
 #define INTSCANSTR "%ld"
@@ -1622,8 +1629,7 @@ void remakerows()
 
 } /* end remakerows */
 
-void init_vertex_list( left, bottom, right, top )
-INT left, bottom, right, top ;
+void init_vertex_list(INT left, INT bottom, INT right, INT top )
 {
 
     /* start the vertex list */
@@ -1660,8 +1666,7 @@ TILE_BOX *tile ;
     Ysafe_free( tile ) ;
 } /* end free_tile */
 
-void free_structures( allpts )
-BOOL allpts ;
+void free_structures( BOOL allpts )
 {
 
     TILE_BOX *last_tile ;
@@ -1682,8 +1687,7 @@ BOOL allpts ;
     }
 }
 
-void update_tile_memory( free_flag )
-BOOL free_flag ;
+void update_tile_memory( BOOL free_flag )
 {
     TILE_BOX *tile ;
 

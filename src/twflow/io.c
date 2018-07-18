@@ -104,6 +104,9 @@ static OBJECTPTR objS ;                  /* pointer to current obj */
 static ADJPTR botEdgeS ;                 /* the current pointer */
 static EDGEPTR edgeListS = NULL ;        /* list of drawable edges */
 
+void add_object(char * pname, INT node );
+void set_window();
+
 /* ***************** ERROR HANDLING ****************************** */
 /* ERRORABORT is a macro which forces routines not to do any work */
 /* when we find a syntax error in the input routine. */
@@ -151,9 +154,7 @@ INT numobj ;
 } /* end init */
 
 /* create a new object */
-void add_object( pname, node )
-char *pname ;
-INT node ;
+void add_object(char * pname, INT node )
 {
     ERRORABORT() ;
     if( ++curObjS != node || node > numobjectsG ){

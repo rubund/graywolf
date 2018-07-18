@@ -66,9 +66,12 @@ REVISIONS:  May 25, 1989 - added needtoExecute to handle case of no
 #include <yalecad/debug.h>
 #include <globals.h>
 
+
 #define STARTOBJECT  0          /* start of the graph */
 #define ERROR        -1         /* error from YgetFileTime() */
 static INT objectS ;            /* the last program that was run */
+
+void report_problem( ADJPTR adjptr );
 
 void auto_flow()
 {
@@ -182,8 +185,7 @@ void exec_single_prog()
     G( draw_the_data() ) ;
 } /* end exec_single_prog */
 
-void report_problem( adjptr )
-ADJPTR adjptr ;
+void report_problem( ADJPTR adjptr )
 {
     sprintf( YmsgG, "Trouble executing %s", 
 	proGraphG[adjptr->node]->name)  ;

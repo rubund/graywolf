@@ -84,6 +84,7 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 
 /* Forward declarations */
 void syntax(void);
+void show_flows();
 
 INT main( argc , argv )
 INT argc ;

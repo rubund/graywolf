@@ -81,6 +81,9 @@ static int total_std_cellS = 0 ;
 static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+
+void write_softpins( FILE *fp );
+
 /* *************************************************************** */
 void init()
 {
@@ -253,8 +256,7 @@ FILE *fp ;
 
 } /* end output */
 
-void write_softpins( fp )
-FILE *fp ;
+void write_softpins( FILE *fp )
 {
     YTABLEPTR thread ;
     NETPTR net ;

@@ -110,14 +110,14 @@ INT windowId ;
 	/* init windows as a parasite */
 	fprintf( stderr,"windowId:%d\n", windowId ) ;
 	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
+	    FALSE, MENU, (INT (*)()) draw_the_data, windowId ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
 	}
     } else {
 	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data ))){
+	    FALSE, MENU, (INT (*)())draw_the_data ))){
 	    M(ERRMSG,"init_graphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
