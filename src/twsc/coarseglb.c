@@ -82,7 +82,7 @@ void initialize_feed_need();
 void feed_config( );
 void compute_feed_diff( INT iteration );
 void update_feed_config( INT iteration );
-void no_of_feedthru_cells();
+INT no_of_feedthru_cells();
 
 /* global definitions */
 INT longest_row_lengthG ;
@@ -657,7 +657,7 @@ if( rowsG == 0 && blk_most_riteG >= right_Pads_left_edgeS ) {
 }
 
 
-void no_of_feedthru_cells()
+INT no_of_feedthru_cells()
 {
 
 INT i , row , n , difference , lastcell_rite , total_feedthrus ;
