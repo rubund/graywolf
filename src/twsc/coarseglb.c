@@ -73,10 +73,14 @@ REVISIONS:  Aug 27, 1990 - modified shift so it only shifts if not
 /* static definitions */
 static INT *accumulate_feedS , *feed_diffS , *diff_in_rowfeedS ;
 static INT *feed_shortS , half_hzsepS , right_Pads_left_edgeS ;
-INT set_node( x );
+INT set_node(INT x );
 
 /* local functions */
 static int space_for_feed(void);
+void set_up_grid( );
+void initialize_feed_need();
+void feed_config( );
+void compute_feed_diff( INT iteration );
 
 /* global definitions */
 INT longest_row_lengthG ;
@@ -94,7 +98,7 @@ void coarseglb()
 INT shift ;
 INT iteration = 0 ;
 
-assign_row_to_pin() ;
+void assign_row_to_pin() ;
 if( case_unequiv_pinG ) {
     unequiv_pin_pre_processing() ;
 }
@@ -323,8 +327,7 @@ for( cell = 1 ; cell <= numcellsG ; cell++ ) {
 }
 
 
-INT set_node( x )
-INT x ;
+INT set_node(INT x )
 {
 
 DOUBLE h ;
@@ -340,8 +343,7 @@ if( h < 1 ) {
 }
 
 
-void compute_feed_diff( iteration )
-INT iteration ;
+void compute_feed_diff( INT iteration )
 {
 
 INT i , j , k , range , left_node , rite_node ;
