@@ -126,6 +126,10 @@ extern BOOL stand_cell_as_gate_arrayG ;
 
 void addCell( char *cellname, INT celltype );
 void add_tile(INT left, INT bottom, INT right, INT top );
+void add_padside(char * padside);
+void setPermutation( int permuteFlag );
+void add2padgroup( char *padName, BOOL ordered );
+void end_padgroup();
 
 /* below is what we expect to be a typical standard cell input */
 /* user may change parameters if they wish. Subject to change */
@@ -1900,8 +1904,7 @@ void process_corners()
 } /* end process_corners */
 
 
-void add_padside( padside )
-char *padside ;
+void add_padside(char * padside )
 {
     INT numsides ;         /* length of side restriction string */
     INT i ;                /* counter */
@@ -2022,7 +2025,7 @@ DOUBLE lower, upper ;
 /* ***************************************************************** */
 
 /* set whether a pad group can be permuted */
-void setPermutation( permuteFlag ) 
+void setPermutation( int permuteFlag ) 
 {
     ERRORABORT() ;
     pptrS->permute = permuteFlag ;
@@ -2052,9 +2055,8 @@ char *padside ;
 } /* set_old_format */
 
 /* add this pad to the current pad group */
-void add2padgroup( padName, ordered ) 
-char *padName ;
-BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
+void add2padgroup( char *padName, BOOL ordered ) 
+//BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 {
     INT i, endofpads, endofgroups ;
 
@@ -2121,7 +2123,7 @@ BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 
 } /* end add2PadGroup */
 
-end_padgroup()
+void end_padgroup()
 {
     ERRORABORT() ;
 
