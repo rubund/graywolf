@@ -55,6 +55,8 @@ REVISIONS:  Apr  1, 1990 - fixed gateswap routine by changing sortpins
 #include <yalecad/debug.h>
 #include "readnets.h"
 
+void adjust_paths_on_cell(INT cell);
+
 int gate_swap(INT between_two_cells, INT sgidxa, INT sgidxb )
 {
 
