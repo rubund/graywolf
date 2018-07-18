@@ -654,7 +654,7 @@ if( rowsG == 0 && blk_most_riteG >= right_Pads_left_edgeS ) {
 }
 
 
-void no_of_feedthru_cells()
+INT no_of_feedthru_cells()
 {
 
 INT i , row , n , difference , lastcell_rite , total_feedthrus ;
