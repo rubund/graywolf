@@ -622,7 +622,6 @@ static int yylook(){
 		}
 	}
 static int yyback(int *p, int m)
-	int *p;
 {
 if (p==0) return(0);
 while (*p)
