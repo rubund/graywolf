@@ -20,8 +20,10 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_LIBDIR}")
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 MATH(EXPR SIZEOF_VOID_P_BITS "${CMAKE_SIZEOF_VOID_P}*8")
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSIZEOF_VOID_P=${SIZEOF_VOID_P_BITS}")
-#SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSIZEOF_VOID_P=${SIZEOF_VOID_P_BITS} -Wno-implicit-function-declaration")
+
+# Ignore no-implicit-function-declaration warnings for now, since there are so many - and it then becomes
+# easier to see other warnings popping up.
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSIZEOF_VOID_P=${SIZEOF_VOID_P_BITS} -Wno-implicit-function-declaration")
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/config-build.h)
 
