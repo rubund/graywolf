@@ -116,6 +116,9 @@ void copy_workerS_field(FEED_SEG_PTR aptr, FEED_SEG_PTR bptr );
 void assgn_impin(IPBOXPTR imptr , FEED_SEG_PTR fsptr , int row );
 void relax_padPins_pinloc();
 void relax_unequiv_pinloc();
+void elim_unused_feedsSC();
+void rebuild_nextpin();
+void rebuild_cell_paths();
 
 /* static variables */
 static INT *wk_headS , max_feed_in_a_rowS ;

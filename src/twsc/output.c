@@ -85,7 +85,8 @@ extern BOOL stand_cell_as_gate_arrayG ;
 /* static definitions */
 static char a_lineS[LRECL] ;
 
-INT load_a_lineS(fp);
+INT load_a_lineS(FILE *fp);
+void create_cel_file();
 
 void output()
 {
@@ -524,8 +525,7 @@ return ;
 
 
 
-INT load_a_lineS(fp)
-FILE *fp ;
+INT load_a_lineS(FILE *fp)
 {
 
 INT i ;
