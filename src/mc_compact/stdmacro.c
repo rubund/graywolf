@@ -410,7 +410,7 @@ int node1, node2 ;
 
 } /* end swap_nodes */
 
-void remove_problem( source, sink )
+int void remove_problem( source, sink )
 int source, sink ;
 {
     int i ;              /* temp counter */

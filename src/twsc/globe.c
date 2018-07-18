@@ -1403,7 +1403,7 @@ BOOL perim_flag ;
 
 
 
-void improve_place_sequential( row , index )
+int improve_place_sequential( row , index )
 INT row , index ;
 {
 
