@@ -75,6 +75,7 @@ static PINBOXPTR *memoptrS ;
 
 void wire_boundary1(DBOXPTR dimptr);
 void check_validbound(DBOXPTR dimptr, PINBOXPTR termptr, PINBOXPTR nextptr );
+void wire_boundary2(INT c , DBOXPTR dimptr);
 
 
 void init_dimbox()
@@ -351,9 +352,7 @@ if( nextptr == PINNULL || curr_netS != nextptr->net ) {
 }
 }
 
-void wire_boundary2( c , dimptr )
-DBOXPTR dimptr ;
-INT c ;
+void wire_boundary2(INT c , DBOXPTR dimptr )
 {
 
 PINBOXPTR netptr ;

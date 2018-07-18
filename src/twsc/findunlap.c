@@ -69,8 +69,10 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-INT find_shortest_row( long_row );
-INT row_cost( long_row , short_row , width );
+INT find_shortest_row(INT long_row );
+INT row_cost(INT long_row , INT short_row , INT width );
+void find_last_6_moveable_cells( INT row, INT *cell1, INT *cell2, INT *cell3, INT *cell4, INT *cell5, INT *cell6);
+void determine_unequal_rows(INT *short_row, INT *long_row );
 
 /* globals */
 INT largest_delta_row_lenG ;
@@ -807,8 +809,7 @@ return ;
 
 
 
-INT row_cost( long_row , short_row , width )
-INT long_row , short_row , width ;
+INT row_cost(INT long_row , INT short_row , INT width )
 {
 
 INT cost ;
@@ -820,9 +821,7 @@ return( cost ) ;
 
 
 
-void find_last_6_moveable_cells( row, cell1, cell2, cell3, cell4, cell5, cell6) 
-INT row ;
-INT *cell1 , *cell2 , *cell3 , *cell4 , *cell5 , *cell6 ;
+void find_last_6_moveable_cells( INT row, INT *cell1, INT *cell2, INT *cell3, INT *cell4, INT *cell5, INT *cell6) 
 {
 
 INT i ;
@@ -960,8 +959,7 @@ return(row) ;
 */
 
 
-INT find_shortest_row( long_row )
-INT long_row ;
+INT find_shortest_row(INT long_row )
 {
 INT row ;
 INT short_row_length ;
@@ -989,8 +987,7 @@ return(short_row) ;
 }
 
 
-void determine_unequal_rows( short_row, long_row )
-INT *short_row, *long_row ;
+void determine_unequal_rows(INT *short_row, INT *long_row )
 {
     INT row ;
     INT short_row_length, long_row_length ;
