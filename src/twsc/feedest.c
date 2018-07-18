@@ -82,6 +82,7 @@ static INT *row_flagS ;
 static INT chip_width_penaltyS ;
 static INT *est_min_ratioS ;
 
+void estimate_pass_thru_penalty(INT row1 , INT row2 );
 
 void feedest()
 {
@@ -312,8 +313,7 @@ Ysafe_free( old_penalty );
 }
 
 #ifdef Carl
-void estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
+void estimate_pass_thru_penalty(INT row1 , INT row2 )
 {
 
 INT row ;
@@ -341,8 +341,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 }
 #else
 
-void estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
+void estimate_pass_thru_penalty(INT row1 , INT row2 )
 {
 
 INT row ;

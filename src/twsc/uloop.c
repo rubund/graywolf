@@ -154,7 +154,10 @@ DOUBLE combination() ;
 INT eval_ratio() ;
 void rowcon();
 
-INT tw_frozen( cost );
+INT tw_frozen(INT cost );
+void pick_fence_position(INT *x, INT *y, FENCEBOX * fence);
+void pick_position(INT *x, INT *y, INT ox, INT oy, DOUBLE scale);
+void update_window_size(DOUBLE iternum );
 
 /* static variables */
 static INT acc_cntS = 0 ;
@@ -1224,9 +1227,7 @@ INT first;
 
 
 
-pick_fence_position(x,y,fence)
-INT *x, *y ;
-FENCEBOX *fence ;
+void pick_fence_position(INT *x, INT *y, FENCEBOX *fence)
 {
     register INT left,right;
     BBOXPTR bblckptr ;
@@ -1246,9 +1247,7 @@ FENCEBOX *fence ;
     return;
 }
 
-void pick_position(x,y,ox,oy,scale)
-INT *x,*y,ox,oy;
-DOUBLE scale ;
+void pick_position(INT *x, INT *y, INT ox, INT oy, DOUBLE scale)
 {
     register INT i,m,n,bleft,bright;
     DOUBLE tmp ;
@@ -1294,8 +1293,7 @@ DOUBLE scale ;
 }
 
 /* change range limiter according to iterationG number */
-void update_window_size( iternum )
-DOUBLE iternum ;
+void update_window_size(DOUBLE iternum )
 {
 
 /*
@@ -1373,8 +1371,7 @@ FILE *fp ;
     fscanf(fp,"%lf %lf %lf\n",&avg_timeG, &avg_funcG, &timeFactorG);
 }
 
-INT tw_frozen( cost )
-INT cost ;
+INT tw_frozen(INT cost )
 {
 
 DOUBLE diff , avg_first_set , avg_second_set ;

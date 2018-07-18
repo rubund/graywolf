@@ -99,6 +99,8 @@ static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
    BOOL spacing_restricted ) ) ;
 static void find_core( P1(void) ) ;
 
+void get_global_pos(INT cell, INT *l, INT *b, INT *r, INT *t);
+
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static BOOL virtualCoreS = FALSE ;
 static INT sumposS ; /* sum of the modified opt. pin pos. of pad pins */
@@ -656,9 +658,7 @@ BOOL flag ;
 
 
 /* given a cell it returns bounding box of cell in global coordinates */
-void get_global_pos( cell, l, b, r, t )
-INT cell ; 
-INT *l, *r, *b, *t ;
+void get_global_pos(INT cell, INT *l, INT *b, INT *r, INT *t )
 {
 
     CBOXPTR ptr ;
