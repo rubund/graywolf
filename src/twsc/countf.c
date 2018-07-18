@@ -72,6 +72,8 @@ static INT est_final_feedS ;
 static INT **row_mapS ;
 static BOOL num_callS = FALSE ;
 
+int feed_situation(INT row , INT net);
+
 int countf()
 {
 
@@ -379,8 +381,7 @@ return ;
 
 
 
-void feed_situation( row , net )
-INT row , net ;
+int feed_situation(INT row , INT net )
 {
 
 PINBOXPTR nptr ;
