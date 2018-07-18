@@ -51,8 +51,7 @@ REVISIONS:  Tue Mar 19 16:22:56 CST 1991 - fixed crash when
 #include "groute.h"
 #include <yalecad/debug.h>
 
-void urcost( segptr )
-SEGBOXPTR segptr ;
+int urcost(SEGBOXPTR segptr )
 {
 
 CHANGRDPTR aptr1 , aptr2 , bptr1 , bptr2 , ptr ;
