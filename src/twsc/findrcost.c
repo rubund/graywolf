@@ -59,7 +59,10 @@ static INT **cedgebinS ;
 static INT cedge_binwidthS ;
 static INT num_edgebinS ;
 
-INT facing_cellheight( pin , row , pinloc , status );
+INT facing_cellheight( INT pin , INT row , INT pinloc , INT status );
+void initial_tracks(SEGBOXPTR segptr );
+void set_cedgebin();
+void reset_track();
 
 void findrcost()
 {
@@ -133,8 +136,7 @@ for( chan = 1 ; chan <= numChansG ; chan++ ) {
 }
 }
 
-void initial_tracks( segptr )
-SEGBOXPTR segptr ;
+void initial_tracks(SEGBOXPTR segptr )
 {
 
 INT x1 , x2 , pin1 , pin2 ;
@@ -289,8 +291,7 @@ for( ; cell <= lastpadG ; cell++ ) {
 }
 
 
-INT facing_cellheight( pin , row , pinloc , status )
-INT pin, row , pinloc , status ;
+INT facing_cellheight( INT pin , INT row , INT pinloc , INT status )
 {
 
 CBOXPTR cellptr ;

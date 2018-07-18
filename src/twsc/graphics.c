@@ -114,7 +114,12 @@ static INT  pinsizeS ;     /* size of the pin */
 
 static void draw_fs();
 extern VOID draw_a_cell( INT );
-extern INT draw_the_data() ;
+extern void draw_the_data() ;
+void graphics_dump();
+void reset_heat_index();
+void closegraphics();
+
+void setGraphicWindow();
 
 void initGraphics( argc, argv, windowId )
 INT argc ;
@@ -416,7 +421,7 @@ void process_graphics()
 
 /* the graphics program can draw the results at each desired */
 /* timestep. */
-INT draw_the_data()
+void draw_the_data()
 {
 
     INT  i ;

@@ -124,6 +124,9 @@ extern BOOL spacer_name_twfeedG ;
 extern BOOL rigidly_fixed_cellsG ;
 extern BOOL stand_cell_as_gate_arrayG ;
 
+void addCell( char *cellname, INT celltype );
+void add_tile(INT left, INT bottom, INT right, INT top );
+
 /* below is what we expect to be a typical standard cell input */
 /* user may change parameters if they wish. Subject to change */
 #define EXPECTEDNUMCELLS  3500
@@ -306,9 +309,7 @@ void initialize_parser()
 
 } /* initialize_parser */
 
-void addCell( cellname, celltype )
-char *cellname ;
-INT celltype ;
+void addCell( char *cellname, INT celltype )
 {
     /* save current cell name and type for error messages */
     curCellNameS = cellname ;
@@ -406,8 +407,7 @@ INT celltype ;
 
 } /* end addCell */
 
-void add_tile( left, bottom, right, top )
-INT left, bottom, right, top ;
+void add_tile(INT left, INT bottom, INT right, INT top )
 {
     INT width ;         /* width of tile */
     INT height ;        /* height of tile */
