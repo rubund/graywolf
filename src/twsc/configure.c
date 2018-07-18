@@ -83,6 +83,8 @@ static INT widthS ;
 static INT mttshiftS ;
 static INT mbbshiftS ;
 
+void random_placement();
+
 
 void configure() 
 {
