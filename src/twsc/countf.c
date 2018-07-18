@@ -72,7 +72,7 @@ static INT est_final_feedS ;
 static INT **row_mapS ;
 static BOOL num_callS = FALSE ;
 
-void countf()
+int countf()
 {
 
 PINBOXPTR netptr ;
