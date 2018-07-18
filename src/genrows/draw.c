@@ -143,6 +143,7 @@ static void outm();
 
 /* forward declarations */
 void edit_row(ROW_BOX* rowptr );
+void get_global_pos(INT macro, INT *l, INT *b, INT *r, INT *t );
 
 void initgraphics( argc, argv, windowId )
 INT argc, windowId ;
@@ -166,7 +167,7 @@ char *argv[] ;
     if( windowId ){
 	/* init windows as a parasite */
 	if( !( TWinitParasite(argc,argv,TWnumcolors(),
-	    TWstdcolors(),FALSE,MENU, draw_the_data, windowId ))){
+	    TWstdcolors(),FALSE,MENU, (INT (*)()) draw_the_data, windowId ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
@@ -174,7 +175,7 @@ char *argv[] ;
     } else {
 	/* init window as a master */
 	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE,MENU, draw_the_data ))){
+	    FALSE,MENU, (INT (*)()) draw_the_data ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
@@ -1955,7 +1956,7 @@ INT field ;
     } /* end switch */
 
     if( deltax == 0 && deltay == 0 ){
-	return ; /* no work to do */
+	return 0; /* no work to do */
     }
     /* else update the cooridates positions */
     if( deltax != 0 ){
@@ -1974,7 +1975,7 @@ INT field ;
     }
 } /* end update_macro_data */
 
-static void edit_macro( macro, xoff, yoff )
+static void edit_macro(int macro,int xoff, int yoff )
 {
     TWDRETURNPTR answer ;  /* return from user */
     MACROPTR mptr ;        /* current macro information */
@@ -2040,9 +2041,7 @@ static void edit_macro( macro, xoff, yoff )
 } /* end edit_macro */
 
 
-void get_global_pos( macro, l, b, r, t )
-INT macro ; 
-INT *l, *r, *b, *t ;
+void get_global_pos(INT macro, INT *l, INT *b, INT *r, INT *t )
 {
 
     MACROPTR mptr ;

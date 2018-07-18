@@ -68,6 +68,8 @@ SEGBOXPTR makeseg() ;
 static PINBOXPTR   *vertexS ;
 static INT **costS , *lowcostS , *closestS , *components , max_pinS ;
 
+void make_net_Tree(PINBOXPTR startptr);
+
 void steiner()
 {
 
@@ -199,8 +201,7 @@ Ysafe_free( add_st_flagG ) ;
 }
 
 
-void make_net_Tree( startptr )
-PINBOXPTR startptr ;
+void make_net_Tree(PINBOXPTR startptr )
 {
 
 PINBOXPTR netptr , iptr , jptr ;

@@ -76,8 +76,7 @@ void Ytimer_start()
 } /* end Ytimer_start */
 
 /* this is the time elapsed since the timer start in milliseconds */
-void Ytimer_elapsed( time_elapsed )
-INT *time_elapsed ;
+void Ytimer_elapsed( INT *time_elapsed )
 {
 #ifdef SYS5
   struct tms tp;

@@ -97,7 +97,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #define CARL_NEW
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-INT cell_rotate( row , index );
+INT cell_rotate(INT row , INT index );
 
 /* global variables */
 BOOL connectFlagG ;
@@ -107,6 +107,18 @@ extern BOOL rigidly_fixed_cellsG ;
 extern BOOL placement_improveG ;
 
 static LONG swap_cost( P1(BOOL perim_flag ) ) ;
+
+void free_static_in_globe();
+void preFeedAssgn();
+void FeedAssgn(INT row );
+void row_seg_intersect(PINBOXPTR ptr1 , PINBOXPTR ptr2 , SEGBOXPTR segptr );
+void copy_workerS_field(FEED_SEG_PTR aptr, FEED_SEG_PTR bptr );
+void assgn_impin(IPBOXPTR imptr , FEED_SEG_PTR fsptr , int row );
+void relax_padPins_pinloc();
+void relax_unequiv_pinloc();
+void elim_unused_feedsSC();
+void rebuild_nextpin();
+void rebuild_cell_paths();
 
 /* static variables */
 static INT *wk_headS , max_feed_in_a_rowS ;
@@ -359,8 +371,7 @@ Ysafe_free( total_feed_in_the_rowG ) ;
 
 
 #ifdef CARL_NEW
-void FeedAssgn( row )
-INT row ;
+void FeedAssgn(INT row )
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;
@@ -710,8 +721,7 @@ return ;
 }
 #else
 
-void FeedAssgn( row )
-INT row ;
+void FeedAssgn(INT row )
 {
 
 PINBOXPTR netptr , ptr1 , ptr2 ;
@@ -887,9 +897,7 @@ for( k = 1 ; k <= chan_node_no ; k++ ) {
 #endif
 
 
-void row_seg_intersect( ptr1 , ptr2 , segptr )
-PINBOXPTR ptr1 , ptr2 ;
-SEGBOXPTR segptr ;
+void row_seg_intersect(PINBOXPTR ptr1 , PINBOXPTR ptr2 , SEGBOXPTR segptr )
 {
 
 INT i ;
@@ -914,8 +922,7 @@ workerS[ wkS ]->segptr = segptr ;
 }
 
 
-void copy_workerS_field( aptr, bptr )
-FEED_SEG_PTR aptr, bptr ;
+void copy_workerS_field(FEED_SEG_PTR aptr, FEED_SEG_PTR bptr )
 {
 aptr->netptr = bptr->netptr ;
 aptr->refer  = bptr->refer ;
@@ -924,9 +931,7 @@ aptr->segptr = bptr->segptr ;
 
 
 #ifdef CARL_NEW
-void assgn_impin( imptr , fsptr , row )
-IPBOXPTR imptr ;
-FEED_SEG_PTR fsptr ;
+void assgn_impin(IPBOXPTR imptr , FEED_SEG_PTR fsptr , int row )
 {
 
 INT net ;
@@ -994,9 +999,7 @@ if( strncmp( carrayG[netptr->cell]->cname, "twfeed", 6 ) == STRINGEQ ){
 }
 }
 #else
-void assgn_impin( imptr , fsptr , row )
-IPBOXPTR imptr ;
-FEED_SEG_PTR fsptr ;
+void assgn_impin(IPBOXPTR imptr , FEED_SEG_PTR fsptr , int row )
 {
 
 INT net ;
@@ -1617,8 +1620,7 @@ if( accept_greedy( (INT)(global_wire-new_global_wire), timingcostG-newtimepenal,
 }
 
 
-INT cell_rotate( row , index )
-INT row , index ;
+INT cell_rotate(INT row , INT index )
 {
 
 INT cell, swap ;

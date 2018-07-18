@@ -50,8 +50,7 @@ REVISIONS:
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
 
-XPICK_INT( l , u , c )
-INT l , u , c ;
+int XPICK_INT(INT l , INT u , INT c )
 {
 
     INT d ;

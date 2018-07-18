@@ -99,6 +99,9 @@ static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
    BOOL spacing_restricted ) ) ;
 static void find_core( P1(void) ) ;
 
+void call_place_pads();
+void output_nets( FILE *fp, int numnets );
+
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static INT sumposS ; /* sum of the modified opt. pin pos. of pad pins */
 static INT sumtieS ; /* sum of all the opt. pin pos. of pad pins */
@@ -565,16 +568,14 @@ INT howmany ;
 
 
 /* turn virtual core on and off */
-void setVirtualCore( flag )
-BOOL flag ;
+void setVirtualCore( BOOL flag )
 {
     virtualCoreS = flag ;
 } /* end set Virtual core */
 
 /* function finds and returns core boundary region including cells */
 /* which overlap the core region */
-void find_core_boundary( left, right, bottom, top )
-INT *left, *right, *bottom, *top ;
+void find_core_boundary( INT *left, INT *right, INT *bottom, INT *top )
 {
     BOOL rememberFlag ;
 
@@ -947,8 +948,7 @@ INT find_numnets()
     return( numnets ) ;
 } /* end find_numnets */
 
-void output_nets( fp, numnets )
-FILE *fp ;
+void output_nets( FILE *fp, int numnets )
 {
     INT net ;
     INT pincount ;

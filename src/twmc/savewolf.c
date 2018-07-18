@@ -71,8 +71,10 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
-void savewolf( forceSave )
-BOOL forceSave ; /* if true save parameters regardless of time */
+void HPO(FILE *fp,DOUBLE d);
+void HPI(FILE *fp,DOUBLE *d);
+
+void savewolf( BOOL forceSave )
 {
 
 INT  m ;
@@ -212,7 +214,7 @@ fscanf( fp, "%d %d\n", &binWidthXG, &binXOffstG ) ;
 fscanf( fp, "%d %d\n", &binWidthYG, &binYOffstG ) ; 
 HPI(fp,&slopeXG) ;
 HPI(fp,&slopeYG) ;
-HPI(fp,&baseWeightG) ;
+HPI(fp,(DOUBLE *)(&baseWeightG)) ;
 HPI(fp,&wireFactorXG) ;
 HPI(fp,&wireFactorYG) ;
 HPI(fp,&aveChanWidG) ;
@@ -348,16 +350,14 @@ if( error ){ /* abort restart */
 }
 } /* end TW_oldinput */
 
-void HPO(fp,d)
-FILE *fp;			/* high precision output */
-DOUBLE d;
+void HPO(FILE *fp,DOUBLE d)
+//FILE *fp;			/* high precision output */
 {
     fprintf(fp,"%34.32le\n",d);
 } /* end HPO */
 
-void HPI(fp,d)
-FILE *fp;			/* high precision input */
-DOUBLE *d;
+void HPI(FILE *fp,DOUBLE *d)
+//FILE *fp;			/* high precision input */
 {
     INT numread ;
 

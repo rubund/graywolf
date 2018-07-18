@@ -66,6 +66,8 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 #include <compact.h>
 #include <yalecad/debug.h>
 
+void freeGraph( INT direction );
+
 void remove_violations()
 {
     ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
@@ -199,8 +201,7 @@ void compact()
 } /* end compact */
 
 
-void freeGraph( direction ) 
-INT direction ;
+void freeGraph( INT direction ) 
 {
     INT i ;
     ECOMPBOXPTR edge , saveEdge ;

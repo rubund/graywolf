@@ -88,7 +88,7 @@ INT lowerLimit, upperLimit ;
     /* make sure set limits are correct */
     if( lowerLimit > upperLimit ){
 	M( ERRMSG, "Yset_init", "Set limits are in error\n" ) ;
-	return ;
+	return NULL;
     }
     sizeSet = upperLimit - lowerLimit + 1 ;
     set->set = YMALLOC( sizeSet, YSETLISTPTR ) ; 
@@ -177,9 +177,7 @@ INT  node ;
 } /* end Yset_add */
 
 /* delete a node from the set */
-Yset_delete( set, node )
-YSETPTR set ;
-INT node ;
+void Yset_delete( YSETPTR set, INT node )
 {
     YSETLISTPTR delptr ;
 

@@ -1080,7 +1080,7 @@ FILE *fp ;
 
 } /* end read_uloop */
 
-void set_dump_ratio( count )
+void set_dump_ratio( int count )
 {
     dumpRatioS = count ;
 } /* end dump_ratio */

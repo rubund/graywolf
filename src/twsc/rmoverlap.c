@@ -70,7 +70,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #include "standard.h"
 #include "groute.h"
 
-INT check_connectivity( net );
+INT check_connectivity(INT net );
 
 /* global variable references */
 extern BOOL connectFlagG ;
@@ -79,6 +79,12 @@ PINBOXPTR depth_first_search() ;
 /* static definitions */
 static INT *segcountS ;
 static SEGBOXPTR **chan_segS ;
+
+void rm_segm_overlap(SEGBOXPTR *checkseg , INT m );
+void replace_seg(PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode );
+void add_adj(SEGBOXPTR segptr, PINBOXPTR node );
+void check_overlap_at_pin(PINBOXPTR ptr );
+void depth_first_check(PINBOXPTR ptr , SEGBOXPTR oldedge );
 
 void assgn_channel_to_seg()
 {
@@ -193,9 +199,7 @@ if( check_connectivity( net ) == 0 ) {
 }
 
 
-void rm_segm_overlap( checkseg , m )
-SEGBOXPTR *checkseg ;
-INT m ;
+void rm_segm_overlap(SEGBOXPTR *checkseg , INT m )
 {
 
 SEGBOXPTR aseg , bseg , seg ;
@@ -369,8 +373,7 @@ return( NULL ) ;
 }
 
 
-void replace_seg( netptr, oldnode, newnode )
-PINBOXPTR netptr , oldnode , newnode ;
+void replace_seg(PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode )
 {
 ADJASEGPTR adj, tmpadj ;
 SEGBOXPTR segptr ;
@@ -406,9 +409,7 @@ if( netptr->row != newnode->row ) {
 }
 
 
-void add_adj( segptr, node )
-SEGBOXPTR segptr ;
-PINBOXPTR node ;
+void add_adj(SEGBOXPTR segptr, PINBOXPTR node )
 {
 ADJASEG *adjptr ;
 
@@ -419,8 +420,7 @@ node->adjptr->next = adjptr ;
 }
 
 
-void check_overlap_at_pin( ptr )
-PINBOXPTR ptr ;
+void check_overlap_at_pin(PINBOXPTR ptr )
 {
 
 PINBOXPTR aptr , bptr ;
@@ -529,8 +529,7 @@ for( adj = ptr->adjptr ; adj->next ; ) {
 }
 
 
-INT check_connectivity( net )
-INT net ;
+INT check_connectivity(INT net )
 {
 INT correctness = 1 ;
 PINBOXPTR ptr , hdptr ;
@@ -555,9 +554,7 @@ for( ptr =  hdptr ; ptr ; ptr = ptr->next ) {
 return( correctness ) ;
 }
 
-void depth_first_check( ptr , oldedge )
-PINBOXPTR ptr ;
-SEGBOXPTR oldedge ;
+void depth_first_check(PINBOXPTR ptr , SEGBOXPTR oldedge )
 {
 PINBOXPTR nextptr ;
 SEGBOXPTR segptr ;

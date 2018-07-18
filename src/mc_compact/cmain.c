@@ -65,6 +65,8 @@ REVISIONS:  Apr 30, 1989 - modified program for new library and
 
 #define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
 
+void syntax();
+
 int main( argc , argv )
 int argc ;
 char *argv[] ;

@@ -126,6 +126,7 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 #include <yalecad/hash.h>
 #include <yalecad/debug.h>
 #include <yalecad/string.h>
+#include <findside.h>
 
 
 /* below is what we expect to be a large floorplanning input */
@@ -149,6 +150,13 @@ REVISIONS:  Oct 27, 1988 - added add_cell_to_group, initializeCorner
 { \
     if( errorFlagS ){ \
 	return ; /* don't do any work for errors */ \
+    } \
+} \
+
+#define ERRORABORTINT() \
+{ \
+    if( errorFlagS ){ \
+	return -1; /* don't do any work for errors */ \
     } \
 } \
 
@@ -333,9 +341,7 @@ Ybuster_free() ;
 /* ***************************************************************** */
 
 /* add another cell to cell list and initialize fields */
-void addCell( cellName, cellType )
-char *cellName ;
-CELLTYPE  cellType ;
+void addCell( char * cellName, CELLTYPE cellType )
 {
 INT i ;
 INT *data ;
@@ -531,10 +537,8 @@ BOOL direction ;
 
 /* ***************************************************************** */
 
-void fixCell( fixedType, xloc, lorR, yloc, borT, xloc2, lorR2, yloc2, borT2 )
-INT fixedType ;  /* valid types - neighborhood. point, group */
-INT xloc, yloc, xloc2, yloc2 ;
-char *lorR, *borT, *lorR2, *borT2 ;
+void fixCell( INT fixedType, INT xloc, char *lorR, INT yloc, char *borT, INT xloc2, char *lorR2, INT yloc2, char *borT2 )
+//INT fixedType ;  /* valid types - neighborhood. point, group */
 {
 
 INT leftOrRight, bottomOrTop ;
@@ -609,8 +613,7 @@ if( fixedType != POINTFLAG ){
 
 } /* end fixCell */
 
-void processCorners( numcorners )
-INT numcorners ;
+void processCorners( INT numcorners )
 {
 char *buster_msg ;           /* message string to used by buster */
 INT xx1, yy1, xx2, yy2 ;     /* temp points */
@@ -787,8 +790,7 @@ ptrS->orig_aspect = ptrS->aspect =
 } /* end processCorners */
 /* ***************************************************************** */
 
-void addCorner( xpos, ypos )
-INT xpos, ypos ;
+void addCorner( INT xpos, INT ypos )
 {
 if( ++cornerCountS >= tileptAllocS ){
     tileptAllocS = cornerCountS + 1 ;
@@ -816,8 +818,7 @@ maxyS = MAX( maxyS, ypos ) ;
 } /* end addCorner */
 /* ***************************************************************** */
 
-void initializeCorner( cell )
-INT cell ;
+void initializeCorner( INT cell )
 {
 ptrS = cellarrayG[cell] ;
 curCellTypeS = ptrS->celltype ;
@@ -825,8 +826,7 @@ cornerCountS = 0 ;
 } /* end initializeCorner */
 /* ***************************************************************** */
 
-void addClass( class )
-INT class ;
+void addClass( INT class )
 {
 ERRORABORT() ;
 
@@ -850,8 +850,7 @@ addOrient( orient ) ;
 /* ***************************************************************** */
 
 /* addOrient sets orientation valid for this cell */
-void addOrient( orient )
-INT orient ;
+void addOrient( INT orient )
 {
 ERRORABORT() ;
 
@@ -863,10 +862,9 @@ ptrS->orientList[HOWMANYORIENT]++ ;
 /* if this routine is called it means we are reading the input of
    a previous TimberWolf run.  
 */
-set_cur_orient( orient )
-INT orient ;
+int set_cur_orient( INT orient )
 {
-ERRORABORT() ;
+ERRORABORTINT() ;
 
 ptrS->orient = orient ;
 } /* end set_cur_orient */
@@ -1575,7 +1573,7 @@ char *side ;
 /* ***************************************************************** */
 
 /* set whether a pad group can be permuted */
-void setPermutation( permuteFlag ) 
+void setPermutation( int permuteFlag ) 
 {
 ERRORABORT() ;
 pptrS->permute = permuteFlag ;

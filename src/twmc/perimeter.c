@@ -43,9 +43,7 @@
 #include <yalecad/debug.h>
 
 
-perimeter( A, numcorners )
-YBUSTBOXPTR A ;
-INT numcorners ;
+int perimeter( YBUSTBOXPTR A, INT numcorners )
 {
 
 INT i , sum ;

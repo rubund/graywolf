@@ -46,6 +46,7 @@ REVISIONS:  May 12, 1990 - added move file and getenv.
 
 #include <yalecad/file.h>
 #include <yalecad/message.h>
+#include <yalecad/program.h>
 
 INT Ysystem( program, abortFlag, exec_statement, abort_func )
 char *program ;

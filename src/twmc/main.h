@@ -136,4 +136,49 @@ EXTERN BOOL verboseG ;
 
 #undef EXTERN
 
+BOOL get_arg_string( char *arguments );
+
+void makebins( INT numbins );
+
+VOID updateFixedCells( BOOL initializeFlag );
+void loadbins(BOOL wireAreaKnown);
+void placepads();
+void resize_wire_params();
+void reconfigure( INT numbinX, INT numbinY, DOUBLE newCoreArea );
+INT calc_cellareas(BOOL routingFlag );
+void graphics_dump();
+INT draw_the_data();
+void turn_wireest_on( INT turn_on );
+void set_pin_verbosity( BOOL flag );
+void process_graphics();
+void savewolf( BOOL forceSave );
+INT closegraphics();
+void grid_cells();
+void compact( BOOL compactFlag );
+void set_determine_side( BOOL flag );
+void set_graphic_context( INT context );
+void config_rows();
+void print_paths();
+void setVirtualCore( BOOL flag );
+void gmain( BOOL updateNotChan );
+void rmain( BOOL constraint_flag );
+void adapt_wire_estimator();
+int findcost();
+void wirecosts();
+void reorigin();
+void update_pins( BOOL initialFlag );
+void outgeo();
+void output( FILE *fp );
+void outpin();
+void output_partition();
+void find_core_boundary( INT *left, INT *right, INT *bottom, INT *top );
+void finalcheck();
+void initcheck();
+void initializeCorner( INT cell );
+void addCorner( INT xpos, INT ypos );
+void processCorners( INT numcorners );
+void regenorient(INT lowerBound, INT upperBound);
+void set_dump_ratio( int count );
+VOID determine_origin( INT *x, INT *y, char *left_not_right, char *bottom_not_top );
+
 #endif /* MAIN_H */

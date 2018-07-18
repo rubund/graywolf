@@ -84,6 +84,10 @@ REVISIONS:  Aug 17,1988 - add upper and lower bounds as parameters
 #include <pads.h>
 #include <yalecad/debug.h>
 #include <yalecad/relpos.h>
+#include <neworient.h>
+
+void translate_numpins( CELLBOXPTR ptr );
+void trans_bbox( CELLBOXPTR ptr );
 
 /* genorient works on range [lowerBound..upperBound] inclusive */
 void genorient(lowerBound, upperBound)
@@ -274,8 +278,7 @@ INT lowerBound, upperBound ;
 /* regenorient works on range [lowerBound..upperBound] inclusive */
 /* recalculates the bounding boxes and updates all the views */
 /* works in an incremental manner */
-void regenorient(lowerBound, upperBound)
-INT lowerBound, upperBound ;
+void regenorient(INT lowerBound, INT upperBound)
 {
 
     INT cell ;
@@ -322,8 +325,7 @@ INT lowerBound, upperBound ;
 
 
 /* trans_bbox - translate bounding box into 8 views */
-void trans_bbox( ptr ) 
-CELLBOXPTR ptr ;
+void trans_bbox( CELLBOXPTR ptr ) 
 {
 
 INT orient ;
@@ -365,8 +367,7 @@ void loadTermArray()
     }
 } /* end loadTermArray */
 
-void translate_numpins( ptr ) 
-CELLBOXPTR ptr ;
+void translate_numpins( CELLBOXPTR ptr ) 
 {
     INT pt ;                        /* point counter */
     INT minx ;                      /* looking for lowest y pt */

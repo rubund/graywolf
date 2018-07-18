@@ -74,6 +74,9 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 #include <yalecad/string.h>
+#include <yalecad/relpos.h>
+#include <yalecad/system.h>
+#include <yalecad/program.h>
 
 #include "config-build.h"
 
@@ -88,8 +91,7 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 #define SCELLKEYWORD     "stdcell"
 #define TILEKEYWORD      "l"
 
-void compact( compactFlag )
-BOOL compactFlag ; /* signals use of compaction */
+void compact( BOOL compactFlag )
 {
     char filename[LRECL] ;
     char *Yrelpath() ;

@@ -70,6 +70,10 @@ static INT anetS ;          /* current analog net */
 static ANETPTR aptrS ;      /* current analog net information record */
 static COMMONPTR commonS ;  /* current common point record */
 
+void build_path_array();
+void add_paths_to_cells();
+
+
 /* initialization before parsing nets */
 void init_nets()
 {

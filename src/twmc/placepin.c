@@ -1652,8 +1652,8 @@ static void find_hardpin_side()
 } /* end find_hardpin_side() */
 
 
-void update_pins( initialFlag )  /* initialize pin placement */
-BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
+void update_pins( BOOL initialFlag )  /* initialize pin placement */
+//BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
 {
     INT howmany ;        /* number of cells with soft pins */
     INT i ;              /* counter */
@@ -1708,8 +1708,7 @@ BOOL initialFlag ;/* if TRUE set all fields;if FALSE update orig fields */
     } /* end test on existence of soft cells */
 } /* initial pinplace */
 
-void set_pin_verbosity( flag ) 
-BOOL flag ;
+void set_pin_verbosity( BOOL flag ) 
 {
     tell_overflowS = flag ;
 } /* end set_pin_verbosity */

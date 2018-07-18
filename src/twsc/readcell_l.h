@@ -664,8 +664,7 @@ static int yylook(){
 # endif
 		}
 	}
-static int yyback(p, m)
-	int *p;
+static int yyback(int *p, int m)
 {
 if (p==0) return(0);
 while (*p)
@@ -676,7 +675,7 @@ while (*p)
 return(0);
 }
 	/* the following are only used in the lex library */
-yyinput(){
+int yyinput(){
 	if (yyin == NULL) yyin = stdin;
 	return(input());
 	}

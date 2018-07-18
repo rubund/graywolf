@@ -144,10 +144,12 @@ static char *twdirS ;
 static INT num_feeds_addedS ;/* number of feeds added on best iteration */
 static DOUBLE ave_row_sepS ; /* the row separation for a run */
 
+void install_swap_pass_thrus(PINBOXPTR netptr);
+void incorporate_ECOs();
+void syntax();
+void init_utemp();
 
-main( argc , argv )
-INT argc ;
-char *argv[] ;
+int main(INT argc , char *argv[] )
 {
 
 
@@ -476,7 +478,7 @@ return 0;
 } /* end main */
 
 
-initialize_global_router1()
+void initialize_global_router1()
 {
 
 INT cell , row ;
@@ -511,7 +513,7 @@ return ;
 }
 
 
-initialize_global_router()
+void initialize_global_router()
 {
 
 CBOXPTR ptr ;
@@ -591,7 +593,7 @@ return ;
 }
 
 
-execute_global_router()
+void execute_global_router()
 {
 
 PINBOXPTR netptr ;
@@ -816,7 +818,7 @@ return ;
 
 
 
-init_utemp()
+void init_utemp()
 {
 
 INT row , bin ;
@@ -836,8 +838,7 @@ return ;
 
 
 
-install_swap_pass_thrus( netptr )
-PINBOXPTR netptr ;
+void install_swap_pass_thrus(PINBOXPTR netptr )
 {
 
 CBOXPTR ptr ;
@@ -886,7 +887,7 @@ if( impypos > 0 ) { /* swap the pinnames */
 return ;
 }
 
-incorporate_ECOs()
+void incorporate_ECOs()
 {
 
 PINBOXPTR termptr , netptr ;

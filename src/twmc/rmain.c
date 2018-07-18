@@ -59,8 +59,7 @@ REVISIONS:  Sun Dec 16 00:36:43 EST 1990 - Modified for Dahe's
 #define GROUTEPATH      "../Mickey"
 
 
-void rmain( constraint_flag )
-BOOL constraint_flag ;
+void rmain( BOOL constraint_flag )
 {
     INT closegraphics() ;
     char filename[LRECL] ;

@@ -85,7 +85,9 @@ extern BOOL stand_cell_as_gate_arrayG ;
 /* static definitions */
 static char a_lineS[LRECL] ;
 
-INT load_a_lineS(fp);
+INT load_a_lineS(FILE *fp);
+void create_cel_file();
+void add_new_line( INT x_rel , INT block , char *fixed_ptr , FILE *fp );
 
 void output()
 {
@@ -511,10 +513,7 @@ TWCLOSE(fpoG2) ;
 
 
 
-void add_new_line( x_rel , block , fixed_ptr , fp )
-INT x_rel , block ;
-char *fixed_ptr ;
-FILE *fp ;
+void add_new_line( INT x_rel , INT block , char *fixed_ptr , FILE *fp )
 {
 
 fprintf(fp, "initially %s %d from left of block %d\n",
@@ -524,8 +523,7 @@ return ;
 
 
 
-INT load_a_lineS(fp)
-FILE *fp ;
+INT load_a_lineS(FILE *fp)
 {
 
 INT i ;

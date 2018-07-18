@@ -50,7 +50,7 @@ REVISIONS:  Jul 30, 1988 - fixed output for softcells and added
 #include <custom.h>
 #include <yalecad/debug.h>
 
-grid_cells()
+void grid_cells()
 {
 
 INT xcenter , ycenter, remainder ;

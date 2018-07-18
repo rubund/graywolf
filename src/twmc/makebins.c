@@ -52,8 +52,7 @@ REVISIONS:
 #include <custom.h>
 #include <yalecad/debug.h>
 
-void makebins( numbins )
-INT numbins ;
+void makebins( INT numbins )
 {
 
 BINBOXPTR bptr ;

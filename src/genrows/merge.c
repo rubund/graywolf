@@ -56,6 +56,8 @@ REVISIONS:  Fri Jan 25 17:50:54 PST 1991 - added mirror row feature.
 
 static void check_max_length();
 static void merge_adjacent_tiles();
+void merge_downward( TILE_BOX *begin_tile );
+void merge_upward( TILE_BOX *begin_tile );
 
 
 
@@ -70,8 +72,7 @@ void merge_tiles()
     }
 } /* end merge_tiles */
 
-void merge_upward( begin_tile )
-TILE_BOX *begin_tile ;
+void merge_upward( TILE_BOX *begin_tile )
 {
     INT left ;          /* left edge of merge tile */
     INT right ;         /* right edge of merge tile */
@@ -221,8 +222,7 @@ TILE_BOX *begin_tile ;
 
 } /* end merge_upward */
 
-void merge_downward( begin_tile )
-TILE_BOX *begin_tile ;
+void merge_downward( TILE_BOX *begin_tile )
 {
     INT left ;          /* left edge of merge tile */
     INT right ;         /* right edge of merge tile */

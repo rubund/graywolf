@@ -594,8 +594,7 @@ static int yylook(){
 # endif
 		}
 	}
-static int yyback(p, m)
-	int *p;
+static int yyback(int *p, int m)
 {
 if (p==0) return(0);
 while (*p)

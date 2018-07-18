@@ -164,7 +164,6 @@ Function:
     Returns TRUE if debug is on.  It returns FALSE otherwise.
 */
 
-extern YdebugWrite() ;
 /* 
 Function:
     Write the debug data structure to a file.
@@ -190,6 +189,8 @@ Function:
 #define DS(name_xz)
 
 #endif  /* DEBUG */
+
+extern void YdebugWrite() ;
 
 /* now selectively delete either ASSERTIONS or PRINT */
 #ifdef TURNOFFPRINTD

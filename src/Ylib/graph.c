@@ -59,6 +59,7 @@
 #include <yalecad/heap.h>
 #include <yalecad/message.h>
 #include <yalecad/rbtree.h>
+#include <yalecad/rand.h>
 
 /* numbers are TWcolors to ease debugging */
 #define BLACK        TWBLACK

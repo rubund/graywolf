@@ -510,4 +510,6 @@ Function:
     Otherwise, no fill will be added.
 */
 
+BOOL TWget_arb_fill();
+
 #endif /* DRAW_H */

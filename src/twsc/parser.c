@@ -124,6 +124,13 @@ extern BOOL spacer_name_twfeedG ;
 extern BOOL rigidly_fixed_cellsG ;
 extern BOOL stand_cell_as_gate_arrayG ;
 
+void addCell( char *cellname, INT celltype );
+void add_tile(INT left, INT bottom, INT right, INT top );
+void add_padside(char * padside);
+void setPermutation( int permuteFlag );
+void add2padgroup( char *padName, BOOL ordered );
+void end_padgroup();
+
 /* below is what we expect to be a typical standard cell input */
 /* user may change parameters if they wish. Subject to change */
 #define EXPECTEDNUMCELLS  3500
@@ -138,6 +145,20 @@ extern BOOL stand_cell_as_gate_arrayG ;
 { \
     if( abortS ){ \
 	return ; /* don't do any work for errors */ \
+    } \
+} \
+
+#define ERRORABORTINT() \
+{ \
+    if( abortS ){ \
+	return -1; /* don't do any work for errors */ \
+    } \
+} \
+
+#define ERRORABORTPOINTER() \
+{ \
+    if( abortS ){ \
+	return NULL; /* don't do any work for errors */ \
     } \
 } \
 
@@ -306,9 +327,7 @@ void initialize_parser()
 
 } /* initialize_parser */
 
-void addCell( cellname, celltype )
-char *cellname ;
-INT celltype ;
+void addCell( char *cellname, INT celltype )
 {
     /* save current cell name and type for error messages */
     curCellNameS = cellname ;
@@ -406,8 +425,7 @@ INT celltype ;
 
 } /* end addCell */
 
-void add_tile( left, bottom, right, top )
-INT left, bottom, right, top ;
+void add_tile(INT left, INT bottom, INT right, INT top )
 {
     INT width ;         /* width of tile */
     INT height ;        /* height of tile */
@@ -481,7 +499,7 @@ static char *add_swap_func()
 {
     INT *data ;   /* pointer to allocated space for swap_group record */
 
-    ERRORABORT() ;
+    ERRORABORTPOINTER() ;
 
     /* how to add the data to the hash table */
     /* create space for data */
@@ -491,8 +509,7 @@ static char *add_swap_func()
     return( (char *) data ) ;
 } /* end add_swap_func */
 
-add_swap_group( swap_name )
-char *swap_name ;
+void add_swap_group(char * swap_name )
 {
     INT i ;            /* counter */
     INT *groupptr ;    /* the return group from searching in hash table */
@@ -635,7 +652,7 @@ static char *add_net_func()
 {
     INT *data ;   /* pointer to allocated space for net record in hashtable */
 
-    ERRORABORT() ;
+    ERRORABORTPOINTER() ;
     /* how to add the data to the hash table */
     /* create space for data */
     data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
@@ -646,9 +663,9 @@ static char *add_net_func()
 
 static char *add_pin_func()
 {
-    INT *data ;   /* pointer to allocated space for pin_grp_hash record */
+    PINLIST *data ;   /* pointer to allocated space for pin_grp_hash record */
 
-    ERRORABORT() ;
+    ERRORABORTPOINTER() ;
 
     /* how to add the data to the hash table */
     /* create space for data */
@@ -793,7 +810,7 @@ INT layer, xpos, ypos ;
     if( pin_group_light_is_onS > 0 ) {
 
 	pin_ptr = (PINLISTPTR) Yhash_add( swap_group_listG[swap_groupS].pin_grp_hash,
-		ptrS->cname, add_pin_func, &newflag ) ;
+		ptrS->cname, add_pin_func, (BOOL *) &newflag ) ;
 
 	if (newflag) {
 	   /* This is the first pin group for this swap group in this cell */
@@ -964,11 +981,9 @@ BOOL unequiv_flag ;
     }
 } /* end add_equiv */
 
-add_port( portname, signal, layer, xpos, ypos )
-char *portname, *signal ;
-INT xpos, ypos ;
+int add_port(char *portname, char *signal, int layer, INT xpos, INT ypos )
 {
-    ERRORABORT() ;
+    ERRORABORTINT() ;
     addCell( portname, PORTTYPE ) ;
     add_tile( 0, 0, 0, 0 ) ;
     /* now perform overrides */
@@ -1781,7 +1796,7 @@ void cleanup_readcells()
     }
 
     if( swappable_gates_existG ) {
-	Yhash_table_delete( swap_hash_tableS, free_swap_data ) ;
+	Yhash_table_delete( swap_hash_tableS, (INT  (*)()) free_swap_data ) ;
     }
 
     return ;
@@ -1889,8 +1904,7 @@ void process_corners()
 } /* end process_corners */
 
 
-void add_padside( padside )
-char *padside ;
+void add_padside(char * padside )
 {
     INT numsides ;         /* length of side restriction string */
     INT i ;                /* counter */
@@ -2011,7 +2025,7 @@ DOUBLE lower, upper ;
 /* ***************************************************************** */
 
 /* set whether a pad group can be permuted */
-void setPermutation( permuteFlag ) 
+void setPermutation( int permuteFlag ) 
 {
     ERRORABORT() ;
     pptrS->permute = permuteFlag ;
@@ -2041,9 +2055,8 @@ char *padside ;
 } /* set_old_format */
 
 /* add this pad to the current pad group */
-void add2padgroup( padName, ordered ) 
-char *padName ;
-BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
+void add2padgroup( char *padName, BOOL ordered ) 
+//BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 {
     INT i, endofpads, endofgroups ;
 
@@ -2110,7 +2123,7 @@ BOOL ordered ;  /* ordered flag is true if pad is fixed in padgroup */
 
 } /* end add2PadGroup */
 
-end_padgroup()
+void end_padgroup()
 {
     ERRORABORT() ;
 

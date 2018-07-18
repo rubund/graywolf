@@ -270,6 +270,9 @@ YYSTYPE yyvs[YYSTACKSIZE];
 static void free_net_data();
 static void bad_net();
 char *Ystrclone();
+void check_paths();
+void build_path_array();
+void add_paths_to_cells();
 
 
 void readnets( fp )
@@ -303,7 +306,7 @@ FILE *fp ;
     init_net_set() ;
     add_paths_to_cells() ;
     /* free hash table */
-    Yhash_table_delete( net_hash_tableS , free_net_data ) ;
+    Yhash_table_delete( net_hash_tableS , (INT  (*)()) free_net_data ) ;
 
 } /* end readnets */
 

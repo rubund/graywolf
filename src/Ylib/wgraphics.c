@@ -77,6 +77,8 @@ REVISIONS:  Thu Jan 24 20:20:32 PST 1991 - added missing return.
 #include <yalecad/dbinary.h>
 #include <yalecad/wgraphics.h>
 #include <yalecad/string.h>
+#include <yalecad/program.h>
+
 
 #define NODIRECTORY     1
 #define NOINIT          2
@@ -92,6 +94,9 @@ static  FILE *symbFileS = NULL ; /* symbfile pointer */
 static  INT  numCellS = 0 ; /* cell counter */
 static  INT  numNetS = 0 ;  /* net counter */
 static  INT  numCharS = 0 ; /* symbol table counter */
+
+void TWflushWFrame();
+void TWdrawWRect( INT ref_num, INT x1,INT y1, INT x2, INT y2, INT color, char *label);
 
 BOOL TWinitWGraphics( numC, desiredColors)
 INT  numC ;
@@ -303,10 +308,7 @@ char	*label;
 
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 /* 	if the specified color is default or invalid, use default color */
-void TWdrawWRect( ref_num, x1,y1,x2,y2,color,label)
-INT     ref_num ; /* reference number */
-INT	x1,y1,x2,y2, color;
-char	*label;
+void TWdrawWRect( INT ref_num, INT x1,INT y1, INT x2, INT y2, INT color, char *label)
 {
     DATABOX record ;
     UNSIGNED_INT nitems ;

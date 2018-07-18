@@ -132,6 +132,7 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
@@ -144,6 +145,8 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>
+#include <yalecad/timer.h>
+#include <yalecad/time.h>
 #include "info.h"
 
 #define DEFAULT_TIMEOUT      10 * 1000       /* 10 seconds to timeout on message window */
@@ -216,6 +219,7 @@ static void resize_windows( P2( INT winwidth, INT winheight ) ) ;
 static void debug_menus( P1(TWMENUPTR menu_field) ) ;
 static void draw_persistent_message( P1(char *message) ) ;
 
+void TWcheckReconfig();
 
 /* get information from main draw routine and set it */
 void TWinforMenus( )
@@ -1316,8 +1320,7 @@ void TWmouse_tracking_start()
 
 /* get the current mouse position */
 /* returns true if position has changed */
-BOOL TWmouse_tracking_pt( x, y )
-INT *x, *y ;
+BOOL TWmouse_tracking_pt( INT *x, INT *y )
 {
     XEvent event ;            /* describes event */
     INT xtemp, ytemp ;        /* current position of pointer */
@@ -1457,7 +1460,7 @@ BOOL TWinterupt()
 } /* end TWinterupt */
 
 /* update windows if configuration changes */
-TWcheckReconfig()
+void TWcheckReconfig()
 {
     INT height ;              /* height of current backing window */
     XEvent event ;            /* describes configuration event */
@@ -1505,8 +1508,7 @@ TWcheckReconfig()
 } /* end TWcheckReconfig */
 
 
-static resize_windows( winwidth, winheight )
-INT winwidth, winheight ;
+static void resize_windows( INT winwidth, INT winheight )
 {
     INT halfstep ;            /* menu half spacing */
     INT xpos ;                /* position of menu */

@@ -97,6 +97,7 @@ static void chek_vpt();
 static void add_hpts();
 static void chek_hpt();
 
+void dump_pts( POINTPTR *pt );
 
 
 
@@ -279,7 +280,7 @@ YBUSTBOXPTR unbust()
      if( i == limit ){
 	M( ERRMSG, "unbust",
 	"we have detected an infinite loop in automaton\n" ) ;
-	return ;
+	return NULL;
      }
 
      dump_pts( VptS ) ;
@@ -909,8 +910,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
     }
 } /* end chek_hpt */
 
-void dump_pts( pt )
- POINTPTR *pt ;
+void dump_pts( POINTPTR *pt )
  {
     INT i ;
     POINTPTR ptr ;

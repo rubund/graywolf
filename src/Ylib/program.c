@@ -64,6 +64,8 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/program.h>
+#include <yalecad/timer.h>
+#include <yalecad/debug.h>
  
 static char programName[LRECL];
 static char progVersion[LRECL];
@@ -107,8 +109,7 @@ char *YinitProgram(name,version,introTextFunction)
 } /* end initProgram */
 
 /* exit program gracefully */
-YexitPgm(status)
-INT status ;
+void YexitPgm(INT status)
 {
 
     INT     errorCount, 

@@ -59,8 +59,7 @@ static INT binAreaS ;
 /* if defined the binpenalty should always remain equal to cell area */
 /* #define BINTEST */
 
-loadbins(wireAreaKnown)
-BOOL wireAreaKnown ;
+void loadbins(BOOL wireAreaKnown)
 {
 
 CELLBOXPTR ptr ;
@@ -220,8 +219,7 @@ return ;
 /* ***************************************************************** 
    CALCULATE CELL AREAS
 */
-INT calc_cellareas( routingFlag )
-BOOL routingFlag ;
+INT calc_cellareas(BOOL routingFlag )
 {
     INT totArea, orient, cell, l, r, b, t, xc, yc ;
     CELLBOXPTR  cellptr ;

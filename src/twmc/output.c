@@ -112,11 +112,11 @@ static void print_four_corners();
 static void create_pin();
 
 
+void output_vertices( FILE *fp, CELLBOXPTR cellptr );
 
 
 
-void output( fp )
-FILE *fp ;
+void output( FILE *fp )
 {
 
     INT cell ;
@@ -458,15 +458,12 @@ CELLBOXPTR cellptr ;
     }
 } /* end output_fixed */
 
-void set_determine_side( flag )
-BOOL flag ;
+void set_determine_side( BOOL flag )
 {
     determine_sideS = flag ;
 } /* end set_determine_side */
 
-void output_vertices( fp, cellptr )
-FILE *fp ;
-CELLBOXPTR cellptr ;
+void output_vertices( FILE *fp, CELLBOXPTR cellptr )
 {
     INT xc , yc ;
     TILEBOXPTR tileptr ;

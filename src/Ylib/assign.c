@@ -66,7 +66,7 @@ static INT *h6S = (INT *) NULL ;
 static void initassign();
 static void shortestpath();
 static void augmentation();
-static void transformation();
+static void transformation( INT ys[], INT yt[], INT dplus[], INT dminus[], INT d, int m, int n );
 static INT *allocatevector() ;
 static INT **allocatematrix() ;
 
@@ -359,9 +359,7 @@ INT u, ind;
 } /* end augmentation */
 
 
-static void transformation( ys, yt, dplus, dminus, d, m, n )
-INT ys[], yt[], dplus[], dminus[] ;
-INT d ;
+static void transformation( INT ys[], INT yt[], INT dplus[], INT dminus[], INT d, int m, int n )
 /*
  *  update ys and yt
  */

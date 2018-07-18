@@ -73,6 +73,9 @@ static INT offsetxS = 0 ;  /* initially set offset to zero */
 static INT offsetyS = 0 ;  
 static INT xgridS = 1 ;    /* default grid is one */
 static INT ygridS = 1 ;  
+
+void Ygridx( INT *x );
+void Ygridy( INT *y );
 /* ***************************************************************** */
 /* force coordinate to closest xy grid position */
 void YforceGrid( x , y )
@@ -83,8 +86,7 @@ INT *x , *y ;
 } /* end forceGrid */
 
 /* force coordinate to closest x grid position */
-void Ygridx( x )
-INT *x ;
+void Ygridx( INT *x )
 {
 
     INT newx ;
@@ -99,8 +101,7 @@ INT *x ;
 
 
 /* force coordinate to closest x grid position */
-void Ygridy( y )
-INT *y ;
+void Ygridy( INT *y )
 {
 
     INT newy ;

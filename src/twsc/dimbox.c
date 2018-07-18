@@ -73,6 +73,11 @@ static INT validLS , validRS , validBS , validTS ;
 static INT kS ;
 static PINBOXPTR *memoptrS ;
 
+void wire_boundary1(DBOXPTR dimptr);
+void check_validbound(DBOXPTR dimptr, PINBOXPTR termptr, PINBOXPTR nextptr );
+void wire_boundary2(INT c , DBOXPTR dimptr);
+
+
 void init_dimbox()
 {
     INT maxpin, get_max_pin() ;
@@ -225,8 +230,7 @@ for( ; termptr ; termptr = nextptr ) {
 }
 
 
-void wire_boundary1( dimptr )
-DBOXPTR dimptr ;
+void wire_boundary1(DBOXPTR dimptr )
 {
 
 PINBOXPTR netptr ;
@@ -264,9 +268,7 @@ for( netptr = netptr->next ; netptr; netptr = netptr->next ) {
 }
 }
 
-void check_validbound( dimptr , termptr , nextptr )
-DBOXPTR dimptr ;
-PINBOXPTR termptr , nextptr ;
+void check_validbound(DBOXPTR dimptr, PINBOXPTR termptr, PINBOXPTR nextptr )
 {
 
 INT nux , nuy , x , y ;
@@ -350,9 +352,7 @@ if( nextptr == PINNULL || curr_netS != nextptr->net ) {
 }
 }
 
-void wire_boundary2( c , dimptr )
-DBOXPTR dimptr ;
-INT c ;
+void wire_boundary2(INT c , DBOXPTR dimptr )
 {
 
 PINBOXPTR netptr ;

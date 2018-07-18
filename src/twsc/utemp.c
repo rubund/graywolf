@@ -93,8 +93,11 @@ extern DOUBLE ratioG;
 
 INT comparex() ;
 INT compute_attprcel() ;
+void from_middle();
+void from_beginning();
+void elim_nets(INT print_flag);
 
-utemp()
+void utemp()
 {
 
 INT check ;
@@ -424,8 +427,7 @@ return ;
 
 
 
-void elim_nets(print_flag)
-INT print_flag ;
+void elim_nets(INT print_flag)
 {
 
 DBOXPTR dimptr;   /* bounding box for net */

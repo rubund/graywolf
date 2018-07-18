@@ -46,10 +46,9 @@ REVISIONS:  Thu Apr 18 01:37:39 EDT 1991 - added check_valid_orientation.
 
 #include <custom.h>
 #include <yalecad/debug.h>
+#include <neworient.h>
 
-newOrient( cellptr , range )
-CELLBOXPTR cellptr ;
-INT range ;
+int newOrient( CELLBOXPTR cellptr , INT range )
 {
 
     INT incidence , count , i , orient ;
@@ -146,8 +145,7 @@ INT range ;
    returns +1 if it could find a valid orientation.
 */
 
-INT check_valid_orient( cptr )
-CELLBOXPTR cptr ;
+INT check_valid_orient( CELLBOXPTR cptr )
 {
     INT i ; /* view counter */
    

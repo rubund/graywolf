@@ -62,6 +62,9 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 
 static PICKETPTR  leftPickS ;
 
+void formyEdge(int fromNode, int toNode );
+void inityPicket();
+void update_ypicket(int i, PICKETPTR lowerLimit, PICKETPTR upperLimit );
 
 ERRORPTR buildYGraph()
 {
@@ -238,9 +241,7 @@ ERRORPTR buildYGraph()
 
 } /* end buildYGraph */
 
-void formyEdge( fromNode, toNode ) 
-int fromNode ;
-int toNode ;
+void formyEdge(int fromNode, int toNode ) 
 {
     COMPACTPTR e1, e2 ;
     ECOMPBOXPTR temp, newE ;
@@ -351,9 +352,7 @@ void inityPicket( )
     
 
 
-void update_ypicket( i, lowerLimit, upperLimit )
-int i ;
-PICKETPTR lowerLimit, upperLimit ;
+void update_ypicket(int i, PICKETPTR lowerLimit, PICKETPTR upperLimit )
 {
     PICKETPTR t, temp, curPick ;
     COMPACTPTR newtile ;        /* new tile to be added to picket */

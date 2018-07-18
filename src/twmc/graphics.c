@@ -84,6 +84,7 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 #ifndef NOGRAPHICS
 
 #include <string.h>
+#include <unistd.h>
 #include <custom.h>
 #include <dens.h>
 #include <analog.h>
@@ -94,6 +95,9 @@ REVISIONS:  Feb 26, 1989 - added moveCells so that cell bin structures
 #include <yalecad/dialog.h>
 #include <yalecad/system.h>
 #include <menus.h>
+#include <yalecad/menus.h>
+#include <yalecad/edcolors.h>
+#include <initialize.h>
 
 
 #define CELLEST     0
@@ -169,6 +173,10 @@ static void edit_field_string();
 static void edit_field_case();
 static void fix_the_cell();
 static void fix_the_cell2();
+
+void set_graphics_wait_menu( TWMENUBOX menus[] );
+void twmc_draw_a_cell( int cell );
+void draw_neighbors( INT cell );
 
 void initMCGraphics( argc, argv, windowId )
 INT argc, windowId ;
@@ -266,8 +274,7 @@ void setGraphicWindow()
 
 /* set what we are going to draw on a dump to the screen */
 /* placement data, compaction data , etc. are valid */
-void set_graphic_context( context )
-INT context ;
+void set_graphic_context( INT context )
 {
     if( context == PARTITION_PLACEMENT ){
 	/* after placement ignore drawing the standard macros */
@@ -886,7 +893,7 @@ INT draw_the_data()
 
 } /* end draw_the_data */
 
-void twmc_draw_a_cell( cell )
+void twmc_draw_a_cell( int cell )
 {
     INT  pt ;
     INT  xc, yc ;
@@ -1046,8 +1053,7 @@ CELLBOXPTR cptr ;
 } /* end draw_fs */
 
 /* draw the neighborhood of a cell if it exists */
-void draw_neighbors( cell )
-INT cell ;
+void draw_neighbors( INT cell )
 {
 
     CELLBOXPTR ptr ;
@@ -1279,8 +1285,7 @@ INT initcase ;
 
 } /* end edit_field_case */
 
-void set_graphics_wait_menu( menus )
-TWMENUBOX menus[] ;
+void set_graphics_wait_menu( TWMENUBOX menus[] )
 {
     INT i ;   /* counter */
     for( i = 0; i < TWNUMMENUS; i++ ){

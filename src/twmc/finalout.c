@@ -75,6 +75,8 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 
 #include <custom.h>
 #include <yalecad/debug.h>
+#include <yalecad/draw.h>
+#include <yalecad/program.h>
 
 /* redefine flags for easier reading */
 #define VIOLATIONSONLY   FALSE
@@ -83,6 +85,11 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 #define UPDATE_ROUTING   TRUE 
 #define NOCONSTRAINTS    FALSE
 #define CONSTRAINTS      TRUE
+
+
+void Output( INT cycle );
+void check_graphics();
+void prnt_cost( char * out_string ) ;
 
 void finalout()
 {
@@ -208,8 +215,7 @@ return ;
 
 
 
-void Output( cycle )
-INT cycle ;
+void Output( INT cycle )
 {
 
     if( cycle == 0 || cycle < doCompactionG / 2 ){
@@ -225,8 +231,7 @@ INT cycle ;
 } /* end Output */
 
 /* print out the current cost to the user */
-void prnt_cost( out_string ) 
-char *out_string ;
+void prnt_cost( char * out_string ) 
 {
     INT xspan ;
     INT yspan ;

@@ -119,6 +119,8 @@ static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 
 extern void make_movebox(void);
 
+void writeResults( INT wire, INT penal, INT rand );
+
 /* Forward declarations */
 
 VOID syntax();
@@ -594,8 +596,7 @@ INT yaleIntro()
 
 /* this routine takes information about run and write to history file */
 /* to accumulate data about runs */
-void writeResults( wire, penal, rand )
-INT wire, penal, rand ;
+void writeResults( INT wire, INT penal, INT rand )
 {
     FILE *fpdebug ;
     INT left_side, right_side, bottom_side, top_side ;
@@ -648,8 +649,7 @@ VOID syntax()
 
 /* used to TimberWolfMC recursively for the overflow case */
 /* returns windowid if graphics are on and window is passed */
-BOOL get_arg_string( arguments )
-char *arguments ;
+BOOL get_arg_string( char *arguments )
 {
     char temp[LRECL] ; /* used to build strings */
     INT  window ;      /* current window ID */

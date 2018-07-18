@@ -112,6 +112,9 @@ static INT num_macroS ;               /* number of macros output */
 /* Forward declaration */
 
 extern INT closegraphics();
+void read_stat_file();
+void build_mver_file(INT left, INT right, INT bottom, INT top );
+void read_gen_file();
 
 void config_rows()
 {
@@ -331,8 +334,7 @@ void output_partition()
 } /* end of prnt_data */
 
 
-void build_mver_file( left, right, bottom, top )
-INT left, right, bottom, top ;
+void build_mver_file(INT left, INT right, INT bottom, INT top )
 {
     CELLBOXPTR cellptr ;
     FILE *fp ;
