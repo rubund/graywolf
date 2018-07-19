@@ -51,9 +51,6 @@ REVISIONS:  Apr 30, 1989 - added direction field for partitioning.
 	    Fri Nov  8 18:16:21 EST 1991 - removed INT_SMALL and INT_LARGE
 		definitions since gcc couldn't handle it.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) io.c version 7.5 5/21/92" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>
@@ -70,6 +67,7 @@ static BOOL curCellTypeS ;               /* hard or soft type */
 static BOOL multiS ;                     /* cell has multiple tiles ??? */
 static CELLBOXPTR ptrS ;                 /* pointer to current cell */
 
+void addSourceNSink();
 
 /* ***************** ERROR HANDLING ****************************** */
 /* ERRORABORT is a macro which forces routines not to do any work */
@@ -81,12 +79,19 @@ static CELLBOXPTR ptrS ;                 /* pointer to current cell */
     } \
 } \
 
-setErrorFlag()
+#define ERRORABORTINT() \
+{ \
+    if( errorFlagS ){ \
+	return -1; /* don't do any work for errors */ \
+    } \
+} \
+
+void setErrorFlag()
 {
     errorFlagS = TRUE ;
 }
 /* ***************** ERROR HANDLING ****************************** */
-init( numtiles, numcells )
+void init( numtiles, numcells )
 INT numtiles, numcells ;
 {
     INT i ;
@@ -129,7 +134,7 @@ INT numtiles, numcells ;
     }
 } /* end init */
 
-final_tiles()
+void final_tiles()
 {
     INT i ;        		/* counter */
     INT space ;        		/* counter */
@@ -259,7 +264,7 @@ final_tiles()
 } /* end final_tiles */
 
 /* set the current cell */
-initCell( celltype, cellnum, x, y, xoffset, yoffset )
+void initCell( celltype, cellnum, x, y, xoffset, yoffset )
 INT celltype ;
 INT cellnum ;
 INT x, y ;
@@ -289,8 +294,7 @@ INT xoffset, yoffset ;
     multiS = 0 ;
 } /* end initCell */
 
-init_extra_tile( cell, type )
-INT cell ;
+void init_extra_tile(INT cell, int type )
 {
     curTileS = numtilesG ;
     numtilesG++ ;
@@ -312,11 +316,11 @@ INT l, r, b, t ;
     COMPACTPTR tptr ;
     NODEPTR    temp, nptr ;
 
-    ERRORABORT() ;
+    ERRORABORTINT();
     if( ++curTileS > numtilesG ){
 	setErrorFlag() ;
 	M(ERRMSG, "addtile", "Problem with number of tiles\n" ) ;
-	return ;
+	return -1;
     }
     tptr = tileNodeG[curTileS] ;
     /* save relative positions */
@@ -372,7 +376,7 @@ INT l, r, b, t ;
 
 } /* end addtile */
 
-endCell()
+void endCell()
 {
     ERRORABORT() ;
     /* update the bounding box of the cell */
@@ -393,7 +397,7 @@ endCell()
     }
 } /* end endCell */
 
-process_tiles()
+void process_tiles()
 {
     INT i ;
     COMPACTPTR t ;
@@ -454,7 +458,7 @@ process_tiles()
 } /* end process_tiles */
 
 /* ADD source and sink nodes to both x and y graphs */
-addSourceNSink()
+void addSourceNSink()
 {
     COMPACTPTR source, sink ;
     INT x ;
@@ -558,7 +562,7 @@ addSourceNSink()
 /* ***************************************************************** 
     OUTPUT routine - output the results.
    **************************************************************** */
-output()
+void output()
 {
     INT c ;
     INT tile ;

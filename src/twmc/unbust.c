@@ -52,9 +52,6 @@ REVISIONS:  Aug 16, 1989 - rewrote using new general algorithm.
 		of buster.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) unbust.c version 3.7 1/20/91" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/buster.h>
@@ -95,11 +92,12 @@ static INT sortbyXY();
 static INT sortbyYX();
 static INT sortbyorder();
 static INT remove_redundant_points(); 
-static add_vpts();
-static chek_vpt();
-static add_hpts();
-static chek_hpt();
+static void add_vpts();
+static void chek_vpt();
+static void add_hpts();
+static void chek_hpt();
 
+void dump_pts( POINTPTR *pt );
 
 
 
@@ -282,7 +280,7 @@ YBUSTBOXPTR unbust()
      if( i == limit ){
 	M( ERRMSG, "unbust",
 	"we have detected an infinite loop in automaton\n" ) ;
-	return ;
+	return NULL;
      }
 
      dump_pts( VptS ) ;
@@ -408,10 +406,11 @@ POINTPTR *next_pt ;
 	} /* end switch */
 
     } /* end going thru posibilities */
+    return 0;
 
 } /* end get_next_state */
 
-addPt( tile, x, y )
+void addPt( tile, x, y )
 INT tile, x, y ;
 {
     INT i ;                   /* counter */
@@ -445,7 +444,7 @@ INT tile, x, y ;
     return ;
 } /* end addPt */
 
-addPts( cell, l, r, b, t ) 
+void addPts( cell, l, r, b, t ) 
 INT cell, l, r, b, t ; 
 {
     addPt( cell, l, b ) ;
@@ -456,7 +455,7 @@ INT cell, l, r, b, t ;
 	    l, b, l, t, r, t, r, b ) ) ;
 } /* end addPts */
 
-initPts( addpoint_flag )
+void initPts( addpoint_flag )
 BOOL addpoint_flag ;
 {
     INT i ;     /* counter */
@@ -588,7 +587,7 @@ POINTPTR *pt_array ;
 
 } /* end remove_redundant_points */
 
-static add_vpts( numpts )
+static void add_vpts( numpts )
 INT numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
@@ -675,7 +674,7 @@ INT numpts ;
 
 } /* end add_vpts */
 
-static chek_vpt( tile1, tile2, tile3, tile4 )
+static void chek_vpt( tile1, tile2, tile3, tile4 )
 POINTPTR tile1, tile2, tile3, tile4 ;
 {
     /* four cases */
@@ -750,7 +749,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
 } /* end chek_vpt */
 
 
-static add_hpts( numpts )
+static void add_hpts( numpts )
 INT numpts ;
 {
     POINTPTR tile1ptr ;         /* temp pointer to a point */
@@ -837,7 +836,7 @@ INT numpts ;
     }
 } /* end add_hpts */
 
-static chek_hpt( tile1, tile2, tile3, tile4 )
+static void chek_hpt( tile1, tile2, tile3, tile4 )
 POINTPTR tile1, tile2, tile3, tile4 ;
 {
     /* four cases */
@@ -911,8 +910,7 @@ POINTPTR tile1, tile2, tile3, tile4 ;
     }
 } /* end chek_hpt */
 
- dump_pts( pt )
- POINTPTR *pt ;
+void dump_pts( POINTPTR *pt )
  {
     INT i ;
     POINTPTR ptr ;

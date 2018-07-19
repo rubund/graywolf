@@ -46,11 +46,6 @@ CONTENTS:  DOUBLE calc_acceptance_ratio( iternum )
 DATE:	    Dec 19, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) newtemp.c (Yale) version 4.3 9/7/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include <yalecad/debug.h>
@@ -75,7 +70,7 @@ static DOUBLE alphaS ;    /* exponential decay constant for high temp */
 static DOUBLE betaS ;     /* exponential decay constant for low temp */
 
 /* calculate static exponential time constants */
-init_acceptance_rate()
+void init_acceptance_rate()
 {
     /* determine alpha */
     alphaS =  - log( CRITRATIO ) / HIGHTEMP ;

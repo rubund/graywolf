@@ -68,11 +68,6 @@ REVISIONS:  Apr  1, 1990 - added check_funccost() ;
 	    Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) debug2.c (Yale) version 4.7 12/15/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -94,7 +89,7 @@ extern INT *min_feed , *FeedInRow ;
 
 
 
-dbx_adj( net )
+void dbx_adj( net )
 INT net ;
 {
 
@@ -122,7 +117,7 @@ for( netptr = netarrayG[net]->pins; netptr ;netptr = netptr->next ) {
 TWCLOSE(fp) ;
 }
 
-dbx_netseg( net1 , net2 )
+void dbx_netseg( net1 , net2 )
 INT net1 , net2 ;
 {
 
@@ -149,7 +144,7 @@ for( net = net1 ; net <= net2 ; net++ ) {
 TWCLOSE(fp) ;
 }
 
-dbx_seg( segptr )
+void dbx_seg( segptr )
 SEGBOXPTR segptr ;
 {
 
@@ -169,7 +164,7 @@ TWCLOSE(fp) ;
 }
 
 
-dbx_feed( row1 , row2 )
+void dbx_feed( row1 , row2 )
 INT row1 , row2 ;
 {
 
@@ -245,7 +240,7 @@ TWCLOSE(fp) ;
 }
 
 
-dbx_imp( row1 , row2 )
+void dbx_imp( row1 , row2 )
 INT row1 , row2 ;
 {
 
@@ -275,7 +270,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 TWCLOSE(fp) ;
 }
 
-dbx_funcost()
+void dbx_funcost()
 {
 
 INT net , cost , minx , miny , maxx , maxy ;
@@ -312,7 +307,7 @@ if( cost != funccostG ) {
 }
 }
 
-mst_graph( net1 , net2 )
+void mst_graph( net1 , net2 )
 INT net1 , net2 ;
 {
 
@@ -407,7 +402,7 @@ TWCLOSE(fp) ;
 
 
 
-dbx_fdasgn( row )
+void dbx_fdasgn( row )
 INT row ;
 {
 
@@ -480,7 +475,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 
 
-check_cost()
+void check_cost()
 {
 
     CBOXPTR ptr ;

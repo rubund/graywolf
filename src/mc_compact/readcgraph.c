@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readcgraph.c <- readcgraph.y <- readcgraph.l
@@ -58,9 +55,6 @@ CONTENTS:
 DATE:	    Apr  7, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readcgraph.y (Yale) version 1.1 2/23/91" ;
-#endif
 
 #include <string.h>
 #include <compact.h>
@@ -262,7 +256,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcgraph_l.h" *******************/
 
 
-read_cgraph()
+void read_cgraph()
 { 
     char filename[LRECL] ;
 #ifdef YYDEBUG
@@ -281,7 +275,7 @@ read_cgraph()
 
 } /* end read_cgraph */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.mrte:", cktNameG );
@@ -292,7 +286,7 @@ char    *s;
     abortS = TRUE ;
 }
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      

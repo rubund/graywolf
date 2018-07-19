@@ -9,9 +9,6 @@ REVISIONS:  Dec  7, 1990 - added update function to dialog box.
 
 #define DIALOG_H
 
-#ifndef lint
-static char dialogHId[] = "@(#) dialog.h version 1.4 12/7/90" ;
-#endif
 
 #include <yalecad/base.h>
 

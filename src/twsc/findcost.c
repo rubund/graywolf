@@ -58,11 +58,6 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findcost.c (Yale) version 4.18 4/2/92" ;
-#endif
-#endif
 
 #define EXTRA_BIN 0.50
 #define MAXNUMPINS    100		/* WPS */
@@ -92,10 +87,13 @@ static INT iwireS ;
 static INT iwirexS ;
 static INT iwireyS ;
 static INT print_pinS = 0 ;
-static spread_equal_cells();
-static spread_cells();
+static void spread_equal_cells();
+static void spread_cells();
 
-findcost()
+void create_cell();
+void find_net_sizes();
+
+INT findcost()
 {
 INT block , bin ;
 FILE *fp ;
@@ -713,7 +711,7 @@ feeds_in_rowG = (INT *) Ysafe_calloc( 1+numRowsG,sizeof(INT) );
 return( cost ) ;
 } /* end findcost */
 
-static spread_equal_cells()
+static void spread_equal_cells()
 {
 
 FILE *tp ;
@@ -806,7 +804,7 @@ D( "equal_width_cells",
 
 
 
-static spread_cells()
+static void spread_cells()
 {
 
 INT bin, cell ;
@@ -862,7 +860,7 @@ for( cell = 1 ; cell <= numcellsG - extra_cellsG ; cell++ ) {
 
   
 
-create_cell( )
+void create_cell( )
 { 
 
 FILE *fpr ;
@@ -934,7 +932,7 @@ exit( 0 ) ;
 
 
 
-find_net_sizes()
+void find_net_sizes()
 {
 
 PINBOXPTR netptr ;
@@ -999,12 +997,12 @@ Ysafe_free(  num_nets_of_size ) ;
 return ;
 }
 
-get_max_pin()
+INT get_max_pin()
 {
     return( maxpinS ) ;
 } /* end get_max_pin */
 
-set_print_pin( pins )
+void set_print_pin( pins )
 INT pins ;
 {
     print_pinS = pins ;

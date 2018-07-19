@@ -59,9 +59,6 @@ REVISIONS:  May 25, 1989 - added needtoExecute to handle case of no
 	    Fri Feb 22 23:55:29 EST 1991 - fixed new library rename.
 	    Sun Apr 21 22:33:53 EDT 1991 - now allow optional files.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>
@@ -69,11 +66,14 @@ static char SccsId[] = "@(#) autoflow.c version 2.4 4/21/91" ;
 #include <yalecad/debug.h>
 #include <globals.h>
 
+
 #define STARTOBJECT  0          /* start of the graph */
 #define ERROR        -1         /* error from YgetFileTime() */
 static INT objectS ;            /* the last program that was run */
 
-auto_flow()
+void report_problem( ADJPTR adjptr );
+
+void auto_flow()
 {
 
     ADJPTR     adjptr ;         /* current edge in graph */
@@ -126,7 +126,7 @@ auto_flow()
 
 } /* end autoflow */
 
-exec_single_prog()
+void exec_single_prog()
 {
     ADJPTR     adjptr ;         /* current edge in graph */
     ADJPTR     get_edge_from_user(); /* decides which way to travel */
@@ -185,8 +185,7 @@ exec_single_prog()
     G( draw_the_data() ) ;
 } /* end exec_single_prog */
 
-report_problem( adjptr )
-ADJPTR adjptr ;
+void report_problem( ADJPTR adjptr )
 {
     sprintf( YmsgG, "Trouble executing %s", 
 	proGraphG[adjptr->node]->name)  ;
@@ -271,7 +270,7 @@ ADJPTR adjptr ;
 } /* end BOOL check_dependencies */
 
 /* allow graphics loop to change the object */
-autoflow_set_object( object )
+void autoflow_set_object( object )
 INT object ;
 {
     objectS = object ;

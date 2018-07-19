@@ -59,11 +59,6 @@ REVISIONS:  Thu Dec 20 00:23:46 EST 1990 - removed += operator.
 	    Wed Sep 11 11:19:25 CDT 1991 - modified
 		for new global router.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findunlap.c (Yale) version 4.14 4/2/92" ;
-#endif
-#endif
 
 
 #include "standard.h"
@@ -73,6 +68,11 @@ static char SccsId[] = "@(#) findunlap.c (Yale) version 4.14 4/2/92" ;
 #include <yalecad/debug.h>
 
 #define PICK_INT(l,u) (((l)<(u)) ? ((RAND % ((u)-(l)+1))+(l)) : (l))
+
+INT find_shortest_row(INT long_row );
+INT row_cost(INT long_row , INT short_row , INT width );
+void find_last_6_moveable_cells( INT row, INT *cell1, INT *cell2, INT *cell3, INT *cell4, INT *cell5, INT *cell6);
+void determine_unequal_rows(INT *short_row, INT *long_row );
 
 /* globals */
 INT largest_delta_row_lenG ;
@@ -88,7 +88,7 @@ extern INT *feeds_in_rowG ;
 static INT *row_lengthS ;
 static BOOL first_passS = TRUE ;
 
-findunlap(flag)
+void findunlap(flag)
 INT flag ;
 {
 
@@ -372,7 +372,7 @@ return ;
 
 
 
-even_the_rows(flag,even_the_rows_max)
+void even_the_rows(flag,even_the_rows_max)
 INT flag ;
 BOOL even_the_rows_max ;
 {
@@ -580,7 +580,7 @@ return ;
 
 
 
-gate_arrayG_even_the_rows(flag)
+void gate_arrayG_even_the_rows(flag)
 INT flag ;
 {
 
@@ -809,8 +809,7 @@ return ;
 
 
 
-row_cost( long_row , short_row , width )
-INT long_row , short_row , width ;
+INT row_cost(INT long_row , INT short_row , INT width )
 {
 
 INT cost ;
@@ -822,9 +821,7 @@ return( cost ) ;
 
 
 
-find_last_6_moveable_cells( row, cell1, cell2, cell3, cell4, cell5, cell6) 
-INT row ;
-INT *cell1 , *cell2 , *cell3 , *cell4 , *cell5 , *cell6 ;
+void find_last_6_moveable_cells( INT row, INT *cell1, INT *cell2, INT *cell3, INT *cell4, INT *cell5, INT *cell6) 
 {
 
 INT i ;
@@ -924,7 +921,7 @@ return ;
 
 
 
-find_longest_row()
+INT find_longest_row()
 {
 INT row ;
 INT num_trys ;
@@ -962,8 +959,7 @@ return(row) ;
 */
 
 
-find_shortest_row( long_row )
-INT long_row ;
+INT find_shortest_row(INT long_row )
 {
 INT row ;
 INT short_row_length ;
@@ -991,8 +987,7 @@ return(short_row) ;
 }
 
 
-determine_unequal_rows( short_row, long_row )
-INT *short_row, *long_row ;
+void determine_unequal_rows(INT *short_row, INT *long_row )
 {
     INT row ;
     INT short_row_length, long_row_length ;
@@ -1016,7 +1011,7 @@ INT *short_row, *long_row ;
 
 
 
-even_the_rows_2( iteration )
+void even_the_rows_2( iteration )
 INT iteration ;
 {
 
@@ -1255,7 +1250,7 @@ return ;
 
 
 
-check_row_length()
+INT check_row_length()
 {
 
 INT longest , row , shortest ;
@@ -1302,7 +1297,7 @@ if( gate_arrayG ) {
 
 
 
-findunlap2()
+void findunlap2()
 {
 
 CBOXPTR cellptr ;

@@ -49,15 +49,13 @@ REVISIONS:  Sep 15, 1989 - replaced which with my own version.
 	    Oct 20, 1990 - pathname should be bufsize since
 		users path may be very long.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) path.c version 3.8 10/23/90" ;
-#endif
 
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/string.h>
+#include <yalecad/file.h>
 
 #undef  LRECL
 #define LRECL	BUFSIZ

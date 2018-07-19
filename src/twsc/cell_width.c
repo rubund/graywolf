@@ -47,11 +47,6 @@ CONTENTS:   calc_cell_width()
 DATE:	    July 26, 1991 
 ----------------------------------------------------------------- */
 
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
-#endif
-#endif
 
 #define PADKEYWORD          "pad"
 #define RELATIVE_TO_CURPOS  1
@@ -78,7 +73,7 @@ static char SccsId[] = "@(#) cell_width.c (Yale) version 1.1 9/27/91" ;
 extern INT extra_cellsG ;
 
 static INT compare_cell_length();
-static read_pads(); 
+static void read_pads(); 
 
 
 
@@ -86,22 +81,19 @@ static read_pads();
 /*------------ User defined print routine to print out the tree ------------*/
 /*--------------------------------------------------------------------------*/
 
-INT print_cell_name(c1)
-CBOXPTR c1;
+void print_cell_name(CBOXPTR c1)
 {
  return;
 }
 
 
-INT print_cell_length(c1)
-CBOXPTR c1;
+void print_cell_length(CBOXPTR c1)
 {
   return;
 }
 
 
-INT print_cell_pins(c1)
-CBOXPTR c1;
+void print_cell_pins(CBOXPTR c1)
 {
   return ;
 }
@@ -112,7 +104,7 @@ CBOXPTR c1;
 
 
 
-calc_cells_width()
+void calc_cells_width()
 {
 
 FILE *fp;     /*--- file pointer to stdcell.comp ---*/
@@ -560,7 +552,7 @@ return(EQUAL);
 /****************************************************************************/
 
 
-static read_pads( fp ) 
+static void read_pads( fp ) 
 FILE *fp ;
 {
     char buffer[LRECL], *bufferptr ;

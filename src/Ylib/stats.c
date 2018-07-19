@@ -49,11 +49,9 @@ REVISIONS:  Oct  4, 1990 - added elaspse time for the mips machine.
 		compile for HPUX.
 	    Wed Feb 26 03:56:25 EST 1992 - added date for reference.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) stats.c version 3.8 2/26/92" ;
-#endif
 
 #include	<yalecad/base.h>
+#include	<yalecad/timer.h>
 
 #ifdef VMS
 #define AVOID
@@ -72,6 +70,7 @@ static char SccsId[] = "@(#) stats.c version 3.8 2/26/92" ;
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#include <unistd.h>
 
 #endif  /* AVOID */
 
@@ -99,7 +98,7 @@ FILE *fout ;
     struct rusage	rusage	;
     struct rlimit 	rlp	;
     caddr_t		p	;
-    caddr_t		sbrk()	;
+    // caddr_t		sbrk()	;
 
     /***********************************************************
     * Get the hostname

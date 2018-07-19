@@ -53,9 +53,6 @@ REVISIONS:  Mar 21, 1989 - added get current value of random variable.
 	    Tue Apr  7 09:37:53 EDT 1992 - now you don't need to initialize
 		random number generator if you don't care.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) rand.c version 3.8 4/7/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
@@ -81,7 +78,7 @@ INT Yacm_random()
 
 } /* end acm_random */
 
-Yset_random_seed( seed )
+void Yset_random_seed( seed )
 INT seed ;
 {
     seed = ABS(seed) ;
@@ -101,7 +98,7 @@ INT Yget_random_var()
 
 /* test whether generator works correctly. */
 
-main()
+int main()
 {
     INT n, randnum ;
     Yset_random_seed( 1 ) ;
@@ -111,6 +108,8 @@ main()
     printf( "The final value is randnum:%d\n", randnum ) ;
     printf( "It should be 1043618065 if everything is correct.\n" ) ;
     printf( "See article.\n\n" ) ;
+
+    return 0;
 }
 
 #endif /* TEST */

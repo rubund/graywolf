@@ -66,9 +66,6 @@ REVISIONS:  Jul 30, 1988 - made compile switch for blocking pads.
 		buster.
 	    Wed Jun  5 16:30:30 CDT 1991 - eliminated unbust.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) outgeo.c version 3.6 6/5/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
@@ -79,12 +76,12 @@ static char SccsId[] = "@(#) outgeo.c version 3.6 6/5/91" ;
 
 
 
-static store_pad_loc();
+static void store_pad_loc();
 
 
 
 
-outgeo()
+void outgeo()
 {
 
 FILE *fp ;
@@ -281,7 +278,7 @@ return ;
 
 } /* end outgeo */
 
-static store_pad_loc( cellptr, l, r, b, t )
+static void store_pad_loc( cellptr, l, r, b, t )
 CELLBOXPTR cellptr ;
 INT l, r, b, t ;
 {

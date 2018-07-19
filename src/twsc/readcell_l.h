@@ -49,12 +49,15 @@ REVISIONS:  Dec  7, 1990 - add | for National.
 #define token(x)      x    /* makes it look like regular lex */
 #define END(v) (v-1 + sizeof(v) / sizeof( v[0] ) ) /* for table lookup */
 
-static screen() ;
-static check_line_count() ;
+static INT screen() ;
+static void check_line_count() ;
 static INT line_countS = 0 ;
 
+static int yylook(void);
+static int yyback(int *p, int m);
+
 # define YYNEWLINE 10
-yylex(){
+INT yylex(){
 int nstr; extern int yyprevious;
 while((nstr = yylook()) >= 0)
 yyfussy: switch(nstr){
@@ -170,7 +173,7 @@ static struct rw_table {  /* reserved word table */
     "unequiv",             token(UNEQUIV)
 } ;
 
-static int screen() 
+static INT screen() 
 {
     int c ;
     struct rw_table  *low = rwtable,        /* ptr to beginning */
@@ -195,7 +198,7 @@ static int screen()
 		
 } /* end screen function */
 
-static int check_line_count( s ) 
+static void check_line_count( s ) 
 char *s ;
 {
     if( s ){
@@ -512,7 +515,7 @@ char *yysptr = yysbuf;
 int *yyfnd;
 extern struct yysvf *yyestate;
 int yyprevious = YYNEWLINE;
-yylook(){
+static int yylook(){
 	register struct yysvf *yystate, **lsp;
 	register struct yywork *yyt;
 	struct yysvf *yyz;
@@ -559,7 +562,7 @@ yylook(){
 				}
 # endif
 			yyr = yyt;
-			if ( (int)yyt > (int)yycrank){
+			if ( (INT)yyt > (INT)yycrank){
 				yyt = yyr + yych;
 				if (yyt <= yytop && yyt->verify+yysvec == yystate){
 					if(yyt->advance+yysvec == YYLERR)	/* error transitions */
@@ -569,7 +572,7 @@ yylook(){
 					}
 				}
 # ifdef YYOPTIM
-			else if((int)yyt < (int)yycrank) {		/* r < yycrank */
+			else if((INT)yyt < (INT)yycrank) {		/* r < yycrank */
 				yyt = yyr = yycrank+(yycrank-yyt);
 # ifdef LEXDEBUG
 				if(debug)fprintf(yyout,"compressed state\n");
@@ -661,8 +664,7 @@ yylook(){
 # endif
 		}
 	}
-yyback(p, m)
-	int *p;
+static int yyback(int *p, int m)
 {
 if (p==0) return(0);
 while (*p)
@@ -673,16 +675,16 @@ while (*p)
 return(0);
 }
 	/* the following are only used in the lex library */
-yyinput(){
+int yyinput(){
 	if (yyin == NULL) yyin = stdin;
 	return(input());
 	}
-yyoutput(c)
+void yyoutput(c)
   int c; {
 	if (yyout == NULL) yyout = stdout;
 	output(c);
 	}
-yyunput(c)
+void yyunput(c)
    int c; {
 	unput(c);
 	}

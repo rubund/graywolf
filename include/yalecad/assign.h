@@ -9,9 +9,6 @@ REVISIONS:
 #ifndef YASSIGN_H
 #define YASSIGN_H
 
-#ifndef lint
-static char YassignId[] = "@(#) assign.h (Yale) version 1.3 10/9/90" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>

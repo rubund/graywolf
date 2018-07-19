@@ -60,13 +60,12 @@ REVISIONS:  May 04, 1988 - updated initProgram to include
 	    Fri Feb 22 23:39:39 EST 1991 - added newline character
 		at exit.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) program.c version 3.8 3/4/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/program.h>
+#include <yalecad/timer.h>
+#include <yalecad/debug.h>
  
 static char programName[LRECL];
 static char progVersion[LRECL];
@@ -110,8 +109,7 @@ char *YinitProgram(name,version,introTextFunction)
 } /* end initProgram */
 
 /* exit program gracefully */
-YexitPgm(status)
-INT status ;
+void YexitPgm(INT status)
 {
 
     INT     errorCount, 

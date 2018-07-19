@@ -49,9 +49,6 @@
   1) instead of rebuilding priority heaps all the time,
   keep them around as part of graph structures.
   -----------------------------------------------------------------*/
-#ifndef lint
-static char SccsId[] = "@(#) graph.c version 1.35 4/2/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/colors.h>
@@ -62,6 +59,7 @@ static char SccsId[] = "@(#) graph.c version 1.35 4/2/92" ;
 #include <yalecad/heap.h>
 #include <yalecad/message.h>
 #include <yalecad/rbtree.h>
+#include <yalecad/rand.h>
 
 /* numbers are TWcolors to ease debugging */
 #define BLACK        TWBLACK

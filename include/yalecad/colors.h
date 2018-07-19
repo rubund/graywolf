@@ -10,9 +10,6 @@ REVISIONS:  Jan 27, 1989 - added frame num
 #ifndef COLOR_H
 #define COLOR_H
 
-#ifndef lint
-static char colors_hId[] = "@(#) colors.h version 1.8 2/26/92" ;
-#endif
 
 #define TWWHITE        1
 #define TWBLACK        2

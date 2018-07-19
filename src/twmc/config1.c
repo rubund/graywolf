@@ -68,20 +68,20 @@ REVISIONS:
 		after each configuration change.
 	    Thu Oct 17 11:47:32 EDT 1991 - added initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) config1.c version 3.10 10/18/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
+#include <yalecad/system.h>
+#include <yalecad/draw.h>
+#include <yalecad/program.h>
 
 #define NUMBINSPERCELL  4   /* we want average cell to be in 4 bins
 				for accuracy */
 #define WIREAREAUNKNOWN 0   /* at this time we don't know wire area */
 #define UPDATE  (BOOL)  FALSE /* don't initialize updateFixedCells */
 
-config1()
+void config1()
 {
 
 CELLBOXPTR cellptr ;

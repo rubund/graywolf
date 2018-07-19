@@ -63,11 +63,6 @@ REVISIONS:  Apr  1, 1990 - rewrote the structure of sortpin to
 		call sortpin1 which is used during a gateswap.  Also
 		added new sortpin2 for gateswap between two cells.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) sortpin.c (Yale) version 4.3 9/7/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -76,7 +71,10 @@ static char SccsId[] = "@(#) sortpin.c (Yale) version 4.3 9/7/90" ;
 static PINBOXPTR *sortArrayS ;          /* the normal array for sorting */
 static PINBOXPTR *sortArraySwapS ;
 
-sortpin()
+void shellsort( PINBOXPTR term[] , INT n );
+void sortpin1( INT cell );
+
+void sortpin()
 {
 
     INT cell ;                      /* current cell */
@@ -123,8 +121,7 @@ sortpin()
 
 
 /* sort the pins of a single cell by net */
-sortpin1( cell )
-INT cell ;
+void sortpin1( INT cell )
 {
 
     INT j , n ;
@@ -149,7 +146,7 @@ INT cell ;
     return ;
 } /* end sortpin1 */
 
-sortpin2( cella, cellb )
+void sortpin2( cella, cellb )
 INT cella, cellb ;
 {
 
@@ -204,9 +201,7 @@ INT cella, cellb ;
     return ;
 } /* end sortpin2 */
 
-shellsort( term , n )
-PINBOXPTR term[] ;
-INT n ;
+void shellsort( PINBOXPTR term[] , INT n )
 {
 
 PINBOXPTR ptr ;
@@ -226,7 +221,7 @@ for( incr = n / 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-shellsortx( term , n )
+void shellsortx( term , n )
 PINBOXPTR term[] ;
 INT n ;
 {
@@ -247,7 +242,7 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-shellsorty( term , n )
+void shellsorty( term , n )
 PINBOXPTR term[] ;
 INT n ;
 {
@@ -268,9 +263,7 @@ for( incr = (n+1)/ 2 ; incr > 0 ; incr /= 2 ) {
 }
 
 
-shellsort_referx( worker , head , n )
-FEED_SEG_PTR worker[] ;
-INT n ;
+void shellsort_referx( FEED_SEG_PTR worker[] , int head , INT n )
 {
 
 FEED_SEG_PTR ptr ;

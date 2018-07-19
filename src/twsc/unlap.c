@@ -45,11 +45,6 @@ CONTENTS:   unlap(flag)
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) unlap.c (Yale) version 4.5 10/14/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -63,7 +58,7 @@ extern INT extra_cellsG ;
 extern BOOL no_feed_at_endG ;
 extern BOOL rigidly_fixed_cellsG ;
 
-unlap(flag)
+void unlap(flag)
 INT flag ;
 {
 

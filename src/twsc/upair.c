@@ -50,11 +50,6 @@ REVISIONS:  Fri Mar 22 16:23:46 CST 1991 - now avoid upair
 	    Fri Sep  6 15:20:48 CDT 1991 - now place pads during
 		pairwise swaps.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) upair.c (Yale) version 4.12 5/12/92" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "main.h"
@@ -67,7 +62,7 @@ extern INT **pairArrayG ;
 extern BOOL orientation_optimizationG ;
 extern BOOL placement_improveG ;
 
-upair()
+void upair()
 {
 
 CBOXPTR acellptr, bcellptr ; 
@@ -302,7 +297,7 @@ return;
 }
 
 
-eval_range( acellptr , bcellptr, axc , anxc , bxc , bnxc )
+INT eval_range( acellptr , bcellptr, axc , anxc , bxc , bnxc )
 CBOXPTR acellptr , bcellptr ;
 INT axc , anxc , bxc , bnxc ;
 {

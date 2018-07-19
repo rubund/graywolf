@@ -79,9 +79,6 @@ REVISIONS:  Oct 24, 1988 - added virtual core switch to control pad
 		options when only a fraction of the pins to pads have
 		connections to the core.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) placepads.c version 4.15 5/12/92" ;
-#endif
 
 #define PAD_VARS
 
@@ -95,12 +92,14 @@ static char SccsId[] = "@(#) placepads.c version 4.15 5/12/92" ;
 extern INT **pairArrayG ;
 
 /* ***************** STATIC FUNCTION DEFINITIONS ******************* */
-static find_optimum_locations( P1(void) ) ;
-static place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
-static place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
+static void find_optimum_locations( P1(void) ) ;
+static void place_pad( P2(PADBOXPTR pad,INT bestside ) ) ;
+static void place_children( P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,BOOL sr) ) ;
 static INT find_cost_for_a_side(P5(PADBOXPTR pad,INT side,DOUBLE lb,DOUBLE ub,
    BOOL spacing_restricted ) ) ;
-static find_core( P1(void) ) ;
+static void find_core( P1(void) ) ;
+
+void get_global_pos(INT cell, INT *l, INT *b, INT *r, INT *t);
 
 /* ***************** STATIC VARIABLE DEFINITIONS ******************* */
 static BOOL virtualCoreS = FALSE ;
@@ -116,7 +115,7 @@ It must also adhere to user-specified restrictions on side, position,
 spacing and ordering.
 ____________________________________________________________________*/
 
-placepads()
+void placepads()
 {
     if( padspacingG == EXACT_PADS ){
 	return ;
@@ -155,7 +154,7 @@ placepads()
 } /* end placepads */
 /* ***************************************************************** */
 
-static find_optimum_locations()
+static void find_optimum_locations()
 {
     INT i ;                  /* pad counter */
     INT side ;               /* loop thru valid sides */
@@ -414,7 +413,7 @@ BOOL spacing_restricted ;
  **** are set in those routines.  Otherwise set sumposS and sumtieS
  **** to their proper values.
  ***/
-static place_pad( pad, bestside )
+static void place_pad( pad, bestside )
 PADBOXPTR pad ;
 INT bestside ;
 {
@@ -452,7 +451,7 @@ INT bestside ;
 
 /**** RECURSIVELY SET THE PADSIDE OF ALL CHILDREN OF THE ROOT PAD TO THE
  **** PADSIDE OF THE PARENT. GIVEN THAT SIDE, SET THE OPTIMAL CXCENTER */
-static place_children( pad, side, lb, ub, spacing_restricted )
+static void place_children( pad, side, lb, ub, spacing_restricted )
 PADBOXPTR pad ;
 INT side ;
 DOUBLE lb, ub ;
@@ -539,7 +538,7 @@ BOOL spacing_restricted ;
 
 /* ***************************************************************** */
 #ifdef DEBUG
-print_pads( message, array, howmany )
+void print_pads( message, array, howmany )
 char *message ;
 PADBOXPTR *array ;
 INT howmany ;
@@ -570,7 +569,7 @@ INT howmany ;
 /* ***************************************************************** */
 
 
-static find_core()
+static void find_core()
 {
     INT minx, maxx ;
     INT miny, maxy ;
@@ -651,7 +650,7 @@ static find_core()
 } /* end FindCore */
 
 /* turn virtual core on and off */
-setVirtualCore( flag )
+void setVirtualCore( flag )
 BOOL flag ;
 {
     virtualCoreS = flag ;
@@ -659,9 +658,7 @@ BOOL flag ;
 
 
 /* given a cell it returns bounding box of cell in global coordinates */
-get_global_pos( cell, l, b, r, t )
-INT cell ; 
-INT *l, *r, *b, *t ;
+void get_global_pos(INT cell, INT *l, INT *b, INT *r, INT *t )
 {
 
     CBOXPTR ptr ;
@@ -681,7 +678,7 @@ INT *l, *r, *b, *t ;
 
 } /* end get_global_pos */
 
-placepads_retain_side( flag )
+void placepads_retain_side( flag )
 BOOL flag;
 {
     retain_sideS = flag ;

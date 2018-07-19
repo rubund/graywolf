@@ -46,11 +46,6 @@ CONTENTS:  handle_crossbuses()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) crossbus.c (Yale) version 4.5 10/14/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "main.h"
@@ -62,7 +57,7 @@ extern INT left_row_boundaryG ;
 extern INT row_extentG ;
 extern BOOL exclude_noncrossbus_padsG ;
 
-handle_crossbuses()
+void handle_crossbuses()
 {
 
 PINBOXPTR netptr ;
@@ -487,7 +482,7 @@ return ;
 
 
 
-check_violations()
+void check_violations()
 {
 
 FENCEBOXPTR fence ;
@@ -589,7 +584,7 @@ return ;
 
 
 
-reduce_violations()
+int reduce_violations()
 {
 
 FENCEBOXPTR fence , save_fence ;

@@ -72,12 +72,11 @@ REVISIONS:  Dec 3, 1988 - added end of program for partition strategy.
 	    Wed Jul 24 20:48:13 CDT 1991 - now always wait for
 		user at the end of annealing if requested.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
+#include <yalecad/draw.h>
+#include <yalecad/program.h>
 
 /* redefine flags for easier reading */
 #define VIOLATIONSONLY   FALSE
@@ -87,7 +86,12 @@ static char SccsId[] = "@(#) finalout.c (Yale) version 3.15 7/24/91" ;
 #define NOCONSTRAINTS    FALSE
 #define CONSTRAINTS      TRUE
 
-finalout()
+
+void Output( INT cycle );
+void check_graphics();
+void prnt_cost( char * out_string ) ;
+
+void finalout()
 {
 
 INT c ;
@@ -211,8 +215,7 @@ return ;
 
 
 
-Output( cycle )
-INT cycle ;
+void Output( INT cycle )
 {
 
     if( cycle == 0 || cycle < doCompactionG / 2 ){
@@ -228,8 +231,7 @@ INT cycle ;
 } /* end Output */
 
 /* print out the current cost to the user */
-prnt_cost( out_string ) 
-char *out_string ;
+void prnt_cost( char * out_string ) 
 {
     INT xspan ;
     INT yspan ;
@@ -259,7 +261,7 @@ char *out_string ;
 
 }/* end print_current_cost */
 
-check_graphics()
+void check_graphics()
 {
     if( doGraphicsG && wait_for_userG ){
 	G( TWmessage( "TimberWolfMC waiting for your response" ) ) ;

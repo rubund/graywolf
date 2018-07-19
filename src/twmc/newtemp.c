@@ -57,9 +57,6 @@ REVISIONS:  Feb 25, 1989 - allow negative iterations by setting
 	    Mon Feb  4 02:14:30 EST 1991 - reset the number of attempts
 		and added quickroute function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) newtemp.c version 3.4 2/4/91" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>
@@ -72,7 +69,7 @@ static DOUBLE betaS ;     /* exponential decay constant for low temp */
 static DOUBLE speedS ;    /* multiply attempts per cell by this factor */
 
 /* calculate static exponential time constants */
-init_acceptance_rate()
+void init_acceptance_rate()
 {
     /* determine alpha */
     alphaS =  - log( CRITRATIO ) / HIGHTEMP ;
@@ -144,7 +141,7 @@ INT compute_attprcel()
 
 } /* end compute_attprcell */ 
 
-set_tw_speed( speed ) 
+void set_tw_speed( speed ) 
 DOUBLE speed ;
 {
     speedS = speed ;
@@ -154,7 +151,7 @@ DOUBLE speed ;
 #ifdef TESTRATIO
 
 /* test program for desired acceptance rate profile */
-main( argc , argv )
+INT main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -167,5 +164,6 @@ char *argv[] ;
 	printf( "%4.2le\n" , d_ratio ) ;
     }
 
+    return 0;
 } /* end main */
 #endif /* TESTRATIO */

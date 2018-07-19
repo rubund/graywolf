@@ -56,9 +56,6 @@ REVISIONS:  Feb  7, 1990 - took total_row_length out of procedure calls.
 		for debugging X.
 	    Sat Sep 21 15:48:12 EDT 1991 - added memory functionality.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
-#endif
 
 #define GLOBAL_DEFS
 #define EXPECTEDMEMORY ( 512 * 1024 )
@@ -71,6 +68,7 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 #include <yalecad/string.h>
 #include <yalecad/debug.h>
 #include <globals.h>
+#include "readpar.h"
 
 /* NOTE ****** macros cannot overlap !!! ****** */
 
@@ -81,15 +79,17 @@ static char SccsId[] = "@(#) main.c (Yale) version 3.10 9/21/91" ;
 	 functionality. ---Carl Sechen  */
 
 
+/* Forward declarations */
+void syntax(void);
 
 
-main( argc, argv )
+int main( argc, argv )
 int  argc ;
 char *argv[] ;
 {
 
     FILE *fp ;
-    int yaleIntro() ;
+    void yaleIntro() ;
     char filename[LRECL] ; /* used for input filename */
     char *ptr ;     /* used to parse command line */
     int  windowId ; /* window id */
@@ -276,10 +276,11 @@ char *argv[] ;
 
     YexitPgm( PGMOK ) ;
 
+    return 0;
 } /* end main */
 
 
-yaleIntro() 
+void yaleIntro() 
 {
 
     fprintf(stdout,"\n%s\n",YmsgG) ;
@@ -289,7 +290,7 @@ yaleIntro()
 } /* end yaleIntro */
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

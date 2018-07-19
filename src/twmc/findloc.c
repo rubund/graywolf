@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char SccsId[] = "@(#) findloc.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
@@ -61,11 +58,7 @@ FBOX ,
  *   the best possible location in the site.
  */
 
-findLoc( pinptr, lArray, nPinLocs, HorV ) 
-PINBOXPTR pinptr ;
-BOOL HorV ;
-INT nPinLocs ;
-FBOXPTR lArray ;
+int findLoc( PINBOXPTR pinptr, FBOXPTR lArray, INT nPinLocs, BOOL HorV ) 
 {
 
 INT bigoX , bigoY , litoX , litoY ;

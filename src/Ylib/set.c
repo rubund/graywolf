@@ -66,9 +66,6 @@ REVISIONS:  Dec  4, 1989 added YsetSize and made Yenumerate a macro.
 	    May  8, 1990 - fixed error messages.
 	    Fri Feb 15 15:36:27 EST 1991 - renamed the set functions.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) set.c version 3.8 12/15/91" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
@@ -91,7 +88,7 @@ INT lowerLimit, upperLimit ;
     /* make sure set limits are correct */
     if( lowerLimit > upperLimit ){
 	M( ERRMSG, "Yset_init", "Set limits are in error\n" ) ;
-	return ;
+	return NULL;
     }
     sizeSet = upperLimit - lowerLimit + 1 ;
     set->set = YMALLOC( sizeSet, YSETLISTPTR ) ; 
@@ -110,7 +107,7 @@ INT lowerLimit, upperLimit ;
     return( set ) ;
 } /* end Yset_init */
 
-Yset_free( set ) 
+void Yset_free( set ) 
 YSETPTR set ;
 {   
     INT i ;
@@ -180,9 +177,7 @@ INT  node ;
 } /* end Yset_add */
 
 /* delete a node from the set */
-Yset_delete( set, node )
-YSETPTR set ;
-INT node ;
+void Yset_delete( YSETPTR set, INT node )
 {
     YSETLISTPTR delptr ;
 
@@ -224,7 +219,7 @@ INT node ;
 } /* end Yset_delete */
 	
 /* To clear set we only need to update in_set number and to null list */
-Yset_empty( set ) 
+void Yset_empty( set ) 
 YSETPTR set ;
 {
     set->in_set++ ;
@@ -234,7 +229,7 @@ YSETPTR set ;
 
 
 /* Set complementation */
-Yset_comp( set ) 
+void Yset_comp( set ) 
 YSETPTR set ;
 {
 

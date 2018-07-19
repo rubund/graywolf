@@ -51,9 +51,6 @@ REVISIONS:  May 16, 1989 - removed most doPartitionG conditions.
 	    Thu Feb  7 00:20:00 EST 1991 - reworked graph data.
 	    Thu Apr 18 01:40:16 EDT 1991 - refit overlap parameters.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) penalties.c version 3.8 9/16/91" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>

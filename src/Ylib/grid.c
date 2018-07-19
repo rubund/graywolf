@@ -66,9 +66,6 @@ DATE:	    Oct 27, 1989
 REVISIONS:  Thu Apr 18 00:39:45 EDT 1991 - renamed functions so
 		that names were consistent.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) grid.c version 1.4 4/18/91" ;
-#endif
 
 #include <yalecad/base.h>
 
@@ -76,9 +73,12 @@ static INT offsetxS = 0 ;  /* initially set offset to zero */
 static INT offsetyS = 0 ;  
 static INT xgridS = 1 ;    /* default grid is one */
 static INT ygridS = 1 ;  
+
+void Ygridx( INT *x );
+void Ygridy( INT *y );
 /* ***************************************************************** */
 /* force coordinate to closest xy grid position */
-YforceGrid( x , y )
+void YforceGrid( x , y )
 INT *x , *y ;
 {
     Ygridx( x ) ;
@@ -86,8 +86,7 @@ INT *x , *y ;
 } /* end forceGrid */
 
 /* force coordinate to closest x grid position */
-Ygridx( x )
-INT *x ;
+void Ygridx( INT *x )
 {
 
     INT newx ;
@@ -102,8 +101,7 @@ INT *x ;
 
 
 /* force coordinate to closest x grid position */
-Ygridy( y )
-INT *y ;
+void Ygridy( INT *y )
 {
 
     INT newy ;
@@ -117,7 +115,7 @@ INT *y ;
 } /* end Ygridy */
 
 /* force coordinate to smallest x grid position */
-Ygridx_down( x )
+void Ygridx_down( x )
 INT *x ;
 {
 
@@ -129,7 +127,7 @@ INT *x ;
 } /* end Ygridx_down */
 
 /* force coordinate to smallest y grid position */
-Ygridy_down( y )
+void Ygridy_down( y )
 INT *y ;
 {
 
@@ -142,7 +140,7 @@ INT *y ;
 } /* end Ygridy_down */
 
 /* round coordinate to larger x grid position */
-Ygridx_up( x )
+void Ygridx_up( x )
 INT *x ;
 {
 
@@ -157,7 +155,7 @@ INT *x ;
 } /* end Ygridx_up */
 
 /* round coordinate to larger y grid position */
-Ygridy_up( y )
+void Ygridy_up( y )
 INT *y ;
 {
 
@@ -171,28 +169,28 @@ INT *y ;
 
 } /* end Ygridy_up */
 
-Ygrid_setx( x, offset )
+void Ygrid_setx( x, offset )
 INT x, offset ;
 {
     xgridS = x ;
     offsetxS = offset ;
 } /* end Ygrid_setx */
 
-Ygrid_sety( y, offset )
+void Ygrid_sety( y, offset )
 INT y, offset ;
 {
     ygridS = y ;
     offsetyS = offset ;
 } /* end Ygrid_sety */
 
-Ygrid_getx( x, offset )
+void Ygrid_getx( x, offset )
 INT *x, *offset ;
 {
     *x = xgridS ;
     *offset = offsetxS ;
 } /* end Ygrid_getx */
 
-Ygrid_gety( y, offset )
+void Ygrid_gety( y, offset )
 INT *y, *offset ;
 {
     *y = ygridS ;

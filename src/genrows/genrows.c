@@ -80,9 +80,6 @@ REVISIONS:  Sep 18, 1989 - added row gridding to algorithm.
 	    Tue Sep 24 00:47:00 EDT 1991 - output core into
 		.gen file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/base.h>
@@ -92,6 +89,7 @@ static char SccsId[] = "@(#) genrows.c (Yale) version 3.24 5/14/92" ;
 #include <yalecad/buster.h>
 #include <yalecad/rbtree.h>
 #include <globals.h>
+#include "genrows.h"
 
 #define NOTOUCH    0
 #define OVERLAP1   1
@@ -117,8 +115,15 @@ static INT stdcell_lengthS ;    /* total row length of standard cells */
 static INT feed_lengthS = 0 ;       /* length of feeds */
 
 static YTREEPTR tile_memoryG ;
-static reset_tile_parameters();
+static void reset_tile_parameters();
 static INT compare_tiles();
+void grid_rows();
+void set_spacing();
+void init_vertex_list(INT left, INT bottom, INT right, INT top );
+void free_structures( BOOL allpts );
+void update_tile_memory( BOOL free_flag );
+void find_core();
+void check_overlap();
 
 #if SIZEOF_VOID_P == 64
 #define INTSCANSTR "%ld"
@@ -126,7 +131,7 @@ static INT compare_tiles();
 #define INTSCANSTR "%d"
 #endif
 
-init_data_structures() 
+void init_data_structures() 
 {
     /*static INT compare_tiles() ;*/
 
@@ -143,13 +148,13 @@ init_data_structures()
     tile_memoryG = Yrbtree_init( compare_tiles ) ;
 } /* end init_data_structures */
 
-set_feed_length( percent )
+void set_feed_length( percent )
 DOUBLE percent ;
 {
     feed_lengthS = (INT) ( percent / 100.0 * (DOUBLE) stdcell_lengthS ) ;
 } /* end set_feed_length */
 
-process_tiles()
+void process_tiles()
 {
     TILE_BOX *tptr ;
     INT llx , lly , urx , ury ;
@@ -216,7 +221,7 @@ process_tiles()
 
 } /* end process_tiles */
 
-check_tiles()
+void check_tiles()
 {
 
     TILE_BOX *tile1 , *tile2 ;
@@ -238,7 +243,7 @@ check_tiles()
 
 
 
-print_blk_file() 
+void print_blk_file() 
 {
 
     /*  output the rows; check for multiple row segments - if there
@@ -421,7 +426,7 @@ print_blk_file()
     return ;
 } /* end print_blk_file */
 
-print_tiles() 
+void print_tiles() 
 {
 
     INT i ;
@@ -438,7 +443,7 @@ print_tiles()
     return ;
 } /* end print_tiles */
 
-print_vertices()
+void print_vertices()
 {
     /* for debug only */
 
@@ -828,7 +833,7 @@ FILE *fp ;
     return( TRUE ) ;
 }
 
-save_state(fp)
+void save_state(fp)
 FILE *fp ;
 {
     INT i ;
@@ -885,7 +890,7 @@ FILE *fp ;
 
 } /* end save_state */
 
-process_vertices()
+void process_vertices()
 {
 
     VERTEXPTR check_vertex , vertex ;
@@ -1035,7 +1040,7 @@ process_vertices()
     return ;
 } /* end process_vertices */
 
-build_macros()
+void build_macros()
 {
     INT i ;
     INT j ;
@@ -1087,7 +1092,7 @@ build_macros()
 } /* end build_macros */
 
 
-makerows()
+void makerows()
 {
 
     TILE_BOX *tileptr, *get_starting_tile() ;
@@ -1387,7 +1392,7 @@ INT add_no_more_than ;
     return( totalw ) ;
 } /* end convert_tile_to_rows */
 
-divide_tile( tile , horiz_line ) 
+void divide_tile( tile , horiz_line ) 
 TILE_BOX *tile ;
 INT horiz_line ;
 {
@@ -1429,7 +1434,7 @@ INT horiz_line ;
 
 } /* end divide_tile */
 
-divide_tilelr( tile , vert_line ) 
+void divide_tilelr( tile , vert_line ) 
 TILE_BOX *tile ;
 INT vert_line ;
 {
@@ -1472,7 +1477,7 @@ INT vert_line ;
 
 } /* end divide_tilelr */
 
-get_core( left, bottom, right, top, tileFlag )
+void get_core( left, bottom, right, top, tileFlag )
 INT *left, *bottom, *right, *top ;
 BOOL tileFlag ;  /* if true include the tiles in core */
 {
@@ -1509,7 +1514,7 @@ ROW_BOX  *get_rowptr()
     return( set_of_rowsS ) ;
 } /* end get_rowptr */
 
-grid_rows()
+void grid_rows()
 {
     ROW_BOX *rowptr , *segment ;
     INT oldX, oldY ;
@@ -1530,7 +1535,7 @@ grid_rows()
     }
 } /* end grid_rows */
 
-set_minimum_length( length )
+void set_minimum_length( length )
 INT length ;
 {
     TILE_BOX *tileptr ;      /* current tile */
@@ -1541,7 +1546,7 @@ INT length ;
     }
 } /* end set_minimum_length */
 
-set_row_separation( channel_sep_relative, channel_sep_absolute )
+void set_row_separation( channel_sep_relative, channel_sep_absolute )
 DOUBLE channel_sep_relative;
 INT channel_sep_absolute;
 {
@@ -1555,7 +1560,7 @@ INT channel_sep_absolute;
     }
 } /* end set_row_separation */
 
-set_spacing()
+void set_spacing()
 {
     TILE_BOX *tileptr ;      /* current tile */
 
@@ -1585,7 +1590,7 @@ BOOL force_tiles()
     return( FALSE ) ;
 } /* end force_tiles */
 
-check_user_data()
+void check_user_data()
 {
     if( min_lengthS < spacingG ){
 	M( ERRMSG, "check_user_errors", 
@@ -1594,7 +1599,7 @@ check_user_data()
     }
 } /* end check_user_errors */
 
-remakerows()
+void remakerows()
 {
     ROW_BOX *freerow, *freeseg ;      /* used to free data */
     ROW_BOX *segptr ;                 /* traverse segments freeing them */
@@ -1624,8 +1629,7 @@ remakerows()
 
 } /* end remakerows */
 
-init_vertex_list( left, bottom, right, top )
-INT left, bottom, right, top ;
+void init_vertex_list(INT left, INT bottom, INT right, INT top )
 {
 
     /* start the vertex list */
@@ -1662,8 +1666,7 @@ TILE_BOX *tile ;
     Ysafe_free( tile ) ;
 } /* end free_tile */
 
-free_structures( allpts )
-BOOL allpts ;
+void free_structures( BOOL allpts )
 {
 
     TILE_BOX *last_tile ;
@@ -1684,8 +1687,7 @@ BOOL allpts ;
     }
 }
 
-update_tile_memory( free_flag )
-BOOL free_flag ;
+void update_tile_memory( BOOL free_flag )
 {
     TILE_BOX *tile ;
 
@@ -1701,7 +1703,7 @@ BOOL free_flag ;
     }
 } /* end update_tile_memory */
 
-recalculate( freepts )
+void recalculate( freepts )
 BOOL freepts ;
 {
     BOOL previous_invalid_state ;
@@ -1725,7 +1727,7 @@ BOOL freepts ;
     }
 } /* end recalculate */
 
-find_core()
+void find_core()
 {
     INT macro ;
     INT left, rite, bot, top ;
@@ -1791,7 +1793,7 @@ INT *l, *r, *b, *t ;
     return( TRUE ) ;
 } /* end snap_core */
 
-set_core( left, right, bottom, top )
+void set_core( left, right, bottom, top )
 INT left, right, bottom, top ;
 {
     cx1S = left ;
@@ -1800,7 +1802,7 @@ INT left, right, bottom, top ;
     cy2S = top ;
 } /* end set_core */
 
-check_overlap()
+void check_overlap()
 {
     INT macro ;
     INT match ;
@@ -1932,7 +1934,7 @@ static INT count_rows()
 } /* end count_rows */
 #endif /* NEEDED */
 
-calculate_numrows()
+void calculate_numrows()
 {
     INT l, r, b, t ;  /* dimensions of new core */
 
@@ -1985,7 +1987,7 @@ TILE_BOX *tile1, *tile2 ;
 } /* end compare_tiles */
 
 
-static reset_tile_parameters()
+static void reset_tile_parameters()
 {
 
     TILE_BOX lo ;     /* low sentinel */

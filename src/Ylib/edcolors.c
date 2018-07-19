@@ -47,9 +47,6 @@ REVISIONS:  Dec  7, 1990 - updated for new dialog procedure.
 	    Wed May  1 18:56:14 EDT 1991 - added toggle for arb fill.
 	    Sun Nov  3 12:52:21 EST 1991 - fixed gcc complaints.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) edcolors.c (Yale) version 1.8 12/15/91" ;
-#endif
 
 #ifndef NOGRAPHICS
 
@@ -66,11 +63,11 @@ static char SccsId[] = "@(#) edcolors.c (Yale) version 1.8 12/15/91" ;
 #include "info.h"
 
 static TWDIALOGPTR fieldS ;
-static init_field( P8(INT field, INT row, INT column, INT str_len, char *string,
+static void init_field( P8(INT field, INT row, INT column, INT str_len, char *string,
 		    INT type, INT color, INT group ) ) ;
 
 /* be able to turn off individual colors */
-TWtoggleColors()
+void TWtoggleColors()
 {
     char **colors ;      /* the standard color array */
     INT  i ;             /* counter */
@@ -159,7 +156,7 @@ TWtoggleColors()
 } /* end TWtoggleColors */
 
 
-static init_field( field, row, column, str_len, string, 
+static void init_field( field, row, column, str_len, string, 
 type, color, group )
 INT field, row, column, str_len, type, color, group ;
 char *string ;

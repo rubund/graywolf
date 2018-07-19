@@ -37,16 +37,13 @@
  *
  */
 
-#ifndef lint
-static char SccsId[] = "@(#) makesite.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
 
 DOUBLE val1 , val2 ;
 
-Vside( kArray, cellptr , x , yy1 , yy2 , flag )
+INT Vside( kArray, cellptr , x , yy1 , yy2 , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
 INT x , yy1 , yy2 , flag ;
@@ -157,7 +154,7 @@ return( TotSites ) ;
 
 
 
-Hside( kArray, cellptr , xx1 , xx2 , y , flag )
+INT Hside( kArray, cellptr , xx1 , xx2 , y , flag )
 KBOXPTR kArray ;       
 CELLBOXPTR cellptr ;
 INT xx1 , xx2 , y , flag ;

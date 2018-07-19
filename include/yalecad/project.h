@@ -8,9 +8,6 @@ REVISIONS:  Thu Mar  5 03:41:11 EST 1992 - added very useful
 #ifndef YPROJECT_H
 #define YPROJECT_H
 
-#ifndef lint
-static char Yproject_HId[] = "@(#) project.h version 1.2 3/5/92" ;
-#endif
 
 
 #define NOTOUCH       0               /* tiles don't touch or overlap */
@@ -24,7 +21,7 @@ static char Yproject_HId[] = "@(#) project.h version 1.2 3/5/92" ;
 ( YprojectX((t1_l),(t1_r),(t2_l),(t2_r) ) ? \
   YprojectY((t1_b),(t1_t),(t2_b),(t2_t) ) : 0 )
 
-extern Yproject_space( P2(INT xspace, INT yspace ) ) ;
+extern void Yproject_space( P2(INT xspace, INT yspace ) ) ;
 
 extern INT YprojectX( P4( INT tile1_left, INT tile1_right,
 		          INT tile2_left, INT  tile2_right ) ) ;

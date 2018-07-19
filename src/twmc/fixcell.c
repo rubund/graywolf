@@ -76,9 +76,6 @@ REVISIONS:  Oct  27, 1988 - modified update fixed cells so that it
 	    Wed Jul 24 20:43:22 CDT 1991 - added delete function 
 		for fixing cells.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) fixcell.c version 3.9 11/23/91" ;
-#endif
 
 #include <string.h>
 #include <custom.h>
@@ -102,8 +99,7 @@ static INT newyspanS ;
 static INT oldxspanS ;
 static INT oldyspanS ;
 
-VOID updateFixedCells( initializeFlag )
-BOOL initializeFlag ;
+VOID updateFixedCells( BOOL initializeFlag )
 {
 
     INT i ;
@@ -512,10 +508,8 @@ build_soft_array()
 /* In fixing a cell, determine which side of the core to reference */
 /* cell so that changes to the position of the cell due to core size */
 /* changes will be minimized. */
-VOID
-determine_origin( x, y, left_not_right, bottom_not_top )
-INT *x, *y ; /* point of reference */
-char *left_not_right, *bottom_not_top ;
+VOID determine_origin( INT *x, INT *y, char *left_not_right, char *bottom_not_top )
+//INT *x, *y ; /* point of reference */
 {
     if( *x <= blockmxG ){
 	strcpy( left_not_right, "L" ) ;
@@ -533,7 +527,7 @@ char *left_not_right, *bottom_not_top ;
     }
 } /* end determine_origin */
 
-delete_fix_constraint( cell )
+void delete_fix_constraint( cell )
 INT cell ;
 {
     CELLBOXPTR ptr ;

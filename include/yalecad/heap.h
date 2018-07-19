@@ -18,9 +18,6 @@
 #ifndef HEAP_H
 #define HEAP_H
 
-#ifndef lint
-static char YHeap_SccsId[] = "@(#) heap.h version 1.3 7/11/91";
-#endif
 
 #include <yalecad/base.h>
 

@@ -7,9 +7,6 @@ REVISIONS:
 #ifndef YTECH_H
 #define YTECH_H
 
-#ifndef lint
-static char YassignId[] = "@(#) tech.h (Yale) version 1.1 10/22/90" ;
-#endif
 
 #include <yalecad/base.h>
 
@@ -22,7 +19,7 @@ static char YassignId[] = "@(#) tech.h (Yale) version 1.1 10/22/90" ;
 #define VIA2_3		"via2/3"
 
 
-extern Ytech_init( P1(char *designName ) ) ;
+extern void Ytech_init( P1(char *designName ) ) ;
 /*
 Function:
     Read a technology file for a given design.  Must be called 

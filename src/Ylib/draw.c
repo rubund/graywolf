@@ -173,9 +173,6 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Thu Mar  5 17:01:09 EST 1992 - added clipping for faster draw
 		during zoom.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) draw.c (Yale) version 3.41 3/10/92" ;
-#endif
 
 #ifndef NOGRAPHICS
 
@@ -195,6 +192,8 @@ static char SccsId[] = "@(#) draw.c (Yale) version 3.41 3/10/92" ;
 #include <yalecad/buster.h>
 #include <yalecad/dbinary.h>
 #include <yalecad/project.h>
+#include <yalecad/program.h>
+#include <yalecad/menus.h>
 
 #define YDRAW_VARS
 #include "info.h"
@@ -232,7 +231,7 @@ static VOID drawWArb() ;
 static VOID drawDLine() ;
 static VOID drawWLine() ;
 static VOID initcolors( P2(char **desiredColorArray,INT  numC ) ) ;
-static closeFrame(P1(void)) ;
+static void closeFrame(P1(void)) ;
 static VOID set_viewing_transformation() ;
 extern VOID TW3Dperspective( P5(DOUBLE x, DOUBLE y, DOUBLE z, 
     DOUBLE *pX, DOUBLE *pY ) ) ;
@@ -333,7 +332,7 @@ BOOL TWcheckServer()
     return( TRUE ) ;
 } /* end TWcheckServer */
 
-TWsetMode( mode ) 
+void TWsetMode( mode ) 
 INT mode ;
 {
     if( dumpOnlyS && mode != TWWRITEONLY ){
@@ -473,7 +472,7 @@ INT (*refresh_func)() ;
 	/* we are done for the dump_graphics mode */
 	initS = TRUE ;
 	TWsetMode( TWWRITEONLY ) ;  /* always enable both modes */
-	return ;
+	return initS;
     } else {
 	/* OTHERWISE INITIALIZE BOTH MODES */
 	TWsetMode( TWWRITENDRAW ) ;  /* always enable both modes */
@@ -731,7 +730,7 @@ TWINFOPTR TWgetDrawInfo()
 } /* end TWgetDrawInfo */
 
 
-TWsetDrawInfo( winheight, winwidth, pixmap ) 
+void TWsetDrawInfo( winheight, winwidth, pixmap ) 
 INT winheight, winwidth ;
 Pixmap pixmap ;
 {
@@ -743,7 +742,7 @@ Pixmap pixmap ;
 
 } /* end TWsetDrawInfo */
 
-TWforceRedraw()
+void TWforceRedraw()
 {
     XEvent event ;          /* describes configuration event */
 
@@ -757,7 +756,7 @@ TWforceRedraw()
     XSendEvent( dpyS, drawS, TRUE, ExposureMask, &event ) ;
 } /* end TWforceRedraw */
 
-TWcloseGraphics()
+void TWcloseGraphics()
 {
 
     if(!(initS )){
@@ -780,7 +779,7 @@ TWcloseGraphics()
 
 /***********  BEGIN STRICT GRAPHICS ROUTINES ************* */
 /* perform a zoom in main graphics window */
-TWzoom()
+void TWzoom()
 {
     INT x1, y1 ; /* first point of user zoom */
     INT x2, y2 ; /* second point of user zoom */
@@ -831,7 +830,7 @@ TWzoom()
 }
 
 /* returns to full screen after zoom */
-TWfullView()
+void TWfullView()
 {
     if( fullViewS ){
 	return ;
@@ -846,7 +845,7 @@ TWfullView()
 } /* end TWfullScreen */
 
 /* set the window area for bar */
-TWsetwindow( left, bottom, right, top ) 
+void TWsetwindow( left, bottom, right, top ) 
 INT left, bottom, right, top ;
 {
     INT xspan, yspan ; /* span of data */
@@ -931,7 +930,7 @@ INT left, right, bottom, top ;
     }
 } /* end set_clip_window() */ 
 
-TWtranslate()
+void TWtranslate()
 {
     INT x1, y1 ;
     INT last_xoff, last_yoff ;
@@ -970,7 +969,7 @@ TWtranslate()
 
 /* copy pixmap to screen and flush screen output buffer */
 /* flush screen output buffer */
-TWflushFrame()
+void TWflushFrame()
 {
     if( modeS == TWWRITEONLY ){
 	return ;
@@ -980,7 +979,7 @@ TWflushFrame()
 } /* end TWflushFrame */
 
 /* process everything in buffer */
-TWsync()
+void TWsync()
 {
     if( modeS == TWWRITEONLY ){
 	return ;
@@ -1189,7 +1188,7 @@ INT  numC ;
     
 } /* end initcolor */
 
-TWcolorXOR( color, exorFlag )
+void TWcolorXOR( color, exorFlag )
 INT color ;
 BOOL exorFlag ;
 {
@@ -1212,7 +1211,7 @@ BOOL exorFlag ;
 
 
 /* start a new slate */
-static startDFrame()
+static void startDFrame()
 {
     XClearWindow( dpyS, drawS ) ;
     if( reverseS ){
@@ -1355,7 +1354,7 @@ char	*label ;
     }
 } /* end drawDCell */
 
-TWarb_init()
+void TWarb_init()
 {
     /* allocate memory if needed */
     if(!(ptS)){
@@ -1381,7 +1380,7 @@ TWarb_init()
 } /* end TWarb_init */
 /* ***************************************************************** */
 
-TWarb_addpt( xpos, ypos )
+void TWarb_addpt( xpos, ypos )
 INT xpos, ypos ;
 {
 
@@ -1511,7 +1510,7 @@ char	*label ;
     }
 } /* end drawDArb */
 
-TWarb_fill( flag )
+void TWarb_fill( flag )
 BOOL flag ;
 {
     fillArbS = flag ;
@@ -1522,7 +1521,7 @@ BOOL TWget_arb_fill()
     return( fillArbS ) ;
 } /* end TWget_arb_fill */
 
-TWrect_fill( flag )
+void TWrect_fill( flag )
 BOOL flag ;
 {
     rect_fillS = flag ;
@@ -1533,7 +1532,7 @@ BOOL TWget_rect_fill()
     return( rect_fillS ) ;
 } /* end TWget_rect_fill */
 
-TWhighLightRect( x1,y1,x2,y2 )
+void TWhighLightRect( x1,y1,x2,y2 )
 /* draw a rectangle whose diagonals are (x1,y1) and (x2,y2) */
 register INT	x1,y1,x2,y2 ;
 {	
@@ -1559,7 +1558,7 @@ register INT	x1,y1,x2,y2 ;
 	x1,y2,width,height ) ;
 } /* end TWhighLightRect */
 
-TWmoveRect( x1, y1, x2, y2, ptx, pty )
+void TWmoveRect( x1, y1, x2, y2, ptx, pty )
 INT *x1, *y1, *x2, *y2, ptx, pty ;
 /* x1, y1, x2, y2 are all user data absolute coordinates */
 /* ptx and pty are the value of the pointer from TWgetPt */
@@ -1665,7 +1664,7 @@ Font *font ;
     return( fontinfo ) ;
 } /* end TWgetfont */
 
-_TW3DdrawAxis( drawNotErase )
+void _TW3DdrawAxis( drawNotErase )
 BOOL drawNotErase ;
 {
     INT xspan, yspan, zspan ;
@@ -1889,7 +1888,7 @@ VOID TW3Dnormal_view()
 /*-------------------------
     Draws a 3 dimensional cube.
   -------------------------*/
-INT TW3DdrawCube(ref_num, x1, y1, z1, x2, y2, z2, color, label)
+void TW3DdrawCube(ref_num, x1, y1, z1, x2, y2, z2, color, label)
 INT ref_num, x1, y1, z1, x2, y2, z2 ;
 INT color;
 char *label;
@@ -1959,7 +1958,7 @@ char *label;
 } /* end TW3DdrawCube */
 
 /* returns string size in user coordinate system */
-TWstringSize( string, width, height )
+void TWstringSize( string, width, height )
 char *string ;
 INT *width, *height ;
 {
@@ -1975,7 +1974,7 @@ INT *width, *height ;
 
 }
 
-TWdrawString( x, y, color, label )
+void TWdrawString( x, y, color, label )
 INT x, y, color ;
 char *label ;
 {
@@ -2026,7 +2025,7 @@ static  INT  numPinS = 0 ;  /* pin counter */
 static  INT  numCharS = 0 ; /* symbol table counter */
 
 
-TWstartFrame()
+void TWstartFrame()
 {
     char filename[LRECL] ;
     char dummy[5] ;
@@ -2088,7 +2087,7 @@ TWstartFrame()
 } /* end startNewFrame */
 
 /* write size of data at end of files and close them if frames are open */
-static closeFrame()
+static void closeFrame()
 {
     char dummy[5] ;
     UNSIGNED_INT nitems ;
@@ -2130,7 +2129,7 @@ static closeFrame()
 
 } /* closeFrame */
 
-TWsetFrame( number )
+void TWsetFrame( number )
 INT number ;
 {
     char fileName[LRECL] ;

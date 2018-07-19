@@ -49,14 +49,10 @@ REVISIONS:  Wed Jan  2 10:55:01 CST 1991 - moved DEC code to parser.c
 	    Wed Sep 11 11:25:16 CDT 1991 - updated for
 		new global router algorithm (feeds).
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readblck.c (Yale) version 4.10 11/8/91" ;
-#endif
-#endif
 
 #define READBLCK_VARS
 
+#include <string.h>
 #include "standard.h"
 #include "main.h"
 #include "parser.h"
@@ -78,7 +74,7 @@ extern INT total_row_lengthG ;
 /* global variables */
 
 
-readblck( fp )
+void readblck( fp )
 FILE *fp ;
 
 {

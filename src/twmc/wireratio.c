@@ -52,9 +52,6 @@ REVISIONS:  Fri Jan 25 18:15:36 PST 1991 - added numpins to equations
 	    Wed May  1 19:18:55 EDT 1991 - added switchbox field 
 		so we can ignore these areas during wire estimation.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wireratio.c version 3.9 3/10/92" ;
-#endif
 
 #include <custom.h> 
 #include <dens.h> 
@@ -64,7 +61,7 @@ static char SccsId[] = "@(#) wireratio.c version 3.9 3/10/92" ;
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_linalg.h>
 
-gsl_matrix_disp( mptr, rows, cols )
+static void gsl_matrix_disp( mptr, rows, cols )
 gsl_matrix *mptr ;
 int rows, cols;
 {
@@ -79,7 +76,7 @@ int rows, cols;
     fprintf( stderr, "\n" ) ;
 } /* end gsl_matrix_disp */
 
-gsl_vector_disp( vptr, rows )
+static void gsl_vector_disp( vptr, rows )
 gsl_vector *vptr ;
 int rows;
 {
@@ -91,7 +88,7 @@ int rows;
     fprintf( stderr, "\n" ) ;
 } /* end gsl_vector_disp */
 
-static set_pins( A, center, loc, tile_side, sidepins, count )
+static void set_pins( A, center, loc, tile_side, sidepins, count )
 gsl_matrix *A ;              /* the matrix holding x y positions */
 INT    center ;
 INT    loc ;
@@ -116,7 +113,7 @@ INT    count ;
     }
 } /* end  set_pins */
 
-adapt_wire_estimator()
+void adapt_wire_estimator()
 {
     INT i ;                 /* coefficient counter */
     INT cell ;              /* cell counter */

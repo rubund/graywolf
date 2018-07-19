@@ -51,9 +51,6 @@ REVISIONS:  Mar 29, 1989 - changed tileptr argument to pos.
 	    Thu Mar  7 01:49:31 EST 1991 - now save wireestimation
 		parameters.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) wireest.c version 3.6 3/7/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
@@ -88,13 +85,13 @@ static DOUBLE bdylengthS ;
 
 
 
-static check_routing();
+static void check_routing();
 
 
 
 /*******************************************************************/
 
-wireestxy( pos, xc, yc ) 
+void wireestxy( pos, xc, yc ) 
 MOVEBOXPTR pos ;
 INT xc, yc ;
 {
@@ -266,7 +263,7 @@ INT xc, yc ;
 } /* end wireestxy */
 /*********************************************************************/
 
-wireestxy2( pos, xc, yc ) 
+void wireestxy2( pos, xc, yc ) 
 MOVEBOXPTR pos ;
 INT xc, yc ;
 {
@@ -346,7 +343,7 @@ FILE *fp ;
 
 } /* end read_wire_est */
 
-resize_wire_params()
+void resize_wire_params()
 {
     blocklS = (DOUBLE) blocklG ;
     blockbS = (DOUBLE) blockbG ;
@@ -355,7 +352,7 @@ resize_wire_params()
 } /* end resize_wire_params */
 
 
-static check_routing( routing )
+static void check_routing( routing )
 INT *routing ;
 {
     if( *routing < 0 ){
@@ -370,7 +367,7 @@ INT *routing ;
 /* ***************************************************************** 
    save_wireest - save wireest parameters for restart
 */
-save_wireest( fp )
+void save_wireest( fp )
 FILE *fp ;
 {
     fprintf(fp,"# wireest parameters:\n") ;

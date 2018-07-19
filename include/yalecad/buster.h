@@ -17,9 +17,6 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 #ifndef YBUSTER_H
 #define YBUSTER_H
 
-#ifndef lint
-static char YbusterId[] = "@(#) buster.h version 1.5 4/18/91" ;
-#endif
 
 #include <yalecad/base.h>
 
@@ -29,7 +26,7 @@ typedef struct ybustbox {
 } YBUSTBOX , *YBUSTBOXPTR ;
 
 
-extern Ybuster_init() ;
+extern void Ybuster_init() ;
 /* 
 Arguments:
     none
@@ -40,7 +37,7 @@ Function:
     into tiles.
 */
 
-extern Ybuster_addpt( P2( INT x, INT y ) ) ;
+extern void Ybuster_addpt( P2( INT x, INT y ) ) ;
 /* 
 Arguments:
     INT x, y ;
@@ -61,7 +58,7 @@ Function:
 	ptr[3].x, ptr[3].y if ptr is the returned pointer.
 */
 
-extern Ybuster_free() ;
+extern void Ybuster_free() ;
 /* 
 Arguments:
     none

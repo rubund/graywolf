@@ -49,15 +49,12 @@ REVISIONS:  Jan 29, 1989 - changed msg to msgG and added \n's.
 	    Sun Nov  4 13:22:21 EST 1990 - added new debug function
 		for displaying cell slacks.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug2.c version 7.1 11/10/90" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 
-dumpxGraph()
+void dumpxGraph()
 {
     int  i ;
     ECOMPBOXPTR eptr ;
@@ -135,7 +132,7 @@ COMPACTPTR *xGraph ;
 
 }
 
-dumpyGraph()
+void dumpyGraph()
 {
     int  i ;
     ECOMPBOXPTR eptr ;
@@ -227,7 +224,7 @@ int direction ;
     return( NULL ) ;
 }
 
-dycons()
+void dycons()
 {
     int  i, bcons ;
     ECOMPBOXPTR eptr, eptr2 ;
@@ -275,7 +272,7 @@ dycons()
 
 
 
-dsort( numtiles, XNotY )
+void dsort( numtiles, XNotY )
 int numtiles ;
 BOOL XNotY ;
 {
@@ -311,7 +308,7 @@ BOOL XNotY ;
 
 }  /* end numtiles */
 
-dxancerr()
+void dxancerr()
 {
     int i ;
 
@@ -329,7 +326,7 @@ dxancerr()
     }
 }
 
-dump_anc()
+void dump_anc()
 {
     INT i ;
     INT last ;
@@ -341,7 +338,7 @@ dump_anc()
     }
 } /* dump_anc */
 
-dslack( XNotY, center, length )
+void dslack( XNotY, center, length )
 BOOL XNotY ;
 BOOL center ;
 INT length ;
@@ -417,7 +414,7 @@ INT length ;
     }
 } /* end dslack */
 
-dedges( cell, XnotY, forwardNotBack )
+void dedges( cell, XnotY, forwardNotBack )
 INT cell ;
 BOOL XnotY ;
 BOOL forwardNotBack ;
@@ -463,7 +460,7 @@ BOOL forwardNotBack ;
     fprintf( stderr, "\n\n" ) ;
 }
 
-dyancerr()
+void dyancerr()
 {
     int i ;
 
@@ -482,7 +479,7 @@ dyancerr()
 }
 
 
-check_xancestors()
+void check_xancestors()
 {
     INT i ;
     INT count ;
@@ -519,7 +516,7 @@ check_xancestors()
     }
 } /* end check_xancestors */
 
-check_yancestors()
+void check_yancestors()
 {
     INT i ;
     INT count ;

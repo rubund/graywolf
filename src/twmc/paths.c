@@ -71,9 +71,6 @@ REVISIONS:  Dec  3, 1988 - completed timing driven code.
 	    Fri Jan 18 18:32:01 PST 1991 - updated output format.
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) paths.c version 3.9 4/21/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
@@ -84,8 +81,10 @@ static char SccsId[] = "@(#) paths.c version 3.9 4/21/91" ;
 
 INT dcalc_min_path_len();
 INT dcalc_max_path_len();
+void add2path_set( INT path );
+void clear_path_set();
 
-print_paths( ) 
+void print_paths( ) 
 {
 
     char filename[LRECL] ;
@@ -351,7 +350,7 @@ INT cell ;
 } /* end function calc_incr_time */
 
 
-update_time( cell ) 
+void update_time( cell ) 
 INT cell ;
 {
 
@@ -461,7 +460,7 @@ INT cellb ;
 
 } /* end function calc_incr_time2 */
 
-update_time2( cella, cellb ) 
+void update_time2( cella, cellb ) 
 INT cella, cellb ;
 {
     INT path_num ;        /* name of path */
@@ -499,7 +498,7 @@ static PSETPTR *path_set_arrayS ; /* set is an array of path set boxes */
 static INT path_set_countS ;      /* current set count */
 
 /* initialize set */
-init_path_set() 
+void init_path_set() 
 {   
     INT i ;
 
@@ -512,8 +511,7 @@ init_path_set()
 } /* end initset */
 
 /* add a path to the set if not already in set */
-add2path_set( path ) 
-INT  path ;
+void add2path_set( INT path ) 
 {  
     PSETPTR temp, cpath ;
 
@@ -546,7 +544,7 @@ PSETPTR enum_path_set()
     return( path_set_listS ) ;
 }
 
-clear_path_set() 
+void clear_path_set() 
 {
     path_set_countS ++ ;
     path_set_listS = NULL ;
@@ -566,14 +564,14 @@ static INT *net_set_array ; /* set is an array of net set boxes */
 static INT net_set_count ;      /* current set count */
 
 /* initialize set */
-init_net_set() 
+void init_net_set() 
 {   
     net_set_array = (INT *) Ysafe_calloc((numnetsG+1), sizeof(INT) );
     net_set_count = 1 ;
 } /* end initset */
 
 /* add a net to the set if not already in set */
-add2net_set( net ) 
+void add2net_set( net ) 
 INT  net ;
 {  
     if( net >= 1 || net <= numnetsG ){
@@ -585,7 +583,7 @@ INT  net ;
     }
 } /* end add2net_set */
 
-BOOL member_net_set( net )
+BOOL member_net_set( int net )
 /* test for membership */
 {
     if( net_set_array[net] == net_set_count ){
@@ -595,7 +593,7 @@ BOOL member_net_set( net )
     }
 } /* end member_net_set */
 
-clear_net_set() 
+void clear_net_set() 
 {
     /* to clear set we only need to increment net_set_count */
     /* we can use this set up to 2 Gig times without any problem */

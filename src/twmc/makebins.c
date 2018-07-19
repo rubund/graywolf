@@ -48,15 +48,11 @@ REVISIONS:
 	    Mar  1, 1988 - added variance.
 	    Nov 20, 1988 - fixed aspect ratio.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) makebins.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
 
-makebins( numbins )
-INT numbins ;
+void makebins( INT numbins )
 {
 
 BINBOXPTR bptr ;

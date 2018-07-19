@@ -43,12 +43,10 @@ DESCRIPTION:system routines
 DATE:	    Apr 26, 1990 
 REVISIONS:  May 12, 1990 - added move file and getenv.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) system.c version 3.4 8/28/90" ;
-#endif
 
 #include <yalecad/file.h>
 #include <yalecad/message.h>
+#include <yalecad/program.h>
 
 INT Ysystem( program, abortFlag, exec_statement, abort_func )
 char *program ;
@@ -77,21 +75,21 @@ INT  (*abort_func)() ;
     return( 0 ) ;
 } /* end Ysystem */
 
-YcopyFile( sourcefile, destfile )
+void YcopyFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
     sprintf( YmsgG, "/bin/cp %s %s", sourcefile, destfile ) ;
     Ysystem( "Ylib/YcopyFile", ABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-YmoveFile( sourcefile, destfile )
+void YmoveFile( sourcefile, destfile )
 char *sourcefile, *destfile ;
 {
     sprintf( YmsgG, "/bin/mv %s %s", sourcefile, destfile ) ;
     Ysystem( "Ylib/YmoveFile", ABORT, YmsgG, NULL ) ;
 } /* end Ycopyfile */
 
-Yrm_files( files )
+void Yrm_files( files )
 char *files ;
 {
     sprintf( YmsgG, "/bin/rm -rf %s", files ) ;

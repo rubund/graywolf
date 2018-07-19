@@ -47,17 +47,12 @@ REVISIONS:  Mon Aug 12 17:01:03 CDT 1991 - changed timing ASSERTIONS
 		to D( ) constructs to speed execution time during
 		debug mode.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) ucxx1.c (Yale) version 4.7 2/23/92" ;
-#endif
-#endif
 
 #include "ucxxglb.h"
 #include <yalecad/debug.h>
 
 
-ucxx1( bxcenter , bycenter )
+INT ucxx1( bxcenter , bycenter )
 INT bxcenter , bycenter ;
 {
 

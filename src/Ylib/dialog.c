@@ -67,9 +67,6 @@ REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 	    Thu Jan 30 02:55:16 EST 1992 - added window manager hints
 		and now allow different font for dialog box.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) dialog.c version 3.15 3/6/92" ;
-#endif
 
 #ifndef NOGRAPHICS 
 
@@ -91,6 +88,7 @@ static char SccsId[] = "@(#) dialog.c version 3.15 3/6/92" ;
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/dialog.h>
+#include <yalecad/time.h>
 #include "info.h"
 
 #define WHITE       1                /* white parent gc is one in array */
@@ -142,19 +140,18 @@ static TWDRETURNPTR dataS ;          /* return data array */
 static TWDIALOGPTR  fieldS ;         /* the current dialog array */
 
 /* function definitions */
-static INT world2pix_x() ;
-static INT world2pix_y() ;
-static INT world2fonty() ;
+static INT world2pix_x(int) ;
+static INT world2pix_y(int) ;
+static INT world2fonty(int) ;
 static INT pixlen() ;
-static set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
-static debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
-static check_cases( P3( TWDIALOGPTR fieldp, INT select, 
+static void set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
+static void debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
+static void check_cases( P3( TWDIALOGPTR fieldp, INT select, 
     			INT (*user_function)() )) ;
-static draw_fields( P1(TWDIALOGPTR fieldp) ) ;
-static TWfreeWindows() ;
-static find_font_boundary() ;
-static edit_field( P4( INT field, Window win, XEvent event,
-		    INT (*user_function)() ) ) ;
+static void draw_fields( P1(TWDIALOGPTR fieldp) ) ;
+static void TWfreeWindows() ;
+static void find_font_boundary() ;
+static void edit_field( P4( INT field, Window win, XEvent event, INT (*user_function)() ) ) ;
 
 /* build a dialog box and get info */
 TWDRETURNPTR TWdialog( fieldp, dialogname, user_function )
@@ -522,9 +519,7 @@ INT (*user_function)() ;
 
 } /* end TWdialog */
 
-static set_stipple_font( stippleOn, font_change )
-BOOL stippleOn ;
-INT font_change ;
+static void set_stipple_font( BOOL stippleOn, INT font_change )
 {
     INT i ;        /* counter */
 
@@ -553,7 +548,7 @@ INT font_change ;
 } /* end set_stipple_font */
 
 /* check the case fields and set all member of group to false */
-static check_cases( fieldp, select, user_function )
+static void check_cases( fieldp, select, user_function )
 TWDIALOGPTR fieldp ;
 INT select ;
 INT (*user_function)() ;
@@ -585,8 +580,7 @@ INT (*user_function)() ;
 
 } /* end check_cases */
 
-static draw_fields( fieldp )
-TWDIALOGPTR fieldp ;
+static void draw_fields( TWDIALOGPTR fieldp )
 {
     INT i ;               /* counter */
     TWDIALOGPTR fptr ;    /* current dialog field */
@@ -632,7 +626,7 @@ TWDIALOGPTR fieldp ;
 } /* end draw_fields */
 
 
-static TWfreeWindows()
+static void TWfreeWindows()
 {
     INT i, j ;              /* counters */
 
@@ -645,7 +639,7 @@ static TWfreeWindows()
 
 } /* end TWfreeWindows */
 
-static find_font_boundary() 
+static void find_font_boundary() 
 {
     fwidthS = fontinfoS->max_bounds.rbearing - 
 	fontinfoS->min_bounds.lbearing ;
@@ -656,17 +650,17 @@ static find_font_boundary()
 
 /* tranforms the world coordinate character column format */
 /* to pixel coordinates */
-static INT world2pix_x( x )
+static INT world2pix_x( int x )
 {
     return( x * fwidthS ) ;
 } /* end world2pix_x */
 
-static INT world2pix_y( y )
+static INT world2pix_y( int y )
 {
     return( y * fheightS ) ;
 } /* end world2pix_y */
 
-static INT world2fonty( y )
+static INT world2fonty( int y )
 {
     return( (++y) * fheightS - fontinfoS->max_bounds.descent ) ;
 } /* end world2pix_y */
@@ -678,11 +672,7 @@ INT length ;
     return( fwidthS * length ) ;
 } /* end pixlen */
 
-static edit_field( field, win, event, user_function )
-INT field ;
-Window win ;
-XEvent event ;       /* describes the button event */
-INT (*user_function)() ;
+static void edit_field( INT field, Window win, XEvent event, INT (*user_function)() )
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR dptr;   /* return field of dialog */

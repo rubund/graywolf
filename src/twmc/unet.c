@@ -58,9 +58,6 @@ REVISIONS:  Oct 21, 1989 - changed memoptrS to a pointer rather than
 	    Apr 23, 1990 - added assertion to make sure half perimeter
 		does not go negative.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) unet.c (Yale) version 3.6 11/23/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
@@ -74,14 +71,14 @@ static INT kS ;
 
 
 
-static check_validbound();
-static wire_boundary2();
-static wire_boundary1();
+static void check_validbound();
+static void wire_boundary2();
+static void wire_boundary1();
 
 
 
 
-init_unet()
+void init_unet()
 {
     INT maxpin, get_max_pin() ;
 
@@ -279,7 +276,7 @@ PINBOXPTR antrmptr , bntrmptr ;
     return( cost ) ;
 } /* end unet2 */
 
-static check_validbound( netptr , termptr , nextptr )
+static void check_validbound( netptr , termptr , nextptr )
 NETBOXPTR netptr ;
 PINBOXPTR termptr , nextptr ;
 {
@@ -365,7 +362,7 @@ PINBOXPTR termptr , nextptr ;
     }
 } /* end check_validbound */
 
-static wire_boundary2( c , netptr )
+static void wire_boundary2( c , netptr )
 NETBOXPTR netptr ;
 INT c ;
 {
@@ -761,7 +758,7 @@ INT c ;
     }
 } /* end wire_boundary2 */
 
-static wire_boundary1( netptr )
+static void wire_boundary1( netptr )
 NETBOXPTR netptr ;
 {
 

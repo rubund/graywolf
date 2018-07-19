@@ -65,9 +65,6 @@ REVISIONS:  Apr 25, 1989 - ignore 1 pin nets - causes global router to
 	    Sat May 11 22:41:38 EDT 1991 - automatically move pad
 		pins to correct channel.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) outpin.c version 3.11 5/11/91" ;
-#endif
 
 #include <string.h>
 #include <custom.h>
@@ -86,16 +83,16 @@ static INT  output_typeS ;      /* describe the type of circuit */
 
 
 
-static output_pin();
+static void output_pin();
 static INT find_cell();
-static process_analog_net();
+static void process_analog_net();
 static INT find_cell();
-static output_matches();
+static void output_matches();
 
 
 
 
-outpin()
+void outpin()
 {
 
     INT net ;               /* counter */
@@ -132,7 +129,7 @@ outpin()
 } /* end outpins */
 
 
-static output_pin( pinptr )
+static void output_pin( pinptr )
 PINBOXPTR pinptr ;
 {
     INT i ;              /* softpin counter */
@@ -258,7 +255,7 @@ PINBOXPTR pinptr ;
     }
 } /* end output_pin */
 
-static process_analog_net( netptr )
+static void process_analog_net( netptr )
 NETBOXPTR netptr ;
 {
     INT i, j ;           /* counters */
@@ -372,7 +369,7 @@ INT side ;
     return( side2cellS[side] ) ;
 } /* end getPadMacroNum */
 
-setPadMacroNum( side, cellnum )
+void setPadMacroNum( side, cellnum )
 INT side ;
 INT cellnum ;
 {
@@ -423,7 +420,7 @@ INT get_circuit_type()
     return( output_typeS ) ;
 } /* end get_circuit_type */
 
-static output_matches()
+static void output_matches()
 {
     INT i, j ;
     INT net ;

@@ -49,9 +49,6 @@ REVISIONS:  May  3, 1989 - changed to Y prefixes.
 	    Jun 21, 1989 - changed swap to exchange only x positions.
 	    May  4, 1990 - updated the functionality of Yset_init.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) stdmacro.c version 7.3 2/15/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>
@@ -96,7 +93,7 @@ static SELECTPTR *stackArrayS ; /* members of an invalid path */
 static int sortbydist();
 
 
-partition_compact()
+void partition_compact()
 {
     ERRORPTR  violations, buildXGraph() ;
     int i ;
@@ -374,7 +371,7 @@ BOOL depth_first_search()
 } /* end depth_first_search */
 
 /* perform the swap of two nodes */
-swap_nodes( node1, node2 )
+void swap_nodes( node1, node2 )
 int node1, node2 ;
 {
     COMPACTPTR tptr1 ;                 /* tile pointer */
@@ -413,7 +410,7 @@ int node1, node2 ;
 
 } /* end swap_nodes */
 
-remove_problem( source, sink )
+int remove_problem( source, sink )
 int source, sink ;
 {
     int i ;              /* temp counter */

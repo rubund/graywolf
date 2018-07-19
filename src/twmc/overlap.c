@@ -68,9 +68,6 @@ REVISIONS:  Feb  5, 1988 - changed old_apos, new_apos, old_bpos,
 	    Sun Jan 20 21:34:36 PST 1991 - ported to AIX.
 	    Mon Feb  4 02:15:23 EST 1991 - added new wire estimator.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) overlap.c version 3.6 4/18/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/file.h>
@@ -91,16 +88,18 @@ static CELLBOXPTR cellptrS ;
 static TILEBOXPTR tileptrS ;
 static MOVEBOXPTR posS ;
 static BINBOXPTR bptrS ;
-static xcS, ycS, orientS ;
+static int xcS, ycS, orientS ;
 static INT minXS, maxXS, minYS, maxYS ;
 static INT newbinpenalS ;
 static INT xcostS, ycostS ;
-static INT (*calc_Bins)() ;/* remember which bin function */
+static void (*calc_Bins)() ;/* remember which bin function */
 static INT (*wire_est)() ; /* remember which wire estimation function */
 
 /* global references */
 extern INT wireestxy( P3(MOVEBOXPTR pos,INT xc, INT yc) ) ;
 extern INT wireestxy2( P3(MOVEBOXPTR pos,INT xc, INT yc) ) ;
+void sub_penal( MOVEBOXPTR *cellpos );
+void add_penal( MOVEBOXPTR *cellpos );
 
 /* ***************************************************************** 
    ONE CELL OVERLAP CALCULATION 
@@ -109,7 +108,7 @@ INT overlap( /* old_aposG, new_aposG */ )
 /* MOVEBOXPTR *old_aposG, *new_aposG ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 
 /* ----------------------------------------------------------------- 
@@ -185,7 +184,7 @@ INT overlap2( /* old_aposG, new_aposG, old_bposG, new_bposG */ )
 /* MOVEBOXPTR *old_aposG, *new_aposG, *old_bposG, *new_bposG ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 
 /* ----------------------------------------------------------------- 
@@ -301,11 +300,11 @@ return( newbinpenalS ) ;
 /* ***************************************************************** 
    Update one cell move by transferring from nu to penalty fields 
 */
-INT update_overlap( /* old_aposG */ )
+void update_overlap( /* old_aposG */ )
 /* MOVEBOXPTR *old_aposG ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 /* ----------------------------------------------------------------- 
    Perform overlap update for OLD A - NEW A pair
@@ -329,11 +328,11 @@ for( x = minXS; x <= maxXS ; x++ ){
 /* ***************************************************************** 
    Update two cell move by transferring from nu to penalty fields 
 */
-INT update_overlap2( /* old_aposG, old_bposG */ )
+void update_overlap2( /* old_aposG, old_bposG */ )
 /* MOVEBOXPTR *old_apos, *old_bpos ; */
 {
     register BINBOXPTR *fastbin ;
-    register x, y ;
+    register int x, y ;
 
 /* ----------------------------------------------------------------- 
    Perform overlap update for OLD A - NEW B pair
@@ -376,8 +375,7 @@ for( x = minXS; x <= maxXS ; x++ ){
    Subtract penalty from bins.  
    Takes pointer to move box record as an argument
 */
-sub_penal( cellpos )
-MOVEBOXPTR *cellpos ;
+void sub_penal( MOVEBOXPTR *cellpos )
 {
 INT count, maxcount ;
 INT x, y ;
@@ -534,8 +532,7 @@ for( count=1 ; count <= maxcount ; count++ ) {
    Add penalty to bins. 
    Takes pointer to move box record as an argument
 */
-add_penal( cellpos )
-MOVEBOXPTR *cellpos ;
+void add_penal( MOVEBOXPTR *cellpos )
 {
 INT count, maxcount ;
 INT x, y ;
@@ -695,7 +692,7 @@ for( count=1 ; count <= maxcount ; count++ ) {
    Takes pointer to move box record as an argument
 */
 
-INT calc_wBins( cellpos )
+void calc_wBins( cellpos )
 MOVEBOXPTR *cellpos ;
 {
 
@@ -768,7 +765,7 @@ pos0->loaded_previously = FALSE ;
    DOES NOT use wire estimation in the calculation.
    Takes pointer to move box record as an argument
 */
-INT calc_nBins( cellpos )
+void calc_nBins( cellpos )
 MOVEBOXPTR *cellpos ;
 {
 
@@ -838,8 +835,7 @@ pos0->loaded_previously = FALSE ;
    calc_wBins routine and calc_nBins routine.  In this case,
    the calc_Bins routine is set to calc_wBins.
 */
-turn_wireest_on( turn_on )
-INT turn_on ;
+void turn_wireest_on( INT turn_on )
 {
 
     if( turn_on ){
@@ -860,7 +856,7 @@ INT turn_on ;
    the use of many global variables.  This routines sets up static
    variables in this file. 
 */
-setup_Bins( s_cellptr, s_xc, s_yc, s_orient )
+void setup_Bins( s_cellptr, s_xc, s_yc, s_orient )
 CELLBOXPTR s_cellptr ;
 INT s_xc ;
 INT s_yc ;
@@ -878,7 +874,7 @@ INT s_orient ;
    It is assumed that setup bins was immediately called before 
    call to this routine.
 */
-add2bin( cellpos )
+void add2bin( cellpos )
 MOVEBOXPTR *cellpos ;
 {
 INT count, maxcount ;

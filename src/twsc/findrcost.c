@@ -51,11 +51,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findrcost.c (Yale) version 4.6 12/15/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -64,7 +59,12 @@ static INT **cedgebinS ;
 static INT cedge_binwidthS ;
 static INT num_edgebinS ;
 
-findrcost()
+INT facing_cellheight( INT pin , INT row , INT pinloc , INT status );
+void initial_tracks(SEGBOXPTR segptr );
+void set_cedgebin();
+void reset_track();
+
+void findrcost()
 {
 
 SEGBOXPTR segptr ;
@@ -136,8 +136,7 @@ for( chan = 1 ; chan <= numChansG ; chan++ ) {
 }
 }
 
-initial_tracks( segptr )
-SEGBOXPTR segptr ;
+void initial_tracks(SEGBOXPTR segptr )
 {
 
 INT x1 , x2 , pin1 , pin2 ;
@@ -200,7 +199,7 @@ for( ptr = ptr1 ; ptr != ptr2 ; ptr = ptr->nextgrd ) {
 /* the set_cedgebin() , reset_track , facing_cellheight() function
     would be used only when the cells are in uneven height */
 
-set_cedgebin()
+void set_cedgebin()
 {
 
 CBOXPTR cellptr ;
@@ -248,7 +247,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 
 
-reset_track()
+void reset_track()
 {
 
 CBOXPTR cellptr ;
@@ -292,8 +291,7 @@ for( ; cell <= lastpadG ; cell++ ) {
 }
 
 
-facing_cellheight( pin , row , pinloc , status )
-INT pin, row , pinloc , status ;
+INT facing_cellheight( INT pin , INT row , INT pinloc , INT status )
 {
 
 CBOXPTR cellptr ;
@@ -360,7 +358,7 @@ if( 1 <= row  && row <= numRowsG ) {
 }
 }
 
-fcellheight( pin , fcell , status )
+INT fcellheight( pin , fcell , status )
 INT pin , *fcell , status ;
 {
 

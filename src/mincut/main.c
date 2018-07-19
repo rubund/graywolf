@@ -49,9 +49,6 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 		syntax.
 	    Fri Jan 25 17:57:06 PST 1991 - added debug flag to syntax.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
-#endif
 
 #define MAIN_VARS
 
@@ -63,13 +60,17 @@ static char SccsId[] = "@(#) main.c version 1.1 7/30/91" ;
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include "globals.h"
+#include "output.h"
 
 #include "config-build.h"
 
 #define EXPECTEDMEMORY  (1024 * 1024)  /* 1M should be enough */
 #define VERSION         "v1.0"
 
-main( argc , argv )
+/* Forward declarations */
+void syntax(void);
+
+INT main( argc , argv )
 int argc ;
 char *argv[] ;
 {
@@ -79,7 +80,7 @@ char *argv[] ;
     char command[LRECL] ;
     char *ptr ;
     int  arg_count ;
-    int  yaleIntro() ;
+    void yaleIntro() ;
     int  debug ;
     FILE *fp ;
     char *twdir, *Ygetenv() ;
@@ -165,11 +166,12 @@ char *argv[] ;
 
     YexitPgm( PGMOK ) ;
 
+    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
@@ -179,7 +181,7 @@ syntax()
    YexitPgm(PGMFAIL);
 } /* end syntax */
 
-yaleIntro() 
+void yaleIntro() 
 {
     int i ;
 

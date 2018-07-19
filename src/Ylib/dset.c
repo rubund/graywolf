@@ -54,9 +54,6 @@ REVISIONS:  Original Version      -WS
 		problem with Ydset_enumerate_parents.
 	    Sun Dec 15 02:28:14 EST 1991 - added dset_dump_tree.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) dset.c version 1.13 2/3/92";
-#endif
      
 #define  YDSET_DEFS
 #include <yalecad/base.h>
@@ -103,7 +100,7 @@ ELEMENTPTR ptr;
 } /* end dset_free_element() */
 
 /* delete all the trees associated with set */
-static dset_free_trees( dset )
+static void dset_free_trees( dset )
 YDSETPTR dset ;
 {
   if ( dset->superset_tree ) {
@@ -650,7 +647,7 @@ YDSETPTR dset ;
 /*------------------------
   Ydset_dump
   ------------------------*/
-Ydset_dump(dset,printFunc)
+void Ydset_dump(dset,printFunc)
 YDSETPTR dset;
 VOID (*printFunc)();
 {
@@ -736,7 +733,7 @@ BOOL startFlag;
 /*------------------------
   Ydset_dump_tree
   ------------------------*/
-Ydset_dump_tree(dset,print_key)
+void Ydset_dump_tree(dset,print_key)
 YDSETPTR dset;
 VOID (*print_key)();
 {

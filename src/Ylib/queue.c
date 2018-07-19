@@ -55,15 +55,12 @@ CONTENTS:  YinitQueue( queue, node )
 DATE:	    Mar 16, 1989 
 REVISIONS:  Sep 16, 1989 - all debug directed to stderr.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) queue.c (Yale) version 3.4 12/15/91" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/queue.h>
 
 /* initialize queue */
-YinitQueue( queue, node ) 
+void YinitQueue( queue, node ) 
 YQUEUE *queue ;
 char *node ;
 {   
@@ -92,7 +89,7 @@ YQUEUE *queue ;
 } /* end YtopQueue */
 
 /* add a vertex to the end of the queue */
-Yadd2Queue( queue, node ) 
+void Yadd2Queue( queue, node ) 
 YQUEUE *queue ;
 char *node ;
 {  
@@ -114,7 +111,7 @@ YQUEUE *queue ;
 }
 
 /* debug function to dump the contents of the queue */
-YdumpQueue( queue ) 
+void YdumpQueue( queue ) 
 YQUEUE *queue ;
 {
     YQUEUEPTR temp ; 

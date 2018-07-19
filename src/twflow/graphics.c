@@ -62,9 +62,6 @@ REVISIONS:  Jun 19, 1989 - added return for no graphics case.
 	    Sat Feb 23 04:51:29 EST 1991 - added parasite mode.
 	    Sun Apr 21 22:35:09 EDT 1991 - updated to the convention.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) graphics.c version 2.6 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>
@@ -99,12 +96,12 @@ static ADJPTR selectedEdgeS = NULL ;     /* current selected edge */
 
 #include <menus.h>
 
-init_graphics(argc,argv,windowId)
+void init_graphics(argc,argv,windowId)
 INT argc ;
 char *argv[] ;
 INT windowId ;
 {
-    INT draw_the_data() ;
+    void draw_the_data() ;
 
     if( !(graphicsG) ){
 	return ;
@@ -113,14 +110,14 @@ INT windowId ;
 	/* init windows as a parasite */
 	fprintf( stderr,"windowId:%d\n", windowId ) ;
 	if( !( TWinitParasite(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data, windowId ))){
+	    FALSE, MENU, (INT (*)()) draw_the_data, windowId ))){
 	    M(ERRMSG,"initgraphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
 	}
     } else {
 	if(!(TWinitGraphics(argc,argv,TWnumcolors(),TWstdcolors(),
-	    FALSE, MENU, draw_the_data ))){
+	    FALSE, MENU, (INT (*)())draw_the_data ))){
 	    M(ERRMSG,"init_graphics","Aborting graphics.");
 	    graphicsG = FALSE ;
 	    return ;
@@ -131,7 +128,7 @@ INT windowId ;
 } /* end init_graphics */
 
 /* draw_the_data routine draws compaction graph */
-INT draw_the_data()
+void draw_the_data()
 {
 
     INT  i ;
@@ -182,7 +179,7 @@ INT draw_the_data()
 
 
 /* heart of the graphic system processes user input */
-process_graphics()
+void process_graphics()
 {
 
     INT selection ;     /* the users pick */
@@ -346,7 +343,7 @@ BOOL direction ;
 
 
 /* the corresponding handshake to set the highlighted drawing object */
-graphics_set_object( object )
+void graphics_set_object( object )
 INT object ;
 {
     selectedObjS = object ;     /* set the current selected object */

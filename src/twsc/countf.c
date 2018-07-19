@@ -51,11 +51,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) countf.c (Yale) version 4.10 2/23/92" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -77,7 +72,12 @@ static INT est_final_feedS ;
 static INT **row_mapS ;
 static BOOL num_callS = FALSE ;
 
-countf()
+void prep_feed_count_1();
+void prep_feed_count();
+void insert_row(INT flag);
+int feed_situation(INT row , INT net);
+
+int countf()
 {
 
 PINBOXPTR netptr ;
@@ -264,7 +264,7 @@ return( value * fdWidthG ) ;
 
 
 
-prep_feed_count_1()
+void prep_feed_count_1()
 {
 
 INT row ;
@@ -288,7 +288,7 @@ return ;
 }
 
 
-prep_feed_count()
+void prep_feed_count()
 {
 
 INT row ;
@@ -310,8 +310,7 @@ return ;
 
 
 
-insert_row( flag )
-INT flag ;
+void insert_row(INT flag )
 {
 
 PINBOXPTR pinptr ;
@@ -384,8 +383,7 @@ return ;
 
 
 
-feed_situation( row , net )
-INT row , net ;
+int feed_situation(INT row , INT net )
 {
 
 PINBOXPTR nptr ;

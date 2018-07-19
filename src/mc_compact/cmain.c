@@ -51,9 +51,6 @@ REVISIONS:  Apr 30, 1989 - modified program for new library and
 	    Fri Mar 29 14:17:51 EST 1991 - added DEBUGX switch and
 		added path deck initialization.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
-#endif
 
 #include <stdio.h>
 #include <signal.h>
@@ -68,7 +65,9 @@ static char SccsId[] = "@(#) cmain.c (Yale) version 7.4 4/21/91" ;
 
 #define EXPECTEDMEMORY  (256 * 1024)  /* 256k is more than enough */
 
-main( argc , argv )
+void syntax();
+
+int main( argc , argv )
 int argc ;
 char *argv[] ;
 {
@@ -239,11 +238,12 @@ if( graphicsG ){
 }
 YexitPgm(PGMOK);
 
+    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");

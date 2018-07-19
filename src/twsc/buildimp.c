@@ -53,11 +53,6 @@ REVISIONS:  Aug 30, 1989 - removed lastimp error.
 		dynamic.
 	    Wed Jan 16 14:26:44 PST 1991 - removed re_buildimp
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) buildimp.c (Yale) version 4.9 11/7/91" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -68,7 +63,7 @@ INT comparetxpos() ;
 extern BOOL ignore_feedsG ;	/* Treat feedthroughs as width 0 */
 
 
-buildimp( )
+void buildimp( )
 {
 
 IPBOXPTR *impinptr , imptr ;
@@ -174,7 +169,7 @@ Ysafe_free( feasible_feednum ) ;
 }
 
 
-link_imptr( )
+void link_imptr( )
 {
 INT i , row , *Aray ;
 CBOXPTR cellptr ;
@@ -196,7 +191,7 @@ for( row = 1 ; row <= numRowsG ; row++ ) {
 }
 
 
-decide_boundary( )
+void decide_boundary( )
 {
 
 INT row , fcx , fcl , lcx , lcr , lcl ;
@@ -236,7 +231,7 @@ gxstopG  = xstop  ;
 }
 
 
-fixwolf( )
+void fixwolf( )
 {
 
 INT j , last_j ;
@@ -256,7 +251,7 @@ return ;
 }
 
 
-addfeed( row , pos , feednum ) 
+void addfeed( row , pos , feednum ) 
 INT row , pos , feednum ;
 {
 CBOXPTR cellptr ;

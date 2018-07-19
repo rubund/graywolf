@@ -57,17 +57,12 @@ CONTENTS:   cellbox_data( first_cell , last_cell )
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) debug.c (Yale) version 4.5 9/7/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
 #include "pads.h"
 
-cellbox_data( first_cell , last_cell )
+void cellbox_data( first_cell , last_cell )
 INT first_cell , last_cell ;
 {
 
@@ -96,7 +91,7 @@ TWCLOSE( fp ) ;
 }
 
 
-cellterm_data( first_cell , last_cell )
+void cellterm_data( first_cell , last_cell )
 INT first_cell , last_cell ;
 {
 
@@ -146,7 +141,7 @@ TWCLOSE( fp ) ;
 }
 
 
-dbx_terminal( first_net , last_net )
+void dbx_terminal( first_net , last_net )
 INT first_net , last_net ;
 {
 
@@ -170,7 +165,7 @@ TWCLOSE( fp ) ;
 }
 
 
-dbx_grd( ptr1 , ptr2 )
+void dbx_grd( ptr1 , ptr2 )
 CHANGRDPTR ptr1 , ptr2 ;
 {
 
@@ -190,7 +185,7 @@ if( flag == 1 ) {
 }
 }
 
-pairCheck( first_row , last_row )
+void pairCheck( first_row , last_row )
 INT first_row , last_row ;
 {
 
@@ -239,7 +234,7 @@ TWCLOSE( fp ) ;
 
 
 
-dbx_track( start_chan , end_chan )
+void dbx_track( start_chan , end_chan )
 INT start_chan , end_chan ;
 {
 INT chan ;

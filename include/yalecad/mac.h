@@ -8,9 +8,6 @@ REVISIONS:
 #ifndef MAC_H
 #define MAC_H
 
-#ifndef lint
-static char Ymac_HId[] = "@(#) mac.h version 1.4 1/8/92" ;
-#endif
 
 #ifdef THINK_C
 

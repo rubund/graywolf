@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readtiles.c <- readtiles.y <- readtiles.l
@@ -62,9 +59,6 @@ REVISIONS:  Apr 20, 1989 - original coding.
 	    May  3, 1989 - changed to Y prefixes.
 	    Mon May  6 22:35:12 EDT 1991 - added offset keyword.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readtiles.y version 7.2 5/6/91" ;
-#endif
 
 #include <string.h>
 #include <compact.h>
@@ -254,7 +248,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readtiles_l.h" *******************/
 /* ********************* #include "readtiles_l.h" *******************/
 
-readtiles()
+void readtiles()
 { 
     char filename[LRECL] ;
 #ifdef YYDEBUG
@@ -272,7 +266,7 @@ readtiles()
 
 } /* end readtiles */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.mvio:", cktNameG );
@@ -283,7 +277,7 @@ char    *s;
     setErrorFlag() ;
 }
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      

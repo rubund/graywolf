@@ -52,11 +52,6 @@ REVISIONS:  Apr  1, 1990 - added missing ignore test for wire penalty.
 	    Wed Sep 11 11:18:19 CDT 1991 - modified
 		for new global routing algorith.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) findcostf.c (Yale) version 4.18 4/2/92" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -82,7 +77,7 @@ static void installf();
 INT recompute_wirecost() ;
 INT recompute_timecost() ;
 
-findcostf()
+INT findcostf()
 {
 TIBOXPTR tileptr1 ;
 CBOXPTR cellptr1 ;
@@ -330,7 +325,7 @@ return;
 
 
 
-install_clusters()
+void install_clusters()
 {
 
 INT row , n , i , bin , i_error , delta_bin , length_in_row , cell ;
@@ -432,7 +427,7 @@ return;
 
 
 
-place_clusters()
+void place_clusters()
 {
 
 INT bin , cell , row , c , count ;

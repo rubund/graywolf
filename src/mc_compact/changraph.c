@@ -46,9 +46,6 @@ REVISIONS:  Fri Mar 29 14:16:57 EST 1991 - added cell edge tree data
 		structure.
 	    Mon Aug 12 16:44:05 CDT 1991 - updated for new Yrbtree_init.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) changraph.c (Yale) version 1.4 5/21/92" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/message.h>
@@ -68,7 +65,7 @@ static YSETPTR  nodesetS ;   /* keep track of active nodes */
 /* ***************************************************************** 
     Initialize graph by adding creating memory for it.
    **************************************************************** */
-init_graph( numnodes, numedges )
+void init_graph( numnodes, numedges )
 INT numnodes ;
 INT numedges ;
 {
@@ -92,7 +89,7 @@ INT numedges ;
 /* ***************************************************************** 
    Build graph by first adding nodes and node information to it.
    **************************************************************** */
-addNode( node, xc, yc ) 
+void addNode( node, xc, yc ) 
 INT node, xc, yc ;
 {
     CHANBOXPTR nptr ;
@@ -107,14 +104,14 @@ INT node, xc, yc ;
 /* ***************************************************************** 
    Build channel adjacency list by forming undirected graph.
    **************************************************************** */
-addEdge( node1, node2, HnotV, cell_lb, cell_rt ) 
+void addEdge( node1, node2, HnotV, cell_lb, cell_rt ) 
 INT node1 ;
 INT node2 ;
 BOOL HnotV ;  /* TRUE if horizontal FALSE if vertical */
 INT cell_lb ; /* cell on left (bottom) for vert (horz) channel */
 INT cell_rt ; /* cell on right (top) for  vert (horz) channel */
 {
-    static edgeCountS = 0 ;  /* current number of edges */
+    static int edgeCountS = 0 ;  /* current number of edges */
     ADJPTR newfE,  /* new forward edge */
            temp ;  /* temporary pointer to relink adjacency list */
     ADJPTR findAdjPtr() ; /* returns an edge given two nodes */
@@ -248,7 +245,7 @@ INFOPTR edge ;
 	*(edge->end), edge->HnotV ) ;
 } /* end print_edge */
 
-build_trees()
+void build_trees()
 {
     INT i ;
     INFOPTR eptr ;     /* current edge */
@@ -375,7 +372,7 @@ INT x, y ;
     return( closest_edge ) ;
 } /* end get_closest_edge */
 
-stretch_graph( stretch_edge, x, y )
+void stretch_graph( stretch_edge, x, y )
 INFOPTR stretch_edge ;
 INT x, y ;
 {

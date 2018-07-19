@@ -44,11 +44,6 @@ CONTENTS:
 DATE:	    Apr  7, 1990 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) seagate.c (Yale) version 4.7 3/7/91" ;
-#endif
-#endif
 
 
 #include "standard.h"
@@ -66,7 +61,7 @@ extern BOOL min_peak_densityG ;
 extern BOOL min_total_densityG ;
 extern BOOL stand_cell_as_gate_arrayG ;
 
-seagate_input()
+void seagate_input()
 {
 FILE *fp ;
 CBOXPTR cellptr ;

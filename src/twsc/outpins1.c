@@ -62,11 +62,6 @@ CONTENTS:   outpins()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outpins1.c (Yale) version 1.3 4/18/91" ;
-#endif
-#endif
 
 #include <string.h>
 #include "standard.h"
@@ -99,14 +94,14 @@ static INT *rite_edgeS ;
 static INT *left_edgeS ;
 static FILE *fpS ;
 
-static do_outpins();
-static do_vertical_channel();
-static do_left_vertical_channel();
-static do_right_vertical_channel();
-static do_bottom_channel();
-static do_top_channel();
+static void do_outpins();
+static void do_vertical_channel();
+static void do_left_vertical_channel();
+static void do_right_vertical_channel();
+static void do_bottom_channel();
+static void do_top_channel();
 
-old_outpins()
+void old_outpins()
 {
 
 PINBOXPTR ptr1 , ptr2 , ptr ;
@@ -281,7 +276,7 @@ TWCLOSE( fpS ) ;
  * 9. 0                                                              *
  *-------------------------------------------------------------------*/
 
-static do_outpins( ptr , flag )
+static void do_outpins( ptr , flag )
 PINBOXPTR ptr ;
 int flag ;
 {
@@ -435,7 +430,7 @@ return ;
 }
 
 
-static do_pseudo_pins( ptr , channel , group_number )
+static void do_pseudo_pins( ptr , channel , group_number )
 PINBOXPTR ptr ;
 int channel , group_number ;
 {
@@ -521,7 +516,7 @@ fprintf(fpS,"%s %d PSEUDO_CELL PSEUDO_PIN %d %d %d %d 0\n" ,
 
 
 
-static do_left_pseudo_pins( ptr , channel , group_number )
+static void do_left_pseudo_pins( ptr , channel , group_number )
 PINBOXPTR ptr ;
 int channel , group_number ;
 {
@@ -561,7 +556,7 @@ netarrayG[ptr->net]->name , group_number , x , y ) ;
 }
 
 
-static do_right_pseudo_pins( ptr , channel , group_number )
+static void do_right_pseudo_pins( ptr , channel , group_number )
 PINBOXPTR ptr ;
 int channel , group_number ;
 {
@@ -600,7 +595,7 @@ netarrayG[ptr->net]->name , group_number , x , y ) ;
 
 
 
-static do_vertical_channel( ptr )
+static void do_vertical_channel( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -642,7 +637,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static do_left_vertical_channel( ptr )
+static void do_left_vertical_channel( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -708,7 +703,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static do_right_vertical_channel( ptr )
+static void do_right_vertical_channel( ptr )
 PINBOXPTR ptr ;
 {
 
@@ -774,7 +769,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static do_bottom_channel( ptr )
+static void do_bottom_channel( ptr )
 PINBOXPTR ptr ;
 {
 int x , y , group_number , layer , i ;
@@ -856,7 +851,7 @@ for( adj = ptr->adjptr->next ; adj ; adj = adj->next ) {
 }
 
 
-static do_top_channel( ptr )
+static void do_top_channel( ptr )
 PINBOXPTR ptr ;
 {
 int x , y , group_number , layer , i ;

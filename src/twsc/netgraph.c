@@ -57,11 +57,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 	    Tue Jan 15 20:30:05 PST 1991 - changed frees to Ysafe_frees.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) netgraph.c (Yale) version 4.7 1/15/91" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -93,7 +88,13 @@ static INT *first_indexS = NULL;
 static PINBOXPTR **z_S ;
 static EDGE_COST *edge_dataS ;
 
-netgraph_free_up()
+INT find_set_name(INT v );
+void rebuild_netgraph(INT net );
+void rebuild_netgraph_carl(INT net );
+void remove_unnecessary_feed(INT net , INT flag );
+void do_set_union(INT i , INT j );
+
+void netgraph_free_up()
 {
 
 Ysafe_free( count_G ) ; count_G = NULL ;
@@ -103,7 +104,7 @@ Ysafe_free( stack_G ) ; stack_G = NULL ;
 Ysafe_free( vertex_G ) ; vertex_G = NULL ;
 }
 
-postFeedAssgn()
+void postFeedAssgn()
 {
 
 INT net , i , row , botrow , toprow , last_i ;
@@ -193,8 +194,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-rebuild_netgraph( net )
-INT net ;
+void rebuild_netgraph(INT net )
 {
 
 PINBOXPTR netptr ;
@@ -392,8 +392,7 @@ return ;
 *   pins such that there are only one edge incident on them          *
 *--------------------------------------------------------------------*/
 
-remove_unnecessary_feed( net , flag )
-INT net , flag ;
+void remove_unnecessary_feed(INT net , INT flag )
 {
 
 DBOXPTR dimptr ;
@@ -760,8 +759,7 @@ return ;
 }
 
 
-find_set_name( v )
-INT v ;
+INT find_set_name(INT v )
 {
 
 INT i , k ;
@@ -785,8 +783,7 @@ return( v ) ;
  * Hopcroft and Ullman page 129 to 139 for this algorithm of    *
  * Union and Find problem.                                      *
  *--------------------------------------------------------------*/
-do_set_union( i , j )
-INT i , j ;
+void do_set_union(INT i , INT j )
 {
 
 INT large , small ;
@@ -803,7 +800,7 @@ count_G[large] += count_G[small] ;
 }
 
 
-switchable_or_not()
+void switchable_or_not()
 {
 
 SEGBOXPTR segptr ;
@@ -837,7 +834,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 }
 
 
-free_z_memory()
+void free_z_memory()
 {
 
 INT i , j , last_i ;
@@ -863,7 +860,7 @@ if ( edge_dataS != NULL ) {
 
 
 
-postFeedAssgn_carl()
+void postFeedAssgn_carl()
 {
 
 INT net , i , row , botrow , toprow , last_i ;
@@ -960,8 +957,7 @@ for( net = 1 ; net <= numnetsG ; net++ ) {
 
 
 
-rebuild_netgraph_carl( net )
-INT net ;
+void rebuild_netgraph_carl(INT net )
 {
 
 PINBOXPTR netptr ;

@@ -11,9 +11,6 @@ REVISIONS:  Sun Dec  8 23:30:16 EST 1991 - removed indirection
 #ifndef YDSET_H
 #define YDSET_H
 
-#ifndef lint
-static char Ydset_h_SccsId[] = "@(#) dset.h version 1.6 3/28/92";
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/rbtree.h>
@@ -151,7 +148,7 @@ extern INT Ydset_verify( P1(YDSETPTR set));
 /*------------------------
   Ydset_dump
   ------------------------*/
-extern Ydset_dump(P2( YDSETPTR set, VOID (*printFunc)() ) );
+extern void Ydset_dump(P2( YDSETPTR set, VOID (*printFunc)() ) );
 
 #endif /* YDSET_H */
 

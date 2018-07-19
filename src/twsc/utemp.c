@@ -60,11 +60,6 @@ REVISIONS:  Fri Jan 25 23:45:25 PST 1991 - added user meter.
 	    Thu Aug 22 22:27:18 CDT 1991 - Carl made changes
 		for rigidly fixed cells.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) utemp.c (Yale) version 4.19 4/5/92" ;
-#endif
-#endif
 
 
 #include "standard.h"
@@ -98,8 +93,11 @@ extern DOUBLE ratioG;
 
 INT comparex() ;
 INT compute_attprcel() ;
+void from_middle();
+void from_beginning();
+void elim_nets(INT print_flag);
 
-utemp()
+void utemp()
 {
 
 INT check ;
@@ -247,7 +245,7 @@ for( ; ; ) {
 return ;
 }
 
-from_middle()
+void from_middle()
 {
 
     init_control(-1);		/* set move generation controller. */
@@ -265,7 +263,7 @@ from_middle()
 }
 
 
-from_beginning()
+void from_beginning()
 {
 
     init_uloop();
@@ -349,7 +347,7 @@ INT flag;
     return(n);
 }
 
-rm_overlapping_feeds()
+INT rm_overlapping_feeds()
 {
 
 INT row , cell , *rowptr , target ;
@@ -398,7 +396,7 @@ return( num_deleted ) ;
 
 
 
-route_only_critical_nets() 
+void route_only_critical_nets() 
 {
 
 GLISTPTR pptr ;       /* pointer to paths of a cell */
@@ -429,8 +427,7 @@ return ;
 
 
 
-elim_nets(print_flag)
-INT print_flag ;
+void elim_nets(INT print_flag)
 {
 
 DBOXPTR dimptr;   /* bounding box for net */
@@ -490,7 +487,7 @@ return ;
 
 
 
-refine_fixed_placement()
+INT refine_fixed_placement()
 {
 
 CBOXPTR cellptr , cellptr1 ;

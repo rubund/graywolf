@@ -60,11 +60,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) mergeseg.c (Yale) version 4.4 12/15/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -85,6 +80,10 @@ extern PINBOXPTR makeSTpt() , xmedianfun(), ymedianfun() ;
 static PINBOXPTR nthptrS[30], sthptrS[30], wstptrS[30], estptrS[30] ;
 static INT nthS, sthS, wstS, estS ;
 
+void mergedge( PINBOXPTR netptr, INT direction );
+void rplacseg(PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode);
+void set_steiner_flag( PINBOXPTR ptr1, PINBOXPTR ptr2, PINBOXPTR ptr3 , PINBOXPTR stptr );
+void recheck_steiner_flag( PINBOXPTR stptr );
 
 /*------------------------------------------------------------------* 
  *    The function mergeseg() tries to combines the edges incident  *
@@ -92,8 +91,7 @@ static INT nthS, sthS, wstS, estS ;
  *  new nodes.                                                      *
  *------------------------------------------------------------------*/
 
-mergeseg( netptr )
-PINBOXPTR netptr ;
+void mergeseg(PINBOXPTR netptr )
 {
 PINBOXPTR ptr ;
 ADJASEG *adj ;
@@ -131,9 +129,7 @@ mergedge( netptr, EAST  ) ;
 }
 
 
-mergedge( netptr, direction )
-PINBOXPTR netptr ;
-INT direction ;
+void mergedge( PINBOXPTR netptr, INT direction )
 {
 PINBOXPTR stptr, astptr, *dirptr, xmedian, ymedian ;
 INT i, n, (*funcptr)() ;
@@ -215,8 +211,7 @@ if( n == 0 ) {
 }
 
 
-rplacseg( netptr, oldnode, newnode )
-PINBOXPTR netptr, oldnode, newnode ;
+void rplacseg(PINBOXPTR netptr, PINBOXPTR oldnode, PINBOXPTR newnode )
 {
 ADJASEG *adj, *tmpadj ;
 SEGBOX *segptr ;
@@ -244,8 +239,7 @@ update_segment_data( segptr ) ;
 }
 
 
-set_steiner_flag( ptr1, ptr2, ptr3 , stptr )
-PINBOXPTR ptr1, ptr2, ptr3, stptr ;
+void set_steiner_flag( PINBOXPTR ptr1, PINBOXPTR ptr2, PINBOXPTR ptr3 , PINBOXPTR stptr )
 {
 PINBOXPTR hiptr, loptr ;
 
@@ -290,8 +284,7 @@ if( hiptr->row > stptr->row ) {
 }
 
 
-recheck_steiner_flag( stptr )
-PINBOXPTR stptr ;
+void recheck_steiner_flag( PINBOXPTR stptr )
 {
 ADJASEG *adj ;
 SEGBOX *segptr ;

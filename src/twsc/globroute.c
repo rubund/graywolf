@@ -49,11 +49,6 @@ DATE:	    Mar 27, 1989
 REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 		so that it will always be positive.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) globroute.c (Yale) version 4.5 12/15/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -62,10 +57,12 @@ static char SccsId[] = "@(#) globroute.c (Yale) version 4.5 12/15/90" ;
 /* global variables */
 extern INT Max_numPinsG ;
 
+void process_cross(SEGBOXPTR segptr, INT status);
+
 #define TOP 1
 #define BOT 0
 
-globroute()
+void globroute()
 {
 
 INT flips , attempts , net ;
@@ -159,9 +156,7 @@ fflush(fpoG);
 return ;
 }
 
-process_cross( segptr , status )
-INT status ;
-SEGBOXPTR segptr ;
+void process_cross(SEGBOXPTR segptr, INT status )
 {
 
 INT x1 , x2 ;

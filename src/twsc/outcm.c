@@ -46,11 +46,6 @@ CONTENTS:   outcm()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) outcm.c (Yale) version 4.3 9/7/90" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -62,7 +57,7 @@ static char SccsId[] = "@(#) outcm.c (Yale) version 4.3 9/7/90" ;
 #define INTSCANSTR "%d"
 #endif
 
-outcm()
+void outcm()
 {
 
 char filename[64] ;
@@ -123,7 +118,7 @@ return ;
 
 
 
-incm(fp)
+void incm(fp)
 FILE *fp ;
 {
 

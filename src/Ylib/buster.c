@@ -59,9 +59,6 @@ REVISIONS:  May  1, 1990 - made sure we cannot match the 0
 		for more extensive error checking.
 	    Thu Oct 17 11:08:18 EDT 1991 - added buster_chcek_rect.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) buster.c version 3.8 12/15/91" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/buster.h>
@@ -86,6 +83,7 @@ static INT cur_stateS ;        /* current state direction of edge */
 static char *user_messageS;    /* output message on error */
 /* ################## END STATIC definitions ########################## */
 static BOOL check_rect( P4(INT xx1, INT yy1, INT xx2, INT yy2 ) ) ;
+BOOL Ybuster_check_rect(INT xx1, INT yy1, INT xx2, INT yy2 );
 
 YBUSTBOXPTR Ybuster()
 {
@@ -222,7 +220,7 @@ YBUSTBOXPTR Ybuster()
 } /* end buster */
 /* ***************************************************************** */
 
-Ybuster_addpt( xpos, ypos )
+void Ybuster_addpt( xpos, ypos )
 INT xpos, ypos ;
 {
     if( xpos == ptS[cornerCountS].x && ypos == ptS[cornerCountS].y ){
@@ -239,7 +237,7 @@ INT xpos, ypos ;
 } /* end add_arb_pt */
 /* ***************************************************************** */
 
-Ybuster_init()
+void Ybuster_init()
 {
     /* allocate memory if needed */
     if(!(ptS)){
@@ -255,7 +253,7 @@ Ybuster_init()
 } /* end Ybuster_init */
 /* ***************************************************************** */
 
-Ybuster_free()
+void Ybuster_free()
 {
     /* free allocate memory */
     if(ptS){
@@ -315,8 +313,7 @@ char *user_string ;
 /* ***************************************************************** */
 /* detect problems with clockwise rotation pattern */
 
-BOOL Ybuster_check_rect( xx1, yy1, xx2, yy2 )
-INT xx1, yy1, xx2, yy2 ;
+BOOL Ybuster_check_rect(INT xx1, INT yy1, INT xx2, INT yy2 )
 {
     INT next_state ;           /* the next direction of the edge */
     static INT errorArrayL[6] =
@@ -364,7 +361,7 @@ INT xx1, yy1, xx2, yy2 ;
     return( FALSE ) ;
 } /* end Ybuster_check_rect */
 
-Ybuster_check_rect_init( user_string )
+void Ybuster_check_rect_init( user_string )
 char *user_string ;
 {
     cur_stateS = S_STATE ;

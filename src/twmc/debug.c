@@ -47,9 +47,6 @@ REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Mar 30, 1989 - changed tile datastructure.
 	    Apr 23, 1990 - moved graph routines to library.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
 /* #include <stdarg.h> */
@@ -64,7 +61,7 @@ static char SccsId[] = "@(#) debug.c version 3.3 9/5/90" ;
 /* ***************************************************************** 
    DUMP CELL BIN LISTS
 */
-dcellList( cell )
+void dcellList( cell )
 INT cell ;
 {
     INT binX, binY, limit ;
@@ -150,7 +147,7 @@ BOOL checkbinList()
 /* ***************************************************************** 
    DUMP CELL BIN LISTS
 */
-dbinList( flag )
+void dbinList( flag )
 INT flag ;
 {
     INT x, y, limit ;
@@ -204,7 +201,7 @@ INT flag ;
 /* ***************************************************************** 
    DUMP OVERLAP BIN STRUCTURE
 */
-dbins( flag )
+void dbins( flag )
 BOOL flag ;
 {
 
@@ -254,7 +251,7 @@ BOOL flag ;
 /* ***************************************************************** 
    DUMP MOVEBOX STRUCTURE
 */
-dmove()
+void dmove()
 {
 
 INT i;
@@ -296,7 +293,7 @@ for( i=0 ; i<= 1; i++ ){
 /* ***************************************************************** 
    DUMP TILEPTR STRUCTURE
 */
-dtile(cell)
+void dtile(cell)
 INT cell ;
 {
 
@@ -316,7 +313,7 @@ for( t=ptr->tiles;t;t=t->next ){
    RELOAD BINS same as loadbins make call because of dbx bug. 
    Also reinitializes nupenalty field 
 */
-dloadbins( flag )
+void dloadbins( flag )
 BOOL flag ;
 {
     INT x, y ;
@@ -334,7 +331,7 @@ BOOL flag ;
 /* ***************************************************************** 
    DUMP CURRENT CELL AREAS
 */
-dcellareas()
+void dcellareas()
 {
 
 printf("Area without routing area:%d\n",calc_cellareas(FALSE) ) ;
@@ -343,7 +340,7 @@ printf("Area with estimated routing area:%d\n",calc_cellareas(TRUE) ) ;
 } /* end dcellareas */
 
 #ifdef NEEDED
-DORIENT( cell )
+void DORIENT( cell )
 INT cell ;
 {
     FILE *fp ;
@@ -464,7 +461,7 @@ INT cell ;
 
 } /* end dumpForce */
 
-dsoftpins( cell )
+void dsoftpins( cell )
 INT cell ;
 {
 

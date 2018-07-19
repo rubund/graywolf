@@ -55,18 +55,19 @@ REVISIONS:  Sep 20, 1988 - removed excess edges from source and sink
 	    May  3, 1989 - changed to Y prefixes.
 	    May  6, 1989 - added no graphics compile switch
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) xcompact.c version 7.2 11/10/90" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>
 #include <yalecad/message.h>
 
 
+void formxEdge(int fromNode, int toNode );
+void initxPicket();
+void update_xpicket(int i, PICKETPTR lowerLimit, PICKETPTR upperLimit );
+
 static PICKETPTR  botPickS ;
 
-buildXGraph()
+void buildXGraph()
 {
     int i ;                    /* counter */
     int overlapx ;             /* overlap conditions in x direction */
@@ -225,9 +226,7 @@ buildXGraph()
 
 } /* end buildXGraph */
 
-formxEdge( fromNode, toNode ) 
-int fromNode ;
-int toNode ;
+void formxEdge(int fromNode, int toNode ) 
 {
     COMPACTPTR e1, e2 ;
     ECOMPBOXPTR temp, newE ;
@@ -298,7 +297,7 @@ int toNode ;
     ASSERT( newE->constraint >= 0, "formxEdge", YmsgG ) ;
 }
 
-initxPicket() 
+void initxPicket() 
 {
     COMPACTPTR sink, source, node ;
     int i ;
@@ -334,9 +333,7 @@ initxPicket()
     
 
 
-update_xpicket( i, lowerLimit, upperLimit )
-int i ;
-PICKETPTR lowerLimit, upperLimit ;
+void update_xpicket(int i, PICKETPTR lowerLimit, PICKETPTR upperLimit )
 {
     PICKETPTR t, temp, curPick ;
     COMPACTPTR newtile ;         /* new tile to be added to picket */
@@ -545,7 +542,7 @@ int tile1_bot, tile1_top, tile2_bot, tile2_top ;
 }/* end projectY */
 
 /* sort by x first then y */
-sortbyXY( tileA , tileB )
+int sortbyXY( tileA , tileB )
 COMPACTPTR *tileA , *tileB ;
 
 {
@@ -557,7 +554,7 @@ COMPACTPTR *tileA , *tileB ;
     }
 }
 
-load_ancestors( direction )
+void load_ancestors( direction )
 INT direction ;
 {
     INT i ;			/* counter */
@@ -588,7 +585,7 @@ INT direction ;
     }
 }
 
-static xforwardPath()
+static void xforwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -628,7 +625,7 @@ static xforwardPath()
     } /* end loop on queue */
 } /* end xforwardPath */
 
-static xbackwardPath()
+static void xbackwardPath()
 {
 
     INT j ;			/* current tile adjacent to node */
@@ -835,7 +832,7 @@ BOOL find_path ;
     return( length ) ;
 } /* end longestxPath */
 
-dxpick()
+void dxpick()
 {
     PICKETPTR curPick ;
     printf("Bottom to top pickets:\n" ) ;

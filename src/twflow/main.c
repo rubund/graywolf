@@ -63,9 +63,6 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 		a flow directory.  Also added show_flows call.
 	    Sun Apr 21 22:36:29 EDT 1991 - now find the flow directory.
 ---------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
-#endif
 
 #include <stdio.h>
 #include <signal.h>
@@ -85,7 +82,11 @@ static char SccsId[] = "@(#) main.c version 2.8 4/21/91" ;
 #define NULLWINDOW      0
 #define VERSION         "2.1" 
 
-main( argc , argv )
+/* Forward declarations */
+void syntax(void);
+void show_flows();
+
+INT main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -277,11 +278,12 @@ char *argv[] ;
 	YexitPgm(PGMOK);
     }
 
+    return 0;
 } /* end main */
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
@@ -316,7 +318,7 @@ VOID yaleIntro()
 } /* end yaleIntro */
 
 
-show_flows()
+void show_flows()
 {
    char command[LRECL] ; 
    /* now show user the flow directories */ 

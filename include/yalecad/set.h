@@ -28,9 +28,6 @@ REVISIONS:  Dec  4, 1989 added Yset_size and made Yenumerate a macro.
 #ifndef SET_H
 #define SET_H
 
-#ifndef lint
-static char YsetId[] = "@(#) set.h (Yale) version 1.7 2/15/91" ;
-#endif
 
 #include <yalecad/base.h>
 
@@ -81,7 +78,7 @@ Function:
     returns a pointer to the set data structure.
 */
 
-extern Yset_free( P1(YSETPTR set ) ) ; 
+extern void Yset_free( P1(YSETPTR set ) ) ; 
 /* 
 Arguments:
     YSETPTR set ;
@@ -110,7 +107,7 @@ Function:
     returns TRUE if this a new member of set FALSE if already a member.
 */
 
-extern Yset_delete( P2(YSETPTR set, INT node ) ) ;
+extern void Yset_delete( P2(YSETPTR set, INT node ) ) ;
 /* 
 Arguments:
     YSETPTR set ;
@@ -120,7 +117,7 @@ Function:
 */
 
 
-extern Yset_empty( P1(YSETPTR set ) ) ; 
+extern void Yset_empty( P1(YSETPTR set ) ) ; 
 /* 
 Arguments:
     YSETPTR set ;
@@ -128,7 +125,7 @@ Function:
     makes the set an empty set.
 */
 
-extern Yset_comp( P1(YSETPTR set ) ) ;
+extern void Yset_comp( P1(YSETPTR set ) ) ;
 /* 
 Arguments:
     YSETPTR set ;

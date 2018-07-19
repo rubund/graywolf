@@ -80,11 +80,6 @@ REVISIONS:  Mar 29, 1989 - removed vertical / horz wire weighting.
 	    Thu Sep 19 14:15:51 EDT 1991 - added equal width cell
 		capability.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) uloop.c (Yale) version 4.14 3/23/92" ;
-#endif
-#endif
 
 #define UCXXGLB_VARS
 
@@ -157,6 +152,12 @@ DOUBLE partition() ;
 DOUBLE compute_and_combination() ;
 DOUBLE combination() ;
 INT eval_ratio() ;
+void rowcon();
+
+INT tw_frozen(INT cost );
+void pick_fence_position(INT *x, INT *y, FENCEBOX * fence);
+void pick_position(INT *x, INT *y, INT ox, INT oy, DOUBLE scale);
+void update_window_size(DOUBLE iternum );
 
 /* static variables */
 static INT acc_cntS = 0 ;
@@ -183,7 +184,7 @@ static DOUBLE row_capS = 99.0 ;
 static DOUBLE a_ratioS;
 static DOUBLE total_costS;
 
-init_uloop()
+void init_uloop()
 {
     not_doneS = 1;
     acc_cntS = move_cntS ;
@@ -191,7 +192,7 @@ init_uloop()
 } /* end init_uloop */
 
 
-uloop()
+void uloop()
 {
 
 FENCEBOXPTR fence ;
@@ -850,7 +851,7 @@ return ;
 
 
 
-rowcon()
+void rowcon()
 {
 
 INT C , R , p_first , totalCells , cellsPerRow , temp_R ;
@@ -1084,7 +1085,7 @@ return( states ) ;
 }
 
 
-sanity_check()
+INT sanity_check()
 {
 
 INT *cellxptr , cell , center , block , bin , i ;
@@ -1107,7 +1108,7 @@ return(0);
 }
 
 
-sanity_check2()
+INT sanity_check2()
 {
 
 INT *cellxptr , *clist ;
@@ -1146,7 +1147,7 @@ return(0);
 }
 
 
-sanity_check3()
+INT sanity_check3()
 {
 
 INT *cellxptr ;
@@ -1188,7 +1189,7 @@ DOUBLE *t;
     return((ratioG < AC4) ? 0 : 1);
 }
 
-init_control(first)
+void init_control(first)
 INT first;
 {
     INT i;
@@ -1226,9 +1227,7 @@ INT first;
 
 
 
-pick_fence_position(x,y,fence)
-INT *x, *y ;
-FENCEBOX *fence ;
+void pick_fence_position(INT *x, INT *y, FENCEBOX *fence)
 {
     register INT left,right;
     BBOXPTR bblckptr ;
@@ -1248,9 +1247,7 @@ FENCEBOX *fence ;
     return;
 }
 
-pick_position(x,y,ox,oy,scale)
-INT *x,*y,ox,oy;
-DOUBLE scale ;
+void pick_position(INT *x, INT *y, INT ox, INT oy, DOUBLE scale)
 {
     register INT i,m,n,bleft,bright;
     DOUBLE tmp ;
@@ -1296,8 +1293,7 @@ DOUBLE scale ;
 }
 
 /* change range limiter according to iterationG number */
-update_window_size( iternum )
-DOUBLE iternum ;
+void update_window_size(DOUBLE iternum )
 {
 
 /*
@@ -1351,7 +1347,7 @@ DOUBLE iternum ;
     */
 }
 
-save_control( fp )
+void save_control( fp )
 FILE *fp ;
 {
     fprintf(fp,"%d 0 %d\n",pairtestG,not_doneS);
@@ -1362,7 +1358,7 @@ FILE *fp ;
     fprintf(fp,"%f %f %f\n",avg_timeG, avg_funcG, timeFactorG);
 }
 
-read_control( fp )
+void read_control( fp )
 FILE *fp ;
 {
     INT junk ;
@@ -1375,8 +1371,7 @@ FILE *fp ;
     fscanf(fp,"%lf %lf %lf\n",&avg_timeG, &avg_funcG, &timeFactorG);
 }
 
-tw_frozen( cost )
-INT cost ;
+INT tw_frozen(INT cost )
 {
 
 DOUBLE diff , avg_first_set , avg_second_set ;

@@ -46,14 +46,12 @@ DATE:	    Jun 21, 1989
 REVISIONS:  Thu Oct 17 11:09:03 EDT 1991 - renamed functions according
 		to convention. Added mst_color function.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) mst.c (Yale) version 1.5 1/24/92" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>
+#include <yalecad/file.h>
 
 static    INT numpinS ;          /* allocation of memory */
 static    INT *nodeXS ;          /* array of x locations for pins */
@@ -66,7 +64,7 @@ static    INT colorS = TWRED ;   /* default color is red */
 #define	SQUARE(a)    ((a)*(a))
 #define	INF	     INT_MAX
 
-static cost(i,j)
+static int cost(i,j)
 /* return the square of the Euclidian distance of 2 points */
 INT i, j ;
 {
@@ -76,7 +74,7 @@ INT i, j ;
 	return( SQUARE(nodeXS[i]-nodeXS[j])+SQUARE(nodeYS[i]-nodeYS[j]) );
 } /* end cost */
 
-Ymst_init( numpins )
+void Ymst_init( numpins )
 INT numpins ;
 {
     numpinS = numpins ;
@@ -87,7 +85,7 @@ INT numpins ;
     countS = 0 ;
 } /* end Ymst_init() */
 
-Ymst_free()
+void Ymst_free()
 {
     YFREE(nodeXS) ;
     YFREE(nodeYS) ;	
@@ -95,12 +93,12 @@ Ymst_free()
     YFREE(lowcostS) ;	
 } /* end Ymst_free() */
 
-Ymst_clear()
+void Ymst_clear()
 {
     countS = 0 ;
 } /* end Yclear_mst() */
 
-Ymst_addpt( x, y )
+void Ymst_addpt( x, y )
 INT x, y ;
 {
     if( countS >= numpinS ){
@@ -112,7 +110,7 @@ INT x, y ;
     countS++ ;
 } /* end Ymst_addpt() */
 
-Ymst_draw()
+void Ymst_draw()
 {
     INT mincost ;             /* minimum cost for pin */
     INT closest_pt ;          /* closest neighbor for pin */
@@ -148,7 +146,7 @@ Ymst_draw()
 
 } /* end Ymst_draw() */
 
-Ymst_enumerate( x1, y1, x2, y2, startFlag )
+void Ymst_enumerate( x1, y1, x2, y2, startFlag )
 INT *x1, *y1, *x2, *y2 ;
 BOOL startFlag ;
 {
@@ -194,7 +192,7 @@ BOOL startFlag ;
 
 } /* end Ymst_enumerate() */
 
-Ymst_color( color )
+void Ymst_color( int color )
 {
     colorS = color ;
 } /* end Ymst_color */

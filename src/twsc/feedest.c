@@ -62,11 +62,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 	    Tue Mar 12 17:08:44 CST 1991 - added back missing
 		computation.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) feedest.c (Yale) version 4.9 3/12/91" ;
-#endif
-#endif
 
 #define FEEDS_VARS
 
@@ -87,8 +82,9 @@ static INT *row_flagS ;
 static INT chip_width_penaltyS ;
 static INT *est_min_ratioS ;
 
+void estimate_pass_thru_penalty(INT row1 , INT row2 );
 
-feedest()
+void feedest()
 {
 
 DOUBLE ratio ;
@@ -246,7 +242,7 @@ estimate_pass_thru_penalty( 1 , numRowsG ) ;
 
 }
 
-re_estimate_feed_penalty()
+void re_estimate_feed_penalty()
 {
 
 INT i , n , row , row_rite , excess_fd , *old_penalty ;
@@ -317,8 +313,7 @@ Ysafe_free( old_penalty );
 }
 
 #ifdef Carl
-estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
+void estimate_pass_thru_penalty(INT row1 , INT row2 )
 {
 
 INT row ;
@@ -346,8 +341,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 }
 #else
 
-estimate_pass_thru_penalty( row1 , row2 )
-INT row1 , row2 ;
+void estimate_pass_thru_penalty(INT row1 , INT row2 )
 {
 
 INT row ;
@@ -388,7 +382,7 @@ for( row = row1 ; row <= row2 ; row++ ) {
 #endif
 
 
-update_feedest( net )
+void update_feedest( net )
 INT net ;
 {
 
@@ -502,7 +496,7 @@ estimate_pass_thru_penalty( botrow , toprow ) ;
 }
 
 
-free_up_feedest_malloc()
+void free_up_feedest_malloc()
 {
 
 Ysafe_free( fd_estimateS ) ;
@@ -513,7 +507,7 @@ Ysafe_free( est_min_ratioS ) ;
 }
 
 
-update_segment_data( segptr )
+void update_segment_data( segptr )
 SEGBOXPTR segptr ;
 {
 PINBOXPTR ptr1 , ptr2 ;
@@ -632,7 +626,7 @@ return( segptr ) ;
 }
 
 
-dbg_cost()
+void dbg_cost()
 {
 FILE *fp ;
 INT row ;
@@ -651,7 +645,7 @@ TWCLOSE(fp) ;
 }
 
 
-dbx_fdpen()
+void dbx_fdpen()
 {
 
 FILE *fp ;

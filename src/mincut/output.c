@@ -52,12 +52,10 @@ REVISIONS:  May 24, 1989 - updated argument to YcurTime.
 	    Wed Jul 24 21:06:02 CDT 1991 - added a more
 		meaningful output error message.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) output.c version 1.1 7/30/91" ;
-#endif
 
 #include <string.h>
 #include "globals.h"
+#include "output.h"
 #include <yalecad/base.h>
 #include <yalecad/message.h>
 #include <yalecad/hash.h>
@@ -83,15 +81,18 @@ static int total_std_cellS = 0 ;
 static char current_cellS[LRECL] ; /* the current cell name */
 static char cur_pinnameS[LRECL] ;  /* current pinname */
 static YHASHPTR netTableS ;    /* hash table for cross referencing nets */
+
+void write_softpins( FILE *fp );
+
 /* *************************************************************** */
-init()
+void init()
 {
     /* get ready for parsing */
     /* make hash table for nets */
     netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
 } /* end init */
 
-addCell( celltype, cellname )
+void addCell( celltype, cellname )
 int celltype ;
 char *cellname ;
 {
@@ -107,7 +108,7 @@ char *cellname ;
 
 } /* end addCell */
 
-addNet( signal )
+void addNet( signal )
 char *signal ;
 {
     NETPTR data ;
@@ -148,7 +149,7 @@ char *signal ;
     }
 } /* end addNet */
 
-set_bbox( left, right, bottom, top )
+void set_bbox( left, right, bottom, top )
 INT left, right, bottom, top ;
 {
     DOUBLE width, height ;
@@ -162,7 +163,7 @@ INT left, right, bottom, top ;
     total_std_cellS++ ;
 } /* end set_bbox */
 
-output( fp )
+void output( fp )
 FILE *fp ;
 {
     INT g ;
@@ -255,8 +256,7 @@ FILE *fp ;
 
 } /* end output */
 
-write_softpins( fp )
-FILE *fp ;
+void write_softpins( FILE *fp )
 {
     YTABLEPTR thread ;
     NETPTR net ;
@@ -277,7 +277,7 @@ FILE *fp ;
     fprintf( fp, "\n" ) ;
 } /* end write_softpins */
 
-read_par()
+void read_par()
 {
     char input[LRECL] ;
     char *bufferptr ;
@@ -314,7 +314,7 @@ read_par()
     }
 } /* end readpar */
 
-update_stats( fp )
+void update_stats( fp )
 FILE *fp ;
 {
     fprintf( fp, "tot_length:%d\n", (INT)total_cell_lenS);

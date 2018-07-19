@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readobjects.c <- readobjects.y <- readobjects.l
@@ -66,9 +63,6 @@ REVISIONS:  Apr 20, 1989 - original coding.
 		made output prettier for syntax errors.
 	    Sun Apr 21 22:38:38 EDT 1991 - added missing close file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readobjects.y version 2.5 4/21/91" ;
-#endif
 
 #include <string.h>
 #include <globals.h>
@@ -76,6 +70,7 @@ static char SccsId[] = "@(#) readobjects.y version 2.5 4/21/91" ;
 #include <yalecad/file.h>     /* file opening insert file. */
 #include <yalecad/debug.h>    /* use debug utilities. */
 #include <yalecad/string.h>
+#include "io.h"
 
 #undef REJECT          /* undefine TWMC macro for lex's version */ 
 
@@ -305,7 +300,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readobjects_l.h" *******************/
 /* ********************* #include "readobjects_l.h" *******************/
 
-readobjects( fp, filename )
+void readobjects( fp, filename )
 FILE *fp ;
 char *filename ;
 { 
@@ -326,7 +321,7 @@ char *filename ;
 
 } /* end readobjects */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading:%s\n", filenameS );
@@ -337,7 +332,7 @@ char    *s;
     setErrorFlag() ;
 }
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      

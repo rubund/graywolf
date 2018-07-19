@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readcell.c <- readcell.y <- readcell.l
@@ -79,9 +76,6 @@ REVISIONS:  Feb. 21st : added orient rule (for hardcells and pads for
 	    Tue Aug 13 12:52:19 CDT 1991 - fixed problem with
 		mirror and created_new_cell file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readcell.y (Yale) version 4.16 8/13/91" ;
-#endif
 
 #include <yalecad/base.h>
 #include <yalecad/message.h>
@@ -673,7 +667,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcell_l.h" *******************/
 /* ********************* #include "readcell_l.h" *******************/
 
-readcell( fp )
+void readcell( fp )
 FILE *fp ;
 { 
 #ifdef YYDEBUG
@@ -691,7 +685,7 @@ FILE *fp ;
     cleanup_readcells();
 } /* end readcell */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     if( rowsG > 0 ){
@@ -706,7 +700,7 @@ char    *s;
     set_error_flag() ;
 } /* end yyerror */
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      

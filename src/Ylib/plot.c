@@ -47,9 +47,6 @@ DATE:	    Feb 13, 1988 REVISIONS:  Jan 29, 1989 - changed msg to YmsgG.
 	    Apr 29, 1990 - added message.h
 	    Fri Jan 18 18:38:36 PST 1991 - fixed to run on AIX.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) plot.c version 1.6 12/9/91" ;
-#endif
 
 #include <stdarg.h>
 #include <string.h>
@@ -74,14 +71,14 @@ static BOOL graphFilesS = TRUE ;
 
 static INT findType();
 
-Yplot_control( toggle )
+void Yplot_control( toggle )
 BOOL toggle ;
 {
     graphFilesS = toggle ;
 } /* end YgraphControl */
 
 /* graph init uses variable number of arguments */
-Yplot_init( int dval, ... )
+void Yplot_init( int dval, ... )
 {
 
     va_list ap ;
@@ -108,7 +105,7 @@ Yplot_init( int dval, ... )
 }
 
 /* graph init uses variable number of arguments */
-Yplot_heading( int dval, ... )
+void Yplot_heading( int dval, ... )
 {
 
     va_list ap ;
@@ -157,7 +154,7 @@ Yplot_heading( int dval, ... )
     va_end(ap) ;
 }
 
-Yplot_close()
+void Yplot_close()
 {
     INT i ;
 
@@ -180,7 +177,7 @@ Yplot_close()
 /* This is what argument list looks like - use it to pass any type */
 /* of variable to graph */
 /* GRAPH( graphFileName, xVarformat, xVar, yVarformat, yVars... ) */ 
-Yplot( int dval, ... ) 
+void Yplot( int dval, ... ) 
 {
     va_list ap ;
     char *gName ;
@@ -321,8 +318,7 @@ Yplot( int dval, ... )
 
 }
 
-Yplot_flush( gName ) 
-char *gName ;
+void Yplot_flush( char *gName ) 
 {
     INT i ;
 

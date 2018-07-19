@@ -51,11 +51,6 @@ REVISIONS:  Thu Jan 31 15:56:39 EST 1991 - now only call findcostf
 	    Wed Sep 11 11:27:46 CDT 1991 - added user
 		output info for blocks.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) reconfig.c (Yale) version 4.11 4/2/92" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "readpar.h"
@@ -114,7 +109,7 @@ INT reconfig()
 } /* end reconfig */
 
 
-static configuref()
+static void configuref()
 {
     INT row ;
     INT cell ;
@@ -172,14 +167,14 @@ static configuref()
 
 } /* end configuref */
 
-read_feeds( fp )
+void read_feeds( fp )
 FILE *fp ;
 {
     fscanf( fp , INTSCANSTR , &feed_lengthS ) ;
     feed_length_setS = TRUE ;
 } /* end read_feeds */
 
-save_feeds( fp )
+void save_feeds( fp )
 FILE *fp ;
 {
     fprintf( fp, "%d\n", feed_lengthS ) ;

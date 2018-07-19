@@ -81,9 +81,6 @@ REVISIONS:  Apr 19, 1990 - Added Yrbtree_dump()
 	    Wed Feb 26 03:55:15 EST 1992 - fixed problem with successor routines
 		when passed nilS.
  ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) rbtree.c (Yale) version 3.38 4/18/92" ;
-#endif
 
 #define YTREE_H_DEFS
 
@@ -131,12 +128,12 @@ static BINTREEPTR   recalcS ;          /* pointer to recalc flag */
 static BINTREEPTR tree_search( P2(YTREEPTR tree, char *key) ) ;
 static BINTREEPTR tree_suc( P1(BINTREEPTR ptr) ) ;
 static BINTREEPTR tree_pred( P1(BINTREEPTR ptr) ) ;
-static left_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
-static right_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
-static tree_free( P1(BINTREEPTR ptr) ) ;
-static free_tree_and_data( P2(BINTREEPTR ptr, VOID (*userDelete)() ) ) ;
-static tree_delete( P3(YTREEPTR tree, BINTREEPTR z, VOID (*userDelete)() ) ) ;
-static tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
+static void left_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
+static void right_rotate( P2(YTREEPTR tree, BINTREEPTR x) ) ;
+static void tree_free( P1(BINTREEPTR ptr) ) ;
+static void free_tree_and_data( P2(BINTREEPTR ptr, VOID (*userDelete)() ) ) ;
+static void tree_delete( P3(YTREEPTR tree, BINTREEPTR z, VOID (*userDelete)() ) ) ;
+static void tree_dump( P4(YTREEPTR tree,BINTREEPTR ptr,
     		    VOID (*print_key)(),INT printTab) ) ;
 
 YTREEPTR Yrbtree_init( compare_func )
@@ -433,7 +430,7 @@ YTREEPTR tree ;
     
 } /* end Yrbtree_search_pred */
 
-static left_rotate( tree, x )
+static void left_rotate( tree, x )
 YTREEPTR tree ;
 BINTREEPTR x ;
 {
@@ -456,7 +453,7 @@ BINTREEPTR x ;
     x->parent = y ;       
 } /* left_rotate */
 
-static right_rotate( tree, x )
+static void right_rotate( tree, x )
 YTREEPTR tree ;
 BINTREEPTR x ;
 {
@@ -483,7 +480,7 @@ BINTREEPTR x ;
 * Delete a node in the tree by using actual pointer.  Also frees
 * user data if necessary.
 ----------------------------------------------------------------- */
-static tree_delete( tree, z, userDelete )
+static void tree_delete( tree, z, userDelete )
 YTREEPTR tree ;
 BINTREEPTR z ;
 VOID (*userDelete)();
@@ -837,7 +834,7 @@ VOID (*userDelete)();
     }
 } /* end Yrbtree_deleteCurrentEnumerate() */
 
-static tree_dump( tree, ptr, print_key, printTab )
+static void tree_dump( tree, ptr, print_key, printTab )
 YTREEPTR tree ;
 BINTREEPTR ptr ;
 VOID (*print_key)() ;
@@ -1022,7 +1019,7 @@ VOID (*userDelete)();
 
 } /* end Yrbtree_interval_free() */
 
-static tree_free( ptr )
+static void tree_free( ptr )
 BINTREEPTR ptr ;
 {
 
@@ -1037,7 +1034,7 @@ BINTREEPTR ptr ;
     }
 } /* end tree_free */
 
-static free_tree_and_data( ptr, userDelete )
+static void free_tree_and_data( ptr, userDelete )
 BINTREEPTR ptr ;
 VOID (*userDelete)();
 {
@@ -1256,7 +1253,7 @@ char *string ;
     return( (char *) data ) ;
 } /* end make_data */
 
-main()
+int main()
 {
 
     YTREEPTR tree1 ;

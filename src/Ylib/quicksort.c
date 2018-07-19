@@ -38,9 +38,6 @@
  *
  */
 
-#ifndef lint
-static char SccsId[] = "@(#) quicksort.c version 3.3 3/6/92" ;
-#endif
 
 /* modified version of @(#)qsort.c 4.2 (Berkeley) 3/9/83 */
 
@@ -52,7 +49,7 @@ static  INT	mthresh;		/* MTHRESHold in chars */
 static  INT	(*compare_fun)();	/* comparison function */
 
 
-static qst();
+static void qst();
 
 
 #define         compar(a,b)  (  (*compare_fun)(a,b) )
@@ -138,7 +135,7 @@ VOID Yquicksort(base, n, size, compare )
  * (And there are only three places where this is done).
  */
 
-static qst(base, max)
+static void qst(base, max)
 	char *base, *max;
 {
 	register char c, *i, *j, *jj;

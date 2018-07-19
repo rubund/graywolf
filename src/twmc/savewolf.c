@@ -63,9 +63,6 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 		reorigin.
 	    Mon Sep 16 22:23:04 EDT 1991 - fixed for R6000.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) savewolf.c version 3.12 9/16/91" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>
@@ -74,8 +71,10 @@ static char SccsId[] = "@(#) savewolf.c version 3.12 9/16/91" ;
 
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
-savewolf( forceSave )
-BOOL forceSave ; /* if true save parameters regardless of time */
+void HPO(FILE *fp,DOUBLE d);
+void HPI(FILE *fp,DOUBLE *d);
+
+void savewolf( BOOL forceSave )
 {
 
 INT  m ;
@@ -215,7 +214,7 @@ fscanf( fp, "%d %d\n", &binWidthXG, &binXOffstG ) ;
 fscanf( fp, "%d %d\n", &binWidthYG, &binYOffstG ) ; 
 HPI(fp,&slopeXG) ;
 HPI(fp,&slopeYG) ;
-HPI(fp,&baseWeightG) ;
+HPI(fp,(DOUBLE *)(&baseWeightG)) ;
 HPI(fp,&wireFactorXG) ;
 HPI(fp,&wireFactorYG) ;
 HPI(fp,&aveChanWidG) ;
@@ -351,16 +350,14 @@ if( error ){ /* abort restart */
 }
 } /* end TW_oldinput */
 
-HPO(fp,d)
-FILE *fp;			/* high precision output */
-DOUBLE d;
+void HPO(FILE *fp,DOUBLE d)
+//FILE *fp;			/* high precision output */
 {
     fprintf(fp,"%34.32le\n",d);
 } /* end HPO */
 
-HPI(fp,d)
-FILE *fp;			/* high precision input */
-DOUBLE *d;
+void HPI(FILE *fp,DOUBLE *d)
+//FILE *fp;			/* high precision input */
 {
     INT numread ;
 

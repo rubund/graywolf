@@ -51,11 +51,6 @@ CONTENTS:   rowevener()
 DATE:	    Mar 27, 1989 
 REVISIONS:  
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) rowevener.c (Yale) version 4.7 12/5/91" ;
-#endif
-#endif
 
 #include "standard.h"
 #include "groute.h"
@@ -74,8 +69,9 @@ extern BOOL ignore_feedsG ;
 static INT *expect_row_rightS , *expect_row_lengthS ;
 static INT *cell_kickedS ;
 
+void decide_right_most_in_class();
 
-rowevener()
+void rowevener()
 {
 
 INT i , n , row , *addnum , add_to_this_row , total_remaining ;
@@ -129,7 +125,7 @@ return ;
 }
 
 
-decide_right_most_in_class()
+void decide_right_most_in_class()
 {
 
 INT n , row , row_right ;

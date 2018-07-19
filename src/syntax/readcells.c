@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readcells.c <- readcells.y <- readcells.l
@@ -85,9 +82,6 @@ REVISIONS:  Oct 27, 1988 - modified fixed and group cell code.
 	    Tue Aug 13 12:54:32 CDT 1991 - fixed problem
 		with mirror keyword.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) readcells.y version 1.19 5/22/92" ;
-#endif
 
 #include <string.h>
 #include <yalecad/base.h>
@@ -803,7 +797,7 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readcells_l.h" *******************/
 /* ********************* #include "readcells_l.h" *******************/
 
-readcells( fp )
+void readcells( fp )
 FILE *fp ;
 { 
 #ifdef YYDEBUG
@@ -822,7 +816,7 @@ FILE *fp ;
 
 } /* end readcells */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.cel:", cktNameG );
@@ -832,7 +826,7 @@ char    *s;
     M( MSG,"yacc", YmsgG ) ;
 } /* end yyerror */
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      

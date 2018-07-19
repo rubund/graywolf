@@ -55,9 +55,6 @@ REVISIONS:  Oct 24, 1988 - fixed +1 error.  Now check for graph
 		when cells completely cover each other.  We now always
 		return 0 for minslack in X and Y backward searches.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) movestrat.c version 7.2 2/17/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>
@@ -73,8 +70,9 @@ static int find_bound();
 static int findxerror();
 static int findyerror();
 
+void update_cell_tiles(int cell, int deltax, int deltay );
 
-moveStrategy( violations ) 
+void moveStrategy( violations ) 
 ERRORPTR violations ;
 {
     COMPACTPTR tileL, tileR, tileB, tileT ;
@@ -277,8 +275,7 @@ ERRORPTR violations ;
 } /* end moveStrategy */
 
 /* HOW to update the tiles of the cells */
-update_cell_tiles( cell, deltax, deltay ) 
-int cell, deltax, deltay ;
+void update_cell_tiles(int cell, int deltax, int deltay ) 
 {
     CELLBOXPTR cellptr ;
     COMPACTPTR t ;
@@ -311,7 +308,7 @@ int cell, deltax, deltay ;
 
 } /* end update_cell_tiles */
 
-BOOL dcheck_pos( cell ) 
+void dcheck_pos( cell ) 
 int cell ;
 {
 
@@ -343,7 +340,7 @@ int cell ;
     
 } /* end dcheck_pos */
 
-static int find_bound( tile, avoid, direction )
+static int  find_bound( tile, avoid, direction )
 COMPACTPTR tile ;
 int avoid ;    /* avoid finding tile that you have error (cell #) */
 int direction ;
@@ -429,6 +426,7 @@ int direction ;
 
     /* now calculate how far the tile can move based on slack */
     switch( direction ){
+        // FIXME: use enum, so compiler can detect that there are only 4 directions
 	case XFORWARD:
 	    return( tile->r + minslack ) ;
 	case XBACKWARD:
@@ -436,6 +434,7 @@ int direction ;
 	case YFORWARD:
 	    return( tile->t + minslack ) ;
 	case YBACKWARD:
+        default:
 	    return( tile->b - minslack ) ;
     } /* end switch */
 

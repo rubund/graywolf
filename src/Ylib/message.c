@@ -74,9 +74,6 @@ REVISIONS:  Sep 30, 1988 - added incWarningCount & incErrorCount
 		system.  Modified names to make it easier.
 	    Thu Mar  7 01:27:48 EST 1991 - now always flush stdout.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) message.c version 3.6 3/7/91" ;
-#endif
 
 #include <stdio.h>
 #include <yalecad/base.h>
@@ -96,7 +93,7 @@ static char typeS[8] ;
 char *YmsgG = message_bufS ;
 
 
-Ymessage_print( messageType, routine, messageString )
+void Ymessage_print( messageType, routine, messageString )
 INT messageType ;
 char *routine ;
 char *messageString ;
@@ -166,13 +163,13 @@ char *messageString ;
 } /* end message_print */
 
 /* increment the static variable */
-Ymessage_warn_count()
+void Ymessage_warn_count()
 {
     warningCountS++ ;
 } /* end message_warn_count */
 
 /* increment the static variable */
-Ymessage_error_count()
+void Ymessage_error_count()
 {
     errorCountS++ ;
 }/* end Ymessage_error_count */
@@ -187,7 +184,7 @@ INT Ymessage_get_errorcount()
     return(errorCountS);
 } /*end Ymessage_get_errorcount */
 
-Ymessage_output( messageString )
+void Ymessage_output( messageString )
 char *messageString ;
 {
 
@@ -200,13 +197,13 @@ char *messageString ;
 
 } /* end message_output */
 
-Ymessage_init( fileptr )
+void Ymessage_init( fileptr )
 FILE *fileptr ;
 {
      foutS = fileptr ;
 } /* end Ymessage_init */
 
-Ymessage_mode( mode )
+void Ymessage_mode( mode )
 INT mode ;
 {
     if( mode == M_VERBOSE ){
@@ -229,7 +226,7 @@ BOOL Ymessage_get_mode()
     return( modeS ) ;
 } /* end Ymessage_get_mode */
 
-Ymessage_flush()
+void Ymessage_flush()
 {
     if( outS ){
 	fflush(outS) ;
@@ -240,7 +237,7 @@ Ymessage_flush()
     fflush( stdout ) ;
 } /* end Ymessage_flush */
 
-Ymessage_close()
+void Ymessage_close()
 {
     if( foutS ){
 	TWCLOSE(foutS) ;

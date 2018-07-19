@@ -54,9 +54,6 @@ REVISIONS:  Jun 30, 1988 - added rel_pos for test.
 	    Aug 13, 1990 - moved relpos to yalecad/relpos.h
 	    Wed Jan 30 14:15:02 EST 1991 - removed relpos.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) upin.c version 3.4 1/30/91" ;
-#endif
 
 #include <custom.h>
 #include <yalecad/debug.h>
@@ -64,7 +61,7 @@ static char SccsId[] = "@(#) upin.c version 3.4 1/30/91" ;
 
 #define BREAK_PT2   6
 
-upin_test( termptr, pos )
+void upin_test( termptr, pos )
 PINBOXPTR termptr ;
 MOVEBOXPTR pos ;
 {
@@ -89,7 +86,7 @@ MOVEBOXPTR pos ;
     }
 } /* end upin_test */
 
-upin_accept( termptr )
+void upin_accept( termptr )
 PINBOXPTR termptr ;
 {
 

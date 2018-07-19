@@ -37,9 +37,6 @@
  *
  */
 
-#ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.8 (Berkeley) 01/20/90";
-#endif
 #define YYBYACC 1
 /* ----------------------------------------------------------------- 
 FILE:	    readnets.c <- readnets_yacc <- readnets_lex
@@ -67,15 +64,11 @@ REVISIONS:  Jan 29, 1989 - changed to msgG and added \n's.
 	    Thu Apr 18 01:55:39 EDT 1991 - added debug function
 		and fixed for new library names.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) readnets.y (Yale) version 4.12 4/21/91" ;
-#endif
-#endif
 
 #include <yalecad/message.h>
 #include <yalecad/debug.h>
 #include <yalecad/hash.h>
+#include <string.h>
 #include "readnets.h"  /* redefine yacc and lex globals */
 #include "standard.h"  
 #include "main.h"  
@@ -274,12 +267,15 @@ YYSTYPE yyvs[YYSTACKSIZE];
 /* ********************* #include "readnets_l.h" *******************/
 
 
-static free_net_data();
-static bad_net();
+static void free_net_data();
+static void bad_net();
 char *Ystrclone();
+void check_paths();
+void build_path_array();
+void add_paths_to_cells();
 
 
-readnets( fp )
+void readnets( fp )
 FILE *fp ;
 { 
     /* static free_net_data() ; */
@@ -310,17 +306,17 @@ FILE *fp ;
     init_net_set() ;
     add_paths_to_cells() ;
     /* free hash table */
-    Yhash_table_delete( net_hash_tableS , free_net_data ) ;
+    Yhash_table_delete( net_hash_tableS , (INT  (*)()) free_net_data ) ;
 
 } /* end readnets */
 
-static free_net_data( data )
+static void free_net_data( data )
 INT *data ;
 {
     Ysafe_free( data ) ;
 } /* free_swap_data */
 
-process_net_rec( netname ) 
+void process_net_rec( netname ) 
 char *netname ;
 {
     INT *data ;
@@ -334,21 +330,21 @@ char *netname ;
     
 } /* end process_net_rec */
 
-ignore_net()
+void ignore_net()
 {
     if( netS ){
 	netarrayG[netS]->ignore = 1 ;
     }
 } /* end ignore_net */
 
-ignore_route()
+void ignore_route()
 {
     if( netS ){
 	netarrayG[netS]->ignore = -1 ;
     }
 } /* end ignore_route */
 
-yyerror(s)
+void yyerror(s)
 char    *s;
 {
     sprintf(YmsgG,"problem reading %s.net:", cktNameG );
@@ -360,12 +356,12 @@ char    *s;
     abortFlagS = TRUE ;
 }
 
-yywrap()
+int yywrap()
 {
     return(1);
 }                      
 
-add_path( pathFlag, net )
+void add_path( pathFlag, net )
 BOOL pathFlag ;
 char *net ;
 {
@@ -404,7 +400,7 @@ char *net ;
 
 } /* end add_path */
 
-end_path(lower_bound, upper_bound, priority )
+void end_path(lower_bound, upper_bound, priority )
 INT lower_bound, upper_bound, priority ;
 {
     GLISTPTR nets, path_ptr, tempPath ;
@@ -443,7 +439,7 @@ INT lower_bound, upper_bound, priority ;
 	
 } /* end function end_path */
 
-check_paths()
+void check_paths()
 {
     INT i ;             /* counter */
     DBOXPTR nptr ;      /* traverse the nets */
@@ -462,7 +458,7 @@ check_paths()
 } /* check_paths */
 
 
-build_path_array()
+void build_path_array()
 {
     INT i ;
     PATHPTR curPtr ;
@@ -486,7 +482,7 @@ INT get_total_paths()
     return( total_num_pathS ) ;
 } /* end get_total_paths */
 
-add_paths_to_cells()
+void add_paths_to_cells()
 {
     INT i ;
     INT net_number ;
@@ -530,7 +526,7 @@ add_paths_to_cells()
     }
 }
 
-static bad_net( net, fatal )
+static void bad_net( net, fatal )
 char *net ;
 BOOL fatal ;
 {

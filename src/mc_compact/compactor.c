@@ -62,14 +62,13 @@ REVISIONS:  Nov  5, 1988 - free violations and modified position of
 	    Fri Mar 29 14:25:29 EST 1991 - now save the critical
 		path.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) compactor.c version 7.3 3/29/91" ;
-#endif
 
 #include <compact.h>
 #include <yalecad/debug.h>
 
-remove_violations()
+void freeGraph( INT direction );
+
+void remove_violations()
 {
     ERRORPTR  violations, saveError, buildXGraph(), buildYGraph() ;
 
@@ -112,7 +111,7 @@ remove_violations()
 } /* end remove_violations */
 
 
-compact()
+void compact()
 {
     INT length ;       /* length of longest path */
     INT count ;        /* number of compaction cycles */
@@ -202,8 +201,7 @@ compact()
 } /* end compact */
 
 
-freeGraph( direction ) 
-INT direction ;
+void freeGraph( INT direction ) 
 {
     INT i ;
     ECOMPBOXPTR edge , saveEdge ;
@@ -319,7 +317,7 @@ INT direction ;
     }
 }
 
-cleanupGraph( direction ) 
+void cleanupGraph( direction ) 
 INT direction ;
 {
     INT i ;
@@ -429,7 +427,7 @@ INT direction ;
 }
 
 /* find bounding box of tiles */
-find_core( l, r, b, t )
+void find_core( l, r, b, t )
 INT *l, *r, *b, *t ;
 {
 

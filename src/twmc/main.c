@@ -91,9 +91,6 @@ REVISIONS:  Sep  7, 1988 - fixed argument mismatch to utemp.
 	    Wed Jun  5 16:28:05 CDT 1991 - added condition for
 		initializing aspect ratios.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
-#endif
 
 #include <string.h>
 
@@ -105,6 +102,8 @@ static char SccsId[] = "@(#) main.c version 3.27 11/23/91" ;
 #include <yalecad/debug.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/file.h>
+#include <yalecad/system.h>
+#include "readpar.h"
 
 #define  VERSION            "v2.2"
 #define  EXPECTEDMEMORY     (1024 * 1024) 
@@ -118,12 +117,16 @@ static BOOL debugS ;     /* whether to enable debug code */
 static INT  windowIdS ;  /* the master window id if given */
 static DOUBLE  wire_red_ratioS = NOREDUCTION ; /* wire reduction */
 
+extern void make_movebox(void);
+
+void writeResults( INT wire, INT penal, INT rand );
+
 /* Forward declarations */
 
 VOID syntax();
 INT closegraphics();
 
-main( argc , argv )
+INT main( argc , argv )
 INT argc ;
 char *argv[] ;
 {
@@ -573,6 +576,7 @@ char *argv[] ;
     Ymessage_close() ;
     YexitPgm(OK) ;
 
+    return 0;
 } /* end main routine */
 
 INT yaleIntro() 
@@ -587,12 +591,12 @@ INT yaleIntro()
     fprintf(stdout,"         Dahe Chen, and Jimmy Lam\n"); 
     fprintf(stdout,"         Yale University\n");
 
+    return 0;
 } /* end yaleIntro */
 
 /* this routine takes information about run and write to history file */
 /* to accumulate data about runs */
-writeResults( wire, penal, rand )
-INT wire, penal, rand ;
+void writeResults( INT wire, INT penal, INT rand )
 {
     FILE *fpdebug ;
     INT left_side, right_side, bottom_side, top_side ;
@@ -620,6 +624,7 @@ INT closegraphics( )
     if( doGraphicsG ){
 	G( TWcloseGraphics() ) ;
     }
+    return 0;
 } /* end closegraphics */
 
 /* give user correct syntax */
@@ -644,8 +649,7 @@ VOID syntax()
 
 /* used to TimberWolfMC recursively for the overflow case */
 /* returns windowid if graphics are on and window is passed */
-BOOL get_arg_string( arguments )
-char *arguments ;
+BOOL get_arg_string( char *arguments )
 {
     char temp[LRECL] ; /* used to build strings */
     INT  window ;      /* current window ID */
@@ -698,7 +702,7 @@ BOOL get_batch_mode()
     return( batchS ) ;
 } /* end get_batch_mode */
 
-set_wiring_reduction( reduction )
+void set_wiring_reduction( reduction )
 DOUBLE reduction ;
 {
     wire_red_ratioS = reduction ;

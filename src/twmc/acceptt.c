@@ -44,18 +44,16 @@ CONTENTS:   acceptt( INT  )
 DATE:	    Jan 30, 1988 
 REVISIONS:
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) acceptt.c version 3.3 9/5/90" ;
-#endif
 
 #include <custom.h>
+#include <yalecad/rand.h>
 #include <yalecad/debug.h>
 
 #define MASK 0x3ff
 
 static DOUBLE table1S[1024] , table2S[1024] , table3S[1024] ;
  
-init_table()
+void init_table()
 {
     INT i2 ;
     table1S[0] = 1.0 ;

@@ -6,9 +6,6 @@ CONTENTS:   macro redefinitions for parser in readcell.
 DATE:	    Aug  7, 1988 
 REVISIONS:  
 ----------------------------------------------------------------- */
-/* *****************************************************************
-   static char SccsId[] = "@(#) readcell.h version 4.2 9/7/90" ;
-***************************************************************** */
 
 #define yyact		READCEL_yyact
 #define yyback		READCEL_yyback

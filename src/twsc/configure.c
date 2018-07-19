@@ -49,11 +49,6 @@ REVISIONS:  Fri Jan 25 18:29:22 PST 1991 - fixed problem with
 	    Tue Mar 19 16:27:35 CST 1991 - fixed calculation
 		problem with rowSep.
 ----------------------------------------------------------------- */
-#ifndef VMS
-#ifndef lint
-static char SccsId[] = "@(#) configure.c (Yale) version 4.12 3/19/91" ;
-#endif
-#endif
 
 #define CONFIG_VARS
 
@@ -88,8 +83,10 @@ static INT widthS ;
 static INT mttshiftS ;
 static INT mbbshiftS ;
 
+void random_placement();
 
-configure() 
+
+void configure() 
 {
 
 INT block ;
@@ -953,7 +950,7 @@ return ;
 
 
 
-random_placement()
+void random_placement()
 {
 
 INT cell , row , borient ,  blk , widthS ;

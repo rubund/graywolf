@@ -76,9 +76,6 @@ REVISIONS:  May 24, 1989 - added stdcell configuration code.
 	    Fri Oct 18 00:09:45 EDT 1991 - eliminated read_blk_file.
 		Instead, to find core we read it using read_gen_file.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) partition.c version 3.20 4/6/92" ;
-#endif
 
 #include <custom.h>
 #include <partition.h>
@@ -115,8 +112,11 @@ static INT num_macroS ;               /* number of macros output */
 /* Forward declaration */
 
 extern INT closegraphics();
+void read_stat_file();
+void build_mver_file(INT left, INT right, INT bottom, INT top );
+void read_gen_file();
 
-config_rows()
+void config_rows()
 {
     DOUBLE read_par_file() ;     /* get default from user */
     INT left, right, bottom, top;/* core area */
@@ -183,7 +183,7 @@ config_rows()
     placepads() ;
 } /* end config_rows */
 
-read_stat_file()
+void read_stat_file()
 {
 
     char filename[LRECL] ;
@@ -270,7 +270,7 @@ DOUBLE read_par_file()
 } /* end read_par_file */
 
 
-output_partition()
+void output_partition()
 {
 
 #define  RELATIVE_TO_CURPOS  1
@@ -334,8 +334,7 @@ output_partition()
 } /* end of prnt_data */
 
 
-build_mver_file( left, right, bottom, top )
-INT left, right, bottom, top ;
+void build_mver_file(INT left, INT right, INT bottom, INT top )
 {
     CELLBOXPTR cellptr ;
     FILE *fp ;
@@ -396,7 +395,7 @@ INT left, right, bottom, top ;
     
 
 
-read_gen_file()
+void read_gen_file()
 {
     char filename[LRECL] ;
     char buffer[LRECL], *bufferptr ;

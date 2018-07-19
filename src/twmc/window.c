@@ -61,9 +61,6 @@ REVISIONS:  Apr 23, 1988 - added fix_window for low temp anneal
 	    Apr 09, 1989 - fixed bug in pick_position and 
 		pick_neighborhood so that cells can't jump outside region.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) window.c version 3.6 11/26/90" ;
-#endif
 
 #include <custom.h>
 #include <temp.h>
@@ -110,7 +107,7 @@ INT iteration ;
 /* ***************************************************************** 
    init_control - initialize range limiter.
 */
-init_control(first)
+void init_control(first)
 BOOL first ;
 {
     INT i;
@@ -162,7 +159,7 @@ BOOL first ;
 /* ***************************************************************** 
    pick_positon - pick place to move within range limiter.
 */
-pick_position(x,y,ox,oy)
+void pick_position(x,y,ox,oy)
 INT *x,*y,ox,oy;
 {
     register INT i,m,n;
@@ -236,7 +233,7 @@ DONEX:  *x = n;
    pick_neighborhood - pick place to move within neighborhood while
    still using range limiter.
 */
-pick_neighborhood(x,y,ox,oy,fixptr)
+void pick_neighborhood(x,y,ox,oy,fixptr)
 INT *x,*y,ox,oy;
 FIXEDBOXPTR fixptr ;
 {
@@ -327,7 +324,7 @@ FIXEDBOXPTR fixptr ;
     *y = n;
 } /* end pick_neighborhood */
 
-update_window_size( iteration )
+void update_window_size( iteration )
 DOUBLE iteration ;
 {
     if( iteration <= HIGHTEMP ){
@@ -357,7 +354,7 @@ DOUBLE iteration ;
    
 }
 
-fix_window()
+void fix_window()
 {
     /*** set window to minimum for low temp anneal ***/
     xalS = min_xalphaS;
@@ -372,7 +369,7 @@ static DOUBLE ws_xalS;
 static DOUBLE ws_yalS;
 static DOUBLE ws_ratioS ;
 
-save_window( fp )
+void save_window( fp )
 FILE *fp ;
 {
     if( fp ){  /* if a file pointer is given write to file */

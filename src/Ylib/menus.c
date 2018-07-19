@@ -127,14 +127,12 @@ REVISIONS:  Jan 31, 1989 - added screen routines.
 	    Wed Feb 26 03:54:12 EST 1992 - added persistent windows and
 		added dim features.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) menus.c (Yale) version 3.36 2/26/92" ;
-#endif
 
 #ifndef NOGRAPHICS 
 
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
@@ -147,6 +145,8 @@ static char SccsId[] = "@(#) menus.c (Yale) version 3.36 2/26/92" ;
 #include <yalecad/debug.h>
 #include <yalecad/draw.h>
 #include <yalecad/colors.h>
+#include <yalecad/timer.h>
+#include <yalecad/time.h>
 #include "info.h"
 
 #define DEFAULT_TIMEOUT      10 * 1000       /* 10 seconds to timeout on message window */
@@ -214,14 +214,15 @@ static BOOL persistenceS = TRUE ;    /* whether message is persistent */
 #define SLEEPTIME   (unsigned) 2     /* sleep for two seconds */
 
 /* define static functions */
-static set_window_lights( P1(BOOL flag) ) ;
-static resize_windows( P2( INT winwidth, INT winheight ) ) ;
-static debug_menus( P1(TWMENUPTR menu_field) ) ;
-static draw_persistent_message( P1(char *message) ) ;
+static void set_window_lights( P1(BOOL flag) ) ;
+static void resize_windows( P2( INT winwidth, INT winheight ) ) ;
+static void debug_menus( P1(TWMENUPTR menu_field) ) ;
+static void draw_persistent_message( P1(char *message) ) ;
 
+void TWcheckReconfig();
 
 /* get information from main draw routine and set it */
-TWinforMenus( )
+void TWinforMenus( )
 {
     TWINFOPTR TWgetDrawInfo() ;
 
@@ -251,7 +252,7 @@ INT TWsaveState()
     return( (INT) backS ) ;
 } /* end TWgetWindowId */
 
-TWrestoreState()
+void TWrestoreState()
 {
     long event_mask ;  /* used to set input selection to window */
     XWindowAttributes wattr;  /* get the window attributes */
@@ -588,7 +589,7 @@ TWMENUPTR menu_fields ;
 	
 } /* end TWinitMenuWindow */
 
-TWdrawMenus()
+void TWdrawMenus()
 {
     INT i ;
     MENUPTR menuptr ;
@@ -606,7 +607,7 @@ TWdrawMenus()
 } /* end TWdrawMenus */
 
 /* turn top window entering and leaving lights */
-static set_window_lights( flag )
+static void set_window_lights( flag )
 BOOL flag ;
 {
     INT i ;            /* window counter */
@@ -986,7 +987,7 @@ INT TWcheckMouse()
 
 } /* end TWcheckMouse */
 
-TWdisableMenu( menu_item )
+void TWdisableMenu( menu_item )
 INT menu_item ;
 {
     INT      menu ;            /* counter */
@@ -1008,7 +1009,7 @@ INT menu_item ;
     }
 } /* end TWdisableMenu() */
 
-TWenableMenu( menu_item )
+void TWenableMenu( menu_item )
 INT menu_item ;
 {
     INT      menu ;            /* counter */
@@ -1030,7 +1031,7 @@ INT menu_item ;
     }
 } /* end TWenableMenu() */
 
-TWgetPt( x, y )
+void TWgetPt( x, y )
 INT *x, *y ;
 {
     BOOL press ;            /* tells whether button has been pushed */
@@ -1075,7 +1076,7 @@ INT *x, *y ;
     
 } /* end TWgetPt */
 
-TWmessage( message )
+void TWmessage( message )
 char *message ;
 {
     if( persistenceS ){
@@ -1089,7 +1090,7 @@ char *message ;
 
 } /* end TWmessage */
 
-TWmessagePersistence(flag)
+void TWmessagePersistence(flag)
 BOOL flag ;
 {
     persistenceS = flag ;
@@ -1099,7 +1100,7 @@ BOOL flag ;
     }
 } /* end TWmessagePersistence() */
 
-static draw_persistent_message( non_persistent_message )
+static void draw_persistent_message( non_persistent_message )
 char *non_persistent_message ;
 {
     INT fwidth ; /* font width */
@@ -1305,7 +1306,7 @@ INT *x, *y ;
 } /* end TWgetPt2 */
 
 /* start receiving events concerning mouse tracking */
-TWmouse_tracking_start()
+void TWmouse_tracking_start()
 {
     long event_mask ;         /* set events */
 
@@ -1319,8 +1320,7 @@ TWmouse_tracking_start()
 
 /* get the current mouse position */
 /* returns true if position has changed */
-BOOL TWmouse_tracking_pt( x, y )
-INT *x, *y ;
+BOOL TWmouse_tracking_pt( INT *x, INT *y )
 {
     XEvent event ;            /* describes event */
     INT xtemp, ytemp ;        /* current position of pointer */
@@ -1460,7 +1460,7 @@ BOOL TWinterupt()
 } /* end TWinterupt */
 
 /* update windows if configuration changes */
-TWcheckReconfig()
+void TWcheckReconfig()
 {
     INT height ;              /* height of current backing window */
     XEvent event ;            /* describes configuration event */
@@ -1508,8 +1508,7 @@ TWcheckReconfig()
 } /* end TWcheckReconfig */
 
 
-static resize_windows( winwidth, winheight )
-INT winwidth, winheight ;
+static void resize_windows( INT winwidth, INT winheight )
 {
     INT halfstep ;            /* menu half spacing */
     INT xpos ;                /* position of menu */
@@ -1573,7 +1572,7 @@ INT winwidth, winheight ;
 } /* end TWcheckReconfig */
 
 
-TWfreeMenuWindows()
+void TWfreeMenuWindows()
 {
     INT i, j ;              /* counters */
     MENUPTR menuptr ;       /* temporary for selected menu record */
@@ -1749,7 +1748,7 @@ char *sptr ;
     return( bufferL ) ;
 } /* end cap_item */
 
-static debug_menus( menu_field )
+static void debug_menus( menu_field )
 TWMENUPTR menu_field ;
 {
     INT i ;                   /* counter */

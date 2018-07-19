@@ -8,9 +8,6 @@ REVISIONS:
 #ifndef TREE_H
 #define TREE_H
 
-#ifndef lint
-static char treeId[] = "@(#) tree.h version 1.3 10/9/90" ;
-#endif
 
 #ifndef RBTREE_H
 typedef struct tree {
@@ -100,7 +97,7 @@ Function:
     NULL if nothing is in the tree or if no match to the key is found.
 */
 
-extern Ytree_insert( P2(YTREEPTR tree, char *data ) ) ;
+extern void Ytree_insert( P2(YTREEPTR tree, char *data ) ) ;
 /* 
 Arguments:
     YTREEPTR tree ;

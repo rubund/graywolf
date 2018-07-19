@@ -83,9 +83,6 @@ REVISIONS:  Oct 20, 1990 - fixed problem with graphics close.
 	    Thu Nov  7 23:03:57 EST 1991 - fixed problem with picking
 		best global route criteria and added new row evener.
 ----------------------------------------------------------------- */
-#ifndef lint
-static char SccsId[] = "@(#) main.c (Yale) version 4.38 5/15/92" ;
-#endif
 
 #define MAIN_VARS  
 #include "standard.h"
@@ -132,6 +129,8 @@ extern INT longest_row_lengthG ;
 extern INT largest_delta_row_lenG ;
 extern INT total_row_lengthG ;
 
+extern void readnets(FILE* fp);
+
 /* static variables */
 static INT routing_loopS ;
 static INT *save_cell_xS ;
@@ -145,10 +144,12 @@ static char *twdirS ;
 static INT num_feeds_addedS ;/* number of feeds added on best iteration */
 static DOUBLE ave_row_sepS ; /* the row separation for a run */
 
+void install_swap_pass_thrus(PINBOXPTR netptr);
+void incorporate_ECOs();
+void syntax();
+void init_utemp();
 
-main( argc , argv )
-INT argc ;
-char *argv[] ;
+int main(INT argc , char *argv[] )
 {
 
 
@@ -473,10 +474,11 @@ closegraphics() ;
 
 YexitPgm(PGMOK);
 
+return 0;
 } /* end main */
 
 
-initialize_global_router1()
+void initialize_global_router1()
 {
 
 INT cell , row ;
@@ -511,7 +513,7 @@ return ;
 }
 
 
-initialize_global_router()
+void initialize_global_router()
 {
 
 CBOXPTR ptr ;
@@ -591,7 +593,7 @@ return ;
 }
 
 
-execute_global_router()
+void execute_global_router()
 {
 
 PINBOXPTR netptr ;
@@ -816,7 +818,7 @@ return ;
 
 
 
-init_utemp()
+void init_utemp()
 {
 
 INT row , bin ;
@@ -836,8 +838,7 @@ return ;
 
 
 
-install_swap_pass_thrus( netptr )
-PINBOXPTR netptr ;
+void install_swap_pass_thrus(PINBOXPTR netptr )
 {
 
 CBOXPTR ptr ;
@@ -886,7 +887,7 @@ if( impypos > 0 ) { /* swap the pinnames */
 return ;
 }
 
-incorporate_ECOs()
+void incorporate_ECOs()
 {
 
 PINBOXPTR termptr , netptr ;
@@ -1006,7 +1007,7 @@ return ;
 
 
 /* give user correct syntax */
-syntax()
+void syntax()
 {
    M(ERRMSG,NULL,"\n" ) ; 
    M(MSG,NULL,"Incorrect syntax.  Correct syntax:\n");
