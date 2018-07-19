@@ -87,9 +87,7 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 void syntax(void);
 void show_flows();
 
-INT main( argc , argv )
-  INT argc ;
-  char *argv[] ;
+int main(int argc, char ** argv )
 {
 
   char        filename[LRECL] ;    /* buffer for filename */

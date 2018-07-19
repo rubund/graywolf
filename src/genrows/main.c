@@ -83,9 +83,7 @@ REVISIONS:  Feb  7, 1990 - took total_row_length out of procedure calls.
 void syntax(void);
 
 
-int main( argc, argv )
-  int  argc ;
-  char *argv[] ;
+int main(int argc, char **argv)
 {
 
   FILE *fp ;

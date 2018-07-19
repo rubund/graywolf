@@ -149,7 +149,7 @@ void incorporate_ECOs();
 void syntax();
 void init_utemp();
 
-int main(INT argc , char *argv[] )
+int main(int argc , char *argv[])
 {
 
 

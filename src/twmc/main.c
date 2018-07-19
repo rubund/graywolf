@@ -126,9 +126,7 @@ void writeResults( INT wire, INT penal, INT rand );
 VOID syntax();
 INT closegraphics();
 
-INT main( argc , argv )
-  INT argc ;
-  char *argv[] ;
+int main(int argc, char ** argv)
 {
 
   FILE    *fp ;

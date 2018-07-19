@@ -66,9 +66,7 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 /* Forward declarations */
 void syntax(void);
 
-int main( argc , argv )
-  int argc ;
-  char *argv[] ;
+int main(int argc, char ** argv)
 {
 
   char *YinitProgram(), *Ystrclone() ;
