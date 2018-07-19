@@ -13,7 +13,7 @@ pushd ${TMPDIR}/${TESTNAME}
 TWDIR=${BINDIR}/micro_env ${BINDIR}/micro_env/bin/TimberWolfSC -n ${TESTNAME}
 
 
-diff ${TESTNAME}.pl1 expected/${TESTNAME}.pl1
+diff -Nau ${TESTNAME}.pl1 expected/${TESTNAME}.pl1
 RET=$?
 
 popd
