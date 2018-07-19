@@ -14,7 +14,7 @@ What it does
 ------------
 
 graywolf is used for placement in VLSI design. It's mainly used together with
-qflow.
+qflow. (http://opencircuitdesign.com/qflow/)
 
 Install procedure
 -----------------
