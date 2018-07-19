@@ -17,7 +17,7 @@ diff ${TESTNAME}.pl1 expected/${TESTNAME}.pl1
 RET=$?
 
 popd
-#rm -rf ${TMPDIR}
-echo ${TMPDIR}
+rm -rf ${TMPDIR}
+#echo ${TMPDIR}
 
 exit $RET
