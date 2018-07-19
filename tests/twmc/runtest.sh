@@ -62,12 +62,6 @@ if [ "$RETPART" != "0" ] ; then
   RET=-1
 fi
 
-diff -Nau ${TESTNAME}.mtmp expected/${TESTNAME}.mtmp
-RETPART=$?
-if [ "$RETPART" != "0" ] ; then
-  RET=-1
-fi
-
 diff -Nau ${TESTNAME}.mver expected/${TESTNAME}.mver
 RETPART=$?
 if [ "$RETPART" != "0" ] ; then
