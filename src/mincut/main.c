@@ -54,6 +54,7 @@ REVISIONS:  Dec  8, 1989 - now write temp file to be moved later so
 
 #include <stdio.h>
 #include <signal.h>
+#include <string.h>
 #include <yalecad/base.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/file.h>
@@ -130,14 +131,16 @@ INT main( argc , argv )
   /* we can change this value in the debugger */
   YinitProgram(NOCUT, VERSION, yaleIntro) ;
 
-  if( twdir = TWFLOWDIR ){
-    sprintf(command, "awk -f %s/bin/splt_file.a %s.cel", twdir , 
-        cktNameG ) ;
-  } else {
-    fprintf(stderr,"ERROR:TWDIR environment variable not set.\n");
-    fprintf(stderr,"Please set it to TimberWolf root directory\n");
-    YexitPgm( PGMFAIL ) ;
+
+  /* Check if TWDIR overridden */
+  if((twdir = getenv("TWDIR"))) {
+    M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
   }
+  else {
+    twdir = TWFLOWDIR;
+  }
+
+  sprintf(command, "awk -f %s/bin/splt_file.a %s.cel", twdir , cktNameG ) ;
 
   read_par() ;
 

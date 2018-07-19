@@ -1,0 +1,17 @@
+syntax version:v1.1 date:Mon May 25 21:11:10 EDT 1992
+TIMESTAMP:Thu Jul 19 20:55:28 2018
+Statistics for map9v3:
+num_stdcells:215
+num_macros:0
+num_instances:0
+num_pads:38
+num_nets:228
+num_pins:735
+num_implicit_feeds:1334
+num_equivs:1334
+num_unequivs:0
+num_ports:38
+macro_area:0.000e+00
+tot_length:213440
+num_soft:1
+cell_height:2000

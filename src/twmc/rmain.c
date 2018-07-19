@@ -96,10 +96,15 @@ void rmain( BOOL constraint_flag )
   /* find the path of compactor relative to main program */
   pathname = Yrelpath( argv0G, GROUTEPATH ) ;
   if( !(YfileExists(pathname))){
-    if( twdir = TWFLOWDIR ){
-      sprintf( filename, "%s/bin/%s", twdir, GROUTEPROG ) ;
-      pathname = Ystrclone( filename ) ;
+  /* Check if TWDIR overridden */
+    if((twdir = getenv("TWDIR"))) {
+      M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
     }
+    else {
+      twdir = TWFLOWDIR;
+    }
+    sprintf( filename, "%s/bin/%s", twdir, GROUTEPROG ) ;
+    pathname = Ystrclone( filename ) ;
   }
   sprintf( YmsgG, "%s %s", pathname, cktNameG ) ;
   M( MSG, NULL, YmsgG ) ;

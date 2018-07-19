@@ -1,0 +1,19 @@
+rows 9
+row -239 -200    24239 1800 mirror
+row -239 1800    24239 3800
+row -239 3800    24239 5800 mirror
+row -239 5800    24239 7800
+row -239 7800    24239 9800 mirror
+row -239 9800    24239 11800
+row -239 11800    24239 13800 mirror
+row -239 13800    24239 15800
+row -239 15800    24239 17800 mirror
+
+/* 
+   The Tile and Macro Information:
+   numtiles 1
+   -240 -200   24240 27400
+
+   nummacros 0
+
+*/

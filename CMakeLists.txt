@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8.5)
 project (graywolf)
 
+enable_testing()
+
 find_package(PkgConfig)
 find_package(X11)
 INCLUDE(CheckIncludeFiles)
@@ -34,3 +36,5 @@ install(CODE "EXECUTE_PROCESS(COMMAND ln -sf flow.noroute flow WORKING_DIRECTORY
 
 add_subdirectory(src)
 add_subdirectory(script)
+add_subdirectory(tests)
+

@@ -223,10 +223,15 @@ void compact( BOOL compactFlag )
   /* find the path of compactor relative to main program */
   pathname = Yrelpath( argv0G, COMPACTPATH ) ;
   if( !(YfileExists(pathname))){
-    if( twdir = TWFLOWDIR ){
-      sprintf( filename, "%s/bin/%s", twdir, COMPACTPROG ) ;
-      pathname = Ystrclone( filename ) ;
+  /* Check if TWDIR overridden */
+    if((twdir = getenv("TWDIR"))) {
+      M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
     }
+    else {
+      twdir = TWFLOWDIR;
+    }
+    sprintf( filename, "%s/bin/%s", twdir, COMPACTPROG ) ;
+    pathname = Ystrclone( filename ) ;
   }
   if( doPartitionG ){
     sprintf( YmsgG, "%s -vn %s %d %d %d %d %d %d", pathname,

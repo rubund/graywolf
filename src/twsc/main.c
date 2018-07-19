@@ -260,14 +260,14 @@ int main(INT argc , char *argv[] )
 
   readParFile();
 
-  /* check to see if twdir is set so we can run SGGR */
-  if( SGGRG ){
-    if( !(twdirS = TWFLOWDIR)){
-      M( ERRMSG,main,"TWDIR environment variable not set.\n");
-      M( ERRMSG,NULL,"Please set it to TimberWolf root directory\n");
-      M( ERRMSG,NULL,"SGGR cannot automatically be run after annealing\n");
-    }
+  /* Check if TWDIR overridden */
+  if((twdirS = getenv("TWDIR"))) {
+    M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
   }
+  else {
+    twdirS = TWFLOWDIR;
+  }
+
   G( initGraphics( argc, argv, windowId ) ) ;
 
   Yset_random_seed( (INT) randomSeedG ) ; 

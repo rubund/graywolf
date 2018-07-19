@@ -1,0 +1,235 @@
+
+stdcell 1 name core
+corners 6
+0 0 0 18478 18478 18478 18478 9239 27717 9239 27717 0 
+asplb 0.500000 aspub 2.000000
+class 0 orientations 0 1 2 3 4 5 6 7 
+orient 0
+
+pad 2 name twpin_clock
+corners 4
+-440 8280 -440 8440 -240 8440 -240 8280 
+orient 7
+pin name clock signal clock layer 1 -340 8360
+
+pad 3 name twpin_reset
+corners 4
+-440 5860 -440 6020 -240 6020 -240 5860 
+orient 7
+pin name reset signal reset layer 1 -340 5940
+
+pad 4 name twpin_start
+corners 4
+-440 8060 -440 8220 -240 8220 -240 8060 
+orient 7
+pin name start signal start layer 1 -340 8140
+
+pad 5 name twpin_N<0>
+corners 4
+-440 7840 -440 8000 -240 8000 -240 7840 
+orient 7
+pin name N<0> signal N<0> layer 1 -340 7920
+
+pad 6 name twpin_N<1>
+corners 4
+-440 7620 -440 7780 -240 7780 -240 7620 
+orient 7
+pin name N<1> signal N<1> layer 1 -340 7700
+
+pad 7 name twpin_N<2>
+corners 4
+-440 7400 -440 7560 -240 7560 -240 7400 
+orient 7
+pin name N<2> signal N<2> layer 1 -340 7480
+
+pad 8 name twpin_N<3>
+corners 4
+-440 7180 -440 7340 -240 7340 -240 7180 
+orient 7
+pin name N<3> signal N<3> layer 1 -340 7260
+
+pad 9 name twpin_N<4>
+corners 4
+-440 6960 -440 7120 -240 7120 -240 6960 
+orient 7
+pin name N<4> signal N<4> layer 1 -340 7040
+
+pad 10 name twpin_N<5>
+corners 4
+-440 6740 -440 6900 -240 6900 -240 6740 
+orient 7
+pin name N<5> signal N<5> layer 1 -340 6820
+
+pad 11 name twpin_N<6>
+corners 4
+-440 6520 -440 6680 -240 6680 -240 6520 
+orient 7
+pin name N<6> signal N<6> layer 1 -340 6600
+
+pad 12 name twpin_N<7>
+corners 4
+-440 6300 -440 6460 -240 6460 -240 6300 
+orient 7
+pin name N<7> signal N<7> layer 1 -340 6380
+
+pad 13 name twpin_N<8>
+corners 4
+-440 6080 -440 6240 -240 6240 -240 6080 
+orient 7
+pin name N<8> signal N<8> layer 1 -340 6160
+
+pad 14 name twpin_dp<0>
+corners 4
+-440 3660 -440 3820 -240 3820 -240 3660 
+orient 7
+pin name dp<0> signal dp<0> layer 1 -340 3740
+
+pad 15 name twpin_dp<1>
+corners 4
+-440 3440 -440 3600 -240 3600 -240 3440 
+orient 7
+pin name dp<1> signal dp<1> layer 1 -340 3520
+
+pad 16 name twpin_dp<2>
+corners 4
+-440 3220 -440 3380 -240 3380 -240 3220 
+orient 7
+pin name dp<2> signal dp<2> layer 1 -340 3300
+
+pad 17 name twpin_dp<3>
+corners 4
+-440 3000 -440 3160 -240 3160 -240 3000 
+orient 7
+pin name dp<3> signal dp<3> layer 1 -340 3080
+
+pad 18 name twpin_dp<4>
+corners 4
+-440 2780 -440 2940 -240 2940 -240 2780 
+orient 7
+pin name dp<4> signal dp<4> layer 1 -340 2860
+
+pad 19 name twpin_dp<5>
+corners 4
+-440 2560 -440 2720 -240 2720 -240 2560 
+orient 7
+pin name dp<5> signal dp<5> layer 1 -340 2640
+
+pad 20 name twpin_dp<6>
+corners 4
+-440 2340 -440 2500 -240 2500 -240 2340 
+orient 7
+pin name dp<6> signal dp<6> layer 1 -340 2420
+
+pad 21 name twpin_dp<7>
+corners 4
+-440 2120 -440 2280 -240 2280 -240 2120 
+orient 7
+pin name dp<7> signal dp<7> layer 1 -340 2200
+
+pad 22 name twpin_dp<8>
+corners 4
+-440 1900 -440 2060 -240 2060 -240 1900 
+orient 7
+pin name dp<8> signal dp<8> layer 1 -340 1980
+
+pad 23 name twpin_done
+corners 4
+-440 3880 -440 4040 -240 4040 -240 3880 
+orient 7
+pin name done signal done layer 1 -340 3960
+
+pad 24 name twpin_counter<0>
+corners 4
+-440 5640 -440 5800 -240 5800 -240 5640 
+orient 7
+pin name counter<0> signal counter<0> layer 1 -340 5720
+
+pad 25 name twpin_counter<1>
+corners 4
+-440 5420 -440 5580 -240 5580 -240 5420 
+orient 7
+pin name counter<1> signal counter<1> layer 1 -340 5500
+
+pad 26 name twpin_counter<2>
+corners 4
+-440 5200 -440 5360 -240 5360 -240 5200 
+orient 7
+pin name counter<2> signal counter<2> layer 1 -340 5280
+
+pad 27 name twpin_counter<3>
+corners 4
+-440 4980 -440 5140 -240 5140 -240 4980 
+orient 7
+pin name counter<3> signal counter<3> layer 1 -340 5060
+
+pad 28 name twpin_counter<4>
+corners 4
+-440 4760 -440 4920 -240 4920 -240 4760 
+orient 7
+pin name counter<4> signal counter<4> layer 1 -340 4840
+
+pad 29 name twpin_counter<5>
+corners 4
+-440 4540 -440 4700 -240 4700 -240 4540 
+orient 7
+pin name counter<5> signal counter<5> layer 1 -340 4620
+
+pad 30 name twpin_counter<6>
+corners 4
+-440 4320 -440 4480 -240 4480 -240 4320 
+orient 7
+pin name counter<6> signal counter<6> layer 1 -340 4400
+
+pad 31 name twpin_counter<7>
+corners 4
+-440 4100 -440 4260 -240 4260 -240 4100 
+orient 7
+pin name counter<7> signal counter<7> layer 1 -340 4180
+
+pad 32 name twpin_sr<0>
+corners 4
+-440 1680 -440 1840 -240 1840 -240 1680 
+orient 7
+pin name sr<0> signal sr<0> layer 1 -340 1760
+
+pad 33 name twpin_sr<1>
+corners 4
+-440 1460 -440 1620 -240 1620 -240 1460 
+orient 7
+pin name sr<1> signal sr<1> layer 1 -340 1540
+
+pad 34 name twpin_sr<2>
+corners 4
+-440 1240 -440 1400 -240 1400 -240 1240 
+orient 7
+pin name sr<2> signal sr<2> layer 1 -340 1320
+
+pad 35 name twpin_sr<3>
+corners 4
+-440 1020 -440 1180 -240 1180 -240 1020 
+orient 7
+pin name sr<3> signal sr<3> layer 1 -340 1100
+
+pad 36 name twpin_sr<4>
+corners 4
+-440 800 -440 960 -240 960 -240 800 
+orient 7
+pin name sr<4> signal sr<4> layer 1 -340 880
+
+pad 37 name twpin_sr<5>
+corners 4
+-440 580 -440 740 -240 740 -240 580 
+orient 7
+pin name sr<5> signal sr<5> layer 1 -340 660
+
+pad 38 name twpin_sr<6>
+corners 4
+-440 360 -440 520 -240 520 -240 360 
+orient 7
+pin name sr<6> signal sr<6> layer 1 -340 440
+
+pad 39 name twpin_sr<7>
+corners 4
+-440 140 -440 300 -240 300 -240 140 
+orient 7
+pin name sr<7> signal sr<7> layer 1 -340 220

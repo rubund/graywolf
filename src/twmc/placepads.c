@@ -843,10 +843,15 @@ void call_place_pads()
   /* find the path of placepads relative to main program */
   pathname = Yrelpath( argv0G, PLACEPADPATH ) ;
   if( !(YfileExists(pathname))){
-    if( twdir = TWFLOWDIR ){
-      sprintf( filename, "%s/bin/%s", twdir, PLACEPADPROG ) ;
-      pathname = Ystrclone( filename ) ;
+    /* Check if TWDIR overridden */
+    if((twdir = getenv("TWDIR"))) {
+      M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
     }
+    else {
+      twdir = TWFLOWDIR;
+    }
+    sprintf( filename, "%s/bin/%s", twdir, PLACEPADPROG ) ;
+    pathname = Ystrclone( filename ) ;
   }
   switch( padspacingG ){
     case ABUT_PADS:

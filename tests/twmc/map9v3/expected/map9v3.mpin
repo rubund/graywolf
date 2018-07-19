@@ -1,0 +1,152 @@
+net sr<7>
+pin sr<7> x -240 y 220 cell 2 layer 1 PinOrEquiv 1
+pin pin1 x 0 y 220 cell 1 layer 0 PinOrEquiv 1
+
+net sr<6>
+pin sr<6> x -240 y 440 cell 2 layer 1 PinOrEquiv 1
+pin pin2 x 0 y 440 cell 1 layer 0 PinOrEquiv 1
+
+net sr<5>
+pin sr<5> x -240 y 660 cell 2 layer 1 PinOrEquiv 1
+pin pin3 x 0 y 660 cell 1 layer 0 PinOrEquiv 1
+
+net sr<4>
+pin sr<4> x -240 y 880 cell 2 layer 1 PinOrEquiv 1
+pin pin4 x 0 y 880 cell 1 layer 0 PinOrEquiv 1
+
+net sr<3>
+pin sr<3> x -240 y 1100 cell 2 layer 1 PinOrEquiv 1
+pin pin5 x 0 y 1100 cell 1 layer 0 PinOrEquiv 1
+
+net sr<2>
+pin sr<2> x -240 y 1320 cell 2 layer 1 PinOrEquiv 1
+pin pin6 x 0 y 1320 cell 1 layer 0 PinOrEquiv 1
+
+net sr<1>
+pin sr<1> x -240 y 1540 cell 2 layer 1 PinOrEquiv 1
+pin pin7 x 0 y 1540 cell 1 layer 0 PinOrEquiv 1
+
+net sr<0>
+pin sr<0> x -240 y 1760 cell 2 layer 1 PinOrEquiv 1
+pin pin8 x 0 y 1760 cell 1 layer 0 PinOrEquiv 1
+
+net dp<8>
+pin dp<8> x -240 y 1980 cell 2 layer 1 PinOrEquiv 1
+pin pin9 x 0 y 1980 cell 1 layer 0 PinOrEquiv 1
+
+net dp<7>
+pin dp<7> x -240 y 2200 cell 2 layer 1 PinOrEquiv 1
+pin pin10 x 0 y 2200 cell 1 layer 0 PinOrEquiv 1
+
+net dp<6>
+pin dp<6> x -240 y 2420 cell 2 layer 1 PinOrEquiv 1
+pin pin11 x 0 y 2420 cell 1 layer 0 PinOrEquiv 1
+
+net dp<5>
+pin dp<5> x -240 y 2640 cell 2 layer 1 PinOrEquiv 1
+pin pin12 x 0 y 2640 cell 1 layer 0 PinOrEquiv 1
+
+net dp<4>
+pin dp<4> x -240 y 2860 cell 2 layer 1 PinOrEquiv 1
+pin pin13 x 0 y 2860 cell 1 layer 0 PinOrEquiv 1
+
+net dp<3>
+pin dp<3> x -240 y 3080 cell 2 layer 1 PinOrEquiv 1
+pin pin14 x 0 y 3080 cell 1 layer 0 PinOrEquiv 1
+
+net dp<2>
+pin dp<2> x -240 y 3300 cell 2 layer 1 PinOrEquiv 1
+pin pin15 x 0 y 3300 cell 1 layer 0 PinOrEquiv 1
+
+net dp<1>
+pin dp<1> x -240 y 3520 cell 2 layer 1 PinOrEquiv 1
+pin pin16 x 0 y 3520 cell 1 layer 0 PinOrEquiv 1
+
+net dp<0>
+pin dp<0> x -240 y 3740 cell 2 layer 1 PinOrEquiv 1
+pin pin17 x 0 y 3740 cell 1 layer 0 PinOrEquiv 1
+
+net done
+pin done x -240 y 3960 cell 2 layer 1 PinOrEquiv 1
+pin pin18 x 0 y 3960 cell 1 layer 0 PinOrEquiv 1
+
+net counter<7>
+pin counter<7> x -240 y 4180 cell 2 layer 1 PinOrEquiv 1
+pin pin19 x 0 y 4180 cell 1 layer 0 PinOrEquiv 1
+
+net counter<6>
+pin counter<6> x -240 y 4400 cell 2 layer 1 PinOrEquiv 1
+pin pin20 x 0 y 4400 cell 1 layer 0 PinOrEquiv 1
+
+net counter<5>
+pin counter<5> x -240 y 4620 cell 2 layer 1 PinOrEquiv 1
+pin pin21 x 0 y 4620 cell 1 layer 0 PinOrEquiv 1
+
+net counter<4>
+pin counter<4> x -240 y 4840 cell 2 layer 1 PinOrEquiv 1
+pin pin22 x 0 y 4840 cell 1 layer 0 PinOrEquiv 1
+
+net counter<3>
+pin counter<3> x -240 y 5060 cell 2 layer 1 PinOrEquiv 1
+pin pin23 x 0 y 5060 cell 1 layer 0 PinOrEquiv 1
+
+net counter<2>
+pin counter<2> x -240 y 5280 cell 2 layer 1 PinOrEquiv 1
+pin pin24 x 0 y 5280 cell 1 layer 0 PinOrEquiv 1
+
+net counter<1>
+pin counter<1> x -240 y 5500 cell 2 layer 1 PinOrEquiv 1
+pin pin25 x 0 y 5500 cell 1 layer 0 PinOrEquiv 1
+
+net counter<0>
+pin counter<0> x -240 y 5720 cell 2 layer 1 PinOrEquiv 1
+pin pin26 x 0 y 5720 cell 1 layer 0 PinOrEquiv 1
+
+net reset
+pin reset x -240 y 5940 cell 2 layer 1 PinOrEquiv 1
+pin pin27 x 0 y 5940 cell 1 layer 0 PinOrEquiv 1
+
+net N<8>
+pin N<8> x -240 y 6160 cell 2 layer 1 PinOrEquiv 1
+pin pin28 x 0 y 6160 cell 1 layer 0 PinOrEquiv 1
+
+net N<7>
+pin N<7> x -240 y 6380 cell 2 layer 1 PinOrEquiv 1
+pin pin29 x 0 y 6380 cell 1 layer 0 PinOrEquiv 1
+
+net N<6>
+pin N<6> x -240 y 6600 cell 2 layer 1 PinOrEquiv 1
+pin pin30 x 0 y 6600 cell 1 layer 0 PinOrEquiv 1
+
+net N<5>
+pin N<5> x -240 y 6820 cell 2 layer 1 PinOrEquiv 1
+pin pin31 x 0 y 6820 cell 1 layer 0 PinOrEquiv 1
+
+net N<4>
+pin N<4> x -240 y 7040 cell 2 layer 1 PinOrEquiv 1
+pin pin32 x 0 y 7040 cell 1 layer 0 PinOrEquiv 1
+
+net N<3>
+pin N<3> x -240 y 7260 cell 2 layer 1 PinOrEquiv 1
+pin pin33 x 0 y 7260 cell 1 layer 0 PinOrEquiv 1
+
+net N<2>
+pin N<2> x -240 y 7480 cell 2 layer 1 PinOrEquiv 1
+pin pin34 x 0 y 7480 cell 1 layer 0 PinOrEquiv 1
+
+net N<1>
+pin N<1> x -240 y 7700 cell 2 layer 1 PinOrEquiv 1
+pin pin35 x 0 y 7700 cell 1 layer 0 PinOrEquiv 1
+
+net N<0>
+pin N<0> x -240 y 7920 cell 2 layer 1 PinOrEquiv 1
+pin pin36 x 0 y 7920 cell 1 layer 0 PinOrEquiv 1
+
+net start
+pin start x -240 y 8140 cell 2 layer 1 PinOrEquiv 1
+pin pin37 x 0 y 8140 cell 1 layer 0 PinOrEquiv 1
+
+net clock
+pin clock x -340 y 8360 cell 2 layer 1 PinOrEquiv 1
+pin pin38 x 0 y 8360 cell 1 layer 0 PinOrEquiv 1
+

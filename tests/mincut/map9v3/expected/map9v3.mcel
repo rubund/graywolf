@@ -1,0 +1,325 @@
+cluster 1 name core
+corners 4 0 0   0 20661  20661 20661   20661 0
+asplb 0.5 aspub 2.0
+class 0 orientations 0 1 2 3 4 5 6 7
+softpin name pin1 signal sr<7>
+softpin name pin2 signal sr<6>
+softpin name pin3 signal sr<5>
+softpin name pin4 signal sr<4>
+softpin name pin5 signal sr<3>
+softpin name pin6 signal sr<2>
+softpin name pin7 signal sr<1>
+softpin name pin8 signal sr<0>
+softpin name pin9 signal dp<8>
+softpin name pin10 signal dp<7>
+softpin name pin11 signal dp<6>
+softpin name pin12 signal dp<5>
+softpin name pin13 signal dp<4>
+softpin name pin14 signal dp<3>
+softpin name pin15 signal dp<2>
+softpin name pin16 signal dp<1>
+softpin name pin17 signal dp<0>
+softpin name pin18 signal done
+softpin name pin19 signal counter<7>
+softpin name pin20 signal counter<6>
+softpin name pin21 signal counter<5>
+softpin name pin22 signal counter<4>
+softpin name pin23 signal counter<3>
+softpin name pin24 signal counter<2>
+softpin name pin25 signal counter<1>
+softpin name pin26 signal counter<0>
+softpin name pin27 signal reset
+softpin name pin28 signal N<8>
+softpin name pin29 signal N<7>
+softpin name pin30 signal N<6>
+softpin name pin31 signal N<5>
+softpin name pin32 signal N<4>
+softpin name pin33 signal N<3>
+softpin name pin34 signal N<2>
+softpin name pin35 signal N<1>
+softpin name pin36 signal N<0>
+softpin name pin37 signal start
+softpin name pin38 signal clock
+
+instance core_L
+corners 6 0 0 0 23856 11928 23856 11928 11928 23856 11928 23856 0
+asplb 0.5 aspub 2.0
+class 0 orientations 0 1 2 3 4 5 6 7
+softpin name pin1 signal sr<7>
+softpin name pin2 signal sr<6>
+softpin name pin3 signal sr<5>
+softpin name pin4 signal sr<4>
+softpin name pin5 signal sr<3>
+softpin name pin6 signal sr<2>
+softpin name pin7 signal sr<1>
+softpin name pin8 signal sr<0>
+softpin name pin9 signal dp<8>
+softpin name pin10 signal dp<7>
+softpin name pin11 signal dp<6>
+softpin name pin12 signal dp<5>
+softpin name pin13 signal dp<4>
+softpin name pin14 signal dp<3>
+softpin name pin15 signal dp<2>
+softpin name pin16 signal dp<1>
+softpin name pin17 signal dp<0>
+softpin name pin18 signal done
+softpin name pin19 signal counter<7>
+softpin name pin20 signal counter<6>
+softpin name pin21 signal counter<5>
+softpin name pin22 signal counter<4>
+softpin name pin23 signal counter<3>
+softpin name pin24 signal counter<2>
+softpin name pin25 signal counter<1>
+softpin name pin26 signal counter<0>
+softpin name pin27 signal reset
+softpin name pin28 signal N<8>
+softpin name pin29 signal N<7>
+softpin name pin30 signal N<6>
+softpin name pin31 signal N<5>
+softpin name pin32 signal N<4>
+softpin name pin33 signal N<3>
+softpin name pin34 signal N<2>
+softpin name pin35 signal N<1>
+softpin name pin36 signal N<0>
+softpin name pin37 signal start
+softpin name pin38 signal clock
+
+instance core_T
+corners 8 10330 0 10330 10330 0 10330 0 20660 30990 20660 30990 10330 20660 10330 20660 0
+asplb 0.5 aspub 2.0
+class 0 orientations 0 1 2 3 4 5 6 7
+softpin name pin1 signal sr<7>
+softpin name pin2 signal sr<6>
+softpin name pin3 signal sr<5>
+softpin name pin4 signal sr<4>
+softpin name pin5 signal sr<3>
+softpin name pin6 signal sr<2>
+softpin name pin7 signal sr<1>
+softpin name pin8 signal sr<0>
+softpin name pin9 signal dp<8>
+softpin name pin10 signal dp<7>
+softpin name pin11 signal dp<6>
+softpin name pin12 signal dp<5>
+softpin name pin13 signal dp<4>
+softpin name pin14 signal dp<3>
+softpin name pin15 signal dp<2>
+softpin name pin16 signal dp<1>
+softpin name pin17 signal dp<0>
+softpin name pin18 signal done
+softpin name pin19 signal counter<7>
+softpin name pin20 signal counter<6>
+softpin name pin21 signal counter<5>
+softpin name pin22 signal counter<4>
+softpin name pin23 signal counter<3>
+softpin name pin24 signal counter<2>
+softpin name pin25 signal counter<1>
+softpin name pin26 signal counter<0>
+softpin name pin27 signal reset
+softpin name pin28 signal N<8>
+softpin name pin29 signal N<7>
+softpin name pin30 signal N<6>
+softpin name pin31 signal N<5>
+softpin name pin32 signal N<4>
+softpin name pin33 signal N<3>
+softpin name pin34 signal N<2>
+softpin name pin35 signal N<1>
+softpin name pin36 signal N<0>
+softpin name pin37 signal start
+softpin name pin38 signal clock
+
+instance core_L2
+corners 6 0 0 0 18478 18478 18478 18478 9239 27717 9239 27717 0
+asplb 0.5 aspub 2.0
+class 0 orientations 0 1 2 3 4 5 6 7
+softpin name pin1 signal sr<7>
+softpin name pin2 signal sr<6>
+softpin name pin3 signal sr<5>
+softpin name pin4 signal sr<4>
+softpin name pin5 signal sr<3>
+softpin name pin6 signal sr<2>
+softpin name pin7 signal sr<1>
+softpin name pin8 signal sr<0>
+softpin name pin9 signal dp<8>
+softpin name pin10 signal dp<7>
+softpin name pin11 signal dp<6>
+softpin name pin12 signal dp<5>
+softpin name pin13 signal dp<4>
+softpin name pin14 signal dp<3>
+softpin name pin15 signal dp<2>
+softpin name pin16 signal dp<1>
+softpin name pin17 signal dp<0>
+softpin name pin18 signal done
+softpin name pin19 signal counter<7>
+softpin name pin20 signal counter<6>
+softpin name pin21 signal counter<5>
+softpin name pin22 signal counter<4>
+softpin name pin23 signal counter<3>
+softpin name pin24 signal counter<2>
+softpin name pin25 signal counter<1>
+softpin name pin26 signal counter<0>
+softpin name pin27 signal reset
+softpin name pin28 signal N<8>
+softpin name pin29 signal N<7>
+softpin name pin30 signal N<6>
+softpin name pin31 signal N<5>
+softpin name pin32 signal N<4>
+softpin name pin33 signal N<3>
+softpin name pin34 signal N<2>
+softpin name pin35 signal N<1>
+softpin name pin36 signal N<0>
+softpin name pin37 signal start
+softpin name pin38 signal clock
+
+pad 1 name twpin_clock
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name clock signal clock layer 1 0 0
+
+pad 2 name twpin_reset
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name reset signal reset layer 1 0 0
+
+pad 3 name twpin_start
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name start signal start layer 1 0 0
+
+pad 4 name twpin_N<0>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<0> signal N<0> layer 1 0 0
+
+pad 5 name twpin_N<1>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<1> signal N<1> layer 1 0 0
+
+pad 6 name twpin_N<2>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<2> signal N<2> layer 1 0 0
+
+pad 7 name twpin_N<3>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<3> signal N<3> layer 1 0 0
+
+pad 8 name twpin_N<4>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<4> signal N<4> layer 1 0 0
+
+pad 9 name twpin_N<5>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<5> signal N<5> layer 1 0 0
+
+pad 10 name twpin_N<6>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<6> signal N<6> layer 1 0 0
+
+pad 11 name twpin_N<7>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<7> signal N<7> layer 1 0 0
+
+pad 12 name twpin_N<8>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name N<8> signal N<8> layer 1 0 0
+
+pad 13 name twpin_dp<0>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<0> signal dp<0> layer 1 0 0
+
+pad 14 name twpin_dp<1>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<1> signal dp<1> layer 1 0 0
+
+pad 15 name twpin_dp<2>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<2> signal dp<2> layer 1 0 0
+
+pad 16 name twpin_dp<3>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<3> signal dp<3> layer 1 0 0
+
+pad 17 name twpin_dp<4>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<4> signal dp<4> layer 1 0 0
+
+pad 18 name twpin_dp<5>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<5> signal dp<5> layer 1 0 0
+
+pad 19 name twpin_dp<6>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<6> signal dp<6> layer 1 0 0
+
+pad 20 name twpin_dp<7>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<7> signal dp<7> layer 1 0 0
+
+pad 21 name twpin_dp<8>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name dp<8> signal dp<8> layer 1 0 0
+
+pad 22 name twpin_done
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name done signal done layer 1 0 0
+
+pad 23 name twpin_counter<0>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<0> signal counter<0> layer 1 0 0
+
+pad 24 name twpin_counter<1>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<1> signal counter<1> layer 1 0 0
+
+pad 25 name twpin_counter<2>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<2> signal counter<2> layer 1 0 0
+
+pad 26 name twpin_counter<3>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<3> signal counter<3> layer 1 0 0
+
+pad 27 name twpin_counter<4>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<4> signal counter<4> layer 1 0 0
+
+pad 28 name twpin_counter<5>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<5> signal counter<5> layer 1 0 0
+
+pad 29 name twpin_counter<6>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<6> signal counter<6> layer 1 0 0
+
+pad 30 name twpin_counter<7>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name counter<7> signal counter<7> layer 1 0 0
+
+pad 31 name twpin_sr<0>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<0> signal sr<0> layer 1 0 0
+
+pad 32 name twpin_sr<1>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<1> signal sr<1> layer 1 0 0
+
+pad 33 name twpin_sr<2>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<2> signal sr<2> layer 1 0 0
+
+pad 34 name twpin_sr<3>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<3> signal sr<3> layer 1 0 0
+
+pad 35 name twpin_sr<4>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<4> signal sr<4> layer 1 0 0
+
+pad 36 name twpin_sr<5>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<5> signal sr<5> layer 1 0 0
+
+pad 37 name twpin_sr<6>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<6> signal sr<6> layer 1 0 0
+
+pad 38 name twpin_sr<7>
+corners 4 -80 -100 -80 100 80 100 80 -100
+pin name sr<7> signal sr<7> layer 1 0 0
+
+
