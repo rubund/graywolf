@@ -29,7 +29,7 @@ sudo make install
 Test
 ----
 
-After "make", you can run the test suite:
+After "make", you can run the test suite: (unfortunately, the test will not work on 32-bit architectures yet)
 
 ```
 make test
