@@ -18,7 +18,8 @@ qflow.
 
 Install procedure
 -----------------
-```mkdir build
+```
+mkdir build
 cd build
 cmake ..
 make  
@@ -30,17 +31,20 @@ Test
 
 After "make", you can run the test suite:
 
-```make test
+```
+make test
 ```
 
 To dump out log for failing tests:
 
-```CTEST_OUTPUT_ON_FAILURE=1 make test
+```
+CTEST_OUTPUT_ON_FAILURE=1 make test
 ```
 
 To run completely verbose tests:
 
-```make test ARGS="-V"
+```
+make test ARGS="-V"
 ```
 
 
