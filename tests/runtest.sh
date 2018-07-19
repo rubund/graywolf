@@ -6,7 +6,7 @@ TESTNAME=$3
 
 #TWDIR=${BINDIR}/micro_env ${BINDIR}/src/twflow/graywolf
 TMPDIR=`mktemp -d`
-cp -r ${SOURCEDIR}/tests/${TESTNAME} ${TMPDIR}/
+rsync ${SOURCEDIR}/tests/${TESTNAME} ${TMPDIR}/ -a --copy-links -v
 
 pushd ${TMPDIR}/${TESTNAME}
 TWDIR=${BINDIR}/micro_env ${BINDIR}/src/twflow/graywolf -n ${TESTNAME}

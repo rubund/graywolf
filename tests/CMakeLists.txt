@@ -27,3 +27,10 @@ add_test(
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/twmc/runtest.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} map9v3
 )
 set_tests_properties(map9v3-twmc PROPERTIES DEPENDS install_in_tmp)
+
+add_test(
+    NAME map9v3_other_seed
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/runtest.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} map9v3_other_seed
+)
+set_tests_properties(map9v3_other_seed PROPERTIES DEPENDS install_in_tmp)
+
