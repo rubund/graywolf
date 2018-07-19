@@ -211,7 +211,6 @@ if( 5.0 * coreArea > (DOUBLE) INT_MAX && !(cost_onlyG) ){
 	"Calling TimberWolfMC recursively to scale data by %d\n",
 	scale_dataG ) ;
     M( MSG, NULL, YmsgG ) ;
-    TWCLOSE( fpoG ) ;
     parasite = get_arg_string( arguments ) ;
     M( MSG, NULL, arguments ) ;
     M( MSG, NULL, "\n" ) ;
