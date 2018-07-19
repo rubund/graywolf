@@ -265,7 +265,7 @@ int main(INT argc , char *argv[] )
     M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
   }
   else {
-    twdirS = strdup(TWFLOWDIR);
+    twdirS = TWFLOWDIR;
   }
 
   G( initGraphics( argc, argv, windowId ) ) ;

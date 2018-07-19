@@ -137,7 +137,7 @@ INT main( argc , argv )
     M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
   }
   else {
-    twdir = strdup(TWFLOWDIR);
+    twdir = TWFLOWDIR;
   }
 
   sprintf(command, "awk -f %s/bin/splt_file.a %s.cel", twdir , cktNameG ) ;

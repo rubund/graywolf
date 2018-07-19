@@ -141,10 +141,15 @@ void config_rows()
   /* find the path of genrows relative to main program */
   pathname = Yrelpath( argv0G, GENROWPATH ) ;
   if( !(YfileExists(pathname))){
-    if( twdir = TWFLOWDIR ){
-      sprintf( filename, "%s/bin/%s", twdir, GENROWPROG ) ;
-      pathname = Ystrclone( filename ) ;
+    /* Check if TWDIR overridden */
+    if((twdir = getenv("TWDIR"))) {
+      M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
     }
+    else {
+      twdir = TWFLOWDIR;
+    }
+    sprintf( filename, "%s/bin/%s", twdir, GENROWPROG ) ;
+    pathname = Ystrclone( filename ) ;
   }
   if( doGraphicsG ){
     G( sprintf( YmsgG, "%s -w %s %lu", 

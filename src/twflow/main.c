@@ -118,7 +118,7 @@ INT main( argc , argv )
     M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
   }
   else {
-    twdirG = strdup(TWFLOWDIR);
+    twdirG = TWFLOWDIR;
   }
 
   if( argc < 2 || argc > 5 ){
