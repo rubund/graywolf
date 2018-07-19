@@ -66,6 +66,7 @@ REVISIONS:  Jun 19, 1989 - added stdcell.fnog for no graphics case.
 
 #include <stdio.h>
 #include <signal.h>
+#include <string.h>
 #include <yalecad/cleanup.h>
 #include <yalecad/message.h>
 #include <yalecad/program.h>
@@ -112,12 +113,12 @@ INT main( argc , argv )
 
   flow_dirG = NIL(char *) ;
 
-  /* make sure we have environment variable */
-  if(!(twdirG = TWFLOWDIR)) {
-    M(ERRMSG,"twflow","Can't get environment variable 'TWDIR'\n") ;
-    M(MSG,NULL, 
-        "Please use setenv to set 'TWDIR' to TimberWolf directory\n" ) ;
-    YexitPgm(MASTERFAIL);
+  /* Check if TWDIR overridden */
+  if((twdirG = getenv("TWDIR"))) {
+    M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
+  }
+  else {
+    twdirG = strdup(TWFLOWDIR);
   }
 
   if( argc < 2 || argc > 5 ){
