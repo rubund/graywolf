@@ -21,3 +21,9 @@ add_test(
     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mincut/runtest.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} map9v3
 )
 set_tests_properties(map9v3-mincut PROPERTIES DEPENDS install_in_tmp)
+
+add_test(
+    NAME map9v3-twmc
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/twmc/runtest.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} map9v3
+)
+set_tests_properties(map9v3-twmc PROPERTIES DEPENDS install_in_tmp)
