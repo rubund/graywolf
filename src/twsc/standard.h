@@ -279,6 +279,15 @@ typedef struct swapbox {        /* list of list of pins to be swapped */
     YHASHPTR pin_grp_hash ;	
 } SWAPBOX ;
 
+typedef struct graph_edge_cost {
+    INT node1 ;
+    INT node2 ;
+    INT cost ;
+    INT channel ;
+}
+*EDGE_COST ,
+EDGE_COST_BOX ;
+
 /* ****************** GLOBALS ************************** */
 /* THE MAJOR PARTS OF THE DATA STRUCTURES */
 EXTERN CBOXPTR  *carrayG  ;

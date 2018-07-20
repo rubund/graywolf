@@ -62,14 +62,6 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 #include "groute.h"
 #include "main.h"
 
-typedef struct graph_edge_cost {
-    SHORT node1 ;
-    SHORT node2 ;
-    INT cost ;
-    INT channel ;
-}
-*EDGE_COST ,
-EDGE_COST_BOX ;
 
 /* global variable definitions */
 INT *count_G = NULL;
