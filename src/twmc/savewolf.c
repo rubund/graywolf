@@ -75,6 +75,12 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 #define INTSCANSTR "%d"
 #endif
 
+#if SIZEOF_VOID_P == 64
+#define UINTSCANSTR "%lu"
+#else
+#define UINTSCANSTR "%u"
+#endif
+
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
 void HPO(FILE *fp,DOUBLE d);
@@ -208,7 +214,7 @@ if( number_of_cells != numcellsG ){
     /* abort at this time no sense going on */
     return( FALSE ) ;
 }
-fscanf( fp, "%u", &randVarG ) ;
+fscanf( fp, "" UINTSCANSTR "", &randVarG ) ;
 Yset_random_seed( randVarG ) ;
 fscanf( fp, "" INTSCANSTR " " INTSCANSTR "\n", &blocktG, &blockrG ) ; 
 /* set blockl and blockb to zero anticipating call to placepads */
@@ -253,7 +259,7 @@ while( fscanf( fp , " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR " "
 	fscanf( fp , "%lf" , &aspect ) ;
 	ptr->aspect = aspect ;
 	for( term = ptr->pinptr; term; term = term->nextpin ){
-	    fscanf( fp, "%d %d", &(term->txpos), &(term->typos) ) ;
+	    fscanf( fp, "" INTSCANSTR " " INTSCANSTR "", &(term->txpos), &(term->typos) ) ;
 	    term->txpos_orig[inst] = term->txpos ;
 	    term->typos_orig[inst] = term->typos ;
 	}
