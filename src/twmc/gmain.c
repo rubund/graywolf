@@ -115,7 +115,7 @@ void gmain( BOOL updateNotChan )
   if( !(YfileExists(pathname))){
     /* Check if TWDIR overridden */
     if((twdir = getenv("TWDIR"))) {
-      M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
+      M(MSG,NULL, "Directory overridden with 'TWDIR' environment variable\n" ) ;
     }
     else {
       twdir = TWFLOWDIR;

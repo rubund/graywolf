@@ -40,7 +40,7 @@
 /* ----------------------------------------------------------------- 
 FILE:	    color.c                                       
 DESCRIPTION:These routines give the standard colors for TimberWolf
-    draw system.  They can be overriden by creating a color matrix 
+    draw system.  They can be overridden by creating a color matrix 
     similar to below.
 CONTENTS:   char **TWstdcolors()
 	    INT TWnumcolors() 

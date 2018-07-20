@@ -262,7 +262,7 @@ int main(int argc , char *argv[])
 
   /* Check if TWDIR overridden */
   if((twdirS = getenv("TWDIR"))) {
-    M(MSG,NULL, "Directory overriden with 'TWDIR' environment variable\n" ) ;
+    M(MSG,NULL, "Directory overridden with 'TWDIR' environment variable\n" ) ;
   }
   else {
     twdirS = TWFLOWDIR;
