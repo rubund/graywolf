@@ -158,7 +158,7 @@ fscanf( fp , "%lf" , &binpenConG ) ;
 fscanf( fp , "%lf" , &roLenConG ) ;
 /* no longer use cost_scale_factor but save for backwards compatibility */
 fscanf( fp , "%lf" , &cost_scale_factor ) ;
-fscanf( fp , INTSCANSTR , &estimate_feedsG ) ;
+fscanf( fp , "%d" , &estimate_feedsG ) ;
 read_feeds( fp ) ;
 
 read_control( fp ) ;

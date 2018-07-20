@@ -1363,8 +1363,8 @@ FILE *fp ;
 {
     INT junk ;
 
-    fscanf(fp,"%ld %ld %ld\n",&pairtestG,&junk,&not_doneS);
-    fscanf(fp,"%ld %ld %ld %ld\n",&acc_cntS,&move_cntS,&first_fdsS,&first_capS);
+    fscanf(fp,"%d %ld %d\n",&pairtestG,&junk,&not_doneS);
+    fscanf(fp,"%ld %ld %d %d\n",&acc_cntS,&move_cntS,&first_fdsS,&first_capS);
     fscanf(fp,"%lf %lf %lf %lf\n",&stepS,&xalS,&yalS,&a_ratioS);
     fscanf(fp,"%lf %lf\n",&ratioG,&total_costS) ;
     fscanf(fp,"%lf %lf\n",&bin_capS,&row_capS);

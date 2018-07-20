@@ -9,4 +9,4 @@ target_link_libraries(TimberWolfMC ${GSL_LIBRARIES})
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
-install(TARGETS TimberWolfMC DESTINATION ${CMAKE_INSTALL_LIBDIR}/graywolf/bin)
+install(TARGETS TimberWolfMC DESTINATION lib/graywolf/bin)

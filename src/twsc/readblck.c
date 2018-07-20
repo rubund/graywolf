@@ -282,7 +282,7 @@ while( fscanf( fp , " %s " , input ) == 1 ) {
     } else if( strcmp( input , "mirror" ) == 0 ) {
 	barrayG[block]->borient = 2 ;
     } else if( strcmp( input , "relative_length" ) == 0 ) {
-	fscanf( fp , " %f " , &relLen ) ;
+	fscanf( fp , " %lf " , &relLen ) ;
 	relativeLenG[block] = relLen ;
 	uniform_rowsG = 0 ;
     }

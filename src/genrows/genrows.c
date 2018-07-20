@@ -816,7 +816,7 @@ FILE *fp ;
 	}
 	/* llx, lly, urx, ury, force, class mirror */
 	fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR
-		" " INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
+		" %d " INTSCANSTR " %d",
 	    &(tptr->llx), &(tptr->lly), &(tptr->urx), &(tptr->ury),
 	    &(tptr->force), &(tptr->class), &(tptr->mirror) ) ;
 
@@ -825,7 +825,7 @@ FILE *fp ;
 	&(tptr->numrows), &(tptr->actual_row_height),
 	&(tptr->add_no_more_than), &(tptr->channel_separation) ) ;
 	/* min_length, row_start, max_length, illegal */
-	fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR,
+	fscanf(fp, INTSCANSTR " " INTSCANSTR " " INTSCANSTR " %d",
 	    &(tptr->min_length), &(tptr->row_start),
 	    &(tptr->max_length), &(tptr->illegal) ) ;
     } /* end tile loop */

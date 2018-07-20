@@ -68,14 +68,6 @@ REVISIONS:
 #include "groute.h"
 #include "feeds.h"
 
-typedef struct graph_edge_cost {
-    SHORT node1 ;
-    SHORT node2 ;
-    INT cost ;
-    INT channel ;
-}
-*EDGE_COST ,
-EDGE_COST_BOX ;
 
 INT compare_cost( a , b )
 EDGE_COST *a , *b ;
