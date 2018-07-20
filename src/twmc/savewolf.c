@@ -69,6 +69,12 @@ REVISIONS:  Dec  3, 1988 - added forced save flag.
 #include <yalecad/debug.h>
 #include <yalecad/file.h>
 
+#if SIZEOF_VOID_P == 64
+#define INTSCANSTR "%ld"
+#else
+#define INTSCANSTR "%d"
+#endif
+
 #define MAXTIMEBEFORESAVE 600.0   /* seconds before new save 10min. */
 
 void HPO(FILE *fp,DOUBLE d);
@@ -196,7 +202,7 @@ error += read_uloop( fp ) ;
 error += read_window( fp ) ;
 error += read_wireest( fp ) ;
 fscanf(fp,"%[ #:a-zA-Z]\n",YmsgG ); /* throw away comment */
-fscanf( fp, "%[ #:a-zA-Z]%d\n", YmsgG, &number_of_cells ) ; 
+fscanf( fp, "%[ #:a-zA-Z]" INTSCANSTR "\n", YmsgG, &number_of_cells ) ; 
 if( number_of_cells != numcellsG ){
     M(ERRMSG,"TW_oldinput","Number of cells in restart file in error\n");
     /* abort at this time no sense going on */
@@ -204,12 +210,12 @@ if( number_of_cells != numcellsG ){
 }
 fscanf( fp, "%u", &randVarG ) ;
 Yset_random_seed( randVarG ) ;
-fscanf( fp, "%d %d\n", &blocktG, &blockrG ) ; 
+fscanf( fp, "" INTSCANSTR " " INTSCANSTR "\n", &blocktG, &blockrG ) ; 
 /* set blockl and blockb to zero anticipating call to placepads */
 blocklG = blockbG = 0 ; 
-fscanf( fp, "%d %d\n", &blockmxG, &blockmyG ) ; 
-fscanf( fp, "%d %d\n", &binWidthXG, &binXOffstG ) ; 
-fscanf( fp, "%d %d\n", &binWidthYG, &binYOffstG ) ; 
+fscanf( fp, "" INTSCANSTR " " INTSCANSTR "\n", &blockmxG, &blockmyG ) ; 
+fscanf( fp, "" INTSCANSTR " " INTSCANSTR "\n", &binWidthXG, &binXOffstG ) ; 
+fscanf( fp, "" INTSCANSTR " " INTSCANSTR "\n", &binWidthYG, &binYOffstG ) ; 
 HPI(fp,&slopeXG) ;
 HPI(fp,&slopeYG) ;
 HPI(fp,(DOUBLE *)(&baseWeightG)) ;
@@ -218,7 +224,8 @@ HPI(fp,&wireFactorYG) ;
 HPI(fp,&aveChanWidG) ;
 HPI(fp,&lapFactorG) ;
 
-while( fscanf( fp , " %d %d %d %d ", &cell , &orient , 
+while( fscanf( fp , " " INTSCANSTR " " INTSCANSTR " " INTSCANSTR " "
+    INTSCANSTR " ", &cell , &orient , 
 				    &xcenter , &ycenter ) == 4 ) {
     ptr = cellarrayG[ cell ] ;
 
@@ -227,7 +234,7 @@ while( fscanf( fp , " %d %d %d %d ", &cell , &orient ,
     ptr->ycenter = ycenter ;
     ptr->boun_valid = FALSE ;
     if( instptr = ptr->instptr ){
-	fscanf( fp , "%d", &inst ) ;
+	fscanf( fp , INTSCANSTR, &inst ) ;
 	ptr->cur_inst = inst ;
 	/* update tiles */
 	ptr->tiles = instptr->tile_inst[inst] ;
