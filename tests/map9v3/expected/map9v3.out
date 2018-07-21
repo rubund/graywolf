@@ -1,0 +1,1147 @@
+
+TimberWolfSC version:v6.0 date:Mon May 25 21:19:07 EDT 1992
+Row-Based Placement and Global Routing Program
+Authors: Carl Sechen, Kai-Win Lee, and Bill Swartz,
+         Yale University
+
+
+
+
+TimberWolf will perform a global route step
+feedThruWidth: 160
+track.pitch: 200
+route2act was not entered in the .par file
+route2act defaulted to track.pitch
+route2act: 200
+Directory overriden with 'TWDIR' environment variable
+
+The random number generator seed is: 12345
+
+
+rowSep: 0.000000
+
+[get_stat_hints]:Found hints in <map9v3.stat> file
+[get_stat_hints]:Total cells:253 Number of nets:228
+
+[add_swap_group]:Implicit swap group <$abc$733$n76_bF$pin> created
+[add_swap_group]:Implicit swap group <$abc$733$n75_1_bF$pin> created
+[add_swap_group]:Implicit swap group <clock_bF$pin> created
+[add_swap_group]:Implicit swap group <$abc$733$n164_bF$pin> created
+[add_extra_cells]:Added 114 spacer cells to the gate array
+total cell length: 213440
+total block length: 220302
+block x-span:24478  block y-span:18000
+
+
+TIMING FACTOR (COMPUTED) : 4.000000
+Using default value of bin.penalty.control:1.000000
+Original Average Cell Width:992.000000
+Adjusted Average Cell Width:468.000000
+numBinsG automatically set to:53
+binWidthG = 468
+average_cell_width is:468
+standard deviation of cell length is:1189.83
+TimberWolfSC starting from the beginning
+
+
+
+THIS IS THE ROUTE COST OF THE ORIGINAL PLACEMENT: 3476250
+
+The number of nets with 2 pins is 134
+The number of nets with 3 pins is 33
+The number of nets with 4 pins is 19
+The number of nets with 5 pins is 13
+The number of nets with 6 pins is 15
+The number of nets with 7 pins is 7
+The number of nets with 8 pins is 4
+The number of nets with 12 pins is 2
+The number of nets with 32 pins is 1
+The number of nets with 100 pins or more is 0
+Average number of pins per net = 3.223684
+The maximum number of pins on a single net is:32
+
+Percentage of Nets Connecting to at least 2 cells:1.00
+Percentage of Nets Connecting to at least 3 cells:0.46
+Percentage of Nets Connecting to at least 4 cells:0.28
+Percentage of Nets Connecting to at least 5 cells:0.20
+Percentage of Nets Connecting to at least 6 cells:0.14
+
+bdxlen:25280  bdylen:18400
+l:-239  t:17800  r:25041  b:-600
+
+
+
+THIS IS THE ROUTE COST OF THE CURRENT PLACEMENT: 3123651
+
+
+
+THIS IS THE PENALTY OF THE CURRENT PLACEMENT: 101690
+block:1 desire:24478
+block:2 desire:24478
+block:3 desire:24478
+block:4 desire:24478
+block:5 desire:24478
+block:6 desire:24478
+block:7 desire:24478
+block:8 desire:24478
+block:9 desire:24478
+Total Desired Length: 220302
+rowControl: 0.024     expected deviation above minimum:  6.02
+rowControl: 0.023     expected deviation above minimum:  3.21
+
+Iter T        fds    Wire     Penal  Time     P_lim  err binC  rowC timeC  s/p  rej. Acc. g_sw Vwt
+ -1: 0.00e+00      0 4517291  45918  0       999999 0.00 1.00  6.00  3.00 0.00 0.00 0.949
+  0: 1.21e+05      0 4743320  49442  0       999999 0.00 1.00  6.00  3.00 1.11 0.00 0.949 0.99
+  1: 1.16e+05      0 4738524  58078  0       999999 0.00 1.00  6.00  3.00 1.06 0.00 0.952 0.99
+  2: 8.80e+04      0 4672292  58718  0       166201 0.00 1.00  6.00  3.00 1.09 0.00 0.942 0.98
+  3: 6.23e+04      0 4390693  37594  0       127044 0.00 1.00  6.00  3.00 1.12 0.00 0.917 0.98
+  4: 4.23e+04      0 4280096  26390  0       100426 0.00 1.00  6.00  3.00 1.12 0.00 0.890 0.97
+  5: 3.38e+04      0 4332618  26722  0        79708 0.00 1.00  5.96  3.00 1.14 0.00 0.844 0.95
+  6: 2.71e+04      0 4126538  18718  0        68952 0.00 1.00  5.94  3.00 1.14 0.00 0.815 0.94
+  7: 2.33e+04      0 4101353  30558  0        61800 0.00 1.00  5.63  3.00 1.20 0.00 0.780 0.92
+  8: 2.07e+04      0 4021908  16162  0        57371 0.00 1.00  5.77  3.00 1.22 0.00 0.750 0.91
+  9: 1.82e+04      0 4079279  18394  0        52907 0.00 1.00  5.38  3.00 1.23 0.00 0.725 0.91
+ 10: 1.59e+04      0 3964203  15826  0        50515 0.00 1.00  5.07  3.00 1.20 0.00 0.701 0.89
+ 11: 1.47e+04      0 3828881  25758  0        46756 0.00 1.00  4.67  3.00 1.30 0.00 0.671 0.88
+ 12: 1.41e+04      0 3857322  33758  0        43885 0.00 1.00  4.66  3.00 1.28 0.00 0.644 0.85
+ 13: 1.34e+04      0 3605396  11998  0        43342 0.00 1.00  4.96  3.00 1.23 0.00 0.623 0.87
+ 14: 1.17e+04      0 3725961  17754  0        41915 0.00 1.00  4.42  3.00 1.35 0.00 0.610 0.86
+ 15: 1.15e+04      0 3393589  23202  0        39366 0.00 1.00  4.12  3.00 1.36 0.00 0.577 0.84
+ 16: 1.07e+04      0 3587073  21274  0        38162 0.00 1.00  4.03  3.00 1.32 0.00 0.562 0.83
+ 17: 9.33e+03      0 3512893  14554  0        36722 0.00 1.00  3.87  3.00 1.35 0.00 0.549 0.81
+ 18: 8.93e+03      0 3390060  27034  0        35255 0.00 1.00  3.45  3.00 1.41 0.00 0.521 0.81
+ 19: 8.70e+03      0 3365439  16478  0        35267 0.00 1.00  3.54  3.00 1.39 0.00 0.501 0.80
+ 20: 8.58e+03      0 3244200  12634  0        32782 0.00 1.00  3.54  3.00 1.45 0.00 0.482 0.81
+ 21: 7.96e+03      0 3322389  9434   0        32013 0.00 1.00  3.53  3.00 1.45 0.00 0.472 0.77
+ 22: 7.68e+03      0 3198014  19034  0        31009 0.00 1.00  3.50  3.00 1.44 0.00 0.452 0.75
+ 23: 7.44e+03      0 2893155  18394  0        30539 0.00 1.00  3.48  3.00 1.46 0.00 0.443 0.76
+ 24: 7.00e+03      0 3173856  18074  0        29533 0.00 1.00  3.46  3.00 1.45 0.00 0.446 0.76
+ 25: 7.42e+03      0 3098174  20006  0        28065 0.00 1.00  3.43  3.00 1.45 0.00 0.434 0.75
+ 26: 7.38e+03      0 3094445  15514  0        29847 0.00 1.00  3.41  3.00 1.47 0.00 0.440 0.74
+ 27: 7.18e+03      0 3191458  19674  0        28239 0.00 1.00  3.36  3.00 1.42 0.00 0.443 0.75
+ 28: 7.72e+03      0 3077790  17758  0        29230 0.00 1.00  3.33  3.00 1.40 0.00 0.433 0.77
+ 29: 7.00e+03      0 3098729  18074  0        30480 0.00 1.00  3.29  3.00 1.42 0.00 0.450 0.74
+ 30: 6.86e+03      0 3193370  12310  0        29060 0.00 1.00  3.24  3.00 1.45 0.00 0.442 0.71
+ 31: 6.96e+03      0 3130129  16162  0        27776 0.00 1.00  3.13  3.00 1.48 0.00 0.439 0.75
+ 32: 6.80e+03      0 3178531  10398  0        28143 0.00 1.00  3.06  3.00 1.40 0.00 0.442 0.73
+ 33: 6.85e+03      0 3127299  12314  0        28044 0.00 1.00  2.90  3.00 1.45 0.00 0.439 0.74
+ 34: 6.63e+03      0 2941924  11358  0        26796 0.00 1.00  2.77  3.00 1.47 0.00 0.443 0.73
+ 35: 6.41e+03      0 2984202  16474  0        26539 0.00 1.00  2.61  3.00 1.42 0.00 0.443 0.74
+ 36: 7.28e+03      0 2954852  11998  0        26083 0.00 1.00  2.52  3.00 1.43 0.00 0.427 0.75
+ 37: 6.69e+03      0 3072857  16482  0        26173 0.00 1.00  2.36  3.00 1.43 0.00 0.448 0.76
+ 38: 6.62e+03      0 2880050  21274  0        26179 0.00 1.00  2.27  3.00 1.34 0.00 0.441 0.74
+ 39: 7.07e+03      0 2953326  21274  0        25760 0.00 1.02  2.27  3.00 1.50 0.00 0.433 0.74
+ 40: 6.86e+03      0 2943723  15510  0        27430 0.00 1.00  2.28  3.00 1.44 0.00 0.443 0.75
+ 41: 6.37e+03      0 3030647  14878  0        26387 0.00 1.04  2.16  3.00 1.43 0.00 0.447 0.73
+ 42: 6.41e+03      0 2956097  13270  0        25568 0.00 1.07  2.03  3.00 1.43 0.00 0.439 0.74
+ 43: 6.12e+03      0 2916215  29594  0        25093 0.00 1.02  1.85  3.00 1.45 0.00 0.444 0.74
+ 44: 5.95e+03      0 2836613  18718  0        25296 0.00 1.04  2.09  3.00 1.39 0.00 0.443 0.73
+ 45: 6.49e+03      0 2848741  20314  0        23803 0.00 1.10  2.06  3.00 1.47 0.00 0.431 0.73
+ 46: 6.37e+03      0 2813841  26394  0        25043 0.00 1.05  2.07  3.00 1.45 0.00 0.442 0.73
+ 47: 6.24e+03      0 2776032  23518  0        24883 0.00 1.03  2.27  3.00 1.38 0.00 0.442 0.72
+ 48: 5.98e+03      0 2751095  14558  0        24315 0.00 1.08  2.39  3.00 1.38 0.00 0.444 0.71
+ 49: 5.84e+03      0 2810288  21918  0        23072 0.00 1.10  2.24  3.00 1.46 0.00 0.442 0.71
+ 50: 6.32e+03      0 2763840  20954  0        22864 0.00 1.14  2.33  3.00 1.37 0.00 0.432 0.70
+ 51: 5.75e+03      0 2826441  12958  0        23218 0.00 1.20  2.40  3.00 1.44 0.00 0.449 0.72
+ 52: 5.67e+03      0 2601377  11674  0        23823 0.00 1.27  2.19  3.00 1.45 0.00 0.441 0.71
+ 53: 5.43e+03      0 2781387  28634  0        23600 0.00 1.37  1.92  3.00 1.38 0.00 0.444 0.70
+ 54: 5.77e+03      0 2530290  20318  0        21419 0.00 1.45  2.33  3.00 1.39 0.00 0.434 0.70
+ 55: 5.53e+03      0 2654425  12314  0        21850 0.02 1.56  2.42  3.00 1.39 0.00 0.444 0.67
+ 56: 5.49e+03      0 2656785  11678  0        20821 0.00 1.66  2.17  3.00 1.36 0.00 0.441 0.71
+ 57: 5.43e+03      0 2584524  16158  0        21151 0.04 1.74  1.89  3.00 1.32 0.00 0.441 0.68
+ 58: 5.08e+03      0 2508733  16474  0        21043 0.06 1.88  1.82  3.00 1.25 0.00 0.447 0.69
+ 59: 5.00e+03      0 2616910  14558  0        19760 0.01 2.05  1.77  3.00 1.26 0.00 0.442 0.68
+ 60: 5.29e+03      0 2483965  12638  0        20166 0.00 2.11  1.64  3.00 1.25 0.00 0.435 0.67
+ 61: 4.69e+03      0 2566086  30874  0        20272 0.00 2.23  1.40  3.00 1.25 0.00 0.452 0.67
+ 62: 4.98e+03      0 2521222  12958  0        18580 0.02 2.32  2.16  3.00 1.32 0.01 0.434 0.66
+ 63: 4.85e+03      0 2469369  21598  0        18921 0.00 2.40  1.95  3.00 1.22 0.01 0.443 0.66
+ 64: 4.78e+03      0 2619499  16790  0        18980 0.01 2.50  2.24  3.00 1.23 0.02 0.441 0.66
+ 65: 4.77e+03      0 2443482  11030  0        17420 0.01 2.57  2.26  3.00 1.22 0.03 0.440 0.63
+ 66: 4.51e+03      0 2410241  16158  0        17583 0.02 2.65  1.94  3.00 1.29 0.02 0.445 0.65
+ 67: 4.65e+03      0 2372266  19682  0        17694 0.01 2.77  1.95  3.00 1.34 0.02 0.437 0.64
+ 68: 4.21e+03      0 2364424  10714  0        17823 0.03 2.78  2.20  3.00 1.26 0.03 0.450 0.64
+ 69: 4.36e+03      0 2264044  13918  0        17307 0.01 2.89  1.88  3.00 1.30 0.03 0.436 0.59
+ 70: 4.23e+03      0 2240521  15830  0        15529 0.01 2.96  1.78  3.00 1.29 0.03 0.443 0.68
+ 71: 4.13e+03      0 2254374  19682  0        15624 0.02 2.99  1.82  3.00 1.17 0.04 0.442 0.60
+ 72: 4.19e+03      0 2194736  17758  0        16191 0.00 3.12  2.13  3.00 1.23 0.04 0.438 0.60
+ 73: 4.31e+03      0 2151203  7506   0        15679 0.00 3.13  2.32  3.00 1.35 0.05 0.437 0.63
+ 74: 4.04e+03      0 2210090  14238  0        15467 0.00 3.19  1.83  3.00 1.24 0.05 0.446 0.60
+ 75: 4.01e+03      0 2150819  11354  0        16469 0.00 3.22  1.81  3.00 1.22 0.04 0.441 0.59
+ 76: 3.91e+03      0 2136210  12954  0        14615 0.00 3.39  1.60  3.00 1.25 0.05 0.443 0.56
+ 77: 3.76e+03      0 2114095  21594  0        14646 0.00 3.45  1.51  3.00 1.19 0.04 0.444 0.57
+ 78: 3.81e+03      0 2200671  10398  0        13936 0.00 3.49  2.06  3.00 1.24 0.07 0.438 0.55
+ 79: 3.81e+03      0 2106950  11674  0        13639 0.00 3.54  1.81  3.00 1.23 0.06 0.440 0.56
+ 80: 3.73e+03      0 2003883  13278  0        14473 0.02 3.55  1.67  3.00 1.20 0.05 0.442 0.57
+ 81: 3.55e+03      0 2109300  15514  0        13806 0.00 3.63  1.66  3.00 1.06 0.05 0.435 0.58
+ 82: 3.33e+03      0 1951257  19674  0        13481 0.01 3.66  1.83  3.00 0.97 0.06 0.418 0.54
+ 83: 3.29e+03      0 1851100  6866   0        12708 0.00 3.71  2.34  3.00 1.06 0.08 0.394 0.52
+ 84: 3.11e+03      0 1949109  13598  0        12366 0.00 3.73  1.87  3.00 1.07 0.09 0.381 0.50
+ 85: 2.88e+03      0 1878320  8794   0        11795 0.00 3.75  1.95  3.00 1.07 0.09 0.366 0.49
+ 86: 2.76e+03      0 1834739  12958  0        11198 0.00 3.77  1.65  3.00 1.09 0.08 0.347 0.49
+ 87: 2.84e+03      0 1755601  8794   0        11043 0.01 3.78  1.70  3.00 0.98 0.09 0.325 0.48
+ 88: 2.73e+03      0 1682685  11354  0        11276 0.00 3.75  1.43  3.00 0.96 0.10 0.317 0.48
+ 89: 2.44e+03      0 1658863  9438   0        11051 0.00 3.77  1.38  3.00 0.98 0.10 0.311 0.45
+ 90: 2.37e+03      0 1560740  11986  0        10166 0.00 3.75  1.18  3.00 0.97 0.11 0.289 0.43
+ 91: 2.35e+03      0 1552494  9110   0         9359 0.00 3.68  1.22  3.00 0.86 0.12 0.274 0.44
+ 92: 2.11e+03      0 1504800  8790   0         9083 0.00 3.66  1.01  3.00 1.04 0.12 0.272 0.43
+ 93: 2.12e+03      0 1491606  15510  0         8839 0.00 3.62  1.00  3.00 0.89 0.13 0.249 0.41
+ 94: 2.05e+03      0 1462872  9750   0         8392 0.00 3.64  1.41  3.00 0.79 0.14 0.242 0.39
+ 95: 1.90e+03      0 1412075  10074  0         8937 0.00 3.64  1.31  3.00 0.86 0.13 0.236 0.39
+ 96: 1.92e+03      0 1442971  8798   0         8429 0.00 3.63  1.25  3.00 0.91 0.14 0.217 0.40
+ 97: 1.81e+03      0 1386287  7834   0         7753 0.00 3.56  1.09  3.00 0.89 0.16 0.214 0.39
+ 98: 1.66e+03      0 1425397  11678  0         7738 0.00 3.53  1.00  3.00 0.89 0.16 0.208 0.39
+ 99: 1.70e+03      0 1361156  9754   0         7378 0.00 3.46  1.16  3.00 0.83 0.17 0.188 0.38
+100: 1.61e+03      0 1322762  9110   0         6835 0.01 3.40  1.14  3.00 0.85 0.20 0.187 0.35
+101: 1.53e+03      0 1311085  6862   0         7566 0.00 3.37  1.08  3.00 0.86 0.16 0.179 0.38
+102: 1.51e+03      0 1277758  10390  0         6799 0.00 3.32  1.00  3.00 0.81 0.19 0.168 0.38
+103: 1.33e+03      0 1267633  8794   0         6172 0.01 3.29  1.11  3.00 1.00 0.22 0.171 0.38
+104: 1.37e+03      0 1257010  8150   0         6358 0.00 3.23  1.07  3.00 0.75 0.23 0.149 0.36
+105: 1.33e+03      0 1251291  7518   0         5946 0.00 3.11  1.00  3.00 0.75 0.22 0.148 0.37
+106: 1.27e+03      0 1190086  12634  0         6198 0.00 3.05  1.00  3.00 0.72 0.20 0.144 0.35
+107: 1.20e+03      0 1150964  7186   0         5959 0.00 3.01  1.46  3.00 0.70 0.21 0.138 0.35
+108: 1.15e+03      0 1180041  6866   0         5349 0.02 2.95  1.32  3.00 0.64 0.27 0.131 0.35
+109: 1.13e+03      0 1163245  6874   0         5117 0.00 2.89  1.15  3.00 0.62 0.28 0.123 0.35
+110: 1.05e+03      0 1185747  9750   0         5080 0.00 2.78  1.00  3.00 0.62 0.26 0.124 0.36
+111: 1.01e+03      0 1121597  8474   0         4954 0.00 2.71  1.24  3.00 0.64 0.28 0.114 0.34
+112: 1.00e+03      0 1092047  7518   0         4729 0.01 2.64  1.34  3.00 0.82 0.28 0.106 0.36
+113: 9.34e+02      0 1138297  7510   0         4862 0.00 2.60  1.34  3.00 0.75 0.25 0.108 0.33
+114: 9.04e+02      0 1069150  7518   0         4756 0.00 2.57  1.36  3.00 0.76 0.27 0.100 0.34
+115: 9.03e+02      0 1081107  6870   0         4425 0.00 2.53  1.41  3.00 0.62 0.31 0.092 0.33
+116: 8.27e+02      0 1068867  7826   0         4186 0.00 2.53  1.41  3.00 0.67 0.30 0.097 0.33
+117: 8.07e+02      0 1065625  9114   0         4415 0.00 2.53  1.41  3.00 0.63 0.31 0.087 0.33
+118: 8.60e+02      0 1057602  7830   0         3553 0.01 2.53  1.41  3.00 0.54 0.42 0.074 0.32
+119: 8.07e+02      0 1056856  8158   0         4117 0.00 2.53  1.41  3.00 0.60 0.36 0.083 0.33
+120: 7.82e+02      0 1045689  8798   0         3865 0.00 2.53  1.41  3.00 0.54 0.37 0.077 0.35
+121: 7.33e+02      0 1030188  10070  0         4033 0.00 2.53  1.41  3.00 0.58 0.35 0.077 0.34
+122: 7.13e+02      0 1063255  10070  0         3388 0.01 2.53  1.41  3.00 0.49 0.44 0.070 0.33
+123: 7.34e+02      0 1052165  9434   0         3332 0.00 2.53  1.41  3.00 0.45 0.47 0.061 0.33
+124: 7.33e+02      0 1041454  7518   0         3306 0.01 2.53  1.41  3.00 0.51 0.49 0.061 0.34
+125: 7.43e+02      0 1041343  7186   0         3221 0.00 2.53  1.41  3.00 0.59 0.46 0.059 0.33
+126: 5.53e+02      0 1025931  7830   0         3737 0.00 2.53  1.41  3.00 0.55 0.43 0.060 0.34
+127: 6.23e+02      0 1023697  7830   0         3232 0.00 2.53  1.41  3.00 0.47 0.47 0.054 0.33
+128: 5.82e+02      0 1021080  8478   0         3097 0.00 2.53  1.41  3.00 0.60 0.50 0.053 0.35
+129: 6.05e+02      0 1005863  7830   0         3087 0.00 2.53  1.41  3.00 0.48 0.50 0.050 0.35
+130: 5.42e+02      0 998852   7834   0         3094 0.00 2.53  1.41  3.00 0.46 0.50 0.050 0.32
+131: 4.51e+02      0 999669   7194   0         3121 0.00 2.53  1.41  3.00 0.45 0.50 0.049 0.33
+132: 5.26e+02      0 996774   7830   0         2751 0.00 2.53  1.41  3.00 0.48 0.56 0.043 0.33
+133: 4.96e+02      0 1008344  7194   0         2437 0.00 2.53  1.41  3.00 0.45 0.59 0.043 0.34
+134: 4.80e+02      0 994440   7514   0         2776 0.00 2.53  1.41  3.00 0.44 0.55 0.041 0.34
+135: 5.21e+02      0 990007   7198   0         2407 0.00 2.53  1.41  3.00 0.33 0.62 0.038 0.33
+136: 4.33e+02      0 990536   6870   0         2210 0.00 2.53  1.41  3.00 0.41 0.63 0.039 0.35
+137: 3.94e+02      0 984856   7510   0         2468 0.00 2.53  1.41  3.00 0.47 0.60 0.036 0.32
+138: 3.99e+02      0 986451   7186   0         2864 0.00 2.53  1.41  3.00 0.36 0.55 0.033 0.32
+139: 3.62e+02      0 987904   7510   0         2326 0.00 2.53  1.41  3.00 0.34 0.63 0.032 0.33
+140: 3.82e+02      0 973753   6874   0         2262 0.00 2.53  1.41  3.00 0.34 0.64 0.028 0.34
+141: 3.83e+02      0 968287   6878   0         2120 0.00 2.53  1.41  3.00 0.43 0.66 0.027 0.33
+142: 3.40e+02      0 976442   6878   0         2425 0.00 2.53  1.41  3.00 0.34 0.62 0.026 0.34
+143: 3.00e+02      0 963816   7514   0         2114 0.00 2.53  1.41  3.00 0.39 0.65 0.024 0.35
+144: 3.30e+02      0 958082   7190   0         1825 0.00 2.53  1.41  3.00 0.41 0.68 0.020 0.34
+145: 3.14e+02      0 957794   6870   0         1962 0.00 2.53  1.41  3.00 0.48 0.67 0.019 0.34
+146: 2.46e+02      0 951190   6870   0         1771 0.00 2.53  1.41  3.00 0.44 0.67 0.019 0.34
+147: 2.52e+02      0 951470   6870   0         1597 0.00 2.53  1.41  3.00 0.62 0.69 0.015 0.35
+148: 2.24e+02      0 954783   6870   0         1549 0.00 2.53  1.41  3.00 0.41 0.70 0.014 0.34
+149: 1.90e+02      0 944940   6870   0         1485 0.00 2.53  1.41  3.00 0.59 0.70 0.013 0.34
+150: 1.62e+02      0 946130   6870   0         1355 0.00 2.53  1.41  3.00 0.30 0.70 0.011 0.33
+151: 1.32e+02      0 947765   6870   0         1188 0.00 2.53  1.41  3.00 0.47 0.71 0.009 0.32
+152: 1.01e+02      0 943448   6866   0          992 0.00 2.53  1.41  3.00 0.42 0.72 0.008 0.32
+153: 9.15e+01      0 942659   6866   0          814 0.00 2.53  1.41  3.00 0.56 0.73 0.004 0.33
+154: 7.37e+01      0 942350   6866   0          686 0.00 2.53  1.41  3.00 0.50 0.75 0.003 0.34
+155: 5.25e+01      0 939182   6866   0          563 0.00 2.53  1.41  3.00 0.56 0.76 0.003 0.33
+Total Wire Length - X-Component:533838
+Total Wire Length - Y-Component:477908
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23360                -1118       24478
+    2                 24000                 -478       24478
+    3                 24320                 -158       24478
+    4                 24480                    2       24478
+    5                 24160                 -318       24478
+    6                 24160                 -318       24478
+    7                 24160                 -318       24478
+    8                 21760                -2718       24478
+    9                 23040                -1438       24478
+
+LONGEST Block is:4   Its length is:24480
+total penalty is 6866
+Removed the cell overlaps --- Will do neighbor interchanges only now
+
+TOTAL INTERCONNECT LENGTH: 1011746
+initialRowControl:   0.132
+finalRowControl:   0.024
+iter      T      Wire accept Time
+ 157  0.001    983369    5%  0       
+ 158  0.001    982179    1%  0       
+ 159  0.001    982009    1%  0       
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 253
+ the number of switchable L segment = 151
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 259
+ the number of switchable L segment = 200
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	578361
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-1058		total_red:-1058
+iterations              :	4
+final total global wire :	577303
+final total time penalty:	0
+
+Total global wire reduced by:	0.183%
+
+VERIFICATION
+final total global wire :	577303
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 59
+
+
+no. of accepted flips: 320
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 50
+
+
+THIS G. ROUTING IS BEING SAVED AS BEST SO FAR
+
+FINAL NUMBER OF ROUTING TRACKS: 50
+
+MAX OF CHANNEL:  1  is:   2
+MAX OF CHANNEL:  2  is:   5
+MAX OF CHANNEL:  3  is:   4
+MAX OF CHANNEL:  4  is:  10
+MAX OF CHANNEL:  5  is:   5
+MAX OF CHANNEL:  6  is:   7
+MAX OF CHANNEL:  7  is:   5
+MAX OF CHANNEL:  8  is:   7
+MAX OF CHANNEL:  9  is:   3
+MAX OF CHANNEL: 10  is:   2
+Confirming number of eliminated feeds:0
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 155
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 257
+ the number of switchable L segment = 197
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	574508
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-598		total_red:-598
+iterations              :	4
+final total global wire :	573910
+final total time penalty:	0
+
+Total global wire reduced by:	0.104%
+
+VERIFICATION
+final total global wire :	573910
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 54
+
+
+no. of accepted flips: 477
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 49
+
+
+THIS G. ROUTING IS BEING SAVED AS BEST SO FAR
+
+FINAL NUMBER OF ROUTING TRACKS: 49
+
+MAX OF CHANNEL:  1  is:   2
+MAX OF CHANNEL:  2  is:   5
+MAX OF CHANNEL:  3  is:   4
+MAX OF CHANNEL:  4  is:   9
+MAX OF CHANNEL:  5  is:   3
+MAX OF CHANNEL:  6  is:   8
+MAX OF CHANNEL:  7  is:   6
+MAX OF CHANNEL:  8  is:   6
+MAX OF CHANNEL:  9  is:   3
+MAX OF CHANNEL: 10  is:   3
+Confirming number of eliminated feeds:0
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 155
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 256
+ the number of switchable L segment = 196
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	577122
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-918		total_red:-918
+iterations              :	4
+final total global wire :	576204
+final total time penalty:	0
+
+Total global wire reduced by:	0.159%
+
+VERIFICATION
+final total global wire :	576204
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 55
+
+
+no. of accepted flips: 403
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 49
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+TimberWolfSC using absolute_minimum_feeds
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 223
+ the number of switchable L segment = 129
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 226
+ the number of switchable L segment = 164
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	706896
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-35
+reduction:	-2260		total_red:-2260
+iterations              :	4
+final total global wire :	704636
+final total time penalty:	0
+
+Total global wire reduced by:	0.320%
+
+VERIFICATION
+final total global wire :	704636
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 60
+
+
+no. of accepted flips: 3
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 60
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 155
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 256
+ the number of switchable L segment = 197
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	576960
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-1018		total_red:-1018
+iterations              :	4
+final total global wire :	575942
+final total time penalty:	0
+
+Total global wire reduced by:	0.176%
+
+VERIFICATION
+final total global wire :	575942
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 57
+
+
+no. of accepted flips: 786
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 49
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 155
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 256
+ the number of switchable L segment = 196
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	582809
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-29
+reduction:	-420		total_red:-420
+iterations              :	4
+final total global wire :	582389
+final total time penalty:	0
+
+Total global wire reduced by:	0.072%
+
+VERIFICATION
+final total global wire :	582389
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 59
+
+
+no. of accepted flips: 424
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 50
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 155
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 256
+ the number of switchable L segment = 196
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	579480
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-378		total_red:-378
+iterations              :	4
+final total global wire :	579102
+final total time penalty:	0
+
+Total global wire reduced by:	0.065%
+
+VERIFICATION
+final total global wire :	579102
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 55
+
+
+no. of accepted flips: 757
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 50
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+TimberWolfSC using absolute_minimum_feeds
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 223
+ the number of switchable L segment = 129
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 226
+ the number of switchable L segment = 164
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	707155
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-35
+reduction:	-2580		total_red:-2580
+iterations              :	4
+final total global wire :	704575
+final total time penalty:	0
+
+Total global wire reduced by:	0.365%
+
+VERIFICATION
+final total global wire :	704575
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 61
+
+
+no. of accepted flips: 2
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 61
+
+
+Actual # of Feed Cells Added:	0
+
+
+
+
+***********************************************
+*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: 49
+***********************************************
+
+FINAL TOTAL INTERCONNECT LENGTH: 1054778
+FINAL OVERLAP PENALTY: 0    FINAL VALUE OF TOTAL COST IS: 1054778
+MAX NUMBER OF ATTEMPTED FLIPS PER T:    1075
+
+Statistics:
+Number of Cells: 329
+Number of Pads: 38 
+Number of Nets: 228 
+Number of Pins: 2085 
+Number of PadGroups: 0 
+Number of Implicit Feed Thrus: 1334
+Number of Feed Thrus Added: 0
+Feed Percentage: 0.00%
+Average Row Separation: 0.54
+
+
+Runtime Statistics
+-------------------------
+Machine name: macbookair
+Date        : Sat Jul 21 10:52:11 2018
+
+User    time:   7.3 seconds
+System  time:   0.0 seconds
+Elapsed time:   7.3 seconds
+
+Average resident text size       =     0K
+Average resident data+stack size =     0K
+Maximum resident size            =  2692K
+Virtual memory size              = -1985762868K
+Virtual memory limit             =     0K (0K)
+
+Major page faults = 0
+Minor page faults = 781
+Swaps = 0
+
+Input blocks = 0
+Output blocks = 696
+
+Context switch (voluntary) = 0
+Context switch (involuntary) = 568
+
+TimberWolfSC terminated normally with no errors and 0 warning[s]
+

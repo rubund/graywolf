@@ -27,6 +27,27 @@ if [ "$RETPART" != "0" ] ; then
   RET=-1
 fi
 
+diff -Nau ${TESTNAME}.pth expected/${TESTNAME}.pth
+RETPART=$?
+if [ "$RETPART" != "0" ] ; then
+  RET=-1
+fi
+
+diff -Nau ${TESTNAME}.pin expected/${TESTNAME}.pin
+RETPART=$?
+if [ "$RETPART" != "0" ] ; then
+  RET=-1
+fi
+
+diff -Nau ${TESTNAME}.sav expected/${TESTNAME}.sav
+RETPART=$?
+if [ "$RETPART" != "0" ] ; then
+  RET=-1
+fi
+
+echo "Just showing diff for. out:"
+diff -Nau ${TESTNAME}.out expected/${TESTNAME}.out
+
 popd
 rm -rf ${TMPDIR}
 #echo ${TMPDIR}
