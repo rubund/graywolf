@@ -11,9 +11,20 @@ rsync ${SOURCEDIR}/tests/${TESTNAME} ${TMPDIR}/ -a --copy-links -v
 pushd ${TMPDIR}/${TESTNAME}
 TWDIR=${BINDIR}/micro_env ${BINDIR}/src/twflow/graywolf -n ${TESTNAME}
 
+RET=0
 
 diff -Nau ${TESTNAME}.pl1 expected/${TESTNAME}.pl1
-RET=$?
+RETPART=$?
+if [ "$RETPART" != "0" ] ; then
+  RET=-1
+fi
+
+diff -Nau ${TESTNAME}.pl2 expected/${TESTNAME}.pl2
+RETPART=$?
+if [ "$RETPART" != "0" ] ; then
+  RET=-1
+fi
+
 
 popd
 rm -rf ${TMPDIR}
