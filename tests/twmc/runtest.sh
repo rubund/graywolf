@@ -80,6 +80,11 @@ if [ "$RETPART" != "0" ] ; then
   RET=-1
 fi
 
+if [ "$#" = "4" ] && [ "$4" == "1" ] ; then
+  cp * ${SOURCEDIR}/tests/twmc/${TESTNAME}/expected/
+  touch ${SOURCEDIR}/tests/twmc/${TESTNAME}/expected/updated
+fi
+
 popd
 rm -rf ${TMPDIR}
 #echo ${TMPDIR}

@@ -29,6 +29,11 @@ if [ "$RETPART" != "0" ] ; then
   RET=-1
 fi
 
+if [ "$#" = "4" ] && [ "$4" == "1" ] ; then
+  cp * ${SOURCEDIR}/tests/mincut/${TESTNAME}/expected/
+  touch ${SOURCEDIR}/tests/mincut/${TESTNAME}/expected/updated
+fi
+
 popd
 rm -rf ${TMPDIR}
 #echo ${TMPDIR}

@@ -26,6 +26,11 @@ if [ "$RETPART" != "0" ] ; then
 fi
 
 
+if [ "$#" = "4" ] && [ "$4" == "1" ] ; then
+  cp * ${SOURCEDIR}/tests/${TESTNAME}/expected/
+  touch ${SOURCEDIR}/tests/${TESTNAME}/expected/updated
+fi
+
 popd
 rm -rf ${TMPDIR}
 

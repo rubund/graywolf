@@ -48,6 +48,12 @@ fi
 echo "Just showing diff for. out:"
 diff -Nau ${TESTNAME}.out expected/${TESTNAME}.out
 
+
+if [ "$#" = "4" ] && [ "$4" == "1" ] ; then
+  cp * ${SOURCEDIR}/tests/twsc/${TESTNAME}/expected/
+  touch ${SOURCEDIR}/tests/twsc/${TESTNAME}/expected/updated
+fi
+
 popd
 rm -rf ${TMPDIR}
 #echo ${TMPDIR}
