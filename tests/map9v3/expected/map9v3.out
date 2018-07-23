@@ -13,7 +13,7 @@ track.pitch: 200
 route2act was not entered in the .par file
 route2act defaulted to track.pitch
 route2act: 200
-Directory overriden with 'TWDIR' environment variable
+Directory overridden with 'TWDIR' environment variable
 
 The random number generator seed is: 12345
 
@@ -278,7 +278,7 @@ Total Wire Length - Y-Component:477578
 Time Penalty:0
  the number of net = 228
  the number of tilted segment = 253
- the number of switchable L segment = 151
+ the number of switchable L segment = 150
 Total Wire Length - X-Component:509151
 Total Wire Length - Y-Component:545627
 Time Penalty:0
@@ -295,7 +295,7 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
 
 LONGEST Block is:4   Its length is:24000
  the number of tilted segment = 259
- the number of switchable L segment = 200
+ the number of switchable L segment = 199
 After Feeds are Added:
 BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
   1              23840                  -638
@@ -339,145 +339,31 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
     9                 23520                 -958
 
 LONGEST Block is:4   Its length is:24000
-initial total global wire   :	578361
+initial total global wire   :	581252
 initial total timing penalty:	0
 
 
 
 Steiner cell swap and rotation optimization
-swap_limit:-28
-reduction:	-1058		total_red:-1058
-iterations              :	4
-final total global wire :	577303
+swap_limit:-29
+reduction:	-760		total_red:-760
+iterations              :	5
+final total global wire :	580312
 final total time penalty:	0
 
-Total global wire reduced by:	0.183%
+Total global wire reduced by:	0.162%
 
 VERIFICATION
-final total global wire :	577303
+final total global wire :	580312
 final total time penalty:	0
 
 
 
 
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 59
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 53
 
 
-no. of accepted flips: 320
-no. of attempted flips: 5700
-THIS IS THE NUMBER OF TRACKS: 50
-
-
-THIS G. ROUTING IS BEING SAVED AS BEST SO FAR
-
-FINAL NUMBER OF ROUTING TRACKS: 50
-
-MAX OF CHANNEL:  1  is:   2
-MAX OF CHANNEL:  2  is:   5
-MAX OF CHANNEL:  3  is:   4
-MAX OF CHANNEL:  4  is:  10
-MAX OF CHANNEL:  5  is:   5
-MAX OF CHANNEL:  6  is:   7
-MAX OF CHANNEL:  7  is:   5
-MAX OF CHANNEL:  8  is:   7
-MAX OF CHANNEL:  9  is:   3
-MAX OF CHANNEL: 10  is:   2
-Confirming number of eliminated feeds:0
-Actual # of Feed Cells Added:	0
-
-
-TimberWolfSC did call even_the_rows()
-Total Wire Length - X-Component:504431
-Total Wire Length - Y-Component:477578
-Time Penalty:0
- the number of net = 228
- the number of tilted segment = 257
- the number of switchable L segment = 155
-Total Wire Length - X-Component:509151
-Total Wire Length - Y-Component:545627
-Time Penalty:0
-BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
-    1                 23840                 -638       24478
-    2                 23520                 -958       24478
-    3                 23680                 -798       24478
-    4                 24000                 -478       24478
-    5                 23840                 -638       24478
-    6                 23680                 -798       24478
-    7                 23680                 -798       24478
-    8                 23680                 -798       24478
-    9                 23520                 -958       24478
-
-LONGEST Block is:4   Its length is:24000
- the number of tilted segment = 257
- the number of switchable L segment = 197
-After Feeds are Added:
-BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
-  1              23840                  -638
-  2              23520                  -958
-  3              23680                  -798
-  4              24000                  -478
-  5              23840                  -638
-  6              23680                  -798
-  7              23680                  -798
-  8              23680                  -798
-  9              23520                  -958
-
-LONGEST Row is:4   Its length is:24000
-Divide-and-Conquer Subdivisions in LA:1 at row:5
-Eliminated 0 unused feeds in the longest row
-BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
-  1              23840 
-  2              23520 
-  3              23680 
-  4              24000 
-  5              23840 
-  6              23680 
-  7              23680 
-  8              23680 
-  9              23520 
-
-LONGEST Row is:4   Its length is:24000
-
-Actually added 0 gate array spacers
-
-row lengths after steiner trees:
-BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
-    1                 23840                 -638
-    2                 23520                 -958
-    3                 23680                 -798
-    4                 24000                 -478
-    5                 23840                 -638
-    6                 23680                 -798
-    7                 23680                 -798
-    8                 23680                 -798
-    9                 23520                 -958
-
-LONGEST Block is:4   Its length is:24000
-initial total global wire   :	574508
-initial total timing penalty:	0
-
-
-
-Steiner cell swap and rotation optimization
-swap_limit:-28
-reduction:	-598		total_red:-598
-iterations              :	4
-final total global wire :	573910
-final total time penalty:	0
-
-Total global wire reduced by:	0.104%
-
-VERIFICATION
-final total global wire :	573910
-final total time penalty:	0
-
-
-
-
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 54
-
-
-no. of accepted flips: 477
+no. of accepted flips: 550
 no. of attempted flips: 5700
 THIS IS THE NUMBER OF TRACKS: 49
 
@@ -487,16 +373,15 @@ THIS G. ROUTING IS BEING SAVED AS BEST SO FAR
 FINAL NUMBER OF ROUTING TRACKS: 49
 
 MAX OF CHANNEL:  1  is:   2
-MAX OF CHANNEL:  2  is:   5
+MAX OF CHANNEL:  2  is:   6
 MAX OF CHANNEL:  3  is:   4
-MAX OF CHANNEL:  4  is:   9
+MAX OF CHANNEL:  4  is:  10
 MAX OF CHANNEL:  5  is:   3
-MAX OF CHANNEL:  6  is:   8
-MAX OF CHANNEL:  7  is:   6
-MAX OF CHANNEL:  8  is:   6
+MAX OF CHANNEL:  6  is:   7
+MAX OF CHANNEL:  7  is:   5
+MAX OF CHANNEL:  8  is:   7
 MAX OF CHANNEL:  9  is:   3
-MAX OF CHANNEL: 10  is:   3
-Confirming number of eliminated feeds:0
+MAX OF CHANNEL: 10  is:   2
 Actual # of Feed Cells Added:	0
 
 
@@ -505,8 +390,8 @@ Total Wire Length - X-Component:504431
 Total Wire Length - Y-Component:477578
 Time Penalty:0
  the number of net = 228
- the number of tilted segment = 257
- the number of switchable L segment = 155
+ the number of tilted segment = 256
+ the number of switchable L segment = 153
 Total Wire Length - X-Component:509151
 Total Wire Length - Y-Component:545627
 Time Penalty:0
@@ -522,7 +407,7 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
     9                 23520                 -958       24478
 
 LONGEST Block is:4   Its length is:24000
- the number of tilted segment = 256
+ the number of tilted segment = 257
  the number of switchable L segment = 196
 After Feeds are Added:
 BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
@@ -567,46 +452,59 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
     9                 23520                 -958
 
 LONGEST Block is:4   Its length is:24000
-initial total global wire   :	577122
+initial total global wire   :	582549
 initial total timing penalty:	0
 
 
 
 Steiner cell swap and rotation optimization
-swap_limit:-28
-reduction:	-918		total_red:-918
+swap_limit:-29
+reduction:	-1098		total_red:-1098
 iterations              :	4
-final total global wire :	576204
+final total global wire :	581451
 final total time penalty:	0
 
-Total global wire reduced by:	0.159%
+Total global wire reduced by:	0.188%
 
 VERIFICATION
-final total global wire :	576204
+final total global wire :	581451
 final total time penalty:	0
 
 
 
 
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 55
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 57
 
 
-no. of accepted flips: 403
+no. of accepted flips: 700
 no. of attempted flips: 5700
-THIS IS THE NUMBER OF TRACKS: 49
+THIS IS THE NUMBER OF TRACKS: 48
 
 
+THIS G. ROUTING IS BEING SAVED AS BEST SO FAR
+
+FINAL NUMBER OF ROUTING TRACKS: 48
+
+MAX OF CHANNEL:  1  is:   2
+MAX OF CHANNEL:  2  is:   5
+MAX OF CHANNEL:  3  is:   5
+MAX OF CHANNEL:  4  is:   9
+MAX OF CHANNEL:  5  is:   4
+MAX OF CHANNEL:  6  is:   7
+MAX OF CHANNEL:  7  is:   4
+MAX OF CHANNEL:  8  is:   7
+MAX OF CHANNEL:  9  is:   3
+MAX OF CHANNEL: 10  is:   2
 Actual # of Feed Cells Added:	0
 
 
 TimberWolfSC did call even_the_rows()
-TimberWolfSC using absolute_minimum_feeds
 Total Wire Length - X-Component:504431
 Total Wire Length - Y-Component:477578
 Time Penalty:0
  the number of net = 228
- the number of tilted segment = 223
- the number of switchable L segment = 129
+ the number of tilted segment = 257
+ the number of switchable L segment = 154
 Total Wire Length - X-Component:509151
 Total Wire Length - Y-Component:545627
 Time Penalty:0
@@ -622,8 +520,8 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
     9                 23520                 -958       24478
 
 LONGEST Block is:4   Its length is:24000
- the number of tilted segment = 226
- the number of switchable L segment = 164
+ the number of tilted segment = 256
+ the number of switchable L segment = 195
 After Feeds are Added:
 BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
   1              23840                  -638
@@ -667,31 +565,131 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
     9                 23520                 -958
 
 LONGEST Block is:4   Its length is:24000
-initial total global wire   :	706896
+initial total global wire   :	580075
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-29
+reduction:	-400		total_red:-400
+iterations              :	4
+final total global wire :	579675
+final total time penalty:	0
+
+Total global wire reduced by:	0.069%
+
+VERIFICATION
+final total global wire :	579675
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 56
+
+
+no. of accepted flips: 508
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 51
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+TimberWolfSC using absolute_minimum_feeds
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 223
+ the number of switchable L segment = 128
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 226
+ the number of switchable L segment = 163
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	706096
 initial total timing penalty:	0
 
 
 
 Steiner cell swap and rotation optimization
 swap_limit:-35
-reduction:	-2260		total_red:-2260
-iterations              :	4
-final total global wire :	704636
+reduction:	-1780		total_red:-1780
+iterations              :	5
+final total global wire :	703836
 final total time penalty:	0
 
 Total global wire reduced by:	0.320%
 
 VERIFICATION
-final total global wire :	704636
+final total global wire :	703836
 final total time penalty:	0
 
 
 
 
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 60
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 61
 
 
-no. of accepted flips: 3
+no. of accepted flips: 2
 no. of attempted flips: 5700
 THIS IS THE NUMBER OF TRACKS: 60
 
@@ -705,7 +703,7 @@ Total Wire Length - Y-Component:477578
 Time Penalty:0
  the number of net = 228
  the number of tilted segment = 257
- the number of switchable L segment = 155
+ the number of switchable L segment = 154
 Total Wire Length - X-Component:509151
 Total Wire Length - Y-Component:545627
 Time Penalty:0
@@ -722,7 +720,7 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
 
 LONGEST Block is:4   Its length is:24000
  the number of tilted segment = 256
- the number of switchable L segment = 197
+ the number of switchable L segment = 195
 After Feeds are Added:
 BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
   1              23840                  -638
@@ -766,22 +764,234 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
     9                 23520                 -958
 
 LONGEST Block is:4   Its length is:24000
-initial total global wire   :	576960
+initial total global wire   :	578584
 initial total timing penalty:	0
 
 
 
 Steiner cell swap and rotation optimization
 swap_limit:-28
-reduction:	-1018		total_red:-1018
+reduction:	-640		total_red:-640
 iterations              :	4
-final total global wire :	575942
+final total global wire :	577944
 final total time penalty:	0
 
-Total global wire reduced by:	0.176%
+Total global wire reduced by:	0.111%
 
 VERIFICATION
-final total global wire :	575942
+final total global wire :	577944
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 56
+
+
+no. of accepted flips: 721
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 47
+
+
+THIS G. ROUTING IS BEING SAVED AS BEST SO FAR
+
+FINAL NUMBER OF ROUTING TRACKS: 47
+
+MAX OF CHANNEL:  1  is:   2
+MAX OF CHANNEL:  2  is:   6
+MAX OF CHANNEL:  3  is:   3
+MAX OF CHANNEL:  4  is:  10
+MAX OF CHANNEL:  5  is:   4
+MAX OF CHANNEL:  6  is:   6
+MAX OF CHANNEL:  7  is:   4
+MAX OF CHANNEL:  8  is:   7
+MAX OF CHANNEL:  9  is:   3
+MAX OF CHANNEL: 10  is:   2
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 154
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 256
+ the number of switchable L segment = 195
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	578757
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-960		total_red:-960
+iterations              :	5
+final total global wire :	577617
+final total time penalty:	0
+
+Total global wire reduced by:	0.197%
+
+VERIFICATION
+final total global wire :	577617
+final total time penalty:	0
+
+
+
+
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 58
+
+
+no. of accepted flips: 392
+no. of attempted flips: 5700
+THIS IS THE NUMBER OF TRACKS: 50
+
+
+Actual # of Feed Cells Added:	0
+
+
+TimberWolfSC did call even_the_rows()
+Total Wire Length - X-Component:504431
+Total Wire Length - Y-Component:477578
+Time Penalty:0
+ the number of net = 228
+ the number of tilted segment = 257
+ the number of switchable L segment = 154
+Total Wire Length - X-Component:509151
+Total Wire Length - Y-Component:545627
+Time Penalty:0
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
+    1                 23840                 -638       24478
+    2                 23520                 -958       24478
+    3                 23680                 -798       24478
+    4                 24000                 -478       24478
+    5                 23840                 -638       24478
+    6                 23680                 -798       24478
+    7                 23680                 -798       24478
+    8                 23680                 -798       24478
+    9                 23520                 -958       24478
+
+LONGEST Block is:4   Its length is:24000
+ the number of tilted segment = 256
+ the number of switchable L segment = 195
+After Feeds are Added:
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840                  -638
+  2              23520                  -958
+  3              23680                  -798
+  4              24000                  -478
+  5              23840                  -638
+  6              23680                  -798
+  7              23680                  -798
+  8              23680                  -798
+  9              23520                  -958
+
+LONGEST Row is:4   Its length is:24000
+Divide-and-Conquer Subdivisions in LA:1 at row:5
+Eliminated 0 unused feeds in the longest row
+BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
+  1              23840 
+  2              23520 
+  3              23680 
+  4              24000 
+  5              23840 
+  6              23680 
+  7              23680 
+  8              23680 
+  9              23520 
+
+LONGEST Row is:4   Its length is:24000
+
+Actually added 0 gate array spacers
+
+row lengths after steiner trees:
+BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
+    1                 23840                 -638
+    2                 23520                 -958
+    3                 23680                 -798
+    4                 24000                 -478
+    5                 23840                 -638
+    6                 23680                 -798
+    7                 23680                 -798
+    8                 23680                 -798
+    9                 23520                 -958
+
+LONGEST Block is:4   Its length is:24000
+initial total global wire   :	577129
+initial total timing penalty:	0
+
+
+
+Steiner cell swap and rotation optimization
+swap_limit:-28
+reduction:	-820		total_red:-820
+iterations              :	4
+final total global wire :	576309
+final total time penalty:	0
+
+Total global wire reduced by:	0.142%
+
+VERIFICATION
+final total global wire :	576309
 final total time penalty:	0
 
 
@@ -790,207 +1000,9 @@ final total time penalty:	0
 THIS IS THE ORIGINAL NUMBER OF TRACKS: 57
 
 
-no. of accepted flips: 786
+no. of accepted flips: 391
 no. of attempted flips: 5700
-THIS IS THE NUMBER OF TRACKS: 49
-
-
-Actual # of Feed Cells Added:	0
-
-
-TimberWolfSC did call even_the_rows()
-Total Wire Length - X-Component:504431
-Total Wire Length - Y-Component:477578
-Time Penalty:0
- the number of net = 228
- the number of tilted segment = 257
- the number of switchable L segment = 155
-Total Wire Length - X-Component:509151
-Total Wire Length - Y-Component:545627
-Time Penalty:0
-BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
-    1                 23840                 -638       24478
-    2                 23520                 -958       24478
-    3                 23680                 -798       24478
-    4                 24000                 -478       24478
-    5                 23840                 -638       24478
-    6                 23680                 -798       24478
-    7                 23680                 -798       24478
-    8                 23680                 -798       24478
-    9                 23520                 -958       24478
-
-LONGEST Block is:4   Its length is:24000
- the number of tilted segment = 256
- the number of switchable L segment = 196
-After Feeds are Added:
-BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
-  1              23840                  -638
-  2              23520                  -958
-  3              23680                  -798
-  4              24000                  -478
-  5              23840                  -638
-  6              23680                  -798
-  7              23680                  -798
-  8              23680                  -798
-  9              23520                  -958
-
-LONGEST Row is:4   Its length is:24000
-Divide-and-Conquer Subdivisions in LA:1 at row:5
-Eliminated 0 unused feeds in the longest row
-BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
-  1              23840 
-  2              23520 
-  3              23680 
-  4              24000 
-  5              23840 
-  6              23680 
-  7              23680 
-  8              23680 
-  9              23520 
-
-LONGEST Row is:4   Its length is:24000
-
-Actually added 0 gate array spacers
-
-row lengths after steiner trees:
-BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
-    1                 23840                 -638
-    2                 23520                 -958
-    3                 23680                 -798
-    4                 24000                 -478
-    5                 23840                 -638
-    6                 23680                 -798
-    7                 23680                 -798
-    8                 23680                 -798
-    9                 23520                 -958
-
-LONGEST Block is:4   Its length is:24000
-initial total global wire   :	582809
-initial total timing penalty:	0
-
-
-
-Steiner cell swap and rotation optimization
-swap_limit:-29
-reduction:	-420		total_red:-420
-iterations              :	4
-final total global wire :	582389
-final total time penalty:	0
-
-Total global wire reduced by:	0.072%
-
-VERIFICATION
-final total global wire :	582389
-final total time penalty:	0
-
-
-
-
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 59
-
-
-no. of accepted flips: 424
-no. of attempted flips: 5700
-THIS IS THE NUMBER OF TRACKS: 50
-
-
-Actual # of Feed Cells Added:	0
-
-
-TimberWolfSC did call even_the_rows()
-Total Wire Length - X-Component:504431
-Total Wire Length - Y-Component:477578
-Time Penalty:0
- the number of net = 228
- the number of tilted segment = 257
- the number of switchable L segment = 155
-Total Wire Length - X-Component:509151
-Total Wire Length - Y-Component:545627
-Time Penalty:0
-BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
-    1                 23840                 -638       24478
-    2                 23520                 -958       24478
-    3                 23680                 -798       24478
-    4                 24000                 -478       24478
-    5                 23840                 -638       24478
-    6                 23680                 -798       24478
-    7                 23680                 -798       24478
-    8                 23680                 -798       24478
-    9                 23520                 -958       24478
-
-LONGEST Block is:4   Its length is:24000
- the number of tilted segment = 256
- the number of switchable L segment = 196
-After Feeds are Added:
-BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
-  1              23840                  -638
-  2              23520                  -958
-  3              23680                  -798
-  4              24000                  -478
-  5              23840                  -638
-  6              23680                  -798
-  7              23680                  -798
-  8              23680                  -798
-  9              23520                  -958
-
-LONGEST Row is:4   Its length is:24000
-Divide-and-Conquer Subdivisions in LA:1 at row:5
-Eliminated 0 unused feeds in the longest row
-BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
-  1              23840 
-  2              23520 
-  3              23680 
-  4              24000 
-  5              23840 
-  6              23680 
-  7              23680 
-  8              23680 
-  9              23520 
-
-LONGEST Row is:4   Its length is:24000
-
-Actually added 0 gate array spacers
-
-row lengths after steiner trees:
-BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
-    1                 23840                 -638
-    2                 23520                 -958
-    3                 23680                 -798
-    4                 24000                 -478
-    5                 23840                 -638
-    6                 23680                 -798
-    7                 23680                 -798
-    8                 23680                 -798
-    9                 23520                 -958
-
-LONGEST Block is:4   Its length is:24000
-initial total global wire   :	579480
-initial total timing penalty:	0
-
-
-
-Steiner cell swap and rotation optimization
-swap_limit:-28
-reduction:	-378		total_red:-378
-iterations              :	4
-final total global wire :	579102
-final total time penalty:	0
-
-Total global wire reduced by:	0.065%
-
-VERIFICATION
-final total global wire :	579102
-final total time penalty:	0
-
-
-
-
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 55
-
-
-no. of accepted flips: 757
-no. of attempted flips: 5700
-THIS IS THE NUMBER OF TRACKS: 50
+THIS IS THE NUMBER OF TRACKS: 48
 
 
 Actual # of Feed Cells Added:	0
@@ -1003,7 +1015,7 @@ Total Wire Length - Y-Component:477578
 Time Penalty:0
  the number of net = 228
  the number of tilted segment = 223
- the number of switchable L segment = 129
+ the number of switchable L segment = 128
 Total Wire Length - X-Component:509151
 Total Wire Length - Y-Component:545627
 Time Penalty:0
@@ -1020,7 +1032,7 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET      DESIRE
 
 LONGEST Block is:4   Its length is:24000
  the number of tilted segment = 226
- the number of switchable L segment = 164
+ the number of switchable L segment = 163
 After Feeds are Added:
 BLOCK      TOTAL CELL LENGTHS      OVER/UNDER TARGET
   1              23840                  -638
@@ -1064,31 +1076,31 @@ BLOCK    TOTAL CELL LENGTHS    OVER/UNDER TARGET
     9                 23520                 -958
 
 LONGEST Block is:4   Its length is:24000
-initial total global wire   :	707155
+initial total global wire   :	707275
 initial total timing penalty:	0
 
 
 
 Steiner cell swap and rotation optimization
 swap_limit:-35
-reduction:	-2580		total_red:-2580
+reduction:	-2320		total_red:-2320
 iterations              :	4
-final total global wire :	704575
+final total global wire :	704955
 final total time penalty:	0
 
-Total global wire reduced by:	0.365%
+Total global wire reduced by:	0.328%
 
 VERIFICATION
-final total global wire :	704575
+final total global wire :	704955
 final total time penalty:	0
 
 
 
 
-THIS IS THE ORIGINAL NUMBER OF TRACKS: 61
+THIS IS THE ORIGINAL NUMBER OF TRACKS: 62
 
 
-no. of accepted flips: 2
+no. of accepted flips: 3
 no. of attempted flips: 5700
 THIS IS THE NUMBER OF TRACKS: 61
 
@@ -1099,7 +1111,7 @@ Actual # of Feed Cells Added:	0
 
 
 ***********************************************
-*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: 49
+*ACTUAL* FINAL NUMBER OF ROUTING TRACKS: 47
 ***********************************************
 
 FINAL TOTAL INTERCONNECT LENGTH: 1054778
@@ -1115,33 +1127,33 @@ Number of PadGroups: 0
 Number of Implicit Feed Thrus: 1334
 Number of Feed Thrus Added: 0
 Feed Percentage: 0.00%
-Average Row Separation: 0.54
+Average Row Separation: 0.52
 
 
 Runtime Statistics
 -------------------------
 Machine name: macbookair
-Date        : Sat Jul 21 10:52:11 2018
+Date        : Mon Jul 23 18:18:40 2018
 
-User    time:   7.3 seconds
+User    time:   6.6 seconds
 System  time:   0.0 seconds
-Elapsed time:   7.3 seconds
+Elapsed time:   6.6 seconds
 
 Average resident text size       =     0K
 Average resident data+stack size =     0K
-Maximum resident size            =  2692K
-Virtual memory size              = -1985762868K
+Maximum resident size            =  2636K
+Virtual memory size              = 1540307600K
 Virtual memory limit             =     0K (0K)
 
 Major page faults = 0
-Minor page faults = 781
+Minor page faults = 779
 Swaps = 0
 
 Input blocks = 0
-Output blocks = 696
+Output blocks = 23952
 
-Context switch (voluntary) = 0
-Context switch (involuntary) = 568
+Context switch (voluntary) = 1
+Context switch (involuntary) = 375
 
 TimberWolfSC terminated normally with no errors and 0 warning[s]
 
