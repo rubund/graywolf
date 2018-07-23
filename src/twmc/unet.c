@@ -84,7 +84,7 @@ void init_unet()
 
     maxpin = get_max_pin() ;
     memoptrS = (PINBOXPTR *)
-	Ysafe_malloc( (++maxpin) * sizeof(PINBOXPTR) ) ;
+	Ysafe_malloc_clear( (++maxpin) * sizeof(PINBOXPTR) ) ;
 
 } /* end init_unet */
 

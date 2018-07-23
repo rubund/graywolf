@@ -1444,11 +1444,11 @@ void set_up_pinplace()
 		    /* allocate space for net list */
 		    if( tmp = ptrS->nets ){
 			nlist = ptrS->nets = (GLISTPTR)
-			    Ysafe_malloc(sizeof(GLISTBOX));
+			    Ysafe_malloc_clear(sizeof(GLISTBOX));
 			nlist->next = tmp ;
 		    } else {
 			nlist = ptrS->nets = (GLISTPTR)
-			    Ysafe_malloc(sizeof(GLISTBOX));
+			    Ysafe_malloc_clear(sizeof(GLISTBOX));
 			nlist->next = NULL ;
 		    }
 		    nlist->p.net = last_net ;
@@ -1461,7 +1461,7 @@ void set_up_pinplace()
 	Yvector_alloc( 1,maxsideS,sizeof(SIDEBOXPTR) ) ;
 
     for( i = 1; i <= maxsideS ; i++ ){
-	sideArrayS[i] = (SIDEBOXPTR) Ysafe_malloc(sizeof(SIDEBOX) ) ;
+	sideArrayS[i] = (SIDEBOXPTR) Ysafe_malloc_clear(sizeof(SIDEBOX) ) ;
     }
 
     /* initialize average track pitch */
@@ -1846,14 +1846,14 @@ void init_wire_est()
 	    sideArrayS = (SIDEBOXPTR *) 
 		Yvector_realloc(sideArrayS,1,maxsides,sizeof(SIDEBOXPTR));
 	    for( i = maxsideS+1; i <= maxsides ; i++ ){
-		sideArrayS[i] = (SIDEBOXPTR)Ysafe_malloc(sizeof(SIDEBOX));
+		sideArrayS[i] = (SIDEBOXPTR)Ysafe_malloc_clear(sizeof(SIDEBOX));
 	    }
 	}
     } else {
 	sideArrayS = (SIDEBOXPTR *) 
 	    Yvector_alloc(1,maxsides,sizeof(SIDEBOXPTR));
 	for( i = 1; i <= maxsides ; i++ ){
-	    sideArrayS[i] = (SIDEBOXPTR)Ysafe_malloc(sizeof(SIDEBOX));
+	    sideArrayS[i] = (SIDEBOXPTR)Ysafe_malloc_clear(sizeof(SIDEBOX));
 	}
     }
 

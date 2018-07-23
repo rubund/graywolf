@@ -147,6 +147,6 @@ pin start x -240 y 8140 cell 2 layer 1 PinOrEquiv 1
 pin pin37 x 0 y 8140 cell 1 layer 0 PinOrEquiv 1
 
 net clock
-pin clock x -340 y 8360 cell 2 layer 1 PinOrEquiv 1
+pin clock x -340 y 18120 cell 2 layer 1 PinOrEquiv 1
 pin pin38 x 0 y 8360 cell 1 layer 0 PinOrEquiv 1
 

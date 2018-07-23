@@ -946,33 +946,33 @@ make_movebox()
 
     /* allocate four arrays of moveboxs */
     old_aposG = (MOVEBOXPTR *) 
-	    Ysafe_malloc( maxtiles * sizeof(MOVEBOXPTR) ); 
+	    Ysafe_malloc_clear( maxtiles * sizeof(MOVEBOXPTR) ); 
     for( i = 0; i< maxtiles ; i++ ){
-	old_aposG[i] = (MOVEBOXPTR) Ysafe_malloc( sizeof(MOVEBOX) ) ;
+	old_aposG[i] = (MOVEBOXPTR) Ysafe_malloc_clear( sizeof(MOVEBOX) ) ;
 	old_aposG[i]->loaded_previously = FALSE ;
     }
     old_apos0G = old_aposG[0] ;
 
     new_aposG = (MOVEBOXPTR *) 
-	    Ysafe_malloc( maxtiles * sizeof(MOVEBOXPTR) ); 
+	    Ysafe_malloc_clear( maxtiles * sizeof(MOVEBOXPTR) ); 
     for( i = 0; i< maxtiles ; i++ ){
-	new_aposG[i] = (MOVEBOXPTR) Ysafe_malloc( sizeof(MOVEBOX) ) ;
+	new_aposG[i] = (MOVEBOXPTR) Ysafe_malloc_clear( sizeof(MOVEBOX) ) ;
 	new_aposG[i]->loaded_previously = FALSE ;
     }
     new_apos0G = new_aposG[0] ;
 
     old_bposG = (MOVEBOXPTR *) 
-	    Ysafe_malloc( maxtiles * sizeof(MOVEBOXPTR) ); 
+	    Ysafe_malloc_clear( maxtiles * sizeof(MOVEBOXPTR) ); 
     for( i = 0; i< maxtiles ; i++ ){
-	old_bposG[i] = (MOVEBOXPTR) Ysafe_malloc( sizeof(MOVEBOX) ) ;
+	old_bposG[i] = (MOVEBOXPTR) Ysafe_malloc_clear( sizeof(MOVEBOX) ) ;
 	old_bposG[i]->loaded_previously = FALSE ;
     }
     old_bpos0G = old_bposG[0] ;
 
     new_bposG = (MOVEBOXPTR *) 
-	    Ysafe_malloc( maxtiles * sizeof(MOVEBOXPTR) ); 
+	    Ysafe_malloc_clear( maxtiles * sizeof(MOVEBOXPTR) ); 
     for( i = 0; i< maxtiles ; i++ ){
-	new_bposG[i] = (MOVEBOXPTR) Ysafe_malloc( sizeof(MOVEBOX) ) ;
+	new_bposG[i] = (MOVEBOXPTR) Ysafe_malloc_clear( sizeof(MOVEBOX) ) ;
 	new_bposG[i]->loaded_previously = FALSE ;
     }
     new_bpos0G = new_bposG[0] ;

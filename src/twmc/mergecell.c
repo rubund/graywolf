@@ -149,9 +149,9 @@ CELLBOXPTR pptr ;  /* pointer to parent cell box */
     } else {  /* parent bounding box has not been allocated */
 	cbounptr=cptr->bounBox[cptr->orient] ;
 	pptr->bounBox = (BOUNBOXPTR *) 
-	    Ysafe_malloc( sizeof( BOUNBOXPTR ) ) ;
+	    Ysafe_malloc_clear( sizeof( BOUNBOXPTR ) ) ;
 	pbounptr = pptr->bounBox[0] = (BOUNBOXPTR) 
-	    Ysafe_malloc( sizeof( BOUNBOX ) ) ;
+	    Ysafe_malloc_clear( sizeof( BOUNBOX ) ) ;
 	pbounptr->l = cbounptr->l ;
 	pbounptr->r = cbounptr->r ;
 	pbounptr->b = cbounptr->b ;
@@ -166,11 +166,11 @@ CELLBOXPTR pptr ;  /* pointer to parent cell box */
 
 	if( saveterm = pptr->pinptr ) {
 	    pterm = pptr->pinptr = 
-		(TERMBOXPTR) Ysafe_malloc( sizeof( TERMBOX ) ) ;
+		(TERMBOXPTR) Ysafe_malloc_clear( sizeof( TERMBOX ) ) ;
 	    pterm->nextterm = saveterm ;
 	} else {
 	    pterm = pptr->termptr =  
-		(TERMBOXPTR) Ysafe_malloc( sizeof( TERMBOX ) ) ;
+		(TERMBOXPTR) Ysafe_malloc_clear( sizeof( TERMBOX ) ) ;
 	    pterm->nextterm = NULL ;
 	}
 	pterm->terminal = cterm->terminal ;
@@ -187,11 +187,11 @@ CELLBOXPTR pptr ;  /* pointer to parent cell box */
     for( ctileptr=cptr->config[0];ctileptr;ctileptr=ctileptr->next ){ 
 	if( savetile = pptr->config[0] ){
 	    pptr->config[0] = tile = 
-		(TILEBOXPTR) Ysafe_malloc( sizeof( TILEBOX ) ) ;
+		(TILEBOXPTR) Ysafe_malloc_clear( sizeof( TILEBOX ) ) ;
 	    tile->next = savetile ;
 	} else { /* first addition to supercell */
 	    pptr->config[0] = tile = 
-		(TILEBOXPTR) Ysafe_malloc( sizeof( TILEBOX ) ) ;
+		(TILEBOXPTR) Ysafe_malloc_clear( sizeof( TILEBOX ) ) ;
 	    tile->next = NULL ;
 	}
 	/* copy contents of tile */

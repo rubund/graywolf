@@ -142,20 +142,20 @@ char *net ;
     if( pathFlag == STARTPATH ){
 	/* see if pathptr exists */
 	if( pathPtrS ){
-	    curPathS->next = (PATHPTR) Ysafe_malloc( sizeof(PATHBOX) ) ;
+	    curPathS->next = (PATHPTR) Ysafe_malloc_clear( sizeof(PATHBOX) ) ;
 	    curPathS = curPathS->next ;
 	} else { /* first path - start list */
-	    curPathS = pathPtrS = (PATHPTR) Ysafe_malloc( sizeof(PATHBOX) ) ;
+	    curPathS = pathPtrS = (PATHPTR) Ysafe_malloc_clear( sizeof(PATHBOX) ) ;
 	}
 	curPathS->next = NULL ;
 	netPtrS = curPathS->nets = 
-	    (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+	    (GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
 	netPtrS->next = NULL ;
     } else {  /* continuing a path */
 	tempNetPtr = netPtrS ;
 	ASSERT( netPtrS, "add_path", "net pointer should be non-NULL" ) ;
 	netPtrS = curPathS->nets = 
-	    (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+	    (GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
 	netPtrS->next = tempNetPtr ;
     }
     /* get data from field */
@@ -191,11 +191,11 @@ INT lower_bound, upper_bound, priority ;
 
 	    if( tempPath = dimptr->paths ){
 		path_ptr = dimptr->paths = 
-		(GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+		(GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
 		path_ptr->next = tempPath ;
 	    } else {  /* start a new list */
 		path_ptr = dimptr->paths = 
-		(GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+		(GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
 		path_ptr->next = NULL ;
 	    }
 	    /* use total_num_pathS so we can index patharrayG */
@@ -212,7 +212,7 @@ void build_path_array()
     INT i ;
     PATHPTR curPtr ;
     
-    patharrayG = (PATHPTR *) Ysafe_malloc( (total_num_pathS+1)*sizeof(PATHPTR) ) ;
+    patharrayG = (PATHPTR *) Ysafe_malloc_clear( (total_num_pathS+1)*sizeof(PATHPTR) ) ;
     i = 1 ;
     for( curPtr = pathPtrS; curPtr ; curPtr = curPtr->next ){
 	patharrayG[i++] = curPtr ;
@@ -260,11 +260,11 @@ void add_paths_to_cells()
 	for( pathlist=enum_path_set(); pathlist; pathlist=pathlist->next){
 	    if( tempPath = ptr->paths ){
 		path_ptr = ptr->paths = 
-		    (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+		    (GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
 		path_ptr->next = tempPath ;
 	    } else {  /* start a new list */
 		path_ptr = ptr->paths = 
-		    (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+		    (GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
 		path_ptr->next = NULL ;
 	    }
 	    /* copy path to cell list of paths */
@@ -283,7 +283,7 @@ char *net ;
 	return ;
     }
     aptrS = netarrayG[anetS]->analog_info = 
-	(ANETPTR) Ysafe_malloc( sizeof(ANETBOX) ) ;
+	(ANETPTR) Ysafe_malloc_clear( sizeof(ANETBOX) ) ;
     aptrS->num_common_points = 0 ;
     aptrS->net_type = 0 ;
     aptrS->common_pts = NIL(COMMONPTR *) ;
@@ -336,7 +336,7 @@ void add_common_pt()
     if( aptrS->num_common_points == 1 ){
 	/* first time */
 	aptrS->common_pts = 
-	    (COMMONPTR *) Ysafe_malloc( sizeof(COMMONPTR) ) ;
+	    (COMMONPTR *) Ysafe_malloc_clear( sizeof(COMMONPTR) ) ;
     } else {
 	aptrS->common_pts = 
 	    (COMMONPTR *) Ysafe_realloc( aptrS->common_pts,
@@ -384,7 +384,7 @@ char *pin ;
     numpins = ++commonS->num_pins ;
     if( numpins == 1 ){
 	/* first time */
-	commonS->common_set = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	commonS->common_set = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
     } else {
 	commonS->common_set = (INT *) 
 	    Ysafe_realloc( commonS->common_set, numpins*sizeof(INT) ) ;
@@ -415,7 +415,7 @@ char *pin ;
 	return ;
     }
     if(!(commonS->cap_match)){
-	commonS->cap_match = (INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	commonS->cap_match = (INT *) Ysafe_malloc_clear( 2 * sizeof(INT) ) ;
 	commonS->cap_match[HOWMANY] = howmany = 1 ;
     } else {
 	howmany = ++commonS->cap_match[HOWMANY] ;
@@ -448,7 +448,7 @@ char *pin ;
 	return ;
     }
     if(!(commonS->res_match)){
-	commonS->res_match = (INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	commonS->res_match = (INT *) Ysafe_malloc_clear( 2 * sizeof(INT) ) ;
 	commonS->res_match[HOWMANY] = howmany = 1 ;
     } else {
 	howmany = ++commonS->res_match[HOWMANY] ;
@@ -483,7 +483,7 @@ char *netname ;
     howmany = (INT) net_cap_matchG[HOWMANY] ;
     net_cap_matchG[HOWMANY] = (INT *) ++howmany ;
     match = net_cap_matchG[++numcapmatchS] =
-	(INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	(INT *) Ysafe_malloc_clear( 2 * sizeof(INT) ) ;
     match[HOWMANY] = 1 ;
     match[1] = net ;
 } /* end start_net_capmatch */
@@ -519,7 +519,7 @@ char *netname ;
     howmany = (INT) net_res_matchG[HOWMANY] ;
     net_res_matchG[HOWMANY] = (INT *) ++howmany ;
     match = net_res_matchG[++numresmatchS] =
-	(INT *) Ysafe_malloc( 2 * sizeof(INT) ) ;
+	(INT *) Ysafe_malloc_clear( 2 * sizeof(INT) ) ;
     match[HOWMANY] = 1 ;
     match[1] = net ;
 } /* end start_net_resmatch */

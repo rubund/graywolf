@@ -207,7 +207,7 @@ CELLBOXPTR cellptr ;
 
     
     side_array = (SIDEBOXPTR) 
-	Ysafe_malloc( (cellptr->numsides + 1) * sizeof(SIDEBOX) ) ;
+	Ysafe_malloc_clear( (cellptr->numsides + 1) * sizeof(SIDEBOX) ) ;
     numsoftpins = cellptr->numsoftpins ;
 
     init_hard_struct( cellptr ) ;
@@ -521,7 +521,7 @@ INT lastSite ;
 
 
 /* allocate temp space for placing sequences */
-ok_to_place = (BOOL *) Ysafe_malloc( (lastSite-firstSite+2)*sizeof(BOOL));
+ok_to_place = (BOOL *) Ysafe_malloc_clear( (lastSite-firstSite+2)*sizeof(BOOL));
 
 for( j = 1; j <= numsoftpins; j++ ){
     pin = curSidePins[j] ;

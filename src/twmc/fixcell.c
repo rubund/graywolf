@@ -426,7 +426,7 @@ build_active_array()
     }
     /* now build array */
     activeCellarrayG = (CELLBOXPTR *)
-	Ysafe_malloc( (activecellsG+1) * sizeof(CELLBOXPTR) ) ;
+	Ysafe_malloc_clear( (activecellsG+1) * sizeof(CELLBOXPTR) ) ;
     /* now loop again filling in array */
     cell = 0 ;
     for( i=1;i<=totalcellsG;i++ ){
@@ -482,7 +482,7 @@ build_soft_array()
 
 	/* now build array */
 	softPinArrayG = (CELLBOXPTR *)
-	    Ysafe_malloc( (softPins+1) * sizeof(CELLBOXPTR) ) ;
+	    Ysafe_malloc_clear( (softPins+1) * sizeof(CELLBOXPTR) ) ;
 	/* now loop again filling in array */
 	cell = 0 ;
 	for( i=1;i<=totalcellsG;i++ ){
@@ -499,7 +499,7 @@ build_soft_array()
 	softPinArrayG[HOWMANY] = (CELLBOXPTR) softPins ;
 
     } else {
-	softPinArrayG = (CELLBOXPTR *) Ysafe_malloc( sizeof(CELLBOXPTR) ) ;
+	softPinArrayG = (CELLBOXPTR *) Ysafe_malloc_clear( sizeof(CELLBOXPTR) ) ;
 	softPinArrayG[HOWMANY] = (CELLBOXPTR) softPins ; /* zero */
     }
     

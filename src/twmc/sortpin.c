@@ -76,7 +76,7 @@ void sortpins()
     }
 
     /* allocate array for sort */
-    xpptr = (PINBOXPTR *) Ysafe_malloc((maxpins+1) * sizeof(PINBOXPTR) ) ;
+    xpptr = (PINBOXPTR *) Ysafe_malloc_clear((maxpins+1) * sizeof(PINBOXPTR) ) ;
 
     /* now go thru all cells sorting pins */
     for( cell = 1 ; cell <= totalcellsG ; cell++ ) {

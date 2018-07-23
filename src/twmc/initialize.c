@@ -245,17 +245,17 @@ scaleS = (DOUBLE) scale_dataG ;
 cornerCountS = 0 ;
 tileptAllocS = EXPECTEDCORNERS ;
 cornerArrayS = ( YBUSTBOXPTR ) 
-    Ysafe_malloc( tileptAllocS * sizeof( YBUSTBOX ) );
-pSideArrayS  = (PSIDEBOX *) Ysafe_malloc( tileptAllocS * sizeof( PSIDEBOX ) ) ;
+    Ysafe_malloc_clear( tileptAllocS * sizeof( YBUSTBOX ) );
+pSideArrayS  = (PSIDEBOX *) Ysafe_malloc_clear( tileptAllocS * sizeof( PSIDEBOX ) ) ;
 kArrayS      = (KBOXPTR) Ysafe_calloc( (MAXSITES + 1), sizeof( KBOX ));
 /* make hash table for nets */
 netTableS = Yhash_table_create( EXPECTEDNUMNETS ) ;
 /* make hash table for cells */
 cellTableS = Yhash_table_create( EXPECTEDNUMCELLS ) ;
 netAllocS = EXPECTEDNUMNETS ;
-netarrayG = (NETBOXPTR *) Ysafe_malloc( netAllocS * sizeof(NETBOXPTR));
+netarrayG = (NETBOXPTR *) Ysafe_malloc_clear( netAllocS * sizeof(NETBOXPTR));
 cellAllocS = EXPECTEDNUMCELLS ;
-cellarrayG = (CELLBOXPTR *)Ysafe_malloc(cellAllocS*sizeof(CELLBOXPTR));
+cellarrayG = (CELLBOXPTR *)Ysafe_malloc_clear(cellAllocS*sizeof(CELLBOXPTR));
 } /* end initCellInfo */
 /* ***************************************************************** */
 
@@ -357,10 +357,10 @@ if( ++totalcellsG >= cellAllocS ){
 	Ysafe_realloc( cellarrayG, cellAllocS*sizeof(CELLBOXPTR) );
 }
 ptrS = cellarrayG[totalcellsG] = (CELLBOXPTR) 
-    Ysafe_malloc( sizeof(CELLBOX) ) ;
+    Ysafe_malloc_clear( sizeof(CELLBOX) ) ;
 
 /* add cell to hash table */
-data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+data = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
 *data = totalcellsG ;
 if( Yhash_search( cellTableS, curCellNameS, (char *) data, ENTER ) ){
     sprintf( YmsgG, "Cellnames not unique:%s\n", curCellNameS ) ;
@@ -423,7 +423,7 @@ if( cellType == SOFTCELLTYPE ){
 } else if( cellType == PADCELLTYPE || cellType == PADGROUPTYPE){
     ptrS->softflag = FALSE ;
     pptrS =ptrS->padptr = 
-	(PADBOXPTR) Ysafe_malloc( sizeof(PADBOX) ) ;
+	(PADBOXPTR) Ysafe_malloc_clear( sizeof(PADBOX) ) ;
     pptrS->fixed = FALSE ;
     pptrS->padside = ALL ;
     pptrS->permute = FALSE ;
@@ -442,7 +442,7 @@ if( cellType == SOFTCELLTYPE ){
 	numchildrenS = 0 ;
 	childAllocS = EXPECTEDNUMPADS ;
 	pptrS->children = (INT *)
-	    Ysafe_malloc((childAllocS)*sizeof(INT));
+	    Ysafe_malloc_clear((childAllocS)*sizeof(INT));
 	pptrS->hierarchy  = ROOT;
 	numpadgroupsG++ ;
     } else { /* PADCELLTYPE */
@@ -455,7 +455,7 @@ if( cellType == SOFTCELLTYPE ){
     unique_classG-- ;/* start new exchange class for group cells */
     /* allocate group record and set static */
     curGroupS =ptrS->group = 
-	(GROUPBOXPTR) Ysafe_malloc( sizeof(GROUPBOX) ) ;
+	(GROUPBOXPTR) Ysafe_malloc_clear( sizeof(GROUPBOX) ) ;
     curGroupS->fixed = (FIXEDBOXPTR) Ysafe_calloc( 1,sizeof(FIXEDBOX) ) ;
     curGroupS->cells = NULL ;
 } else if( cellType == PADMACROTYPE ){
@@ -565,7 +565,7 @@ if( fixedType == GROUPFLAG || fixedType == FIXEDGROUPFLAG ){
     }
 } else {
     fixptr =ptrS->fixed = (FIXEDBOXPTR) 
-	Ysafe_malloc( sizeof(FIXEDBOX) ) ;
+	Ysafe_malloc_clear( sizeof(FIXEDBOX) ) ;
 }
 fixptr->fixedType = fixedType ;
 fixptr->xcenter = xloc ;
@@ -693,14 +693,14 @@ Ysafe_free( buster_msg ) ;
 /* +++++++++++++++++++ end perform error checking +++++++++++++++++++ */
 /* This data structure allow quick change between x and x_new */
 /* since placepin always uses the x fields and not x_new */
-vert = ptrS->vertices = (VERTBOXPTR) Ysafe_malloc( sizeof(VERTBOX) ) ;
+vert = ptrS->vertices = (VERTBOXPTR) Ysafe_malloc_clear( sizeof(VERTBOX) ) ;
 /* the members of the structure */
-vert->x = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->x_orig = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->x_new = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->y = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->y_orig = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
-vert->y_new = (INT *) Ysafe_malloc( (numcorners+1)*sizeof(INT) ) ;
+vert->x = (INT *) Ysafe_malloc_clear( (numcorners+1)*sizeof(INT) ) ;
+vert->x_orig = (INT *) Ysafe_malloc_clear( (numcorners+1)*sizeof(INT) ) ;
+vert->x_new = (INT *) Ysafe_malloc_clear( (numcorners+1)*sizeof(INT) ) ;
+vert->y = (INT *) Ysafe_malloc_clear( (numcorners+1)*sizeof(INT) ) ;
+vert->y_orig = (INT *) Ysafe_malloc_clear( (numcorners+1)*sizeof(INT) ) ;
+vert->y_new = (INT *) Ysafe_malloc_clear( (numcorners+1)*sizeof(INT) ) ;
 vert->numpins = (FLOAT *) Yvector_alloc( 1,numcorners,sizeof(FLOAT) ) ;
 for( k = 1 ; k <= numcorners ; k++ ) {
     vert->x[k] = vert->x_orig[k] = cornerArrayS[k].x - xcenterS ;
@@ -741,10 +741,10 @@ if( curCellTypeS == SOFTCELLTYPE || curCellTypeS == CUSTOMCELLTYPE ||
 /* create bounding box of cell bounding box has 8 view for all cells*/
 /* plus 9 field for original view of the bounding box */
 ptrS->bounBox = (BOUNBOXPTR *) 
-    Ysafe_malloc( 9 * sizeof( BOUNBOXPTR ) ) ;
+    Ysafe_malloc_clear( 9 * sizeof( BOUNBOXPTR ) ) ;
 for( k=0;k<=8;k++){
    ptrS->bounBox[k] = (BOUNBOXPTR) 
-	Ysafe_malloc(sizeof( BOUNBOX ) ) ;
+	Ysafe_malloc_clear(sizeof( BOUNBOX ) ) ;
 }
 ptrS->boun_valid = FALSE ;
 /* now save the original bounding box for uaspect in 8 */
@@ -764,11 +764,11 @@ while( busterptr = Ybuster() ){
     /* b = busterptr[1].y */
     /* t = busterptr[2].y */
     if( tile ){
-	tile->next = (TILEBOXPTR) Ysafe_malloc( sizeof( TILEBOX ));
+	tile->next = (TILEBOXPTR) Ysafe_malloc_clear( sizeof( TILEBOX ));
 	tile = tile->next ;
     } else {
 	tile = ptrS->tiles = 
-	    (TILEBOXPTR) Ysafe_malloc( sizeof( TILEBOX ));
+	    (TILEBOXPTR) Ysafe_malloc_clear( sizeof( TILEBOX ));
     }
     tile->next = NULL ;
     ptrS->numtiles++ ;
@@ -898,7 +898,7 @@ char *pinName, *signal ;
 	notInTable = FALSE ;
     } else {
 	/* else a new net load data holder */
-	data = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	data = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
 	*data = netx = ++numnetsG ;
 	if( Yhash_search( netTableS, signal, (char*) data, ENTER )){
 	    sprintf( YmsgG, "Trouble adding signal:%s to hash table\n",
@@ -929,7 +929,7 @@ char *pinName, *signal ;
     /* see if this is the first time for this signal */
     if( notInTable ){
 	netptr = netarrayG[netx] =
-	    (NETBOXPTR) Ysafe_malloc( sizeof(NETBOX) ) ;
+	    (NETBOXPTR) Ysafe_malloc_clear( sizeof(NETBOX) ) ;
 	netptr->nname = signal ; /* allocated by yylex */
 	netptr->pins = NULL ; /* initialize list */
 	netptr->paths = NULL ; /* initialize list */
@@ -943,7 +943,7 @@ char *pinName, *signal ;
 	netptr = netarrayG[netx] ;
     }
     /* create list of pins on the net */
-    pinptr = (PINBOXPTR) Ysafe_malloc( sizeof(PINBOX) );
+    pinptr = (PINBOXPTR) Ysafe_malloc_clear( sizeof(PINBOX) );
     pinptr->next = netptr->pins ;
     netptr->pins = pinptr ;
 
@@ -967,8 +967,8 @@ char *pinName, *signal ;
     /* allocate only size for one instance by default */
     pinptr->txpos      = 0 ;
     pinptr->typos      = 0 ;
-    pinptr->txpos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-    pinptr->typos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+    pinptr->txpos_orig = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
+    pinptr->typos_orig = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
     pinptr->newx     = 0    ;
     pinptr->newy     = 0    ;
     pinptr->flag     = 0    ;
@@ -1032,7 +1032,7 @@ INT pinType ;
 	/* allocate space for array of instances */
 	if( cellinstanceS == 0 ){
 	    pinS->soft_inst = (SOFTBOXPTR *) 
-		Ysafe_malloc( sizeof(SOFTBOXPTR) );
+		Ysafe_malloc_clear( sizeof(SOFTBOXPTR) );
 	    pinS->layer = layer ;
 	} else {
 	    pinS->soft_inst = (SOFTBOXPTR *) Ysafe_realloc( 
@@ -1040,7 +1040,7 @@ INT pinType ;
 	}
 	/*  now allocate space for this instance */
 	spinptrS = pinS->soft_inst[cellinstanceS] = pinS->softinfo =
-	    (SOFTBOXPTR) Ysafe_malloc(sizeof(SOFTBOX)) ;
+	    (SOFTBOXPTR) Ysafe_malloc_clear(sizeof(SOFTBOX)) ;
 	spinptrS->children = NULL ;
 	spinptrS->hierarchy = NONE ;
 	spinptrS->parent = NULL ;
@@ -1067,7 +1067,7 @@ INT pinType ;
 	} else {
 	    howmany = 1 ;
 	    sptr->children = (PINBOXPTR *)
-		Ysafe_malloc( (howmany+1) * sizeof(PINBOXPTR) ) ;
+		Ysafe_malloc_clear( (howmany+1) * sizeof(PINBOXPTR) ) ;
 	}
 	sptr->children[HOWMANY] = (PINBOXPTR) howmany ; 
 	sptr->children[howmany] = pinS ;
@@ -1176,10 +1176,10 @@ INT pinType ;
 
     /* now save locations of equivalent pins for later output */
     if( temp = pinS->eqptr ){
-	eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc(sizeof(EQUIVBOX)) ;
+	eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc_clear(sizeof(EQUIVBOX)) ;
 	eqptr->next = temp ;
     } else {
-	eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc(sizeof(EQUIVBOX)) ;
+	eqptr = pinS->eqptr = (EQUIVPTR) Ysafe_malloc_clear(sizeof(EQUIVBOX)) ;
 	eqptr->next = NULL ;
     }
     if( cellinstanceS ){ /* more than one instance */
@@ -1189,8 +1189,8 @@ INT pinType ;
 	    Ysafe_realloc( eqptr->typos,(cellinstanceS+1) * sizeof(INT) ) ;
     } else {
 	/* by default only expect one instance */
-	eqptr->txpos      = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-	eqptr->typos      = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+	eqptr->txpos      = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
+	eqptr->typos      = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
     }
     /* now load the data */
     eqptr->txpos[cellinstanceS] = xpos - xcenterS;
@@ -1324,7 +1324,7 @@ void add_soft_array()
 	return ;
     }
     sarray = ptrS->softpins = (PINBOXPTR *) 
-	Ysafe_malloc( (ptrS->numpins+1) * sizeof(PINBOXPTR) ) ;
+	Ysafe_malloc_clear( (ptrS->numpins+1) * sizeof(PINBOXPTR) ) ;
     i = 0 ;
     for( pin = ptrS->pinptr; pin ; pin = pin->nextpin ){
 	sarray[++i] = pin ;
@@ -1365,11 +1365,11 @@ if( cellinstanceS == 0 ){
 
     /* now initialize data */
     pingroupS->pinname    = pingroup ; /* allocated by yylex */
-    pingroupS->txpos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
-    pingroupS->typos_orig = (INT *) Ysafe_malloc( sizeof(INT) ) ;
+    pingroupS->txpos_orig = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
+    pingroupS->typos_orig = (INT *) Ysafe_malloc_clear( sizeof(INT) ) ;
     pingroupS->type = PINGROUPTYPE ;
 
-    pingroupS->soft_inst = (SOFTBOXPTR *) Ysafe_malloc( sizeof(SOFTBOXPTR) );
+    pingroupS->soft_inst = (SOFTBOXPTR *) Ysafe_malloc_clear( sizeof(SOFTBOXPTR) );
 } else {
     /* first find pingroup in softpin array */
     sarray = ptrS->softpins ;
@@ -1403,7 +1403,7 @@ spin->ordered = FALSE ;
 spin->hierarchy = ROOT ;
 spin->lowerbound = 0.0 ;
 spin->upperbound = 1.0 ;
-spin->children = (PINBOXPTR *) Ysafe_malloc( sizeof(PINBOXPTR) ) ;
+spin->children = (PINBOXPTR *) Ysafe_malloc_clear( sizeof(PINBOXPTR) ) ;
 spin->restrict1 = (INT *) Ysafe_calloc( 1, sizeof(INT) ) ;
 spin->parent = NULL ;
 
@@ -1667,10 +1667,10 @@ if(!(data = (INT *) Yhash_search( cellTableS, cellName, NULL, FIND ))){
 cell = *data ;
 
 if( tempCell = curGroupS->cells ){
-    curGroupS->cells = (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+    curGroupS->cells = (GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
     curGroupS->cells->next = tempCell ;
 } else { /* start list */
-    curGroupS->cells = (GLISTPTR) Ysafe_malloc( sizeof(GLISTBOX) ) ;
+    curGroupS->cells = (GLISTPTR) Ysafe_malloc_clear( sizeof(GLISTBOX) ) ;
     curGroupS->cells->next = NULL ;
 }
 
@@ -1698,7 +1698,7 @@ char *instName ;
 {
     if( cellinstanceS++ == 0 ){
 	/* our first instance we now have two instances */
-	instS = ptrS->instptr = (INSTBOXPTR) Ysafe_malloc( sizeof(INSTBOX) ) ;
+	instS = ptrS->instptr = (INSTBOXPTR) Ysafe_malloc_clear( sizeof(INSTBOX) ) ;
 	ptrS->cur_inst = 0 ;
 	instS->numinstances = 1 ;
 	instAllocS = 2 ;    /* default is just two instances */
@@ -1710,9 +1710,9 @@ char *instName ;
 	instS->numtile_inst = (INT *)      
 	    Ysafe_calloc( instAllocS, sizeof(INT) ) ;
 	instS->vert_inst = (VERTBOXPTR *)      
-	    Ysafe_malloc( instAllocS*sizeof(VERTBOXPTR) ) ;
+	    Ysafe_malloc_clear( instAllocS*sizeof(VERTBOXPTR) ) ;
 	instS->name_inst = (char **)      
-	    Ysafe_malloc( instAllocS*sizeof(char *) ) ;
+	    Ysafe_malloc_clear( instAllocS*sizeof(char *) ) ;
 	/* store main instance in element 0 of arrays */
 	instS->tile_inst[0] = ptrS->tiles ;
 	instS->bounBox[0] = ptrS->bounBox ;
@@ -1766,18 +1766,18 @@ INT numcorners ;
     ERRORABORT() ;
     /* allocate space for array of instances */
     if( cellinstanceS == 0 ){
-	pinS->ainst = (ANALOGPTR *) Ysafe_malloc( sizeof(ANALOGPTR) );
+	pinS->ainst = (ANALOGPTR *) Ysafe_malloc_clear( sizeof(ANALOGPTR) );
     } else {
 	pinS->ainst = (ANALOGPTR *) Ysafe_realloc( pinS->ainst,
 	    instAllocS * sizeof(ANALOGPTR) );
     }
-    analogS = pinS->analog = (ANALOGPTR) Ysafe_malloc( sizeof(ANALOGBOX) ) ;
+    analogS = pinS->analog = (ANALOGPTR) Ysafe_malloc_clear( sizeof(ANALOGBOX) ) ;
     pinS->ainst[cellinstanceS] = analogS ;
 
     /* now fill in data */
     if( numcorners >= 4 ){
-	analogS->x_contour = (INT *) Ysafe_malloc( numcorners * sizeof(INT)) ;
-	analogS->y_contour = (INT *) Ysafe_malloc( numcorners * sizeof(INT)) ;
+	analogS->x_contour = (INT *) Ysafe_malloc_clear( numcorners * sizeof(INT)) ;
+	analogS->y_contour = (INT *) Ysafe_malloc_clear( numcorners * sizeof(INT)) ;
 	analogS->num_corners = numcorners ;
 	cornerCountS = 0 ;
     } else {

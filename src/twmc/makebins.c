@@ -74,13 +74,13 @@ maxBinYG++ ;
 OUT2("maxBinXG automatically set to:%d\n", maxBinXG );
 OUT2("maxBinYG automatically set to:%d\n", maxBinYG );
 
-binptrG = (BINBOXPTR **)Ysafe_malloc( (1+maxBinXG)*sizeof(BINBOXPTR *)) ; 
+binptrG = (BINBOXPTR **)Ysafe_malloc_clear( (1+maxBinXG)*sizeof(BINBOXPTR *)) ; 
 for( i = 0 ; i <= maxBinXG ; i++ ) {
-    binptrG[i]=(BINBOXPTR*) Ysafe_malloc((1+maxBinYG)*sizeof(BINBOXPTR));
+    binptrG[i]=(BINBOXPTR*) Ysafe_malloc_clear((1+maxBinYG)*sizeof(BINBOXPTR));
     for( j = 0 ; j <= maxBinYG ; j++ ) {
-	bptr = binptrG[i][j] = (BINBOXPTR) Ysafe_malloc( sizeof(BINBOX));
+	bptr = binptrG[i][j] = (BINBOXPTR) Ysafe_malloc_clear( sizeof(BINBOX));
 	bptr->cells = 
-	    (INT *) Ysafe_malloc( (EXPCELLPERBIN+1) * sizeof(INT));
+	    (INT *) Ysafe_malloc_clear( (EXPCELLPERBIN+1) * sizeof(INT));
 	/* zero position holds current number cells in bin */
 	bptr->cells[0] = 0 ;
 	/* space holds current size of array */

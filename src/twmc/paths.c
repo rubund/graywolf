@@ -120,7 +120,7 @@ void print_paths( )
     num_paths = get_total_paths() ;
     /* allocate the an array for calculating statistics */
     if( num_paths ){
-	stat = (INT *) Ysafe_malloc( num_paths * sizeof(INT) ) ;
+	stat = (INT *) Ysafe_malloc_clear( num_paths * sizeof(INT) ) ;
     }
     sprintf(filename, "%s.mpth" , cktNameG ) ;
     fp = TWOPEN( filename , "w", ABORT ) ;
@@ -502,7 +502,7 @@ void init_path_set()
 {   
     INT i ;
 
-    path_set_arrayS=(PSETPTR *)Ysafe_malloc((numpathsG+1)*sizeof(PSETPTR));
+    path_set_arrayS=(PSETPTR *)Ysafe_malloc_clear((numpathsG+1)*sizeof(PSETPTR));
     for( i=0;i<=numpathsG;i++ ){
 	path_set_arrayS[i] = (PSETPTR) Ysafe_calloc( 1, sizeof(PSETBOX) ) ;
     }

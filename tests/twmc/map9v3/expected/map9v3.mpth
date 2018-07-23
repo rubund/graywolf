@@ -40,4 +40,4 @@ net  34:N<2> xspan:340 yspan:0 length:340 numpins:2
 net  35:N<1> xspan:340 yspan:0 length:340 numpins:2
 net  36:N<0> xspan:340 yspan:0 length:340 numpins:2
 net  37:start xspan:340 yspan:0 length:340 numpins:2
-net  38:clock xspan:340 yspan:0 length:340 numpins:2
+net  38:clock xspan:340 yspan:9760 length:10100 numpins:2

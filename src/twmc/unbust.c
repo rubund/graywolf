@@ -427,7 +427,7 @@ INT tile, x, y ;
 	    Ysafe_realloc( resultS, ptAllocS * sizeof(YBUSTBOX)) ;
 	for( i = numptS; i < ptAllocS; i++ ){
 	    HptS[i] = VptS[i] = (POINTPTR) 
-		Ysafe_malloc( sizeof(POINTBOX)) ;
+		Ysafe_malloc_clear( sizeof(POINTBOX)) ;
 	}
     } /* end space allocation */
 
@@ -466,14 +466,14 @@ BOOL addpoint_flag ;
     if(!(VptS)){
 	ptAllocS = EXPECTEDNUMPINS ;
 	VptS = (POINTPTR *) 
-	    Ysafe_malloc( ptAllocS * sizeof(POINTPTR)) ;
+	    Ysafe_malloc_clear( ptAllocS * sizeof(POINTPTR)) ;
 	HptS = (POINTPTR *) 
-	    Ysafe_malloc( ptAllocS * sizeof(POINTPTR)) ;
+	    Ysafe_malloc_clear( ptAllocS * sizeof(POINTPTR)) ;
 	resultS = (YBUSTBOXPTR) 
-	    Ysafe_malloc( ptAllocS * sizeof(YBUSTBOX)) ;
+	    Ysafe_malloc_clear( ptAllocS * sizeof(YBUSTBOX)) ;
 	for( i = 0; i < ptAllocS; i++ ){
 	    HptS[i] = VptS[i] = (POINTPTR) 
-		Ysafe_malloc( sizeof(POINTBOX)) ;
+		Ysafe_malloc_clear( sizeof(POINTBOX)) ;
 	}
     } else {
 	/* make both arrays point to the same object */
@@ -563,7 +563,7 @@ POINTPTR *pt_array ;
     D( "remove_redundant_points",
 	fprintf( stderr,"found %d redundant points\n", redundant ) ) ;
     /* we need to do work to remove point */
-    tempArray = (POINTPTR *) Ysafe_malloc( (numptS+1)*sizeof(POINTPTR) ) ;
+    tempArray = (POINTPTR *) Ysafe_malloc_clear( (numptS+1)*sizeof(POINTPTR) ) ;
     for( i=0; i <= numptS; i++ ) {
 	tempArray[i] = pt_array[i]  ;
     }

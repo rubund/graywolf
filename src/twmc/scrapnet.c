@@ -56,7 +56,7 @@ void scrapnet()
     INT average_cells_per_net ;
     INT num_cell_for_net ;
 
-    vector = (INT *) Ysafe_malloc( (1 + totalcellsG) * sizeof(INT) ) ;
+    vector = (INT *) Ysafe_malloc_clear( (1 + totalcellsG) * sizeof(INT) ) ;
     temp = (INT) ( 0.70 * (DOUBLE) numcellsG ) ;
     criticalMass = ( temp > 8 ) ? temp : 8 ;
 

@@ -3997,9 +3997,9 @@ pin name S signal vdd layer 1 -1020 59
 
 pad 2 name twpin_clock
 corners 4
--440 8280 -440 8440 -240 8440 -240 8280 
+-440 18040 -440 18200 -240 18200 -240 18040 
 orient 7
-pin name clock signal clock layer 1 -340 8360
+pin name clock signal clock layer 1 -340 18120
 
 pad 3 name twpin_reset
 corners 4

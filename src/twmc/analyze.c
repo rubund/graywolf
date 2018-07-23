@@ -72,12 +72,12 @@ PINBOXPTR pinptr ;
 INT comparex() ;
 DOUBLE weight_past_runs( /* wireRatio */ ) ;
 
-count  = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof( INT ) ) ;
-number = (INT **) Ysafe_malloc( (1 + numnetsG) * sizeof( INT *) ) ;
-howmanyS = (INT *) Ysafe_malloc( (1 + numnetsG) * sizeof( INT ) ) ;
-arraynet = (INT *) Ysafe_malloc( (1 + numnetsG) * sizeof( INT ) ) ;
+count  = (INT *) Ysafe_malloc_clear( (1 + numcellsG) * sizeof( INT ) ) ;
+number = (INT **) Ysafe_malloc_clear( (1 + numnetsG) * sizeof( INT *) ) ;
+howmanyS = (INT *) Ysafe_malloc_clear( (1 + numnetsG) * sizeof( INT ) ) ;
+arraynet = (INT *) Ysafe_malloc_clear( (1 + numnetsG) * sizeof( INT ) ) ;
 for( net = 0 ; net <= numnetsG ; net++ ) {
-    number[net] = (INT *) Ysafe_malloc( (1 + numcellsG) * sizeof(INT) ) ;
+    number[net] = (INT *) Ysafe_malloc_clear( (1 + numcellsG) * sizeof(INT) ) ;
 }
 
 for( net = 1 ; net <= numnetsG ; net++ ) {

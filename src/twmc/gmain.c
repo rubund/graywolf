@@ -193,11 +193,11 @@ void gmain( BOOL updateNotChan )
 
       if( tmp = routingTilesG[cell] ){
         tile = routingTilesG[cell] = (RTILEBOXPTR)
-          Ysafe_malloc( sizeof(RTILEBOX) );
+          Ysafe_malloc_clear( sizeof(RTILEBOX) );
         tile->next = tmp ;
       } else {
         tile = routingTilesG[cell] = (RTILEBOXPTR) 
-          Ysafe_malloc( sizeof(RTILEBOX) );
+          Ysafe_malloc_clear( sizeof(RTILEBOX) );
         tile->next = NULL ;
       }
 

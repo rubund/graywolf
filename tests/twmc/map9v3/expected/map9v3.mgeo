@@ -1,7 +1,7 @@
 cell core 
 6 vertices 0 0 0 18478 18478 18478 18478 9239 27717 9239 27717 0 
 cell pad.macro.l 
-4 vertices  -440 140 -440 8440 -240 8440 -240 140
+4 vertices  -440 140 -440 18200 -240 18200 -240 140
 cell pad.macro.t 
 4 vertices  240 18400 240 18600 23760 18600 23760 18400
 cell pad.macro.r 
