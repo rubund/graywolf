@@ -162,7 +162,7 @@ void gmain( BOOL updateNotChan )
 
   /* allocate list of routing tiles for cells */
   routingTilesG = (RTILEBOXPTR *) 
-    Ysafe_calloc( ncells + 1, sizeof(RTILEBOXPTR) );
+    Ysafe_calloc_clear( ncells + 1, sizeof(RTILEBOXPTR) );
 
   /* add number of cells to routing tile structure */
   routingTilesG[0] = (RTILEBOXPTR) ncells ;

@@ -80,8 +80,8 @@ void init_nets()
     YHASHPTR getNetTable() ;
     numpathsG = 0 ;
     netTableS = getNetTable() ;
-    net_cap_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
-    net_res_matchG = (INT **) Ysafe_calloc( numnetsG+1,sizeof(INT *) ) ;
+    net_cap_matchG = (INT **) Ysafe_calloc_clear( numnetsG+1,sizeof(INT *) ) ;
+    net_res_matchG = (INT **) Ysafe_calloc_clear( numnetsG+1,sizeof(INT *) ) ;
 } /* end init_nets */
 
 
@@ -343,7 +343,7 @@ void add_common_pt()
 		pt * sizeof(COMMONPTR) ) ;
     }
     commonS = aptrS->common_pts[pt-1] = 
-	(COMMONPTR) Ysafe_calloc( 1, sizeof(COMMONBOX) ) ;
+	(COMMONPTR) Ysafe_calloc_clear( 1, sizeof(COMMONBOX) ) ;
     commonS->common_set = NIL(INT *) ;
     commonS->cap_match = NIL(INT *) ;
     commonS->res_match = NIL(INT *) ;

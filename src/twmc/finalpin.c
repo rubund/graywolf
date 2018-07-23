@@ -424,7 +424,7 @@ CELLBOXPTR cellptr ;
     }
 	
     curSidePins = (PINBOXPTR *) 
-	Ysafe_calloc( numsoftpins+1,sizeof(PINBOXPTR) );
+	Ysafe_calloc_clear( numsoftpins+1,sizeof(PINBOXPTR) );
 
     /* initialize all the pins to not placed use the newsite field */
     for( j = 1; j <= numsoftpins; j++ ){
@@ -768,16 +768,16 @@ INT numsites ;
 		siteAllocS * sizeof(CONTENTPTR) ) ;
 	    for( i = oldAlloc; i < siteAllocS; i++ ){
 		sites[i] = (CONTENTPTR) 
-		    Ysafe_calloc( 1,sizeof(CONTENTBOX) ) ;
+		    Ysafe_calloc_clear( 1,sizeof(CONTENTBOX) ) ;
 	    }
 	}
     } else {
 	/* start new site array */
 	siteAllocS = numsites + 1 ;
 	sites = (CONTENTPTR *) 
-	    Ysafe_calloc( siteAllocS,sizeof(CONTENTPTR) ) ;
+	    Ysafe_calloc_clear( siteAllocS,sizeof(CONTENTPTR) ) ;
 	for( i = 1; i <= numsites; i++ ){
-	    sites[i] = (CONTENTPTR) Ysafe_calloc( 1,sizeof(CONTENTBOX) ) ;
+	    sites[i] = (CONTENTPTR) Ysafe_calloc_clear( 1,sizeof(CONTENTBOX) ) ;
 	}
     }
     return( sites ) ;

@@ -504,7 +504,7 @@ void init_path_set()
 
     path_set_arrayS=(PSETPTR *)Ysafe_malloc_clear((numpathsG+1)*sizeof(PSETPTR));
     for( i=0;i<=numpathsG;i++ ){
-	path_set_arrayS[i] = (PSETPTR) Ysafe_calloc( 1, sizeof(PSETBOX) ) ;
+	path_set_arrayS[i] = (PSETPTR) Ysafe_calloc_clear( 1, sizeof(PSETBOX) ) ;
     }
     path_set_countS = 1 ;
     path_set_listS = NULL ;
@@ -566,7 +566,7 @@ static INT net_set_count ;      /* current set count */
 /* initialize set */
 void init_net_set() 
 {   
-    net_set_array = (INT *) Ysafe_calloc((numnetsG+1), sizeof(INT) );
+    net_set_array = (INT *) Ysafe_calloc_clear((numnetsG+1), sizeof(INT) );
     net_set_count = 1 ;
 } /* end initset */
 

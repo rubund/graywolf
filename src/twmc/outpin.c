@@ -103,7 +103,7 @@ void outpin()
     sprintf( filename, "%s.mpin", cktNameG ) ;
     fpS = TWOPEN( filename , "w", ABORT ) ;
 
-    output_alreadyS = (BOOL *) Ysafe_calloc( numpinsG+1, sizeof(BOOL) ) ;
+    output_alreadyS = (BOOL *) Ysafe_calloc_clear( numpinsG+1, sizeof(BOOL) ) ;
     output_typeS = NONE ;
     for( net = 1 ; net <= numnetsG ; net++ ) {
 	netptr =  netarrayG[net] ;
