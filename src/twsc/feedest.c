@@ -65,6 +65,7 @@ REVISIONS:  Sat Dec 15 22:08:21 EST 1990 - modified pinloc values
 
 #define FEEDS_VARS
 
+#include <string.h>
 #include "standard.h"
 #include "groute.h"
 #include "feeds.h"
@@ -96,6 +97,7 @@ void feedest()
   min_feedS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
   row_flagS = (INT *)Ysafe_calloc( numChansG + 1, sizeof(INT) ) ;
   rowfeed_penaltyG = (INT *)Ysafe_malloc( ( numChansG + 1 ) * sizeof(INT) ) ;
+  memset(rowfeed_penaltyG, 0, ( numChansG + 1 ) * sizeof(INT) ); // FIXME: If not clearing, result is non-determinsitic. Figure out why
   est_min_ratioS = (INT *)Ysafe_malloc( numChansG * sizeof(INT) ) ;
 
   maxdesire = barrayG[1]->desire ;
