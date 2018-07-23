@@ -843,10 +843,14 @@ BOOL flag ;
 
 /* use standard calls to malloc, calloc, etc */
 
+FILE *fout = NULL;
+
 char *Ysafe_malloc(size)
 INT size;
 {
     char *p;
+
+	if (fout == NULL) fout = fopen("/tmp/mallocout.txt","w");
 
     /*extern char *malloc() ;*/
 
@@ -854,6 +858,9 @@ INT size;
         errno = heap_no_mem ;
         kill(getpid(),SIGUSR1);
     }
+	for(int i=0;i<size;i++)
+		fprintf(fout,"%02u ",(unsigned char)p[i]);
+	fprintf(fout,"\n");
     return p;
 }
 
