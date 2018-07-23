@@ -864,6 +864,26 @@ INT size;
     return p;
 }
 
+char *Ysafe_malloc_clear(size)
+INT size;
+{
+    char *p;
+
+	if (fout == NULL) fout = fopen("/tmp/mallocout.txt","w");
+
+    /*extern char *malloc() ;*/
+
+    if ((p = malloc(size)) == (char *) 0) {
+        errno = heap_no_mem ;
+        kill(getpid(),SIGUSR1);
+    }
+    memset(p,0,size);
+	for(int i=0;i<size;i++)
+		fprintf(fout,"%02u ",(unsigned char)p[i]);
+	fprintf(fout,"\n");
+    return p;
+}
+
 
 char *Ysafe_realloc(obj, size)
 VOIDPTR obj;

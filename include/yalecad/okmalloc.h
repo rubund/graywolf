@@ -26,6 +26,7 @@ REVISIONS:
 extern VOID Ysafe_free( P1(void *ptr) ) ;
 extern VOID Ysafe_cfree( P1(void *ptr) ) ;
 extern char *Ysafe_malloc( P1(INT bytes) ) ;
+extern char *Ysafe_malloc_clear( P1(INT bytes) ) ;
 extern char *Ysafe_calloc( P2(INT num_entries, INT bytes) ) ;
 extern char *Ysafe_realloc( P2(void *ptr, INT bytes) ) ;
 extern char *Yvector_alloc( P3(INT lo, INT hi, INT size ) ) ;
@@ -58,6 +59,7 @@ extern VOID Yvector_free( P3( VOIDPTR array, INT lo, INT size ) ) ;
 extern VOID Ysafe_free( P3(void *ptr,char *file,INT line) ) ;
 extern VOID Ysafe_cfree( P3(void *ptr,char *file,INT line) ) ;
 extern char *Ysafe_malloc( P3(INT bytes,char *file,INT line) ) ;
+extern char *Ysafe_malloc_clear( P3(INT bytes,char *file,INT line) ) ;
 extern char *Ysafe_calloc( P4(INT num_entries, INT bytes,char *file,INT line) ) ;
 extern char *Ysafe_realloc( P4(void *ptr, INT bytes,char *file,INT line) ) ;
 extern char *Yvector_alloc( P5(INT lo, INT hi, INT size,char *file,INT line ) ) ;
