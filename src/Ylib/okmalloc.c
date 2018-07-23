@@ -914,6 +914,23 @@ INT size, num;
     }
     return p;
 }
+
+
+char *Ysafe_calloc_clear(num, size)
+INT size, num;
+{
+    char *p;
+
+    /*extern char *calloc() ;*/
+
+    if ((p = calloc(num,size)) == (char *) 0) {
+        errno = heap_no_mem ;
+        kill(getpid(),SIGUSR1);
+    }
+    memset(p,0,size*num);
+    return p;
+}
+
 /* when not testing memory just call system free */
 VOID Ysafe_free(ptr)
 VOIDPTR ptr;

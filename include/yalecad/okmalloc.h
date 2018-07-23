@@ -28,6 +28,7 @@ extern VOID Ysafe_cfree( P1(void *ptr) ) ;
 extern char *Ysafe_malloc( P1(INT bytes) ) ;
 extern char *Ysafe_malloc_clear( P1(INT bytes) ) ;
 extern char *Ysafe_calloc( P2(INT num_entries, INT bytes) ) ;
+extern char *Ysafe_calloc_clear( P2(INT num_entries, INT bytes) ) ;
 extern char *Ysafe_realloc( P2(void *ptr, INT bytes) ) ;
 extern char *Yvector_alloc( P3(INT lo, INT hi, INT size ) ) ;
 extern char *Yvector_calloc( P3(INT lo, INT hi, INT size ) ) ;
