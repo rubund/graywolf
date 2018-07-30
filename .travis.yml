@@ -1,5 +1,7 @@
 language: c
 
+install:
+     - sudo apt-get install libgsl-dev
 
 script:
      - mkdir -p build
