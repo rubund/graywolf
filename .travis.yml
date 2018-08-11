@@ -2,7 +2,7 @@ language: c
 
 install:
      - sudo apt-get update
-     - sudo apt-get install -y libgsl-dev libx11-dev
+     - sudo apt-get install -y libgsl0-dev libx11-dev cmake
 
 script:
      - mkdir -p build
