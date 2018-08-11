@@ -15,6 +15,10 @@ if (NOT GSL_FOUND)
   MESSAGE(FATAL_ERROR "The development files for the GNU Scientific Library (libgsl) are required to build graywolf.")
 endif()
 
+if (NOT X11_FOUND)
+  MESSAGE(FATAL_ERROR "The development files for X11 (libx11-dev) are required to build graywolf.")
+endif()
+
 # Include RPATH in build so that ldconfig is not necessary after install
 SET(CMAKE_SKIP_BUILD_RPATH FALSE)
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
