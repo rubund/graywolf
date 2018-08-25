@@ -1504,7 +1504,7 @@ TWDRETURNPTR answer ;  /* return from user */
     return( maxrows ) ;
 } /* end get_maxrows */
 
-static void update_tile_data_wrap( answer, field )
+static void update_tile_data( answer, field )
 TWDRETURNPTR answer ;  /* return from user */
 INT field ;
 {
@@ -1584,12 +1584,6 @@ INT field ;
 	}
 	break ;
     } /* end switch */
-}
-
-static INT update_tile_data(TWDRETURNPTR answer, INT field )
-{
-    update_tile_data_wrap( answer, field );
-    return 0; // return value is ignored
 }
 
 static BOOL edit_tiles( tile )
@@ -1918,7 +1912,7 @@ ROW_BOX *rowptr ;
 #define ORIENTF      13
 #define ORIENTBASE   14
 
-static INT update_macro_data( answer, field )
+static void update_macro_data( answer, field )
 TWDRETURNPTR answer ;  /* return from user */
 INT field ;
 {
@@ -1956,7 +1950,7 @@ INT field ;
     } /* end switch */
 
     if( deltax == 0 && deltay == 0 ){
-	return 0; /* no work to do */
+	return; /* no work to do */
     }
     /* else update the cooridates positions */
     if( deltax != 0 ){
