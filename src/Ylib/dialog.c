@@ -146,18 +146,17 @@ static INT world2fonty(int) ;
 static INT pixlen() ;
 static void set_stipple_font( P2(BOOL stippleOn, INT font_change ) ) ;
 static void debug_dialog( P1( TWDIALOGPTR fieldp ) ) ;
-static void check_cases( P3( TWDIALOGPTR fieldp, INT select, 
-    			INT (*user_function)() )) ;
+static void check_cases( P3( TWDIALOGPTR fieldp, INT select, dialog_callback_t user_function )) ;
 static void draw_fields( P1(TWDIALOGPTR fieldp) ) ;
 static void TWfreeWindows() ;
 static void find_font_boundary() ;
-static void edit_field( P4( INT field, Window win, XEvent event, INT (*user_function)() ) ) ;
+static void edit_field( P4( INT field, Window win, XEvent event, dialog_callback_t user_function )) ;
 
 /* build a dialog box and get info */
 TWDRETURNPTR TWdialog( fieldp, dialogname, user_function )
 TWDIALOGPTR fieldp ;
 char *dialogname ;
-INT (*user_function)() ;
+dialog_callback_t user_function ;
 {
     UNSIGNED_INT white, black ;
     INT i ;               /* counter */
@@ -551,7 +550,7 @@ static void set_stipple_font( BOOL stippleOn, INT font_change )
 static void check_cases( fieldp, select, user_function )
 TWDIALOGPTR fieldp ;
 INT select ;
-INT (*user_function)() ;
+dialog_callback_t user_function ;
 {
     INT i ;               /* counter */
     INT group ;           /* case group */
@@ -672,7 +671,7 @@ INT length ;
     return( fwidthS * length ) ;
 } /* end pixlen */
 
-static void edit_field( INT field, Window win, XEvent event, INT (*user_function)() )
+static void edit_field( INT field, Window win, XEvent event, dialog_callback_t user_function)
 {
     TWDIALOGPTR fptr;    /* current field of dialog */
     TWDRETURNPTR dptr;   /* return field of dialog */

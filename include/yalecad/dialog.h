@@ -32,14 +32,14 @@ typedef struct {
     BOOL  bool ;
 } TWDRETURNBOX, *TWDRETURNPTR ;
 
+typedef void (*dialog_callback_t)(TWDRETURNPTR, INT);
 /* build a dialog box and get info */
-extern TWDRETURNPTR TWdialog( P3(TWDIALOGPTR fieldp, char *name,
-    INT (*user_function)() ) ) ;
+extern TWDRETURNPTR TWdialog( P3(TWDIALOGPTR fieldp, char *name, dialog_callback_t user_function) ) ;
 /* 
 Arguments:
     TWDIALOGPTR fieldp ;
     char *name ;
-    INT (*user_function)() ;
+    dialog_callback_t user_function ;
 Function:
     Creates a dialog box for user to enter data.  Return a pointer
     to an array of type TWDRETURNPTR of the same size as input argument.

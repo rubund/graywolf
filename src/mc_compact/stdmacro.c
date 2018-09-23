@@ -516,6 +516,7 @@ int source, sink ;
     }
     /* should never reach here - check is for memory problem*/
     ASSERT( TRUE, "depth_first_search", "Logic problem" ) ;
+    return( FALSE ) ; /* keep compiler happy */
 
 } /* end remove_problem */
 

@@ -124,13 +124,6 @@ extern BOOL spacer_name_twfeedG ;
 extern BOOL rigidly_fixed_cellsG ;
 extern BOOL stand_cell_as_gate_arrayG ;
 
-void addCell( char *cellname, INT celltype );
-void add_tile(INT left, INT bottom, INT right, INT top );
-void add_padside(char * padside);
-void setPermutation( int permuteFlag );
-void add2padgroup( char *padName, BOOL ordered );
-void end_padgroup();
-
 /* below is what we expect to be a typical standard cell input */
 /* user may change parameters if they wish. Subject to change */
 #define EXPECTEDNUMCELLS  3500
@@ -981,7 +974,7 @@ BOOL unequiv_flag ;
     }
 } /* end add_equiv */
 
-int add_port(char *portname, char *signal, int layer, INT xpos, INT ypos )
+void add_port(char *portname, char *signal, int layer, INT xpos, INT ypos )
 {
     ERRORABORTINT() ;
     addCell( portname, PORTTYPE ) ;

@@ -47,6 +47,32 @@ EXTERN INT swap_netG ;
 EXTERN INT totallenG ;
 EXTERN DOUBLE *padspaceG ;
 
+/* called from readcell.c */
+void add_extra_cells(void);
+void end_padgroup(void);
+void addCell(char *cellname, INT celltype);
+void fix_placement(char *fixed_type, INT from, char *fixed_loc, INT block);
+void add_swap_group(char *swap_name);
+void add_legal_blocks(INT block_class);
+void add_eco(void);
+void add_initial_orient(INT orient);
+void set_mirror_flag(void);
+void add_tile(INT left, INT bottom, INT right, INT top);
+void add_orient(INT orient);
+void add_padside(char *padside);
+void set_old_format(char *padside);
+void setPermutation(int permuteFlag);
+void process_corners(void);
+void init_corners(void);
+void add_corner(INT x, INT y);
+void add_pingroup(void);
+void end_pingroup(void);
+void add_pin(char *pin_name, char *signal, INT layer, INT xpos, INT ypos);
+void add_equiv(char *equiv_name, INT layer, INT eq_xpos, INT eq_ypos, BOOL unequiv_flag);
+void add_port(char *portname, char *signal, int layer, INT xpos, INT ypos );
+void add_sidespace(DOUBLE lower, DOUBLE upper);
+void add2padgroup(char *padName, BOOL ordered);
+
 #undef EXTERN  
 
 #endif /* PARSER_H */

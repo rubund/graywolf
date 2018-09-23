@@ -862,7 +862,7 @@ ptrS->orientList[HOWMANYORIENT]++ ;
 /* if this routine is called it means we are reading the input of
    a previous TimberWolf run.  
 */
-int set_cur_orient( INT orient )
+void set_cur_orient( INT orient )
 {
 ERRORABORTINT() ;
 
