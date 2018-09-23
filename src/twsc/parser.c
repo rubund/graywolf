@@ -976,7 +976,7 @@ BOOL unequiv_flag ;
 
 void add_port(char *portname, char *signal, int layer, INT xpos, INT ypos )
 {
-    ERRORABORTINT() ;
+    ERRORABORT() ;
     addCell( portname, PORTTYPE ) ;
     add_tile( 0, 0, 0, 0 ) ;
     /* now perform overrides */

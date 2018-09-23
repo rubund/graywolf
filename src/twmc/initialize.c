@@ -864,7 +864,7 @@ ptrS->orientList[HOWMANYORIENT]++ ;
 */
 void set_cur_orient( INT orient )
 {
-ERRORABORTINT() ;
+ERRORABORT() ;
 
 ptrS->orient = orient ;
 } /* end set_cur_orient */
