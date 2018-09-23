@@ -8,4 +8,4 @@ target_link_libraries(syntax m)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include .)
 
-install(TARGETS syntax DESTINATION lib/graywolf/bin)
+install(TARGETS syntax DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/graywolf/bin)

@@ -35,8 +35,8 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSIZEOF_VOID_P=${SIZEOF_VOID_P_BITS} -Wno-i
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/config-build.h)
 
 
-install(DIRECTORY flow DESTINATION lib/graywolf/bin)
-install(CODE "EXECUTE_PROCESS(COMMAND ln -sf flow.noroute flow WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/graywolf/bin/flow)")
+install(DIRECTORY flow DESTINATION ${CMAKE_INSTALL_LIBEXECDIR}/graywolf/bin)
+install(CODE "EXECUTE_PROCESS(COMMAND ln -sf flow.noroute flow WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBEXECDIR}/graywolf/bin/flow)")
 
 add_subdirectory(src)
 add_subdirectory(script)
