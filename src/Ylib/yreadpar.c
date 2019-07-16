@@ -371,18 +371,18 @@ BOOL abortFlag ;
 	}
     } else {
 	M( ERRMSG, "Yreadpar_init", "Unknown parameter file\n" ) ;
-	return ;
+	return 0 ;
     } /* end switch on program */
 
     /* now that we have the file name open the par file */
     if(fpS){
 	M( ERRMSG, "Yreadpar_init", 
 	    "Only one par file may be read at the same time\n" ) ;
-	return ;
+	return 0 ;
     }
     fpS = TWOPEN( filename, "r", abortFlag ) ;
     if(!(fpS) ){
-	return ;
+	return 0 ;
     }
     lineS = 0 ;
     rule_section = FALSE ;

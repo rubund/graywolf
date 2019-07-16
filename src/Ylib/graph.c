@@ -1326,7 +1326,7 @@ VOID Ygraph_bfs(graph,sourceNode,targetNode)
   
   if ( !sourceNode )  {
     M( ERRMSG, "Ygraph_bfs","BFS cannot start from a null node\n" ) ;
-    return;
+    return 0;
   }
 
   /* create a heap */
@@ -2555,18 +2555,18 @@ VOID Ygraph_steinerImprove(graph,steinerGraph,maxIterations)
   
   if ( ! Ygraph_nodeCount(steinerGraph) ) {
     M(ERRMSG,routineNameS,"aborting: steiner graph has no nodes\n");
-    return;
+    return 0;
   }
 
   if ( ! Ygraph_edgeCount(steinerGraph) ) {
     M(ERRMSG,routineNameS,"aborting: steiner graph has no edges\n");
-    return;
+    return 0;
   }
 
   if ( Ygraph_nodeCount(steinerGraph) < 3 ||
        Ygraph_edgeCount(steinerGraph) < 2  ) {
     Ygraph_edgeWeights2Size(steinerGraph);
-    return;
+    return 0;
   }
 
   pathTree = Yrbtree_init(compare_edge);
