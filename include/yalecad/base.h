@@ -161,7 +161,7 @@ typedef long SHORT_LONG ;
 
 #endif /* ultrix, linux */
 
-#if defined(THINK_C) || defined(linux)
+#if defined(THINK_C) || defined(linux) || __APPLE__
 #define PROTOTYPES_OK
 #endif /* Mac, linux */
 

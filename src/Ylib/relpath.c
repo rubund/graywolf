@@ -58,7 +58,7 @@ char *known_path, *rel_path ; /* known path and relative path to it */
     char known_fpath[LRECL] ; /* full path of known obj */
     char *ptr ;               /* used to replace obj with relative path */
     char *result ;            /* resulting path */
-    char *Yfixpath(), *strrchr(), *strcat() ;
+    char *Yfixpath()/*, *strrchr(), *strcat()*/ ;
     INT  up ;              /* keeps count of backtracking up dir tree */
 
     /* make a copy of path */
