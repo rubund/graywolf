@@ -1,12 +1,16 @@
+arch:
+    - amd64
+    - ppc64le
+
 language: c
 
 install:
-     - sudo apt-get update
-     - sudo apt-get install -y libgsl0-dev libx11-dev cmake
+    - sudo apt-get update
+    - sudo apt-get install -y libgsl0-dev libx11-dev cmake
 
 script:
-     - mkdir -p build
-     - cd build
-     - cmake  ..
-     - make
+    - mkdir -p build
+    - cd build
+    - cmake  ..
+    - make
 
