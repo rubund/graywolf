@@ -304,7 +304,7 @@ EXTERN DOUBLE vertical_wire_weightG ;
 /* the configuration */
 EXTERN INT numcellsG ;
 EXTERN INT numtermsG ;
-EXTERN INT numnetsG ;
+extern INT numnetsG ;
 EXTERN INT numpadgrpsG ;
 EXTERN INT lastpadG ;
 EXTERN INT maxtermG ;

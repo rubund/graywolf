@@ -34,7 +34,7 @@ EXTERN ROWBOX *rowArrayG ;
 
 EXTERN INT max_blklengthG ;
 EXTERN INT route2actG;   /* added for placement adjusted for routing */
-EXTERN INT track_pitchG; /* used only if global routing is performed */
+extern INT track_pitchG; /* used only if global routing is performed */
 EXTERN INT gridCellG;    /* used only if global routing is performed */
 EXTERN INT desiredLG ;
 EXTERN DOUBLE *macspaceG ;

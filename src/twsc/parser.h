@@ -32,7 +32,6 @@ REVISIONS:
 EXTERN SWAPBOX *swap_group_listG ;
 EXTERN BOOL one_pin_feedthruG ;
 
-EXTERN INT maxCellOG ;
 EXTERN INT case_unequiv_pinG ;
 EXTERN INT celllenG ;
 EXTERN INT cells_per_clusterG ;
