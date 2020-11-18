@@ -21,12 +21,11 @@ EXTERN char *cktNameG ;
 
 EXTERN INT rowsG ;
 EXTERN INT attmaxG ;
-EXTERN INT maxCellOG ;
 EXTERN INT iterationG ;
 
 EXTERN INT blkxspanG ;
 EXTERN INT blkyspanG ;
-EXTERN INT ffeedsG ;
+extern INT ffeedsG ;
 EXTERN INT lrtxspanG ;
 EXTERN INT lrtyspanG ;
 EXTERN INT ifrangeG ;
@@ -38,7 +37,7 @@ EXTERN INT d_costG ;
 EXTERN INT resume_runG ;
 EXTERN INT implicit_pins_usedG ;
 EXTERN INT rowHeightG ;
-EXTERN INT fdthrusG ;
+extern INT fdthrusG ;
 
 EXTERN DOUBLE TG ;
 EXTERN DOUBLE imprangeG ;

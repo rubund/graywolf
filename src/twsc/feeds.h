@@ -24,7 +24,7 @@ typedef struct feed_assgn_box {
 FEED_SEG ;
 
 EXTERN INT *feeds_in_rowG ;
-EXTERN INT *FeedInRowG ;
+extern INT *FeedInRowG ;
 EXTERN INT fdWidthG ;
 EXTERN INT *fdcel_addedG ;
 EXTERN INT **fdcel_needG ;

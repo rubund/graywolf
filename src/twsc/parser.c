@@ -111,6 +111,8 @@ REVISIONS:  Mon Nov 19 04:04:18 EST 1990 - added temperature
 INT ECOs_existG = 0 ;
 INT orig_max_row_lengthG ;
 
+extern INT maxCellOG ;
+
 extern INT totalRG ;
 extern INT spacer_widthG ;
 extern INT *spacer_feedsG ;

@@ -128,6 +128,13 @@ extern INT spacer_widthG ;
 extern INT longest_row_lengthG ;
 extern INT largest_delta_row_lenG ;
 extern INT total_row_lengthG ;
+INT numnetsG;
+INT *FeedInRowG;
+INT fdthrusG;
+INT track_pitchG;
+INT ffeedsG;
+
+INT maxCellOG ;
 
 extern void readnets(FILE* fp);
 
