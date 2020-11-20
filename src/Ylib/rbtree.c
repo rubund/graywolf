@@ -598,7 +598,7 @@ VOIDPTR data ;
 
     if(!(data)){
 	M( ERRMSG, "Yrbtree_insert","No data given\n" ) ;
-	return ;
+	return 0 ;
     }
 
     /* first perform an normal insertion into the binary tree */

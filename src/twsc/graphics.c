@@ -530,7 +530,7 @@ INT cell ;
     y =  cptr->cycenter ;
     if( y == GATE_ARRAY_MAGIC_CONSTANT ){
 	/* don't draw these */
-	return ;
+	return 0 ;
     }
     /* name the cell */
     /* draw cell labels if requested */

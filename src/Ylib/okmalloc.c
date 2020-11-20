@@ -892,14 +892,14 @@ VOID Ysafe_free(ptr)
 VOIDPTR ptr;
 {
     free(ptr);
-    return;
+    return 0;
 }
 
 VOID Ysafe_cfree(ptr)
 VOIDPTR ptr;
 {
     free(ptr);
-    return;
+    return 0;
 }
 
 /* ***********DUMMY ROUTINES TO RESOLVE GLOBALS **************** */
@@ -930,7 +930,7 @@ char *offsetPtr ;  /* pointer to "next" field within structure */
 VOID YdebugMemory( flag )
 INT flag ;
 {
-    return ;
+    return 0 ;
 }
 
 INT YcheckDebug( where )
@@ -942,7 +942,7 @@ VOIDPTR where ;
 VOID Yinit_memsize( memsize )
 INT memsize ;
 {
-    return ;
+    return 0 ;
 } /* end Yinit_memsize */
 
 VOID Ydump_mem()

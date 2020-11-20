@@ -67,7 +67,7 @@ VOID Yquicksort(base, n, size, compare )
 	char *min, *max;
 
 	if (n <= 1)
-		return;
+		return 0;
 	compare_fun = compare ;
 	qsz = size;
 	thresh = qsz * THRESH;
@@ -97,7 +97,7 @@ VOID Yquicksort(base, n, size, compare )
 		}
 	}
 
-	if (n == 2) return;
+	if (n == 2) return 0;
 
 	/*
 	 * With our sentinel in place, we now run the following hyper-fast

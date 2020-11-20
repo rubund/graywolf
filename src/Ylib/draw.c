@@ -1240,9 +1240,9 @@ char	*label ;
 	} else {
 	    fprintf( stderr,"Color number:%d is out of range", color ) ;
 	}
-	return ;
+	return 0 ;
     } else if(!(colorOnS[color])){
-	return ;
+	return 0 ;
     }
     if(!(colorS )){
 	/* set all lines to black in B&W mode */
@@ -1252,7 +1252,7 @@ char	*label ;
     /* but we can avoid an interprocess communication if we do it ourself */
     if(!(fullViewS)){
 	if(!(Yproject_intersect( x1, x2, y1, y2, lS, rS, bS, tS ) )){
-	    return ;
+	    return 0 ;
 	}
     }
 
@@ -1297,14 +1297,14 @@ char	*label ;
 	} else {
 	    fprintf( stderr,"Color number:%d is out of range", color ) ;
 	}
-	return ;
+	return 0 ;
     } else if(!(colorOnS[color])){
-	return ;
+	return 0 ;
     }
     if(!(fullViewS)){
 	/* clip if necessary for speed. Avoid interprocess communication */
 	if(!(Yproject_intersect( x1, x2, y1, y2, lS, rS, bS, tS ) )){
-	    return ;
+	    return 0 ;
 	}
     }
 
@@ -1434,9 +1434,9 @@ char	*label ;
 	} else {
 	    fprintf( stderr,"Color number:%d is out of range", color ) ;
 	}
-	return ;
+	return 0 ;
     } else if(!(colorOnS[color])){
-	return ;
+	return 0 ;
     }
     points = &(ptS[1]) ;
 
@@ -1461,7 +1461,7 @@ char	*label ;
     if(!(fullViewS)){
 	/* clip if necessary for speed. Avoid interprocess communication */
 	if(!(Yproject_intersect( arblS, arbrS, arbbS, arbtS, lS, rS, bS, tS ) )){
-	    return ;
+	    return 0 ;
 	}
     }
 
@@ -2167,14 +2167,14 @@ char	*label;
     INT numw ; /* number written */
 
     if(!(colorOnS[color]) || !dirNameS ){
-	return ;
+	return 0 ;
     }
     /* check modes call draw functions if necessary */
     switch( modeS ){
 	case TWDRAWONLY:
 	    /* this is an error should never call this */
 	    fprintf( stderr,"ERROR[drawWPin]:problem with mode\n" ) ;
-	    return ;
+	    return 0 ;
 	case TWWRITEONLY:
 	    break ;
 	case TWWRITENDRAW:
@@ -2224,14 +2224,14 @@ char	*label;
     INT numw ; /* number of records written */
 
     if(!(colorOnS[color]) || !dirNameS ){
-	return ;
+	return 0 ;
     }
     /* check modes call draw functions if necessary */
     switch( modeS ){
 	case TWDRAWONLY:
 	    /* this is an error should never call this */
 	    fprintf( stderr,"ERROR[drawWRect]:problem with mode\n" ) ;
-	    return ;
+	    return 0 ;
 	case TWWRITEONLY:
 	    break ;
 	case TWWRITENDRAW:
@@ -2275,14 +2275,14 @@ char	*label ;
     YBUSTBOXPTR bustptr ;
 
     if(!(colorOnS[color]) || !dirNameS ){
-	return ;
+	return 0 ;
     }
     /* check modes call draw functions if necessary */
     switch( modeS ){
 	case TWDRAWONLY:
 	    /* this is an error should never call this */
 	    fprintf( stderr,"ERROR[drawWArb]:problem with mode\n" ) ;
-	    return ;
+	    return 0 ;
 	case TWWRITEONLY:
 	    break ;
 	case TWWRITENDRAW:

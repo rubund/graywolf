@@ -25,6 +25,7 @@ cmake ..
 make  
 sudo make install  
 ```
+Note: For FreeBSD, use 'gmake'.
 
 Test
 ----
