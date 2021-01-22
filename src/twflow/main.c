@@ -221,6 +221,9 @@ int main(int argc, char ** argv )
     }
   }
 
+  if (cktNameG == NULL) {
+    syntax();
+  }
 
   /* initialize the graphics */
   G( init_graphics(argc,argv,windowId) ) ;
