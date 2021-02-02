@@ -51,9 +51,7 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
 #ifndef STDIO_H
 #define STDIO_H
 #include <stdio.h> 
-#ifdef linux
 #include <stdlib.h>	/* needed for atof() */
-#endif
 #endif
 
 #ifndef MATH_H
@@ -161,7 +159,7 @@ typedef long SHORT_LONG ;
 
 #endif /* ultrix, linux */
 
-#if defined(THINK_C) || defined(linux)
+#if defined(THINK_C) || defined(linux) || defined(__FreeBSD__)
 #define PROTOTYPES_OK
 #endif /* Mac, linux */
 
