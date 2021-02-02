@@ -51,9 +51,7 @@ REVISIONS:  Feb 25, 1989 - modified round macro so results are more
 #ifndef STDIO_H
 #define STDIO_H
 #include <stdio.h> 
-#ifdef linux
 #include <stdlib.h>	/* needed for atof() */
-#endif
 #endif
 
 #ifndef MATH_H
